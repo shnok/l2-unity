@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class MapLoader : MonoBehaviour {
     public static int ALPHAMAP_SIZE;
     public static float UV_TILE_SIZE;
     public static float MAP_SCALE;
+    public static bool GENERATE_LAYERS;
+    public static bool GENERATE_HEIGHTMAPS;
 
     public int TextureSize = 256;
     public int AlphaMapSize = 1024;
@@ -16,8 +19,10 @@ public class MapLoader : MonoBehaviour {
     public float MapScale = 1f;
 
     public bool generateMap = false;
+    public bool generateLayers = false;
+    public bool generateHeightmaps = false;
 
-    public L2TerrainInfo terrainInfo;
+    public List<L2TerrainInfo> terrainInfos;
 
     void Start()
     {
@@ -25,18 +30,24 @@ public class MapLoader : MonoBehaviour {
 
         if(generateMap) {
             ClearGeneratedAssets();
-
-            L2TerrainInfoParser l2TerrainInfoParser = new L2TerrainInfoParser();
-            terrainInfo = l2TerrainInfoParser.GetL2TerrainInfo("17_25");
-
             MapGenerator generator = new MapGenerator();
-            Terrain terrain = generator.InstantiateTerrain(terrainInfo, "17_25");
+            L2TerrainInfoParser l2TerrainInfoParser = new L2TerrainInfoParser();
 
+            string[] maps = new string[] { "17_25", "16_25", "17_24", "16_24" };
 
-            string prefabPath = "Assets/Prefab/17_25.prefab";
+            for(int i = 0; i < maps.Length; i++) {
+                L2TerrainInfo terrainInfo = l2TerrainInfoParser.GetL2TerrainInfo(maps[i]);
 
-            // Create a prefab from the selected GameObject
-            PrefabUtility.SaveAsPrefabAsset(terrain.gameObject, prefabPath);
+                terrainInfos.Add(terrainInfo);
+
+                Terrain terrain = generator.InstantiateTerrain(terrainInfo, maps[i]);
+
+                string prefabPath = Path.Combine("Assets/Prefab/", maps[i] + ".prefab");
+
+                // Create a prefab from the selected GameObject
+                PrefabUtility.SaveAsPrefabAsset(terrain.gameObject, prefabPath);
+            }
+
         }
     }
 
@@ -45,6 +56,8 @@ public class MapLoader : MonoBehaviour {
         ALPHAMAP_SIZE = AlphaMapSize;
         UV_TILE_SIZE = UVTileSize;
         MAP_SCALE = MapScale;
+        GENERATE_HEIGHTMAPS = generateHeightmaps;
+        GENERATE_LAYERS = generateLayers;
     }
 
     [MenuItem("Custom/Clear Generated Assets")]

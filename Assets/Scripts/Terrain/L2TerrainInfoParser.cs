@@ -19,7 +19,7 @@ public class L2TerrainInfoParser
 			string line;
 			while((line = reader.ReadLine()) != null) {
 				if(line.StartsWith("TerrainMap=")) {
-					terrainInfo.terrainMapPath = GetMapPath(mapID, line);
+					terrainInfo.terrainMapPath = getHeightMapPath(line);
 				} else if(line.StartsWith("GeneratedSectorCounter=")) {
 					terrainInfo.generatedSectorCounter = ParseGeneratedSectorCounter(line);
 				} else if(line.StartsWith("TerrainScale=")) {
@@ -36,15 +36,6 @@ public class L2TerrainInfoParser
 		}
 
 		return terrainInfo;
-	}
-
-	private string GetMapPath(string mapID, string line) {
-		int equalsIndex = line.IndexOf('=');
-		string valueString = line.Substring(equalsIndex + 1, line.Length - equalsIndex - 1);
-		var path = Path.Combine("Assets/Data/Texture", "t_" + mapID, valueString.Substring(valueString.Length - 13, 12) + ".bmp");
-
-		Debug.Log("Texture path: " + path);
-		return path;
 	}
 
 	private int ParseGeneratedSectorCounter(string line) {
@@ -74,10 +65,26 @@ public class L2TerrainInfoParser
 			return null;
 		}
 
-		string textureInfo = valueParts[0].Trim();
-		string alphaMapInfo = valueParts[1].Trim();
-		string uScaleInfo = valueParts[2].Trim();
-		string vScaleInfo = valueParts[3].Trim();
+		string textureInfo = string.Empty;
+		string alphaMapInfo = string.Empty;
+		string uScaleInfo = string.Empty;
+		string vScaleInfo = string.Empty;
+
+		for(int i = 0; i < valueParts.Length; i++) {
+			if(valueParts[i].Contains("Texture=")) {
+				textureInfo = valueParts[i].Trim();
+			}
+			if(valueParts[i].Contains("AlphaMap=")) {
+				alphaMapInfo = valueParts[i].Trim();
+			}
+			if(valueParts[i].Contains("UScale=")) {
+				uScaleInfo = valueParts[i].Trim();
+			}
+			if(valueParts[i].Contains("VScale=")) {
+				vScaleInfo = valueParts[i].Trim();
+			}
+		}
+
 
 		if(!textureInfo.Contains("Texture")) {
 			Debug.LogWarning("Skipping non-Texture layer: " + line);
@@ -85,7 +92,9 @@ public class L2TerrainInfoParser
 		}
 
 		layer.texture = LoadTextureFromInfo(textureInfo, MapLoader.TEXTURE_SIZE);
-		layer.alphaMap = LoadTextureFromInfo(alphaMapInfo, MapLoader.ALPHAMAP_SIZE);
+		if(alphaMapInfo != string.Empty) {
+			layer.alphaMap = LoadTextureFromInfo(alphaMapInfo, MapLoader.ALPHAMAP_SIZE);
+		}
 
 		// Parse uScale and vScale
 		float uScale = ParseValueFromInfo(uScaleInfo);
@@ -99,19 +108,35 @@ public class L2TerrainInfoParser
 	}
 
 	private Texture2D LoadTextureFromInfo(string info, int size) {
-		string textureName = info.Replace("'", string.Empty);
-		textureName = textureName.Replace(".Texture", string.Empty);
-		textureName = textureName.Replace("Height.", string.Empty);
-		textureName = textureName.Substring(16);
-
-		string[] folderTexture = textureName.Split('.');
-		string texPath = Path.Combine("Assets/Data/Texture", folderTexture[0], folderTexture[1] + ".png");
-		byte[] texBytes = File.ReadAllBytes(texPath);
+		
+		byte[] texBytes = File.ReadAllBytes(getTexturePath(info));
 
 		Texture2D texture = new Texture2D(size, size);
 		texture.LoadImage(texBytes);
 
 		return texture;
+	}
+	
+	private string getTexturePath(string value) {
+		string[] folderTexture = getFolderAndFile(value);
+		return Path.Combine("Assets/Data/Texture", folderTexture[0], folderTexture[1] + ".png");
+	}
+
+	private string getHeightMapPath(string value) {
+		string[] folderTexture = getFolderAndFile(value);
+		return Path.Combine("Assets/Data/Texture", folderTexture[0], "Height." + folderTexture[1] + ".bmp");
+
+	}
+
+	private string[] getFolderAndFile(string value) {
+		string textureName = value.Split('=')[1];
+		
+		textureName = textureName.Replace("Texture'", string.Empty);
+		textureName = textureName.Replace(".Texture", string.Empty);
+		textureName = textureName.Replace("Height.", string.Empty);
+		textureName = textureName.Replace("'", string.Empty);
+
+		return textureName.Split('.');
 	}
 
 	private float ParseValueFromInfo(string info) {
