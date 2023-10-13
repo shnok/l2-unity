@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class L2TerrainInfo
 {
+    public string mapName;
     public int generatedSectorCounter = 0;
     public string terrainMapPath = string.Empty;
     public Vector3 terrainScale;

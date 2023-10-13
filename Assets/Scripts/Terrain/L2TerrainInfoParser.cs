@@ -13,13 +13,14 @@ public class L2TerrainInfoParser
 		}
 
 		var terrainInfo = new L2TerrainInfo();
+		terrainInfo.mapName = mapID;
 		terrainInfo.layers = new List<L2TerrainLayer>();
 
 		using(StreamReader reader = new StreamReader(dataPath)) {
 			string line;
 			while((line = reader.ReadLine()) != null) {
 				if(line.StartsWith("TerrainMap=")) {
-					terrainInfo.terrainMapPath = getHeightMapPath(line);
+					terrainInfo.terrainMapPath = TextureUtils.GetHeightMapPath(line);
 				} else if(line.StartsWith("GeneratedSectorCounter=")) {
 					terrainInfo.generatedSectorCounter = ParseGeneratedSectorCounter(line);
 				} else if(line.StartsWith("TerrainScale=")) {
@@ -85,61 +86,26 @@ public class L2TerrainInfoParser
 			}
 		}
 
-
 		if(!textureInfo.Contains("Texture")) {
-			Debug.LogWarning("Skipping non-Texture layer: " + line);
 			return null;
 		}
 
-		layer.texture = LoadTextureFromInfo(textureInfo, MapLoader.TEXTURE_SIZE);
+		layer.texture = TextureUtils.LoadTextureFromInfo(textureInfo, MapGenerator.TEXTURE_SIZE);
 		if(alphaMapInfo != string.Empty) {
-			layer.alphaMap = LoadTextureFromInfo(alphaMapInfo, MapLoader.ALPHAMAP_SIZE);
+			layer.alphaMap = TextureUtils.LoadTextureFromInfo(alphaMapInfo, MapGenerator.ALPHAMAP_SIZE);
 		}
 
 		// Parse uScale and vScale
-		float uScale = ParseValueFromInfo(uScaleInfo);
-		float vScale = ParseValueFromInfo(vScaleInfo);
+		float uScale = ParseFloatFromInfo(uScaleInfo);
+		float vScale = ParseFloatFromInfo(vScaleInfo);
 
 		layer.uScale = uScale;
 		layer.vScale = vScale;
 
 		return layer;
-
 	}
 
-	private Texture2D LoadTextureFromInfo(string info, int size) {
-		
-		byte[] texBytes = File.ReadAllBytes(getTexturePath(info));
-
-		Texture2D texture = new Texture2D(size, size);
-		texture.LoadImage(texBytes);
-
-		return texture;
-	}
-	
-	private string getTexturePath(string value) {
-		string[] folderTexture = getFolderAndFile(value);
-		return Path.Combine("Assets/Data/Texture", folderTexture[0], folderTexture[1] + ".png");
-	}
-
-	private string getHeightMapPath(string value) {
-		string[] folderTexture = getFolderAndFile(value);
-		return Path.Combine("Assets/Data/Texture", folderTexture[0], "Height." + folderTexture[1] + ".bmp");
-
-	}
-
-	private string[] getFolderAndFile(string value) {
-		string textureName = value.Split('=')[1];
-		
-		textureName = textureName.Replace("Texture'", string.Empty);
-		textureName = textureName.Replace(".Texture", string.Empty);
-		textureName = textureName.Replace("Height.", string.Empty);
-		textureName = textureName.Replace("'", string.Empty);
-
-		return textureName.Split('.');
-	}
-
-	private float ParseValueFromInfo(string info) {
+	private float ParseFloatFromInfo(string info) {
 		int equalsIndex = info.IndexOf('=');
 		string valueString = info.Substring(equalsIndex + 1, info.Length - equalsIndex - 2);
 		return float.Parse(valueString);
