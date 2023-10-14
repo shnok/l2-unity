@@ -4,14 +4,11 @@ using UnityEngine;
 
 [System.Serializable]
 public class L2DecoLayer {
-
-    public bool showOnTerrain;
-    public Texture2D densityMap;
-    public GameObject staticMesh;
-    public float minHeight;
-    public float maxHeight;
-    public float minWidth;
-    public float maxWidth;
-
-    public L2DecoLayer() { }
+    public bool showOnTerrain { get; set; }
+    public Texture2D densityMap { get; set; }
+    public GameObject staticMesh { get; set; }
+    public float minHeight { get; set; }
+    public float maxHeight { get; set; }
+    public float minWidth { get; set; }
+    public float maxWidth { get; set; }
 }

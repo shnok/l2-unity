@@ -5,13 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class L2TerrainInfo
 {
-    public string mapName;
-    public int generatedSectorCounter = 0;
-    public string terrainMapPath = string.Empty;
-    public Vector3 terrainScale;
-    public Vector3 location;
-    public List<L2TerrainLayer> uvLayers;
-    public List<L2DecoLayer> decoLayers;
-
-    public L2TerrainInfo() { }
+    public string mapName { get; set; }
+    public int generatedSectorCounter { get; set; }
+    public string terrainMapPath { get; set; }
+    public Vector3 terrainScale { get; set; }
+    public Vector3 location { get; set; }
+    public List<L2TerrainLayer> uvLayers { get; set; }
+    public List<L2DecoLayer> decoLayers { get; set; }
 }

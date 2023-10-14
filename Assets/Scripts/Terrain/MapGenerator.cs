@@ -11,9 +11,6 @@ public class MapGenerator : MonoBehaviour {
     public static float UV_TILE_SIZE;
     public static int DECO_LAYER_ALPHAMAP_SIZE;
     public static float MAP_SCALE;
-    public static bool GENERATE_UV_LAYERS;
-    public static bool GENERATE_DECO_LAYERS;
-    public static bool GENERATE_HEIGHTMAPS;
 
     public int uvTextureSize = 256;
     public int uvLayerAlphaMapSize = 1024;
@@ -22,23 +19,13 @@ public class MapGenerator : MonoBehaviour {
     public float mapScale = 1f;
 
     public bool generateMap = false;
-    public bool generateUVLayers = false;
-    public bool generateDecoLayers = false;
-    public bool generateHeightmaps = false;
+    public bool savePrefabs = false;
 
     public List<L2TerrainInfo> terrainInfos;
-    public L2TerrainGenerator generator;
-    public L2TerrainInfoParser parser;
+    public List<L2StaticMeshActor> meshActors;
     public List<Terrain> terrains;
     public Dictionary<string, Terrain> terrainsDict;
-    public List<MapToGenerate> mapsToGenerate;
-
-    [System.Serializable]
-    public struct MapToGenerate {
-        public string mapName;
-        public bool enabled;
-    }
-
+    public List<MapGenerationData> mapsToGenerate;
 
     private void InitializeVariables() {
         UV_TEXTURE_SIZE = uvTextureSize;
@@ -46,9 +33,6 @@ public class MapGenerator : MonoBehaviour {
         DECO_LAYER_ALPHAMAP_SIZE = decoLayerAlphaMapSize;
         UV_TILE_SIZE = uvTileSize;
         MAP_SCALE = mapScale;
-        GENERATE_HEIGHTMAPS = generateHeightmaps;
-        GENERATE_UV_LAYERS = generateUVLayers;
-        GENERATE_DECO_LAYERS = generateDecoLayers;
     }
 
     void Start()
@@ -58,38 +42,42 @@ public class MapGenerator : MonoBehaviour {
         if(generateMap) {
             ClearGeneratedAssets();
 
-            generator = new L2TerrainGenerator();
-            parser = new L2TerrainInfoParser();
-            terrains = new List<Terrain>();
-            terrainsDict = new Dictionary<string, Terrain>();
             if(mapsToGenerate == null) {
-                mapsToGenerate = new List<MapToGenerate>();
+                mapsToGenerate = new List<MapGenerationData>();
             }
 
-            List<string> maps = new List<string>();
-            for(int i = 0; i < mapsToGenerate.Count; i++) {
-                if(mapsToGenerate[i].enabled) {
-                    maps.Add(mapsToGenerate[i].mapName);
-                }
-             }
+            GenerateMap(mapsToGenerate);
+        }
 
-
-            GenerateMap(maps.ToArray());
-            SavePrefabs(maps.ToArray());
+        if(savePrefabs) {
+            SavePrefabs(mapsToGenerate);
         }
     }
 
-    private void GenerateMap(string[] maps) {
-        for(int i = 0; i < maps.Length; i++) {
-            L2TerrainInfo terrainInfo = parser.GetL2TerrainInfo(maps[i]);
+    private void GenerateMap(List<MapGenerationData> mapsToGenerate) {
+        L2TerrainInfoParser terrainInfoParser = new L2TerrainInfoParser();
+        L2StaticMeshActorParser meshActorParser = new L2StaticMeshActorParser();
+        L2TerrainGenerator generator = new L2TerrainGenerator();
+        terrains = new List<Terrain>();
+        terrainsDict = new Dictionary<string, Terrain>();
 
+        for(int i = 0; i < mapsToGenerate.Count; i++) {
+
+            if(!mapsToGenerate[i].enabled)
+                continue;
+
+            L2TerrainInfo terrainInfo = terrainInfoParser.GetL2TerrainInfo(mapsToGenerate[i].mapName);
             terrainInfos.Add(terrainInfo);
 
-            Terrain terrain = generator.InstantiateTerrain(terrainInfo);
+            L2StaticMeshActor staticMeshActor = null;
+            if(mapsToGenerate[i].generateStaticMeshes)
+                meshActorParser.GetL2StaticMeshActor(mapsToGenerate[i].mapName);
+
+            Terrain terrain = generator.InstantiateTerrain(mapsToGenerate[i], terrainInfo, staticMeshActor);
 
             terrains.Add(terrain);
 
-            terrainsDict.Add(maps[i], terrain);
+            terrainsDict.Add(mapsToGenerate[i].mapName, terrain);
         }
 
         generator.StitchTerrainSeams(terrainsDict);
@@ -97,15 +85,14 @@ public class MapGenerator : MonoBehaviour {
     }
 
 
-    private void SavePrefabs(string[] maps) {
+    private void SavePrefabs(List<MapGenerationData> mapsToGenerate) {
         for(int i = 0; i < terrains.Count; i++) {
-            string prefabPath = Path.Combine("Assets/Prefab/", maps[i] + ".prefab");
+            string prefabPath = Path.Combine("Assets/Prefab/", mapsToGenerate[i].mapName + ".prefab");
 
             // Create a prefab from the selected GameObject
             PrefabUtility.SaveAsPrefabAsset(terrains[i].gameObject, prefabPath);
         }
     }
-
 
 
     [MenuItem("Custom/Clear Generated Assets")]

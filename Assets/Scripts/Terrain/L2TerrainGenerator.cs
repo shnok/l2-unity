@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ public class L2TerrainGenerator {
 	public float worldPositionOffset = 1f;
 	private string terrainContainerName = "terrain_";
 
-	public Terrain InstantiateTerrain(L2TerrainInfo terrainInfo) {
+	public Terrain InstantiateTerrain(MapGenerationData generationData, L2TerrainInfo terrainInfo, L2StaticMeshActor staticMeshActor) {
 		string directoryPath = "Assets/TerrainGen";
 		// Create the directory if it doesn't exist
 		if(!Directory.Exists(directoryPath)) {
@@ -47,17 +48,21 @@ public class L2TerrainGenerator {
 		// Assign the saved asset to the terrain object
 		terrain.terrainData = AssetDatabase.LoadAssetAtPath<TerrainData>(savePath);
 
-		if(MapGenerator.GENERATE_UV_LAYERS) {
+		if(generationData.generateUVLayers) {
 			GenerateUVLayers(terrainInfo.mapName, terrainData, terrainInfo);
 		}
 
-		if(MapGenerator.GENERATE_HEIGHTMAPS) {
+		if(generationData.generateHeightmaps) {
 			GenerateHeightmaps(terrainData, terrainInfo);
 		}
 
-		if(MapGenerator.GENERATE_DECO_LAYERS) {
+		if(generationData.generateDecoLayers) {
 			GenerateDecoLayers(terrainData, terrainInfo);
 		}
+
+		if(generationData.generateStaticMeshes) {
+			GenerateStaticMeshes(staticMeshActor);
+        }
 
 		float tx = terrainInfo.generatedSectorCounter * terrainInfo.terrainScale.y;
 		float ty = terrainInfo.generatedSectorCounter * terrainInfo.terrainScale.z;
@@ -243,6 +248,11 @@ public class L2TerrainGenerator {
 
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
+	}
+
+	public void GenerateStaticMeshes(L2StaticMeshActor staticMeshActor) {
+
+
 	}
 
 	public void StitchTerrainSeams(Dictionary<string, Terrain> mapTerrains) {
