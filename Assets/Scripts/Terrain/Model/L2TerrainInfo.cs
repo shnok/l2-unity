@@ -10,7 +10,8 @@ public class L2TerrainInfo
     public string terrainMapPath = string.Empty;
     public Vector3 terrainScale;
     public Vector3 location;
-    public List<L2TerrainLayer> layers;
+    public List<L2TerrainLayer> uvLayers;
+    public List<L2DecoLayer> decoLayers;
 
     public L2TerrainInfo() { }
 }

@@ -6,8 +6,8 @@ using UnityEditor;
 using UnityEngine;
 
 public class L2TerrainGenerator {
-	public float ueToUnityUnitScale = 0.1f;
-	public float worldPositionOffset = 10f;
+	public float ueToUnityUnitScale = 0.01923f; // 1 meter = 52.5 UU
+	public float worldPositionOffset = 1f;
 	private string terrainContainerName = "terrain_";
 
 	public Terrain InstantiateTerrain(L2TerrainInfo terrainInfo) {
@@ -30,8 +30,8 @@ public class L2TerrainGenerator {
 		terrain.detailObjectDistance = 150;
 
 		TerrainData terrainData = terrain.terrainData;
-		terrainData.baseMapResolution = MapGenerator.ALPHAMAP_SIZE;
-		terrainData.alphamapResolution = MapGenerator.ALPHAMAP_SIZE;
+		terrainData.baseMapResolution = MapGenerator.UV_LAYER_ALPHAMAP_SIZE;
+		terrainData.alphamapResolution = MapGenerator.UV_LAYER_ALPHAMAP_SIZE;
 
 		terrainData.SetDetailResolution(512, 32);
 
@@ -47,12 +47,16 @@ public class L2TerrainGenerator {
 		// Assign the saved asset to the terrain object
 		terrain.terrainData = AssetDatabase.LoadAssetAtPath<TerrainData>(savePath);
 
-		if(MapGenerator.GENERATE_LAYERS) {
-			SetupTerrainLayers(terrainInfo.mapName, terrainData, terrainInfo);
+		if(MapGenerator.GENERATE_UV_LAYERS) {
+			GenerateUVLayers(terrainInfo.mapName, terrainData, terrainInfo);
 		}
 
 		if(MapGenerator.GENERATE_HEIGHTMAPS) {
-			SetupHeightmap(terrainData, terrainInfo);
+			GenerateHeightmaps(terrainData, terrainInfo);
+		}
+
+		if(MapGenerator.GENERATE_DECO_LAYERS) {
+			GenerateDecoLayers(terrainData, terrainInfo);
 		}
 
 		float tx = terrainInfo.generatedSectorCounter * terrainInfo.terrainScale.y;
@@ -71,7 +75,7 @@ public class L2TerrainGenerator {
 			terrainInfo.location.y - uxHalfTerrainWidthAdjustment - terrainInfo.terrainScale.y, 
 			terrainInfo.location.z - uyHalfTerrainWidthAdjustment,
 			terrainInfo.location.x - uzHalfTerrainWidthAdjustment - terrainInfo.terrainScale.x 
-		) * 0.01f * MapGenerator.MAP_SCALE * worldPositionOffset;
+		) * ueToUnityUnitScale * MapGenerator.MAP_SCALE * worldPositionOffset;
 
 		terrain.transform.position = unityPos;
 
@@ -79,7 +83,7 @@ public class L2TerrainGenerator {
 	}
 
 
-	private void SetupHeightmap(TerrainData terrainData, L2TerrainInfo terrainInfo) {
+	private void GenerateHeightmaps(TerrainData terrainData, L2TerrainInfo terrainInfo) {
 		byte[] terrainMap = File.ReadAllBytes(terrainInfo.terrainMapPath);
 
 		// Calculate the resolution based on the file size
@@ -117,18 +121,18 @@ public class L2TerrainGenerator {
 
 	}
 
-	public void SetupTerrainLayers(string mapID, TerrainData terrainData, L2TerrainInfo terrainInfo) {
+	public void GenerateUVLayers(string mapID, TerrainData terrainData, L2TerrainInfo terrainInfo) {
 		// Create terrain layers
-		TerrainLayer[] terrainLayers = new TerrainLayer[terrainInfo.layers.Count];
-		for(int i = 0; i < terrainInfo.layers.Count; i++) {
+		TerrainLayer[] terrainLayers = new TerrainLayer[terrainInfo.uvLayers.Count];
+		for(int i = 0; i < terrainInfo.uvLayers.Count; i++) {
 			terrainLayers[i] = new TerrainLayer();
-			terrainLayers[i].diffuseTexture = terrainInfo.layers[i].texture;
+			terrainLayers[i].diffuseTexture = terrainInfo.uvLayers[i].texture;
 			terrainLayers[i].metallic = 0;
 			terrainLayers[i].specular = Color.black;
 			terrainLayers[i].smoothness = 0;
 			terrainLayers[i].smoothnessSource = TerrainLayerSmoothnessSource.Constant;
 			terrainLayers[i].tileOffset = Vector2.zero;
-			terrainLayers[i].tileSize = new Vector2(terrainInfo.layers[i].uScale, terrainInfo.layers[i].vScale) * MapGenerator.MAP_SCALE * MapGenerator.UV_TILE_SIZE;
+			terrainLayers[i].tileSize = new Vector2(terrainInfo.uvLayers[i].uScale, terrainInfo.uvLayers[i].vScale) * MapGenerator.MAP_SCALE * MapGenerator.UV_TILE_SIZE;
 
 			AssetDatabase.CreateAsset(terrainLayers[i], "Assets/TerrainGen/" + mapID + "_layer_" + i + ".asset");
 			AssetDatabase.SaveAssets();
@@ -141,27 +145,27 @@ public class L2TerrainGenerator {
 		terrainData.terrainLayers = terrainLayers;
 
 		// Flip vertically
-		Texture2D[] flippedAlphaMaps = new Texture2D[terrainInfo.layers.Count];
-		for(int i = 0; i < terrainInfo.layers.Count; i++) {
-			if(terrainInfo.layers[i].alphaMap != null) {
-				flippedAlphaMaps[i] = TextureUtils.FlipTextureVertically(terrainInfo.layers[i].alphaMap);
+		Texture2D[] flippedAlphaMaps = new Texture2D[terrainInfo.uvLayers.Count];
+		for(int i = 0; i < terrainInfo.uvLayers.Count; i++) {
+			if(terrainInfo.uvLayers[i].alphaMap != null) {
+				flippedAlphaMaps[i] = TextureUtils.FlipTextureVertically(terrainInfo.uvLayers[i].alphaMap);
 			}
 		}
 
 		float uvMultiplier = 256f / 257f;
 
 		// Now you can set up your splatmap using your masks
-		float[,,] map = new float[terrainData.alphamapWidth, terrainData.alphamapHeight, terrainInfo.layers.Count];
+		float[,,] map = new float[terrainData.alphamapWidth, terrainData.alphamapHeight, terrainInfo.uvLayers.Count];
 		for(int y = 0; y < terrainData.alphamapHeight; y++) {
 			for(int x = 0; x < terrainData.alphamapWidth; x++) {
 
 				// Initialize all weights to zero
-				for(int i = 0; i < terrainInfo.layers.Count; i++)
+				for(int i = 0; i < terrainInfo.uvLayers.Count; i++)
 					map[x, y, i] = 0;
 
 				float remainingWeight = 1; // keep track of the remaining weight available
 
-				for(int i = terrainInfo.layers.Count - 1; i >= 0; i--) {
+				for(int i = terrainInfo.uvLayers.Count - 1; i >= 0; i--) {
 					float u = (x) / (float)(terrainData.alphamapWidth);
 					float v = (y) / (float)(terrainData.alphamapHeight);
 
@@ -183,6 +187,62 @@ public class L2TerrainGenerator {
 
 			terrainData.SetAlphamaps(0, 0, map);
 		}
+	}
+
+	public void GenerateDecoLayers(TerrainData terrainData, L2TerrainInfo terrainInfo) {
+		// Flip vertically
+		Texture2D[] flippedAlphaMaps = new Texture2D[terrainInfo.decoLayers.Count];
+		for(int i = 0; i < terrainInfo.decoLayers.Count; i++) {
+			if(terrainInfo.decoLayers[i].densityMap != null) {
+				flippedAlphaMaps[i] = TextureUtils.FlipTextureVertically(terrainInfo.decoLayers[i].densityMap);
+			}
+		}
+
+		DetailPrototype[] detailPrototypes = new DetailPrototype[terrainInfo.decoLayers.Count];
+		for(int i = 0; i < terrainInfo.decoLayers.Count; i++) {
+			detailPrototypes[i] = new DetailPrototype();
+			detailPrototypes[i].prototype = terrainInfo.decoLayers[i].staticMesh;
+			detailPrototypes[i].renderMode = DetailRenderMode.VertexLit;
+			detailPrototypes[i].usePrototypeMesh = true;
+			detailPrototypes[i].useInstancing = true;
+			detailPrototypes[i].dryColor = Color.white;
+			detailPrototypes[i].healthyColor = Color.white;
+			detailPrototypes[i].minHeight = terrainInfo.decoLayers[i].minHeight;
+			detailPrototypes[i].maxHeight = terrainInfo.decoLayers[i].maxHeight;
+			detailPrototypes[i].minWidth = terrainInfo.decoLayers[i].minWidth;
+			detailPrototypes[i].maxWidth = terrainInfo.decoLayers[i].maxWidth;
+		}
+
+		terrainData.detailPrototypes = detailPrototypes;
+
+		for(int i = 0; i < terrainInfo.decoLayers.Count; i++) {
+			Texture2D densityTexture = flippedAlphaMaps[i];
+
+			var detailHeight = densityTexture.height;
+			var detailWidth = densityTexture.width;
+
+			int[,] detailLayer = new int[detailHeight, detailWidth];
+
+			// Convert the density texture to a 2D array of density values
+			Color32[] pixels = densityTexture.GetPixels32();
+
+			for(int y = 0; y < detailHeight; y++) {
+				for(int x = 0; x < detailWidth; x++) {
+
+					// Extract the density value from the corresponding pixel
+					int density = pixels[y * detailWidth + x].r;
+
+					// Set the density value for the detail layer
+					detailLayer[x, y] = density;
+				}
+			}
+
+			// Assign the detail layer to the terrain data
+			terrainData.SetDetailLayer(0, 0, i, detailLayer);
+		}
+
+		AssetDatabase.SaveAssets();
+		AssetDatabase.Refresh();
 	}
 
 	public void StitchTerrainSeams(Dictionary<string, Terrain> mapTerrains) {

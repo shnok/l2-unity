@@ -29,7 +29,7 @@ public class TextureUtils
 
 	public static Texture2D LoadTextureFromInfo(string info, int size) {
 
-		byte[] texBytes = File.ReadAllBytes(getTexturePath(info));
+		byte[] texBytes = File.ReadAllBytes(GetTexturePath(info));
 
 		Texture2D texture = new Texture2D(size, size);
 		texture.LoadImage(texBytes);
@@ -37,24 +37,13 @@ public class TextureUtils
 		return texture;
 	}
 
-	private static string getTexturePath(string value) {
-		string[] folderTexture = getFolderAndFile(value);
+	public static string GetTexturePath(string value) {
+		string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);
 		return Path.Combine("Assets/Data/Texture", folderTexture[0], folderTexture[1] + ".png");
 	}
 
 	public static string GetHeightMapPath(string value) {
-		string[] folderTexture = getFolderAndFile(value);
+		string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);
 		return Path.Combine("Assets/Data/Texture", folderTexture[0], "Height." + folderTexture[1] + ".bmp");
-	}
-
-	private static string[] getFolderAndFile(string value) {
-		string textureName = value.Split('=')[1];
-
-		textureName = textureName.Replace("Texture'", string.Empty);
-		textureName = textureName.Replace(".Texture", string.Empty);
-		textureName = textureName.Replace("Height.", string.Empty);
-		textureName = textureName.Replace("'", string.Empty);
-
-		return textureName.Split('.');
 	}
 }

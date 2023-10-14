@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,8 @@ public class L2TerrainInfoParser
 
 		var terrainInfo = new L2TerrainInfo();
 		terrainInfo.mapName = mapID;
-		terrainInfo.layers = new List<L2TerrainLayer>();
+		terrainInfo.uvLayers = new List<L2TerrainLayer>();
+		terrainInfo.decoLayers = new List<L2DecoLayer>();
 
 		using(StreamReader reader = new StreamReader(dataPath)) {
 			string line;
@@ -30,7 +32,12 @@ public class L2TerrainInfoParser
 				} else if(line.StartsWith("Layer")) {
 					L2TerrainLayer layer = ParseL2TerrainLayer(line);
 					if(layer != null) {
-						terrainInfo.layers.Add(layer);
+						terrainInfo.uvLayers.Add(layer);
+					}
+				} else if(line.StartsWith("DecoLayers")) {
+					L2DecoLayer layer = ParseL2DecoLayer(line);
+					if(layer != null) {
+						terrainInfo.decoLayers.Add(layer);
 					}
 				}
 			}
@@ -90,9 +97,9 @@ public class L2TerrainInfoParser
 			return null;
 		}
 
-		layer.texture = TextureUtils.LoadTextureFromInfo(textureInfo, MapGenerator.TEXTURE_SIZE);
+		layer.texture = TextureUtils.LoadTextureFromInfo(textureInfo, MapGenerator.UV_TEXTURE_SIZE);
 		if(alphaMapInfo != string.Empty) {
-			layer.alphaMap = TextureUtils.LoadTextureFromInfo(alphaMapInfo, MapGenerator.ALPHAMAP_SIZE);
+			layer.alphaMap = TextureUtils.LoadTextureFromInfo(alphaMapInfo, MapGenerator.UV_LAYER_ALPHAMAP_SIZE);
 		}
 
 		// Parse uScale and vScale
@@ -105,10 +112,98 @@ public class L2TerrainInfoParser
 		return layer;
 	}
 
-	private float ParseFloatFromInfo(string info) {
+	private L2DecoLayer ParseL2DecoLayer(string line) {
+		L2DecoLayer layer = new L2DecoLayer();
+
+		string showOnTerrain = string.Empty;
+		string densityMap = string.Empty;
+		string staticMesh = string.Empty;
+		string scaleMultiplier = string.Empty;
+
+		int equalsIndex = line.IndexOf('=');
+		string valueString = line.Substring(equalsIndex + 1, line.Length - equalsIndex - 2);
+		string[] valueParts = valueString.Split(',');
+
+		for(int i = 0; i < valueParts.Length; i++) {
+			if(valueParts[i].Contains("ShowOnTerrain=")) {
+				showOnTerrain = valueParts[i].Trim();
+			}
+			if(valueParts[i].Contains("DensityMap=")) {
+				densityMap = valueParts[i].Trim();
+			}
+			if(valueParts[i].Contains("StaticMesh=")) {
+				staticMesh = valueParts[i].Trim();
+			}
+			if(valueParts[i].Contains("ScaleMultiplier=")) {
+				int index = line.IndexOf("ScaleMultiplier=");
+				string fromIndex = line.Substring(index);
+				int argEndIndex = fromIndex.IndexOf("))");
+				scaleMultiplier = fromIndex.Substring(0, argEndIndex + 2);
+			}
+		}
+
+		layer.showOnTerrain = ParseBoolFromInfo(showOnTerrain);
+		layer.densityMap = TextureUtils.LoadTextureFromInfo(densityMap, MapGenerator.DECO_LAYER_ALPHAMAP_SIZE);
+		layer = UpdateDecoLayerScale(layer, scaleMultiplier);
+		layer.staticMesh = StaticMeshUtils.LoadMeshFromInfo(staticMesh);
+
+		return layer;
+	}
+
+	private L2DecoLayer UpdateDecoLayerScale(L2DecoLayer layer, string scaleMultiplier) {
+		int equalsIndex = scaleMultiplier.IndexOf('=');
+		string valueString = scaleMultiplier.Substring(equalsIndex + 1, scaleMultiplier.Length - equalsIndex - 2);
+
+		valueString = valueString
+			.Replace("(", String.Empty)
+			.Replace(")", String.Empty)
+			.Replace("Min", String.Empty)
+			.Replace("Max", String.Empty)
+			.Replace("=", String.Empty)
+			.Replace("X", String.Empty)
+			.Replace("Y", String.Empty)
+			.Replace("Z", String.Empty);
+
+		string[] parts = valueString.Split(",");
+
+		layer.minWidth = float.Parse(parts[0]);
+		layer.maxWidth = float.Parse(parts[1]);
+		layer.minHeight = float.Parse(parts[2]);
+		layer.maxHeight = float.Parse(parts[3]);
+
+		return layer;
+	}
+
+	public static float ParseFloatFromInfo(string info) {
 		int equalsIndex = info.IndexOf('=');
 		string valueString = info.Substring(equalsIndex + 1, info.Length - equalsIndex - 2);
 		return float.Parse(valueString);
+	}
+
+	public static bool ParseBoolFromInfo(string info) {
+		int equalsIndex = info.IndexOf('=');
+		string valueString = info.Substring(equalsIndex + 1, info.Length - equalsIndex - 1);
+		return valueString.Equals("1");
+	}
+
+	public static string[] GetFolderAndFileFromInfo(string value) {
+		string textureName = value.Split('=')[1];
+
+		textureName = textureName.Replace("Texture'", string.Empty);
+		textureName = textureName.Replace("StaticMesh'", string.Empty);
+		/*textureName = textureName.Replace(".Texture", string.Empty);
+		textureName = textureName.Replace("Height.", string.Empty);*/
+		textureName = textureName.Replace("'", string.Empty);
+
+		string[] result = textureName.Split('.');
+		
+		if(result.Length == 2) {
+			return result;
+        } else if(result.Length > 2) {
+			return new string[2] { result[0], result[2] };
+        }
+
+		return result;
 	}
 
 }

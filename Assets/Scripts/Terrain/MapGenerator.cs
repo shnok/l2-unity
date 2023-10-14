@@ -6,20 +6,24 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour { 
 
-    public static int TEXTURE_SIZE;
-    public static int ALPHAMAP_SIZE;
+    public static int UV_TEXTURE_SIZE;
+    public static int UV_LAYER_ALPHAMAP_SIZE;
     public static float UV_TILE_SIZE;
+    public static int DECO_LAYER_ALPHAMAP_SIZE;
     public static float MAP_SCALE;
-    public static bool GENERATE_LAYERS;
+    public static bool GENERATE_UV_LAYERS;
+    public static bool GENERATE_DECO_LAYERS;
     public static bool GENERATE_HEIGHTMAPS;
 
-    public int TextureSize = 256;
-    public int AlphaMapSize = 1024;
-    public float UVTileSize = 5f;
-    public float MapScale = 1f;
+    public int uvTextureSize = 256;
+    public int uvLayerAlphaMapSize = 1024;
+    public int decoLayerAlphaMapSize = 512;
+    public float uvTileSize = 5f;
+    public float mapScale = 1f;
 
     public bool generateMap = false;
-    public bool generateLayers = false;
+    public bool generateUVLayers = false;
+    public bool generateDecoLayers = false;
     public bool generateHeightmaps = false;
 
     public List<L2TerrainInfo> terrainInfos;
@@ -27,14 +31,24 @@ public class MapGenerator : MonoBehaviour {
     public L2TerrainInfoParser parser;
     public List<Terrain> terrains;
     public Dictionary<string, Terrain> terrainsDict;
+    public List<MapToGenerate> mapsToGenerate;
+
+    [System.Serializable]
+    public struct MapToGenerate {
+        public string mapName;
+        public bool enabled;
+    }
+
 
     private void InitializeVariables() {
-        TEXTURE_SIZE = TextureSize;
-        ALPHAMAP_SIZE = AlphaMapSize;
-        UV_TILE_SIZE = UVTileSize;
-        MAP_SCALE = MapScale;
+        UV_TEXTURE_SIZE = uvTextureSize;
+        UV_LAYER_ALPHAMAP_SIZE = uvLayerAlphaMapSize;
+        DECO_LAYER_ALPHAMAP_SIZE = decoLayerAlphaMapSize;
+        UV_TILE_SIZE = uvTileSize;
+        MAP_SCALE = mapScale;
         GENERATE_HEIGHTMAPS = generateHeightmaps;
-        GENERATE_LAYERS = generateLayers;
+        GENERATE_UV_LAYERS = generateUVLayers;
+        GENERATE_DECO_LAYERS = generateDecoLayers;
     }
 
     void Start()
@@ -48,11 +62,20 @@ public class MapGenerator : MonoBehaviour {
             parser = new L2TerrainInfoParser();
             terrains = new List<Terrain>();
             terrainsDict = new Dictionary<string, Terrain>();
+            if(mapsToGenerate == null) {
+                mapsToGenerate = new List<MapToGenerate>();
+            }
 
-            string[] maps = new string[] { "17_25", "16_25", "17_24", "16_24" };
+            List<string> maps = new List<string>();
+            for(int i = 0; i < mapsToGenerate.Count; i++) {
+                if(mapsToGenerate[i].enabled) {
+                    maps.Add(mapsToGenerate[i].mapName);
+                }
+             }
 
-            GenerateMap(maps);
-            SavePrefabs(maps);
+
+            GenerateMap(maps.ToArray());
+            SavePrefabs(maps.ToArray());
         }
     }
 
