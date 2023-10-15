@@ -26,7 +26,7 @@ class OT_TestOpenFilebrowser (Operator, ImportHelper):
     boolTxtDel: BoolProperty(
         name='Delete *.txt files',
         description='',
-        default=True,
+        default=False,
     )
     
     boolMatDel: BoolProperty(
@@ -72,7 +72,7 @@ class OT_TestOpenFilebrowser (Operator, ImportHelper):
                 os.replace(file_path, new_file_path)
             if file_path.endswith(".props.txt") and "Shader" in file_path:
                 print(file_path)
-                new_file_path = file_path.replace("Shader", "Materials").replace(".props.txt", ".props")
+                new_file_path = file_path.replace("Shader", "Materials")
                 directory, filename = os.path.split(new_file_path)
                 if not os.path.exists(directory):
                     # Create the folder if it doesn't exist
@@ -86,7 +86,7 @@ class OT_TestOpenFilebrowser (Operator, ImportHelper):
                 
             _, extension = os.path.splitext (file_path)
             
-            if (extension.lower() == '.txt' and self.boolTxtDel) or \
+            if (extension.lower() == '.txt' and self.boolTxtDel and "Materials" not in file_path) or \
                (extension.lower() == '.mat' and self.boolMatDel) or \
                (extension.lower() == '.tga' and self.boolTgaDel) or \
                (extension.lower() == '.png' and self.boolPngDel):
