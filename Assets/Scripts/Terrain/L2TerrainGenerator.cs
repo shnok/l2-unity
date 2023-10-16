@@ -60,7 +60,7 @@ public class L2TerrainGenerator {
 			GenerateDecoLayers(terrainData, terrainInfo);
 		}
 
-		if(generationData.generateStaticMeshes) {
+		if(generationData.generateStaticMeshes && staticMeshActor != null) {
 			GenerateStaticMeshes(staticMeshActor);
         }
 
