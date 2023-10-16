@@ -10,8 +10,8 @@ public class L2MaterialBuilder {
     static void SetupMaterials() {
 
         ClearMaterials();
-        CreateBaseMaterials();
         ProcessProps();
+        CreateBaseMaterials();
         //AssetDatabase.DeleteAsset(materialPath);
     }
 
@@ -47,6 +47,7 @@ public class L2MaterialBuilder {
             material.SetFloat("_SpecularHighlights", 0f);
 
             ApplyTextureToMaterial(material, texturePath);
+            Debug.Log(materialPath);
             AssetDatabase.CreateAsset(material, materialPath);
         }
     }
@@ -136,7 +137,7 @@ public class L2MaterialBuilder {
 
     [MenuItem("Shnok/Remap Materials")]
     static void RemapMaterials() {
-        string[] meshes = AssetDatabase.FindAssets("t:GameObject", new string[] { "Assets/Data/StaticMeshes/deco01" });
+        string[] meshes = AssetDatabase.FindAssets("t:GameObject", new string[] { "Assets/Data/StaticMeshes" });
         for(int i = 0; i < meshes.Length; i++) {
 
             string mesh = AssetDatabase.GUIDToAssetPath(meshes[i]);

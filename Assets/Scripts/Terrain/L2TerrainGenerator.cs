@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 
 public class L2TerrainGenerator {
-	public float ueToUnityUnitScale = 0.01923f; // 1 meter = 52.5 UU
+	public float ueToUnityUnitScale = (1f/52.5f); // 1 meter = 52.5 UU
 	public float worldPositionOffset = 1f;
 	private string terrainContainerName = "terrain_";
 
@@ -93,8 +93,6 @@ public class L2TerrainGenerator {
 
 		// Calculate the resolution based on the file size
 		int resolution = (int)Mathf.Sqrt(terrainMap.Length / 2); // each height is 2 bytes (16 bits)
-
-		Debug.Log("Resolution:" + resolution);
 
 		terrainData.heightmapResolution = resolution + 1; // Set the resolution of the heightmap
 
@@ -212,10 +210,10 @@ public class L2TerrainGenerator {
 			detailPrototypes[i].useInstancing = true;
 			detailPrototypes[i].dryColor = Color.white;
 			detailPrototypes[i].healthyColor = Color.white;
-			detailPrototypes[i].minHeight = terrainInfo.decoLayers[i].minHeight;
-			detailPrototypes[i].maxHeight = terrainInfo.decoLayers[i].maxHeight;
-			detailPrototypes[i].minWidth = terrainInfo.decoLayers[i].minWidth;
-			detailPrototypes[i].maxWidth = terrainInfo.decoLayers[i].maxWidth;
+			detailPrototypes[i].minHeight = terrainInfo.decoLayers[i].minHeight * ueToUnityUnitScale;
+			detailPrototypes[i].maxHeight = terrainInfo.decoLayers[i].maxHeight * ueToUnityUnitScale;
+			detailPrototypes[i].minWidth = terrainInfo.decoLayers[i].minWidth * ueToUnityUnitScale;
+			detailPrototypes[i].maxWidth = terrainInfo.decoLayers[i].maxWidth * ueToUnityUnitScale;
 		}
 
 		terrainData.detailPrototypes = detailPrototypes;
@@ -251,8 +249,35 @@ public class L2TerrainGenerator {
 	}
 
 	public void GenerateStaticMeshes(L2StaticMeshActor staticMeshActor) {
+		Vector3 basePosition = new Vector3 (staticMeshActor.y, staticMeshActor.z, staticMeshActor.x) * ueToUnityUnitScale * MapGenerator.MAP_SCALE;
+		
+		foreach(var staticMesh in staticMeshActor.staticMeshes) {
+			string meshPath = StaticMeshUtils.GetMeshPath(staticMesh.staticMesh);
+			GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(meshPath);
+			if(go != null) {
+				Vector3 position = new Vector3(staticMesh.y, staticMesh.z, staticMesh.x) * ueToUnityUnitScale * MapGenerator.MAP_SCALE;
+				Vector3 eulerAngles = new Vector3(
+					360.00f * staticMesh.pitch / 65536 + go.transform.eulerAngles.x,
+					360.00f * staticMesh.yaw / 65536 + go.transform.eulerAngles.y + 90,
+					360.00f * staticMesh.roll / 65536 + go.transform.eulerAngles.z
+				);
 
+				float meshDataScaleMultiplier = staticMesh.scale != 0 ? staticMesh.scale : 1f;
+				float meshDataScaleX = staticMesh.scaleX != 0 ? staticMesh.scaleX : 1f;
+				float meshDataScaleY = staticMesh.scaleY != 0 ? staticMesh.scaleY : 1f;
+				float meshDataScaleZ = staticMesh.scaleZ != 0 ? staticMesh.scaleZ : 1f;
+				Vector3 meshDataScale = new Vector3(meshDataScaleX, meshDataScaleY, meshDataScaleZ);
 
+				GameObject instantiated = GameObject.Instantiate(go, position + basePosition, Quaternion.Euler(eulerAngles));
+				instantiated.name = staticMesh.staticMesh;
+				instantiated.transform.localScale = Vector3.Scale(instantiated.transform.localScale, meshDataScale) * 
+					meshDataScaleMultiplier * 
+					ueToUnityUnitScale * 
+					MapGenerator.MAP_SCALE;
+			} else {
+				Debug.LogError("Can't find StaticMesh FBX " + staticMesh.staticMesh + " at path " + meshPath);
+            }
+        }
 	}
 
 	public void StitchTerrainSeams(Dictionary<string, Terrain> mapTerrains) {

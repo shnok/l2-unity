@@ -187,7 +187,7 @@ public class L2TerrainInfoParser
 	}
 
 	public static string[] GetFolderAndFileFromInfo(string value) {
-		string textureName = value.Split('=')[1];
+		string textureName = value.Contains("=") ? value.Split('=')[1] : value;
 
 		textureName = textureName.Replace("Texture'", string.Empty);
 		textureName = textureName.Replace("StaticMesh'", string.Empty);

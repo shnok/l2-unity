@@ -16,7 +16,7 @@ public class L2StaticMeshImporter
         string directory = Path.Combine(Application.dataPath, "Data/Maps"); 
         string extension = "txt"; 
 
-        string inputFolder = "G:/Stock/Projects/L2-Unity/Tools/umodel_win32/export";
+        string inputFolder = @"D:\Stock\Projects\L2-Unity\Tools\umodel_win32\export";
 
         string filePath = EditorUtility.OpenFilePanel(title, directory, extension);
 
@@ -37,11 +37,11 @@ public class L2StaticMeshImporter
                     if(!File.Exists(staticMeshPath)) {
                         Debug.LogWarning("Mesh missing:" + staticMeshPath);
                     } else {
+                        files.Add(staticMeshPath);
                         string textureInfoPath = Path.Combine(inputFolder, folder, "StaticMesh", file + ".props.txt");
                         if(!File.Exists(textureInfoPath)) {
                             Debug.LogWarning("Texture info missing:" + textureInfoPath);
-                        } else {
-                            files.Add(staticMeshPath);
+                        } else {                          
                             files.AddRange(ParseTextureInfo(textureInfoPath));
                         }
                     }
@@ -255,7 +255,7 @@ public class L2StaticMeshImporter
                 try {
                     File.Copy(file, dest, overwrite);
                 } catch(IOException e) {
-                    Debug.LogWarning(dest + " already exists.");
+                    Debug.LogWarning(dest + " already exists. " + e.Message);
                 }
                 
             }

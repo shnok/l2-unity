@@ -71,7 +71,7 @@ public class MapGenerator : MonoBehaviour {
 
             L2StaticMeshActor staticMeshActor = null;
             if(mapsToGenerate[i].generateStaticMeshes)
-                meshActorParser.GetL2StaticMeshActor(mapsToGenerate[i].mapName);
+                staticMeshActor = meshActorParser.GetL2StaticMeshActor(mapsToGenerate[i].mapName);
 
             Terrain terrain = generator.InstantiateTerrain(mapsToGenerate[i], terrainInfo, staticMeshActor);
 

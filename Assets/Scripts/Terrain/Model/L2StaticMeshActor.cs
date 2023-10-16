@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class L2StaticMeshActor
 {
-    public double x { get; set; }
-    public double y { get; set; }
-    public double z { get; set; }
+    public float x { get; set; }
+    public float y { get; set; }
+    public float z { get; set; }
     public List<L2StaticMesh> staticMeshes { get; set; }
+
+    override
+    public string ToString() {
+        return "Position: (" + x + "," + y + "," + z + ")\n" + "StatishMesh count: " + staticMeshes.Count;
+    }
 }
