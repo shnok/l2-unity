@@ -60,10 +60,6 @@ public class L2TerrainGenerator {
 			GenerateDecoLayers(terrainData, terrainInfo);
 		}
 
-		if(generationData.generateStaticMeshes && staticMeshActor != null) {
-			GenerateStaticMeshes(staticMeshActor);
-        }
-
 		float tx = terrainInfo.generatedSectorCounter * terrainInfo.terrainScale.y;
 		float ty = terrainInfo.generatedSectorCounter * terrainInfo.terrainScale.z;
 		float tz = terrainInfo.generatedSectorCounter * terrainInfo.terrainScale.x;
@@ -83,6 +79,11 @@ public class L2TerrainGenerator {
 		) * ueToUnityUnitScale * MapGenerator.MAP_SCALE * worldPositionOffset;
 
 		terrain.transform.position = unityPos;
+		terrain.transform.name = terrainInfo.mapName;
+
+		if(generationData.generateStaticMeshes && staticMeshActor != null) {
+			GenerateStaticMeshes(terrain.transform, staticMeshActor);
+		}
 
 		return terrain;
 	}
@@ -248,7 +249,7 @@ public class L2TerrainGenerator {
 		AssetDatabase.Refresh();
 	}
 
-	public void GenerateStaticMeshes(L2StaticMeshActor staticMeshActor) {
+	public void GenerateStaticMeshes(Transform terrain, L2StaticMeshActor staticMeshActor) {
 		Vector3 basePosition = new Vector3 (staticMeshActor.y, staticMeshActor.z, staticMeshActor.x) * ueToUnityUnitScale * MapGenerator.MAP_SCALE;
 		
 		foreach(var staticMesh in staticMeshActor.staticMeshes) {
@@ -274,6 +275,8 @@ public class L2TerrainGenerator {
 					meshDataScaleMultiplier * 
 					ueToUnityUnitScale * 
 					MapGenerator.MAP_SCALE;
+
+				instantiated.transform.parent = terrain;
 			} else {
 				Debug.LogError("Can't find StaticMesh FBX " + staticMesh.staticMesh + " at path " + meshPath);
             }

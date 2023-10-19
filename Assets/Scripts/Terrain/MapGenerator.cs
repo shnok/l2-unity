@@ -56,7 +56,7 @@ public class MapGenerator : MonoBehaviour {
 
     private void GenerateMap(List<MapGenerationData> mapsToGenerate) {
         L2TerrainInfoParser terrainInfoParser = new L2TerrainInfoParser();
-        L2StaticMeshActorParser meshActorParser = new L2StaticMeshActorParser();
+        L2StaticMeshActorImporter meshActorParser = new L2StaticMeshActorImporter();
         L2TerrainGenerator generator = new L2TerrainGenerator();
         terrains = new List<Terrain>();
         terrainsDict = new Dictionary<string, Terrain>();

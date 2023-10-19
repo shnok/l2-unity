@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class L2StaticMeshActorParser
+public class L2StaticMeshActorImporter
 {
     public L2StaticMeshActor GetL2StaticMeshActor(string mapName) {
         string jsonPath = StaticMeshUtils.GetJsonPath(mapName);
