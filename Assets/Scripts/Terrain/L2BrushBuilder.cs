@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class L2BrushBuilder : MonoBehaviour
+public class L2BrushBuilder
 {
-    public Brush[] test;
-    private void Start() {
-        test = L2BrushImporter.ParseBrushFile("D:\\Stock\\Projects\\L2-Unity\\Tools\\l2brushexport\\17_25_Classic.json");
-        Debug.Log(test.GetValue(0).ToString());
-    }
-
     [MenuItem("Shnok/[Brush] Parse")]
     static void ReadJson() {
        L2BrushImporter.ParseBrushFile("D:\\Stock\\Projects\\L2-Unity\\Tools\\l2brushexport\\17_25_Classic.json");
@@ -30,13 +24,18 @@ public class L2BrushBuilder : MonoBehaviour
             }
             List<string> polyFlags = new List<string>(b.polyFlags);
             if(polyFlags.Contains("PF_Invisible")) {
-                Debug.LogWarning(b.name + " position is invisible");
+               // Debug.LogWarning(b.name + " position is invisible");
                 continue;
             }
-            if(b.csgOper == "CSG_Subtract") {
-                Debug.LogWarning(b.name + " position is CSG_Subtract");
+            if(polyFlags.Contains("PF_NotSolid")) {
+               // Debug.LogWarning(b.name + " position is not solid");
                 continue;
             }
+            if(b.csgOper != "CSG_Add") {
+               // Debug.LogWarning(b.name + " position is CSG_Subtract");
+                //continue;
+            }
+            
 
             GameObject brush = new GameObject(b.name);
             brush.transform.parent = brushContainer.transform;
@@ -46,7 +45,11 @@ public class L2BrushBuilder : MonoBehaviour
             Poly poly = model.poly;
 
             for(int i = 0; i < poly.polyData.Length; i++) {
-                GameObject mesh = createMesh(poly.polyData[i].vertices);
+                List<string> pPolyFlags = new List<string>(poly.polyData[i].polyFlags);
+                if (pPolyFlags.Contains("PF_Unlit") || pPolyFlags.Contains("PF_Invisible") || pPolyFlags.Contains("PF_NotSolid")) {
+                    continue;
+                }
+                GameObject mesh = createMesh(poly.polyData[i]);
                 mesh.transform.parent = brush.transform;
                 mesh.transform.localPosition = Vector3.zero;
             }
@@ -54,11 +57,9 @@ public class L2BrushBuilder : MonoBehaviour
 
     }
 
-    static GameObject createMesh(Vector3[] vertices) {
-        float ueToUnityScale = (1f / 52.5f);
-
-        for(int i = 0; i < vertices.Length; i++) {
-            vertices[i] = VectorUtils.convertToUnity(vertices[i]);
+    static GameObject createMesh(PolyData polyData) {
+        for(int i = 0; i < polyData.vertices.Length; i++) {
+            polyData.vertices[i] = VectorUtils.convertToUnity(polyData.vertices[i]);
         }
 
         GameObject customShapeObject = new GameObject("CustomShape");
@@ -68,13 +69,13 @@ public class L2BrushBuilder : MonoBehaviour
 
         int[] triangles = new int[0];
 
-        if(vertices.Length == 4) {
+        if(polyData.vertices.Length == 4) {
             triangles = new int[6]
             {
                 0, 1, 2, // First triangle (top-left, top-right, bottom-left)
                 2, 3, 0  // Second triangle (bottom-left, top-right, bottom-right)
             };
-        } else if(vertices.Length == 3) {
+        } else if(polyData.vertices.Length == 3) {
             triangles = new int[3]
             {
                 0, 1, 2, // First triangle (top-left, top-right, bottom-left)
@@ -83,13 +84,24 @@ public class L2BrushBuilder : MonoBehaviour
 
         // Create a new Mesh
         Mesh customMesh = new Mesh();
-        customMesh.vertices = vertices;
+        customMesh.vertices = polyData.vertices;
         customMesh.triangles = triangles;
 
         // Assign the mesh to the MeshFilter
         meshFilter.mesh = customMesh;
 
-        meshRenderer.material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Prefab/Blue.mat");
+
+        meshRenderer.material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Prefab/Red.mat");
+
+        string materialPath = TextureUtils.GetMaterialPath(polyData.texture);
+
+        Material t = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
+
+        if(t != null) {
+            meshRenderer.material = t;
+        } else {
+            Debug.LogError("Missing material " + polyData.texture);
+        }
 
         return customShapeObject;
     }

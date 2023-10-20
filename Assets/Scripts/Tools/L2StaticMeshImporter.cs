@@ -7,43 +7,49 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-public class L2StaticMeshImporter
+public class L2StaticMeshImporter : AssetImporter
 {
-    [MenuItem("Shnok/Import StaticMeshes")]
-    static void OpenFileSelectionDialog() {
-        bool overwrite = false;
+    [MenuItem("Shnok/[StaticMeshes] Import")]
+    static void ImportStaticMeshes() {
         string title = "Select StaticMeshes list";
         string directory = Path.Combine(Application.dataPath, "Data/Maps"); 
         string extension = "txt"; 
 
-        string inputFolder = @"D:\Stock\Projects\L2-Unity\Tools\umodel_win32\export";
+        string dataFolder = @"D:\Stock\Projects\L2-Unity\Tools\umodel_win32\export";
+        bool overwrite = false;
 
-        string filePath = EditorUtility.OpenFilePanel(title, directory, extension);
+        string fileToProcess = EditorUtility.OpenFilePanel(title, directory, extension);
 
+        if(!string.IsNullOrEmpty(fileToProcess)) {
+            Debug.Log("Selected file: " + fileToProcess);
+            List<string> files = ProcessDataFile(dataFolder, fileToProcess);
+            ImportFiles(dataFolder, files, overwrite);
+        }        
+    }
+
+    private static List<string> ProcessDataFile(string dataFolder, string fileToProcess) {
         List<string> files = new List<string>();
 
-        if(!string.IsNullOrEmpty(filePath)) {
-            Debug.Log("Selected file: " + filePath);
-            using(StreamReader reader = new StreamReader(filePath)) {
-                string line;
-                while((line = reader.ReadLine()) != null) {
-                    Debug.Log("Processing:" + line);
+        using(StreamReader reader = new StreamReader(fileToProcess)) {
+            string line;
+            while((line = reader.ReadLine()) != null) {
+                Debug.Log("Processing:" + line);
 
-                    string[] parts = line.Split('.');
-                    string folder = parts[0];
-                    string file = parts.Length > 2 ? parts[2] : parts[1];
+                string[] parts = line.Split('.');
+                string folder = parts[0];
+                string file = parts[parts.Length - 1];
 
-                    string staticMeshPath = Path.Combine(inputFolder, folder, file + ".fbx");
-                    if(!File.Exists(staticMeshPath)) {
-                        Debug.LogWarning("Mesh missing:" + staticMeshPath);
+                string staticMeshPath = Path.Combine(dataFolder, folder, file + ".fbx");
+
+                if(!File.Exists(staticMeshPath)) {
+                    Debug.LogWarning("Mesh missing:" + staticMeshPath);
+                } else {
+                    files.Add(staticMeshPath);
+                    string textureInfoPath = Path.Combine(dataFolder, folder, "StaticMesh", file + ".props.txt");
+                    if(!File.Exists(textureInfoPath)) {
+                        Debug.LogWarning("Texture info missing:" + textureInfoPath);
                     } else {
-                        files.Add(staticMeshPath);
-                        string textureInfoPath = Path.Combine(inputFolder, folder, "StaticMesh", file + ".props.txt");
-                        if(!File.Exists(textureInfoPath)) {
-                            Debug.LogWarning("Texture info missing:" + textureInfoPath);
-                        } else {                          
-                            files.AddRange(ParseTextureInfo(textureInfoPath));
-                        }
+                        files.AddRange(ParseTextureInfo(textureInfoPath));
                     }
                 }
             }
@@ -52,8 +58,9 @@ public class L2StaticMeshImporter
         files = files.Distinct().ToList();
         Debug.LogWarning("Total files to import: " + files.Count);
 
-        ImportFiles(inputFolder, files, overwrite);
+        return files;
     }
+
 
     static List<string> ParseTextureInfo(string path) {
         List<string> filesToExport = new List<string>();
@@ -155,22 +162,6 @@ public class L2StaticMeshImporter
         return items;
     }
 
-    static string GetParentFolder(string path) {
-        string currentDirectory = path;
-        if(Path.GetExtension(path) != string.Empty) {
-            currentDirectory = Path.GetDirectoryName(path);
-        }
-        
-        string parentFolderFullPath = Directory.GetParent(currentDirectory).FullName;
-        string parentFolderRelativePath = Path.Combine("Assets", Path.GetRelativePath(Application.dataPath, parentFolderFullPath));
-        return parentFolderRelativePath;
-    }
-
-    static string GetFolderName(string path) {
-        string folderName = Path.GetFileName(path);
-        return folderName;
-    }
-
     static string FixPath(string baseFolder, string fileName, bool shader) {
         string pathToTest = string.Empty;
         if(shader) {
@@ -203,63 +194,4 @@ public class L2StaticMeshImporter
 
         return pathToTest;
     }
-
-    static string FindInSubDirectories(string baseFolder, string fileName) {
-        try {
-            string[] files = Directory.GetFiles(baseFolder, fileName, SearchOption.AllDirectories);
-
-            if(files.Length > 0) {
-                Debug.Log("File(s) found:");
-                foreach(string file in files) {
-                    return file;
-                }
-            } else {
-                Debug.Log("File not found in the specified directory.");
-            }
-        } catch(DirectoryNotFoundException) {
-            Debug.Log("Directory not found.");
-        } catch(Exception ex) {
-            Debug.LogError("An error occurred: " + ex.Message);
-        }
-
-        return null;
-    }
-
-    static void ImportFiles(string inputFolder, List<string> files, bool overwrite) {
-        foreach(var file in files) {
-            if(!File.Exists(file)) {
-                Debug.LogError("File " + file + " doesn't exist.");
-                continue;
-            }
-
-            string relativePath = Path.GetRelativePath(inputFolder, file);
-
-            string dest = null;
-            if(Path.GetExtension(file).ToLower() == ".fbx") {
-                dest = Path.Combine("Assets", "Data", "StaticMeshes", relativePath);
-                Debug.Log(dest);
-            } else if(Path.GetExtension(file).ToLower() == ".png") {
-                dest = Path.Combine("Assets", "Data", "Textures", relativePath);
-                Debug.Log(dest);
-            } else if(Path.GetExtension(file).ToLower() == ".txt") {
-                dest = Path.Combine("Assets", "Data", "Textures", relativePath);
-                Debug.Log(dest);
-            }
-
-            if(dest != null) {
-
-                if(!Directory.Exists(Path.GetDirectoryName(dest))) {
-                    Directory.CreateDirectory(Path.GetDirectoryName(dest));
-                }
-
-                try {
-                    File.Copy(file, dest, overwrite);
-                } catch(IOException e) {
-                    Debug.LogWarning(dest + " already exists. " + e.Message);
-                }
-                
-            }
-        }
-    }
 }
-

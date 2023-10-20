@@ -6,13 +6,29 @@ using UnityEngine;
 
 public class L2MaterialBuilder {
 
-    [MenuItem("Shnok/GenerateMaterials")]
+    [MenuItem("Shnok/[Material] Generate")]
     static void SetupMaterials() {
 
-        ClearMaterials();
-        ProcessProps();
-        CreateBaseMaterials();
+        bool overwrite = false;
+        if(overwrite) {
+            ClearMaterials();
+        }
+
+        ProcessProps(overwrite);
+        CreateBaseMaterials(overwrite);
         //AssetDatabase.DeleteAsset(materialPath);
+    }
+
+    [MenuItem("Shnok/[Material] Remap")]
+    static void RemapMaterials() {
+        string[] meshes = AssetDatabase.FindAssets("t:GameObject", new string[] { "Assets/Data/StaticMeshes" });
+        for(int i = 0; i < meshes.Length; i++) {
+
+            string mesh = AssetDatabase.GUIDToAssetPath(meshes[i]);
+
+            AssetDatabase.ImportAsset(mesh, ImportAssetOptions.ForceUpdate);
+            AssetDatabase.Refresh();
+        }
     }
 
     static void ClearMaterials() {
@@ -23,7 +39,7 @@ public class L2MaterialBuilder {
         }
     }
 
-    static void CreateBaseMaterials() {
+    static void CreateBaseMaterials(bool overwrite) {
         string[] textureGUIDs = AssetDatabase.FindAssets("t:Texture2D", new string[] { "Assets/Data/Textures" });
         for(int i = 0; i < textureGUIDs.Length; i++) {
             string texturePath = AssetDatabase.GUIDToAssetPath(textureGUIDs[i]);
@@ -33,6 +49,10 @@ public class L2MaterialBuilder {
             string ignorePath = Path.Combine(Path.GetDirectoryName(texturePath), ".ignore");
             if(File.Exists(ignorePath)) {
                 Debug.Log("Ignoring folder");
+                continue;
+            }
+
+            if(!overwrite && File.Exists(materialPath)) {
                 continue;
             }
 
@@ -52,7 +72,7 @@ public class L2MaterialBuilder {
         }
     }
 
-    static void ProcessProps() {
+    static void ProcessProps(bool overwrite) {
         string[] propsTxtGUIDs = AssetDatabase.FindAssets("t:TextAsset", new string[] { "Assets/Data/Textures" });
         //Debug.Log("Found " + propsTxtGUIDs.Length + " props.");
 
@@ -104,6 +124,11 @@ public class L2MaterialBuilder {
             }
           
             string materialPath = Path.Combine(Path.GetDirectoryName(propsPath), Path.GetFileNameWithoutExtension(propsPath).Replace(".props", string.Empty) + ".mat");
+
+            if(!overwrite && File.Exists(materialPath)) {
+                continue;
+            }
+
             string oldMaterialPath = Path.Combine(Path.GetDirectoryName(propsPath), textureName + ".mat");
             AssetDatabase.DeleteAsset(oldMaterialPath);
 
@@ -134,19 +159,4 @@ public class L2MaterialBuilder {
 
         Debug.Log("Applied texture to " + texturePath);
     }
-
-    [MenuItem("Shnok/Remap Materials")]
-    static void RemapMaterials() {
-        string[] meshes = AssetDatabase.FindAssets("t:GameObject", new string[] { "Assets/Data/StaticMeshes" });
-        for(int i = 0; i < meshes.Length; i++) {
-
-            string mesh = AssetDatabase.GUIDToAssetPath(meshes[i]);
-
-         
-            AssetDatabase.ImportAsset(mesh, ImportAssetOptions.ForceUpdate);
-
-            AssetDatabase.Refresh();
-        }
-    }
-
 }
