@@ -67,7 +67,6 @@ public class L2BrushImporter : AssetImporter
         try {
             string json = File.ReadAllText(path);
             DataContainer brushes = JsonUtility.FromJson<DataContainer>(json);
-            Debug.Log(brushes.data.Length);
             return brushes.data;
 
         } catch(IOException e) {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 public class TextureUtils
@@ -27,15 +28,24 @@ public class TextureUtils
 		return flippedTexture;
 	}
 
-	public static Texture2D LoadTextureFromInfo(string info, int size) {
-
-		byte[] texBytes = File.ReadAllBytes(GetTexturePath(info));
+	public static Texture2D LoadTexture2DFromInfo(string info, int size) {
+		/*byte[] texBytes = File.ReadAllBytes(GetTexturePath(info));
 
 		Texture2D texture = new Texture2D(size, size);
-		texture.LoadImage(texBytes);
+		texture.LoadImage(texBytes);*/
+		Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(GetTexturePath(info));
+
+		Debug.Log(texture);
 
 		return texture;
 	}
+
+	public static Texture LoadTextureFromInfo(string info, int size) {
+		Texture texture = AssetDatabase.LoadAssetAtPath<Texture>(GetTexturePath(info));
+
+		return texture;
+	}
+
 
 	public static string GetTexturePath(string value) {
 		string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);

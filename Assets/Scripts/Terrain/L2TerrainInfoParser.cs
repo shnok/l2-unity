@@ -97,9 +97,9 @@ public class L2TerrainInfoParser
 			return null;
 		}
 
-		layer.texture = TextureUtils.LoadTextureFromInfo(textureInfo, MapGenerator.UV_TEXTURE_SIZE);
+		layer.texture = TextureUtils.LoadTexture2DFromInfo(textureInfo, MapLoader.UV_TEXTURE_SIZE);
 		if(alphaMapInfo != string.Empty) {
-			layer.alphaMap = TextureUtils.LoadTextureFromInfo(alphaMapInfo, MapGenerator.UV_LAYER_ALPHAMAP_SIZE);
+			layer.alphaMap = TextureUtils.LoadTexture2DFromInfo(alphaMapInfo, MapLoader.UV_LAYER_ALPHAMAP_SIZE);
 		}
 
 		// Parse uScale and vScale
@@ -143,7 +143,7 @@ public class L2TerrainInfoParser
 		}
 
 		layer.showOnTerrain = ParseBoolFromInfo(showOnTerrain);
-		layer.densityMap = TextureUtils.LoadTextureFromInfo(densityMap, MapGenerator.DECO_LAYER_ALPHAMAP_SIZE);
+		layer.densityMap = TextureUtils.LoadTexture2DFromInfo(densityMap, MapLoader.DECO_LAYER_ALPHAMAP_SIZE);
 		layer = UpdateDecoLayerScale(layer, scaleMultiplier);
 		layer.staticMesh = StaticMeshUtils.LoadMeshFromInfo(staticMesh);
 
