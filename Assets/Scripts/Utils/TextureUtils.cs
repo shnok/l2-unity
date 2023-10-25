@@ -48,16 +48,26 @@ public class TextureUtils
 
 
 	public static string GetTexturePath(string value) {
+		if(string.IsNullOrEmpty(value)) {
+			return null;
+		}
 		string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);
 		return Path.Combine("Assets/Data/Textures", folderTexture[0], folderTexture[1] + ".png");
 	}
 
 	public static string GetMaterialPath(string value) {
+		if(string.IsNullOrEmpty(value)) {
+			return null;
+		}
+		Debug.Log(value);
 		string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);
 		return Path.Combine("Assets/Data/Textures", folderTexture[0], "Materials", folderTexture[1] + ".mat");
 	}
 
 	public static string GetHeightMapPath(string value) {
+		if(string.IsNullOrEmpty(value)) {
+			return null;
+		}
 		string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);
 		return Path.Combine("Assets/Data/Textures", folderTexture[0], "Height." + folderTexture[1] + ".bmp");
 	}
