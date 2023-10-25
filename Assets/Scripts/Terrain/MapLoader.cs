@@ -101,7 +101,7 @@ public class MapLoader : MonoBehaviour {
                 if(map != null) {
                     map = GameObject.Instantiate(map);             
                 } else {
-                    Debug.LogError("Could not find map " + mapsToGenerate[i].mapName + " prefab.");
+                    Debug.LogWarning("Could not find map " + mapsToGenerate[i].mapName + " prefab.");
                 }
                 if(mapsToGenerate[i].generateStaticMeshes) {
                     GameObject staticmeshes = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, "StaticMeshes.prefab"));
@@ -110,7 +110,7 @@ public class MapLoader : MonoBehaviour {
                         staticmeshes.transform.parent = map.transform;
                         staticmeshes.transform.position = Vector3.zero;
                     } else {
-                        Debug.LogError("Could not find staticmeshes for map " + mapsToGenerate[i].mapName + ".");
+                        Debug.LogWarning("Could not find staticmeshes for map " + mapsToGenerate[i].mapName + ".");
                     } 
                 }
                 if(mapsToGenerate[i].generateBrushes) {
@@ -120,7 +120,7 @@ public class MapLoader : MonoBehaviour {
                         brushes.transform.parent = map.transform;
                         brushes.transform.position = Vector3.zero;
                     } else {
-                        Debug.LogError("Could not find brushes for map " + mapsToGenerate[i].mapName + ".");
+                        Debug.LogWarning("Could not find brushes for map " + mapsToGenerate[i].mapName + ".");
                     }
                 }
             }
