@@ -28,6 +28,36 @@ public class TextureUtils
 		return flippedTexture;
 	}
 
+	public static Texture2D RotateTexture(Texture2D original) {
+		int width = original.width;
+		int height = original.height;
+
+		Color[] pixels = original.GetPixels();
+		Color[] rotatedPixels = new Color[width * height];
+
+		for(int y = 0; y < height; y++) {
+			for(int x = 0; x < width; x++) {
+				// Calculate the new coordinates for the rotated pixel
+				int newX = height - y - 1;
+				int newY = x;
+
+				// Calculate the indices in the 1D pixel arrays
+				int originalIndex = y * width + x;
+				int rotatedIndex = newY * height + newX;
+
+				// Copy the pixel data
+				rotatedPixels[rotatedIndex] = pixels[originalIndex];
+			}
+		}
+
+		// Create a new Texture2D to store the rotated pixels
+		Texture2D rotatedTexture = new Texture2D(height, width);
+		rotatedTexture.SetPixels(rotatedPixels);
+		rotatedTexture.Apply();
+
+		return rotatedTexture;
+	}
+
 	public static Texture2D LoadTexture2DFromInfo(string info, int size) {
 		/*byte[] texBytes = File.ReadAllBytes(GetTexturePath(info));
 

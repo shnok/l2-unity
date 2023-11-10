@@ -101,9 +101,11 @@ public class TerrainConverter : MonoBehaviour
 
         // Generate decolayer
         List<L2DecoLayer> decoLayers = terrainInfo.decoLayers;
-        DecoToMesh.ConvertDecoLayers(decoLayers, destObject);
+        DecoToMesh.ConvertDecoLayers(decoLayers, terrainToConvert);
 
         destObject.isStatic = true;
+
+        GameObject.Destroy(terrainToConvert);
 
         // Save terrain Prefab
         string prefabPath = Path.Combine(saveFolder, mapToConvert + ".prefab");
