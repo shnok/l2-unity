@@ -7,7 +7,7 @@ public class TerrainToMesh : MonoBehaviour
 {
     public Terrain terrain;
     public GameObject dest;
-    public int meshSubdivisions = 256;
+    public int meshSubdivisions = 255;
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +46,7 @@ public class TerrainToMesh : MonoBehaviour
         mesh.vertices = vertices;
     }
 
-    private void SetTriangles(Mesh mesh, int subdivisions) {
+    /*private void SetTriangles(Mesh mesh, int subdivisions) {
         int[] triangles = new int[subdivisions * subdivisions * 6];
         int vert = 0;
         int tris = 0;
@@ -64,18 +64,38 @@ public class TerrainToMesh : MonoBehaviour
             vert++;
         }
         mesh.triangles = triangles;
+    }*/
+
+    private void SetTriangles(Mesh mesh, int subdivisions) {
+        int[] triangles = new int[subdivisions * subdivisions * 6];
+        int vert = 0;
+        int tris = 0;
+        for(int z = 0; z < subdivisions; z++) {
+            for(int x = 0; x < subdivisions; x++) {
+                triangles[tris + 0] = vert + 0;
+                triangles[tris + 1] = vert + subdivisions + 1;
+                triangles[tris + 2] = vert + 1;
+                triangles[tris + 3] = vert + 1;
+                triangles[tris + 4] = vert + subdivisions + 1;
+                triangles[tris + 5] = vert + subdivisions + 2;
+                vert++;
+                tris += 6;
+            }
+            vert++; // Move to the next row
+        }
+        mesh.triangles = triangles;
     }
 
     private void SetUVs(Mesh mesh, int subdivisions) {
-        Vector2[] uvs = new Vector2[mesh.vertices.Length];
-        for(int i = 0, z = 0; z <= subdivisions; z++) {
-            for(int x = 0; x <= subdivisions; x++) {
-                uvs[i] = new Vector2((float)x / subdivisions, (float)z / subdivisions);
-                i++;
-            }
-        }
-        mesh.uv = uvs;
-    }
+          Vector2[] uvs = new Vector2[mesh.vertices.Length];
+          for(int i = 0, z = 0; z <= subdivisions; z++) {
+              for(int x = 0; x <= subdivisions; x++) {
+                  uvs[i] = new Vector2((float)x / subdivisions, (float)z / subdivisions);
+                  i++;
+              }
+          }
+          mesh.uv = uvs;
+     }
 
 
     public void ConvertTerrain() {
@@ -96,5 +116,6 @@ public class TerrainToMesh : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
         mesh.RecalculateBounds();
+        mesh.Optimize();
     }
 }

@@ -13,9 +13,6 @@ public class L2BrushBuilder
         string directory = Path.Combine(Application.dataPath, "Data/Maps");
         string extension = "json";
 
-        string dataFolder = @"D:\Stock\Projects\L2-Unity\Tools\umodel_win32\export";
-        bool overwrite = false;
-
         string fileToProcess = EditorUtility.OpenFilePanel(title, directory, extension);
 
         if(!string.IsNullOrEmpty(fileToProcess)) {

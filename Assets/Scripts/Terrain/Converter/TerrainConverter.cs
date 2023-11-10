@@ -7,7 +7,7 @@ using UnityEngine;
 public class TerrainConverter : MonoBehaviour
 {
     public string mapToConvert;
-    public int meshSubdivisions = 256;
+    public int meshSubdivisions = 254;
     public float uvScale = 200;
     private TerrainToMesh terrainToMesh;
     private Texture2DArrayGenerator texture2DArrayGenerator;
@@ -101,7 +101,9 @@ public class TerrainConverter : MonoBehaviour
 
         // Generate decolayer
         List<L2DecoLayer> decoLayers = terrainInfo.decoLayers;
-        DecoToMesh.ConvertDecoLayers(decoLayers, terrainToConvert);
+        GameObject decoLayer = DecoToMesh.ConvertDecoLayers(decoLayers, terrainToConvert);
+        string decoLayerPrefabPath = Path.Combine(saveFolder, mapToConvert + "_DecoLayer.prefab");
+        PrefabUtility.SaveAsPrefabAsset(decoLayer, decoLayerPrefabPath);
 
         destObject.isStatic = true;
 
