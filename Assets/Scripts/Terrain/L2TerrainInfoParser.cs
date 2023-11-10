@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class L2TerrainInfoParser
 {
-	public L2TerrainInfo GetL2TerrainInfo(string mapID) {
+	public static L2TerrainInfo GetL2TerrainInfo(string mapID) {
 		string dataPath = "Assets/Data/Maps/" + mapID + "/TerrainInfo0.txt";
 		if(!File.Exists(dataPath)) {
 			Debug.LogWarning("File not found: " + dataPath);
@@ -46,12 +46,12 @@ public class L2TerrainInfoParser
 		return terrainInfo;
 	}
 
-	private int ParseGeneratedSectorCounter(string line) {
+	private static int ParseGeneratedSectorCounter(string line) {
 		// TODO: Handle parsing of GeneratedSectorCounter if needed
 		return 256; // Temporary value
 	}
 
-	private Vector3 ParseVector3(string line) {
+	private static Vector3 ParseVector3(string line) {
 		int equalsIndex = line.IndexOf('=');
 		string valueString = line.Substring(equalsIndex + 1, line.Length - equalsIndex - 2);
 		string[] valueParts = valueString.Split(',');
@@ -61,7 +61,7 @@ public class L2TerrainInfoParser
 		return new Vector3(x, y, z);
 	}
 
-	private L2TerrainLayer ParseL2TerrainLayer(string line) {
+	private static L2TerrainLayer ParseL2TerrainLayer(string line) {
 		L2TerrainLayer layer = new L2TerrainLayer();
 
 		int equalsIndex = line.IndexOf('=');
@@ -112,7 +112,7 @@ public class L2TerrainInfoParser
 		return layer;
 	}
 
-	private L2DecoLayer ParseL2DecoLayer(string line) {
+	private static L2DecoLayer ParseL2DecoLayer(string line) {
 		L2DecoLayer layer = new L2DecoLayer();
 
 		string showOnTerrain = string.Empty;
@@ -143,6 +143,7 @@ public class L2TerrainInfoParser
 		}
 
 		layer.showOnTerrain = ParseBoolFromInfo(showOnTerrain);
+		layer.densityMapPath = TextureUtils.GetTexturePath(densityMap);
 		layer.densityMap = TextureUtils.LoadTexture2DFromInfo(densityMap, MapLoader.DECO_LAYER_ALPHAMAP_SIZE);
 		layer = UpdateDecoLayerScale(layer, scaleMultiplier);
 		layer.staticMesh = StaticMeshUtils.LoadMeshFromInfo(staticMesh);
@@ -150,7 +151,7 @@ public class L2TerrainInfoParser
 		return layer;
 	}
 
-	private L2DecoLayer UpdateDecoLayerScale(L2DecoLayer layer, string scaleMultiplier) {
+	private static L2DecoLayer UpdateDecoLayerScale(L2DecoLayer layer, string scaleMultiplier) {
 		int equalsIndex = scaleMultiplier.IndexOf('=');
 		string valueString = scaleMultiplier.Substring(equalsIndex + 1, scaleMultiplier.Length - equalsIndex - 2);
 

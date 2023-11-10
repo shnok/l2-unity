@@ -66,7 +66,6 @@ public class MapLoader : MonoBehaviour {
     }
 
     private static void GenerateMap(List<MapGenerationData> mapsToGenerate) {
-        L2TerrainInfoParser terrainInfoParser = new L2TerrainInfoParser();
         L2StaticMeshActorImporter meshActorParser = new L2StaticMeshActorImporter();
         L2TerrainGenerator generator = new L2TerrainGenerator();
         terrainInfos = new List<L2TerrainInfo> ();
@@ -82,7 +81,7 @@ public class MapLoader : MonoBehaviour {
             if(mapsToGenerate[i].generationMode == GenerationMode.Generate) {
                 ClearGeneratedAssets(mapsToGenerate[i].mapName);
 
-                L2TerrainInfo terrainInfo = terrainInfoParser.GetL2TerrainInfo(mapsToGenerate[i].mapName);
+                L2TerrainInfo terrainInfo = L2TerrainInfoParser.GetL2TerrainInfo(mapsToGenerate[i].mapName);
                 terrainInfos.Add(terrainInfo);
 
                 L2StaticMeshActor staticMeshActor = null;

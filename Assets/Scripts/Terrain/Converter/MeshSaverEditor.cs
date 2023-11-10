@@ -23,8 +23,13 @@ public static class MeshSaverEditor {
 	public static void SaveMesh(Mesh mesh, string name, bool makeNewInstance, bool optimizeMesh) {
 		string path = EditorUtility.SaveFilePanel("Save Separate Mesh Asset", "Assets/", name, "asset");
 		if(string.IsNullOrEmpty(path)) return;
-
 		path = FileUtil.GetProjectRelativePath(path);
+
+		SaveMeshToPath(mesh, path, makeNewInstance, optimizeMesh);
+
+	} 
+
+	public static void SaveMeshToPath(Mesh mesh, string path, bool makeNewInstance, bool optimizeMesh) {
 
 		Mesh meshToSave = (makeNewInstance) ? Object.Instantiate(mesh) as Mesh : mesh;
 
@@ -33,6 +38,6 @@ public static class MeshSaverEditor {
 
 		AssetDatabase.CreateAsset(meshToSave, path);
 		AssetDatabase.SaveAssets();
-	} 
+	}
 
 }

@@ -26,9 +26,6 @@ public class SunMoonCycle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {    
-
-        Debug.Log(dayNightCycle.dayPercent);
-
         float mainLightLerp = dayNightCycle.dayRatio > 0 ? dayNightCycle.dayRatio : dayNightCycle.nightRatio;
         float sunRotation = Mathf.Lerp(0 - horizonOffsetDegree, 180 + horizonOffsetDegree, mainLightLerp);
         transform.eulerAngles = new Vector3(sunRotation, sunMoonYRot, transform.eulerAngles.z);

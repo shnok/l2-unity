@@ -7,17 +7,17 @@ public class TerrainToMesh : MonoBehaviour
 {
     public Terrain terrain;
     public GameObject dest;
-    public int meshSubdivisions = 64;
+    public int meshSubdivisions = 256;
 
     // Start is called before the first frame update
     void Start()
     {
-        BuildMeshBase();
-        ConvertTerrain();
+       // BuildMeshBase();
+       // ConvertTerrain();
        // AssetDatabase.ExportPackage("Assets/Data/Maps/17_25/TerrainData", "TerrainPackage.unitypackage");
     }
 
-    void BuildMeshBase() {
+    public void BuildMeshBase() {
         Mesh planeMesh = new Mesh();
         SetVertices(planeMesh, meshSubdivisions);
         SetTriangles(planeMesh, meshSubdivisions);
@@ -34,7 +34,7 @@ public class TerrainToMesh : MonoBehaviour
         dest.transform.position = terrain.transform.position;
     }
 
-    void SetVertices(Mesh mesh, int subdivisions) {
+    private void SetVertices(Mesh mesh, int subdivisions) {
         Vector3[] vertices = new Vector3[(subdivisions + 1) * (subdivisions + 1)];
         float step = 1f / subdivisions;
         for(int i = 0, z = 0; z <= subdivisions; z++) {
@@ -46,7 +46,7 @@ public class TerrainToMesh : MonoBehaviour
         mesh.vertices = vertices;
     }
 
-    void SetTriangles(Mesh mesh, int subdivisions) {
+    private void SetTriangles(Mesh mesh, int subdivisions) {
         int[] triangles = new int[subdivisions * subdivisions * 6];
         int vert = 0;
         int tris = 0;
@@ -66,7 +66,7 @@ public class TerrainToMesh : MonoBehaviour
         mesh.triangles = triangles;
     }
 
-    void SetUVs(Mesh mesh, int subdivisions) {
+    private void SetUVs(Mesh mesh, int subdivisions) {
         Vector2[] uvs = new Vector2[mesh.vertices.Length];
         for(int i = 0, z = 0; z <= subdivisions; z++) {
             for(int x = 0; x <= subdivisions; x++) {
@@ -78,7 +78,7 @@ public class TerrainToMesh : MonoBehaviour
     }
 
 
-    void ConvertTerrain() {
+    public void ConvertTerrain() {
         // get the bounds of the terrain
         var bounds = terrain.terrainData.bounds;
 
@@ -90,7 +90,6 @@ public class TerrainToMesh : MonoBehaviour
             var wPos = dest.transform.localToWorldMatrix * vert;
             var newVert = vert;
             newVert.y = terrain.SampleHeight(wPos);
-            Debug.Log(vert + " " + wPos + " " + newVert.z);
             newVerts.Add(newVert);
         }
         mesh.SetVertices(newVerts.ToArray());

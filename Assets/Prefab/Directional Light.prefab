@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4181994143891002370}
   - component: {fileID: 5761803617169700733}
   - component: {fileID: 4278919830997632640}
+  - component: {fileID: 6026827821703622600}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -45,7 +46,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 1, g: 0.9410377, b: 0.8820755, a: 1}
-  m_Intensity: 1.5
+  m_Intensity: 0.05
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -84,7 +85,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -131,3 +132,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skyboxMaterial: {fileID: 2100000, guid: 74e09fc0417b6f94c95b3a55ae362ec9, type: 2}
+  mainLight: {fileID: 4181994143891002370}
+  dayNightCycle: {fileID: 6026827821703622600}
+  horizonOffsetDegree: 10
+  sunMoonYRot: 45
+  sunTexture: {fileID: 2800000, guid: 87bfdbc0202b0e440b4b25a3824f15db, type: 3}
+  sunTiling: {x: 1.5, y: 1.5}
+  moonTexture: {fileID: 2800000, guid: b443728fc86061b4f8ecbe8a96c9d2ef, type: 3}
+  moonTiling: {x: 1.5, y: 1.5}
+--- !u!114 &6026827821703622600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7616108795757726014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474109ebd6107a34da7c11918a8b42a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeOfTheday: 28.352665
+  dayDurationInSec: 30
+  timeHour: 22:40:55
+  dayPercent: 0.9450888
+  dayStartRatio: 0.25
+  dayEndRatio: 0.75
+  dayRatio: 0
+  nightRatio: 0.3901776
