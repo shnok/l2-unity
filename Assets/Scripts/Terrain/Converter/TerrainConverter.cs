@@ -80,12 +80,13 @@ public class TerrainConverter : MonoBehaviour
             terrainMat.SetTextureScale("_Layer_" + i, new Vector2(terrainInfo.uvLayers[i].uScale, terrainInfo.uvLayers[i].vScale));      
         }
 
-
-        texture2DArrayGenerator.sourceTextures = alphaMaps;
-        string saveAlphamapPath = Path.Combine(saveFolder, mapToConvert + "_Alphamap.asset");
-        Texture2DArray alphamaps = texture2DArrayGenerator.GenerateTexture2DArray(saveAlphamapPath);
-
-        terrainMat.SetTexture("_SplatMaps", alphamaps);
+        if(alphaMaps.Length > 0) {
+            texture2DArrayGenerator.sourceTextures = alphaMaps;
+            string saveAlphamapPath = Path.Combine(saveFolder, mapToConvert + "_Alphamap.asset");
+            Texture2DArray alphamaps = texture2DArrayGenerator.GenerateTexture2DArray(saveAlphamapPath);
+            terrainMat.SetTexture("_SplatMaps", alphamaps);
+        }
+     
         terrainMat.SetVector("_UVSize", new Vector2(uvScale, uvScale));
 
         // Save material

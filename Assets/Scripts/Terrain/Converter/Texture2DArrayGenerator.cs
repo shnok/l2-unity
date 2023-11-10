@@ -14,7 +14,7 @@ public class Texture2DArrayGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(sourceTextures.Length == 0) {
+        if(sourceTextures == null || sourceTextures.Length == 0) {
             Debug.LogWarning("No source textures assigned.");
             return;
         }
