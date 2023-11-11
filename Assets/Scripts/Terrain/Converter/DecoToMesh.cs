@@ -9,19 +9,16 @@ public class DecoToMesh
         GameObject decoLayerBase = new GameObject("DecoLayer");
         decoLayerBase.transform.position = terrain.transform.position;
         decoLayerBase.isStatic = true;
+        Fadeout fadeout = decoLayerBase.AddComponent<Fadeout>();
+        fadeout.disableDistance = 100f;
 
         for(int i = 0; i < decoLayers.Count; i++) {
-            //Texture2D decoAlphamap = TextureUtils.FlipTextureVertically(decoLayers[i].densityMap);
             Texture2D decoAlphamap = TextureUtils.RotateTexture(decoLayers[i].densityMap);
             decoAlphamap = TextureUtils.FlipTextureVertically(decoAlphamap);
 
             string path = decoLayers[i].densityMapPath;
 
-            Debug.Log(path);
-            GameObject decoLayerSubBase = new GameObject("DecoLayer_" + i);
-            decoLayerSubBase.transform.parent = decoLayerBase.transform;
-            decoLayerSubBase.transform.position = decoLayerBase.transform.position;
-            decoLayerSubBase.isStatic = true;
+            int decoGroupSize = 25;
 
             Color32[] pixels = decoAlphamap.GetPixels32();
             for(int y = 0; y < decoAlphamap.height; y++) {
@@ -33,11 +30,17 @@ public class DecoToMesh
                         continue;
                     }
 
+                    // Calculate deco position
                     float xRatio = (x + 1f) / decoAlphamap.width;
                     float yRatio = (decoAlphamap.height - (y + 1f)) / decoAlphamap.height;
-
                     Vector3 basePosition = new Vector3(terrain.terrainData.size.x * xRatio, 0, terrain.terrainData.size.z * yRatio);
                     basePosition = basePosition + terrain.transform.position;
+
+                    // Generate grid
+                    float gridX = Mathf.Round(basePosition.x * decoGroupSize) / decoGroupSize;
+                    float gridZ = Mathf.Round(basePosition.z * decoGroupSize) / decoGroupSize;
+                    int gridIndexX = Mathf.FloorToInt((gridX - terrain.transform.position.x) / decoGroupSize);
+                    int gridIndexZ = Mathf.FloorToInt((gridZ - terrain.transform.position.z) / decoGroupSize);
 
                     // Density noise
                     float noiseDensityMultiplier = 5.25f;
@@ -64,7 +67,7 @@ public class DecoToMesh
                                 Vector2 noiseScaleCoord = new Vector2(detailPos.x, detailPos.z) * noiseScaleMultiplier;
                                 float scaleNoise = Mathf.PerlinNoise(noiseScaleCoord.x, noiseScaleCoord.y);
 
-                                float decorScaleMultiplier = 1.0f / 50f;
+                                float decorScaleMultiplier = 1.0f / 52.5f; // UE to unity ratio
                                 float scaleX = Mathf.Lerp(decoLayers[i].minWidth, decoLayers[i].maxWidth, scaleNoise);
                                 float scaleY = Mathf.Lerp(decoLayers[i].minHeight, decoLayers[i].maxHeight, scaleNoise);
                                 Vector3 decorScale = new Vector3(scaleX, scaleY, scaleX);
@@ -78,7 +81,17 @@ public class DecoToMesh
                                 dummy.transform.eulerAngles = new Vector3(dummy.transform.eulerAngles.x, rotation, dummy.transform.eulerAngles.z);
                                 dummy.transform.localScale = decorScale * decorScaleMultiplier;                             
                                 dummy.transform.position = new Vector3(detailPos.x, terrain.SampleHeight(detailPos) + detailPos.y, detailPos.z);
-                                dummy.transform.parent = decoLayerSubBase.transform;
+
+                                // Generate GRID Object if missing
+                                GameObject gridBaseObject = GameObject.Find(terrain.name + "_" + gridIndexX + "_" + gridIndexZ);
+                                if(gridBaseObject == null) {
+                                    gridBaseObject = new GameObject(terrain.name + "_" + gridIndexX + "_" + gridIndexZ);
+                                    gridBaseObject.transform.parent = decoLayerBase.transform;
+                                    gridBaseObject.transform.position = new Vector3(gridX + decoGroupSize / 2f, 0, gridZ + decoGroupSize / 2f);
+                                    gridBaseObject.isStatic = true;
+                                }
+                 
+                                dummy.transform.parent = gridBaseObject.transform;
 
                                 dummy.isStatic = true;
                             }
