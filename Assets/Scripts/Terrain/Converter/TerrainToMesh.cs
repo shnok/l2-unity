@@ -98,7 +98,7 @@ public class TerrainToMesh : MonoBehaviour
      }
 
 
-    public void ConvertTerrain() {
+    public void ConvertTerrain(bool optimize) {
         // get the bounds of the terrain
         var bounds = terrain.terrainData.bounds;
 
@@ -116,6 +116,9 @@ public class TerrainToMesh : MonoBehaviour
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
         mesh.RecalculateBounds();
-        mesh.Optimize();
+
+        if(optimize) {
+            mesh.Optimize();
+        }
     }
 }
