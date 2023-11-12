@@ -5,8 +5,6 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-
-[Obsolete("Need update", true)]
 public class MapLoader : MonoBehaviour { 
 
     public static int UV_TEXTURE_SIZE = 256;
@@ -98,34 +96,35 @@ public class MapLoader : MonoBehaviour {
 
                 terrainsDict.Add(mapsToGenerate[i].mapName, terrain);
             } else {
-                string mapFolder = Path.Combine("Assets", "Data", "Maps", mapsToGenerate[i].mapName);
-                GameObject map = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, mapsToGenerate[i].mapName + ".prefab"));
-                if(map != null) {
-                    map = GameObject.Instantiate(map);             
-                } else {
-                    Debug.LogWarning("Could not find map " + mapsToGenerate[i].mapName + " prefab.");
-                }
-                if(mapsToGenerate[i].generateStaticMeshes) {
-                    GameObject staticmeshes = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, "StaticMeshes.prefab"));
-                    if(staticmeshes != null) {
-                        staticmeshes = GameObject.Instantiate(staticmeshes);
-                        staticmeshes.transform.parent = map.transform;
-                        staticmeshes.transform.position = Vector3.zero;
-                    } else {
-                        Debug.LogWarning("Could not find staticmeshes for map " + mapsToGenerate[i].mapName + ".");
-                    } 
-                }
-                if(mapsToGenerate[i].generateBrushes) {
-                    GameObject brushes = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, "Brushes.prefab"));
-                    if(brushes != null) {
-                        brushes = GameObject.Instantiate(brushes);
-                        brushes.transform.parent = map.transform;
-                        brushes.transform.position = Vector3.zero;
-                    } else {
-                        Debug.LogWarning("Could not find brushes for map " + mapsToGenerate[i].mapName + ".");
-                    }
-                }
-            }
+                 //TODO: UPDATE TO SCENE LOAD
+                 /*string mapFolder = Path.Combine("Assets", "Data", "Maps", mapsToGenerate[i].mapName);
+                 GameObject map = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, mapsToGenerate[i].mapName + ".prefab"));
+                 if(map != null) {
+                     map = GameObject.Instantiate(map);             
+                 } else {
+                     Debug.LogWarning("Could not find map " + mapsToGenerate[i].mapName + " prefab.");
+                 }
+                 if(mapsToGenerate[i].generateStaticMeshes) {
+                     GameObject staticmeshes = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, "StaticMeshes.prefab"));
+                     if(staticmeshes != null) {
+                         staticmeshes = GameObject.Instantiate(staticmeshes);
+                         staticmeshes.transform.parent = map.transform;
+                         staticmeshes.transform.position = Vector3.zero;
+                     } else {
+                         Debug.LogWarning("Could not find staticmeshes for map " + mapsToGenerate[i].mapName + ".");
+                     } 
+                 }
+                 if(mapsToGenerate[i].generateBrushes) {
+                     GameObject brushes = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, "Brushes.prefab"));
+                     if(brushes != null) {
+                         brushes = GameObject.Instantiate(brushes);
+                         brushes.transform.parent = map.transform;
+                         brushes.transform.position = Vector3.zero;
+                     } else {
+                         Debug.LogWarning("Could not find brushes for map " + mapsToGenerate[i].mapName + ".");
+                     }
+                 }*/
+            }     
         }
 
         generator.StitchTerrainSeams(terrainsDict);
