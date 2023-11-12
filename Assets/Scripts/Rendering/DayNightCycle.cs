@@ -26,7 +26,7 @@ public class SunMoonCycle : MonoBehaviour
     public Color nightFogColor = new Color(152f / 255f, 152f / 255f, 152f / 255f);
 
     public Color mainLightDayColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
-    public Color mainLightNightColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
+    public Color mainLightNightColor = new Color(55f / 255f, 74f / 255f, 164f / 255f);
     public Color mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
     public Color mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
 
