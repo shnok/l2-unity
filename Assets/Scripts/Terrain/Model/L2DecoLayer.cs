@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class L2DecoLayer {
     public bool showOnTerrain { get; set; }
+    public string densityMapPath { get; set; }
     public Texture2D densityMap { get; set; }
     public GameObject staticMesh { get; set; }
     public float minHeight { get; set; }
