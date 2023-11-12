@@ -1,133 +1,165 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public struct WorldTimer {
-    public float dayStartTime; //0.25f
-    public float dayEndTime; //0.75f
-    public float sunriseStartTime; //-0.10f
-    public float sunriseEndTime; //0.15f
-    public float sunsetStartTime; //0.85f
-    public float sunsetEndTime; //0.99f
-}
-
-[System.Serializable]
-public struct WorldClock {
-    public float dayRatio;
-    public float nightRatio;
-    public float totalRatio;
-    public float dawnRatio;
-    public float brightRatio;
-    public float duskRatio;
-    public float darkRatio;
-}
 
 [ExecuteInEditMode]
-public class DayNightCycle : MonoBehaviour
+public class SunMoonCycle : MonoBehaviour
 {
-    public float timeOfTheday = 0;
-    public float dayDurationInSec = 30;
-    public string timeHour;
+    [SerializeField] public Material skyboxMaterial;
 
-    public WorldTimer worldTimer;
-    public WorldClock worldClock;
+    public Light mainLight;
+    public WorldClock clock;
+    public float horizonOffsetDegree = 10f;
+    public float mainLightRotY = 45f;
 
-    //public float dayStartRatio = 0.25f;
-    // public float worldTimer.dayEndTime = 0.75f;
-    // public float dayRatio;
-    // public float nightRatio;
-    // Define time when dawn end and dusk start
-    /*float sunriseStartTime = -0.10f; // night
-    float sunriseEndTime = 0.15f; // day
-    float sunsetStartTime = 0.85f; // day
-    float sunsetEndTime = 0.99f; // day*/
+    public Texture2D sunTexture;
+    public Vector2 sunTiling = new Vector2(1.5f, 1.5f);
+    public Texture2D moonTexture;
+    public Vector2 moonTiling = new Vector2(2.5f, 2.5f);
 
+    public Color dayColor = new Color(19f / 255f, 114f / 255f, 166f / 255f); // peak at sunriseEndTime
+    public Color dawnColor = new Color(19f / 255f, 35f / 255f, 55f / 255f); // peak at sunriseStartTime  
+    public Color duskColor = new Color(180f / 255f, 152f / 255f, 135f / 255f); // peak at sunsetStartTime
+    public Color nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
+    public Color dayFogColor = new Color(240f / 255f, 240f / 255f, 240f / 255f);
+    public Color nightFogColor = new Color(152f / 255f, 152f / 255f, 152f / 255f);
 
+    public float dayCloudsOpcacity = 2.54f;
+    public float nightCloudsOpacity = 0.12f;
+    public float dayHorizonCloudsOpcacity = 1f;
+    public float nightHorizonCloudsOpacity = 0.05f;
+
+    public float ambientMinIntensity = 0f;
+    public float ambientMaxIntensity = 1f;
+
+    public float mainLightMinIntensity = 0.05f;
+    public float mainLightMaxIntensity = 1.5f;
+
+    void Awake() {
+        clock = GetComponent<WorldClock>();
+        mainLight = GetComponent<Light>();
+    }
+
+    // Update is called once per frame
     void Update()
-    {
-        UpdateClock();
-        CalculateDayNightRatio();
-        CalculateSunPhaseRatio();
+    {    
+        float mainLightLerpValue = clock.worldClock.dayRatio > 0 ? clock.worldClock.dayRatio : clock.worldClock.nightRatio;
+        float sunRotation = Mathf.Lerp(0 - horizonOffsetDegree, 180 + horizonOffsetDegree, mainLightLerpValue);
+        transform.eulerAngles = new Vector3(sunRotation, mainLightRotY, 0);
+
+        // Update main light rotation with sky material
+        ShareMainLightRotation();
+
+        // Lerping lights
+        UpdateLightIntensity();
+
+        // Lerping sky color
+        UpdateSkyColor();
+
+        // Lerping fog color
+        UpdateFogColor();
+
+        // Lerping cloud opacity
+        UpdateCloudsOpacity();
+
+        // Update main light texture
+        UpdateMainLightTexture();
     }
 
-    private void UpdateClock() {
-        timeOfTheday += Time.deltaTime;
-        if(timeOfTheday >= dayDurationInSec) {
-            timeOfTheday = 0;
+    private void UpdateSkyColor() {
+        Color skyColor = skyboxMaterial.GetColor("_GradientColor1");
+        if(clock.worldClock.dawnRatio > 0 && clock.worldClock.dawnRatio < 1) {
+            skyColor = Color.Lerp(nightColor, dawnColor, clock.worldClock.dawnRatio);
+        }
+        if(clock.worldClock.brightRatio > 0) {
+            if(clock.worldClock.brightRatio < 0.2f) {
+                skyColor = Color.Lerp(dawnColor, dayColor, clock.worldClock.brightRatio / 0.2f);
+            } else if(clock.worldClock.brightRatio < 1f) {
+                skyColor = dayColor;
+            }
+        }
+        if(clock.worldClock.darkRatio > 0) {
+            if(clock.worldClock.darkRatio < 0.1f) {
+                skyColor = Color.Lerp(duskColor, nightColor, clock.worldClock.darkRatio / 0.1f);
+            } else if(clock.worldClock.darkRatio < 1f) {
+                skyColor = nightColor;
+            }
+        }
+        if(clock.worldClock.duskRatio > 0 && clock.worldClock.duskRatio < 1) {
+            skyColor = Color.Lerp(dayColor, duskColor, clock.worldClock.duskRatio);
         }
 
-
-        worldClock.totalRatio = timeOfTheday / dayDurationInSec;
-
-        // Calculate the number of seconds based on the percentage
-        int seconds = (int)(worldClock.totalRatio * 86400);
-
-        // Convert seconds to hours, minutes, and seconds
-        int hours = seconds / 3600;
-        int minutes = (seconds % 3600) / 60;
-        int remainingSeconds = seconds % 60;
-
-        // Create a TimeSpan object with the calculated hours, minutes, and seconds
-        TimeSpan time = new TimeSpan(hours, minutes, remainingSeconds);
-
-        // Format the TimeSpan object as a string in the desired format (HH:mm:ss)
-        timeHour = time.ToString(@"hh\:mm\:ss");
+        skyboxMaterial.SetColor("_GradientColor1", skyColor);
     }
 
-    private void CalculateDayNightRatio() {
-        if(worldClock.totalRatio >= worldTimer.dayStartTime && worldClock.totalRatio < worldTimer.dayEndTime) {
-            worldClock.nightRatio = 0;
-            worldClock.dayRatio = (worldClock.totalRatio - worldTimer.dayStartTime) / (worldTimer.dayEndTime - worldTimer.dayStartTime);
+    private void UpdateFogColor() {
+        Color fogColor = RenderSettings.fogColor;
+        if(clock.worldClock.dawnRatio > 0 && clock.worldClock.dawnRatio < 1) {
+            fogColor = Color.Lerp(fogColor, dayFogColor, clock.worldClock.dawnRatio);
+        }
+        if(clock.worldClock.brightRatio > 0 && clock.worldClock.brightRatio < 1) {
+            fogColor = dayFogColor;
+        }
+        if(clock.worldClock.duskRatio > 0 && clock.worldClock.duskRatio < 1) {
+            fogColor = Color.Lerp(dayFogColor, nightFogColor, clock.worldClock.duskRatio);
+        }
+        if(clock.worldClock.darkRatio > 0 && clock.worldClock.darkRatio < 1) {
+            fogColor = nightFogColor;
+        }
+        RenderSettings.fogColor = fogColor;
+    }
+
+    private void UpdateLightIntensity() {
+        // Ambient light intensity
+        RenderSettings.ambientIntensity = AdjustIntensity(ambientMinIntensity, ambientMaxIntensity, clock.worldClock.dawnRatio, clock.worldClock.duskRatio); ;
+
+        // Main light intensity
+        mainLight.intensity = AdjustIntensity(mainLightMinIntensity, mainLightMaxIntensity, clock.worldClock.dawnRatio, clock.worldClock.duskRatio);
+    }
+
+
+    private float AdjustIntensity(float minIntensity, float fullIntensity, float dawnRatio, float duskRatio) {
+        if(duskRatio > 0) {
+            return Mathf.Lerp(fullIntensity, minIntensity, duskRatio);
         } else {
-            worldClock.dayRatio = 0;
-            if(worldClock.totalRatio >= worldTimer.dayEndTime) {
-                worldClock.nightRatio = (worldClock.totalRatio - worldTimer.dayEndTime) / (1.0f - worldTimer.dayEndTime + worldTimer.dayStartTime);
-            } else {
-                worldClock.nightRatio = (worldClock.totalRatio + (1.0f - worldTimer.dayEndTime)) / (1.0f - worldTimer.dayEndTime + worldTimer.dayStartTime);
-            }
+            return Mathf.Lerp(minIntensity, fullIntensity, dawnRatio);
         }
     }
 
-    private void CalculateSunPhaseRatio() {
-        worldClock.dawnRatio = CalculatePeriodRatio(worldTimer.sunriseStartTime, worldTimer.sunriseEndTime);
-        worldClock.brightRatio = CalculatePeriodRatio(worldTimer.sunriseEndTime, worldTimer.sunsetStartTime);
-        worldClock.duskRatio = CalculatePeriodRatio(worldTimer.sunsetStartTime, worldTimer.sunsetEndTime);
-        worldClock.darkRatio = CalculatePeriodRatio(-.99f, worldTimer.sunriseStartTime);
+    private void UpdateCloudsOpacity() {
+        if(clock.worldClock.dawnRatio > 0 && clock.worldClock.dawnRatio < 1) {
+            skyboxMaterial.SetFloat("_Clouds_Opacity", Mathf.Lerp(nightCloudsOpacity, dayCloudsOpcacity, clock.worldClock.dawnRatio));
+            skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", Mathf.Lerp(nightHorizonCloudsOpacity, dayHorizonCloudsOpcacity, clock.worldClock.dawnRatio));
+        }
+        if(clock.worldClock.brightRatio > 0 && clock.worldClock.brightRatio < 1) {
+            skyboxMaterial.SetFloat("_Clouds_Opacity", dayCloudsOpcacity);
+            skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", dayHorizonCloudsOpcacity);
+        }
+        if(clock.worldClock.duskRatio > 0 && clock.worldClock.duskRatio < 1) {
+            skyboxMaterial.SetFloat("_Clouds_Opacity", Mathf.Lerp(dayCloudsOpcacity, nightCloudsOpacity, clock.worldClock.duskRatio));
+            skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", Mathf.Lerp(dayHorizonCloudsOpcacity, nightHorizonCloudsOpacity, clock.worldClock.duskRatio));
+        }
+        if(clock.worldClock.darkRatio > 0 && clock.worldClock.darkRatio < 1) {
+            skyboxMaterial.SetFloat("_Clouds_Opacity", nightCloudsOpacity);
+            skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", nightHorizonCloudsOpacity);
+        }
     }
 
-    private float CalculatePeriodRatio(float startRatio, float endRatio) {
-        float periodDuration = (startRatio < 0) ? (Mathf.Abs(startRatio) + endRatio) : (endRatio - startRatio);
-
-        float ratio = 0;
-        if(worldClock.dayRatio >= 0 && worldClock.nightRatio == 0) {
-            // Day
-            if(worldClock.dayRatio <= endRatio) {
-                // In Range        
-                if(startRatio < 0) {
-                    ratio += Mathf.Abs(startRatio);
-                    ratio += worldClock.dayRatio;
-                } else if(worldClock.dayRatio >= startRatio) {
-                    ratio -= startRatio;
-                    ratio += worldClock.dayRatio;
-                } else {
-                    ratio = 0;
-                }
-
-                ratio = Mathf.Clamp(ratio / periodDuration, 0, 1);
-            } else {
-                ratio = 1;
-            }
+    private void UpdateMainLightTexture() {
+        // Update texture 
+        if(clock.worldClock.dayRatio > 0) {
+            skyboxMaterial.SetTexture("_SunMoon", sunTexture);
+            skyboxMaterial.SetTextureScale("_SunMoon", sunTiling);
         } else {
-            // Night
-            if(startRatio < 0 && worldClock.nightRatio > (1 + startRatio)) {
-                ratio += Mathf.Clamp((worldClock.nightRatio - (1 + startRatio)) / periodDuration, 0, 1);
-            } else {
-                ratio = 0;
-            }
+            skyboxMaterial.SetTexture("_SunMoon", moonTexture);
+            skyboxMaterial.SetTextureScale("_SunMoon", moonTiling);
         }
+    }
 
-        return ratio;
+    private void ShareMainLightRotation() {
+        skyboxMaterial.SetVector("_MainLightForward", transform.forward);
+        skyboxMaterial.SetVector("_MainLightUp", transform.up);
+        skyboxMaterial.SetVector("_MainLightRight", transform.right);
     }
 }

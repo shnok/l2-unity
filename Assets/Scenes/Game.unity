@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.9411765, g: 0.9411765, b: 0.9411765, a: 1}
+  m_FogColor: {r: 0.59607846, g: 0.59607846, b: 0.59607846, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.03
   m_LinearFogStart: 203.9
@@ -477,6 +477,10 @@ PrefabInstance:
       value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: clock
+      value: 
+      objectReference: {fileID: 1678428047}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: ratio
       value: 1
       objectReference: {fileID: 0}
@@ -497,9 +501,21 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: mainLight
+      value: 
+      objectReference: {fileID: 1678428046}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: nightRatio
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: sunTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 87bfdbc0202b0e440b4b25a3824f15db, type: 3}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: moonTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: b443728fc86061b4f8ecbe8a96c9d2ef, type: 3}
     - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: sunMoonYRot
       value: 45
@@ -512,17 +528,41 @@ PrefabInstance:
       propertyPath: moonTiling.y
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: nightColor.a
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: nightColor.b
+      value: -0.007843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: nightColor.g
+      value: -0.003921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: nightColor.r
+      value: -0.003921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: skyboxMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 74e09fc0417b6f94c95b3a55ae362ec9, type: 2}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: horizonOffsetDegree
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: dayRatio
       value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: timeHour
-      value: 01:59:29
+      value: 18:20:08
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: dayPercent
@@ -534,15 +574,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: timeOfTheday
-      value: 49.786976
+      value: 75.7
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: dayDurationInSec
-      value: 600
+      value: 98.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: worldClock.dayRatio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: worldClock.darkRatio
+      value: 0.018155936
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: worldClock.dawnRatio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: worldClock.duskRatio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: worldClock.nightRatio
+      value: 0.027974367
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: worldClock.totalRatio
+      value: 0.7639872
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: worldTimer.dayEndTime
       value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: worldClock.brightRatio
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: worldTimer.dayStartTime
@@ -562,7 +630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: worldTimer.sunriseStartTime
-      value: -0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7616108795757726014, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Name
@@ -582,19 +650,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9203639
+      value: 0.72066635
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0805214
+      value: 0.5780946
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.38122723
+      value: 0.2985098
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.03335306
+      value: -0.23945464
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -618,6 +686,17 @@ Light:
   m_CorrespondingSourceObject: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
   m_PrefabInstance: {fileID: 1678428045}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1678428047 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+  m_PrefabInstance: {fileID: 1678428045}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474109ebd6107a34da7c11918a8b42a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1979173058
 GameObject:
   m_ObjectHideFlags: 1
