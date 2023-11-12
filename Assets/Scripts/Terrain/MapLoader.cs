@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+
+[Obsolete("Need update", true)]
 public class MapLoader : MonoBehaviour { 
 
     public static int UV_TEXTURE_SIZE = 256;
