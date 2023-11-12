@@ -30,8 +30,9 @@ public class Texture2DArrayGenerator : MonoBehaviour
         // Assign each texture to the Texture2DArray layers
         if(generateMipmaps) {
             for(int i = 0; i < sourceTextures.Length; i++) {
+                Texture2D newTex = Resize(sourceTextures[i], width, height);
                 for(int mip = 0; mip < sourceTextures[i].mipmapCount; mip++) {
-                    Graphics.CopyTexture(sourceTextures[i], 0, mip, textureArray, i, mip);
+                    Graphics.CopyTexture(newTex, 0, mip, textureArray, i, mip);
                 }
 
             }
