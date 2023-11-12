@@ -27,9 +27,10 @@ public struct Clock {
 [ExecuteInEditMode]
 public class WorldClock : MonoBehaviour
 {
-    public float timeOfTheday = 0;
     public float dayDurationInSec = 30;
     public string timeHour;
+    public float timeElapsed = 0;
+    public bool startClock;
 
     public WorldTimer worldTimer;
     public Clock worldClock;
@@ -47,19 +48,21 @@ public class WorldClock : MonoBehaviour
 
     void Update()
     {
-        UpdateClock();
+        if(startClock) {
+            UpdateClock();
+        }
+
         CalculateDayNightRatio();
         CalculateSunPhaseRatio();
     }
 
     private void UpdateClock() {
-        timeOfTheday += Time.deltaTime;
-        if(timeOfTheday >= dayDurationInSec) {
-            timeOfTheday = 0;
+        timeElapsed += Time.deltaTime;
+        if(timeElapsed >= dayDurationInSec) {
+            timeElapsed = 0;
         }
 
-
-        worldClock.totalRatio = timeOfTheday / dayDurationInSec;
+        worldClock.totalRatio = timeElapsed / dayDurationInSec;
 
         // Calculate the number of seconds based on the percentage
         int seconds = (int)(worldClock.totalRatio * 86400);

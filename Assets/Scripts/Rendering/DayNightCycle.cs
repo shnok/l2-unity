@@ -25,6 +25,11 @@ public class SunMoonCycle : MonoBehaviour
     public Color dayFogColor = new Color(240f / 255f, 240f / 255f, 240f / 255f);
     public Color nightFogColor = new Color(152f / 255f, 152f / 255f, 152f / 255f);
 
+    public Color mainLightDayColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
+    public Color mainLightNightColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
+    public Color mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
+    public Color mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
+
     public float dayCloudsOpcacity = 2.54f;
     public float nightCloudsOpacity = 0.12f;
     public float dayHorizonCloudsOpcacity = 1f;
@@ -65,6 +70,8 @@ public class SunMoonCycle : MonoBehaviour
 
         // Update main light texture
         UpdateMainLightTexture();
+
+        UpdateLightColor();
     }
 
     private void UpdateSkyColor() {
@@ -91,6 +98,31 @@ public class SunMoonCycle : MonoBehaviour
         }
 
         skyboxMaterial.SetColor("_GradientColor1", skyColor);
+    }
+
+    private void UpdateLightColor() {
+        Color lightColor = mainLight.color;
+        if(clock.worldClock.dawnRatio > 0 && clock.worldClock.dawnRatio < 1) {
+            lightColor = Color.Lerp(mainLightNightColor, mainLightDawnColor, clock.worldClock.dawnRatio);
+        }
+        if(clock.worldClock.brightRatio > 0) {
+            if(clock.worldClock.brightRatio < 0.2f) {
+                lightColor = Color.Lerp(mainLightDawnColor, mainLightDayColor, clock.worldClock.brightRatio / 0.2f);
+            } else if(clock.worldClock.brightRatio < 1f) {
+                lightColor = mainLightDayColor;
+            }
+        }
+        if(clock.worldClock.darkRatio > 0) {
+            if(clock.worldClock.darkRatio < 0.1f) {
+                lightColor = Color.Lerp(mainLightduskColor, mainLightNightColor, clock.worldClock.darkRatio / 0.1f);
+            } else if(clock.worldClock.darkRatio < 1f) {
+                lightColor = mainLightNightColor;
+            }
+        }
+        if(clock.worldClock.duskRatio > 0 && clock.worldClock.duskRatio < 1) {
+            lightColor = Color.Lerp(mainLightDayColor, mainLightduskColor, clock.worldClock.duskRatio);
+        }
+        mainLight.color = lightColor;
     }
 
     private void UpdateFogColor() {
