@@ -23,10 +23,10 @@ public class SunMoonCycle : MonoBehaviour
     public Color duskColor = new Color(180f / 255f, 152f / 255f, 135f / 255f); // peak at sunsetStartTime
     public Color nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
     public Color dayFogColor = new Color(240f / 255f, 240f / 255f, 240f / 255f);
-    public Color nightFogColor = new Color(152f / 255f, 152f / 255f, 152f / 255f);
+    public Color nightFogColor = new Color(60f / 255f, 60f / 255f, 60f / 255f);
 
     public Color mainLightDayColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
-    public Color mainLightNightColor = new Color(55f / 255f, 74f / 255f, 164f / 255f);
+    public Color mainLightNightColor = new Color(101f / 255f, 110f / 255f, 152f / 255f);
     public Color mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
     public Color mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
 
@@ -35,10 +35,10 @@ public class SunMoonCycle : MonoBehaviour
     public float dayHorizonCloudsOpcacity = 1f;
     public float nightHorizonCloudsOpacity = 0.05f;
 
-    public float ambientMinIntensity = 0f;
+    public float ambientMinIntensity = 0.1f;
     public float ambientMaxIntensity = 1f;
 
-    public float mainLightMinIntensity = 0.05f;
+    public float mainLightMinIntensity = 0.25f;
     public float mainLightMaxIntensity = 1.5f;
 
     void Awake() {
