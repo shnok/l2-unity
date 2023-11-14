@@ -32,7 +32,7 @@ public class L2MaterialBuilder {
     }
 
     static void ClearMaterials() {
-        string[] materialGUIDs = AssetDatabase.FindAssets("t:Material", new string[] { "Assets/Data/Textures" });
+        string[] materialGUIDs = AssetDatabase.FindAssets("t:Material", new string[] { "Assets/Data/Textures", "Assets/Data/SysTextures" });
         for(int i = 0; i < materialGUIDs.Length; i++) {
             string materialPath = AssetDatabase.GUIDToAssetPath(materialGUIDs[i]);
             AssetDatabase.DeleteAsset(materialPath);
@@ -40,7 +40,7 @@ public class L2MaterialBuilder {
     }
 
     static void CreateBaseMaterials(bool overwrite) {
-        string[] textureGUIDs = AssetDatabase.FindAssets("t:Texture2D", new string[] { "Assets/Data/Textures" });
+        string[] textureGUIDs = AssetDatabase.FindAssets("t:Texture2D", new string[] { "Assets/Data/Textures", "Assets/Data/SysTextures" });
         for(int i = 0; i < textureGUIDs.Length; i++) {
             string texturePath = AssetDatabase.GUIDToAssetPath(textureGUIDs[i]);
             string materialDirectory = Path.Combine(Path.GetDirectoryName(texturePath), "Materials");
@@ -73,7 +73,7 @@ public class L2MaterialBuilder {
     }
 
     static void ProcessProps(bool overwrite) {
-        string[] propsTxtGUIDs = AssetDatabase.FindAssets("t:TextAsset", new string[] { "Assets/Data/Textures" });
+        string[] propsTxtGUIDs = AssetDatabase.FindAssets("t:TextAsset", new string[] { "Assets/Data/Textures", "Assets/Data/SysTextures" });
         //Debug.Log("Found " + propsTxtGUIDs.Length + " props.");
 
         for(int i = 0; i < propsTxtGUIDs.Length; i++) {
