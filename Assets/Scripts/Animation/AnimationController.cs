@@ -58,7 +58,34 @@ public class AnimationController : MonoBehaviour {
             SetBool("Moving", false);
         }
 
-        if(!InputManager.GetInstance().IsInputPressed(InputType.InputAxis) && (IsCurrentState("Run") || IsAnimationFinished(0))) {
+        if(InputManager.GetInstance().IsInputPressed(InputType.Sit) && (IsCurrentState("Run") || IsCurrentState("Idle"))) {
+            pc.canMove = false;
+            SetBool("Sit", true);
+        } else {
+            SetBool("Sit", false);
+        }
+
+        if(IsCurrentState("SitTransition") && IsAnimationFinished(0)) {
+            SetBool("SitWait", true);
+        }
+
+        if((InputManager.GetInstance().IsInputPressed(InputType.Sit) || InputManager.GetInstance().IsInputPressed(InputType.InputAxis)) 
+            && (IsCurrentState("SitWait"))) {
+            SetBool("Stand", true);
+            SetBool("SitWait", false);
+        } else {
+            SetBool("Stand", false);
+        }
+
+        if(IsCurrentState("Stand") && IsAnimationFinished(0)) {
+            pc.canMove = true;
+        }
+
+        if(!InputManager.GetInstance().IsInputPressed(InputType.InputAxis) 
+            && (IsCurrentState("Run") || IsAnimationFinished(0)) 
+            && !IsCurrentState("SitTransition") 
+            && !IsCurrentState("Sit")
+            && !IsCurrentState("SitWait")) {
             SetBool("Idle", true);
         } else {
             SetBool("Idle", false);
@@ -66,7 +93,7 @@ public class AnimationController : MonoBehaviour {
     }
 
     private bool IsAnimationFinished(int layer) {
-        return animator.GetCurrentAnimatorStateInfo(layer).normalizedTime > 0.9f;
+        return animator.GetCurrentAnimatorStateInfo(layer).normalizedTime > 0.95f;
     }
 
     private bool IsCurrentState(string state) {

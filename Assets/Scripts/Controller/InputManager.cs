@@ -54,6 +54,8 @@ public class InputManager : MonoBehaviour {
         inputAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         UpdateInput(InputType.InputAxis, inputAxis.x != 0 || inputAxis.y != 0);
         UpdateInput(InputType.Jump, Input.GetKeyDown(KeyCode.Space));
+
+        UpdateInput(InputType.Sit, Input.GetKeyDown(KeyCode.E));
     }
 
     public bool IsInputPressed(InputType type) {
