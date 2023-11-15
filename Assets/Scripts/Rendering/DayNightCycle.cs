@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 [ExecuteInEditMode]
-public class SunMoonCycle : MonoBehaviour
-{
+public class SunMoonCycle : MonoBehaviour {
     [SerializeField] public Material skyboxMaterial;
 
     public Light mainLight;
@@ -47,8 +44,7 @@ public class SunMoonCycle : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {    
+    void Update() {
         float mainLightLerpValue = clock.worldClock.dayRatio > 0 ? clock.worldClock.dayRatio : clock.worldClock.nightRatio;
         float sunRotation = Mathf.Lerp(0 - horizonOffsetDegree, 180 + horizonOffsetDegree, mainLightLerpValue);
         transform.eulerAngles = new Vector3(sunRotation, mainLightRotY, 0);

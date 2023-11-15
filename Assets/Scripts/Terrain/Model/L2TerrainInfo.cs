@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class L2TerrainInfo
-{
+public class L2TerrainInfo {
     public string mapName { get; set; }
     public int generatedSectorCounter { get; set; }
     public string terrainMapPath { get; set; }

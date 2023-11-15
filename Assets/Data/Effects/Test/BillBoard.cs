@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BillBoard : MonoBehaviour
-{
+public class BillBoard : MonoBehaviour {
     [SerializeField] private BillboardType billboardType;
 
     public enum BillboardType { LookAtCamera, CameraForward };
@@ -11,7 +8,7 @@ public class BillBoard : MonoBehaviour
     private void LateUpdate() {
         switch(billboardType) {
             case BillboardType.LookAtCamera:
-                    transform.LookAt(Camera.main.transform.position, Vector3.forward);
+                transform.LookAt(Camera.main.transform.position, Vector3.forward);
                 break;
             case BillboardType.CameraForward:
                 transform.forward = Camera.main.transform.forward;

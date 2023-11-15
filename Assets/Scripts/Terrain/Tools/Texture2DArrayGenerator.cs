@@ -1,19 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class Texture2DArrayGenerator : MonoBehaviour
-{
+public class Texture2DArrayGenerator : MonoBehaviour {
     public Texture2D[] sourceTextures; // Assign your source textures in the Inspector
 
     public bool generateMipmaps = false;
     public TextureFormat format = TextureFormat.RGBA32;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         if(sourceTextures == null || sourceTextures.Length == 0) {
             Debug.LogWarning("No source textures assigned.");
             return;

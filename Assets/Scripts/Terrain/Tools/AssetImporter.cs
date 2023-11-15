@@ -1,15 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public abstract class AssetImporter
-{
+public abstract class AssetImporter {
     protected static void ImportFiles(string inputFolder, List<string> files, bool overwrite) {
         foreach(var filePath in files) {
             string path = filePath;
-            if(!File.Exists(path)) {             
+            if(!File.Exists(path)) {
                 string pathRectified = path.Replace(inputFolder, String.Empty);
                 string[] split = pathRectified.Split("\\");
                 path = Path.Combine(inputFolder, split[1], "Texture", split[2]);
@@ -17,7 +15,7 @@ public abstract class AssetImporter
                 if(!File.Exists(path)) {
                     Debug.LogError("File " + path + " doesn't exist.");
                     continue;
-                }               
+                }
             }
 
             string relativePath = Path.GetRelativePath(inputFolder, path.Replace("\\Texture", string.Empty));

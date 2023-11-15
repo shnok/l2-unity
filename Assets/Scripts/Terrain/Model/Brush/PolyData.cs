@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PolyData
-{
+public class PolyData {
     public int polyIndex;
     public string texture;
     public string[] polyFlags;

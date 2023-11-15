@@ -1,15 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SkinnedMeshSync : MonoBehaviour
-{
+public class SkinnedMeshSync : MonoBehaviour {
     [SerializeField] private SkinnedMeshRenderer rootSkinnedRenderer;
     [SerializeField] private SkinnedMeshRenderer[] destSkinnedRenderer;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         destSkinnedRenderer = new SkinnedMeshRenderer[transform.parent.childCount - 1];
         for(int i = 0; i < transform.parent.childCount; i++) {
             Transform child = transform.parent.GetChild(i);

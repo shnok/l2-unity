@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterReflection : MonoBehaviour
-{
+public class WaterReflection : MonoBehaviour {
     // referenses
     Camera mainCamera;
     Camera reflectionCamera;
@@ -22,8 +19,7 @@ public class WaterReflection : MonoBehaviour
     private Transform mainCamTransform;
     private Transform reflectionCamTransform;
 
-    public void Awake()
-    {
+    public void Awake() {
         mainCamera = Camera.main;
 
         reflectionCamera = GetComponent<Camera>();
@@ -31,14 +27,12 @@ public class WaterReflection : MonoBehaviour
         Validate();
     }
 
-    private void Update()
-    {
-        if (isReady)
+    private void Update() {
+        if(isReady)
             RenderReflection();
     }
 
-    private void RenderReflection()
-    {
+    private void RenderReflection() {
         // take main camera directions and position world space
         Vector3 cameraDirectionWorldSpace = mainCamTransform.forward;
         Vector3 cameraUpWorldSpace = mainCamTransform.up;
@@ -66,26 +60,20 @@ public class WaterReflection : MonoBehaviour
         reflectionCamTransform.LookAt(cameraPositionWorldSpace + cameraDirectionWorldSpace, cameraUpWorldSpace);
     }
 
-    private void Validate()
-    {
-        if (mainCamera != null)
-        {
+    private void Validate() {
+        if(mainCamera != null) {
             mainCamTransform = mainCamera.transform;
             isReady = true;
-        }
-        else
+        } else
             isReady = false;
 
-        if (reflectionCamera != null)
-        {
+        if(reflectionCamera != null) {
             reflectionCamTransform = reflectionCamera.transform;
             isReady = true;
-        }
-        else
+        } else
             isReady = false;
 
-        if (isReady && copyCameraParamerers)
-        {
+        if(isReady && copyCameraParamerers) {
             copyCameraParamerers = !copyCameraParamerers;
             reflectionCamera.CopyFrom(mainCamera);
 

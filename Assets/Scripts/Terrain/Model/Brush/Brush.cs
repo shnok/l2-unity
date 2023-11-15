@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Brush
-{
+public class Brush {
     public string name;
     public string csgOper;
     public string group;

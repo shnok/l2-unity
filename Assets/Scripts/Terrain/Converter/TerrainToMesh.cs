@@ -1,20 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class TerrainToMesh : MonoBehaviour
-{
+public class TerrainToMesh : MonoBehaviour {
     public Terrain terrain;
     public GameObject dest;
     public int meshSubdivisions = 255;
 
     // Start is called before the first frame update
-    void Start()
-    {
-       // BuildMeshBase();
-       // ConvertTerrain();
-       // AssetDatabase.ExportPackage("Assets/Data/Maps/17_25/TerrainData", "TerrainPackage.unitypackage");
+    void Start() {
+        // BuildMeshBase();
+        // ConvertTerrain();
+        // AssetDatabase.ExportPackage("Assets/Data/Maps/17_25/TerrainData", "TerrainPackage.unitypackage");
     }
 
     public void BuildMeshBase() {
@@ -87,15 +83,15 @@ public class TerrainToMesh : MonoBehaviour
     }
 
     private void SetUVs(Mesh mesh, int subdivisions) {
-          Vector2[] uvs = new Vector2[mesh.vertices.Length];
-          for(int i = 0, z = 0; z <= subdivisions; z++) {
-              for(int x = 0; x <= subdivisions; x++) {
-                  uvs[i] = new Vector2((float)x / subdivisions, (float)z / subdivisions);
-                  i++;
-              }
-          }
-          mesh.uv = uvs;
-     }
+        Vector2[] uvs = new Vector2[mesh.vertices.Length];
+        for(int i = 0, z = 0; z <= subdivisions; z++) {
+            for(int x = 0; x <= subdivisions; x++) {
+                uvs[i] = new Vector2((float)x / subdivisions, (float)z / subdivisions);
+                i++;
+            }
+        }
+        mesh.uv = uvs;
+    }
 
 
     public void ConvertTerrain(bool optimize) {

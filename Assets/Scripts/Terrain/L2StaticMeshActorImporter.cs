@@ -1,12 +1,8 @@
 using Newtonsoft.Json;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class L2StaticMeshActorImporter
-{
+public class L2StaticMeshActorImporter {
     public L2StaticMeshActor GetL2StaticMeshActor(string mapName) {
         string jsonPath = StaticMeshUtils.GetJsonPath(mapName);
         if(!File.Exists(jsonPath)) {

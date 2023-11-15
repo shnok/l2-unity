@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -122,7 +120,7 @@ public class L2MaterialBuilder {
                     }
                 }
             }
-          
+
             string materialPath = Path.Combine(Path.GetDirectoryName(propsPath), Path.GetFileNameWithoutExtension(propsPath).Replace(".props", string.Empty) + ".mat");
 
             if(!overwrite && File.Exists(materialPath)) {

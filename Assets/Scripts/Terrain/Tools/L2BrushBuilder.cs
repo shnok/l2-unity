@@ -1,12 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
-public class L2BrushBuilder
-{
+public class L2BrushBuilder {
     [MenuItem("Shnok/[Brush] Build")]
     static void ImportBrushTextures() {
         string title = "Select Brush list";
@@ -21,8 +19,7 @@ public class L2BrushBuilder
         }
     }
 
-    static void Build(string path)
-    {
+    static void Build(string path) {
         GameObject.DestroyImmediate(GameObject.Find("Brushes"));
         Brush[] brushes = L2BrushImporter.ParseBrushFile(path);
 
@@ -40,7 +37,7 @@ public class L2BrushBuilder
             if(polyFlags.Contains("PF_NotSolid")) {
                 continue;
             }
-            
+
             GameObject brush = new GameObject(b.name);
             brush.transform.parent = brushContainer.transform;
             brush.transform.position = VectorUtils.convertToUnity(b.position) - VectorUtils.convertToUnity(b.prePivot);
@@ -56,16 +53,16 @@ public class L2BrushBuilder
                 for(int p = 0; p < polyData.vertices.Length; p++) {
                     polyData.vertices[p] = VectorUtils.convertToUnity(polyData.vertices[p]);
                 }
-  
+
                 List<string> pPolyFlags = new List<string>(polyData.polyFlags);
 
                 // Skip invisible faces
-                if (pPolyFlags.Contains("PF_Unlit") || pPolyFlags.Contains("PF_Invisible") || pPolyFlags.Contains("PF_NotSolid")) {
+                if(pPolyFlags.Contains("PF_Unlit") || pPolyFlags.Contains("PF_Invisible") || pPolyFlags.Contains("PF_NotSolid")) {
                     continue;
                 }
                 // Only draw bottom face
                 if(b.csgOper == "CSG_Subtract" && i < poly.polyData.Length - 1) {
-                   // continue;
+                    // continue;
                 }
 
                 //GameObject mesh = createMesh(b.csgOper, polyData);
@@ -81,7 +78,7 @@ public class L2BrushBuilder
     static GameObject createProbuilderMesh(string csgOper, PolyData polyData, int index) {
 
         Material material = GetMaterialForTexture(polyData.texture);
-  
+
         Vector3 adjustedNormal = VectorUtils.convertToUnityUnscaled(polyData.normal);
         Vector3 adjustedU = VectorUtils.convertToUnityUnscaled(polyData.textureU);
         Vector3 adjustedV = VectorUtils.convertToUnityUnscaled(polyData.textureV);
@@ -108,12 +105,12 @@ public class L2BrushBuilder
         Face face = new Face(GenerateTris(csgOper, polyData));
 
         AutoUnwrapSettings aus = new AutoUnwrapSettings {
-             anchor = AutoUnwrapSettings.Anchor.UpperLeft,
-             scale = Vector2.one,
-             offset = Vector2.zero,
-             rotation = 0,
-             fill = AutoUnwrapSettings.Fill.Tile,
-             useWorldSpace = false
+            anchor = AutoUnwrapSettings.Anchor.UpperLeft,
+            scale = Vector2.one,
+            offset = Vector2.zero,
+            rotation = 0,
+            fill = AutoUnwrapSettings.Fill.Tile,
+            useWorldSpace = false
         };
         face.uv = aus;
         face.manualUV = true;
@@ -141,7 +138,7 @@ public class L2BrushBuilder
         Material[] sharedMaterials = pbm.GetComponent<Renderer>().sharedMaterials;
         sharedMaterials[0] = material;
         pbm.GetComponent<Renderer>().sharedMaterials = sharedMaterials;
-        
+
         pbm.ToMesh();
         pbm.Refresh();
         pbm.RebuildWithPositionsAndFaces(polyData.vertices, faces);

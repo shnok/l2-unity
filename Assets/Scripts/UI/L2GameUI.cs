@@ -1,12 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using static NativeFunctions;
 
-public class L2GameUI : MonoBehaviour
-{
+public class L2GameUI : MonoBehaviour {
     public bool mouseEnabled = true;
     public NativeCoords lastMousePosition;
     public static L2GameUI _instance;
@@ -20,6 +15,14 @@ public class L2GameUI : MonoBehaviour
             _instance = this;
         } else {
             Object.Destroy(gameObject);
+        }
+    }
+
+    public void Update() {
+        if(InputManager.GetInstance().IsInputPressed(InputType.TurnCamera)) {
+            DisableMouse();
+        } else {
+            EnableMouse();
         }
     }
 

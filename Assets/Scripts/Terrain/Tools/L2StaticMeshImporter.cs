@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,13 +5,12 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-public class L2StaticMeshImporter : AssetImporter
-{
+public class L2StaticMeshImporter : AssetImporter {
     [MenuItem("Shnok/[StaticMeshes] Import")]
     static void ImportStaticMeshes() {
         string title = "Select StaticMeshes list";
-        string directory = Path.Combine(Application.dataPath, "Data/Maps"); 
-        string extension = "txt"; 
+        string directory = Path.Combine(Application.dataPath, "Data/Maps");
+        string extension = "txt";
 
         string dataFolder = @"D:\Stock\Projects\L2-Unity\Tools\umodel_win32\export";
         bool overwrite = false;
@@ -24,7 +21,7 @@ public class L2StaticMeshImporter : AssetImporter
             Debug.Log("Selected file: " + fileToProcess);
             List<string> files = ProcessDataFile(dataFolder, fileToProcess);
             ImportFiles(dataFolder, files, overwrite);
-        }        
+        }
     }
 
     private static List<string> ProcessDataFile(string dataFolder, string fileToProcess) {

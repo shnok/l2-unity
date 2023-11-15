@@ -1,20 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
-public class TerrainToTexture : MonoBehaviour
-{
+public class TerrainToTexture : MonoBehaviour {
     public Terrain terrain;
     public int height = 100;
     public int subdivisions = 2;
     public int textureSize = 2048;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         TerrainData terrainData = terrain.terrainData;
         Vector3 size = terrainData.size;
 
@@ -28,7 +22,7 @@ public class TerrainToTexture : MonoBehaviour
             for(int y = 0; y < subdivisions; y++) {
                 float width = size.x / subdivisions;
                 float length = size.z / subdivisions;
-                
+
 
                 Camera camera = MoveCamera(cameraObject, x, width, y, length);
 
@@ -46,7 +40,7 @@ public class TerrainToTexture : MonoBehaviour
                 texture.Apply();
 
                 byte[] bytes = texture.EncodeToPNG();
-                File.WriteAllBytes("Assets/Data/Maps/17_25/TerrainData/Textures/17_25_"+x+"_"+y+".png", bytes);
+                File.WriteAllBytes("Assets/Data/Maps/17_25/TerrainData/Textures/17_25_" + x + "_" + y + ".png", bytes);
             }
         }
 
@@ -65,7 +59,7 @@ public class TerrainToTexture : MonoBehaviour
 
     }
 
-    Camera MoveCamera(GameObject cameraObject, int x,float width, int y, float length) {
+    Camera MoveCamera(GameObject cameraObject, int x, float width, int y, float length) {
 
         cameraObject.transform.position = new Vector3(width / 2 + x * width, height, length / 2 + length * y);
         cameraObject.transform.rotation = Quaternion.Euler(90, 0, 0);
@@ -79,8 +73,7 @@ public class TerrainToTexture : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+
     }
 }

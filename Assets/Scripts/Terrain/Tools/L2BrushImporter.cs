@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,8 +9,7 @@ public class DataContainer {
     public Brush[] data;
 }
 
-public class L2BrushImporter : AssetImporter
-{
+public class L2BrushImporter : AssetImporter {
 
     [MenuItem("Shnok/[Brush] Import Textures")]
     static void ImportBrushTextures() {

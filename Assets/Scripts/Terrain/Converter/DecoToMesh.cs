@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-public class DecoToMesh
-{
+public class DecoToMesh {
     public static GameObject ConvertDecoLayers(List<L2DecoLayer> decoLayers, Terrain terrain) {
         GameObject decoLayerBase = new GameObject("DecoLayer");
         decoLayerBase.transform.position = terrain.transform.position;
@@ -56,7 +53,7 @@ public class DecoToMesh
                             Vector2 scatterNoiseCoord = new Vector2(basePosition.x + scatterX, basePosition.z + scatterY) * scatterNoiseMultiplier;
                             float scatterNoise = Mathf.PerlinNoise(scatterNoiseCoord.x, scatterNoiseCoord.y);
 
-                            if(Mathf.Abs(scatterNoise - densityNoise) <= 0.012f * (i*0.9f)) {
+                            if(Mathf.Abs(scatterNoise - densityNoise) <= 0.012f * (i * 0.9f)) {
                                 //GameObject dummy = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefab/Dummy.prefab"));
                                 GameObject dummy = GameObject.Instantiate(decoLayers[i].staticMesh);
 
@@ -79,7 +76,7 @@ public class DecoToMesh
                                 float rotation = Mathf.Lerp(0f, 325f, rotationNoise);
 
                                 dummy.transform.eulerAngles = new Vector3(dummy.transform.eulerAngles.x, rotation, dummy.transform.eulerAngles.z);
-                                dummy.transform.localScale = decorScale * decorScaleMultiplier;                             
+                                dummy.transform.localScale = decorScale * decorScaleMultiplier;
                                 dummy.transform.position = new Vector3(detailPos.x, terrain.SampleHeight(detailPos) + detailPos.y, detailPos.z);
 
                                 // Generate GRID Object if missing
@@ -90,13 +87,13 @@ public class DecoToMesh
                                     gridBaseObject.transform.position = new Vector3(gridX + decoGroupSize / 2f, 0, gridZ + decoGroupSize / 2f);
                                     gridBaseObject.isStatic = true;
                                 }
-                 
+
                                 dummy.transform.parent = gridBaseObject.transform;
 
                                 dummy.isStatic = true;
                             }
                         }
-                    }             
+                    }
                 }
             }
         }

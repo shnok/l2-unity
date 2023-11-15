@@ -1,13 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
-public class TerrainConverter : MonoBehaviour
-{
+public class TerrainConverter : MonoBehaviour {
     public string mapToConvert;
     public int meshSubdivisions = 254;
     public float uvScale = 150;
@@ -18,7 +14,7 @@ public class TerrainConverter : MonoBehaviour
     private TerrainToMesh terrainToMesh;
     private Texture2DArrayGenerator texture2DArrayGenerator;
     private Terrain terrainToConvert;
-    
+
 
     // Start is called before the first frame update
     private void Awake() {
@@ -148,7 +144,7 @@ public class TerrainConverter : MonoBehaviour
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
-    
+
     private void SaveTerrain(string saveFolder, GameObject destObject) {
         // Save terrain Prefab
         string prefabPath = Path.Combine(saveFolder, mapToConvert + ".prefab");

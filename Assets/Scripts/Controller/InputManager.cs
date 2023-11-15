@@ -1,17 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
-{
-    public CameraController cameraController;
-    public PlayerController playerController;
-    private bool axisPressed = false;
-    private bool mouseMoving = false;
-    private bool jumpPressed = false;
-    private bool dodgePressed = false;
-    private bool attackPressed = false;
-    private bool holsterWeaponsPressed = false;
+public enum InputType {
+    InputAxis,
+    MouseMoving,
+    Zoom,
+    LeftMouseButton,
+    RightMouseButton,
+    Attack,
+    Sit,
+    Jump,
+    TurnCamera
+}
+
+public class InputManager : MonoBehaviour {
+    public Dictionary<InputType, bool> inputsPressed = new Dictionary<InputType, bool>();
+    public Vector2 inputAxis;
+    public Vector2 mouseAxis;
+    public float scrollAxis;
 
     private static InputManager _instance;
     public static InputManager GetInstance() {
@@ -26,57 +32,39 @@ public class InputManager : MonoBehaviour
     }
 
     void Update() {
-        if(!playerController || !cameraController) {
-            axisPressed = false;
-            jumpPressed = false;
-            dodgePressed = false;
-            attackPressed = false;
-            mouseMoving = false;
-            return;
+        if(IsInputPressed(InputType.RightMouseButton) && IsInputPressed(InputType.MouseMoving)) {
+            UpdateInput(InputType.TurnCamera, true);
+            L2GameUI.GetInstance().DisableMouse();
         }
 
-        cameraController.UpdateZoom(Input.GetAxis("Mouse ScrollWheel"));
-        if(Input.GetMouseButton(1)) {
-            if(mouseMoving) {
-                cameraController.UpdateInputs(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-                L2GameUI.GetInstance().DisableMouse();
-            }
-        }
         if(Input.GetMouseButtonUp(1)) {
+            UpdateInput(InputType.TurnCamera, false);
             L2GameUI.GetInstance().EnableMouse();
         }
 
-        playerController.UpdateInputs(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        scrollAxis = Input.GetAxis("Mouse ScrollWheel");
+        UpdateInput(InputType.Zoom, scrollAxis != 0);
 
-        mouseMoving = Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0;
-        axisPressed = Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0;
-        jumpPressed = Input.GetKeyDown(KeyCode.Space);
+        UpdateInput(InputType.LeftMouseButton, Input.GetMouseButton(0));
+        UpdateInput(InputType.RightMouseButton, Input.GetMouseButton(1));
+
+        mouseAxis = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        UpdateInput(InputType.MouseMoving, mouseAxis.x != 0 || mouseAxis.y != 0);
+
+        inputAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        UpdateInput(InputType.InputAxis, inputAxis.x != 0 || inputAxis.y != 0);
+        UpdateInput(InputType.Jump, Input.GetKeyDown(KeyCode.Space));
     }
 
-    public void SetCameraController(CameraController controller) {
-        cameraController = controller;
-    }
-    public void SetPlayerController(PlayerController controller) {
-        playerController = controller;
+    public bool IsInputPressed(InputType type) {
+        return inputsPressed.ContainsKey(type) && inputsPressed[type] != false;
     }
 
-    public bool AxisPressed() {
-        return axisPressed;
-    }
-
-    public bool Jump() {
-        return jumpPressed;
-    }
-
-    public bool Dodge() {
-        return dodgePressed;
-    }
-
-    public bool Attack() {
-        return attackPressed;
-    }
-
-    public bool HolsterWeapons() {
-        return holsterWeaponsPressed;
+    public void UpdateInput(InputType type, bool pressed) {
+        if(!inputsPressed.ContainsKey(type)) {
+            inputsPressed.Add(type, pressed);
+        } else {
+            inputsPressed[type] = pressed;
+        }
     }
 }
