@@ -4,7 +4,10 @@ public class CameraController : MonoBehaviour {
     public Transform target;
     public Transform rootBone;
     public float rootBoneHeight = 0;
-    public bool followRootBoneOffset = true;
+    public bool followRootBoneOffset = false;
+    public Vector3 lerpTargetPos;
+    public float smoothness = 8f;
+    public bool smoothCamera = true;
     private float x, y = 0;
     public float minDistance = .5f;
     public float maxDistance = 10f;
@@ -27,6 +30,10 @@ public class CameraController : MonoBehaviour {
         if(_instance == null) {
             _instance = this;
         }
+    }
+
+    private void Start() {
+        lerpTargetPos = Vector3.zero;
     }
 
     void Update() {
@@ -91,8 +98,19 @@ public class CameraController : MonoBehaviour {
         if(followRootBoneOffset) {
             boneOffset = rootBone.position.y - target.position.y - rootBoneHeight;
         }
+
         targetPos = new Vector3(camOffset.x, boneOffset + camOffset.y, camOffset.z) + target.position;
-        Vector3 adjustedPosition = rotation * (Vector3.forward * -currentDistance) + targetPos;
+
+        if(smoothCamera) {
+            if(lerpTargetPos == Vector3.zero) {
+                lerpTargetPos = targetPos;
+            }
+            lerpTargetPos = Vector3.Lerp(lerpTargetPos, targetPos, smoothness * Time.deltaTime);
+        } else {
+            lerpTargetPos = targetPos;
+        }
+
+        Vector3 adjustedPosition = rotation * (Vector3.forward * -currentDistance) + lerpTargetPos;
 
         transform.position = adjustedPosition;
     }

@@ -39,6 +39,7 @@ public class AnimationController : MonoBehaviour {
 
         /*Jump */
          if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Idle")) {
+            CameraController.GetInstance().followRootBoneOffset = true;
             SetBool("IdleJump", true);
         } else {
             SetBool("IdleJump", false);
@@ -46,6 +47,7 @@ public class AnimationController : MonoBehaviour {
 
         /*Jump */
         if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Run") || IsCurrentState("RunJump") && !IsAnimationFinished(0)) {
+            CameraController.GetInstance().followRootBoneOffset = true;
             SetBool("RunJump", true);
         } else {
             SetBool("RunJump", false);
@@ -53,12 +55,14 @@ public class AnimationController : MonoBehaviour {
 
         /* Run */
         if(InputManager.GetInstance().IsInputPressed(InputType.InputAxis) && (IsCurrentState("Idle") || IsAnimationFinished(0)) && pc.canMove) {
+            CameraController.GetInstance().followRootBoneOffset = false;
             SetBool("Moving", true);
         } else {
             SetBool("Moving", false);
         }
 
         if(InputManager.GetInstance().IsInputPressed(InputType.Sit) && (IsCurrentState("Run") || IsCurrentState("Idle"))) {
+            CameraController.GetInstance().followRootBoneOffset = true;
             pc.canMove = false;
             SetBool("Sit", true);
         } else {
@@ -66,11 +70,13 @@ public class AnimationController : MonoBehaviour {
         }
 
         if(IsCurrentState("SitTransition") && IsAnimationFinished(0)) {
+            CameraController.GetInstance().followRootBoneOffset = true;
             SetBool("SitWait", true);
         }
 
         if((InputManager.GetInstance().IsInputPressed(InputType.Sit) || InputManager.GetInstance().IsInputPressed(InputType.InputAxis)) 
             && (IsCurrentState("SitWait"))) {
+            CameraController.GetInstance().followRootBoneOffset = true;
             SetBool("Stand", true);
             SetBool("SitWait", false);
         } else {
@@ -78,6 +84,7 @@ public class AnimationController : MonoBehaviour {
         }
 
         if(IsCurrentState("Stand") && IsAnimationFinished(0)) {
+            CameraController.GetInstance().followRootBoneOffset = false;
             pc.canMove = true;
         }
 
@@ -86,6 +93,7 @@ public class AnimationController : MonoBehaviour {
             && !IsCurrentState("SitTransition") 
             && !IsCurrentState("Sit")
             && !IsCurrentState("SitWait")) {
+            CameraController.GetInstance().followRootBoneOffset = false;
             SetBool("Idle", true);
         } else {
             SetBool("Idle", false);
