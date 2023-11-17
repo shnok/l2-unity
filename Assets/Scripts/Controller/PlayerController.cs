@@ -5,6 +5,12 @@ public class PlayerController : MonoBehaviour {
     /* Components */
     public CharacterController controller;
 
+    /* RootBone */
+    public Transform rootBone;
+    public float rootBoneOffsetMultiplier = 5f;
+    public bool stickToRootBone = true;
+    public CharacterController rootController;
+
     /*Rotate*/
     private float _finalAngle;
 
@@ -12,7 +18,7 @@ public class PlayerController : MonoBehaviour {
     public Vector3 moveDirection;
     public float currentSpeed;
     public float defaultSpeed = 4;
-    private Vector2 axis;
+    public Vector2 axis;
     public bool canMove = true;
 
     /* Gravity */
@@ -20,7 +26,7 @@ public class PlayerController : MonoBehaviour {
     public float _jumpForce = 10;
     public float _gravity = 28;
 
-    public float _realSpeed;
+    public float measuredSpeed;
     private Vector3 current_pos;
     private Vector3 last_pos;
 
@@ -39,11 +45,16 @@ public class PlayerController : MonoBehaviour {
         controller = GetComponent<CharacterController>();
     }
 
-    void Update() {
-        axis = InputManager.GetInstance().inputAxis;
-    }
+    void Update() {      
+        /* Update input axis */
+        if(InputManager.GetInstance().IsInputPressed(InputType.MoveForward)) {
+            LookForward(true);
+            axis = Vector2.up;
+        } else {
+            axis = Vector2.zero;
+        }
+        axis = (axis + InputManager.GetInstance().inputAxis).normalized;
 
-    void FixedUpdate() {
         /* Speed */
         currentSpeed = GetMoveSpeed(currentSpeed);
 
@@ -56,7 +67,7 @@ public class PlayerController : MonoBehaviour {
         controller.Move(moveDirection * Time.deltaTime);
 
         current_pos = transform.position;
-        _realSpeed = (current_pos - last_pos).magnitude / Time.deltaTime;
+        measuredSpeed = (current_pos - last_pos).magnitude / Time.deltaTime;
         last_pos = current_pos;
     }
 
@@ -105,7 +116,7 @@ public class PlayerController : MonoBehaviour {
     private float GetMoveSpeed(float speed) {
         float smoothDuration = 0.2f;
 
-        if(InputManager.GetInstance().IsInputPressed(InputType.InputAxis)) {
+        if(InputManager.GetInstance().IsInputPressed(InputType.Move)) {
             speed = defaultSpeed;
         } else if(speed > 0 && controller.isGrounded) {
             speed -= (defaultSpeed / smoothDuration) * Time.deltaTime;
@@ -120,8 +131,8 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void LookForward(string type) {
-        if(type == "camera") {
+    public void LookForward(bool followCamera) {
+        if(followCamera) {
             _finalAngle = Camera.main.transform.eulerAngles.y;
         }
 

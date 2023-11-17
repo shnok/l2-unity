@@ -13,9 +13,9 @@ public struct WorldTimer {
 
 [System.Serializable]
 public struct Clock {
+    public float totalRatio;
     public float dayRatio;
     public float nightRatio;
-    public float totalRatio;
     public float dawnRatio;
     public float brightRatio;
     public float duskRatio;

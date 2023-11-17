@@ -3,6 +3,8 @@ using UnityEngine;
 
 public enum InputType {
     InputAxis,
+    MoveForward,
+    Move,
     MouseMoving,
     Zoom,
     LeftMouseButton,
@@ -54,6 +56,10 @@ public class InputManager : MonoBehaviour {
         inputAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         UpdateInput(InputType.InputAxis, inputAxis.x != 0 || inputAxis.y != 0);
         UpdateInput(InputType.Jump, Input.GetKeyDown(KeyCode.Space));
+
+        UpdateInput(InputType.MoveForward, IsInputPressed(InputType.LeftMouseButton) && IsInputPressed(InputType.RightMouseButton));
+
+        UpdateInput(InputType.Move, IsInputPressed(InputType.InputAxis) || IsInputPressed(InputType.MoveForward));
 
         UpdateInput(InputType.Sit, Input.GetKeyDown(KeyCode.E));
     }
