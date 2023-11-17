@@ -13,9 +13,9 @@ public class GeodataGenerator : MonoBehaviour {
 	public float characterHeight = 2f;
 	public float erosionThreshold = 1.5f;
 	public bool drawGizmos = true;
-	public LayerMask collisionMask;
-	public static LayerMask mask;
 	public LayerMask walkableMask;
+	public LayerMask obstacleMask;
+	public LayerMask allowWalkMask;
 	public bool export;
 	public string exportPath = "terraindata.dat";
 
@@ -27,7 +27,7 @@ public class GeodataGenerator : MonoBehaviour {
 		UnityEngine.Debug.Log ("Built the terrain in " + s.ElapsedMilliseconds + " ms");
 		s.Stop ();
 
-		//collisionMask = ~walkableMask;
+		//obstacleMask = ~walkableMask;
 
 		if(export) {
 			GeodataExporter.Export(exportPath, terrain, terrainWidth, terrainHeight);
@@ -78,10 +78,14 @@ public class GeodataGenerator : MonoBehaviour {
 	}
 
 	public bool IsNodeWalkable(Vector3 nodeCenter) {
-		bool walkable = false;
+		bool walkable = true;
 
 		/* Covered */
-		if(!CheckObstacle(nodeCenter, collisionMask, characterHeight)) {
+		if(CheckObstacle(nodeCenter, obstacleMask, characterHeight)) {
+			walkable = false;
+		}
+
+		if(CheckObstacle(nodeCenter, allowWalkMask, characterHeight)) {
 			walkable = true;
 		}
 
@@ -107,26 +111,30 @@ public class GeodataGenerator : MonoBehaviour {
 	}
 
 	private bool CheckObstacle(Vector3 nodeCenter, LayerMask mask, float characterHeight) {
-		Vector3 size = new Vector3(nodeSize / 2f - nodeSize / 20f, nodeSize / 2f, nodeSize / 2f - nodeSize / 20f);
+		Vector3 size = new Vector3(nodeSize / 2f - nodeSize / 20f, nodeSize / 20f, nodeSize / 2f - nodeSize / 20f);
+
+		bool obstacle = false;
 
 		float verticalOffset = 3f;
 		if(Physics.BoxCast(nodeCenter - Vector3.up * verticalOffset, size, Vector3.up, Quaternion.identity, characterHeight + verticalOffset, mask)) {
+			obstacle = true;
+		}
+
+		float castHeight = nodeSize * 2;
+		if(Physics.BoxCast(nodeCenter + Vector3.up * castHeight + Vector3.left * nodeSize / 2f, size, Vector3.right, Quaternion.identity, nodeSize, mask)) {
 			return true;
 		}
-		if(Physics.BoxCast(nodeCenter + Vector3.up * nodeSize + Vector3.left * nodeSize / 2f, size, Vector3.right, Quaternion.identity, nodeSize, mask)) {
+		if(Physics.BoxCast(nodeCenter + Vector3.up * castHeight + Vector3.right * nodeSize / 2f, size, Vector3.left, Quaternion.identity, nodeSize, mask)) {
 			return true;
 		}
-		if(Physics.BoxCast(nodeCenter + Vector3.up * nodeSize + Vector3.right * nodeSize / 2f, size, Vector3.left, Quaternion.identity, nodeSize, mask)) {
+		if(Physics.BoxCast(nodeCenter + Vector3.up * castHeight + Vector3.forward * nodeSize / 2f, size, Vector3.back, Quaternion.identity, nodeSize, mask)) {
 			return true;
 		}
-		if(Physics.BoxCast(nodeCenter + Vector3.up * nodeSize + Vector3.forward * nodeSize / 2f, size, Vector3.back, Quaternion.identity, nodeSize, mask)) {
-			return true;
-		}
-		if(Physics.BoxCast(nodeCenter + Vector3.up * nodeSize + Vector3.back * nodeSize / 2f, size, Vector3.forward, Quaternion.identity, nodeSize, mask)) {
+		if(Physics.BoxCast(nodeCenter + Vector3.up * castHeight + Vector3.back * nodeSize / 2f, size, Vector3.forward, Quaternion.identity, nodeSize, mask)) {
 			return true;
 		}
 
-		return false;
+		return obstacle;
 
 	}
 

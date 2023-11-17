@@ -4,7 +4,7 @@ using UnityEngine;
 public class Fadeout : MonoBehaviour {
     public float disableDistance = 100f;
 
-    void LateUpdate() {
+    void FixedUpdate() {
         FadoutChilds();
     }
 
