@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
 
 public class GeodataGenerator : MonoBehaviour {
-
 	public static Dictionary<Vector3, Node> terrain = new Dictionary<Vector3, Node>();
+	public Transform terrainTransform;
 	public int terrainWidth = 512;
-	public int terrainHeight = 64;
+	public int scaledTerrainWidth;
 	public float nodeSize = .25f;
 	public float characterHeight = 2f;
 	public float erosionThreshold = 1.5f;
@@ -20,55 +19,50 @@ public class GeodataGenerator : MonoBehaviour {
 	public string exportPath = "terraindata.dat";
 
 	// Use this for initialization
-	void Start () {
-		Stopwatch s = new Stopwatch ();
-		s.Start ();
-		CreateTerrain ();
-		UnityEngine.Debug.Log ("Built the terrain in " + s.ElapsedMilliseconds + " ms");
-		s.Stop ();
+	void Start() {
+		scaledTerrainWidth = (int)(terrainWidth / nodeSize);
 
-		//obstacleMask = ~walkableMask;
+        System.Diagnostics.Stopwatch s = new System.Diagnostics.Stopwatch();
+		s.Start();
+		GenerateGeodata();
+		s.Stop();
+
+		Debug.Log("Built the terrain in " + s.ElapsedMilliseconds + " ms");
 
 		if(export) {
-			GeodataExporter.Export(exportPath, terrain, terrainWidth, terrainHeight);
+			GeodataExporter.Export(exportPath, terrain);
 		}
 	}
 
-	float floorToNearest(float value, float step) {
-		return step * Mathf.Floor(value / step);
-
-	}
-
-	void CreateTerrain() {
-
-		Vector3 size = new Vector3 (nodeSize /2f - nodeSize / 10f, 0.1f, nodeSize/2f - nodeSize / 10f);
-
-		for (int x = -terrainWidth / 2; x < terrainWidth / 2; x++) {
-			for (int z = -terrainWidth / 2; z < terrainWidth / 2; z++) {
+	void GenerateGeodata() {
+		for (int x = 0; x < scaledTerrainWidth; x++) {
+			for (int z = 0; z < scaledTerrainWidth; z++) {
 
 				float oldHeight = 0;
 
-				RaycastHit[] hits = Physics.BoxCastAll (new Vector3 (x * nodeSize + nodeSize / 2f, 50, z * nodeSize + nodeSize / 2f)
-				                    + transform.position, size, -Vector3.up, Quaternion.identity, 100f, walkableMask);
-				
-				UnityEngine.Profiling.Profiler.BeginSample ("Calc");
+				Vector3 size = new Vector3(nodeSize / 2f - nodeSize / 10f, 0.1f, nodeSize / 2f - nodeSize / 10f);
+				Vector3 start = new Vector3(x * nodeSize + nodeSize / 2f, 750f, z * nodeSize + nodeSize / 2f);
+				RaycastHit[] hits = Physics.BoxCastAll (start + terrainTransform.position, size, Vector3.down, Quaternion.identity, 1000f, walkableMask);
 				hits = hits.OrderBy(h=>h.distance).ToArray();
-				UnityEngine.Profiling.Profiler.EndSample ();
 
 				for(int i = 0; i < hits.Length ; i++) {
-					
 					if (i == 0)
 						oldHeight = hits [i].point.y;
 					
-					//Vector3 nodePos = new Vector3 (Mathf.Floor (transform.position.x) + x * nodeSize, Mathf.Floor(hits[i].point.y), Mathf.Floor (transform.position.z) + x * nodeSize);
-					Vector3 nodePos = new Vector3 (floorToNearest(transform.position.x + x * nodeSize, nodeSize), floorToNearest(hits[i].point.y, nodeSize), floorToNearest(transform.position.z + z * nodeSize, nodeSize));
+					Vector3 nodePos = new Vector3 (
+						floorToNearest(terrainTransform.position.x + x * nodeSize, nodeSize), 
+						floorToNearest(hits[i].point.y, nodeSize), 
+						floorToNearest(terrainTransform.position.z + z * nodeSize, nodeSize));
+
+					int y =  (int)(nodePos.y / nodeSize) - (int)(terrainTransform.position.y / nodeSize);
 
 					if((oldHeight - hits[i].point.y) > characterHeight || i == 0) {
-						Node n = new Node (nodePos, 0, 0, nodeSize);
-
-						terrain.Add (nodePos, n);
-
+						Node n = new Node (nodePos, nodeSize);
 						n.walkable = IsNodeWalkable(n.center);
+
+						if(n.walkable) {
+							terrain.Add (nodePos, n);
+						}
 
 						oldHeight = hits [i].point.y;
 					}
@@ -138,46 +132,22 @@ public class GeodataGenerator : MonoBehaviour {
 
 	}
 
+	float floorToNearest(float value, float step) {
+		return step * Mathf.Floor(value / step);
+	}
 
+	/*int Flatten(int width, int height, int x, int y, int z) {
+		return (y * height * width) + (z * width) + x;
+	}
 
-	/*public static Node GetNode(Vector3 pos) {
-
-		pos.Set(Mathf.Floor (pos.x),  Mathf.Floor (pos.y),  Mathf.Floor (pos.z));
-
-		for (int i = -25; i <= 15; i++) { 
-			Node n;
-			if (terrain.TryGetValue (pos + Vector3.up * (float)i/10, out n)) {
-				return n;
-			}
-		}
-
-		return null;
+	public Vector3 UnFlatten(int index) {
+		float y = (float)index / (scaledTerrainHeight * scaledTerrainWidth);
+		float vy = (float)index % (scaledTerrainHeight * scaledTerrainWidth);
+		float z = vy / (scaledTerrainWidth);
+		float x = vy % (scaledTerrainWidth);
+		
+		return new Vector3(Mathf.Round(x), Mathf.Round(y), Mathf.Floor(z));
 	}*/
-
-	/*public static Node[] GetNodeNeighbors(Node n) {
-
-		Node[] returnList = new Node[8];
-
-		int i = 0;
-		for (int x = -1; x <= 1; x++) {
-			for (int z = -1; z <= 1; z++) {
-				if (x == 0 && z == 0)
-					continue;
-
-				Node node = GetNode (new Vector3 (x, 0, z) + n.position);
-
-				if(node != null)
-					returnList[i] = (node);
-
-				i++;
-			}
-
-		}
-
-		return returnList;
-	}*/
-
-
 
 	void OnDrawGizmos() {
 

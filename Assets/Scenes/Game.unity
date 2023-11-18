@@ -2587,6 +2587,7 @@ GameObject:
   m_Component:
   - component: {fileID: 323175238}
   - component: {fileID: 323175239}
+  - component: {fileID: 323175240}
   m_Layer: 0
   m_Name: Geodata
   m_TagString: Untagged
@@ -2602,8 +2603,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323175237}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -62.98, y: -0.63, z: -54.79}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -62.97998, y: -0.62999725, z: -54.79004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2619,13 +2620,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323175237}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81f6427f0dd98354db59a370fa0d0f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainWidth: 512
-  terrainHeight: 64
+  terrainTransform: {fileID: 0}
+  terrainWidth: 625
+  scaledTerrainWidth: 0
   nodeSize: 0.25
   characterHeight: 1
   erosionThreshold: 0.3
@@ -2639,8 +2641,22 @@ MonoBehaviour:
   allowWalkMask:
     serializedVersion: 2
     m_Bits: 1024
-  export: 0
+  export: 1
   exportPath: terraindata.dat
+--- !u!114 &323175240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323175237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e41391b4c8e9c0d4293f664e698ebe08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapsToLoad:
+  - 17_25
 --- !u!1 &327232488
 GameObject:
   m_ObjectHideFlags: 0

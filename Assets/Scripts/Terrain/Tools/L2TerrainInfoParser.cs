@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class L2TerrainInfoParser {
     public static L2TerrainInfo GetL2TerrainInfo(string mapID) {
-        string dataPath = "Assets/Data/Maps/" + mapID + "/TerrainInfo0.txt";
+        string dataPath = "Assets/Data/Maps/Meta/" + mapID + "/TerrainInfo0.txt";
         if(!File.Exists(dataPath)) {
             Debug.LogWarning("File not found: " + dataPath);
             return null;

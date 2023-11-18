@@ -18,6 +18,6 @@ public class StaticMeshUtils {
     }
 
     public static string GetJsonPath(string mapName) {
-        return Path.Combine("Assets/Data/Maps/", mapName, "StaticMeshActor.json");
+        return Path.Combine("Assets/Data/Maps/Meta/", mapName, "StaticMeshActor.json");
     }
 }
