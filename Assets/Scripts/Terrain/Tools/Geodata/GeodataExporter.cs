@@ -9,9 +9,9 @@ public class GeodataExporter {
             int writeCount = 0;
             foreach(KeyValuePair<Vector3, Node> entry in terrainData) {
                 if(entry.Value.walkable) {
-                    binWriter.Write((short)entry.Key.x);
-                    binWriter.Write((short)entry.Key.y);
-                    binWriter.Write((short)entry.Key.z);
+                    binWriter.Write((short)Mathf.Round(entry.Key.x));
+                    binWriter.Write((short)Mathf.Round(entry.Key.y));
+                    binWriter.Write((short)Mathf.Round(entry.Key.z));
                 }
                 writeCount++;
             }

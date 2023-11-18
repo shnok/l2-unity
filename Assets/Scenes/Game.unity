@@ -2604,14 +2604,14 @@ Transform:
   m_GameObject: {fileID: 323175237}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -62.97998, y: -0.62999725, z: -54.79004}
+  m_LocalPosition: {x: 4666.02, y: -68.729996, z: -1575.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 347568605}
   - {fileID: 1533060835}
   - {fileID: 1121954712}
-  m_Father: {fileID: 792673797}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &323175239
 MonoBehaviour:
@@ -2628,8 +2628,8 @@ MonoBehaviour:
   terrainTransform: {fileID: 0}
   terrainWidth: 625
   scaledTerrainWidth: 0
-  nodeSize: 0.25
-  characterHeight: 1
+  nodeSize: 0.5
+  characterHeight: 2
   erosionThreshold: 0.3
   drawGizmos: 0
   walkableMask:
@@ -2642,7 +2642,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   export: 1
-  exportPath: terraindata.dat
+  exportPath: geodata
 --- !u!114 &323175240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2655,8 +2655,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e41391b4c8e9c0d4293f664e698ebe08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nodeSize: 0.5
   mapsToLoad:
   - 17_25
+  gizmosLimit: 250000
+  drawGizmos: 1
 --- !u!1 &327232488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,7 +2853,7 @@ Transform:
   m_GameObject: {fileID: 347568604}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.700176, y: -1.6587039, z: -1.6670303}
+  m_LocalPosition: {x: -95.8999, y: -113.5052, z: -114.19995}
   m_LocalScale: {x: 2.4692, y: 2.4266, z: 2.2302322}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6207,7 +6210,6 @@ Transform:
   - {fileID: 688311054}
   - {fileID: 1073815450}
   - {fileID: 1020831938}
-  - {fileID: 323175238}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &794382558
@@ -9044,12 +9046,12 @@ GameObject:
   - component: {fileID: 1020831938}
   - component: {fileID: 1020831937}
   m_Layer: 0
-  m_Name: Textire2dArray
+  m_Name: Textue2dArrayGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1020831937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9326,12 +9328,12 @@ GameObject:
   - component: {fileID: 1073815451}
   - component: {fileID: 1073815452}
   m_Layer: 0
-  m_Name: Dest
+  m_Name: TerrainConverter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1073815449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16609,6 +16611,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 366704775}
+  - {fileID: 323175238}
   - {fileID: 1979173060}
   - {fileID: 1446543341}
   - {fileID: 1433411790}
