@@ -18,7 +18,6 @@ public class GeodataGenerator : MonoBehaviour {
 	public bool export;
 	public string exportPath = "terraindata.dat";
 
-	// Use this for initialization
 	void Start() {
 		scaledTerrainWidth = (int)(terrainWidth / nodeSize);
 
@@ -157,8 +156,12 @@ public class GeodataGenerator : MonoBehaviour {
 		if (!drawGizmos)
 			return;
 
-		if (terrain.Count > 0) {
-			foreach (KeyValuePair<Vector3, Node> n in terrain) {
+		int count = 0;
+		if(terrain.Count > 0) {
+			foreach(KeyValuePair<Vector3, Node> n in terrain) {
+				if(count >= 250000) {
+					return;
+				}
 				Vector3 cubeSize = new Vector3 (nodeSize - nodeSize/10f, 0.1f, nodeSize - nodeSize / 10f);
 				if (n.Value.walkable) {
 					Gizmos.color = Color.green;

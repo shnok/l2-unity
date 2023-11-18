@@ -10,22 +10,38 @@ public class Geodata : MonoBehaviour
 {
     public float nodeSize = 0.5f;
     public List<string> mapsToLoad;
+    public Dictionary<string, Vector3> mapsOrigin = new Dictionary<string, Vector3>();
     public Dictionary<Vector3, Node> nodes = new Dictionary<Vector3, Node>();
-    public int gizmosLimit = 10000;
+    public bool loaded = false;
     public bool drawGizmos = true;
 
-    // Start is called before the first frame update
+    private static Geodata _instance;
+    public static Geodata GetInstance() {
+        return _instance;
+    }
+
+    private void Awake() {
+        _instance = this;
+    }
+
     void Start() {
         foreach(var mapId in mapsToLoad) {
             LoadMapGeodata(mapId);
         }
+        loaded = true;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public Node GetNodeAt(string mapId, Vector3 pos) {
+        if(mapsOrigin.ContainsKey(mapId)) {
+            Vector3 nodePos = FromWorldToNodePos(pos, mapId);
+            Node node;
+            nodes.TryGetValue(nodePos, out node);
+
+            return node;
+        }
+        return null;
     }
+
 
     public void LoadMapGeodata(string mapId) {
         try {
@@ -44,10 +60,10 @@ public class Geodata : MonoBehaviour
                         }
 
                         // Create a BinaryReader from the memory stream
-
                         string mapFolder = Path.Combine("Assets", "Data", "Maps", mapId);
                         GameObject map = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, mapId + ".prefab"));
                         Vector3 origin = VectorUtils.floorToNearest(map.transform.position, nodeSize);
+                        mapsOrigin.Add(mapId, origin);
 
                         Debug.Log(origin);
 
@@ -59,16 +75,17 @@ public class Geodata : MonoBehaviour
                                 short z = reader.ReadInt16();
                                 count++;
 
-                                if(count >= gizmosLimit && drawGizmos) {
+                               /* if(count > 50) {
                                     return;
-                                }
+                                }*/
 
                                 Vector3 nodePos = new Vector3(x, y, z);
-                                nodePos = FromNodeToWorldPos(nodePos, nodeSize, origin);
 
-                                Node n = new Node(nodePos, nodeSize);
+                                Node n = new Node(FromNodeToWorldPos(nodePos, origin), nodeSize);
                                 n.walkable = true;
                                 nodes.Add(nodePos, n);
+
+                               // Debug.Log(nodePos);
                             }
                         }
 
@@ -83,7 +100,7 @@ public class Geodata : MonoBehaviour
         }
     }
 
-    private Vector3 FromNodeToWorldPos(Vector3 nodePos, float nodeSize, Vector3 origin) {
+    private Vector3 FromNodeToWorldPos(Vector3 nodePos, Vector3 origin) {
         Vector3 worldPos = nodePos * nodeSize + origin;
         worldPos = new Vector3(
             VectorUtils.floorToNearest(worldPos.x, nodeSize),
@@ -92,12 +109,34 @@ public class Geodata : MonoBehaviour
         return worldPos;
     }
 
+    private Vector3 FromWorldToNodePos(Vector3 worldPos, String mapId) {
+        Vector3 terrainPos;
+        if(!mapsOrigin.TryGetValue(mapId, out terrainPos)) {
+            throw new Exception("Terrain not found.");
+        }
+
+        Vector3 offsetPos = worldPos - terrainPos;
+        Vector3 nodePos = new Vector3(
+            Mathf.Floor(offsetPos.x / nodeSize),
+            Mathf.Floor(offsetPos.y / nodeSize),
+            Mathf.Floor(offsetPos.z / nodeSize));
+
+        Debug.Log("Clicked at node: " + nodePos);
+
+        return nodePos;
+    }
+
     void OnDrawGizmos() {
         if(!drawGizmos)
             return;
 
+        int count = 0;
         if(nodes.Count > 0) {
             foreach(KeyValuePair<Vector3, Node> n in nodes) {
+                if(count >= 250000) {
+                    return;
+                }
+
                 Vector3 cubeSize = new Vector3(nodeSize - nodeSize / 10f, 0.1f, nodeSize - nodeSize / 10f);
                 if(n.Value.walkable) {
                     Gizmos.color = Color.green;

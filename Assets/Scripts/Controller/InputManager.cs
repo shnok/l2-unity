@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public enum InputType {
     InputAxis,
     MoveForward,
     Move,
     MouseMoving,
     Zoom,
+    LeftMouseButtonDown,
     LeftMouseButton,
     RightMouseButton,
     Attack,
@@ -47,6 +49,7 @@ public class InputManager : MonoBehaviour {
         scrollAxis = Input.GetAxis("Mouse ScrollWheel");
         UpdateInput(InputType.Zoom, scrollAxis != 0);
 
+        UpdateInput(InputType.LeftMouseButtonDown, Input.GetMouseButtonDown(0));
         UpdateInput(InputType.LeftMouseButton, Input.GetMouseButton(0));
         UpdateInput(InputType.RightMouseButton, Input.GetMouseButton(1));
 
