@@ -30,7 +30,7 @@ public class ClickToMoveController : MonoBehaviour {
     }
 
     void OnDrawGizmos() {
-        if(!debugPathFinder)
+        if(!debugPathFinder || !Application.isPlaying)
             return;
 
         if(targetNode != null) {

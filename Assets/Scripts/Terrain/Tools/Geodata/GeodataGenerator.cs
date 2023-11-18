@@ -153,7 +153,7 @@ public class GeodataGenerator : MonoBehaviour {
 
 	void OnDrawGizmos() {
 
-		if (!drawGizmos)
+		if (!drawGizmos || !Application.isPlaying)
 			return;
 
 		int count = 0;

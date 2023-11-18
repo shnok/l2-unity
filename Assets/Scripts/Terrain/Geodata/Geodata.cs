@@ -65,8 +65,6 @@ public class Geodata : MonoBehaviour
                         Vector3 origin = VectorUtils.floorToNearest(map.transform.position, nodeSize);
                         mapsOrigin.Add(mapId, origin);
 
-                        Debug.Log(origin);
-
                         int count = 0;
                         using(BinaryReader reader = new BinaryReader(new MemoryStream(data))) {
                             while(reader.BaseStream.Position < reader.BaseStream.Length) {
@@ -75,17 +73,11 @@ public class Geodata : MonoBehaviour
                                 short z = reader.ReadInt16();
                                 count++;
 
-                               /* if(count > 50) {
-                                    return;
-                                }*/
-
                                 Vector3 nodePos = new Vector3(x, y, z);
 
                                 Node n = new Node(FromNodeToWorldPos(nodePos, origin), nodeSize);
                                 n.walkable = true;
                                 nodes.Add(nodePos, n);
-
-                               // Debug.Log(nodePos);
                             }
                         }
 
@@ -127,7 +119,7 @@ public class Geodata : MonoBehaviour
     }
 
     void OnDrawGizmos() {
-        if(!drawGizmos)
+        if(!drawGizmos || !Application.isPlaying)
             return;
 
         int count = 0;
