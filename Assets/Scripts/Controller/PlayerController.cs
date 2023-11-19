@@ -95,11 +95,11 @@ public class PlayerController : MonoBehaviour {
     public void ResetTargetPosition() {
         runToTarget = false;
         targetPosition = Vector3.zero;
+        ClickManager.GetInstance().HideLocator();
     }
 
     private void MoveToTargetPosition() {
         Vector3 relativeDirection = targetPosition - flatTransformPos;
-        //relativeDirection = relativeDirection.normalized;
 
         Vector3 relativeAxis = new Vector2(relativeDirection.x, relativeDirection.z);
 
