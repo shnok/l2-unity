@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-
 [ExecuteInEditMode]
-public class SunMoonCycle : MonoBehaviour
-{
+public class SunMoonCycle : MonoBehaviour {
     [SerializeField] public Material skyboxMaterial;
 
     public Light mainLight;
@@ -23,10 +19,10 @@ public class SunMoonCycle : MonoBehaviour
     public Color duskColor = new Color(180f / 255f, 152f / 255f, 135f / 255f); // peak at sunsetStartTime
     public Color nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
     public Color dayFogColor = new Color(240f / 255f, 240f / 255f, 240f / 255f);
-    public Color nightFogColor = new Color(152f / 255f, 152f / 255f, 152f / 255f);
+    public Color nightFogColor = new Color(10 / 255f, 10 / 255f, 10f / 255f);
 
     public Color mainLightDayColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
-    public Color mainLightNightColor = new Color(55f / 255f, 74f / 255f, 164f / 255f);
+    public Color mainLightNightColor = new Color(101f / 255f, 110f / 255f, 152f / 255f);
     public Color mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
     public Color mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
 
@@ -35,11 +31,11 @@ public class SunMoonCycle : MonoBehaviour
     public float dayHorizonCloudsOpcacity = 1f;
     public float nightHorizonCloudsOpacity = 0.05f;
 
-    public float ambientMinIntensity = 0f;
-    public float ambientMaxIntensity = 1f;
+    public float ambientMinIntensity = 0.2f;
+    public float ambientMaxIntensity = 0.75f;
 
-    public float mainLightMinIntensity = 0.05f;
-    public float mainLightMaxIntensity = 1.5f;
+    public float mainLightMinIntensity = 0.4f;
+    public float mainLightMaxIntensity = 1.3f;
 
     void Awake() {
         clock = GetComponent<WorldClock>();
@@ -47,8 +43,7 @@ public class SunMoonCycle : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {    
+    void Update() {
         float mainLightLerpValue = clock.worldClock.dayRatio > 0 ? clock.worldClock.dayRatio : clock.worldClock.nightRatio;
         float sunRotation = Mathf.Lerp(0 - horizonOffsetDegree, 180 + horizonOffsetDegree, mainLightLerpValue);
         transform.eulerAngles = new Vector3(sunRotation, mainLightRotY, 0);

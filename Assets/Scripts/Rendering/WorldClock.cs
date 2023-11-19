@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,9 +13,9 @@ public struct WorldTimer {
 
 [System.Serializable]
 public struct Clock {
+    public float totalRatio;
     public float dayRatio;
     public float nightRatio;
-    public float totalRatio;
     public float dawnRatio;
     public float brightRatio;
     public float duskRatio;
@@ -25,8 +23,7 @@ public struct Clock {
 }
 
 [ExecuteInEditMode]
-public class WorldClock : MonoBehaviour
-{
+public class WorldClock : MonoBehaviour {
     public float dayDurationInSec = 30;
     public string timeHour;
     public float timeElapsed = 0;
@@ -46,8 +43,7 @@ public class WorldClock : MonoBehaviour
     float sunsetEndTime = 0.99f; // day*/
 
 
-    void Update()
-    {
+    void Update() {
         if(startClock) {
             UpdateClock();
         }

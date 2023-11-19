@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class VectorUtils : MonoBehaviour
-{
+public class VectorUtils : MonoBehaviour {
     public static Vector3 convertToUnity(Vector3 ueVector) {
-        return new Vector3(ueVector.y, ueVector.z, ueVector.x) * (1f/52.5f);
+        return new Vector3(ueVector.y, ueVector.z, ueVector.x) * (1f / 52.5f);
     }
 
     public static Vector3 convertToUnityUnscaled(Vector3 ueVector) {
@@ -25,5 +22,15 @@ public class VectorUtils : MonoBehaviour
         float newY = vector.x * sin + vector.y * cos;
 
         return new Vector2(newX, newY);
+    }
+
+    public static float floorToNearest(float value, float step) {
+        return step * Mathf.Floor(value / step);
+    }
+
+    public static Vector3 floorToNearest(Vector3 vector, float step) {
+        return new Vector3(floorToNearest(vector.x, step),
+            floorToNearest(vector.y, step),
+            floorToNearest(vector.z, step));
     }
 }

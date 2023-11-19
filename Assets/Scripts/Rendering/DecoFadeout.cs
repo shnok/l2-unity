@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine; 
+using UnityEngine;
 
 [ExecuteInEditMode]
-public class Fadeout : MonoBehaviour
-{
+public class Fadeout : MonoBehaviour {
     public float disableDistance = 100f;
 
-    void LateUpdate() {
+    void FixedUpdate() {
         FadoutChilds();
     }
 
@@ -16,7 +13,7 @@ public class Fadeout : MonoBehaviour
         if(Camera.current != null) {
             camera = Camera.current;
         }
-   
+
         foreach(Transform child in transform) {
             if(isInRange(camera, child)) {
                 child.gameObject.SetActive(true);

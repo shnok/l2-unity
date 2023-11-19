@@ -6,8 +6,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class FreeFlyCamera : MonoBehaviour
-{
+public class FreeFlyCamera : MonoBehaviour {
     #region UI
 
     [Space]
@@ -89,41 +88,35 @@ public class FreeFlyCamera : MonoBehaviour
     private Vector3 _initRotation;
 
 #if UNITY_EDITOR
-    private void OnValidate()
-    {
-        if (_boostedSpeed < _movementSpeed)
+    private void OnValidate() {
+        if(_boostedSpeed < _movementSpeed)
             _boostedSpeed = _movementSpeed;
     }
 #endif
 
 
-    private void Start()
-    {
+    private void Start() {
         _initPosition = transform.position;
         _initRotation = transform.eulerAngles;
 
-        
+
 
     }
 
-    private void OnEnable()
-    {
-        if (_active)
+    private void OnEnable() {
+        if(_active)
             _wantedMode = CursorLockMode.Locked;
 
         Cursor.lockState = _wantedMode = CursorLockMode.None;
     }
 
     // Apply requested cursor state
-    private void SetCursorState()
-    {   
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
+    private void SetCursorState() {
+        if(Input.GetKeyDown(KeyCode.Escape)) {
             Cursor.lockState = _wantedMode = CursorLockMode.None;
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
+        if(Input.GetMouseButtonDown(0)) {
             _wantedMode = CursorLockMode.Locked;
         }
 
@@ -133,12 +126,10 @@ public class FreeFlyCamera : MonoBehaviour
         Cursor.visible = (CursorLockMode.Locked != _wantedMode);
     }
 
-    private void CalculateCurrentIncrease(bool moving)
-    {
+    private void CalculateCurrentIncrease(bool moving) {
         _currentIncrease = Time.deltaTime;
 
-        if (!_enableSpeedAcceleration || _enableSpeedAcceleration && !moving)
-        {
+        if(!_enableSpeedAcceleration || _enableSpeedAcceleration && !moving) {
             _currentIncreaseMem = 0;
             return;
         }
@@ -215,8 +206,7 @@ public class FreeFlyCamera : MonoBehaviour
         }
 
         // Return to init position
-        if (Input.GetKeyDown(_initPositonButton))
-        {
+        if(Input.GetKeyDown(_initPositonButton)) {
             transform.position = _initPosition;
             transform.eulerAngles = _initRotation;
         }
