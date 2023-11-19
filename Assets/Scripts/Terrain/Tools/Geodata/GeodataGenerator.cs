@@ -57,11 +57,12 @@ public class GeodataGenerator : MonoBehaviour {
 					nodePos = VectorUtils.floorToNearest(nodePos, nodeSize);
 
 					if((oldHeight - hits[i].point.y) > characterHeight || i == 0) {
-						Node n = new Node (nodePos + roundedTerrainPos, nodeSize);
+						Vector3 scaledNodePos = new Vector3(x, nodePos.y / nodeSize, z);
+
+						Node n = new Node (scaledNodePos, nodePos + roundedTerrainPos, nodeSize);
 						n.walkable = IsNodeWalkable(n.center);
 
 						if(n.walkable) {
-							Vector3 scaledNodePos = new Vector3(x, nodePos.y / nodeSize, z);
 							terrain.Add (scaledNodePos, n);
 						}
 

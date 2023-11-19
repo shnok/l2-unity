@@ -2588,6 +2588,7 @@ GameObject:
   - component: {fileID: 323175238}
   - component: {fileID: 323175239}
   - component: {fileID: 323175240}
+  - component: {fileID: 323175242}
   m_Layer: 0
   m_Name: Geodata
   m_TagString: Untagged
@@ -2608,7 +2609,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1433411790}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &323175239
 MonoBehaviour:
@@ -2657,6 +2658,19 @@ MonoBehaviour:
   - 17_25
   loaded: 0
   drawGizmos: 0
+--- !u!114 &323175242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323175237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e361f7fabf8f2c4cba266953ef8ced1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxJobs: 3
 --- !u!1 &327232488
 GameObject:
   m_ObjectHideFlags: 0
@@ -11332,7 +11346,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 323175238}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1433411791
@@ -11376,16 +11391,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastClickPosition: {x: 0, y: 0, z: 0}
-  targetObjectData:
-    targetLayer: 
-    targetTag: 
-    targetScene: 
-    targetObject: {fileID: 0}
+  objectTransformData:
+    objectLayer: 
+    objectTag: 
+    objectScene: 
+    objectTransform: {fileID: 0}
   hoverObjectData:
-    targetLayer: 
-    targetTag: 
-    targetScene: 
-    targetObject: {fileID: 0}
+    objectLayer: 
+    objectTag: 
+    objectScene: 
+    objectTransform: {fileID: 0}
   walkableMask:
     serializedVersion: 2
     m_Bits: 905
@@ -12878,17 +12893,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
-  rootBone: {fileID: 0}
-  rootBoneOffsetMultiplier: 5
-  stickToRootBone: 1
-  rootController: {fileID: 0}
   moveDirection: {x: 0, y: 0, z: 0}
   currentSpeed: 0
   defaultSpeed: 3
   axis: {x: 0, y: 0}
   canMove: 1
-  _jumpForce: 10
-  _gravity: 28
+  jumpForce: 10
+  gravity: 28
+  flatTransformPos: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  followDistance: 0
+  runToTarget: 0
   measuredSpeed: 0
 --- !u!114 &1753994189
 MonoBehaviour:
@@ -12902,11 +12917,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cdb86fb2da14ab49b2e8d26c7e44791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetNode:
+  startNode:
+    x: 0
+    y: 0
+    z: 0
     size: 0
     walkable: 0
     position: {x: 0, y: 0, z: 0}
     center: {x: 0, y: 0, z: 0}
+    fCost: 0
+    gCost: 0
+    hCost: 0
+  targetNode:
+    x: 0
+    y: 0
+    z: 0
+    size: 0
+    walkable: 0
+    position: {x: 0, y: 0, z: 0}
+    center: {x: 0, y: 0, z: 0}
+    fCost: 0
+    gCost: 0
+    hCost: 0
+  targetDestination: {x: 0, y: 0, z: 0}
+  destinationThreshold: 0.1
+  path: []
+  collidingWith:
+    objectLayer: 
+    objectTag: 
+    objectScene: 
+    objectTransform: {fileID: 0}
+  ignoredLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  characterController: {fileID: 0}
+  grounded: 0
   debugPathFinder: 1
 --- !u!1 &1765200534
 GameObject:
@@ -16444,7 +16489,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 366704775}
-  - {fileID: 323175238}
   - {fileID: 1979173060}
   - {fileID: 1446543341}
   - {fileID: 1433411790}

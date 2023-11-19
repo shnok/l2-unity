@@ -60,7 +60,8 @@ public class AnimationController : MonoBehaviour {
         if(IsNextState("Run")) {
             CameraController.GetInstance().followRootBoneOffset = false;
         }
-        if(InputManager.GetInstance().IsInputPressed(InputType.Move) && (IsCurrentState("Idle") || IsAnimationFinished(0)) && pc.canMove) {
+        if((InputManager.GetInstance().IsInputPressed(InputType.Move) || pc.runToTarget)
+            && (IsCurrentState("Idle") || IsAnimationFinished(0)) && pc.canMove) {
             SetBool("Moving", true);
         } else {
             SetBool("Moving", false);
@@ -106,6 +107,7 @@ public class AnimationController : MonoBehaviour {
 
         /* Idle */
         if(!InputManager.GetInstance().IsInputPressed(InputType.Move) 
+            && !pc.runToTarget
             && (IsCurrentState("Run") || IsAnimationFinished(0)) 
             && !IsCurrentState("SitTransition") 
             && !IsCurrentState("Sit")

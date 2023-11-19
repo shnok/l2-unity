@@ -73,11 +73,11 @@ public class Geodata : MonoBehaviour
                                 short z = reader.ReadInt16();
                                 count++;
 
-                                Vector3 nodePos = new Vector3(x, y, z);
+                                Vector3 scaledPos = new Vector3(x, y, z);
 
-                                Node n = new Node(FromNodeToWorldPos(nodePos, origin), nodeSize);
+                                Node n = new Node(scaledPos, FromNodeToWorldPos(scaledPos, origin), nodeSize);
                                 n.walkable = true;
-                                nodes.Add(nodePos, n);
+                                nodes.Add(scaledPos, n);
                             }
                         }
 
@@ -113,9 +113,13 @@ public class Geodata : MonoBehaviour
             Mathf.Floor(offsetPos.y / nodeSize),
             Mathf.Floor(offsetPos.z / nodeSize));
 
-        Debug.Log("Clicked at node: " + nodePos);
-
         return nodePos;
+    }
+
+    public Node GetNode(int x, int y, int z) {
+        Node node;
+        nodes.TryGetValue(new Vector3(x, y, z), out node);
+        return node;
     }
 
     void OnDrawGizmos() {
