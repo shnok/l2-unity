@@ -99,18 +99,23 @@ public class PlayerController : MonoBehaviour {
 
     private void MoveToTargetPosition() {
         Vector3 relativeDirection = targetPosition - flatTransformPos;
-        relativeDirection = relativeDirection.normalized;
+        //relativeDirection = relativeDirection.normalized;
 
         Vector3 relativeAxis = new Vector2(relativeDirection.x, relativeDirection.z);
 
-        float relativeAngle = Mathf.Atan2(relativeAxis.x, relativeAxis.y) * Mathf.Rad2Deg;
-        relativeAngle = Mathf.Round(relativeAngle / 45f);
-        relativeAngle *= 45f;
+        // Use Atan2 to calculate the angle in radians
+        float angleInRadians = Mathf.Atan2(relativeDirection.x, relativeDirection.z);
+
+        // Convert radians to degrees and adjust for Unity's coordinate system
+        float angleInDegrees = Mathf.Rad2Deg * angleInRadians;
+
+        // Ensure the angle is between 0 and 360 degrees
+        angleInDegrees = (angleInDegrees + 360) % 360;
 
         axis = relativeAxis;
-        finalAngle = relativeAngle;
+        finalAngle = angleInDegrees;
         currentSpeed = defaultSpeed;
-        moveDirection = relativeDirection * currentSpeed;
+        moveDirection = relativeDirection.normalized * currentSpeed;
     }
 
     public Vector2 GetAxis() {

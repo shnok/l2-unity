@@ -91,8 +91,7 @@ public class PathFinder
                 }
             }
         }
-
-        //we return the path at the end
+        
         return foundPath;
     }
 

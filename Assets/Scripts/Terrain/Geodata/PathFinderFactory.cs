@@ -67,4 +67,27 @@ public class PathFinderFactory : MonoBehaviour {
         PathFinder newJob = new PathFinder(start, target, completeCallback);
         todoJobs.Add(newJob);
     }
+
+    public List<Node> SmoothPath(List<Node> path) {
+        List<Node> waypoints = new List<Node>();
+
+        int currentNode = 0;
+        //waypoints.Add(path[0]);
+
+        for(int i = 0; i < path.Count; i++) {
+            Vector3 origin = path[currentNode].center;
+            Vector3 destination = path[i].center;
+            Vector3 yOffset = Vector3.up * Geodata.GetInstance().nodeSize * 1.5f;
+            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.GetInstance().obstacleMask);
+
+            if(cantSeeTarget) {
+                Debug.Log("Hit wall at  " + i);
+                waypoints.Add(path[i - 1]);
+                currentNode = i - 1;
+            }
+        }
+
+        waypoints.Add(path[path.Count - 1]);
+        return waypoints;
+    }
 }

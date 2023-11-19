@@ -24,7 +24,7 @@ public class ClickManager : MonoBehaviour {
                 objectTransformData = hoverObjectData;
                 lastClickPosition = hit.point;
 
-                if(entityMask == (entityMask | (1 << hitLayer))) {
+                if(entityMask == (entityMask | (1 << hitLayer)) && objectTransformData.objectTag != "Player") {
                     Debug.Log("Hit entity");
                 } else if(objectTransformData != null) {
                     ClickToMoveController.GetInstance().MoveTo(objectTransformData, lastClickPosition);

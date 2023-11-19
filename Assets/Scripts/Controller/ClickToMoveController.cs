@@ -65,14 +65,15 @@ public class ClickToMoveController : MonoBehaviour {
         targetDestination = clickPosition;
 
         Node node = Geodata.GetInstance().GetNodeAt(target.objectScene, clickPosition);
-        if(node != null) {
+        if(node != null && startNode != null) {
             targetNode = node;
 
             PathFinderFactory.GetInstance().RequestPathfind(startNode, targetNode, (callback) => {
                 Debug.Log("Found path with " + callback.Count + " node(s).");
-                path = callback;
-                if(path.Count == 0) {
+                if(callback.Count == 0) {
                     PlayerController.GetInstance().SetTargetPosition(targetDestination, destinationThreshold);
+                } else {
+                    path = PathFinderFactory.GetInstance().SmoothPath(callback);
                 }
             });
 
@@ -81,7 +82,6 @@ public class ClickToMoveController : MonoBehaviour {
             PlayerController.GetInstance().SetTargetPosition(targetDestination, destinationThreshold);
         }
     }
-
 
     void OnControllerColliderHit(ControllerColliderHit hit) {
         if(ignoredLayers != (ignoredLayers | (1 << hit.gameObject.layer))) {

@@ -10,6 +10,7 @@ public class Geodata : MonoBehaviour
 {
     public float nodeSize = 0.5f;
     public List<string> mapsToLoad;
+    public LayerMask obstacleMask;
     public Dictionary<string, Vector3> mapsOrigin = new Dictionary<string, Vector3>();
     public Dictionary<Vector3, Node> nodes = new Dictionary<Vector3, Node>();
     public bool loaded = false;
