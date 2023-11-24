@@ -18,6 +18,10 @@ public class L2GameUI : MonoBehaviour {
         }
     }
 
+    private void Start() {
+        
+    }
+
     public void Update() {
         if(InputManager.GetInstance().IsInputPressed(InputType.TurnCamera)) {
             DisableMouse();
