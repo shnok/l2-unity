@@ -36,22 +36,24 @@ public class InputManager : MonoBehaviour {
     }
 
     void Update() {
-        if(IsInputPressed(InputType.RightMouseButton) && IsInputPressed(InputType.MouseMoving)) {
-            UpdateInput(InputType.TurnCamera, true);
-            L2GameUI.GetInstance().DisableMouse();
+        if(!L2GameUI.GetInstance().mouseOverUI) {
+            if(IsInputPressed(InputType.RightMouseButton) && IsInputPressed(InputType.MouseMoving)) {
+                UpdateInput(InputType.TurnCamera, true);
+                L2GameUI.GetInstance().DisableMouse();
+            }
+
+            scrollAxis = Input.GetAxis("Mouse ScrollWheel");
+            UpdateInput(InputType.Zoom, scrollAxis != 0);
+
+            UpdateInput(InputType.LeftMouseButtonDown, Input.GetMouseButtonDown(0));
+            UpdateInput(InputType.LeftMouseButton, Input.GetMouseButton(0));
+            UpdateInput(InputType.RightMouseButton, Input.GetMouseButton(1));
         }
 
         if(Input.GetMouseButtonUp(1)) {
             UpdateInput(InputType.TurnCamera, false);
             L2GameUI.GetInstance().EnableMouse();
         }
-
-        scrollAxis = Input.GetAxis("Mouse ScrollWheel");
-        UpdateInput(InputType.Zoom, scrollAxis != 0);
-
-        UpdateInput(InputType.LeftMouseButtonDown, Input.GetMouseButtonDown(0));
-        UpdateInput(InputType.LeftMouseButton, Input.GetMouseButton(0));
-        UpdateInput(InputType.RightMouseButton, Input.GetMouseButton(1));
 
         mouseAxis = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         UpdateInput(InputType.MouseMoving, mouseAxis.x != 0 || mouseAxis.y != 0);
