@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Label : MonoBehaviour {
+public class Nameplate : MonoBehaviour {
     private bool _visible;
     private float _distance;
     private GameObject _target;

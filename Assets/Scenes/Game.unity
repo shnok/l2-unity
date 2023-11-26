@@ -4851,6 +4851,7 @@ GameObject:
   - component: {fileID: 661036169}
   - component: {fileID: 661036168}
   - component: {fileID: 661036170}
+  - component: {fileID: 661036171}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -4902,7 +4903,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseEnabled: 1
-  statusWindow: {fileID: 9197481963319205126, guid: fcfed3fdea47c7f4ea36aeec303ac08d, type: 3}
+  mouseOverUI: 0
+--- !u!114 &661036171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661036167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aa54fc0453ab9e4092d2cabd8d49756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statusWindowTemplate: {fileID: 0}
+  statusWindowWidth: 175
+  statusWindowMinWidth: 175
+  statusWindowMaxWidth: 400
 --- !u!1 &674532129
 GameObject:
   m_ObjectHideFlags: 0
@@ -6253,8 +6270,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 799115971}
+  - component: {fileID: 799115972}
+  - component: {fileID: 799115973}
   m_Layer: 6
-  m_Name: FDarkElf_m000
+  m_Name: User1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6283,6 +6302,57 @@ Transform:
   - {fileID: 1094969159}
   m_Father: {fileID: 581901348}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &799115972
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799115970}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 46.27
+  m_Radius: 6.32
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 22.93, z: 0}
+--- !u!114 &799115973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799115970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25601d56babf5a840a5535f5e9f0b6c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identity:
+    id: 0
+    npcId: 0
+    name: Hello
+    model: 0
+    position: {x: 0, y: 0, z: 0}
+    owned: 0
+  status:
+    hp: 0
+    maxHp: 0
+    level: 0
+    friendly: 0
+    aggressive: 0
 --- !u!4 &815494929 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3ad4aafd844ee664d83138ecb7ac9089, type: 3}
@@ -12800,6 +12870,7 @@ GameObject:
   - component: {fileID: 1753994186}
   - component: {fileID: 1753994188}
   - component: {fileID: 1753994189}
+  - component: {fileID: 1753994190}
   - component: {fileID: 1753994187}
   m_Layer: 6
   m_Name: Player
@@ -12930,6 +13001,33 @@ MonoBehaviour:
   characterController: {fileID: 0}
   grounded: 0
   debugPathFinder: 1
+--- !u!114 &1753994190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753994185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d00e5a138b0f04598f7c9cf63c621c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  identity:
+    id: 0
+    npcId: 0
+    name: Shnok
+    model: 0
+    position: {x: 0, y: 0, z: 0}
+    owned: 0
+  status:
+    hp: 600
+    maxHp: 720
+    level: 10
+    cp: 200
+    maxCp: 200
+    mp: 10
+    maxMp: 120
 --- !u!1 &1765200534
 GameObject:
   m_ObjectHideFlags: 0

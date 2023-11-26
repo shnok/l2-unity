@@ -1,15 +1,19 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DragAndDropManipulator : PointerManipulator {
-    private VisualElement target;
+public class HorizontalResizeManipulator : PointerManipulator {
     private VisualElement root;
     private Vector2 startMousePosition;
-    private Vector2 startPosition;
+    private float originalWidth;
+    private float minWidth;
+    private float maxWidth;
 
-    public DragAndDropManipulator(VisualElement target, VisualElement root) {
+    public HorizontalResizeManipulator(VisualElement target, VisualElement root, float originalWidth, float minWidth, float maxWidth) {
         this.target = target;
         this.root = root;
+        this.originalWidth = originalWidth;
+        this.minWidth = minWidth;
+        this.maxWidth = maxWidth;
     }
 
     protected override void RegisterCallbacksOnTarget() {
@@ -27,7 +31,10 @@ public class DragAndDropManipulator : PointerManipulator {
     private void PointerDownHandler(PointerDownEvent evt) {
         if(evt.button == 0) {
             startMousePosition = evt.position;
-            startPosition = root.layout.position;
+
+            if(root.style.width.value.value != 0) {
+                originalWidth = Mathf.Clamp(root.style.width.value.value, minWidth, maxWidth);
+            }
             target.CapturePointer(evt.pointerId);   
         }
         evt.StopPropagation();
@@ -36,8 +43,7 @@ public class DragAndDropManipulator : PointerManipulator {
     private void PointerMoveHandler(PointerMoveEvent evt) {
         if(target.HasPointerCapture(evt.pointerId)) {
             Vector2 diff = startMousePosition - new Vector2(evt.position.x, evt.position.y);
-            root.style.left = startPosition.x - diff.x;
-            root.style.top = startPosition.y - diff.y;
+            root.style.width = Mathf.Clamp(originalWidth - diff.x, minWidth, maxWidth);
         }
         evt.StopPropagation();
     }

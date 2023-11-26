@@ -23,8 +23,6 @@ public class L2GameUI : MonoBehaviour {
         }
     }
 
-    [SerializeField]
-    private VisualTreeAsset statusWindow;
 
     public void Update() {
         if(rootElement != null && !float.IsNaN(rootElement.resolvedStyle.width) && uiLoaded == false) {
@@ -44,15 +42,7 @@ public class L2GameUI : MonoBehaviour {
     private void LoadUI() {
         VisualElement rootVisualContainer = rootElement[0];
 
-        var statusWindowEle = statusWindow.Instantiate()[0];
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(statusWindowEle);
-        statusWindowEle.AddManipulator(mouseOverDetection);
-
-        var statusWindowDragArea = statusWindowEle.Q<VisualElement>(null, "drag-area");
-        DragAndDropManipulator manipulator = new DragAndDropManipulator(statusWindowDragArea, statusWindowEle);
-        statusWindowDragArea.AddManipulator(manipulator);
-
-        rootVisualContainer.Add(statusWindowEle);
+        StatusWindow.GetInstance().AddWindow(rootVisualContainer);
 
     }
 

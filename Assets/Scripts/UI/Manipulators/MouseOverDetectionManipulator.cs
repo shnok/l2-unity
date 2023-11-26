@@ -2,7 +2,6 @@ using UnityEngine.UIElements;
 using UnityEngine;
 
 public class MouseOverDetectionManipulator : PointerManipulator {
-    private VisualElement target;
 
     public MouseOverDetectionManipulator(VisualElement target) {
         this.target = target;
@@ -21,7 +20,6 @@ public class MouseOverDetectionManipulator : PointerManipulator {
     }
 
     private void PointerEnterHandler(PointerEnterEvent evt) {
-        Debug.Log("Mouse enter " + target.name);
         L2GameUI.GetInstance().mouseOverUI = true;
     }
 
@@ -30,7 +28,6 @@ public class MouseOverDetectionManipulator : PointerManipulator {
     }
 
     private void PointerOutHandler(PointerOutEvent evt) {
-        Debug.Log("Mouse exit " + target.name);
         L2GameUI.GetInstance().mouseOverUI = false;
     }
 }
