@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour {
     public float zoomSpeed = 5f;
 
     public Vector3 targetPos;
+    public LayerMask collisionMask;
     public CameraCollisionDetection detector;
 
     public static CameraController _instance;
@@ -49,7 +50,7 @@ public class CameraController : MonoBehaviour {
         target = go.transform;
         rootBone = target.transform.FindRecursive(child => child.tag == "Root");
         rootBoneHeight = rootBone.position.y - target.position.y;
-        detector = new CameraCollisionDetection(GetComponent<Camera>(), target, camOffset);
+        detector = new CameraCollisionDetection(GetComponent<Camera>(), target, camOffset, collisionMask);
     }
 
     public bool IsObjectVisible(GameObject target) {

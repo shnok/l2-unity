@@ -10,6 +10,7 @@ public class L2GameUI : MonoBehaviour {
     public static L2GameUI _instance;
     VisualElement rootElement;
     bool uiLoaded = false;
+    public Focusable focusedElement;
 
     public static L2GameUI GetInstance() {
         return _instance;
@@ -23,13 +24,16 @@ public class L2GameUI : MonoBehaviour {
         }
     }
 
-
     public void Update() {
         if(rootElement != null && !float.IsNaN(rootElement.resolvedStyle.width) && uiLoaded == false) {
             LoadUI();
             uiLoaded = true;
         } else {
             rootElement = GetComponent<UIDocument>().rootVisualElement;
+        }
+
+        if(uiLoaded) {
+            focusedElement = rootElement.focusController.focusedElement;
         }
 
         if(InputManager.GetInstance().IsInputPressed(InputType.TurnCamera)) {
@@ -39,11 +43,17 @@ public class L2GameUI : MonoBehaviour {
         }
     }
 
+    public void BlurFocus() {
+        if(focusedElement != null) {
+            focusedElement.Blur();
+        }
+    }
+
     private void LoadUI() {
         VisualElement rootVisualContainer = rootElement[0];
 
         StatusWindow.GetInstance().AddWindow(rootVisualContainer);
-
+        ChatWindow.GetInstance().AddWindow(rootVisualContainer);
     }
 
     public void EnableMouse() {
@@ -68,5 +78,14 @@ public class L2GameUI : MonoBehaviour {
             UnityEngine.Cursor.visible = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Confined;
         }
+    }
+
+    public static void BlinkingCursor(VisualElement tf) {
+        tf.schedule.Execute(() => {
+            if(tf.ClassListContains("transparent-cursor"))
+                tf.RemoveFromClassList("transparent-cursor");
+            else
+                tf.AddToClassList("transparent-cursor");
+        }).Every(500);
     }
 }

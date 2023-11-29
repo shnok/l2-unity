@@ -2,16 +2,18 @@ using UnityEngine;
 
 [System.Serializable]
 public class CameraCollisionDetection {
-    public LayerMask collisionLayer = ~LayerMask.GetMask(new string[] { "Entity", "PlayerEntity" });
+    public LayerMask collisionLayer;
     private Camera _camera;
     private Transform _target;
     private Vector3 _offset;
     public float adjustedDistance;
+    public Transform collisionObject;
 
-    public CameraCollisionDetection(Camera camera, Transform target, Vector3 cameraOffset) {
+    public CameraCollisionDetection(Camera camera, Transform target, Vector3 cameraOffset, LayerMask collisionmask) {
         _camera = camera;
         _target = target;
         _offset = cameraOffset;
+        collisionLayer = collisionmask;
     }
 
     /* Calculate our near clip points */
@@ -48,6 +50,7 @@ public class CameraCollisionDetection {
         adjustedDistance = desiredDistance;
         float distance = -1f;
 
+        Transform hitObject = null;
         for(int i = 0; i < clipPoints.Length; i++) {
             Ray ray = new Ray(_target.position, clipPoints[i] - (_target.position));
             float rayDistance = Vector3.Distance(clipPoints[i], _target.position);
@@ -57,12 +60,15 @@ public class CameraCollisionDetection {
                 if(distance == -1f || hit.distance < distance) {
                     distance = hit.distance;
                 }
-            }
+                hitObject = hit.transform;
+            } 
         }
 
         if(distance != -1f) {
             adjustedDistance = distance;
         }
+
+        collisionObject = hitObject;
     }
 
     public float GetCameraDistance() {

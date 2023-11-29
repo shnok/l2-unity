@@ -14,7 +14,9 @@ public enum InputType {
     Attack,
     Sit,
     Jump,
-    TurnCamera
+    TurnCamera,
+    SendMessage,
+    Escape
 }
 
 public class InputManager : MonoBehaviour {
@@ -58,15 +60,20 @@ public class InputManager : MonoBehaviour {
         mouseAxis = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         UpdateInput(InputType.MouseMoving, mouseAxis.x != 0 || mouseAxis.y != 0);
 
-        inputAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        UpdateInput(InputType.SendMessage, Input.GetKeyDown(KeyCode.Return));
+        UpdateInput(InputType.Escape, Input.GetKeyDown(KeyCode.Escape));
+
+        if(!ChatWindow.GetInstance().chatOpened) {
+            inputAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            UpdateInput(InputType.Jump, Input.GetKeyDown(KeyCode.Space));
+            UpdateInput(InputType.Sit, Input.GetKeyDown(KeyCode.E));
+        } else {
+            inputAxis = Vector2.zero;
+        }
+
         UpdateInput(InputType.InputAxis, inputAxis.x != 0 || inputAxis.y != 0);
-        UpdateInput(InputType.Jump, Input.GetKeyDown(KeyCode.Space));
-
-        UpdateInput(InputType.MoveForward, IsInputPressed(InputType.LeftMouseButton) && IsInputPressed(InputType.RightMouseButton));
-
         UpdateInput(InputType.Move, IsInputPressed(InputType.InputAxis) || IsInputPressed(InputType.MoveForward));
-
-        UpdateInput(InputType.Sit, Input.GetKeyDown(KeyCode.E));
+        UpdateInput(InputType.MoveForward, IsInputPressed(InputType.LeftMouseButton) && IsInputPressed(InputType.RightMouseButton));
     }
 
     public bool IsInputPressed(InputType type) {

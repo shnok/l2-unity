@@ -8,10 +8,9 @@ public class HorizontalResizeManipulator : PointerManipulator {
     private float minWidth;
     private float maxWidth;
 
-    public HorizontalResizeManipulator(VisualElement target, VisualElement root, float originalWidth, float minWidth, float maxWidth) {
+    public HorizontalResizeManipulator(VisualElement target, VisualElement root, float minWidth, float maxWidth) {
         this.target = target;
         this.root = root;
-        this.originalWidth = originalWidth;
         this.minWidth = minWidth;
         this.maxWidth = maxWidth;
     }
@@ -32,8 +31,8 @@ public class HorizontalResizeManipulator : PointerManipulator {
         if(evt.button == 0) {
             startMousePosition = evt.position;
 
-            if(root.style.width.value.value != 0) {
-                originalWidth = Mathf.Clamp(root.style.width.value.value, minWidth, maxWidth);
+            if(root.resolvedStyle.width != 0) {
+                originalWidth = Mathf.Clamp(root.resolvedStyle.width, minWidth, maxWidth);
             }
             target.CapturePointer(evt.pointerId);   
         }

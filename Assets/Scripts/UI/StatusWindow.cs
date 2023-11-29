@@ -9,7 +9,6 @@ public class StatusWindow : MonoBehaviour
     [SerializeField]
     private VisualTreeAsset statusWindowTemplate;
 
-    public float statusWindowWidth = 175.0f;
     public float statusWindowMinWidth = 175.0f;
     public float statusWindowMaxWidth = 400.0f;
     private Label nameLabel;
@@ -57,7 +56,7 @@ public class StatusWindow : MonoBehaviour
 
         var horizontalResizeHandle = statusWindowEle.Q<VisualElement>(null, "hor-resize-handle");
         HorizontalResizeManipulator horizontalResize = new HorizontalResizeManipulator(
-            horizontalResizeHandle, statusWindowEle, statusWindowWidth, statusWindowMinWidth, statusWindowMaxWidth);
+            horizontalResizeHandle, statusWindowEle, statusWindowMinWidth, statusWindowMaxWidth);
         horizontalResizeHandle.AddManipulator(horizontalResize);
 
         nameLabel = statusWindowEle.Q<Label>("PlayerNameText");
