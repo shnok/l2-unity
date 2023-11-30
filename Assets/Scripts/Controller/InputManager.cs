@@ -60,7 +60,7 @@ public class InputManager : MonoBehaviour {
         mouseAxis = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         UpdateInput(InputType.MouseMoving, mouseAxis.x != 0 || mouseAxis.y != 0);
 
-        UpdateInput(InputType.SendMessage, Input.GetKeyDown(KeyCode.Return));
+        UpdateInput(InputType.SendMessage, Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter));
         UpdateInput(InputType.Escape, Input.GetKeyDown(KeyCode.Escape));
 
         if(!ChatWindow.GetInstance().chatOpened) {

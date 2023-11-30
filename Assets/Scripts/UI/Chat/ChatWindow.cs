@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class ChatWindow : MonoBehaviour {
     private TextField chatInput;
     private VisualElement chatInputContainer;
     private TabView chatTabView;
+    private VisualElement chatWindowEle;
 
     public bool chatOpened = false;
     public bool offlineChat = true;
@@ -32,6 +34,10 @@ public class ChatWindow : MonoBehaviour {
     }
 
     void Start() {
+        LoadAssets();
+    }
+
+    private void LoadAssets() {
         if(chatWindowTemplate == null) {
             chatWindowTemplate = UnityEditor.AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Data/UI/_Elements/ChatWindow.uxml");
         }
@@ -44,20 +50,36 @@ public class ChatWindow : MonoBehaviour {
         if(tabTemplate == null) {
             Debug.LogError("Could not load chat tab template.");
         }
+
     }
+
+
 
     public void AddWindow(VisualElement root) {
         if(chatWindowTemplate == null) {
             return;
         }
+        StartCoroutine(BuildWindow(root));
+    }
 
-        var chatWindowEle = chatWindowTemplate.Instantiate()[0];
+    IEnumerator BuildWindow(VisualElement root) {
+
+        chatWindowEle = chatWindowTemplate.Instantiate()[0];
         MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(chatWindowEle);
         chatWindowEle.AddManipulator(mouseOverDetection);
 
         var diagonalResizeHandle = chatWindowEle.Q<VisualElement>(null, "resize-diag");
+
         DiagonalResizeManipulator diagonalResizeManipulator = new DiagonalResizeManipulator(
-            diagonalResizeHandle, chatWindowEle, chatWindowMinWidth, chatWindowMaxWidth, chatWindowMinHeight, chatWindowMaxHeight);
+            diagonalResizeHandle,
+            chatWindowEle,
+            chatWindowMinWidth,
+            chatWindowMaxWidth,
+            chatWindowMinHeight,
+            chatWindowMaxHeight,
+            14.5f,
+            2f);
+
         diagonalResizeHandle.AddManipulator(diagonalResizeManipulator);
 
         chatInput = chatWindowEle.Q<TextField>("ChatInputField");
@@ -67,25 +89,28 @@ public class ChatWindow : MonoBehaviour {
 
         chatInputContainer = chatWindowEle.Q<VisualElement>("InnerBar");
 
-        CreateTabs(chatWindowEle);
+        CreateTabs();
 
         root.Add(chatWindowEle);
 
+        yield return new WaitForEndOfFrame();
+        diagonalResizeManipulator.SnapSize();
+
         if(offlineChat) {
             ReceiveChatMessage(new MessageLoggedIn(PlayerEntity.GetInstance().Identity.Name));
-        }      
+        }
     }
 
-    private void CreateTabs(VisualElement chatWindowEle) {
+
+    private void CreateTabs() {
         chatTabView = chatWindowEle.Q<TabView>("ChatTabView");
         
         foreach(var tab in tabs) {
             Tab t = (Tab) tabTemplate.CloneTree()[0][0];
+            tab.Initialize(chatWindowEle, t);
             t.name = tab.tabName;
-            tab.scrollView = t.Q<ScrollView>("ScrollView");
-            tab.content = t.Q<Label>("Content");
-            tab.content.text = "";
-            tab.tab = t;
+            t.label = tab.tabName;
+          
             chatTabView.Add(t);
         }
     }
@@ -95,7 +120,7 @@ public class ChatWindow : MonoBehaviour {
             if(chatOpened) {
                 CloseChat(true);
             } else {
-                OpenChat();
+                StartCoroutine(OpenChat());
             }
         }
 
@@ -106,9 +131,10 @@ public class ChatWindow : MonoBehaviour {
         }
     }
 
-    public void OpenChat() {
+    IEnumerator OpenChat() {
         chatOpened = true;
         L2GameUI.GetInstance().BlurFocus();
+        yield return new WaitForEndOfFrame();
         chatInput.Focus();
     }
 
@@ -171,7 +197,6 @@ public class ChatWindow : MonoBehaviour {
             if(tabs[i].filteredMessages.Count > 0) {
                 if(tabs[i].filteredMessages.Contains(message.messageType)) {
                     ConcatMessage(tabs[i].content, message.ToString());
-                    //Scroll
                 }
             }
         }
@@ -179,25 +204,18 @@ public class ChatWindow : MonoBehaviour {
     }
 
     private void ConcatMessage(Label chatContent, string message) {
-
         if(chatContent.text.Length > 0) {
             chatContent.text += "\r\n";
         }
-
         chatContent.text += message;
+    }
 
-        /*//TODO: Filter messages based on tabs
-        Label label = tab1Text;
-        Scroller scroller = tab1ScrollView.verticalScroller;
+    internal void ScrollDown(Scroller scroller) {
+        StartCoroutine(ScrollDownWithDelay(scroller));
+    }
 
-        if(label.text.Length > 0) {
-            label.text += "\r\n";
-        }
-
-        label.text += message;
-
-        if(autoscroll) {
-            scroller.value = scroller.value = scroller.highValue > 0 ? scroller.highValue : 0;
-        }*/
+    IEnumerator ScrollDownWithDelay(Scroller scroller) {
+        yield return new WaitForEndOfFrame();
+        scroller.value = scroller.highValue > 0 ? scroller.highValue : 0;
     }
 }

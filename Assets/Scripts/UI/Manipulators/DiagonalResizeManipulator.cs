@@ -10,8 +10,37 @@ public class DiagonalResizeManipulator : PointerManipulator {
     private float maxWidth;
     private float minHeight;
     private float maxHeight;
+    private float snapSize;
+    private float snapOffset;
+    private bool snap = false;
 
-    public DiagonalResizeManipulator(VisualElement target, VisualElement root, float minWidth, float maxWidth, float minHeight, float maxHeight) {
+    public DiagonalResizeManipulator(
+        VisualElement target, 
+        VisualElement root, 
+        float minWidth, 
+        float maxWidth, 
+        float minHeight, 
+        float maxHeight, 
+        float snapSize, 
+        float snapOffset) {
+        this.target = target;
+        this.root = root;
+        this.minWidth = minWidth;
+        this.maxWidth = maxWidth;
+        this.minHeight = minHeight;
+        this.maxHeight = maxHeight;
+        this.snapSize = snapSize;
+        this.snapOffset = snapOffset;
+        snap = true;
+    }
+
+    public DiagonalResizeManipulator(
+    VisualElement target,
+    VisualElement root,
+    float minWidth,
+    float maxWidth,
+    float minHeight,
+    float maxHeight) {
         this.target = target;
         this.root = root;
         this.minWidth = minWidth;
@@ -40,6 +69,7 @@ public class DiagonalResizeManipulator : PointerManipulator {
                 originalWidth = Mathf.Clamp(root.resolvedStyle.width, minWidth, maxWidth);
                 originalHeight = Mathf.Clamp(root.resolvedStyle.height, minHeight, maxHeight);
             }
+
             target.CapturePointer(evt.pointerId);   
         }
         evt.StopPropagation();
@@ -50,7 +80,14 @@ public class DiagonalResizeManipulator : PointerManipulator {
             Vector2 diffx = startMousePosition - new Vector2(evt.position.x, evt.position.y);
             Vector2 diffy = new Vector2(evt.position.x, evt.position.y) - startMousePosition;
             root.style.width = Mathf.Clamp(originalWidth - diffx.x, minWidth, maxWidth);
-            root.style.height = Mathf.Clamp(originalHeight - diffy.y, minHeight, maxHeight);
+
+            float yDiff = Mathf.Clamp(originalHeight - diffy.y, minHeight, maxHeight);
+            if(snap) {
+                float snappedY = yDiff - yDiff % snapSize;
+                root.style.height = snappedY + snapOffset;
+            } else {
+                root.style.width = yDiff;
+            }
         }
         evt.StopPropagation();
     }
@@ -60,5 +97,11 @@ public class DiagonalResizeManipulator : PointerManipulator {
             target.ReleasePointer(evt.pointerId);
         }
         evt.StopPropagation();
+    }
+
+    public void SnapSize() {
+        /* Initial snap */
+        float snappedY = minHeight - minHeight % snapSize;
+        root.style.height = snappedY + snapOffset;
     }
 }
