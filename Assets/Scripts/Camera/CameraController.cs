@@ -53,16 +53,23 @@ public class CameraController : MonoBehaviour {
         detector = new CameraCollisionDetection(GetComponent<Camera>(), target, camOffset, collisionMask);
     }
 
-    public bool IsObjectVisible(GameObject target) {
-        if(Vector3.Angle(target.transform.position - transform.position, transform.forward) <= Camera.main.fieldOfView) {
-            RaycastHit hit;
-            if(Physics.Linecast(transform.position, target.transform.position + Vector3.up, out hit, ~LayerMask.GetMask(new string[] { "Entity", "PlayerEntity" }))) {
-                return false;
+    public bool IsObjectVisible(Transform target) {
+        RaycastHit hit;
+        CameraController controller = CameraController.GetInstance();
+        Vector3[] cameraClips = controller.detector.GetCameraClipPoints(controller.currentDistance);
+        bool visible = false;
+        for(int i = 0; i < cameraClips.Length; i++) {
+            if(!Physics.Linecast(cameraClips[i], target.position + 0.5f * Vector3.up, out hit, collisionMask)) {
+                visible = true;
+                break;
             }
         }
 
-        Vector3 viewPort = Camera.main.WorldToViewportPoint(target.transform.position);
+        if(visible == false) {
+            return false;
+        }
 
+        Vector3 viewPort = Camera.main.WorldToViewportPoint(target.position);
         bool insideView = viewPort.x <= 1 && viewPort.x >= 0 && viewPort.y <= 1 && viewPort.y >= 0 && viewPort.z >= -0.2f;
         return insideView;
     }

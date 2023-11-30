@@ -97,7 +97,7 @@ public class NameplatesManager : MonoBehaviour
             nameplateEntityName = visualElement.Q<Label>("EntityName"),
             nameplateEntityTitle = visualElement.Q<Label>("EntityTitle"),
             target = entity.transform,
-            title = "Lvl: 1",
+            title = "",
             nameplateOffsetHeight = 1f,
             name = entity.Identity.Name,
             targetId = entity.Identity.Id,
@@ -166,17 +166,6 @@ public class NameplatesManager : MonoBehaviour
             return false;
         }
 
-        RaycastHit hit;
-        CameraController controller = CameraController.GetInstance();
-        Vector3[] cameraClips = controller.detector.GetCameraClipPoints(controller.currentDistance);
-        bool visible = false;
-        for(int i = 0; i < cameraClips.Length; i++) {
-            if(!Physics.Linecast(cameraClips[i], target.position + occlusionBaseHeight * Vector3.up, out hit, occlusionMask)) {
-                visible = true;
-                break;
-            }
-        }
-
-        return visible;
+        return CameraController.GetInstance().IsObjectVisible(target);
     }
 }
