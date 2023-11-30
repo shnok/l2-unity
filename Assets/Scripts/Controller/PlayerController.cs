@@ -101,20 +101,25 @@ public class PlayerController : MonoBehaviour {
     private void MoveToTargetPosition() {
         Vector3 relativeDirection = targetPosition - flatTransformPos;
 
-        Vector3 relativeAxis = new Vector2(relativeDirection.x, relativeDirection.z);
+        if(controller.isGrounded && canMove) {         
+            Vector3 relativeAxis = new Vector2(relativeDirection.x, relativeDirection.z);
 
-        // Use Atan2 to calculate the angle in radians
-        float angleInRadians = Mathf.Atan2(relativeDirection.x, relativeDirection.z);
+            // Use Atan2 to calculate the angle in radians
+            float angleInRadians = Mathf.Atan2(relativeDirection.x, relativeDirection.z);
 
-        // Convert radians to degrees and adjust for Unity's coordinate system
-        float angleInDegrees = Mathf.Rad2Deg * angleInRadians;
+            // Convert radians to degrees and adjust for Unity's coordinate system
+            float angleInDegrees = Mathf.Rad2Deg * angleInRadians;
 
-        // Ensure the angle is between 0 and 360 degrees
-        angleInDegrees = (angleInDegrees + 360) % 360;
+            // Ensure the angle is between 0 and 360 degrees
+            angleInDegrees = (angleInDegrees + 360) % 360;
 
-        axis = relativeAxis;
-        finalAngle = angleInDegrees;
-        currentSpeed = defaultSpeed;
+            axis = relativeAxis;
+            finalAngle = angleInDegrees;
+            currentSpeed = defaultSpeed;
+        } else {
+            relativeDirection = Vector3.zero;
+        }
+
         moveDirection = relativeDirection.normalized * currentSpeed;
     }
 

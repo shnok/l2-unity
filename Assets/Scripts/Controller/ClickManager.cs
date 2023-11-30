@@ -10,6 +10,7 @@ public class ClickManager : MonoBehaviour {
 
     public LayerMask walkableMask;
     public LayerMask entityMask;
+    public LayerMask ignoreLayer;
 
     public static ClickManager _instance;
     public static ClickManager GetInstance() {
@@ -31,7 +32,7 @@ public class ClickManager : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit)) {
+        if(Physics.Raycast(ray, out hit, 1000f, ~ignoreLayer)) {
             hoverObjectData = new ObjectData(hit.collider.gameObject);
             int hitLayer = hit.collider.gameObject.layer;
 
