@@ -4797,6 +4797,7 @@ GameObject:
   - component: {fileID: 661036170}
   - component: {fileID: 661036171}
   - component: {fileID: 661036172}
+  - component: {fileID: 661036173}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -4849,6 +4850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseEnabled: 1
   mouseOverUI: 0
+  uiLoaded: 0
 --- !u!114 &661036171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4892,6 +4894,28 @@ MonoBehaviour:
   chatOpened: 0
   offlineChat: 1
   autoscroll: 1
+--- !u!114 &661036173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661036167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b924f2ee5faed49b55c17e32d096a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameplateTemplate: {fileID: 0}
+  nameplateViewDistance: 5
+  entityMask:
+    serializedVersion: 2
+    m_Bits: 2112
+  occlusionMask:
+    serializedVersion: 2
+    m_Bits: 392
+  occlusionBaseHeight: 1.5
+  playerTransform: {fileID: 0}
 --- !u!1 &674532129
 GameObject:
   m_ObjectHideFlags: 0
@@ -6246,7 +6270,7 @@ GameObject:
   - component: {fileID: 799115973}
   m_Layer: 6
   m_Name: User1
-  m_TagString: Untagged
+  m_TagString: User
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6313,7 +6337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   identity:
-    id: 0
+    id: 1
     npcId: 0
     name: Hello
     model: 0
@@ -11410,13 +11434,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lastClickPosition: {x: 0, y: 0, z: 0}
   locator: {fileID: 0}
-  objectTransformData:
-    objectLayer: 
+  targetObjectData:
+    objectLayerName: 
+    objectLayer: 0
     objectTag: 
     objectScene: 
     objectTransform: {fileID: 0}
   hoverObjectData:
-    objectLayer: 
+    objectLayerName: 
+    objectLayer: 0
     objectTag: 
     objectScene: 
     objectTransform: {fileID: 0}
@@ -12966,7 +12992,8 @@ MonoBehaviour:
   destinationThreshold: 0.1
   path: []
   collidingWith:
-    objectLayer: 
+    objectLayerName: 
+    objectLayer: 0
     objectTag: 
     objectScene: 
     objectTransform: {fileID: 0}

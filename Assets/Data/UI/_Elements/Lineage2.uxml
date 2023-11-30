@@ -1,6 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
-    <ui:VisualElement name="Container" focusable="false" usage-hints="GroupTransform" style="opacity: 1; display: flex; background-color: rgba(173, 110, 0, 0); flex-grow: 1;">
+    <ui:VisualElement name="NameplatesContainer" focusable="false" usage-hints="GroupTransform" style="opacity: 1; display: flex; background-color: rgba(173, 110, 0, 0); flex-grow: 1; position: absolute; width: 100%; height: 100%;">
+        <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="UIContainer" focusable="false" usage-hints="GroupTransform" style="opacity: 1; display: flex; background-color: rgba(173, 110, 0, 0); flex-grow: 1;">
         <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
     </ui:VisualElement>
 </ui:UXML>

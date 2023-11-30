@@ -9,7 +9,7 @@ public class L2GameUI : MonoBehaviour {
     public NativeCoords lastMousePosition;
     public static L2GameUI _instance;
     VisualElement rootElement;
-    bool uiLoaded = false;
+    public bool uiLoaded = false;
     public Focusable focusedElement;
 
     public static L2GameUI GetInstance() {
@@ -43,6 +43,13 @@ public class L2GameUI : MonoBehaviour {
         }
     }
 
+    public VisualElement GetRootElement() {
+        if(rootElement != null) {
+            return rootElement;
+        }
+        return null;
+    }
+
     public void BlurFocus() {
         if(focusedElement != null) {
             focusedElement.Blur();
@@ -50,7 +57,7 @@ public class L2GameUI : MonoBehaviour {
     }
 
     private void LoadUI() {
-        VisualElement rootVisualContainer = rootElement[0];
+        VisualElement rootVisualContainer = rootElement.Q<VisualElement>("UIContainer");
 
         StatusWindow.GetInstance().AddWindow(rootVisualContainer);
         ChatWindow.GetInstance().AddWindow(rootVisualContainer);

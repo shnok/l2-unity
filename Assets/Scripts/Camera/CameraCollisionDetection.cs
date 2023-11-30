@@ -17,7 +17,7 @@ public class CameraCollisionDetection {
     }
 
     /* Calculate our near clip points */
-    private Vector3[] GetCameraClipPoints(float distance) {
+    public Vector3[] GetCameraClipPoints(float distance) {
         Vector3[] cameraClipPoints = new Vector3[5];
 
         Quaternion camRot = _camera.transform.rotation;

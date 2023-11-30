@@ -201,7 +201,7 @@ TextElement {
     margin: 0;
 }
 
-.chat-window .chat-content { 
+.chat-window .chat-content {
     padding: 4px 2px 0 0;
     margin: 0;
     color: rgb(220, 220, 220);
@@ -351,7 +351,6 @@ TextElement {
     font-size: 12px;
 }
 
-/*.chat-window .unity-scroll-view__content-container {*/
 .chat-window .unity-scroll-view__content-viewport {
     margin-top: 6px;
     margin-bottom: 4px;
@@ -434,4 +433,60 @@ TextElement {
 
 .chat-window .unity-scroller__low-button {
     background-image: url('project://database/Assets/Data/UI/Scrollbar/ScrollBarUpBtn.png?fileID=2800000&guid=1afd826ca3da2ec48bc50e97ea39d325&type=3#ScrollBarUpBtn');
+}
+
+.target-bubble {
+    width: 16px;
+    height: 16px;
+    -unity-slice-left: 0;
+    -unity-slice-scale: 0;
+    -unity-slice-right: 15;
+    -unity-slice-bottom: 15;
+}
+
+.target-bubble-hover {
+    background-image: url('project://database/Assets/Data/UI/Target/HeadDisplay_DF_Target_Normal.png?fileID=2800000&guid=f160c451cc463df438332391c03a8c51&type=3#HeadDisplay_DF_Target_Normal');
+}
+
+.target-bubble-target {
+    background-image: url('project://database/Assets/Data/UI/Target/HeadDisplay_DF_Target_Target.png');
+}
+
+.target-bubble-attack {
+    background-image: url('project://database/Assets/Data/UI/Target/HeadDisplay_DF_Target_Attack.png');
+}
+
+.target-name {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 2px;
+    padding-bottom: 0;
+    padding-left: 2px;
+    -unity-font-definition: url('project://database/Assets/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
+    color: rgb(240, 240, 240);
+    font-size: 13px;
+    -unity-text-outline-width: 0.75px;
+    -unity-text-outline-color: rgb(0,0,0);
+    text-shadow: 0 0 2px rgb(0, 0, 0);
+}
+
+.target-title {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-align: upper-center;
+    -unity-font-definition: url('project://database/Assets/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
+    color: rgb(156, 218, 144);
+    -unity-text-outline-width: 0.75px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    font-size: 13px;
+    text-shadow: 0 0 2px rgb(0, 0, 0);
 }
