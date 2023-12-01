@@ -44,6 +44,7 @@ public class ClickManager : MonoBehaviour {
 
                 if(entityMask == (entityMask | (1 << hitLayer)) && targetObjectData.objectTag != "Player") {
                     Debug.Log("Hit entity");
+                    TargetManager.GetInstance().SetTarget(targetObjectData);
                 } else if(targetObjectData != null) {
                     ClickToMoveController.GetInstance().MoveTo(targetObjectData, lastClickPosition);
                     PlaceLocator(lastClickPosition);

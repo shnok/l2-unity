@@ -55,7 +55,7 @@ public class NameplatesManager : MonoBehaviour
         CreateNameplateForEntities();
         CheckNameplateVisibility();
         CheckMouseOver();
-        
+        CheckTarget();
     }
 
     private void CheckMouseOver() {
@@ -68,6 +68,19 @@ public class NameplatesManager : MonoBehaviour
                         CreateNameplate(e);
                     }
                 }
+            }
+        }
+    }
+
+    private void CheckTarget() {
+        if(!TargetManager.GetInstance().HasTarget()) {
+            return;
+        }
+
+        Entity e = TargetManager.GetInstance().GetTargetData().data.objectTransform.GetComponent<Entity>();
+        if(e != null) {
+            if(!nameplates.ContainsKey(e.Identity.Id)) {
+                CreateNameplate(e);
             }
         }
     }
@@ -140,6 +153,13 @@ public class NameplatesManager : MonoBehaviour
     }
 
     private void UpdateNameplateStyle(Nameplate nameplate) {
+        if(TargetManager.GetInstance().HasTarget() && TargetManager.GetInstance().GetTargetData().data.objectTransform == nameplate.target) {
+            nameplate.SetStyle("target-bubble-target");
+            return;
+        } else {
+            nameplate.RemoveStyle("target-bubble-target");
+        }
+        
         if(ClickManager.GetInstance().hoverObjectData != null && ClickManager.GetInstance().hoverObjectData.objectTransform == nameplate.target) {
             nameplate.SetStyle("target-bubble-hover");
         } else {
@@ -154,14 +174,16 @@ public class NameplatesManager : MonoBehaviour
     }
 
     private bool IsNameplateVisible(Transform target) {
-        if(ClickManager.GetInstance().hoverObjectData != null && ClickManager.GetInstance().hoverObjectData.objectTransform == target) {
-            return true;
-        }
-
         if(target == null) {
             return false;
         }
 
+        if(ClickManager.GetInstance().hoverObjectData != null && ClickManager.GetInstance().hoverObjectData.objectTransform == target) {
+            return true;
+        }
+        if(TargetManager.GetInstance().HasTarget() && TargetManager.GetInstance().GetTargetData().data.objectTransform == target) {
+            return true;
+        }
         if(Vector3.Distance(playerTransform.position, target.position) > nameplateViewDistance) {
             return false;
         }

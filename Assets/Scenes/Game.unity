@@ -4798,6 +4798,7 @@ GameObject:
   - component: {fileID: 661036171}
   - component: {fileID: 661036172}
   - component: {fileID: 661036173}
+  - component: {fileID: 661036174}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -4916,6 +4917,21 @@ MonoBehaviour:
     m_Bits: 392
   occlusionBaseHeight: 1.5
   playerTransform: {fileID: 0}
+--- !u!114 &661036174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661036167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 820818033378cea4480aedc5f439ad6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetWindowTemplate: {fileID: 0}
+  statusWindowMinWidth: 175
+  statusWindowMaxWidth: 300
 --- !u!1 &674532129
 GameObject:
   m_ObjectHideFlags: 0
@@ -6337,6 +6353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   identity:
+    entityType: 1
     id: 1
     npcId: 0
     name: Hello
@@ -6344,11 +6361,13 @@ MonoBehaviour:
     position: {x: 0, y: 0, z: 0}
     owned: 0
   status:
-    hp: 0
-    maxHp: 0
-    level: 0
-    friendly: 0
-    aggressive: 0
+    hp: 124
+    maxHp: 200
+    level: 2
+    cp: 0
+    maxCp: 0
+    mp: 0
+    maxMp: 0
 --- !u!4 &815494929 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3ad4aafd844ee664d83138ecb7ac9089, type: 3}
@@ -11369,6 +11388,7 @@ GameObject:
   - component: {fileID: 1433411789}
   - component: {fileID: 1433411791}
   - component: {fileID: 1433411793}
+  - component: {fileID: 1433411794}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -11455,6 +11475,34 @@ MonoBehaviour:
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 2054
+--- !u!114 &1433411794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433411788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276d2bd066b40f942bca360f382d8bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target:
+    identity:
+      entityType: 0
+      id: 0
+      npcId: 0
+      name: 
+      model: 0
+      position: {x: 0, y: 0, z: 0}
+      owned: 0
+    data:
+      objectLayerName: 
+      objectLayer: 0
+      objectTag: 
+      objectScene: 
+      objectTransform: {fileID: 0}
+    distance: 0
 --- !u!1 &1438851195
 GameObject:
   m_ObjectHideFlags: 0
@@ -13016,6 +13064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   identity:
+    entityType: 0
     id: 0
     npcId: 0
     name: Shnok

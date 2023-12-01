@@ -18,12 +18,4 @@ public class PlayerEntity : Entity {
             instance = this;
         }
     }
-
-    public override void ApplyDamage(byte attackId, int value) {
-        throw new System.NotImplementedException();
-    }
-
-    public override void InflictAttack(AttackType attackType) {
-        throw new System.NotImplementedException();
-    }
 }
