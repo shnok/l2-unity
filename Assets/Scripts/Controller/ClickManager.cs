@@ -5,7 +5,7 @@ using UnityEngine;
 public class ClickManager : MonoBehaviour {
     public Vector3 lastClickPosition = Vector3.zero;
     public GameObject locator;
-    public ObjectData objectTransformData;
+    public ObjectData targetObjectData;
     public ObjectData hoverObjectData;
 
     public LayerMask walkableMask;
@@ -39,13 +39,14 @@ public class ClickManager : MonoBehaviour {
             if(InputManager.GetInstance().IsInputPressed(InputType.LeftMouseButtonDown) &&
                 !InputManager.GetInstance().IsInputPressed(InputType.RightMouseButton)) 
             {
-                objectTransformData = hoverObjectData;
+                targetObjectData = hoverObjectData;
                 lastClickPosition = hit.point;
 
-                if(entityMask == (entityMask | (1 << hitLayer)) && objectTransformData.objectTag != "Player") {
+                if(entityMask == (entityMask | (1 << hitLayer)) && targetObjectData.objectTag != "Player") {
                     Debug.Log("Hit entity");
-                } else if(objectTransformData != null) {
-                    ClickToMoveController.GetInstance().MoveTo(objectTransformData, lastClickPosition);
+                    TargetManager.GetInstance().SetTarget(targetObjectData);
+                } else if(targetObjectData != null) {
+                    ClickToMoveController.GetInstance().MoveTo(targetObjectData, lastClickPosition);
                     PlaceLocator(lastClickPosition);
                 }
             }

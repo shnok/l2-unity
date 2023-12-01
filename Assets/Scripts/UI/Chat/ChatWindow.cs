@@ -50,7 +50,6 @@ public class ChatWindow : MonoBehaviour {
         if(tabTemplate == null) {
             Debug.LogError("Could not load chat tab template.");
         }
-
     }
 
 

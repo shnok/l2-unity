@@ -4,7 +4,8 @@ using UnityEngine;
 
 [System.Serializable]
 public class ObjectData {
-    public string objectLayer;
+    public string objectLayerName;
+    public int objectLayer;
     public string objectTag;
     public string objectScene;
     public Transform objectTransform;
@@ -12,7 +13,8 @@ public class ObjectData {
     public ObjectData(GameObject gameObject) {
         objectTransform = gameObject.transform;
         objectTag = gameObject.tag;
-        objectLayer = LayerMask.LayerToName(gameObject.layer);
+        objectLayerName = LayerMask.LayerToName(gameObject.layer);
+        objectLayer = gameObject.layer;
         objectScene = gameObject.scene.name;
     }
 }

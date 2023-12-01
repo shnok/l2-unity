@@ -6,6 +6,8 @@ using UnityEngine;
 public class NetworkIdentity
 {
     [SerializeField]
+    private EntityType entityType;
+    [SerializeField]
     private int id;
     [SerializeField]
     private int npcId;
@@ -18,6 +20,7 @@ public class NetworkIdentity
     [SerializeField]
     private bool owned = false;
 
+    public EntityType EntityType { get => entityType; set => entityType = value; }
     public int Id { get => id; set => id = value; }
     public int NpcId { get => npcId; set => npcId = value; }
     public string Name { get => name; set => name = value; }

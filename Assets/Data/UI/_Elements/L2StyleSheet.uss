@@ -55,6 +55,14 @@ TextElement {
     background-color: rgba(0, 0, 0, 0.25);
 }
 
+.ui-bg {
+    background-color: rgba(19, 19, 19, 0.83)
+}
+
+.ui-border {
+    border-width: 1px;
+    border-color: rgba(66, 59, 41, 1);
+}
 .drag-area {
 }
 
@@ -201,7 +209,7 @@ TextElement {
     margin: 0;
 }
 
-.chat-window .chat-content { 
+.chat-window .chat-content {
     padding: 4px 2px 0 0;
     margin: 0;
     color: rgb(220, 220, 220);
@@ -351,7 +359,6 @@ TextElement {
     font-size: 12px;
 }
 
-/*.chat-window .unity-scroll-view__content-container {*/
 .chat-window .unity-scroll-view__content-viewport {
     margin-top: 6px;
     margin-bottom: 4px;
@@ -435,3 +442,126 @@ TextElement {
 .chat-window .unity-scroller__low-button {
     background-image: url('project://database/Assets/Data/UI/Scrollbar/ScrollBarUpBtn.png?fileID=2800000&guid=1afd826ca3da2ec48bc50e97ea39d325&type=3#ScrollBarUpBtn');
 }
+
+.nameplate .target-bubble {
+    width: 16px;
+    height: 16px;
+    -unity-slice-left: 0;
+    -unity-slice-scale: 0;
+    -unity-slice-right: 15;
+    -unity-slice-bottom: 15;
+}
+
+.nameplate .target-bubble-hover {
+    background-image: url('project://database/Assets/Data/UI/Target/HeadDisplay_DF_Target_Normal.png?fileID=2800000&guid=f160c451cc463df438332391c03a8c51&type=3#HeadDisplay_DF_Target_Normal');
+}
+
+.nameplate .target-bubble-target {
+    background-image: url('project://database/Assets/Data/UI/Target/HeadDisplay_DF_Target_Target.png');
+}
+
+.nameplate .target-bubble-attack {
+    background-image: url('project://database/Assets/Data/UI/Target/HeadDisplay_DF_Target_Attack.png');
+}
+
+.nameplate .target-name {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 2px;
+    padding-bottom: 0;
+    padding-left: 2px;
+    -unity-font-definition: url('project://database/Assets/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    font-size: 12px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(0,0,0);
+    text-shadow: 0.5px 0 1px rgb(0, 0, 0);
+}
+
+.nameplate .target-title {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-align: upper-center;
+    -unity-font-definition: url('project://database/Assets/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
+    color: rgb(156, 218, 144);
+    -unity-font-style: bold;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    font-size: 12px;
+    text-shadow: 0.5px 0 1px rgb(0, 0, 0);
+}
+
+.target-window .unity-label {
+    margin: 0;
+    padding: 0;
+    -unity-text-align: middle-center;
+    flex-grow: 1;
+    font-size: 10px;
+}
+
+.target-window .bar-container {
+    height: 14px;
+}
+
+.target-window .bar-inner {
+    min-height: 8px;
+    max-height: 8px;
+    flex-direction: row;
+    flex: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.target-window .bar-inner .bar-height {
+    min-height: 8px;
+    max-height: 8px;
+}
+
+.target-window .bar-inner .left {
+    min-width: 2px;
+    max-width: 2px;
+}
+
+.target-window .bar-inner .right {
+    min-width: 2px;
+    max-width: 2px;
+}
+
+.target-window .bar-inner .center {
+    flex-grow: 1;
+}
+
+.close-btn {
+    background-color: transparent;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    width: 10px;
+    height: 10px;
+    border-width: 0;
+    background-image: url('project://database/Assets/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close.png');
+    margin: 0;
+    padding: 0;
+}
+
+.close-btn:active {
+    background-image: url('project://database/Assets/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png');
+}
+.close-btn:active:hover {
+    background-image: url('project://database/Assets/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png');
+}
+.close-btn:hover {
+    background-image: url('project://database/Assets/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Over.png');
+}
+

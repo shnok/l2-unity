@@ -6,6 +6,6 @@ public class MessageLoggedOut : SystemMessage {
     }
 
     public override string ToString() {
-        return "<color=#5AB0B2>Player " + _username + " logged out.</color>";
+        return "<color=#7EF9F9>Player " + _username + " logged out.</color>";
     }
 }
