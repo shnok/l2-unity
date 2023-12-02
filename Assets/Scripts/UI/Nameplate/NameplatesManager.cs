@@ -24,7 +24,6 @@ public class NameplatesManager : MonoBehaviour
         if(nameplateTemplate == null) {
             Debug.LogError("Could not load chat window template.");
         }
-        playerTransform = PlayerEntity.GetInstance().transform;
     }
 
     private const int kUpdatesPerSecond = 200;
@@ -42,6 +41,14 @@ public class NameplatesManager : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        if(playerTransform == null) {
+            if(PlayerEntity.GetInstance() != null && PlayerEntity.GetInstance().transform != null) {
+                playerTransform = PlayerEntity.GetInstance().transform;
+            } else {
+                return;
+            }
+        }
+
         if(!L2GameUI.GetInstance().uiLoaded) {
             return;
         }

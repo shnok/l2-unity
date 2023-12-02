@@ -23,6 +23,7 @@ public class ChatWindow : MonoBehaviour {
     public bool chatOpened = false;
     public bool offlineChat = true;
     public bool autoscroll = true;
+    private EventProcessor eventProcessor;
 
     private static ChatWindow instance;
     public static ChatWindow GetInstance() {
@@ -31,9 +32,11 @@ public class ChatWindow : MonoBehaviour {
 
     private void Awake() {
         instance = this;
+
     }
 
     void Start() {
+        eventProcessor = EventProcessor.GetInstance();
         LoadAssets();
     }
 
@@ -51,8 +54,6 @@ public class ChatWindow : MonoBehaviour {
             Debug.LogError("Could not load chat tab template.");
         }
     }
-
-
 
     public void AddWindow(VisualElement root) {
         if(chatWindowTemplate == null) {
@@ -94,10 +95,6 @@ public class ChatWindow : MonoBehaviour {
 
         yield return new WaitForEndOfFrame();
         diagonalResizeManipulator.SnapSize();
-
-        if(offlineChat) {
-            ReceiveChatMessage(new MessageLoggedIn(PlayerEntity.GetInstance().Identity.Name));
-        }
     }
 
 
@@ -170,6 +167,12 @@ public class ChatWindow : MonoBehaviour {
         }
     }
 
+    public void ClearChat() {
+        for(int i = 0; i < tabs.Count; i++) {
+            ClearTab(i);
+        }
+    }
+
     public void ClearTab(int tabIndex) {
         if(tabIndex <= tabs.Count - 1) {
             tabs[tabIndex].content.text = "";
@@ -187,6 +190,9 @@ public class ChatWindow : MonoBehaviour {
         }
     }
 
+    public void Test(Message message) {
+        eventProcessor.QueueEvent(() => ReceiveChatMessage(message));
+    }
     public void ReceiveChatMessage(Message message) {
         if(message == null) {
             return;

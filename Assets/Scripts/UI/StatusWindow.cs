@@ -126,6 +126,10 @@ public class StatusWindow : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(PlayerEntity.GetInstance() == null) { 
+            return; 
+        }
+
         if(levelLabel != null) {
             levelLabel.text = PlayerEntity.GetInstance().Status.Level.ToString();
         }

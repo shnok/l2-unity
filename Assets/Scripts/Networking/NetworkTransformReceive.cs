@@ -7,14 +7,14 @@ public class NetworkTransformReceive : MonoBehaviour {
     private Vector3 _lastPos, _destination;
     private Quaternion _lastRot, _newRot;
     private float _rotLerpValue, _posLerpValue;
-    private bool _positionSync = false;
+    [SerializeField] private bool positionSynced = false;
     public float moveSpeed = 4f;
     public float lerpDuration = 0.3f;
     public bool noclip = true;
 
     void Start() {
         _characterController = GetComponent<CharacterController>();
-        _animator = GetComponent<Animator>();
+        _animator = gameObject.GetComponentInChildren<Animator>();
         _lastPos = transform.position;
         _destination = transform.position;
         _newRot = transform.rotation;
@@ -38,7 +38,7 @@ public class NetworkTransformReceive : MonoBehaviour {
         _serverPosition = pos;
         
         if(Vector3.Distance(To2D(transform.position), To2D(_serverPosition)) > 0.5f) {
-            _positionSync = false;
+            positionSynced = false;
         }
     }
 
@@ -49,7 +49,7 @@ public class NetworkTransformReceive : MonoBehaviour {
 
     public void UpdatePosition() {
         /* Is offset is too high */
-        if(!_positionSync || noclip) {
+        if(!positionSynced || noclip) {
             LerpToPosition();
         } else {
             MoveToPosition();
@@ -62,7 +62,7 @@ public class NetworkTransformReceive : MonoBehaviour {
         _posLerpValue += (1 / lerpDuration) * Time.deltaTime;
 
         if(Vector3.Distance(To2D(transform.position), To2D(_serverPosition)) <= 0.5f) {
-            _positionSync = true;
+            positionSynced = true;
         }
     }
 
