@@ -12,6 +12,7 @@ public class World : MonoBehaviour {
     public Dictionary<int, Entity> npcs = new Dictionary<int, Entity>();
     public Dictionary<int, Entity> objects = new Dictionary<int, Entity>();
     public LayerMask groundMask;
+    public bool offlineMode = false;
 
     public static World instance;
     public static World GetInstance() {
@@ -21,9 +22,9 @@ public class World : MonoBehaviour {
     void Awake() {
         instance = this;
 
-        playerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefab/Player.prefab");
-        userPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefab/User.prefab");
-        npcPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefab/Npc.prefab");
+        playerPrefab = Resources.Load<GameObject>("Prefab/Player");
+        userPrefab = Resources.Load<GameObject>("Prefab/User");
+        npcPrefab = Resources.Load<GameObject>("Prefab/Npc");
     }
 
     public void RemoveObject(int id) {
@@ -37,24 +38,16 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus player) {
-        InstantiatePlayer(identity, player);
-    }
-
-    public void SpawnNpc(NetworkIdentity identity, NpcStatus npc) {
-        InstantiateNpc(identity, npc);
-    }
-
     public void InstantiatePlayerOfflineMode() {
-        if(GameStateManager.GetInstance().offlineMode) {
+        if(World.GetInstance().offlineMode) {
             PlayerEntity entity = playerPrefab.GetComponent<PlayerEntity>();
             entity.Identity.Position = playerPrefab.transform.position;
-            InstantiatePlayer(entity.Identity, entity.Status);
+            SpawnPlayer(entity.Identity, entity.Status);
         }
     }
 
-    public void InstantiatePlayer(NetworkIdentity identity, PlayerStatus status) {
-        identity.SetPosY(getGroundHeight(identity.Position));
+    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus status) {
+        identity.SetPosY(GetGroundHeight(identity.Position));
         GameObject go = (GameObject)Instantiate(playerPrefab, identity.Position, Quaternion.identity);
         PlayerEntity player = go.GetComponent<PlayerEntity>();
         player.Status = status;
@@ -65,7 +58,7 @@ public class World : MonoBehaviour {
 
         go.GetComponent<PlayerController>().enabled = true;
 
-        if(!GameStateManager.GetInstance().offlineMode) {
+        if(!World.GetInstance().offlineMode) {
             go.GetComponent<NetworkTransformShare>().enabled = true;
         }
           
@@ -76,8 +69,8 @@ public class World : MonoBehaviour {
         CameraController.GetInstance().enabled = true;
     }
 
-    public void InstantiateUser(NetworkIdentity identity, PlayerStatus status) {
-        identity.SetPosY(getGroundHeight(identity.Position));
+    public void SpawnUser(NetworkIdentity identity, PlayerStatus status) {
+        identity.SetPosY(GetGroundHeight(identity.Position));
         GameObject go = (GameObject)Instantiate(userPrefab, identity.Position, Quaternion.identity);
         UserEntity player = go.GetComponent<UserEntity>();
         player.Status = status;
@@ -92,9 +85,9 @@ public class World : MonoBehaviour {
         go.SetActive(true);
     }
 
-    public void InstantiateNpc(NetworkIdentity identity, NpcStatus status) {
+    public void SpawnNpc(NetworkIdentity identity, NpcStatus status) {
         /* Should check at npc id to load right npc name and model */
-        identity.SetPosY(getGroundHeight(identity.Position));
+        identity.SetPosY(GetGroundHeight(identity.Position));
         GameObject go = (GameObject)Instantiate(npcPrefab, identity.Position, Quaternion.identity);
         identity.Name = "Dummy";
         NpcEntity npc = go.GetComponent<NpcEntity>();
@@ -107,7 +100,7 @@ public class World : MonoBehaviour {
         go.SetActive(true);
     }
 
-    public float getGroundHeight(Vector3 pos) {
+    public float GetGroundHeight(Vector3 pos) {
         RaycastHit hit;
         if(Physics.Raycast(pos + Vector3.up, Vector3.down, out hit, 1.1f, groundMask)) {
             return hit.point.y;

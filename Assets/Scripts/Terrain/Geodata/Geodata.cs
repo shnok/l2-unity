@@ -46,7 +46,7 @@ public class Geodata : MonoBehaviour
 
     public void LoadMapGeodata(string mapId) {
         try {
-            string geodataFilePath = Path.Combine("Assets/Data/Maps/", mapId, mapId + ".geodata");
+            string geodataFilePath = Path.Combine("Assets/Resources/Data/Maps/", mapId, mapId + ".geodata");
             string innerFile = "geodata";
             using(ZipArchive archive = ZipFile.OpenRead(geodataFilePath)) {
                 ZipArchiveEntry entry = archive.GetEntry(innerFile);
@@ -61,8 +61,8 @@ public class Geodata : MonoBehaviour
                         }
 
                         // Create a BinaryReader from the memory stream
-                        string mapFolder = Path.Combine("Assets", "Data", "Maps", mapId);
-                        GameObject map = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, mapId + ".prefab"));
+                        string mapFolder = Path.Combine("Data", "Maps", mapId);
+                        GameObject map = Resources.Load<GameObject>(Path.Combine(mapFolder, mapId));
                         Vector3 origin = VectorUtils.floorToNearest(map.transform.position, nodeSize);
                         mapsOrigin.Add(mapId, origin);
 

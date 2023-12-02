@@ -32,6 +32,11 @@ public class DefaultClient : MonoBehaviour {
         }
     }
 
+    public void OnConnectionAllowed() {
+        Debug.Log("Connected");
+        SceneLoader.GetInstance().SwitchScene("Game");
+    }
+
     public void OnWorldSceneLoaded() {
         ClientPacketHandler.GetInstance().SendLoadWorld();
     }
@@ -45,8 +50,8 @@ public class DefaultClient : MonoBehaviour {
     }
  
     public void Disconnect() {
-        Debug.Log("Disconnect");
-        GameStateManager.GetInstance().SetState(GameState.MENU);
+        Debug.Log("Disconnected");
+        SceneLoader.GetInstance().SwitchScene("Menu");
     }
 
     void OnApplicationQuit() {

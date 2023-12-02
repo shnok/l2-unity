@@ -42,13 +42,13 @@ public class ChatWindow : MonoBehaviour {
 
     private void LoadAssets() {
         if(chatWindowTemplate == null) {
-            chatWindowTemplate = UnityEditor.AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Data/UI/_Elements/ChatWindow.uxml");
+            chatWindowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ChatWindow");
         }
         if(chatWindowTemplate == null) {
             Debug.LogError("Could not load chat window template.");
         }
         if(tabTemplate == null) {
-            tabTemplate = UnityEditor.AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Data/UI/_Elements/ChatTab.uxml");
+            tabTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ChatTab");
         }
         if(tabTemplate == null) {
             Debug.LogError("Could not load chat tab template.");

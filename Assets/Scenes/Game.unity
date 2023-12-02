@@ -129,15 +129,13 @@ GameObject:
   m_Component:
   - component: {fileID: 323175238}
   - component: {fileID: 323175239}
-  - component: {fileID: 323175240}
-  - component: {fileID: 323175242}
   m_Layer: 0
   m_Name: Geodata
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &323175238
 Transform:
   m_ObjectHideFlags: 0
@@ -147,11 +145,11 @@ Transform:
   m_GameObject: {fileID: 323175237}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4666.02, y: -68.729996, z: -1575.79}
+  m_LocalPosition: {x: -62.97998, y: -0.62999725, z: -54.79004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 792673797}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &323175239
 MonoBehaviour:
@@ -160,7 +158,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323175237}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81f6427f0dd98354db59a370fa0d0f94, type: 3}
   m_Name: 
@@ -183,39 +181,6 @@ MonoBehaviour:
     m_Bits: 1024
   export: 1
   exportPath: geodata
---- !u!114 &323175240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323175237}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e41391b4c8e9c0d4293f664e698ebe08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeSize: 0.5
-  mapsToLoad:
-  - 17_25
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 641
-  loaded: 0
-  drawGizmos: 0
---- !u!114 &323175242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 323175237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e361f7fabf8f2c4cba266953ef8ced1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxJobs: 3
 --- !u!1 &353652258
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,45 +546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a1a60c117e7e44dba97be3fe75b97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uvTextureSize: 256
-  uvLayerAlphaMapSize: 1024
-  decoLayerAlphaMapSize: 512
-  uvTileSize: 5
-  mapScale: 1
-  generateMap: 1
-  maps:
-  - mapName: 17_25
-    enabled: 0
-    generationMode: 0
-    generateHeightmaps: 1
-    generateUVLayers: 1
-    generateDecoLayers: 1
-    generateStaticMeshes: 1
-    generateBrushes: 1
-  - mapName: 17_24
-    enabled: 0
-    generationMode: 0
-    generateHeightmaps: 1
-    generateUVLayers: 1
-    generateDecoLayers: 1
-    generateStaticMeshes: 1
-    generateBrushes: 1
-  - mapName: 16_25
-    enabled: 0
-    generationMode: 0
-    generateHeightmaps: 1
-    generateUVLayers: 1
-    generateDecoLayers: 1
-    generateStaticMeshes: 1
-    generateBrushes: 1
-  - mapName: 16_24
-    enabled: 0
-    generationMode: 0
-    generateHeightmaps: 1
-    generateUVLayers: 1
-    generateDecoLayers: 1
-    generateStaticMeshes: 1
-    generateBrushes: 1
 --- !u!4 &688311054
 Transform:
   m_ObjectHideFlags: 0
@@ -736,6 +662,7 @@ Transform:
   - {fileID: 688311054}
   - {fileID: 1073815450}
   - {fileID: 1020831938}
+  - {fileID: 323175238}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &799115971 stripped
@@ -928,11 +855,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1433411790}
-  - component: {fileID: 1433411795}
   - component: {fileID: 1433411789}
   - component: {fileID: 1433411791}
   - component: {fileID: 1433411793}
   - component: {fileID: 1433411794}
+  - component: {fileID: 1433411797}
+  - component: {fileID: 1433411796}
+  - component: {fileID: 1433411798}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -959,6 +888,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 264
+  offlineMode: 0
 --- !u!4 &1433411790
 Transform:
   m_ObjectHideFlags: 0
@@ -1052,7 +982,7 @@ MonoBehaviour:
       objectScene: 
       objectTransform: {fileID: 0}
     distance: 0
---- !u!114 &1433411795
+--- !u!114 &1433411796
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1061,12 +991,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 1433411788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a555795b8c14d8f4aa15ae2eef1dd08f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e361f7fabf8f2c4cba266953ef8ced1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  singleScene: 1
-  offlineMode: 0
+  MaxJobs: 3
+--- !u!114 &1433411797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433411788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e41391b4c8e9c0d4293f664e698ebe08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeSize: 0.5
+  mapsToLoad:
+  - 17_25
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 641
+  loaded: 0
+  drawGizmos: 0
+--- !u!114 &1433411798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433411788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c81a49d02f1b9ae4fa6fc87875961bf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultScene: Game
+  mapList:
+  - 17_25
+  singleScene: 0
 --- !u!1 &1446543339
 GameObject:
   m_ObjectHideFlags: 1
@@ -1076,7 +1040,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1446543341}
-  - component: {fileID: 1446543340}
   m_Layer: 0
   m_Name: StaticLightingSky
   m_TagString: Untagged
@@ -1084,18 +1047,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1446543340
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1446543339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 441482e8936e35048a1dffac814e3ef8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1446543341
 Transform:
   m_ObjectHideFlags: 1
@@ -1334,6 +1285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1892573582}
   - component: {fileID: 1892573583}
+  - component: {fileID: 1892573584}
   m_Layer: 0
   m_Name: Networking
   m_TagString: Untagged
@@ -1349,8 +1301,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892573581}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4626.525, y: -71.05864, z: -1642.938}
+  m_LocalRotation: {x: -0.07043824, y: 0.82200086, z: -0.10407417, w: -0.5554472}
+  m_LocalPosition: {x: 4628.2954, y: -70.56734, z: -1642.2261}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1371,6 +1323,18 @@ MonoBehaviour:
   currentPlayer: {fileID: 0}
   username: 
   connectionTimeoutMs: 10000
+--- !u!114 &1892573584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892573581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ec007b0cdb24343a752efda3c5bb5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1895385593 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6289952722580539430, guid: 50559bb8d22c3c04a8a788ca6ec38fec, type: 3}
@@ -1693,7 +1657,6 @@ SceneRoots:
   - {fileID: 1433411790}
   - {fileID: 1892573582}
   - {fileID: 661036169}
-  - {fileID: 323175238}
   - {fileID: 792673797}
   - {fileID: 1979173060}
   - {fileID: 1446543341}

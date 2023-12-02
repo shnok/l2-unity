@@ -6,7 +6,7 @@ public class NetworkTransformShare : MonoBehaviour {
     public Vector3 serverPosition;
 
     private void Awake() {
-        if(GameStateManager.GetInstance().offlineMode) {
+        if(World.GetInstance().offlineMode) {
             enabled = false;
         }
     }

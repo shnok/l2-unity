@@ -19,7 +19,7 @@ public class NameplatesManager : MonoBehaviour
     void Start()
     {
         if(nameplateTemplate == null) {
-            nameplateTemplate = UnityEditor.AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Data/UI/_Elements/Nameplate.uxml");
+            nameplateTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Nameplate");
         }
         if(nameplateTemplate == null) {
             Debug.LogError("Could not load chat window template.");

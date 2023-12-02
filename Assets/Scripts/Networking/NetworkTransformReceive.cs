@@ -1,25 +1,25 @@
 using UnityEngine;
 
 public class NetworkTransformReceive : MonoBehaviour {
-    private Animator _animator;
-    private CharacterController _characterController;
-    public Vector3 _serverPosition;
-    private Vector3 _lastPos, _destination;
-    private Quaternion _lastRot, _newRot;
-    private float _rotLerpValue, _posLerpValue;
+    [SerializeField] private Animator animator;
+    private CharacterController characterController;
+    [SerializeField] public Vector3 serverPosition;
+    private Vector3 lastPos, destination;
+    private Quaternion lastRot, newRot;
+    private float rotLerpValue, posLerpValue;
     [SerializeField] private bool positionSynced = false;
     public float moveSpeed = 4f;
     public float lerpDuration = 0.3f;
     public bool noclip = true;
 
     void Start() {
-        _characterController = GetComponent<CharacterController>();
-        _animator = gameObject.GetComponentInChildren<Animator>();
-        _lastPos = transform.position;
-        _destination = transform.position;
-        _newRot = transform.rotation;
-        _lastRot = transform.rotation;
-        _serverPosition = transform.position;
+        characterController = GetComponent<CharacterController>();
+        animator = gameObject.GetComponentInChildren<Animator>();
+        lastPos = transform.position;
+        destination = transform.position;
+        newRot = transform.rotation;
+        lastRot = transform.rotation;
+        serverPosition = transform.position;
     }
 
     void FixedUpdate() {
@@ -33,18 +33,18 @@ public class NetworkTransformReceive : MonoBehaviour {
     }
 
     public void SetNewPosition(Vector3 pos) {
-        _lastPos = transform.position;
-        _posLerpValue = 0;
-        _serverPosition = pos;
+        lastPos = transform.position;
+        posLerpValue = 0;
+        serverPosition = pos;
         
-        if(Vector3.Distance(To2D(transform.position), To2D(_serverPosition)) > 0.5f) {
+        if(Vector3.Distance(To2D(transform.position), To2D(serverPosition)) > 0.5f) {
             positionSynced = false;
         }
     }
 
     public void SetDestination(Vector3 pos) {
-        _lastPos = transform.position;
-        _destination = pos;
+        lastPos = transform.position;
+        destination = pos;
     }
 
     public void UpdatePosition() {
@@ -58,10 +58,10 @@ public class NetworkTransformReceive : MonoBehaviour {
 
     /* Clip to destination */
     public void LerpToPosition() {
-        transform.position = Vector3.Lerp(_lastPos, _serverPosition, _posLerpValue);
-        _posLerpValue += (1 / lerpDuration) * Time.deltaTime;
+        transform.position = Vector3.Lerp(lastPos, serverPosition, posLerpValue);
+        posLerpValue += (1 / lerpDuration) * Time.deltaTime;
 
-        if(Vector3.Distance(To2D(transform.position), To2D(_serverPosition)) <= 0.5f) {
+        if(Vector3.Distance(To2D(transform.position), To2D(serverPosition)) <= 0.5f) {
             positionSynced = true;
         }
     }
@@ -69,7 +69,7 @@ public class NetworkTransformReceive : MonoBehaviour {
     /* Walk to destination */
     public void MoveToPosition() {
         Vector3 transformFlat = new Vector3(transform.position.x, 0, transform.position.z);
-        Vector3 targetFlat = new Vector3(_destination.x, 0, _destination.z);
+        Vector3 targetFlat = new Vector3(destination.x, 0, destination.z);
 
         Vector3 direction = Vector3.zero;
         if(Vector3.Distance(transformFlat, targetFlat) > 0.1f) {
@@ -78,7 +78,7 @@ public class NetworkTransformReceive : MonoBehaviour {
    
         direction = direction.normalized * moveSpeed;
         direction.y = -10;
-        _characterController.Move(direction * Time.deltaTime);
+        characterController.Move(direction * Time.deltaTime);
     }
 
     /* ROTATION */
@@ -91,9 +91,9 @@ public class NetworkTransformReceive : MonoBehaviour {
     }
 
     public void LerpToRotation() {
-        if(Mathf.Abs(transform.rotation.eulerAngles.y - _newRot.eulerAngles.y) > 2f) {
-            transform.rotation = Quaternion.Lerp(_lastRot, _newRot, _rotLerpValue);
-            _rotLerpValue += Time.deltaTime * 7.5f;
+        if(Mathf.Abs(transform.rotation.eulerAngles.y - newRot.eulerAngles.y) > 2f) {
+            transform.rotation = Quaternion.Lerp(lastRot, newRot, rotLerpValue);
+            rotLerpValue += Time.deltaTime * 7.5f;
         }
     }
 
@@ -103,26 +103,26 @@ public class NetworkTransformReceive : MonoBehaviour {
         eulerAngles.y = angle;
         rot.eulerAngles = eulerAngles;
 
-        _newRot = rot;
-        _lastRot = transform.rotation;
-        _rotLerpValue = 0;
+        newRot = rot;
+        lastRot = transform.rotation;
+        rotLerpValue = 0;
     }
 
     public void SetAnimationProperty(int animId, float value) {
-        if(animId > 0 && animId < _animator.parameters.Length) {
-            AnimatorControllerParameter anim = _animator.parameters[animId];
+        if(animId > 0 && animId < animator.parameters.Length) {
+            AnimatorControllerParameter anim = animator.parameters[animId];
             switch(anim.type) {
                 case AnimatorControllerParameterType.Float:
-                    _animator.SetFloat(anim.name, value);
+                    animator.SetFloat(anim.name, value);
                     break;
                 case AnimatorControllerParameterType.Int:
-                    _animator.SetInteger(anim.name, (int)value);
+                    animator.SetInteger(anim.name, (int)value);
                     break;
                 case AnimatorControllerParameterType.Bool:
-                    _animator.SetBool(anim.name, (int)value == 1);
+                    animator.SetBool(anim.name, (int)value == 1);
                     break;
                 case AnimatorControllerParameterType.Trigger:
-                    _animator.SetTrigger(anim.name);
+                    animator.SetTrigger(anim.name);
                     break;
             }
         }     
