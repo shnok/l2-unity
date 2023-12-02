@@ -4,14 +4,14 @@ using UnityEditor;
 using UnityEngine;
 
 public class MapLoader : MonoBehaviour {
-
+    //TODO: Refactor
     public static int UV_TEXTURE_SIZE = 256;
     public static int UV_LAYER_ALPHAMAP_SIZE = 1024;
     public static int DECO_LAYER_ALPHAMAP_SIZE = 512;
     public static float UV_TILE_SIZE = 5f;
     public static float MAP_SCALE = 1f;
 
-    public int uvTextureSize = 256;
+   /* public int uvTextureSize = 256;
     public int uvLayerAlphaMapSize = 1024;
     public int decoLayerAlphaMapSize = 512;
     public float uvTileSize = 5f;
@@ -94,7 +94,7 @@ public class MapLoader : MonoBehaviour {
                 terrainsDict.Add(mapsToGenerate[i].mapName, terrain);
             } else {
                 //TODO: UPDATE TO SCENE LOAD
-                /*string mapFolder = Path.Combine("Assets", "Data", "Maps", mapsToGenerate[i].mapName);
+                string mapFolder = Path.Combine("Assets", "Data", "Maps", mapsToGenerate[i].mapName);
                 GameObject map = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, mapsToGenerate[i].mapName + ".prefab"));
                 if(map != null) {
                     map = GameObject.Instantiate(map);             
@@ -120,7 +120,7 @@ public class MapLoader : MonoBehaviour {
                     } else {
                         Debug.LogWarning("Could not find brushes for map " + mapsToGenerate[i].mapName + ".");
                     }
-                }*/
+                }
             }
         }
 
@@ -136,5 +136,5 @@ public class MapLoader : MonoBehaviour {
         } else {
             Debug.LogWarning("Folder does not exist: " + folderPath);
         }
-    }
+    }*/
 }

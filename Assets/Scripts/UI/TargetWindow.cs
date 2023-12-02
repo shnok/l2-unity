@@ -26,7 +26,7 @@ public class TargetWindow : MonoBehaviour {
 
     void Start() {
         if(targetWindowTemplate == null) {
-            targetWindowTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Data/UI/_Elements/TargetWindow.uxml");
+            targetWindowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/TargetWindow");
         }
         if(targetWindowTemplate == null) {
             Debug.LogError("Could not load status window template.");
@@ -62,6 +62,8 @@ public class TargetWindow : MonoBehaviour {
         });
 
         horizontalResizeHandle.AddManipulator(horizontalResize);
+
+        targetWindowEle.style.display = DisplayStyle.None;
 
         root.Add(targetWindowEle);
 

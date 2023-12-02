@@ -1,21 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
-public enum State {
-    Running,
-    AfterRun,
-    Idle,
-    Jumping,
-    Dodging,
-    Attacking,
-    WaitingAttack,
-    Blocking,
-    WeaponSwitching,
-    SmoothJumping,
-    Walking,
-    Waiting,
-    Dead
-}
 
 public class AnimationController : MonoBehaviour {
 
@@ -38,7 +23,7 @@ public class AnimationController : MonoBehaviour {
         SetFloat("Speed", pc.currentSpeed);
 
         /*Jump */
-         if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Idle")) {
+        if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Idle")) {
             CameraController.GetInstance().followRootBoneOffset = true;
             SetBool("IdleJump", true);
         } else {
@@ -80,7 +65,7 @@ public class AnimationController : MonoBehaviour {
         }
 
         /* SitWait */
-    
+
         if(IsNextState("SitWait")) {
             CameraController.GetInstance().followRootBoneOffset = true;
         }
@@ -91,7 +76,7 @@ public class AnimationController : MonoBehaviour {
 
 
         /* Stand */
-        if((InputManager.GetInstance().IsInputPressed(InputType.Sit) || InputManager.GetInstance().IsInputPressed(InputType.Move)) 
+        if((InputManager.GetInstance().IsInputPressed(InputType.Sit) || InputManager.GetInstance().IsInputPressed(InputType.Move))
             && (IsCurrentState("SitWait"))) {
             CameraController.GetInstance().followRootBoneOffset = true;
             SetBool("Stand", true);
@@ -106,10 +91,10 @@ public class AnimationController : MonoBehaviour {
         }
 
         /* Idle */
-        if(!InputManager.GetInstance().IsInputPressed(InputType.Move) 
+        if(!InputManager.GetInstance().IsInputPressed(InputType.Move)
             && !pc.runToTarget
-            && (IsCurrentState("Run") || IsAnimationFinished(0)) 
-            && !IsCurrentState("SitTransition") 
+            && (IsCurrentState("Run") || IsAnimationFinished(0))
+            && !IsCurrentState("SitTransition")
             && !IsCurrentState("Sit")
             && !IsCurrentState("SitWait")) {
             CameraController.GetInstance().followRootBoneOffset = false;
@@ -134,32 +119,50 @@ public class AnimationController : MonoBehaviour {
     void SetBool(string name, bool value) {
         if(animator.GetBool(name) != value) {
             animator.SetBool(name, value);
-            //if(!local)
-            //	syncAnim.EmitAnimatorInfo (name, value.ToString());
+            if(!World.GetInstance().offlineMode) {
+                EmitAnimatorInfo(name, value ? 1 : 0);
+            }
         }
     }
 
     void SetFloat(string name, float value) {
         if(Mathf.Abs(animator.GetFloat(name) - value) > 0.2f) {
             animator.SetFloat(name, value);
-            //	if (!local) 
-            //	syncAnim.EmitAnimatorInfo (name, (Mathf.Floor((value+0.01f)*100)/100).ToString ());
+            if(!World.GetInstance().offlineMode) {
+                EmitAnimatorInfo(name, value);
+            }
         }
     }
 
     void SetInteger(string name, int value) {
         if(animator.GetInteger(name) != value) {
             animator.SetInteger(name, value);
-            //if (!local) 
-            //	syncAnim.EmitAnimatorInfo (name, value.ToString ());
+            if(!World.GetInstance().offlineMode) {
+                EmitAnimatorInfo(name, value);
+            }
         }
     }
 
     void SetTrigger(string name) {
         animator.SetTrigger(name);
-        //if (!local)
-        //	syncAnim.EmitAnimatorInfo (name, "");
+        if(!World.GetInstance().offlineMode) {
+            EmitAnimatorInfo(name, 0);
+        }
+    }
+
+    private int SerializeAnimatorInfo(string name) {
+        List<AnimatorControllerParameter> parameters = new List<AnimatorControllerParameter>(animator.parameters);
+
+        int index = parameters.FindIndex(a => a.name == name);
+
+        return index;
+    }
+
+    private void EmitAnimatorInfo(string name, float value) {
+        int index = SerializeAnimatorInfo(name);
+        if(index != -1) {
+            animator.GetComponentInParent<NetworkTransformShare>().ShareAnimation((byte)index, value);
+        }
     }
 }
-
 

@@ -1,14 +1,20 @@
 using UnityEngine;
 
 public class NetworkTransformShare : MonoBehaviour {
-    private Vector3 _lastPos, _lastRot;
-    private float _lastSharedPosTime;
-    public Vector3 _serverPosition;
+    private Vector3 lastPos, lastRot;
+    private float lastSharedPosTime;
+    public Vector3 serverPosition;
+
+    private void Awake() {
+        if(World.GetInstance().offlineMode) {
+            enabled = false;
+        }
+    }
 
     void Start() {
-        _lastPos = transform.position;
-        _lastRot = transform.forward;
-        _lastSharedPosTime = Time.time;
+        lastPos = transform.position;
+        lastRot = transform.forward;
+        lastSharedPosTime = Time.time;
     }
 
     void Update() {
@@ -18,23 +24,23 @@ public class NetworkTransformShare : MonoBehaviour {
 
     /* SHARING */
     public void SharePosition() {
-        if(Vector3.Distance(transform.position, _lastPos) > .25f || Time.time - _lastSharedPosTime >= 5f) {
-            _lastSharedPosTime = Time.time;
-            //ClientPacketHandler.GetInstance().UpdatePosition(transform.position);
-            _lastPos = transform.position;
+        if(Vector3.Distance(transform.position, lastPos) > .25f || Time.time - lastSharedPosTime >= 5f) {
+            lastSharedPosTime = Time.time;
+            ClientPacketHandler.GetInstance().UpdatePosition(transform.position);
+            lastPos = transform.position;
 
-           // ClientPacketHandler.GetInstance().UpdateRotation(transform.eulerAngles.y);
+            ClientPacketHandler.GetInstance().UpdateRotation(transform.eulerAngles.y);
         }
     }
 
     public void ShareRotation() {
-        if(Vector3.Angle(_lastRot, transform.forward) >= 10.0f) {
-            _lastRot = transform.forward;
-         //   ClientPacketHandler.GetInstance().UpdateRotation(transform.eulerAngles.y);
+        if(Vector3.Angle(lastRot, transform.forward) >= 10.0f) {
+            lastRot = transform.forward;
+            ClientPacketHandler.GetInstance().UpdateRotation(transform.eulerAngles.y);
         }
     }
 
     public void ShareAnimation(byte id, float value) {
-      //  ClientPacketHandler.GetInstance().UpdateAnimation(id, value);
+        ClientPacketHandler.GetInstance().UpdateAnimation(id, value);
     } 
 }

@@ -34,7 +34,7 @@ public class StatusWindow : MonoBehaviour
 
     void Start() {
         if(statusWindowTemplate == null) {
-            statusWindowTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Data/UI/_Elements/StatusWindow.uxml");
+            statusWindowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/StatusWindow");
         }
         if(statusWindowTemplate == null) {
             Debug.LogError("Could not load status window template.");
@@ -126,6 +126,10 @@ public class StatusWindow : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(PlayerEntity.GetInstance() == null) { 
+            return; 
+        }
+
         if(levelLabel != null) {
             levelLabel.text = PlayerEntity.GetInstance().Status.Level.ToString();
         }
