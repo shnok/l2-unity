@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements; 
 
 [System.Serializable]
@@ -12,16 +13,25 @@ public class ChatTab
     public Label content;
     public Scroller scroller;
     public VisualElement chatWindowEle;
+    public TabView tabView;
 
     public void Initialize(VisualElement chatWindowEle, Tab tab) {
         this.tab = tab;
 
         this.chatWindowEle = chatWindowEle;
+        tabView = chatWindowEle.Q<TabView>("ChatTabView");
         scrollView = tab.Q<ScrollView>("ScrollView");
         scroller = scrollView.verticalScroller;
         content = tab.Q<Label>("Content");
         content.text = "";
-        
+
+        tab.Q<VisualElement>("unity-tab__header").RegisterCallback<MouseDownEvent>(evt => {
+            AudioManager.GetInstance().PlayUISound("click_01");
+            if(tabView.activeTab != tab) {
+                AudioManager.GetInstance().PlayUISound("window_open");
+            }
+        }, TrickleDown.TrickleDown);
+
         RegisterAutoScrollEvent();
         RegisterPlayerScrollEvent();
     }
@@ -45,6 +55,12 @@ public class ChatTab
         lowBtn.RegisterCallback<MouseUpEvent>(evt => {
             VerifyScrollValue();
         });
+        highBtn.RegisterCallback<MouseDownEvent>(evt => {
+            AudioManager.GetInstance().PlayUISound("click_01");
+        }, TrickleDown.TrickleDown);
+        lowBtn.RegisterCallback<MouseDownEvent>(evt => {
+            AudioManager.GetInstance().PlayUISound("click_01");
+        }, TrickleDown.TrickleDown);
         dragger.RegisterCallback<MouseUpEvent>(evt => {
             VerifyScrollValue();
         });

@@ -5,8 +5,7 @@ using FMODUnity;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private EventReference UI_default_btn_down;
-    [SerializeField] private EventReference UI_default_btn_up;
+    public Dictionary<string, EventReference> uiSounds = new Dictionary<string, EventReference>();
 
     public static AudioManager instance;
 
@@ -25,21 +24,24 @@ public class AudioManager : MonoBehaviour
     }
 
     void SetReferences() {
-        UI_default_btn_down = RuntimeManager.PathToEventReference("event:/SFX/UI/UI_default_btn_down");
-        UI_default_btn_up = RuntimeManager.PathToEventReference("event:/SFX/UI/UI_default_btn_up");
-    }
-
-
-    void Update()
-    {
-        
+        uiSounds.Add("click_01", RuntimeManager.PathToEventReference("event:/InterfaceSound/click_01"));
+        uiSounds.Add("window_close", RuntimeManager.PathToEventReference("event:/InterfaceSound/window_close"));
+        uiSounds.Add("window_open", RuntimeManager.PathToEventReference("event:/InterfaceSound/window_open"));
     }
 
     public void PlaySound3D(EventReference sound, Vector3 postition) {
         RuntimeManager.PlayOneShot(sound, postition);
     }
 
-    public void PlaySound2D(EventReference sound) {
+    public void PlayUISound(string soundName) {
+        EventReference sound;
+        if(uiSounds.TryGetValue(soundName, out sound)) {
+            PlaySound(sound);
+        }
+    }
+        
+
+    public void PlaySound(EventReference sound) {
         RuntimeManager.PlayOneShot(sound);
     }
 }

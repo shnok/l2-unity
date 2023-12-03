@@ -57,6 +57,9 @@ public class TargetWindow : MonoBehaviour {
         horizontalResizeHandle.AddManipulator(horizontalResize);
 
         var closeBtnHandle = targetWindowEle.Q<Button>("CloseBtn");
+        closeBtnHandle.RegisterCallback<MouseDownEvent>(evt => {
+            AudioManager.GetInstance().PlayUISound("click_01");
+        }, TrickleDown.TrickleDown);
         closeBtnHandle.RegisterCallback<MouseUpEvent>(evt => {
             TargetManager.GetInstance().ClearTarget();
         });
@@ -108,7 +111,10 @@ public class TargetWindow : MonoBehaviour {
                 HPBar.style.width = barWidth;
             }
         } else {
-            targetWindowEle.style.display = DisplayStyle.None;
+            if(targetWindowEle.resolvedStyle.display == DisplayStyle.Flex) {
+                AudioManager.GetInstance().PlayUISound("window_close");
+                targetWindowEle.style.display = DisplayStyle.None;
+            }
         }
     }
 }

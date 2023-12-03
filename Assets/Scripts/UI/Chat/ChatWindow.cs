@@ -21,9 +21,7 @@ public class ChatWindow : MonoBehaviour {
     private VisualElement chatWindowEle;
 
     public bool chatOpened = false;
-    public bool offlineChat = true;
     public bool autoscroll = true;
-    private EventProcessor eventProcessor;
 
     [SerializeField] private int chatInputCharacterLimit = 64;
 
@@ -38,7 +36,6 @@ public class ChatWindow : MonoBehaviour {
     }
 
     void Start() {
-        eventProcessor = EventProcessor.GetInstance();
         LoadAssets();
     }
 
@@ -89,6 +86,15 @@ public class ChatWindow : MonoBehaviour {
         chatInput.RegisterCallback<BlurEvent>(OnChatInputBlur);
         chatInput.maxLength = chatInputCharacterLimit;
 
+        var enlargeTextBtn = chatWindowEle.Q<Button>("EnlargeTextBtn");
+        enlargeTextBtn.RegisterCallback<MouseDownEvent>(evt => {
+            AudioManager.GetInstance().PlayUISound("click_01");
+        }, TrickleDown.TrickleDown);
+        var chatOptionsBtn = chatWindowEle.Q<Button>("ChatOptionsBtn");
+        chatOptionsBtn.RegisterCallback<MouseDownEvent>(evt => {
+            AudioManager.GetInstance().PlayUISound("click_01");
+        }, TrickleDown.TrickleDown);
+
         L2GameUI.BlinkingCursor(chatInput);
 
         chatInputContainer = chatWindowEle.Q<VisualElement>("InnerBar");
@@ -99,6 +105,10 @@ public class ChatWindow : MonoBehaviour {
 
         yield return new WaitForEndOfFrame();
         diagonalResizeManipulator.SnapSize();
+
+        if(World.GetInstance().offlineMode) {
+            ReceiveChatMessage(new MessageLoggedIn(PlayerEntity.GetInstance().name));
+        }
     }
 
 
@@ -185,9 +195,8 @@ public class ChatWindow : MonoBehaviour {
 
  
     public void SendChatMessage(string text) {
-        Message message = new ChatMessage(PlayerEntity.GetInstance().Identity.Name, text);
-
-        if(offlineChat) {
+        if(World.GetInstance().offlineMode) {
+            Message message = new ChatMessage(PlayerEntity.GetInstance().Identity.Name, text);
             ReceiveChatMessage(message);
         } else {
             DefaultClient.GetInstance().SendChatMessage(text);
