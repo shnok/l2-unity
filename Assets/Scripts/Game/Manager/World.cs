@@ -134,7 +134,7 @@ public class World : MonoBehaviour {
     public void UpdateObjectAnimation(int id, int animId, float value) {
         Entity e;
         if(objects.TryGetValue(id, out e)) {
-            e.GetComponent<NetworkTransformReceive>().SetAnimationProperty(animId, value);
+            e.GetComponent<NetworkAnimationReceive>().SetAnimationProperty(animId, value);
         }
     }
 

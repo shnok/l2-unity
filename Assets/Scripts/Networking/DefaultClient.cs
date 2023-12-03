@@ -9,6 +9,11 @@ public class DefaultClient : MonoBehaviour {
     public string username;
     public int connectionTimeoutMs = 10000;
 
+    public string serverIp = "127.0.0.1";
+    public int serverPort = 11000;
+    public bool logReceivedPackets = true;
+    public bool logSentPackets = true;
+
     private static DefaultClient instance;
     public static DefaultClient GetInstance() {
         return instance;
@@ -22,7 +27,7 @@ public class DefaultClient : MonoBehaviour {
 
     public async void Connect(string user) {
         username = user; 
-        client = new AsynchronousClient("127.0.0.1", 11000);
+        client = new AsynchronousClient(serverIp, serverPort);
         bool connected = await Task.Run(client.Connect);
         if(connected) {  
             ServerPacketHandler.GetInstance().SetClient(client);

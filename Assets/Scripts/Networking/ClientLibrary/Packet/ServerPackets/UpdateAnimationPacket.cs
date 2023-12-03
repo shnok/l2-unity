@@ -1,9 +1,10 @@
 using UnityEngine;
 using System;
+
 public class UpdateAnimationPacket : ServerPacket {
-    private int _id;
-    private byte _animId;
-    private float _value;
+    private int id;
+    private byte animId;
+    private float value;
 
     public UpdateAnimationPacket(){}
     public UpdateAnimationPacket(byte[] d) : base(d) {
@@ -12,23 +13,23 @@ public class UpdateAnimationPacket : ServerPacket {
     
     public override void Parse() {    
         try {
-            _id = ReadI();
-            _animId = ReadB();
-            _value = ReadF();
+            id = ReadI();
+            animId = ReadB();
+            value = ReadF();
         } catch(Exception e) {
             Debug.Log(e);
         }
     }
 
     public int getId() {
-        return _id;
+        return id;
     }
 
     public byte getAnimId() {
-        return _animId;
+        return animId;
     }
 
     public float getValue() {
-        return _value;
+        return value;
     }
 }

@@ -940,6 +940,7 @@ GameObject:
   - component: {fileID: 8234728174252591980}
   - component: {fileID: 5733643542121449354}
   - component: {fileID: 3478450228567174879}
+  - component: {fileID: 4463289532557031153}
   m_Layer: 6
   m_Name: User
   m_TagString: User
@@ -990,12 +991,12 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 46.27
-  m_Radius: 6.32
+  m_Radius: 5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 22.93, z: 0}
+  m_Center: {x: 0, y: 25.12, z: 0}
 --- !u!114 &8234728174252591980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,10 +1037,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23401e4c6afa7ec43922ae596b8c60a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
   serverPosition: {x: 0, y: 0, z: 0}
   positionSynced: 0
-  moveSpeed: 4
   lerpDuration: 0.3
   noclip: 1
 --- !u!114 &3478450228567174879
@@ -1056,6 +1055,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 0}
   speed: 0
+  gravity: 28
+--- !u!114 &4463289532557031153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252958834938601816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b37216beee5d6a4897e9224d4eedbc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &2280495673871757471
 GameObject:
   m_ObjectHideFlags: 0

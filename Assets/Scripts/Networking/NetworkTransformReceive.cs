@@ -1,7 +1,6 @@
 using UnityEngine;
 
 public class NetworkTransformReceive : MonoBehaviour {
-    [SerializeField] private Animator animator;
     [SerializeField] public Vector3 serverPosition;
     private Vector3 lastPos;
     private Quaternion lastRot, newRot;
@@ -11,7 +10,11 @@ public class NetworkTransformReceive : MonoBehaviour {
     public bool noclip = true;
 
     void Start() {
-        animator = gameObject.GetComponentInChildren<Animator>();
+        if(World.GetInstance().offlineMode) {
+            this.enabled = false;
+            return;
+        }
+
         lastPos = transform.position;
         newRot = transform.rotation;
         lastRot = transform.rotation;
@@ -77,25 +80,5 @@ public class NetworkTransformReceive : MonoBehaviour {
         newRot = rot;
         lastRot = transform.rotation;
         rotLerpValue = 0;
-    }
-
-    public void SetAnimationProperty(int animId, float value) {
-        if(animId > 0 && animId < animator.parameters.Length) {
-            AnimatorControllerParameter anim = animator.parameters[animId];
-            switch(anim.type) {
-                case AnimatorControllerParameterType.Float:
-                    animator.SetFloat(anim.name, value);
-                    break;
-                case AnimatorControllerParameterType.Int:
-                    animator.SetInteger(anim.name, (int)value);
-                    break;
-                case AnimatorControllerParameterType.Bool:
-                    animator.SetBool(anim.name, (int)value == 1);
-                    break;
-                case AnimatorControllerParameterType.Trigger:
-                    animator.SetTrigger(anim.name);
-                    break;
-            }
-        }     
     }
 }

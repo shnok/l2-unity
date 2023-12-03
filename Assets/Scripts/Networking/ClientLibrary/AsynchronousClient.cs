@@ -64,7 +64,9 @@ public class AsynchronousClient {
     }
 
     public void SendPacket(ClientPacket packet) { 
-        Debug.Log("Sending packet:" + (ClientPacketType) packet.GetPacketType());
+        if(DefaultClient.GetInstance().logSentPackets) {
+            Debug.Log("Sending packet:" + (ClientPacketType)packet.GetPacketType());
+        }
         try {
             using (NetworkStream stream = new NetworkStream(client)) {
                 stream.Write(packet.GetData(), 0, (int)packet.GetLength());

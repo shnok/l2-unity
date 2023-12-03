@@ -5,14 +5,17 @@ using UnityEngine;
 public class NetworkCharacterControllerReceive : MonoBehaviour
 {
     private CharacterController characterController;
+    private NetworkAnimationReceive animationReceive;
     [SerializeField] private Vector3 direction;
     [SerializeField] private float speed;
     private Vector3 destination;
+    [SerializeField] private float gravity = 28f;
 
 
     void Start() {
+        animationReceive = GetComponent<NetworkAnimationReceive>();
         characterController = GetComponent<CharacterController>();
-        if(characterController == null || World.GetInstance().offlineMode) {
+        if(characterController == null || World.GetInstance().offlineMode || animationReceive == null) {
             this.enabled = false;
         }
         direction = Vector3.zero;
@@ -20,7 +23,9 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     }
 
     void Update() {
-        characterController.Move(direction * speed * Time.deltaTime);
+        Vector3 ajustedDirection = direction * speed + Vector3.down * gravity;
+        characterController.Move(ajustedDirection * Time.deltaTime);
+        animationReceive.SetFloat("Speed", speed);
     }
 
     public void UpdateMoveDirection(float speed, Vector3 direction) {
