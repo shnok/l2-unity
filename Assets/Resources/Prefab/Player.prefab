@@ -2410,6 +2410,7 @@ GameObject:
   - component: {fileID: 6719039449346300144}
   - component: {fileID: 2707339679680748419}
   - component: {fileID: 5186500308137901694}
+  - component: {fileID: 2816631728359154816}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -2580,7 +2581,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8037fc8427c7dc48956c6226796b4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _serverPosition: {x: 0, y: 0, z: 0}
+  serverPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &2816631728359154816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373500069190494077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 610a23cfa58edea4c83f46e6bb4b5a2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharing: 0
+  sharingLoopDelaySec: 0.1
+  lastSpeed: 0
+  lastDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &6439147042051212890
 GameObject:
   m_ObjectHideFlags: 0

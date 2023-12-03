@@ -119,8 +119,8 @@ public class World : MonoBehaviour {
     public void UpdateObjectDestination(int id, Vector3 position) {
         Entity e;
         if(objects.TryGetValue(id, out e)) {
-            e.GetComponent<NetworkTransformReceive>().SetDestination(position);
-           e.GetComponent<NetworkTransformReceive>().LookAt(position);
+            e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position);
+            e.GetComponent<NetworkTransformReceive>().LookAt(position);
         }
     }
 
@@ -146,6 +146,13 @@ public class World : MonoBehaviour {
                 //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
                 WorldCombat.GetInstance().ApplyDamage(senderEntity.transform, targetEntity.transform, attackId, value);
             }
+        }
+    }
+
+    public void UpdateObjectMoveDirection(int id, float speed, Vector3 direction) {
+        Entity e;
+        if(objects.TryGetValue(id, out e)) {
+            e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(speed, direction);
         }
     }
 }

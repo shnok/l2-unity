@@ -33,4 +33,9 @@ public class VectorUtils : MonoBehaviour {
             floorToNearest(vector.y, step),
             floorToNearest(vector.z, step));
     }
+
+    public static Vector3 To2D(Vector3 pos) {
+        return new Vector3(pos.x, 0, pos.z);
+    }
+
 }

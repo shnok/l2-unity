@@ -48,28 +48,10 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         flatTransformPos = new Vector3(transform.position.x, 0, transform.position.z);
 
-        if(!runToTarget) {
-            /* Update input axis */
-            axis = GetAxis();
-
-            /* Speed */
-            currentSpeed = GetInputMoveSpeed(currentSpeed);
-
-            /* Angle */
-            finalAngle = GetInputRotationValue(finalAngle);
-
-            /* Direction */
-            moveDirection = GetInputDirection(currentSpeed);
+        if(runToTarget) {
+            FollowTargetPosition();
         } else {
-            if(Vector3.Distance(flatTransformPos, targetPosition) < followDistance) {
-                ResetTargetPosition();
-            } else {
-                MoveToTargetPosition();
-            }
-
-            if(InputManager.GetInstance().IsInputPressed(InputType.Move)) {
-                ResetTargetPosition();
-            }
+            FollowInputs();
         }
 
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * finalAngle), Time.deltaTime * 7.5f);
@@ -78,6 +60,32 @@ public class PlayerController : MonoBehaviour {
         controller.Move(moveDirection * Time.deltaTime);
 
         MeasureSpeed();
+    }
+
+    private void FollowTargetPosition() {
+        if(Vector3.Distance(flatTransformPos, targetPosition) < followDistance) {
+            ResetTargetPosition();
+        } else {
+            MoveToTargetPosition();
+        }
+
+        if(InputManager.GetInstance().IsInputPressed(InputType.Move)) {
+            ResetTargetPosition();
+        }
+    }
+
+    private void FollowInputs() {
+        /* Update input axis */
+        axis = GetAxis();
+
+        /* Speed */
+        currentSpeed = GetInputMoveSpeed(currentSpeed);
+
+        /* Angle */
+        finalAngle = GetInputRotationValue(finalAngle);
+
+        /* Direction */
+        moveDirection = GetInputDirection(currentSpeed);
     }
 
     private void MeasureSpeed() {
