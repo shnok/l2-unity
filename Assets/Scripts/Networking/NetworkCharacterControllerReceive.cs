@@ -8,6 +8,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     [SerializeField] private Vector3 direction;
     [SerializeField] private float speed;
     private Vector3 destination;
+    [SerializeField] private float gravity = 28f;
 
 
     void Start() {
@@ -20,7 +21,8 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     }
 
     void Update() {
-        characterController.Move(direction * speed * Time.deltaTime);
+        Vector3 ajustedDirection = direction * speed + Vector3.down * gravity;
+        characterController.Move(ajustedDirection * Time.deltaTime);
     }
 
     public void UpdateMoveDirection(float speed, Vector3 direction) {

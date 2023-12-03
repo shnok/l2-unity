@@ -31,7 +31,7 @@ public class ServerPacketHandler
 
     public void HandlePacket(byte[] data) {
         ServerPacketType packetType = (ServerPacketType) data[0];
-        Debug.Log("Received packet:" + packetType);
+        //Debug.Log("Received packet:" + packetType);
         switch(packetType)
         {
             case ServerPacketType.Ping:

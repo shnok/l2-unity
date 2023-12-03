@@ -82,6 +82,8 @@ public class NetworkTransformReceive : MonoBehaviour {
     public void SetAnimationProperty(int animId, float value) {
         if(animId > 0 && animId < animator.parameters.Length) {
             AnimatorControllerParameter anim = animator.parameters[animId];
+            Debug.Log("Updating animation: " + transform.name + " " + anim.name + "=" + value);
+
             switch(anim.type) {
                 case AnimatorControllerParameterType.Float:
                     animator.SetFloat(anim.name, value);
