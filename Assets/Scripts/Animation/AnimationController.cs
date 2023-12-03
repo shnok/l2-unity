@@ -93,7 +93,7 @@ public class AnimationController : MonoBehaviour {
         /* Idle */
         if(!InputManager.GetInstance().IsInputPressed(InputType.Move)
             && !pc.runToTarget
-            && (IsCurrentState("Run") || IsAnimationFinished(0))
+            && (IsCurrentState("Run") || IsAnimationFinished(0) || IsCurrentState("Idle"))
             && !IsCurrentState("SitTransition")
             && !IsCurrentState("Sit")
             && !IsCurrentState("SitWait")) {
