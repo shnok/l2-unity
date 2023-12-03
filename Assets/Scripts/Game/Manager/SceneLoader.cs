@@ -23,23 +23,31 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadDefaultScene() {
         if(SceneManager.GetActiveScene().name != defaultScene) {
+            Debug.Log("Loading default scene " + defaultScene);
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(defaultScene);
             asyncLoad.completed += (AsyncOperation operation) => OnSceneSwitch(operation, defaultScene);
         } else {
+            Debug.Log("Skipping default scene load " + defaultScene);
             OnDefaultSceneLoad(null, defaultScene);
         }
     }
 
     private void OnDefaultSceneLoad(AsyncOperation operation, string sceneName) {
-        DefaultClient.GetInstance().Connect(StringUtils.GenerateRandomString());
+        Debug.Log("OnDefaultSceneLoad");
+        if(!World.GetInstance().offlineMode) {
+            DefaultClient.GetInstance().Connect(StringUtils.GenerateRandomString());
+        } else {
+            SwitchScene("Game");
+        }
     }
 
     public void SwitchScene(string sceneName) {
-        Debug.Log("Switching to scene " + sceneName);
         if(SceneManager.GetActiveScene().name != sceneName) {
+            Debug.Log("Switching to scene " + sceneName);
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(name);
             asyncLoad.completed += (AsyncOperation operation) => OnSceneSwitch(operation, sceneName);
         } else {
+            Debug.Log("Skipping scene load " + sceneName);
             OnSceneSwitch(null, sceneName);
         }
     }
@@ -73,9 +81,14 @@ public class SceneLoader : MonoBehaviour
     }
 
     private void OnInitialWorldload(AsyncOperation operation, string sceneName) {
-        Debug.Log("Scene " + sceneName + " loaded.");
+        Debug.Log("Initial scene " + sceneName + " loaded.");
         if(SceneManager.loadedSceneCount >= mapList.Count) {
-            DefaultClient.GetInstance().OnWorldSceneLoaded();
+            if(!World.GetInstance().offlineMode) {
+                DefaultClient.GetInstance().OnWorldSceneLoaded();
+            } else {
+                Debug.Log("Spawn player");
+                World.GetInstance().SpawnPlayerOfflineMode();
+            }
         }
     }
 

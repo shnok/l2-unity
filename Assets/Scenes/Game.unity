@@ -224,10 +224,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 5966979649214767529, guid: 50559bb8d22c3c04a8a788ca6ec38fec, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6289952722580539430, guid: 50559bb8d22c3c04a8a788ca6ec38fec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 102.4751
@@ -863,6 +859,7 @@ GameObject:
   - component: {fileID: 1433411797}
   - component: {fileID: 1433411796}
   - component: {fileID: 1433411798}
+  - component: {fileID: 1433411799}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -889,7 +886,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 264
-  offlineMode: 0
+  offlineMode: 1
 --- !u!4 &1433411790
 Transform:
   m_ObjectHideFlags: 0
@@ -1032,6 +1029,32 @@ MonoBehaviour:
   mapList:
   - 17_25
   singleScene: 0
+--- !u!114 &1433411799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433411788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf309343c3f28b8419882850a8e85fa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UI_default_btn_down:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  UI_default_btn_up:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!1 &1446543339
 GameObject:
   m_ObjectHideFlags: 1
