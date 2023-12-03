@@ -11,36 +11,37 @@ This [video](https://www.youtube.com/watch?v=IEHY37bJ7nk) inspired me to start o
 ## What are the expected features?
 
 For now the aim is to create a basic demo, therefore only basic features will be available:
-- Client-side Pathfinding
-- Click to move and WASD movements
-- Camera collision
+- Client-side Pathfinding 🛠️ (Need to search for path in neighbor terrains)
+- Click to move and WASD movements ✅
+- Camera collision ✅
 - Basic UI
-    - Status window
-    - Chat window
-    - Target window
-    - Nameplates
+    - Status window ✅
+    - Chat window ✅
+    - Target window ✅
+    - Nameplates ✅
     - Skillbar
 - Basic combat (only autoattacks)
-- Basic RPG features
-    - HP Loss and regen
+- Basic RPG features 🛠️ (Structure only for now)
+    - HP Loss and regen 🛠️ (Players can send and receive damage packets for now)
     - Exp gain on kills
     - Leveling
 - Small range of npc models
-    - 1 to 2 models for players
+    - 1 to 2 models for players 🛠️ (Only Female Dark elf for now)
     - 2 to 5 npc types
-- Server/Client features (java.net.ServerSocket)
-    - Player position/rotation sync
-    - Animation sync
-    - Chat
+- Server/Client features (server project [here](https://gitlab.com/shnok/unity-mmo-server))
+    - Player position/rotation sync ✅
+    - Animation sync ✅
+    - Chat ✅
     - Friendly NPCs
-    - Monsters (AI with Pathfinding)
+    - Monsters (AI with Pathfinding) 🛠️ (Needs to be updated with talking island terrain)
 - Import Lineage2's world
-    - Talking island region only (for now)
-        - StaticMeshes
-        - Brushes
-        - Terrain
-        - DecoLayer
-- Day/Night cycle
+    - Talking island region only (for now) ✅
+        - StaticMeshes ✅
+        - Brushes ✅
+        - Terrain ✅
+        - DecoLayer ✅
+- Day/Night cycle 🛠️ (Ready but need to sync with server time)
+- Game sounds
 
 ## How to run?
 

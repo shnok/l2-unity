@@ -939,6 +939,7 @@ GameObject:
   - component: {fileID: 8320559729586774763}
   - component: {fileID: 8234728174252591980}
   - component: {fileID: 5733643542121449354}
+  - component: {fileID: 3478450228567174879}
   m_Layer: 6
   m_Name: User
   m_TagString: User
@@ -1035,10 +1036,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23401e4c6afa7ec43922ae596b8c60a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _serverPosition: {x: 0, y: 0, z: 0}
+  animator: {fileID: 0}
+  serverPosition: {x: 0, y: 0, z: 0}
+  positionSynced: 0
   moveSpeed: 4
   lerpDuration: 0.3
   noclip: 1
+--- !u!114 &3478450228567174879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252958834938601816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d95d876eae19f4099fa56602b7d22d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: 0, y: 0, z: 0}
+  speed: 0
 --- !u!1 &2280495673871757471
 GameObject:
   m_ObjectHideFlags: 0

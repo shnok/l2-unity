@@ -20,7 +20,7 @@ public class AnimationController : MonoBehaviour {
 
     void UpdateAnimator() {
 
-        SetFloat("Speed", pc.currentSpeed);
+        
 
         /*Jump */
         if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Idle")) {
@@ -48,8 +48,10 @@ public class AnimationController : MonoBehaviour {
         if((InputManager.GetInstance().IsInputPressed(InputType.Move) || pc.runToTarget)
             && (IsCurrentState("Idle") || IsAnimationFinished(0)) && pc.canMove) {
             SetBool("Moving", true);
+            SetFloat("Speed", pc.currentSpeed);
         } else {
             SetBool("Moving", false);
+            SetFloat("Speed", pc.currentSpeed);
         }
 
         /* Sit */
@@ -99,8 +101,10 @@ public class AnimationController : MonoBehaviour {
             && !IsCurrentState("SitWait")) {
             CameraController.GetInstance().followRootBoneOffset = false;
             SetBool("Idle", true);
+            SetFloat("Speed", pc.currentSpeed);
         } else {
             SetBool("Idle", false);
+            SetFloat("Speed", pc.currentSpeed);
         }
     }
 
