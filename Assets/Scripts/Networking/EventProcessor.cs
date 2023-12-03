@@ -15,7 +15,14 @@ public class EventProcessor : MonoBehaviour {
             _instance = this;
         }
     }
-    
+
+    private void Start() {
+        if(World.GetInstance().offlineMode) {
+            this.enabled = false;
+            return;
+        }
+    }
+
     public void QueueEvent(Action action) {
         lock(m_queueLock) {
             m_queuedEvents.Add(action);

@@ -13,6 +13,10 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
 
 
     void Start() {
+        if(World.GetInstance().offlineMode) {
+            this.enabled = false;
+        }
+
         animationReceive = GetComponent<NetworkAnimationReceive>();
         characterController = GetComponent<CharacterController>();
         if(characterController == null || World.GetInstance().offlineMode || animationReceive == null) {

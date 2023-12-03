@@ -5,13 +5,12 @@ public class NetworkTransformShare : MonoBehaviour {
     private float lastSharedPosTime;
     public Vector3 serverPosition;
 
-    private void Awake() {
+    void Start() {
         if(World.GetInstance().offlineMode) {
             enabled = false;
+            return;
         }
-    }
 
-    void Start() {
         lastPos = transform.position;
         lastRot = transform.forward;
         lastSharedPosTime = Time.time;

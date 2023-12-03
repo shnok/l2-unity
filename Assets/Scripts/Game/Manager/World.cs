@@ -38,7 +38,7 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void InstantiatePlayerOfflineMode() {
+    public void SpawnPlayerOfflineMode() {
         if(World.GetInstance().offlineMode) {
             PlayerEntity entity = playerPrefab.GetComponent<PlayerEntity>();
             entity.Identity.Position = playerPrefab.transform.position;

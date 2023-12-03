@@ -25,6 +25,12 @@ public class DefaultClient : MonoBehaviour {
         } 
     }
 
+    private void Start() {
+        if(World.GetInstance().offlineMode) {
+            this.enabled = false;
+        }
+    }
+
     public async void Connect(string user) {
         username = user; 
         client = new AsynchronousClient(serverIp, serverPort);

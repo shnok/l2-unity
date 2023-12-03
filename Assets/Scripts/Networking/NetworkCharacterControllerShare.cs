@@ -14,6 +14,7 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
         characterController = GetComponent<CharacterController>();
         if(characterController == null || World.GetInstance().offlineMode) {
             this.enabled = false;
+            return;
         }
 
         StartCoroutine(StartSharingMoveDirection());
