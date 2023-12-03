@@ -25,6 +25,8 @@ public class ChatWindow : MonoBehaviour {
     public bool autoscroll = true;
     private EventProcessor eventProcessor;
 
+    [SerializeField] private int chatInputCharacterLimit = 64;
+
     private static ChatWindow instance;
     public static ChatWindow GetInstance() {
         return instance;
@@ -85,6 +87,8 @@ public class ChatWindow : MonoBehaviour {
         chatInput = chatWindowEle.Q<TextField>("ChatInputField");
         chatInput.RegisterCallback<FocusEvent>(OnChatInputFocus);
         chatInput.RegisterCallback<BlurEvent>(OnChatInputBlur);
+        chatInput.maxLength = chatInputCharacterLimit;
+
         L2GameUI.BlinkingCursor(chatInput);
 
         chatInputContainer = chatWindowEle.Q<VisualElement>("InnerBar");
@@ -186,13 +190,10 @@ public class ChatWindow : MonoBehaviour {
         if(offlineChat) {
             ReceiveChatMessage(message);
         } else {
-
+            DefaultClient.GetInstance().SendChatMessage(text);
         }
     }
 
-    public void Test(Message message) {
-        eventProcessor.QueueEvent(() => ReceiveChatMessage(message));
-    }
     public void ReceiveChatMessage(Message message) {
         if(message == null) {
             return;

@@ -74,7 +74,6 @@ public class SceneLoader : MonoBehaviour
 
     private void OnInitialWorldload(AsyncOperation operation, string sceneName) {
         Debug.Log("Scene " + sceneName + " loaded.");
-        Debug.Log(SceneManager.loadedSceneCount);
         if(SceneManager.loadedSceneCount >= mapList.Count) {
             DefaultClient.GetInstance().OnWorldSceneLoaded();
         }

@@ -63,9 +63,12 @@ public class AsynchronousClient {
         }
     }
 
-    public void SendPacket(ClientPacket packet) { 
+    public void SendPacket(ClientPacket packet) {
         if(DefaultClient.GetInstance().logSentPackets) {
-            Debug.Log("Sending packet:" + (ClientPacketType)packet.GetPacketType());
+            ClientPacketType packetType = (ClientPacketType)packet.GetPacketType();
+            if(packetType != ClientPacketType.Ping) {
+                Debug.Log("Sending packet:" + packetType);
+            }
         }
         try {
             using (NetworkStream stream = new NetworkStream(client)) {
@@ -76,6 +79,7 @@ public class AsynchronousClient {
             Debug.Log(e.ToString());
         }
     }
+
     public void StartReceiving() {
         using (NetworkStream stream = new NetworkStream(client)) {
             for(;;) {
