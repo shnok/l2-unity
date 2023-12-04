@@ -78,7 +78,7 @@ public class PathFinderFactory : MonoBehaviour {
             Vector3 origin = path[currentNode].center;
             Vector3 destination = path[i].center;
             Vector3 yOffset = Vector3.up * Geodata.GetInstance().nodeSize * 1.5f;
-            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.GetInstance().obstacleMask);
+            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.GetInstance().GetMask());
 
             if(cantSeeTarget) {
                 Debug.Log("Hit wall at  " + i);

@@ -11,7 +11,12 @@ public class World : MonoBehaviour {
     public Dictionary<int, Entity> players = new Dictionary<int, Entity>();
     public Dictionary<int, Entity> npcs = new Dictionary<int, Entity>();
     public Dictionary<int, Entity> objects = new Dictionary<int, Entity>();
+
+    public LayerMask entityMask;
+    public LayerMask obstacleMask;
+    public LayerMask clickThroughMask;
     public LayerMask groundMask;
+
     public bool offlineMode = false;
 
     public static World instance;
@@ -25,6 +30,17 @@ public class World : MonoBehaviour {
         playerPrefab = Resources.Load<GameObject>("Prefab/Player");
         userPrefab = Resources.Load<GameObject>("Prefab/User");
         npcPrefab = Resources.Load<GameObject>("Prefab/Npc");
+    }
+
+    void Start() {
+        UpdateMasks();
+    }
+
+    void UpdateMasks() {
+        NameplatesManager.GetInstance().SetMask(entityMask);
+        Geodata.GetInstance().SetMask(obstacleMask);
+        ClickManager.GetInstance().SetMasks(entityMask, clickThroughMask);
+        CameraController.GetInstance().SetMask(obstacleMask);
     }
 
     public void RemoveObject(int id) {

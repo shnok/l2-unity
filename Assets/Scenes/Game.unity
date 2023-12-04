@@ -483,7 +483,6 @@ MonoBehaviour:
     filteredMessages: 00000000
     autoscroll: 1
   chatOpened: 0
-  offlineChat: 0
   autoscroll: 1
   chatInputCharacterLimit: 64
 --- !u!114 &661036173
@@ -503,9 +502,6 @@ MonoBehaviour:
   entityMask:
     serializedVersion: 2
     m_Bits: 2112
-  occlusionMask:
-    serializedVersion: 2
-    m_Bits: 392
   occlusionBaseHeight: 1.5
   playerTransform: {fileID: 0}
 --- !u!114 &661036174
@@ -891,9 +887,18 @@ MonoBehaviour:
   playerPrefab: {fileID: 0}
   userPrefab: {fileID: 0}
   npcPrefab: {fileID: 0}
+  entityMask:
+    serializedVersion: 2
+    m_Bits: 2112
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 392
+  clickThroughMask:
+    serializedVersion: 2
+    m_Bits: 2050
   groundMask:
     serializedVersion: 2
-    m_Bits: 264
+    m_Bits: 392
   offlineMode: 1
 --- !u!4 &1433411790
 Transform:
@@ -951,15 +956,6 @@ MonoBehaviour:
     objectTag: 
     objectScene: 
     objectTransform: {fileID: 0}
-  walkableMask:
-    serializedVersion: 2
-    m_Bits: 905
-  entityMask:
-    serializedVersion: 2
-    m_Bits: 64
-  ignoreLayer:
-    serializedVersion: 2
-    m_Bits: 2054
 --- !u!114 &1433411794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1016,9 +1012,6 @@ MonoBehaviour:
   nodeSize: 0.5
   mapsToLoad:
   - 17_25
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 641
   loaded: 0
   drawGizmos: 0
 --- !u!114 &1433411798
@@ -1617,10 +1610,6 @@ PrefabInstance:
     - target: {fileID: 6373500069190494077, guid: 68b62837eebcb7c4eb9827b331f22a04, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6373500069190494077, guid: 68b62837eebcb7c4eb9827b331f22a04, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8032377794756350704, guid: 68b62837eebcb7c4eb9827b331f22a04, type: 3}
       propertyPath: m_LocalPosition.x

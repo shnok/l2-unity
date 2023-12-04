@@ -8,18 +8,17 @@ public class ClickManager : MonoBehaviour {
     public ObjectData targetObjectData;
     public ObjectData hoverObjectData;
 
-    public LayerMask walkableMask;
-    public LayerMask entityMask;
-    public LayerMask ignoreLayer;
+    private LayerMask entityMask;
+    private LayerMask clickThroughMask;
 
-    public static ClickManager _instance;
+    public static ClickManager instance;
     public static ClickManager GetInstance() {
-        return _instance;
+        return instance;
     }
 
     void Awake() {
-        if(_instance == null) {
-            _instance = this;
+        if(instance == null) {
+            instance = this;
         }
     }
 
@@ -28,11 +27,16 @@ public class ClickManager : MonoBehaviour {
         HideLocator();
     }
 
+    public void SetMasks(LayerMask entityMask, LayerMask clickThroughMask) {
+        this.entityMask = entityMask;
+        this.clickThroughMask = clickThroughMask;
+    }
+
     void Update() {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, 1000f, ~ignoreLayer)) {
+        if(Physics.Raycast(ray, out hit, 1000f, ~clickThroughMask)) {
             hoverObjectData = new ObjectData(hit.collider.gameObject);
             int hitLayer = hit.collider.gameObject.layer;
 

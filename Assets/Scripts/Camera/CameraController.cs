@@ -18,23 +18,27 @@ public class CameraController : MonoBehaviour {
     public float zoomSpeed = 5f;
 
     public Vector3 targetPos;
-    public LayerMask collisionMask;
+    private LayerMask collisionMask;
     public CameraCollisionDetection detector;
 
-    public static CameraController _instance;
+    public static CameraController instance;
 
     public static CameraController GetInstance() {
-        return _instance;
+        return instance;
     }
 
     void Awake() {
-        if(_instance == null) {
-            _instance = this;
+        if(instance == null) {
+            instance = this;
         }
     }
 
     private void Start() {
         lerpTargetPos = Vector3.zero;
+    }
+
+    public void SetMask(LayerMask collisionMask) {
+        this.collisionMask = collisionMask;
     }
 
     void Update() {

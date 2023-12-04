@@ -8,13 +8,21 @@ public class NameplatesManager : MonoBehaviour
     [SerializeField] private VisualTreeAsset nameplateTemplate;
     private VisualElement rootElement;
     public float nameplateViewDistance = 50f;
-    public LayerMask entityMask;
-    public LayerMask occlusionMask;
+    [SerializeField] private LayerMask entityMask;
     public float occlusionBaseHeight = 1.5f;
     [SerializeField] public RaycastHit[] entitiesInRange;
 
     private Dictionary<int, Nameplate> nameplates = new Dictionary<int, Nameplate>();
     public Transform playerTransform;
+
+    private static NameplatesManager instance;
+    public static NameplatesManager GetInstance() {
+        return instance;
+    }
+
+    private void Awake() {
+        instance = this;
+    }
 
     void Start()
     {
@@ -24,6 +32,12 @@ public class NameplatesManager : MonoBehaviour
         if(nameplateTemplate == null) {
             Debug.LogError("Could not load chat window template.");
         }
+
+        
+    }
+
+    public void SetMask(LayerMask mask) {
+        entityMask = mask;
     }
 
     private const int kUpdatesPerSecond = 200;

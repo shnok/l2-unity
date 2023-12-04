@@ -7,21 +7,19 @@ public class L2GameUI : MonoBehaviour {
     public bool mouseEnabled = true;
     public bool mouseOverUI = false;
     public NativeCoords lastMousePosition;
-    public static L2GameUI _instance;
+    public static L2GameUI instance;
     VisualElement rootElement;
     public bool uiLoaded = false;
     public Focusable focusedElement;
 
     public static L2GameUI GetInstance() {
-        return _instance;
+        return instance;
     }
 
     void Awake() {
-        if(_instance == null) {
-            _instance = this;
-        } else {
-            Object.Destroy(gameObject);
-        }
+        if(instance == null) {
+            instance = this;
+        } 
     }
 
     public void Update() {

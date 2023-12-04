@@ -10,26 +10,35 @@ public class Geodata : MonoBehaviour
 {
     public float nodeSize = 0.5f;
     public List<string> mapsToLoad;
-    public LayerMask obstacleMask;
+    private LayerMask obstacleMask;
     public Dictionary<string, Vector3> mapsOrigin = new Dictionary<string, Vector3>();
     public Dictionary<Vector3, Node> nodes = new Dictionary<Vector3, Node>();
     public bool loaded = false;
     public bool drawGizmos = true;
 
-    private static Geodata _instance;
+    private static Geodata instance;
     public static Geodata GetInstance() {
-        return _instance;
+        return instance;
     }
 
     private void Awake() {
-        _instance = this;
+        instance = this;
     }
 
     void Start() {
+
         foreach(var mapId in mapsToLoad) {
             LoadMapGeodata(mapId);
         }
         loaded = true;
+    }
+
+    public void SetMask(LayerMask mask) {
+        obstacleMask = mask;
+    }
+
+    public LayerMask GetMask() {
+        return obstacleMask;
     }
 
     public Node GetNodeAt(string mapId, Vector3 pos) {
