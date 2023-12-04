@@ -199,13 +199,14 @@ public class NameplatesManager : MonoBehaviour
             return false;
         }
 
-        if(ClickManager.GetInstance().hoverObjectData != null && ClickManager.GetInstance().hoverObjectData.objectTransform == target) {
+        bool isHover = ClickManager.GetInstance().hoverObjectData != null && ClickManager.GetInstance().hoverObjectData.objectTransform == target;
+        if(isHover) {
             return true;
         }
-        if(TargetManager.GetInstance().HasTarget() && TargetManager.GetInstance().GetTargetData().data.objectTransform == target) {
-            return true;
-        }
-        if(Vector3.Distance(playerTransform.position, target.position) > nameplateViewDistance) {
+
+        bool isTarget = TargetManager.GetInstance().HasTarget() && TargetManager.GetInstance().GetTargetData().data.objectTransform == target;
+        bool isTooFar = Vector3.Distance(playerTransform.position, target.position) > nameplateViewDistance;
+        if(isTooFar && !isTarget) {
             return false;
         }
 
