@@ -84,6 +84,8 @@ public class World : MonoBehaviour {
 
         CameraController.GetInstance().SetTarget(go);
         CameraController.GetInstance().enabled = true;
+
+        ChatWindow.GetInstance().ReceiveChatMessage(new MessageLoggedIn(identity.Name));
     }
 
     public void SpawnUser(NetworkIdentity identity, PlayerStatus status) {

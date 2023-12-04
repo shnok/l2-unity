@@ -92,7 +92,6 @@ public class AudioManager : MonoBehaviour
                 break;
 
         }
-        Debug.Log(eventKey);
 
         EventReference sound;
         if(stepSounds.TryGetValue(eventKey, out sound)) {

@@ -83,12 +83,19 @@ public class SceneLoader : MonoBehaviour
     private void OnInitialWorldload(AsyncOperation operation, string sceneName) {
         Debug.Log("Initial scene " + sceneName + " loaded.");
         if(SceneManager.loadedSceneCount >= mapList.Count) {
-            if(!World.GetInstance().offlineMode) {
-                DefaultClient.GetInstance().OnWorldSceneLoaded();
-            } else {
-                Debug.Log("Spawn player");
-                World.GetInstance().SpawnPlayerOfflineMode();
-            }
+            StartCoroutine(StartGame());
+        }
+    }
+
+    IEnumerator StartGame() {
+        // TODO wait for every scripts to be loaded.
+        yield return new WaitForSeconds(1f);
+
+        if(!World.GetInstance().offlineMode) {
+            DefaultClient.GetInstance().OnWorldSceneLoaded();
+        } else {
+            Debug.Log("Spawn player");
+            World.GetInstance().SpawnPlayerOfflineMode();
         }
     }
 

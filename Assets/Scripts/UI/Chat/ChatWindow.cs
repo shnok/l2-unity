@@ -105,10 +105,6 @@ public class ChatWindow : MonoBehaviour {
 
         yield return new WaitForEndOfFrame();
         diagonalResizeManipulator.SnapSize();
-
-        if(World.GetInstance().offlineMode) {
-            ReceiveChatMessage(new MessageLoggedIn(PlayerEntity.GetInstance().name));
-        }
     }
 
 
