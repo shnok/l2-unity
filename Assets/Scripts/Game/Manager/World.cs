@@ -12,6 +12,7 @@ public class World : MonoBehaviour {
     public Dictionary<int, Entity> npcs = new Dictionary<int, Entity>();
     public Dictionary<int, Entity> objects = new Dictionary<int, Entity>();
 
+    [Header("Layer Masks")]
     public LayerMask entityMask;
     public LayerMask obstacleMask;
     public LayerMask clickThroughMask;

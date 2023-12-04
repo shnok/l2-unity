@@ -2,11 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
+using FMOD.Studio;
 
 public class AudioManager : MonoBehaviour
 {
     public Dictionary<string, EventReference> uiSounds = new Dictionary<string, EventReference>();
     public Dictionary<string, EventReference> stepSounds = new Dictionary<string, EventReference>();
+
+    [Header("Volume")]
+    [Range(0, 1)]
+    public float masterVolume = 1;
+    [Range(0, 1)]
+    public float musicVolume = 1;
+    [Range(0, 1)]
+    public float SFXVolume = 1;
+    [Range(0, 1)]
+    public float UIVolume = 1;
+    [Range(0, 1)]
+    public float ambientVolume = 1;
+
+    private Bus masterBus;
+    private Bus musicBus;
+    private Bus SFXBus;
+    private Bus UIBus;
+    private Bus ambientBus;
 
     public static AudioManager instance;
 
@@ -16,15 +35,19 @@ public class AudioManager : MonoBehaviour
 
     private void Awake() {
         instance = this;
-    }
-
-
-    void Start()
-    {
         SetReferences();
+        SetBuses();
     }
 
-    void SetReferences() {
+    private void SetBuses() {
+        masterBus = RuntimeManager.GetBus("bus:/");
+        musicBus = RuntimeManager.GetBus("bus:/Music");
+        SFXBus = RuntimeManager.GetBus("bus:/SFX");
+        UIBus = RuntimeManager.GetBus("bus:/UI");
+        ambientBus = RuntimeManager.GetBus("bus:/Ambient");
+    }
+
+    private void SetReferences() {
         uiSounds.Add("click_01", RuntimeManager.PathToEventReference("event:/InterfaceSound/click_01"));
         uiSounds.Add("window_close", RuntimeManager.PathToEventReference("event:/InterfaceSound/window_close"));
         uiSounds.Add("window_open", RuntimeManager.PathToEventReference("event:/InterfaceSound/window_open"));
@@ -33,6 +56,14 @@ public class AudioManager : MonoBehaviour
         stepSounds.Add("dirt_run", RuntimeManager.PathToEventReference("event:/StepSound/dirt_run"));
         stepSounds.Add("wood_run", RuntimeManager.PathToEventReference("event:/StepSound/wood_run"));
         stepSounds.Add("stone_run", RuntimeManager.PathToEventReference("event:/StepSound/stone_run"));
+    }
+
+    private void Update() {
+        masterBus.setVolume(masterVolume);
+        musicBus.setVolume(musicVolume);
+        SFXBus.setVolume(SFXVolume);
+        UIBus.setVolume(UIVolume);
+        ambientBus.setVolume(ambientVolume);
     }
 
     public void PlayUISound(string soundName) {
