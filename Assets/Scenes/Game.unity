@@ -181,37 +181,6 @@ MonoBehaviour:
     m_Bits: 1024
   export: 1
   exportPath: geodata
---- !u!1 &353652258
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 353652259}
-  m_Layer: 0
-  m_Name: SpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &353652259
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 353652258}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4627.997, y: -71.414, z: -1644.787}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 581901348}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &366704775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -321,6 +290,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water
       objectReference: {fileID: 0}
+    - target: {fileID: 5496809922340660343, guid: 13b266cd3c195774dbf188551b32fad4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -362,7 +335,6 @@ Transform:
   m_Children:
   - {fileID: 1753994186}
   - {fileID: 799115971}
-  - {fileID: 353652259}
   m_Father: {fileID: 760118614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &661036167
@@ -489,7 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameplateTemplate: {fileID: 0}
-  nameplateViewDistance: 5
+  nameplateViewDistance: 25
   entityMask:
     serializedVersion: 2
     m_Bits: 2112
@@ -965,8 +937,11 @@ MonoBehaviour:
       id: 0
       npcId: 0
       name: 
+      title: 
       model: 0
       position: {x: 0, y: 0, z: 0}
+      heading: 0
+      collisionHeight: 0
       owned: 0
     data:
       objectLayerName: 
@@ -1522,7 +1497,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2252958834938601816, guid: c39f94887e96c604b8345910915197f3, type: 3}
       propertyPath: m_Name
-      value: User1
+      value: TestUser
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234728174252591980, guid: c39f94887e96c604b8345910915197f3, type: 3}
+      propertyPath: identity.name
+      value: TestUser
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234728174252591980, guid: c39f94887e96c604b8345910915197f3, type: 3}
+      propertyPath: identity.collisionHeight
+      value: 0.45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

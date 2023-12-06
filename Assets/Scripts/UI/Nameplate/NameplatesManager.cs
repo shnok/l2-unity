@@ -131,8 +131,8 @@ public class NameplatesManager : MonoBehaviour
             nameplateEntityName = visualElement.Q<Label>("EntityName"),
             nameplateEntityTitle = visualElement.Q<Label>("EntityTitle"),
             target = entity.transform,
-            title = "",
-            nameplateOffsetHeight = 1f,
+            title = entity.Identity.Title,
+            nameplateOffsetHeight = entity.Identity.CollisionHeight * 2f,
             name = entity.Identity.Name,
             targetId = entity.Identity.Id,
             visible = true
@@ -191,7 +191,7 @@ public class NameplatesManager : MonoBehaviour
     private void UpdateNameplatePosition(Nameplate nameplate) {
         Vector2 nameplatePos = Camera.main.WorldToScreenPoint(nameplate.target.position + Vector3.up * nameplate.nameplateOffsetHeight);
         nameplate.nameplateEle.style.left = nameplatePos.x - nameplate.nameplateEle.resolvedStyle.width / 2f;
-        nameplate.nameplateEle.style.top = Screen.height - nameplatePos.y - nameplate.nameplateEle.resolvedStyle.height / 2f;
+        nameplate.nameplateEle.style.top = Screen.height - nameplatePos.y - nameplate.nameplateEle.resolvedStyle.height;
     }
 
     private bool IsNameplateVisible(Transform target) {

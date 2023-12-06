@@ -940,6 +940,7 @@ GameObject:
   - component: {fileID: 8285572027909062718}
   - component: {fileID: -3934994049247431931}
   - component: {fileID: 5423900641865541986}
+  - component: {fileID: 8195132520096288507}
   m_Layer: 6
   m_Name: Npc
   m_TagString: User
@@ -1013,8 +1014,11 @@ MonoBehaviour:
     id: 0
     npcId: 0
     name: Npc
+    title: 
     model: 0
     position: {x: 0, y: 0, z: 0}
+    heading: 0
+    collisionHeight: 0
     owned: 0
   status:
     hp: 0
@@ -1051,6 +1055,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+--- !u!114 &8195132520096288507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252958834938601816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d95d876eae19f4099fa56602b7d22d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: {x: 0, y: 0, z: 0}
+  speed: 0
+  gravity: 28
 --- !u!1 &2280495673871757471
 GameObject:
   m_ObjectHideFlags: 0

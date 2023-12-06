@@ -65,6 +65,7 @@ public class World : MonoBehaviour {
 
     public void SpawnPlayer(NetworkIdentity identity, PlayerStatus status) {
         identity.SetPosY(GetGroundHeight(identity.Position));
+        identity.CollisionHeight = 0.45f;
         GameObject go = (GameObject)Instantiate(playerPrefab, identity.Position, Quaternion.identity);
         PlayerEntity player = go.GetComponent<PlayerEntity>();
         player.Status = status;
@@ -90,6 +91,7 @@ public class World : MonoBehaviour {
 
     public void SpawnUser(NetworkIdentity identity, PlayerStatus status) {
         identity.SetPosY(GetGroundHeight(identity.Position));
+        identity.CollisionHeight = 0.45f;
         GameObject go = (GameObject)Instantiate(userPrefab, identity.Position, Quaternion.identity);
         UserEntity player = go.GetComponent<UserEntity>();
         player.Status = status;
@@ -108,7 +110,6 @@ public class World : MonoBehaviour {
         /* Should check at npc id to load right npc name and model */
         identity.SetPosY(GetGroundHeight(identity.Position));
         GameObject go = (GameObject)Instantiate(npcPrefab, identity.Position, Quaternion.identity);
-        identity.Name = "Dummy";
         NpcEntity npc = go.GetComponent<NpcEntity>();
         npc.Status = status;
         npc.Identity = identity;
@@ -116,12 +117,14 @@ public class World : MonoBehaviour {
         npcs.Add(identity.Id, npc);
         objects.Add(identity.Id, npc);
 
+        go.transform.eulerAngles = new Vector3(go.transform.eulerAngles.x, identity.Heading, go.transform.eulerAngles.z);
+
         go.SetActive(true);
     }
 
     public float GetGroundHeight(Vector3 pos) {
         RaycastHit hit;
-        if(Physics.Raycast(pos + Vector3.up, Vector3.down, out hit, 1.1f, groundMask)) {
+        if(Physics.Raycast(pos + Vector3.up * 3f, Vector3.down, out hit, 3.5f, groundMask)) {
             return hit.point.y;
         }
 

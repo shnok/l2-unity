@@ -14,9 +14,15 @@ public class NetworkIdentity
     [SerializeField]
     private string name;
     [SerializeField]
+    private string title;
+    [SerializeField]
     private int model;
     [SerializeField]
     private Vector3 position = new Vector3(0, 0, 0);
+    [SerializeField]
+    private float heading;
+    [SerializeField]
+    private float collisionHeight;
     [SerializeField]
     private bool owned = false;
 
@@ -24,8 +30,11 @@ public class NetworkIdentity
     public int Id { get => id; set => id = value; }
     public int NpcId { get => npcId; set => npcId = value; }
     public string Name { get => name; set => name = value; }
+    public string Title { get => title; set => title = value; }
     public int Model { get => model; set => model = value; }
     public Vector3 Position { get => position; set => position = value; }
+    public float Heading { get => heading; set => heading = value; }
+    public float CollisionHeight { get => collisionHeight; set => collisionHeight = value; }
     public bool Owned { get => owned; set => owned = value; }
 
     public NetworkIdentity() {}
