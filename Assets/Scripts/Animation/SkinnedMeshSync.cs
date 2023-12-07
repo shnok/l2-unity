@@ -21,4 +21,6 @@ public class SkinnedMeshSync : MonoBehaviour {
             renderer.rootBone = rootSkinnedRenderer.rootBone;
         }
     }
+
+    
 }

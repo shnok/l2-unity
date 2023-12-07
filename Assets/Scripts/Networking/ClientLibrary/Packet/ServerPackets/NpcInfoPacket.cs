@@ -17,6 +17,8 @@ public class NpcInfoPacket : ServerPacket {
         try {
             identity.Id = ReadI();
             identity.NpcId = ReadI();
+            identity.NpcClass = ReadS();
+            identity.Type = ReadS();
             identity.Name = ReadS();
             identity.Title = ReadS();
             identity.Heading = ReadF();

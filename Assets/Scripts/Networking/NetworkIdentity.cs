@@ -10,6 +10,10 @@ public class NetworkIdentity
     [SerializeField]
     private int id;
     [SerializeField]
+    private string type;
+    [SerializeField]
+    private string npcClass;
+    [SerializeField]
     private int npcId;
     [SerializeField]
     private string name;
@@ -29,6 +33,8 @@ public class NetworkIdentity
     public EntityType EntityType { get => entityType; set => entityType = value; }
     public int Id { get => id; set => id = value; }
     public int NpcId { get => npcId; set => npcId = value; }
+    public string Type { get => type; set => type = value; }
+    public string NpcClass { get => npcClass; set => npcClass = value; }
     public string Name { get => name; set => name = value; }
     public string Title { get => title; set => title = value; }
     public int Model { get => model; set => model = value; }

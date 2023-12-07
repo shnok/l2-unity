@@ -107,19 +107,25 @@ public class World : MonoBehaviour {
     }
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status) {
-        /* Should check at npc id to load right npc name and model */
         identity.SetPosY(GetGroundHeight(identity.Position));
-        GameObject go = (GameObject)Instantiate(npcPrefab, identity.Position, Quaternion.identity);
-        NpcEntity npc = go.GetComponent<NpcEntity>();
+        string prefabName = identity.NpcClass.Split(".")[1].ToLower();
+        GameObject go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageMonsters/", prefabName, prefabName));
+        if(go == null) {
+            go = npcPrefab;
+        }
+
+        GameObject npcGo = Instantiate(go, identity.Position, Quaternion.identity); 
+
+        NpcEntity npc = npcGo.GetComponent<NpcEntity>();
         npc.Status = status;
         npc.Identity = identity;
 
         npcs.Add(identity.Id, npc);
         objects.Add(identity.Id, npc);
 
-        go.transform.eulerAngles = new Vector3(go.transform.eulerAngles.x, identity.Heading, go.transform.eulerAngles.z);
+        npcGo.transform.eulerAngles = new Vector3(npcGo.transform.eulerAngles.x, identity.Heading, npcGo.transform.eulerAngles.z);
 
-        go.SetActive(true);
+        npcGo.SetActive(true);
     }
 
     public float GetGroundHeight(Vector3 pos) {

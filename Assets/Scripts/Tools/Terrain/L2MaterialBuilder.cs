@@ -20,7 +20,7 @@ public class L2MaterialBuilder {
 
     [MenuItem("Shnok/[Material] Remap")]
     static void RemapMaterials() {
-        string[] meshes = AssetDatabase.FindAssets("t:GameObject", new string[] { "Assets/Data/StaticMeshes" });
+        string[] meshes = AssetDatabase.FindAssets("t:GameObject", new string[] { "Assets/Resources/Data/StaticMeshes" });
         for(int i = 0; i < meshes.Length; i++) {
 
             string mesh = AssetDatabase.GUIDToAssetPath(meshes[i]);
@@ -31,7 +31,7 @@ public class L2MaterialBuilder {
     }
 
     static void ClearMaterials() {
-        string[] materialGUIDs = AssetDatabase.FindAssets("t:Material", new string[] { "Assets/Data/Textures", "Assets/Data/SysTextures" });
+        string[] materialGUIDs = AssetDatabase.FindAssets("t:Material", new string[] { "Assets/Resources/Data/Textures", "Assets/Resources/Data/SysTextures" });
         for(int i = 0; i < materialGUIDs.Length; i++) {
             string materialPath = AssetDatabase.GUIDToAssetPath(materialGUIDs[i]);
             AssetDatabase.DeleteAsset(materialPath);
@@ -39,7 +39,7 @@ public class L2MaterialBuilder {
     }
 
     static void CreateBaseMaterials(bool overwrite) {
-        string[] textureGUIDs = AssetDatabase.FindAssets("t:Texture2D", new string[] { "Assets/Data/Textures", "Assets/Data/SysTextures" });
+        string[] textureGUIDs = AssetDatabase.FindAssets("t:Texture2D", new string[] { "Assets/Resources/Data/Textures", "Assets/Resources/Data/SysTextures" });
         for(int i = 0; i < textureGUIDs.Length; i++) {
             string texturePath = AssetDatabase.GUIDToAssetPath(textureGUIDs[i]);
             string materialDirectory = Path.Combine(Path.GetDirectoryName(texturePath), "Materials");
@@ -72,7 +72,7 @@ public class L2MaterialBuilder {
     }
 
     static void ProcessProps(bool overwrite) {
-        string[] propsTxtGUIDs = AssetDatabase.FindAssets("t:TextAsset", new string[] { "Assets/Data/Textures", "Assets/Data/SysTextures" });
+        string[] propsTxtGUIDs = AssetDatabase.FindAssets("t:TextAsset", new string[] { "Assets/Resources/Data/Textures", "Assets/Resources/Data/SysTextures" });
         //Debug.Log("Found " + propsTxtGUIDs.Length + " props.");
 
         for(int i = 0; i < propsTxtGUIDs.Length; i++) {
