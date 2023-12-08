@@ -162,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ed078e18a5c407147839139075a05559, type: 3}
       propertyPath: m_Name
-      value: goblin
+      value: goblin_prefab
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ed078e18a5c407147839139075a05559, type: 3}
       propertyPath: m_Layer
@@ -302,6 +302,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed078e18a5c407147839139075a05559, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3070118437908978311}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed078e18a5c407147839139075a05559, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2038106750205728736}
   m_SourcePrefab: {fileID: 100100000, guid: ed078e18a5c407147839139075a05559, type: 3}
 --- !u!1 &4496910498173814819 stripped
 GameObject:
@@ -368,7 +371,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.36, z: 0}
+  m_Center: {x: 0, y: 0.42, z: 0}
 --- !u!114 &56833143339352812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,6 +418,8 @@ MonoBehaviour:
   identity:
     entityType: 2
     id: 0
+    type: 
+    npcClass: 
     npcId: 0
     name: 
     title: 
@@ -429,3 +434,17 @@ MonoBehaviour:
     level: 0
     friendly: 0
     aggressive: 0
+--- !u!114 &2038106750205728736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4496910498173814819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae24ab87f9545c74e98453405da53d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  npcTemplateName: 

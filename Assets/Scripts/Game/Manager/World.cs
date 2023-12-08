@@ -65,6 +65,7 @@ public class World : MonoBehaviour {
 
     public void SpawnPlayer(NetworkIdentity identity, PlayerStatus status) {
         identity.SetPosY(GetGroundHeight(identity.Position));
+        identity.EntityType = EntityType.Player;
         identity.CollisionHeight = 0.45f;
         GameObject go = (GameObject)Instantiate(playerPrefab, identity.Position, Quaternion.identity);
         PlayerEntity player = go.GetComponent<PlayerEntity>();
@@ -91,6 +92,7 @@ public class World : MonoBehaviour {
 
     public void SpawnUser(NetworkIdentity identity, PlayerStatus status) {
         identity.SetPosY(GetGroundHeight(identity.Position));
+        identity.EntityType = EntityType.User;
         identity.CollisionHeight = 0.45f;
         GameObject go = (GameObject)Instantiate(userPrefab, identity.Position, Quaternion.identity);
         UserEntity player = go.GetComponent<UserEntity>();
@@ -108,8 +110,19 @@ public class World : MonoBehaviour {
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status) {
         identity.SetPosY(GetGroundHeight(identity.Position));
+        identity.EntityType = EntityTypeParser.ParseEntityType(identity.Type);
+
         string prefabName = identity.NpcClass.Split(".")[1].ToLower();
-        GameObject go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageMonsters/", prefabName, prefabName));
+        GameObject go;
+        if(identity.EntityType == EntityType.NPC) {
+            go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageNPCs/", prefabName, prefabName + "_prefab"));
+        } else {
+            go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageMonsters/", prefabName, prefabName + "_prefab"));
+            if(string.IsNullOrEmpty(identity.Title)) {
+                identity.Title = "Lvl: " + status.Level;
+            }
+        }
+
         if(go == null) {
             go = npcPrefab;
         }

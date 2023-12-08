@@ -20,7 +20,7 @@ public class TargetData
         if(identity.EntityType == EntityType.User) {
             status = data.objectTransform.GetComponent<UserEntity>().Status;
         }
-        if(identity.EntityType == EntityType.NPC) {
+        if(identity.EntityType == EntityType.NPC || identity.EntityType == EntityType.Monster) {
             status = data.objectTransform.GetComponent<NpcEntity>().Status;
         }
     }

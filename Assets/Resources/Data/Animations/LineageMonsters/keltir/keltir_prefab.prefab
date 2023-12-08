@@ -162,7 +162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
       propertyPath: m_Name
-      value: keltir
+      value: keltir_prefab
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
       propertyPath: m_Layer
@@ -278,6 +278,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4645731724818619214}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1065488930256838727}
   m_SourcePrefab: {fileID: 100100000, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
 --- !u!1 &4167410998973950065 stripped
 GameObject:
@@ -344,7 +347,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.36, z: 0}
+  m_Center: {x: 0, y: 0.42, z: 0}
 --- !u!114 &4267637028313744003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +394,8 @@ MonoBehaviour:
   identity:
     entityType: 2
     id: 0
+    type: 
+    npcClass: 
     npcId: 0
     name: 
     title: 
@@ -405,3 +410,17 @@ MonoBehaviour:
     level: 0
     friendly: 0
     aggressive: 0
+--- !u!114 &1065488930256838727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167410998973950065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae24ab87f9545c74e98453405da53d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  npcTemplateName: 

@@ -210,7 +210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 70a6478841a57d34b991d76677153265, type: 3}
       propertyPath: m_Name
-      value: orc_fighter
+      value: orc_fighter_prefab
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 70a6478841a57d34b991d76677153265, type: 3}
       propertyPath: m_Layer
@@ -366,6 +366,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 70a6478841a57d34b991d76677153265, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4071372245098443663}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 70a6478841a57d34b991d76677153265, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4786526566054365300}
   m_SourcePrefab: {fileID: 100100000, guid: 70a6478841a57d34b991d76677153265, type: 3}
 --- !u!1 &6259866496204142358 stripped
 GameObject:
@@ -432,7 +435,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.36, z: 0}
+  m_Center: {x: 0, y: 0.42, z: 0}
 --- !u!114 &1343209954757675023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,6 +482,8 @@ MonoBehaviour:
   identity:
     entityType: 2
     id: 0
+    type: 
+    npcClass: 
     npcId: 0
     name: 
     title: 
@@ -493,3 +498,17 @@ MonoBehaviour:
     level: 0
     friendly: 0
     aggressive: 0
+--- !u!114 &4786526566054365300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6259866496204142358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae24ab87f9545c74e98453405da53d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  npcTemplateName: 
