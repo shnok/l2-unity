@@ -11,7 +11,7 @@ This [video](https://www.youtube.com/watch?v=IEHY37bJ7nk) inspired me to start o
 ## What are the expected features?
 
 For now the aim is to create a basic demo, therefore only basic features will be available:
-- Client-side Pathfinding 🛠️ (Need to search for path in neighbor terrains)
+- Client-side Pathfinding 🛠️ (Need to search for path in neighboring terrains)
 - Click to move and WASD movements ✅
 - Camera collision ✅
 - Basic UI
@@ -27,13 +27,16 @@ For now the aim is to create a basic demo, therefore only basic features will be
     - Leveling
 - Small range of npc models
     - 1 to 2 models for players 🛠️ (Only Female Dark elf for now)
-    - 2 to 5 npc types
+    - All Monsters of map 17_25 (Talking island) ✅
+    - All NPCs of map 17_25 (Talking island)
 - Server/Client features (server project [here](https://gitlab.com/shnok/unity-mmo-server))
     - Player position/rotation sync ✅
     - Animation sync ✅
     - Chat ✅
-    - Friendly NPCs
-    - Monsters (AI with Pathfinding) 🛠️ (Needs to be updated with talking island terrain)
+    - Server Ghosting/Grid system ✅
+    - NPCs
+    - Monsters ✅
+    - Monsters AI with Pathfinding 🛠️ (Needs refactoring)
 - Import Lineage2's world
     - Talking island region only (for now) ✅
         - StaticMeshes ✅
@@ -41,13 +44,23 @@ For now the aim is to create a basic demo, therefore only basic features will be
         - Terrain ✅
         - DecoLayer ✅
 - Day/Night cycle 🛠️ (Ready but need to sync with server time)
-- Game sounds
+- Game sounds (FMOD project [here](https://gitlab.com/shnok/l2-unity/-/tree/main/l2-unity-fmod/))
+    - Ambient sounds 🛠️
+    - Step sounds (based on ground) ✅
+    - UI sounds ✅
+    - NPC sounds 🛠️
 
 ## How to run?
 
 <p>Open the "Game" scene and drag&drop the 1x_1x scenes into your scene.</p>
 
 ![Import](https://media.discordapp.net/attachments/584218502148259901/1180168459104034877/image.png?ex=657c7087&is=6569fb87&hm=8da8cfdd84e33b729bf989b79b547dd8de97faf06dfa511b9cd4b7961501781a&=&format=webp&quality=lossless&width=575&height=608)
+
+If you don't want to setup the [server](https://gitlab.com/shnok/unity-mmo-server) and just want to run in an empty map. Select the <b>Game</b> GameObject in the <b>Game</b> scene and tick the <i>"offline mode"</i> checkbox.
+
+![offline](https://cdn.discordapp.com/attachments/584218502148259901/1182499680056250418/image.png?ex=6584eba5&is=657276a5&hm=f6f37f9d0a9c7f2e1f43060f11b6b62fb7cf8975a26e91796f5990b3e09b97af&&width=575&height=608)
+
+
 
 ## Contributing
 
