@@ -49,9 +49,12 @@ public class ClickManager : MonoBehaviour {
                 if(entityMask == (entityMask | (1 << hitLayer)) && targetObjectData.objectTag != "Player") {
                     Debug.Log("Hit entity");
                     TargetManager.GetInstance().SetTarget(targetObjectData);
-                } else if(targetObjectData != null) {
+                } else if(targetObjectData != null) {                  
                     ClickToMoveController.GetInstance().MoveTo(targetObjectData, lastClickPosition);
-                    PlaceLocator(lastClickPosition);
+                    float angle = Vector3.Angle(hit.normal, Vector3.up);
+                    if(angle < 75f) {
+                        PlaceLocator(lastClickPosition);
+                    }
                 }
             }
         }

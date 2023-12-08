@@ -6,9 +6,6 @@ using FMOD.Studio;
 
 public class AudioManager : MonoBehaviour
 {
-    public Dictionary<string, EventReference> uiSounds = new Dictionary<string, EventReference>();
-    public Dictionary<string, EventReference> stepSounds = new Dictionary<string, EventReference>();
-
     [Header("Volume")]
     [Range(0, 1)]
     public float masterVolume = 1;
@@ -35,7 +32,6 @@ public class AudioManager : MonoBehaviour
 
     private void Awake() {
         instance = this;
-        SetReferences();
         SetBuses();
     }
 
@@ -46,18 +42,6 @@ public class AudioManager : MonoBehaviour
         UIBus = RuntimeManager.GetBus("bus:/UI");
         ambientBus = RuntimeManager.GetBus("bus:/Ambient");
     }
-
-    private void SetReferences() {
-        uiSounds.Add("click_01", RuntimeManager.PathToEventReference("event:/InterfaceSound/click_01"));
-        uiSounds.Add("window_close", RuntimeManager.PathToEventReference("event:/InterfaceSound/window_close"));
-        uiSounds.Add("window_open", RuntimeManager.PathToEventReference("event:/InterfaceSound/window_open"));
-        
-        stepSounds.Add("default_run", RuntimeManager.PathToEventReference("event:/StepSound/default_run"));
-        stepSounds.Add("dirt_run", RuntimeManager.PathToEventReference("event:/StepSound/dirt_run"));
-        stepSounds.Add("wood_run", RuntimeManager.PathToEventReference("event:/StepSound/wood_run"));
-        stepSounds.Add("stone_run", RuntimeManager.PathToEventReference("event:/StepSound/stone_run"));
-    }
-
     private void Update() {
         masterBus.setVolume(masterVolume);
         musicBus.setVolume(musicVolume);
@@ -66,10 +50,19 @@ public class AudioManager : MonoBehaviour
         ambientBus.setVolume(ambientVolume);
     }
 
+    public void PlayMonsterSound(MonsterSoundEvent monsterSoundEvent, string npcClassName, Vector3 position) {
+        string eventKey = monsterSoundEvent.ToString().ToLower();
+       // Debug.Log("event:/MonSound/" + npcClassName + "/" + eventKey);
+        EventReference er = RuntimeManager.PathToEventReference("event:/MonSound/" + npcClassName + "/" + eventKey);
+        if(!er.IsNull) {
+            PlaySound(er, position);
+        }
+    }
+
     public void PlayUISound(string soundName) {
-        EventReference sound;
-        if(uiSounds.TryGetValue(soundName, out sound)) {
-            PlaySound(sound);
+        EventReference er = RuntimeManager.PathToEventReference("event:/InterfaceSound/" + soundName);
+        if(!er.IsNull) {
+            PlaySound(er);
         }
     }
 
@@ -93,9 +86,9 @@ public class AudioManager : MonoBehaviour
 
         }
 
-        EventReference sound;
-        if(stepSounds.TryGetValue(eventKey, out sound)) {
-            PlaySound(sound, position);
+        EventReference er = RuntimeManager.PathToEventReference("event:/StepSound/" + eventKey);
+        if(!er.IsNull) {
+            PlaySound(er, position);
         }
     }
 

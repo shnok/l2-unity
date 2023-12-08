@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ClickToMoveController : MonoBehaviour {
 
-    private static ClickToMoveController _instance;
+    private static ClickToMoveController instance;
     public static ClickToMoveController GetInstance() {
-        return _instance;
+        return instance;
     }
 
     public Node startNode;
@@ -21,7 +21,9 @@ public class ClickToMoveController : MonoBehaviour {
     public bool debugPathFinder;
 
     private void Awake() {
-        _instance = this;
+        if(instance == null) {
+            instance = this;
+        }
     }
 
     void Start() {
