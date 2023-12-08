@@ -5,9 +5,15 @@ using UnityEngine;
 
 public class World : MonoBehaviour {
     public GameObject player;
-    public GameObject playerPrefab;
-    public GameObject userPrefab;
-    public GameObject npcPrefab;
+    public GameObject playerPlaceholder;
+    public GameObject userPlaceholder;
+    public GameObject npcPlaceHolder;
+    public GameObject monsterPlaceholder;
+
+    public GameObject monstersContainer;
+    public GameObject npcsContainer;
+    public GameObject usersContainer;
+
     public Dictionary<int, Entity> players = new Dictionary<int, Entity>();
     public Dictionary<int, Entity> npcs = new Dictionary<int, Entity>();
     public Dictionary<int, Entity> objects = new Dictionary<int, Entity>();
@@ -28,9 +34,13 @@ public class World : MonoBehaviour {
     void Awake() {
         instance = this;
 
-        playerPrefab = Resources.Load<GameObject>("Prefab/Player");
-        userPrefab = Resources.Load<GameObject>("Prefab/User");
-        npcPrefab = Resources.Load<GameObject>("Prefab/Npc");
+        playerPlaceholder = Resources.Load<GameObject>("Prefab/Player");
+        userPlaceholder = Resources.Load<GameObject>("Prefab/User");
+        npcPlaceHolder = Resources.Load<GameObject>("Prefab/Npc");
+        monsterPlaceholder = Resources.Load<GameObject>("Data/Animations/LineageMonsters/gremlin/gremlin_prefab");
+        npcsContainer = GameObject.Find("Npcs");
+        monstersContainer = GameObject.Find("Monsters");
+        usersContainer = GameObject.Find("Users");
     }
 
     void Start() {
@@ -57,8 +67,8 @@ public class World : MonoBehaviour {
 
     public void SpawnPlayerOfflineMode() {
         if(World.GetInstance().offlineMode) {
-            PlayerEntity entity = playerPrefab.GetComponent<PlayerEntity>();
-            entity.Identity.Position = playerPrefab.transform.position;
+            PlayerEntity entity = playerPlaceholder.GetComponent<PlayerEntity>();
+            entity.Identity.Position = playerPlaceholder.transform.position;
             SpawnPlayer(entity.Identity, entity.Status);
         }
     }
@@ -67,7 +77,7 @@ public class World : MonoBehaviour {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.Player;
         identity.CollisionHeight = 0.45f;
-        GameObject go = (GameObject)Instantiate(playerPrefab, identity.Position, Quaternion.identity);
+        GameObject go = (GameObject)Instantiate(playerPlaceholder, identity.Position, Quaternion.identity);
         PlayerEntity player = go.GetComponent<PlayerEntity>();
         player.Status = status;
         player.Identity = identity;
@@ -84,6 +94,8 @@ public class World : MonoBehaviour {
         go.transform.name = identity.Name;
         go.SetActive(true);
 
+        go.transform.SetParent(usersContainer.transform);
+
         CameraController.GetInstance().SetTarget(go);
         CameraController.GetInstance().enabled = true;
 
@@ -94,7 +106,7 @@ public class World : MonoBehaviour {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.User;
         identity.CollisionHeight = 0.45f;
-        GameObject go = (GameObject)Instantiate(userPrefab, identity.Position, Quaternion.identity);
+        GameObject go = (GameObject)Instantiate(userPlaceholder, identity.Position, Quaternion.identity);
         UserEntity player = go.GetComponent<UserEntity>();
         player.Status = status;
         player.Identity = identity;
@@ -106,6 +118,8 @@ public class World : MonoBehaviour {
 
         go.transform.name = identity.Name;
         go.SetActive(true);
+
+        go.transform.SetParent(usersContainer.transform);
     }
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status) {
@@ -116,15 +130,17 @@ public class World : MonoBehaviour {
         GameObject go;
         if(identity.EntityType == EntityType.NPC) {
             go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageNPCs/", prefabName, prefabName + "_prefab"));
+            if(go == null) {
+                go = npcPlaceHolder;
+            }
         } else {
             go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageMonsters/", prefabName, prefabName + "_prefab"));
+            if(go == null) {
+                go = monsterPlaceholder;
+            }
             if(string.IsNullOrEmpty(identity.Title)) {
                 identity.Title = "Lvl: " + status.Level;
             }
-        }
-
-        if(go == null) {
-            go = npcPrefab;
         }
 
         GameObject npcGo = Instantiate(go, identity.Position, Quaternion.identity); 
@@ -139,6 +155,12 @@ public class World : MonoBehaviour {
         npcGo.transform.eulerAngles = new Vector3(npcGo.transform.eulerAngles.x, identity.Heading, npcGo.transform.eulerAngles.z);
 
         npcGo.SetActive(true);
+
+        if(identity.EntityType == EntityType.NPC) {
+            npcGo.transform.SetParent(npcsContainer.transform);
+        } else {
+            npcGo.transform.SetParent(monstersContainer.transform);
+        }
     }
 
     public float GetGroundHeight(Vector3 pos) {
