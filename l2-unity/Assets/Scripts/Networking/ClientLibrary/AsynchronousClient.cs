@@ -67,7 +67,7 @@ public class AsynchronousClient {
         if(DefaultClient.GetInstance().logSentPackets) {
             ClientPacketType packetType = (ClientPacketType)packet.GetPacketType();
             if(packetType != ClientPacketType.Ping) {
-                Debug.Log("Sending packet:" + packetType);
+                Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] Sending packet:" + packetType);
             }
         }
         try {
@@ -107,7 +107,7 @@ public class AsynchronousClient {
                     received += readCount;
                 }
 
-                ServerPacketHandler.GetInstance().HandlePacket(packet);
+                Task.Run(() => ServerPacketHandler.GetInstance().HandlePacketAsync(packet));        
             }
         }
     }

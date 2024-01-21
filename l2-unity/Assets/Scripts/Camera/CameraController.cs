@@ -41,17 +41,25 @@ public class CameraController : MonoBehaviour {
         this.collisionMask = collisionMask;
     }
 
-    void Update() {
+    private void Update() {
+        if(target != null && detector != null) {
+            UpdateInputs();
+        }
+    }
+
+    void FixedUpdate() {
         if(target != null && detector != null) {
             detector.DetectCollision(camDistance);
             UpdatePosition();
-            UpdateInputs();
+            
             UpdateZoom();
         }
     }
 
     public void SetTarget(GameObject go) {
         target = go.transform;
+        transform.position = targetPos;
+
         rootBone = target.transform.FindRecursive(child => child.tag == "Root");
         rootBoneHeight = rootBone.position.y - target.position.y;
         detector = new CameraCollisionDetection(GetComponent<Camera>(), target, camOffset, collisionMask);

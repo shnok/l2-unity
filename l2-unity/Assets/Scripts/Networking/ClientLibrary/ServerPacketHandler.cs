@@ -29,56 +29,57 @@ public class ServerPacketHandler
         return client;
     }
 
-    public void HandlePacket(byte[] data) {
-        ServerPacketType packetType = (ServerPacketType) data[0];
-        if(DefaultClient.GetInstance().logReceivedPackets && packetType != ServerPacketType.Ping) {
-            Debug.Log("Received packet:" + packetType);
-        }
-        switch(packetType)
-        {
-            case ServerPacketType.Ping:
-                OnPingReceive();
-                break;
-            case ServerPacketType.AuthResponse:
-                OnAuthReceive(data);
-                break;
-            case ServerPacketType.MessagePacket: 
-                OnMessageReceive(data);
-                break;
-            case ServerPacketType.SystemMessage:
-                OnSystemMessageReceive(data);
-                break;
-            case ServerPacketType.PlayerInfo:
-                OnPlayerInfoReceive(data);
-                break;
-            case ServerPacketType.ObjectPosition:
-                OnUpdatePosition(data);
-                break;
-            case ServerPacketType.RemoveObject:
-                OnRemoveObject(data) ;
-                break;
-            case ServerPacketType.ObjectRotation:
-                OnUpdateRotation(data);
-                break;
-            case ServerPacketType.ObjectAnimation:
-                OnUpdateAnimation(data);
-                break;
-            case ServerPacketType.ApplyDamage:
-                OnInflictDamage(data);
-                break;
-            case ServerPacketType.NpcInfo:
-                OnNpcInfoReceive(data);
-                break;
-            case ServerPacketType.ObjectMoveTo:
-                OnObjectMoveTo(data);
-                break;
-            case ServerPacketType.UserInfo:
-                OnUserInfoReceive(data);
-                break;
-            case ServerPacketType.ObjectMoveDirection:
-                OnUpdateMoveDirection(data);
-                break;
-        }
+    public async Task HandlePacketAsync(byte[] data) {
+        await Task.Run(() => {
+            ServerPacketType packetType = (ServerPacketType)data[0];
+            if(DefaultClient.GetInstance().logReceivedPackets && packetType != ServerPacketType.Ping) {
+                Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] Received packet:" + packetType);
+            }
+            switch(packetType) {
+                case ServerPacketType.Ping:
+                    OnPingReceive();
+                    break;
+                case ServerPacketType.AuthResponse:
+                    OnAuthReceive(data);
+                    break;
+                case ServerPacketType.MessagePacket:
+                    OnMessageReceive(data);
+                    break;
+                case ServerPacketType.SystemMessage:
+                    OnSystemMessageReceive(data);
+                    break;
+                case ServerPacketType.PlayerInfo:
+                    OnPlayerInfoReceive(data);
+                    break;
+                case ServerPacketType.ObjectPosition:
+                    OnUpdatePosition(data);
+                    break;
+                case ServerPacketType.RemoveObject:
+                    OnRemoveObject(data);
+                    break;
+                case ServerPacketType.ObjectRotation:
+                    OnUpdateRotation(data);
+                    break;
+                case ServerPacketType.ObjectAnimation:
+                    OnUpdateAnimation(data);
+                    break;
+                case ServerPacketType.ApplyDamage:
+                    OnInflictDamage(data);
+                    break;
+                case ServerPacketType.NpcInfo:
+                    OnNpcInfoReceive(data);
+                    break;
+                case ServerPacketType.ObjectMoveTo:
+                    OnObjectMoveTo(data);
+                    break;
+                case ServerPacketType.UserInfo:
+                    OnUserInfoReceive(data);
+                    break;
+                case ServerPacketType.ObjectMoveDirection:
+                    OnUpdateMoveDirection(data);
+                    break;
+            }
+        });
     }
 
     public void CancelTokens() {
