@@ -23,7 +23,7 @@ public class NetworkTransformShare : MonoBehaviour {
 
     /* SHARING */
     public void SharePosition() {
-        if(Vector3.Distance(transform.position, lastPos) > .25f || Time.time - lastSharedPosTime >= 5f) {
+        if(Vector3.Distance(transform.position, lastPos) > .25f || Time.time - lastSharedPosTime >= 10f) {
             lastSharedPosTime = Time.time;
             ClientPacketHandler.GetInstance().UpdatePosition(transform.position);
             lastPos = transform.position;

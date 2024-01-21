@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1172617197855325814}
   - component: {fileID: 4019358862168556612}
   - component: {fileID: 5966979649214767529}
+  - component: {fileID: 1030884649167671466}
+  - component: {fileID: 7488049617195192662}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -189,3 +191,32 @@ MonoBehaviour:
       m_Bits: 0
     adjustedDistance: 0
     collisionObject: {fileID: 0}
+--- !u!114 &1030884649167671466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146978712471996646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a1288ba2c6eeb49b4e61ded9b3537d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  cam: {fileID: 0}
+  listener: 0
+--- !u!114 &7488049617195192662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146978712471996646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c28e3cf9dc9693438b6eb036f0c18ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  focusedFrameRate: 60
+  unfocusedFrameRate: 5
