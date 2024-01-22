@@ -52,7 +52,6 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMonsterSound(MonsterSoundEvent monsterSoundEvent, string npcClassName, Vector3 position) {
         string eventKey = monsterSoundEvent.ToString().ToLower();
-       // Debug.Log("event:/MonSound/" + npcClassName + "/" + eventKey);
         EventReference er = RuntimeManager.PathToEventReference("event:/MonSound/" + npcClassName + "/" + eventKey);
         if(!er.IsNull) {
             PlaySound(er, position);
