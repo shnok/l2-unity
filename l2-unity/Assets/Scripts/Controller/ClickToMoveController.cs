@@ -41,6 +41,10 @@ public class ClickToMoveController : MonoBehaviour {
             path.Clear();
         }
 
+
+    }
+
+    public void FixedUpdate() {
         if(path.Count > 0) {
             Vector3 flatTransformPos = new Vector3(transform.position.x, 0, transform.position.z);
             Vector3 flatDestPos;
