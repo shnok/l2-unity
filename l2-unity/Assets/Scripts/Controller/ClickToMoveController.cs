@@ -46,13 +46,13 @@ public class ClickToMoveController : MonoBehaviour {
 
     public void FixedUpdate() {
         if(path.Count > 0) {
-            Vector3 flatTransformPos = new Vector3(transform.position.x, 0, transform.position.z);
+            Vector3 flatTransformPos = VectorUtils.To2D(transform.position);
             Vector3 flatDestPos;
             if(path.Count > 1) {
-                flatDestPos = new Vector3(path[0].center.x, 0, path[0].center.z);
+                flatDestPos = VectorUtils.To2D(path[0].center);
             } else {
                 // Check distance with clicked point instead
-                flatDestPos = new Vector3(targetDestination.x, 0, targetDestination.z);
+                flatDestPos = VectorUtils.To2D(targetDestination);
             }
 
             if(Vector3.Distance(flatDestPos, flatTransformPos) < destinationThreshold) {
