@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour {
         controller = GetComponent<CharacterController>();
     }
 
-    void Update() {
+    void FixedUpdate() {
         flatTransformPos = new Vector3(transform.position.x, 0, transform.position.z);
 
         if(runToTarget) {
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour {
     public void SetTargetPosition(Vector3 position, float distance) {
         runToTarget = true;
         followDistance = distance;
-        targetPosition = new Vector3(position.x, 0, position.z);
+        targetPosition = VectorUtils.To2D(position);
     }
 
     public void ResetTargetPosition() {
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour {
     private void MoveToTargetPosition() {
         Vector3 relativeDirection = targetPosition - flatTransformPos;
 
-        if(controller.isGrounded && canMove) {         
+        if(canMove) {         
             Vector3 relativeAxis = new Vector2(relativeDirection.x, relativeDirection.z);
 
             // Use Atan2 to calculate the angle in radians

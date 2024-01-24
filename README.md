@@ -47,7 +47,7 @@ For now the aim is to create a basic demo, therefore only basic features will be
 - Game sounds (FMOD project [here](https://gitlab.com/shnok/l2-unity/-/tree/main/l2-unity-fmod/))
     - Ambient sounds 
     - Step sounds (based on ground) ✅
-	- Music
+	- Music ✅
     - UI sounds ✅
     - NPC sounds ✅
 
