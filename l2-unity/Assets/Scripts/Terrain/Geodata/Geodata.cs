@@ -44,6 +44,7 @@ public class Geodata : MonoBehaviour
     public Node GetNodeAt(string mapId, Vector3 pos) {
         if(mapsOrigin.ContainsKey(mapId)) {
             Vector3 nodePos = FromWorldToNodePos(pos, mapId);
+            //Debug.Log(pos + " , " + nodePos);
             Node node;
             nodes.TryGetValue(nodePos, out node);
 

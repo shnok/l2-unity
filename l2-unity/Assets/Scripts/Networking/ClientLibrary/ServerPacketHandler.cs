@@ -196,7 +196,8 @@ public class ServerPacketHandler
         int id = packet.getId();
         Vector3 position = packet.getPosition();
         eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectDestination(id, position));
-        eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectAnimation(id, 0, 1));
+        //eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectAnimation(id, 0, 1));
+        eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectMoveSpeed(id, packet.getSpeed()));
     }
     private void OnUpdateMoveDirection(byte[] data) {
         UpdateMoveDirectionPacket packet = new UpdateMoveDirectionPacket(data);

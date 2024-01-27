@@ -182,7 +182,21 @@ public class World : MonoBehaviour {
     public void UpdateObjectDestination(int id, Vector3 position) {
         Entity e;
         if(objects.TryGetValue(id, out e)) {
-            e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position);
+
+            var npcEntity = e.GetComponent<NpcEntity>();
+            var playerEntity = e.GetComponent<PlayerEntity>();
+            float moveSpeed = 0;
+
+            if(npcEntity != null) {
+                moveSpeed = npcEntity.Status.MoveSpeed;
+
+            } else if(playerEntity != null) {
+                moveSpeed = playerEntity.Status.MoveSpeed;
+            } else {
+                e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
+            }
+
+            e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position, moveSpeed);
             e.GetComponent<NetworkTransformReceive>().LookAt(position);
         }
     }
@@ -216,6 +230,19 @@ public class World : MonoBehaviour {
         Entity e;
         if(objects.TryGetValue(id, out e)) {
             e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(speed, direction);
+        }
+    }
+
+    public void UpdateObjectMoveSpeed(int id, float speed) {
+        Entity e;
+        if(objects.TryGetValue(id, out e)) {
+            if(e is NpcEntity) {
+                ((NpcEntity)e).Status.MoveSpeed = speed;
+            } else if(e is PlayerEntity) {
+                ((PlayerEntity)e).Status.MoveSpeed = speed;
+            } else {
+                Debug.LogError("Entity is neither a player or npc");
+            }
         }
     }
 }
