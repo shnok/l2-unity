@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine; 
 
+[RequireComponent(typeof(NetworkAnimationReceive), typeof(NetworkTransformReceive), typeof(CharacterController))]
 public class NetworkCharacterControllerReceive : MonoBehaviour
 {
     private CharacterController characterController;
     private NetworkAnimationReceive animationReceive;
+    private NetworkTransformReceive networkTransformReceive;
     [SerializeField] private Vector3 direction;
     [SerializeField] private float speed;
-    private Vector3 destination;
+    [SerializeField] private Vector3 destination;
     [SerializeField] private float gravity = 28f;
 
 
@@ -16,9 +18,10 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         if(World.GetInstance().offlineMode) {
             this.enabled = false;
         }
-
+        networkTransformReceive = GetComponent<NetworkTransformReceive>();
         animationReceive = GetComponent<NetworkAnimationReceive>();
         characterController = GetComponent<CharacterController>();
+
         if(characterController == null || World.GetInstance().offlineMode || animationReceive == null) {
             this.enabled = false;
         }
@@ -26,32 +29,44 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         destination = transform.position;
     }
 
-    void Update() {
-        Vector3 ajustedDirection = direction * speed + Vector3.down * gravity;
-        characterController.Move(ajustedDirection * Time.deltaTime);
-        animationReceive.SetFloat("Speed", speed);
-    }
-
     public void UpdateMoveDirection(float speed, Vector3 direction) {
         this.speed = speed;
         this.direction = direction;
+        animationReceive.SetFloat("Speed", speed);
     }
 
-    public void SetDestination(Vector3 destination) {
+    private void FixedUpdate() {
+
+        if(!networkTransformReceive.IsPositionSynced()) {
+            /* pause script during position sync */
+            return;
+        }
+
+        if(destination != null && destination != Vector3.zero) {
+            SetMoveDirectionToDestination();
+        }
+
+        Vector3 ajustedDirection = direction * speed + Vector3.down * gravity;
+        characterController.Move(ajustedDirection * Time.deltaTime);
+    }
+
+    public void SetDestination(Vector3 destination, float speed) {
+        this.speed = speed;
         this.destination = destination;
+        animationReceive.SetFloat("Speed", speed);
     }
 
-    public void MoveToPosition() {
+    public void SetMoveDirectionToDestination() {
         Vector3 transformFlat = VectorUtils.To2D(transform.position);
         Vector3 destinationFlat = VectorUtils.To2D(destination);
 
-        Vector3 direction = Vector3.zero;
         if(Vector3.Distance(transformFlat, destinationFlat) > 0.1f) {
-            direction = transformFlat - destinationFlat;
+            networkTransformReceive.PausePositionSync();
+            direction = (destinationFlat - transformFlat).normalized;
+        } else {
+            direction = Vector3.zero;
+            networkTransformReceive.ResumePositionSync();
         }
-
-        direction = direction.normalized;
-        direction.y = -10;
     }
 
 }

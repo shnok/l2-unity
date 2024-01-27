@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectMoveToPacket : ServerPacket {
-    private int _id;
-    private Vector3 _pos = new Vector3();
+    private int id;
+    private Vector3 pos = new Vector3();
+    private float speed;
 
     public ObjectMoveToPacket() { }
     public ObjectMoveToPacket(byte[] d) : base(d) {
@@ -14,20 +15,25 @@ public class ObjectMoveToPacket : ServerPacket {
 
     public override void Parse() {
         try {
-            _id = ReadI();
-            _pos.x = ReadF();
-            _pos.y = ReadF();
-            _pos.z = ReadF();
+            id = ReadI();
+            pos.x = ReadF();
+            pos.y = ReadF();
+            pos.z = ReadF();
+            speed = ReadF();
         } catch(Exception e) {
             Debug.Log(e);
         }
     }
 
     public int getId() {
-        return _id;
+        return id;
     }
 
     public Vector3 getPosition() {
-        return _pos;
+        return pos;
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 }

@@ -1,13 +1,21 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class NetworkTransformReceive : MonoBehaviour {
-    [SerializeField] public Vector3 serverPosition;
+    [SerializeField] private Vector3 serverPosition;
     private Vector3 lastPos;
     private Quaternion lastRot, newRot;
     private float rotLerpValue, posLerpValue;
+    [SerializeField] private bool positionSyncProtection = true;
+    [SerializeField] private float positionSyncNodesThreshold = 2f;
     [SerializeField] private bool positionSynced = false;
-    public float lerpDuration = 0.3f;
-    public bool noclip = true;
+    [SerializeField] private bool positionSyncPaused = false;
+    [SerializeField] private float lerpDuration = 0.3f;
+    [SerializeField] private float positionDelta;
+    [SerializeField] private long lastDesyncTime = 0;
+    [SerializeField] private long lastDesyncDuration = 0;
+    [SerializeField] private long maximumAllowedDesyncTimeMs = 300;
 
     void Start() {
         if(World.GetInstance().offlineMode) {
@@ -19,43 +27,55 @@ public class NetworkTransformReceive : MonoBehaviour {
         newRot = transform.rotation;
         lastRot = transform.rotation;
         serverPosition = transform.position;
+        positionSyncPaused = false;
     }
 
     void FixedUpdate() {
-        AdjustPosition();           
+        if(positionSyncProtection && !positionSyncPaused) {
+            AdjustPosition();
+        }
         LerpToRotation();
     }
 
-    /* POSITION */
-
+    /* Set new theorical position */
     public void SetNewPosition(Vector3 pos) {
+        /* adjust y to ground height */
+        pos.y = World.GetInstance().GetGroundHeight(pos);
+
+        serverPosition = pos;
+
+        /* reset states */
         lastPos = transform.position;
         posLerpValue = 0;
-        serverPosition = pos;
-        
-        if(Vector3.Distance(VectorUtils.To2D(transform.position), VectorUtils.To2D(serverPosition)) > 0.5f) {
-            positionSynced = false;
-        }
     }
+
+    /* Safety measure to keep the transform position synced */
 
     public void AdjustPosition() {
-        /* Is offset is too high */
-        if(!positionSynced) {
-            LerpToPosition();
-        }      
-    }
-
-    /* Clip to destination */
-    public void LerpToPosition() {
-        transform.position = Vector3.Lerp(lastPos, serverPosition, posLerpValue);
-        posLerpValue += (1 / lerpDuration) * Time.deltaTime;
-
-        if(Vector3.Distance(VectorUtils.To2D(transform.position), VectorUtils.To2D(serverPosition)) <= 0.5f) {
-            positionSynced = true;
+        /* Check if client transform position is synced with server's */
+        positionDelta = Vector3.Distance(transform.position, serverPosition);
+        if(positionDelta > Geodata.GetInstance().nodeSize * positionSyncNodesThreshold) {
+            lastDesyncTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            positionSynced = false;
         }
+
+        if(!positionSynced) {
+
+            lastDesyncDuration = DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastDesyncTime;
+            if(lastDesyncDuration > maximumAllowedDesyncTimeMs) {
+                if(positionDelta <= Geodata.GetInstance().nodeSize / 10f) {
+                    positionSynced = true;
+                    return;
+                }
+
+                transform.position = Vector3.Lerp(lastPos, serverPosition, posLerpValue);
+                posLerpValue += (1 / lerpDuration) * Time.deltaTime;
+            }
+
+        }   
     }
 
-    /* ROTATION */
+    /* Ajust rotation */
     public void LookAt(Vector3 dest) {
         var heading = dest - transform.position;
         float angle = Vector3.Angle(heading, Vector3.forward);
@@ -80,5 +100,18 @@ public class NetworkTransformReceive : MonoBehaviour {
         newRot = rot;
         lastRot = transform.rotation;
         rotLerpValue = 0;
+    }
+
+    public bool IsPositionSynced() {
+        return positionSynced;
+    }
+
+    public void PausePositionSync() {
+        positionSyncPaused = true;
+        positionSynced = true;
+    }
+
+    public void ResumePositionSync() {
+        positionSyncPaused = false;
     }
 }
