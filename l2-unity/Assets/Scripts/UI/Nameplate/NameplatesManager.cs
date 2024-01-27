@@ -132,7 +132,7 @@ public class NameplatesManager : MonoBehaviour
             nameplateEntityTitle = visualElement.Q<Label>("EntityTitle"),
             target = entity.transform,
             title = entity.Identity.Title,
-            nameplateOffsetHeight = entity.Identity.CollisionHeight * 2f,
+            nameplateOffsetHeight = entity.Identity.CollisionHeight * 2.1f,
             name = entity.Identity.Name,
             targetId = entity.Identity.Id,
             visible = true

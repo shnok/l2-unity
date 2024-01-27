@@ -26,7 +26,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
             this.enabled = false;
         }
         direction = Vector3.zero;
-        destination = transform.position;
+        destination = Vector3.zero;
     }
 
     public void UpdateMoveDirection(float speed, Vector3 direction) {
