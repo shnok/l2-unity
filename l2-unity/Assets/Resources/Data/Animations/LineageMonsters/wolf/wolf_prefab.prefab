@@ -292,7 +292,10 @@ PrefabInstance:
       addedObject: {fileID: 6480820664689763836}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 551741bab0258cc40a92e5ba1d99391b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2076533535248530867}
+      addedObject: {fileID: 5606435543542922207}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 551741bab0258cc40a92e5ba1d99391b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8413614672714332059}
   m_SourcePrefab: {fileID: 100100000, guid: 551741bab0258cc40a92e5ba1d99391b, type: 3}
 --- !u!1 &978252255640520963 stripped
 GameObject:
@@ -373,9 +376,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverPosition: {x: 0, y: 0, z: 0}
+  positionSyncProtection: 1
+  positionSyncNodesThreshold: 2
   positionSynced: 0
+  positionSyncPaused: 0
   lerpDuration: 0.3
-  noclip: 1
+  positionDelta: 0
+  lastDesyncTime: 0
+  lastDesyncDuration: 0
+  maximumAllowedDesyncTimeMs: 300
 --- !u!114 &7232205658501680855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 0}
   speed: 0
+  destination: {x: 0, y: 0, z: 0}
   gravity: 28
 --- !u!114 &6480820664689763836
 MonoBehaviour:
@@ -420,9 +430,10 @@ MonoBehaviour:
     hp: 0
     maxHp: 0
     level: 0
+    moveSpeed: 0
     friendly: 0
     aggressive: 0
---- !u!114 &2076533535248530867
+--- !u!114 &5606435543542922207
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -431,8 +442,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 978252255640520963}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae24ab87f9545c74e98453405da53d55, type: 3}
+  m_Script: {fileID: 11500000, guid: d6b171cd31a29e44a957f2c850e56144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcClassName: 
+  animator: {fileID: 0}
+--- !u!114 &-8413614672714332059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978252255640520963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b37216beee5d6a4897e9224d4eedbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  npcTemplateName: 

@@ -60,7 +60,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         Vector3 transformFlat = VectorUtils.To2D(transform.position);
         Vector3 destinationFlat = VectorUtils.To2D(destination);
 
-        if(Vector3.Distance(transformFlat, destinationFlat) > 0.1f) {
+        if(Vector3.Distance(transformFlat, destinationFlat) > Geodata.GetInstance().nodeSize / 10f) {
             networkTransformReceive.PausePositionSync();
             direction = (destinationFlat - transformFlat).normalized;
         } else {

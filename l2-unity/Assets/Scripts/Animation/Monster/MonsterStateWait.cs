@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MonsterStateSpWait : MonsterStateBase
 {
-    public int playWaitSoundChancePercent = 15;
-    public int playSpWaitChancePercent = 20;
+    public int playWaitSoundChancePercent = 4;
+    public int playSpWaitChancePercent = 10;
     private bool hasStarted = false;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

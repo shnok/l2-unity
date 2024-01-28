@@ -37,12 +37,11 @@ public class MonsterAnimationAudioHandler : MonoBehaviour
     }
 
     public void PlaySoundAtRatio(MonsterSoundEvent soundEvent, float ratio) {
-        Debug.LogWarning("PlaySoundAtRatio " + soundEvent + " " + ratio);
         StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
     }
 
     public IEnumerator PlaySoundAtRatioCoroutine(MonsterSoundEvent soundEvent, float ratio) {
-        while(animator.GetCurrentAnimatorStateInfo(0).normalizedTime < ratio) {
+        while((animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio) {
             yield return null;
         }
 
