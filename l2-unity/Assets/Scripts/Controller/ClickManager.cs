@@ -37,8 +37,12 @@ public class ClickManager : MonoBehaviour {
         RaycastHit hit;
 
         if(Physics.Raycast(ray, out hit, 1000f, ~clickThroughMask)) {
-            hoverObjectData = new ObjectData(hit.collider.gameObject);
             int hitLayer = hit.collider.gameObject.layer;
+            if(entityMask == (entityMask | (1 << hitLayer))) {
+                hoverObjectData = new ObjectData(hit.transform.parent.gameObject);
+            } else {
+                hoverObjectData = new ObjectData(hit.collider.gameObject);
+            }
 
             if(InputManager.GetInstance().IsInputPressed(InputType.LeftMouseButtonDown) &&
                 !InputManager.GetInstance().IsInputPressed(InputType.RightMouseButton)) 
@@ -52,8 +56,10 @@ public class ClickManager : MonoBehaviour {
                 } else if(targetObjectData != null) {                  
                     ClickToMoveController.GetInstance().MoveTo(targetObjectData, lastClickPosition);
                     float angle = Vector3.Angle(hit.normal, Vector3.up);
-                    if(angle < 75f) {
+                    if(angle < 85f) {
                         PlaceLocator(lastClickPosition);
+                    } else {
+                        HideLocator();
                     }
                 }
             }
