@@ -6,7 +6,7 @@ public class PlayerAnimationAudioHandler : MonoBehaviour
 {
     SurfaceDetector surfaceDetector;
     private void Start() {
-        surfaceDetector = transform.parent.GetComponent<SurfaceDetector>();    
+        surfaceDetector = transform.GetComponentInParent<SurfaceDetector>(true);    
     }
 
     public void PlayRunStepSound() {

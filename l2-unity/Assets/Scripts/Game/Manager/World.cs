@@ -20,6 +20,7 @@ public class World : MonoBehaviour {
 
     [Header("Layer Masks")]
     public LayerMask entityMask;
+    public LayerMask entityClickAreaMask;
     public LayerMask obstacleMask;
     public LayerMask clickThroughMask;
     public LayerMask groundMask;
@@ -50,7 +51,7 @@ public class World : MonoBehaviour {
     void UpdateMasks() {
         NameplatesManager.GetInstance().SetMask(entityMask);
         Geodata.GetInstance().SetMask(obstacleMask);
-        ClickManager.GetInstance().SetMasks(entityMask, clickThroughMask);
+        ClickManager.GetInstance().SetMasks(entityClickAreaMask, clickThroughMask);
         CameraController.GetInstance().SetMask(obstacleMask);
     }
 

@@ -5,13 +5,15 @@ using UnityEngine;
 public class NetworkAnimationReceive : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private bool resetStateOnReceive = false;
+
 
     void Start() {
         if(World.GetInstance().offlineMode) {
             this.enabled = false;
             return;
         }
-        animator = gameObject.GetComponentInChildren<Animator>();
+        animator = gameObject.GetComponentInChildren<Animator>(true);
     }
 
     public void SetFloat(string property, float value) {
@@ -20,7 +22,9 @@ public class NetworkAnimationReceive : MonoBehaviour
 
     public void SetAnimationProperty(int animId, float value) {
         if(animId >= 0 && animId < animator.parameters.Length) {
-            ClearAnimParams();
+            if(resetStateOnReceive) {
+                ClearAnimParams();
+            }
 
             AnimatorControllerParameter anim = animator.parameters[animId];
             //Debug.Log("Updating animation: " + transform.name + " " + anim.name + "=" + value);
