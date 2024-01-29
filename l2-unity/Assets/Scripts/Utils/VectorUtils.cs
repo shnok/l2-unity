@@ -9,6 +9,10 @@ public class VectorUtils : MonoBehaviour {
         return new Vector3(ueVector.y, ueVector.z, ueVector.x);
     }
 
+    public static Vector3 scaleToUnity(Vector3 ueVector) {
+        return ueVector * (1f / 52.5f);
+    }
+
     public static Vector2 rotateVector2(Vector2 vector, float angle) {
         float radians = angle * Mathf.Deg2Rad;
         return rotateVector2Rad(vector, radians);
