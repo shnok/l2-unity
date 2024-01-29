@@ -31,6 +31,14 @@ public class WorldClock : MonoBehaviour {
 
     public WorldTimer worldTimer;
     public Clock worldClock;
+    public static WorldClock Instance { get; private set; }
+    private void Awake() {
+        if(Instance != null && Instance != this) {
+            Destroy(this);
+        } else {
+            Instance = this;
+        }
+    }
 
     //public float dayStartRatio = 0.25f;
     // public float worldTimer.dayEndTime = 0.75f;
@@ -73,6 +81,10 @@ public class WorldClock : MonoBehaviour {
 
         // Format the TimeSpan object as a string in the desired format (HH:mm:ss)
         timeHour = time.ToString(@"hh\:mm\:ss");
+    }
+
+    public bool IsNightTime() {
+        return worldClock.nightRatio > 0 && worldClock.nightRatio <= 1 || worldClock.dayRatio < 0.25f;
     }
 
     private void CalculateDayNightRatio() {
