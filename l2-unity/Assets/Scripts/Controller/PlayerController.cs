@@ -63,10 +63,10 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void FollowTargetPosition() {
-        if(Vector3.Distance(flatTransformPos, targetPosition) < followDistance) {
-            ResetTargetPosition();
-        } else {
+        if(Vector3.Distance(flatTransformPos, targetPosition) > followDistance) {
             MoveToTargetPosition();
+        } else {
+            //ResetTargetPosition();
         }
 
         if(InputManager.GetInstance().IsInputPressed(InputType.Move)) {
@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void ResetTargetPosition() {
+        Debug.Log("Reset target position");
         runToTarget = false;
         targetPosition = Vector3.zero;
         ClickManager.GetInstance().HideLocator();
