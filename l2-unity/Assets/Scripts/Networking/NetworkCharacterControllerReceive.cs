@@ -39,7 +39,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
 
         if(!networkTransformReceive.IsPositionSynced()) {
             /* pause script during position sync */
-            return;
+            //return;
         }
 
         if(destination != null && destination != Vector3.zero) {

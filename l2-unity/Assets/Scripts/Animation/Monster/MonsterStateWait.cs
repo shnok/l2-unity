@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterStateSpWait : MonsterStateBase
 {
-    public int playWaitSoundChancePercent = 4;
+    public int playWaitSoundChancePercent = 5;
     public int playSpWaitChancePercent = 10;
     private bool hasStarted = false;
 
