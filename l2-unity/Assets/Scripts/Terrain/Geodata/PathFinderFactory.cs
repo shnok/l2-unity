@@ -81,7 +81,6 @@ public class PathFinderFactory : MonoBehaviour {
             bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.GetInstance().GetMask());
 
             if(cantSeeTarget) {
-                Debug.Log("Hit wall at  " + i);
                 waypoints.Add(path[i - 1]);
                 currentNode = i - 1;
             }

@@ -101,7 +101,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void ResetTargetPosition() {
-        Debug.Log("Reset target position");
         runToTarget = false;
         targetPosition = Vector3.zero;
         ClickManager.GetInstance().HideLocator();

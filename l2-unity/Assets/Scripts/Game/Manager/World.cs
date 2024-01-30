@@ -166,7 +166,7 @@ public class World : MonoBehaviour {
 
     public float GetGroundHeight(Vector3 pos) {
         RaycastHit hit;
-        if(Physics.Raycast(pos + Vector3.up * 3f, Vector3.down, out hit, 3.5f, groundMask)) {
+        if(Physics.Raycast(pos + Vector3.up * 5f, Vector3.down, out hit, 5.5f, groundMask)) {
             return hit.point.y;
         }
 
