@@ -45,23 +45,30 @@ public class ClickToMoveController : MonoBehaviour {
     }
 
     public void FixedUpdate() {
+        Vector3 flatTransformPos = VectorUtils.To2D(transform.position);
+        Vector3 flatDestPos = VectorUtils.To2D(targetDestination);
+
         if(path.Count > 0) {
-            Vector3 flatTransformPos = VectorUtils.To2D(transform.position);
-            Vector3 flatDestPos;
+            // If path has more than one node remaining run to node center
+            // Otherwise run to destination
             if(path.Count > 1) {
                 flatDestPos = VectorUtils.To2D(path[0].center);
-            } else {
-                // Check distance with clicked point instead
-                flatDestPos = VectorUtils.To2D(targetDestination);
             }
 
+            // Remove node from path when node reached
             if(Vector3.Distance(flatDestPos, flatTransformPos) < destinationThreshold) {
                 path.RemoveAt(0);
             }
 
+            // If a node is remaning update the target position
             if(path.Count > 0) {
                 PlayerController.GetInstance().SetTargetPosition(flatDestPos, destinationThreshold);
-            } else {
+            } 
+            /*else {
+                PlayerController.GetInstance().ResetTargetPosition();
+            }*/
+        } else { 
+            if(Vector3.Distance(flatDestPos, flatTransformPos) < destinationThreshold) {
                 PlayerController.GetInstance().ResetTargetPosition();
             }
         }
