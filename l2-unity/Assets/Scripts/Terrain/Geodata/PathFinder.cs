@@ -16,7 +16,7 @@ public class PathFinder
         startPosition = start;
         endPosition = target;
         completeCallback = callback;
-        gridBase = Geodata.GetInstance();
+        gridBase = Geodata.Instance;
     }
 
     public void FindPath() {

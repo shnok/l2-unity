@@ -5,13 +5,11 @@ using System;
 
 public class EventProcessor : MonoBehaviour {
 
-    public static EventProcessor _instance;
-    public static EventProcessor GetInstance() {
-        return _instance;
-    }
+    private static EventProcessor _instance;
+    public static EventProcessor Instance { get { return _instance; } }
 
-    void Awake() {
-        if (_instance == null) {
+    private void Awake() {
+        if(_instance == null) {
             _instance = this;
         }
     }

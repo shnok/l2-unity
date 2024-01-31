@@ -4,12 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameTimePacket : ServerPacket {
-    private long gameTicks;
-    public long GameTicks { get { return gameTicks; } }
-    private int tickDurationMs;
-    public int TickDurationMs { get { return tickDurationMs; } }
-    private int dayDurationMins;
-    public int DayDurationMins { get { return dayDurationMins; } }
+    public long GameTicks { get; private set; }
+    public int TickDurationMs { get; private set; }
+    public int DayDurationMins { get; private set; }
 
     public GameTimePacket(byte[] d) : base(d) {
         Parse();
@@ -17,9 +14,9 @@ public class GameTimePacket : ServerPacket {
 
     public override void Parse() {
         try {
-            gameTicks = ReadL();
-            tickDurationMs = ReadI();
-            dayDurationMins = ReadI();
+            GameTicks = ReadL();
+            TickDurationMs = ReadI();
+            DayDurationMins = ReadI();
         } catch(Exception e) {
             Debug.Log(e);
         }

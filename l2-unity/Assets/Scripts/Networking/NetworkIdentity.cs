@@ -5,43 +5,31 @@ using UnityEngine;
 [System.Serializable]
 public class NetworkIdentity
 {
-    [SerializeField]
-    private EntityType entityType;
-    [SerializeField]
-    private int id;
-    [SerializeField]
-    private string type;
-    [SerializeField]
-    private string npcClass;
-    [SerializeField]
-    private int npcId;
-    [SerializeField]
-    private string name;
-    [SerializeField]
-    private string title;
-    [SerializeField]
-    private int model;
-    [SerializeField]
-    private Vector3 position = new Vector3(0, 0, 0);
-    [SerializeField]
-    private float heading;
-    [SerializeField]
-    private float collisionHeight;
-    [SerializeField]
-    private bool owned = false;
+    [SerializeField] private EntityType _entityType;
+    [SerializeField] private int _id;
+    [SerializeField] private string _type;
+    [SerializeField] private string _npcClass;
+    [SerializeField] private int _npcId;
+    [SerializeField] private string _name;
+    [SerializeField] private string _title;
+    [SerializeField] private int _model;
+    [SerializeField] private Vector3 _position = new Vector3(0, 0, 0);
+    [SerializeField] private float _heading;
+    [SerializeField] private float _collisionHeight;
+    [SerializeField] private bool _owned = false;
 
-    public EntityType EntityType { get => entityType; set => entityType = value; }
-    public int Id { get => id; set => id = value; }
-    public int NpcId { get => npcId; set => npcId = value; }
-    public string Type { get => type; set => type = value; }
-    public string NpcClass { get => npcClass; set => npcClass = value; }
-    public string Name { get => name; set => name = value; }
-    public string Title { get => title; set => title = value; }
-    public int Model { get => model; set => model = value; }
-    public Vector3 Position { get => position; set => position = value; }
-    public float Heading { get => heading; set => heading = value; }
-    public float CollisionHeight { get => collisionHeight; set => collisionHeight = value; }
-    public bool Owned { get => owned; set => owned = value; }
+    public EntityType EntityType { get => _entityType; set => _entityType = value; }
+    public int Id { get => _id; set => _id = value; }
+    public int NpcId { get => _npcId; set => _npcId = value; }
+    public string Type { get => _type; set => _type = value; }
+    public string NpcClass { get => _npcClass; set => _npcClass = value; }
+    public string Name { get => _name; set => _name = value; }
+    public string Title { get => _title; set => _title = value; }
+    public int Model { get => _model; set => _model = value; }
+    public Vector3 Position { get => _position; set => _position = value; }
+    public float Heading { get => _heading; set => _heading = value; }
+    public float CollisionHeight { get => _collisionHeight; set => _collisionHeight = value; }
+    public bool Owned { get => _owned; set => _owned = value; }
 
     public NetworkIdentity() {}
     public NetworkIdentity(int id) {
@@ -54,25 +42,25 @@ public class NetworkIdentity
     }
 
     public void SetPosX(float x) {
-        position.x = x;
+        _position.x = x;
     }
 
     public void SetPosY(float y) {
-        position.y = y;
+        _position.y = y;
     }
     public void SetPosZ(float z) {
-        position.z = z;
+        _position.z = z;
     }
 
     public int GetPosX() {
-        return (int)position.x;
+        return (int)_position.x;
     }
 
     public int GetPosY() {
-        return (int)position.y;
+        return (int)_position.y;
     }
 
     public int GetPosZ() {
-        return (int)position.z;
+        return (int)_position.z;
     }
 }

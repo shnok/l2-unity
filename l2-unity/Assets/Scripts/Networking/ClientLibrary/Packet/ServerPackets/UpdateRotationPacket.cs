@@ -1,28 +1,19 @@
 using UnityEngine;
 using System;
 public class UpdateRotationPacket : ServerPacket {
-    private int _id;
-    private float _angle;
+    public int Id { get; private set; }
+    public float Angle { get; private set; }
 
-    public UpdateRotationPacket(){}
     public UpdateRotationPacket(byte[] d) : base(d) {
         Parse();
     }
     
     public override void Parse() {    
         try {
-            _id = ReadI();
-            _angle = ReadF();
+            Id = ReadI();
+            Angle = ReadF();
         } catch(Exception e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
-    }
-
-    public int getId() {
-        return _id;
-    }
-
-    public float getAngle() {
-        return _angle;
     }
 }

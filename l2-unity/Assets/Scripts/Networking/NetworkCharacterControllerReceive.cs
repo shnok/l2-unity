@@ -5,68 +5,67 @@ using UnityEngine;
 [RequireComponent(typeof(NetworkAnimationReceive), typeof(NetworkTransformReceive), typeof(CharacterController))]
 public class NetworkCharacterControllerReceive : MonoBehaviour
 {
-    private CharacterController characterController;
-    private NetworkAnimationReceive animationReceive;
-    private NetworkTransformReceive networkTransformReceive;
-    [SerializeField] private Vector3 direction;
-    [SerializeField] private float speed;
-    [SerializeField] private Vector3 destination;
-    [SerializeField] private float gravity = 28f;
+    private CharacterController _characterController;
+    private NetworkAnimationReceive _animationReceive;
+    private NetworkTransformReceive _networkTransformReceive;
+    [SerializeField] private Vector3 _direction;
+    [SerializeField] private float _speed;
+    [SerializeField] private Vector3 _destination;
+    [SerializeField] private float _gravity = 28f;
 
 
     void Start() {
         if(World.GetInstance().offlineMode) {
             this.enabled = false;
         }
-        networkTransformReceive = GetComponent<NetworkTransformReceive>();
-        animationReceive = GetComponent<NetworkAnimationReceive>();
-        characterController = GetComponent<CharacterController>();
+        _networkTransformReceive = GetComponent<NetworkTransformReceive>();
+        _animationReceive = GetComponent<NetworkAnimationReceive>();
+        _characterController = GetComponent<CharacterController>();
 
-        if(characterController == null || World.GetInstance().offlineMode || animationReceive == null) {
+        if(_characterController == null || World.GetInstance().offlineMode || _animationReceive == null) {
             this.enabled = false;
         }
-        direction = Vector3.zero;
-        destination = Vector3.zero;
+        _direction = Vector3.zero;
+        _destination = Vector3.zero;
     }
 
     public void UpdateMoveDirection(float speed, Vector3 direction) {
-        this.speed = speed;
-        this.direction = direction;
-        animationReceive.SetFloat("Speed", speed);
+        _speed = speed;
+        _direction = direction;
+        _animationReceive.SetFloat("Speed", speed);
     }
 
     private void FixedUpdate() {
 
-        if(!networkTransformReceive.IsPositionSynced()) {
+        if(!_networkTransformReceive.IsPositionSynced()) {
             /* pause script during position sync */
             //return;
         }
 
-        if(destination != null && destination != Vector3.zero) {
+        if(_destination != null && _destination != Vector3.zero) {
             SetMoveDirectionToDestination();
         }
 
-        Vector3 ajustedDirection = direction * speed + Vector3.down * gravity;
-        characterController.Move(ajustedDirection * Time.deltaTime);
+        Vector3 ajustedDirection = _direction * _speed + Vector3.down * _gravity;
+        _characterController.Move(ajustedDirection * Time.deltaTime);
     }
 
     public void SetDestination(Vector3 destination, float speed) {
-        this.speed = speed;
-        this.destination = destination;
-        animationReceive.SetFloat("Speed", speed);
+        _speed = speed;
+        _destination = destination;
+        _animationReceive.SetFloat("Speed", speed);
     }
 
     public void SetMoveDirectionToDestination() {
         Vector3 transformFlat = VectorUtils.To2D(transform.position);
-        Vector3 destinationFlat = VectorUtils.To2D(destination);
+        Vector3 destinationFlat = VectorUtils.To2D(_destination);
 
-        if(Vector3.Distance(transformFlat, destinationFlat) > Geodata.GetInstance().nodeSize / 10f) {
-            networkTransformReceive.PausePositionSync();
-            direction = (destinationFlat - transformFlat).normalized;
+        if(Vector3.Distance(transformFlat, destinationFlat) > Geodata.Instance.NodeSize / 10f) {
+            _networkTransformReceive.PausePositionSync();
+            _direction = (destinationFlat - transformFlat).normalized;
         } else {
-            direction = Vector3.zero;
-            networkTransformReceive.ResumePositionSync();
+            _direction = Vector3.zero;
+            _networkTransformReceive.ResumePositionSync();
         }
     }
-
 }

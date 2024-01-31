@@ -33,7 +33,7 @@ public class ClickToMoveController : MonoBehaviour {
     public void Update() {
         // Update initial node
         if(characterController.isGrounded && collidingWith != null) {
-            startNode = Geodata.GetInstance().GetNodeAt(collidingWith.objectScene, transform.position);
+            startNode = Geodata.Instance.GetNodeAt(collidingWith.objectScene, transform.position);
         }
 
         // Reset path when user input
@@ -77,7 +77,7 @@ public class ClickToMoveController : MonoBehaviour {
     public void MoveTo(ObjectData target, Vector3 clickPosition) {
         targetDestination = clickPosition;
 
-        Node node = Geodata.GetInstance().GetNodeAt(target.objectScene, clickPosition);
+        Node node = Geodata.Instance.GetNodeAt(target.objectScene, clickPosition);
         if(node != null && startNode != null) {
             targetNode = node;
 
@@ -108,7 +108,7 @@ public class ClickToMoveController : MonoBehaviour {
         if(!debugPathFinder || !Application.isPlaying)
             return;
 
-        float nodeSize = Geodata.GetInstance().nodeSize;
+        float nodeSize = Geodata.Instance.NodeSize;
         Vector3 cubeSize = new Vector3(nodeSize - nodeSize / 10f, 0.1f, nodeSize - nodeSize / 10f);
 
         Gizmos.color = Color.yellow;

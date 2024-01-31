@@ -1,21 +1,17 @@
 using UnityEngine;
 using System;
 public class RemoveObjectPacket : ServerPacket {
-    private int _id;
-    public RemoveObjectPacket(){}
+    public int Id { get; private set; }
+
     public RemoveObjectPacket(byte[] d) : base(d) {
         Parse();
     }
     
     public override void Parse() {    
         try {
-            _id = ReadI();
+            Id = ReadI();
         } catch(Exception e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
-    }
-
-    public int getId() {
-        return _id;
     }
 }

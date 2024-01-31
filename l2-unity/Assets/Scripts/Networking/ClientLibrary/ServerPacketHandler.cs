@@ -2,37 +2,34 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text;
 
 public class ServerPacketHandler
 {
-    private AsynchronousClient client;
-    private long timestamp;
-    private CancellationTokenSource tokenSource;
-    private static ServerPacketHandler instance;
-    private EventProcessor eventProcessor;
+    private AsynchronousClient _client;
+    private long _timestamp;
+    private CancellationTokenSource _tokenSource;
+    private EventProcessor _eventProcessor;
 
-    public static ServerPacketHandler GetInstance() {
-        if(instance == null) {
-            instance = new ServerPacketHandler();
-        }
-
-        return instance;
+    private static ServerPacketHandler _instance;
+    public static ServerPacketHandler Instance { 
+        get { 
+            if (_instance == null) {
+                _instance = new ServerPacketHandler();
+            }
+            return _instance; 
+        } 
     }
+
     public void SetClient(AsynchronousClient client) {
-        this.client = client;
-        tokenSource = new CancellationTokenSource();
-        eventProcessor = EventProcessor.GetInstance();
-    }
-
-    public AsynchronousClient GetClient() {
-        return client;
+        _client = client;
+        _tokenSource = new CancellationTokenSource();
+        _eventProcessor = EventProcessor.Instance;
     }
 
     public async Task HandlePacketAsync(byte[] data) {
         await Task.Run(() => {
             ServerPacketType packetType = (ServerPacketType)data[0];
-            if(DefaultClient.GetInstance().logReceivedPackets && packetType != ServerPacketType.Ping) {
+            if(DefaultClient.Instance.LogReceivedPackets && packetType != ServerPacketType.Ping) {
                 Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] Received packet:" + packetType);
             }
             switch(packetType) {
@@ -86,129 +83,138 @@ public class ServerPacketHandler
     }
 
     public void CancelTokens() {
-        tokenSource.Cancel();
+        _tokenSource.Cancel();
     }
 
     private void OnPingReceive() {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        int ping = timestamp != 0 ? (int)(now - timestamp) : 0;
+        int ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
         //Debug.Log("Ping: " + ping + "ms");
-        client.SetPing(ping);
+        _client.Ping = ping;
 
         Task.Delay(1000).ContinueWith(t => {
-            if(!tokenSource.IsCancellationRequested) {
-                ClientPacketHandler.GetInstance().SendPing();
-                timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            if(!_tokenSource.IsCancellationRequested) {
+                ClientPacketHandler.Instance.SendPing();
+                _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             }
 
-            Task.Delay(DefaultClient.GetInstance().connectionTimeoutMs).ContinueWith(t => {
-                if(!tokenSource.IsCancellationRequested) {
+            Task.Delay(DefaultClient.Instance.ConnectionTimeoutMs).ContinueWith(t => {
+                if(!_tokenSource.IsCancellationRequested) {
                     long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    if(now2 - timestamp >= DefaultClient.GetInstance().connectionTimeoutMs) {
+                    if(now2 - _timestamp >= DefaultClient.Instance.ConnectionTimeoutMs) {
                         Debug.Log("Connection timed out");
-                        DefaultClient.GetInstance().Disconnect();
+                        DefaultClient.Instance.Disconnect();
                     }
                 }
-            }, tokenSource.Token);
-        }, tokenSource.Token);
+            }, _tokenSource.Token);
+        }, _tokenSource.Token);
     }
 
     private void OnAuthReceive(byte[] data) {
         AuthResponsePacket packet = new AuthResponsePacket(data);
-        AuthResponse response = packet.GetResponse();
+        AuthResponse response = packet.Response;
 
         switch(response) {
             case AuthResponse.ALLOW:
-                eventProcessor.QueueEvent(() => DefaultClient.GetInstance().OnConnectionAllowed());
+                _eventProcessor.QueueEvent(() => DefaultClient.Instance.OnConnectionAllowed());
                 break;
             case AuthResponse.ALREADY_CONNECTED:
                 Debug.Log("User already connected.");
-                client.Disconnect();
+                _client.Disconnect();
                 break;
             case AuthResponse.INVALID_USERNAME:
                 Debug.Log("Incorrect user name.");
-                client.Disconnect();
+                _client.Disconnect();
                 break;
         }
     }
 
     private void OnMessageReceive(byte[] data) {
         ReceiveMessagePacket packet = new ReceiveMessagePacket(data);
-        String sender = packet.GetSender();
-        String text = packet.GetText();
+        String sender = packet.Sender;
+        String text = packet.Text;
         ChatMessage message = new ChatMessage(sender, text);
-        eventProcessor.QueueEvent(() => ChatWindow.GetInstance().ReceiveChatMessage(message));
+        _eventProcessor.QueueEvent(() => ChatWindow.GetInstance().ReceiveChatMessage(message));
     }
+
     private void OnSystemMessageReceive(byte[] data) {
         SystemMessagePacket packet = new SystemMessagePacket(data);
-        SystemMessage message = packet.GetMessage();
-        eventProcessor.QueueEvent(() => ChatWindow.GetInstance().ReceiveChatMessage(message));
+        SystemMessage message = packet.Message;
+        _eventProcessor.QueueEvent(() => ChatWindow.GetInstance().ReceiveChatMessage(message));
     }
+
     private void OnPlayerInfoReceive(byte[] data) {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        NetworkIdentity identity = packet.GetIdentity();
+        NetworkIdentity identity = packet.Identity;
         identity.EntityType = EntityType.Player;
-        PlayerStatus status = packet.GetStatus();
-        eventProcessor.QueueEvent(() => World.GetInstance().SpawnPlayer(identity, status));
+        PlayerStatus status = packet.Status;
+        _eventProcessor.QueueEvent(() => World.GetInstance().SpawnPlayer(identity, status));
     }
+
     private void OnUserInfoReceive(byte[] data) {
         UserInfoPacket packet = new UserInfoPacket(data);
-        NetworkIdentity identity = packet.GetIdentity();
+        NetworkIdentity identity = packet.Identity;
         identity.EntityType = EntityType.User;
-        PlayerStatus status = packet.GetStatus();
-        eventProcessor.QueueEvent(() => World.GetInstance().SpawnUser(identity, status));
+        PlayerStatus status = packet.Status;
+        _eventProcessor.QueueEvent(() => World.GetInstance().SpawnUser(identity, status));
     }
 
     private void OnUpdatePosition(byte[] data) {
         UpdatePositionPacket packet = new UpdatePositionPacket(data);
-        int id = packet.getId();
-        Vector3 position = packet.getPosition();
-        eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectPosition(id, position));
+        int id = packet.Id;
+        Vector3 position = packet.Position;
+        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectPosition(id, position));
     }
+
     private void OnRemoveObject(byte[] data) {
         RemoveObjectPacket packet = new RemoveObjectPacket(data);
-        eventProcessor.QueueEvent(() => World.GetInstance().RemoveObject(packet.getId()));
+        _eventProcessor.QueueEvent(() => World.GetInstance().RemoveObject(packet.Id));
     }
+
     private void OnUpdateRotation(byte[] data) {
         UpdateRotationPacket packet = new UpdateRotationPacket(data);
-        int id = packet.getId();
-        float angle = packet.getAngle();
-        eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectRotation(id, angle));
+        int id = packet.Id;
+        float angle = packet.Angle;
+        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectRotation(id, angle));
     }
+
     private void OnUpdateAnimation(byte[] data) {
         UpdateAnimationPacket packet = new UpdateAnimationPacket(data);
-        int id = packet.getId();
-        int animId = packet.getAnimId();
-        float value = packet.getValue();
-        eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectAnimation(id, animId, value));
+        int id = packet.Id;
+        int animId = packet.AnimId;
+        float value = packet.Value;
+        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectAnimation(id, animId, value));
     }
+
     private void OnInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
-        eventProcessor.QueueEvent(() => World.GetInstance().InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value)); 
+        _eventProcessor.QueueEvent(() => World.GetInstance().InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value)); 
     }
+
     private void OnNpcInfoReceive(byte[] data) {
         NpcInfoPacket packet = new NpcInfoPacket(data);
-        NetworkIdentity identity = packet.GetIdentity();
+        NetworkIdentity identity = packet.Identity;
         identity.EntityType = EntityType.NPC;
-        NpcStatus status = packet.GetStatus();
+        NpcStatus status = packet.Status;
 
-        eventProcessor.QueueEvent(() => World.GetInstance().SpawnNpc(identity, status));
+        _eventProcessor.QueueEvent(() => World.GetInstance().SpawnNpc(identity, status));
     }
+
     private void OnObjectMoveTo(byte[] data) {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
-        int id = packet.getId();
-        Vector3 position = packet.getPosition();
-        eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectDestination(id, position));
-        //eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectAnimation(id, 0, 1));
-        eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectMoveSpeed(id, packet.getSpeed()));
+        int id = packet.Id;
+        Vector3 position = packet.Pos;
+        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectDestination(id, position));
+        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectMoveSpeed(id, packet.Speed));
     }
+
     private void OnUpdateMoveDirection(byte[] data) {
         UpdateMoveDirectionPacket packet = new UpdateMoveDirectionPacket(data);
-        eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectMoveDirection(packet.getId(), packet.getSpeed(), packet.getDirection()));
+        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectMoveDirection(packet.Id, packet.Speed, packet.Direction));
     }
 
     private void OnUpdateGameTime(byte[] data) {
         GameTimePacket packet = new GameTimePacket(data);
-        eventProcessor.QueueEvent(() => WorldClock.Instance.SynchronizeClock(packet.GameTicks, packet.TickDurationMs, packet.DayDurationMins));
+        _eventProcessor.QueueEvent(() => WorldClock.Instance.SynchronizeClock(packet.GameTicks, packet.TickDurationMs, packet.DayDurationMins));
     }
 }

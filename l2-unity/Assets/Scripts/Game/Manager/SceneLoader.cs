@@ -36,7 +36,7 @@ public class SceneLoader : MonoBehaviour
 
     private void OnDefaultSceneLoad(AsyncOperation operation, string sceneName) {
         if(!World.GetInstance().offlineMode) {
-            DefaultClient.GetInstance().Connect(StringUtils.GenerateRandomString());
+            DefaultClient.Instance.Connect(StringUtils.GenerateRandomString());
         } else {
             SwitchScene("Game");
         }
@@ -94,7 +94,7 @@ public class SceneLoader : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         if(!World.GetInstance().offlineMode) {
-            DefaultClient.GetInstance().OnWorldSceneLoaded();
+            DefaultClient.Instance.OnWorldSceneLoaded();
         } else {
             Debug.Log("Spawn player");
             World.GetInstance().SpawnPlayerOfflineMode();

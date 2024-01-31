@@ -3,19 +3,19 @@ using System.Collections;
 using UnityEngine;
 
 public class NetworkTransformReceive : MonoBehaviour {
-    [SerializeField] private Vector3 serverPosition;
-    private Vector3 lastPos;
-    private Quaternion lastRot, newRot;
-    private float rotLerpValue, posLerpValue;
-    [SerializeField] private bool positionSyncProtection = true;
-    [SerializeField] private float positionSyncNodesThreshold = 2f;
-    [SerializeField] private bool positionSynced = false;
-    [SerializeField] private bool positionSyncPaused = false;
-    [SerializeField] private float lerpDuration = 0.3f;
-    [SerializeField] private float positionDelta;
-    [SerializeField] private long lastDesyncTime = 0;
-    [SerializeField] private long lastDesyncDuration = 0;
-    [SerializeField] private long maximumAllowedDesyncTimeMs = 300;
+    [SerializeField] private Vector3 _serverPosition;
+    private Vector3 _lastPos;
+    private Quaternion _lastRot, _newRot;
+    private float _rotLerpValue, _posLerpValue;
+    [SerializeField] private bool _positionSyncProtection = true;
+    [SerializeField] private float _positionSyncNodesThreshold = 2f;
+    [SerializeField] private bool _positionSynced = false;
+    [SerializeField] private bool _positionSyncPaused = false;
+    [SerializeField] private float _lerpDuration = 0.3f;
+    [SerializeField] private float _positionDelta;
+    [SerializeField] private long _lastDesyncTime = 0;
+    [SerializeField] private long _lastDesyncDuration = 0;
+    [SerializeField] private long _maximumAllowedDesyncTimeMs = 300;
 
     void Start() {
         if(World.GetInstance().offlineMode) {
@@ -23,15 +23,15 @@ public class NetworkTransformReceive : MonoBehaviour {
             return;
         }
 
-        lastPos = transform.position;
-        newRot = transform.rotation;
-        lastRot = transform.rotation;
-        serverPosition = transform.position;
-        positionSyncPaused = false;
+        _lastPos = transform.position;
+        _newRot = transform.rotation;
+        _lastRot = transform.rotation;
+        _serverPosition = transform.position;
+        _positionSyncPaused = false;
     }
 
     void FixedUpdate() {
-        if(positionSyncProtection && !positionSyncPaused) {
+        if(_positionSyncProtection && !_positionSyncPaused) {
             AdjustPosition();
         }
         LerpToRotation();
@@ -42,34 +42,34 @@ public class NetworkTransformReceive : MonoBehaviour {
         /* adjust y to ground height */
         pos.y = World.GetInstance().GetGroundHeight(pos);
 
-        serverPosition = pos;
+        _serverPosition = pos;
 
         /* reset states */
-        lastPos = transform.position;
-        posLerpValue = 0;
+        _lastPos = transform.position;
+        _posLerpValue = 0;
     }
 
     /* Safety measure to keep the transform position synced */
 
     public void AdjustPosition() {
         /* Check if client transform position is synced with server's */
-        positionDelta = Vector3.Distance(transform.position, serverPosition);
-        if(positionDelta > Geodata.GetInstance().nodeSize * positionSyncNodesThreshold) {
-            lastDesyncTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            positionSynced = false;
+        _positionDelta = Vector3.Distance(transform.position, _serverPosition);
+        if(_positionDelta > Geodata.Instance.NodeSize * _positionSyncNodesThreshold) {
+            _lastDesyncTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            _positionSynced = false;
         }
 
-        if(!positionSynced) {
+        if(!_positionSynced) {
 
-            lastDesyncDuration = DateTimeOffset.Now.ToUnixTimeMilliseconds() - lastDesyncTime;
-            if(lastDesyncDuration > maximumAllowedDesyncTimeMs) {
-                if(positionDelta <= Geodata.GetInstance().nodeSize / 10f) {
-                    positionSynced = true;
+            _lastDesyncDuration = DateTimeOffset.Now.ToUnixTimeMilliseconds() - _lastDesyncTime;
+            if(_lastDesyncDuration > _maximumAllowedDesyncTimeMs) {
+                if(_positionDelta <= Geodata.Instance.NodeSize / 10f) {
+                    _positionSynced = true;
                     return;
                 }
 
-                transform.position = Vector3.Lerp(lastPos, serverPosition, posLerpValue);
-                posLerpValue += (1 / lerpDuration) * Time.deltaTime;
+                transform.position = Vector3.Lerp(_lastPos, _serverPosition, _posLerpValue);
+                _posLerpValue += (1 / _lerpDuration) * Time.deltaTime;
             }
 
         }   
@@ -85,9 +85,9 @@ public class NetworkTransformReceive : MonoBehaviour {
     }
 
     public void LerpToRotation() {
-        if(Mathf.Abs(transform.rotation.eulerAngles.y - newRot.eulerAngles.y) > 2f) {
-            transform.rotation = Quaternion.Lerp(lastRot, newRot, rotLerpValue);
-            rotLerpValue += Time.deltaTime * 7.5f;
+        if(Mathf.Abs(transform.rotation.eulerAngles.y - _newRot.eulerAngles.y) > 2f) {
+            transform.rotation = Quaternion.Lerp(_lastRot, _newRot, _rotLerpValue);
+            _rotLerpValue += Time.deltaTime * 7.5f;
         }
     }
 
@@ -97,21 +97,21 @@ public class NetworkTransformReceive : MonoBehaviour {
         eulerAngles.y = angle;
         rot.eulerAngles = eulerAngles;
 
-        newRot = rot;
-        lastRot = transform.rotation;
-        rotLerpValue = 0;
+        _newRot = rot;
+        _lastRot = transform.rotation;
+        _rotLerpValue = 0;
     }
 
     public bool IsPositionSynced() {
-        return positionSynced;
+        return _positionSynced;
     }
 
     public void PausePositionSync() {
-        positionSyncPaused = true;
-        positionSynced = true;
+        _positionSyncPaused = true;
+        _positionSynced = true;
     }
 
     public void ResumePositionSync() {
-        positionSyncPaused = false;
+        _positionSyncPaused = false;
     }
 }

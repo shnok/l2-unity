@@ -85,26 +85,26 @@ public class L2AmbientSoundImporter : AssetImporter {
         emitter.OverrideAttenuation = true;
         emitter.OverrideMinDistance = soundRadius * 0.30f;
         emitter.OverrideMaxDistance = soundRadius;
-        emitter.loop = true;
+        emitter.Loop = true;
         emitter.PlayEvent = EmitterGameEvent.TriggerEnter;
         emitter.StopEvent = EmitterGameEvent.TriggerExit;
         emitter.CollisionTag = "Player";
         emitter.AllowFadeout = true;
         if(ambientSound.ambientRandom == 0) {
-            emitter.playChancePercent = 100;
-            emitter.loopDelaySeconds = 0;
+            emitter.PlayChancePercent = 100;
+            emitter.LoopDelaySeconds = 0;
         } else {
-            emitter.playChancePercent = ambientSound.ambientRandom;
-            emitter.loopDelaySeconds = 3;
+            emitter.PlayChancePercent = ambientSound.ambientRandom;
+            emitter.LoopDelaySeconds = 3;
         }
 
         // from UE pitch to FMOD
         float uePitch = ambientSound.soundPitch;
         float fmodPitch = uePitch / 100f + 1f;
-        emitter.soundPitch = fmodPitch;
+        emitter.SoundPitch = fmodPitch;
 
         AmbientSoundType ambientSoundType = (AmbientSoundType)Enum.Parse(typeof(AmbientSoundType), ambientSound.ambientSoundType);
-        emitter.ambientSoundType = ambientSoundType;
+        emitter.AmbientSoundType = ambientSoundType;
         emitter.enabled = true;
 
         return go;

@@ -4,53 +4,51 @@ using UnityEngine;
 
 public class NetworkAnimationReceive : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private bool resetStateOnReceive = false;
-
-
+    [SerializeField] private Animator _animator;
+    [SerializeField] private bool _resetStateOnReceive = false;
     void Start() {
         if(World.GetInstance().offlineMode) {
             this.enabled = false;
             return;
         }
-        animator = gameObject.GetComponentInChildren<Animator>(true);
+        _animator = gameObject.GetComponentInChildren<Animator>(true);
     }
 
     public void SetFloat(string property, float value) {
-        animator.SetFloat(property, value);
+        _animator.SetFloat(property, value);
     }
 
     public void SetAnimationProperty(int animId, float value) {
-        if(animId >= 0 && animId < animator.parameters.Length) {
-            if(resetStateOnReceive) {
+        if(animId >= 0 && animId < _animator.parameters.Length) {
+            if(_resetStateOnReceive) {
                 ClearAnimParams();
             }
 
-            AnimatorControllerParameter anim = animator.parameters[animId];
+            AnimatorControllerParameter anim = _animator.parameters[animId];
             //Debug.Log("Updating animation: " + transform.name + " " + anim.name + "=" + value);
 
             switch(anim.type) {
                 case AnimatorControllerParameterType.Float:
-                    animator.SetFloat(anim.name, value);
+                    _animator.SetFloat(anim.name, value);
                     break;
                 case AnimatorControllerParameterType.Int:
-                    animator.SetInteger(anim.name, (int)value);
+                    _animator.SetInteger(anim.name, (int)value);
                     break;
                 case AnimatorControllerParameterType.Bool:
-                    animator.SetBool(anim.name, (int)value == 1);
+                    _animator.SetBool(anim.name, (int)value == 1);
                     break;
                 case AnimatorControllerParameterType.Trigger:
-                    animator.SetTrigger(anim.name);
+                    _animator.SetTrigger(anim.name);
                     break;
             }
         }
     }
 
     public void ClearAnimParams() {
-        for(int i = 0; i < animator.parameters.Length; i++) {
-            AnimatorControllerParameter anim = animator.parameters[i];
+        for(int i = 0; i < _animator.parameters.Length; i++) {
+            AnimatorControllerParameter anim = _animator.parameters[i];
             if(anim.type == AnimatorControllerParameterType.Bool) {
-                animator.SetBool(anim.name, false);
+                _animator.SetBool(anim.name, false);
             }
         }
     }

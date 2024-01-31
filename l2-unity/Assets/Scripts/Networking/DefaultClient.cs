@@ -4,25 +4,26 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class DefaultClient : MonoBehaviour {
-    static AsynchronousClient client;
-    public Entity currentPlayer;
-    public string username;
-    public int connectionTimeoutMs = 10000;
+    [SerializeField] private static AsynchronousClient _client;
+    [SerializeField] private Entity _currentPlayer;
+    [SerializeField] private string _username;
+    [SerializeField] private int _connectionTimeoutMs = 10000;
+    [SerializeField] private string _serverIp = "127.0.0.1";
+    [SerializeField] private int _serverPort = 11000;
+    [SerializeField] private bool _logReceivedPackets = true;
+    [SerializeField] private bool _logSentPackets = true;
+    public string Username { get { return _username; } private set { _username = value; } }
+    public bool LogReceivedPackets { get { return _logReceivedPackets; } private set { _logReceivedPackets = value; } }
+    public bool LogSentPackets { get { return _logSentPackets; } private set { _logSentPackets = value; } }
+    public int ConnectionTimeoutMs { get { return _connectionTimeoutMs; } private set { _connectionTimeoutMs = value; } }
 
-    public string serverIp = "127.0.0.1";
-    public int serverPort = 11000;
-    public bool logReceivedPackets = true;
-    public bool logSentPackets = true;
+    private static DefaultClient _instance;
+    public static DefaultClient Instance { get { return _instance; } }
 
-    private static DefaultClient instance;
-    public static DefaultClient GetInstance() {
-        return instance;
-    }
-
-    void Awake(){                
-        if (instance == null) {
-            instance = this;
-        } 
+    private void Awake() {
+        if(_instance == null) {
+            _instance = this;
+        }
     }
 
     private void Start() {
@@ -32,14 +33,14 @@ public class DefaultClient : MonoBehaviour {
     }
 
     public async void Connect(string user) {
-        username = user; 
-        client = new AsynchronousClient(serverIp, serverPort);
-        bool connected = await Task.Run(client.Connect);
+        _username = user; 
+        _client = new AsynchronousClient(_serverIp, _serverPort);
+        bool connected = await Task.Run(_client.Connect);
         if(connected) {  
-            ServerPacketHandler.GetInstance().SetClient(client);
-            ClientPacketHandler.GetInstance().SetClient(client);         
-            ClientPacketHandler.GetInstance().SendPing();
-            ClientPacketHandler.GetInstance().SendAuth(user);                                   
+            ServerPacketHandler.Instance.SetClient(_client);
+            ClientPacketHandler.Instance.SetClient(_client);         
+            ClientPacketHandler.Instance.SendPing();
+            ClientPacketHandler.Instance.SendAuth(user);                                   
         }
     }
 
@@ -49,15 +50,15 @@ public class DefaultClient : MonoBehaviour {
     }
 
     public void OnWorldSceneLoaded() {
-        ClientPacketHandler.GetInstance().SendLoadWorld();
+        ClientPacketHandler.Instance.SendLoadWorld();
     }
 
     public int GetPing() {
-        return client.GetPing();
+        return _client.Ping;
     }
 
     public void SendChatMessage(string message) {
-        ClientPacketHandler.GetInstance().SendMessage(message);
+        ClientPacketHandler.Instance.SendMessage(message);
     }
  
     public void Disconnect() {
@@ -66,15 +67,15 @@ public class DefaultClient : MonoBehaviour {
     }
 
     void OnApplicationQuit() {
-        if(client != null) {
-            client.Disconnect();
+        if(_client != null) {
+            _client.Disconnect();
         }   
     }
 
     public void OnDisconnectReady() {
-        if(client != null) {
-            client.Disconnect();
-            client = null;
+        if(_client != null) {
+            _client.Disconnect();
+            _client = null;
         }
 
         World.GetInstance().objects.Clear();

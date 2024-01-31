@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour {
 
-    private Animator animator;
-    private PlayerController pc;
-
-    public bool local;
+    private Animator _animator;
+    private PlayerController _pc;
 
     void Start() {
-        animator = GetComponent<Animator>();
-        pc = transform.parent.GetComponent<PlayerController>();
+        _animator = GetComponent<Animator>();
+        _pc = transform.parent.GetComponent<PlayerController>();
     }
 
     void Update() {
@@ -19,7 +17,7 @@ public class AnimationController : MonoBehaviour {
     }
 
     void UpdateAnimator() {
-        SetFloat("Speed", pc.currentSpeed, false);
+        SetFloat("Speed", _pc.currentSpeed, false);
 
         /*Jump */
         if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Idle")) {
@@ -44,8 +42,8 @@ public class AnimationController : MonoBehaviour {
         if(IsNextState("Run")) {
             CameraController.GetInstance().followRootBoneOffset = false;
         }
-        if((InputManager.GetInstance().IsInputPressed(InputType.Move) || pc.runToTarget)
-            && (IsCurrentState("Idle") || IsAnimationFinished(0)) && pc.canMove) {
+        if((InputManager.GetInstance().IsInputPressed(InputType.Move) || _pc.runToTarget)
+            && (IsCurrentState("Idle") || IsAnimationFinished(0)) && _pc.canMove) {
             SetBool("Moving", true);
             
         } else {
@@ -58,7 +56,7 @@ public class AnimationController : MonoBehaviour {
         }
         if(InputManager.GetInstance().IsInputPressed(InputType.Sit) && (IsCurrentState("Run") || IsCurrentState("Idle"))) {
             CameraController.GetInstance().followRootBoneOffset = true;
-            pc.canMove = false;
+            _pc.canMove = false;
             SetBool("Sit", true);
         } else {
             SetBool("Sit", false);
@@ -87,12 +85,12 @@ public class AnimationController : MonoBehaviour {
 
         if(IsCurrentState("Stand") && IsAnimationFinished(0)) {
             CameraController.GetInstance().followRootBoneOffset = false;
-            pc.canMove = true;
+            _pc.canMove = true;
         }
 
         /* Idle */
         if(!InputManager.GetInstance().IsInputPressed(InputType.Move)
-            && !pc.runToTarget
+            && !_pc.runToTarget
             && (IsCurrentState("Run") || IsAnimationFinished(0) || IsCurrentState("Idle"))
             && !IsCurrentState("SitTransition")
             && !IsCurrentState("Sit")
@@ -105,20 +103,20 @@ public class AnimationController : MonoBehaviour {
     }
 
     private bool IsAnimationFinished(int layer) {
-        return animator.GetCurrentAnimatorStateInfo(layer).normalizedTime > 0.95f;
+        return _animator.GetCurrentAnimatorStateInfo(layer).normalizedTime > 0.95f;
     }
 
     private bool IsCurrentState(string state) {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName(state);
+        return _animator.GetCurrentAnimatorStateInfo(0).IsName(state);
     }
 
     private bool IsNextState(string state) {
-        return animator.GetNextAnimatorStateInfo(0).IsName(state);
+        return _animator.GetNextAnimatorStateInfo(0).IsName(state);
     }
 
     void SetBool(string name, bool value) {
-        if(animator.GetBool(name) != value) {
-            animator.SetBool(name, value);
+        if(_animator.GetBool(name) != value) {
+            _animator.SetBool(name, value);
             if(!World.GetInstance().offlineMode) {
                 EmitAnimatorInfo(name, value ? 1 : 0);
             }
@@ -126,8 +124,8 @@ public class AnimationController : MonoBehaviour {
     }
 
     void SetFloat(string name, float value, bool share) {
-        if(Mathf.Abs(animator.GetFloat(name) - value) > 0.2f) {
-            animator.SetFloat(name, value);
+        if(Mathf.Abs(_animator.GetFloat(name) - value) > 0.2f) {
+            _animator.SetFloat(name, value);
             if(!World.GetInstance().offlineMode && share) {
                 EmitAnimatorInfo(name, value);
             }
@@ -135,8 +133,8 @@ public class AnimationController : MonoBehaviour {
     }
 
     void SetInteger(string name, int value) {
-        if(animator.GetInteger(name) != value) {
-            animator.SetInteger(name, value);
+        if(_animator.GetInteger(name) != value) {
+            _animator.SetInteger(name, value);
             if(!World.GetInstance().offlineMode) {
                 EmitAnimatorInfo(name, value);
             }
@@ -144,14 +142,14 @@ public class AnimationController : MonoBehaviour {
     }
 
     void SetTrigger(string name) {
-        animator.SetTrigger(name);
+        _animator.SetTrigger(name);
         if(!World.GetInstance().offlineMode) {
             EmitAnimatorInfo(name, 0);
         }
     }
 
     private int SerializeAnimatorInfo(string name) {
-        List<AnimatorControllerParameter> parameters = new List<AnimatorControllerParameter>(animator.parameters);
+        List<AnimatorControllerParameter> parameters = new List<AnimatorControllerParameter>(_animator.parameters);
 
         int index = parameters.FindIndex(a => a.name == name);
 
@@ -161,7 +159,7 @@ public class AnimationController : MonoBehaviour {
     private void EmitAnimatorInfo(string name, float value) {
         int index = SerializeAnimatorInfo(name);
         if(index != -1) {
-            animator.GetComponentInParent<NetworkTransformShare>().ShareAnimation((byte)index, value);
+            _animator.GetComponentInParent<NetworkTransformShare>().ShareAnimation((byte)index, value);
         }
     }
 }

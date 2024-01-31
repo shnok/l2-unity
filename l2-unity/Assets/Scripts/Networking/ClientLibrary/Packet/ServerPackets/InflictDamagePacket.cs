@@ -1,29 +1,23 @@
 using UnityEngine;
 using System;
 public class InflictDamagePacket : ServerPacket {
-    private int _senderId;
-    private int _targetId;
-    private byte _attackId;
-    private int _value;
+    public int SenderId { get; private set; }
+    public int TargetId { get; private set; }
+    public byte AttackId { get; private set; }
+    public int Value { get; private set; }
 
-    public InflictDamagePacket(){}
     public InflictDamagePacket(byte[] d) : base(d) {
         Parse();
     }
 
-    public int SenderId { get => _senderId; set => _senderId = value; }
-    public int TargetId { get => _targetId; set => _targetId = value; }
-    public byte AttackId { get => _attackId; set => _attackId = value; }
-    public int Value { get => _value; set => _value = value; }
-
     public override void Parse() {    
         try {
-            _senderId = ReadI();
-            _targetId = ReadI();
-            _attackId = ReadB();
-            _value = ReadI();
+            SenderId = ReadI();
+            TargetId = ReadI();
+            AttackId = ReadB();
+            Value = ReadI();
         } catch(Exception e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
     }
 }

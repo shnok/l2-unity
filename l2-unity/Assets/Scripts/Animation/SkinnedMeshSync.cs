@@ -1,26 +1,23 @@
 using UnityEngine;
 
 public class SkinnedMeshSync : MonoBehaviour {
-    [SerializeField] private SkinnedMeshRenderer rootSkinnedRenderer;
-    [SerializeField] private SkinnedMeshRenderer[] destSkinnedRenderer;
+    [SerializeField] private SkinnedMeshRenderer _rootSkinnedRenderer;
+    [SerializeField] private SkinnedMeshRenderer[] _destSkinnedRenderer;
 
-    // Start is called before the first frame update
     void Start() {
-        destSkinnedRenderer = new SkinnedMeshRenderer[transform.parent.childCount - 1];
+        _destSkinnedRenderer = new SkinnedMeshRenderer[transform.parent.childCount - 1];
         for(int i = 0; i < transform.parent.childCount; i++) {
             Transform child = transform.parent.GetChild(i);
             if(child != transform) {
-                destSkinnedRenderer[i] = child.GetComponentInChildren<SkinnedMeshRenderer>();
+                _destSkinnedRenderer[i] = child.GetComponentInChildren<SkinnedMeshRenderer>();
             } else {
-                rootSkinnedRenderer = transform.GetComponentInChildren<SkinnedMeshRenderer>();
+                _rootSkinnedRenderer = transform.GetComponentInChildren<SkinnedMeshRenderer>();
             }
         }
 
-        foreach(var renderer in destSkinnedRenderer) {
-            renderer.bones = rootSkinnedRenderer.bones;
-            renderer.rootBone = rootSkinnedRenderer.rootBone;
+        foreach(var renderer in _destSkinnedRenderer) {
+            renderer.bones = _rootSkinnedRenderer.bones;
+            renderer.rootBone = _rootSkinnedRenderer.rootBone;
         }
     }
-
-    
 }
