@@ -28,6 +28,15 @@ public abstract class ServerPacket : Packet
         return value;
     }
 
+    protected long ReadL() {
+        byte[] data = new byte[8];
+        Array.Copy(_packetData, iterator, data, 0, 8);
+        Array.Reverse(data);
+        long value = BitConverter.ToInt64(data, 0);
+        iterator += 8;
+        return value;
+    }
+
     protected float ReadF() {
         byte[] data = new byte[4];     
         Array.Copy(_packetData, iterator, data, 0, 4);

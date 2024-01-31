@@ -78,6 +78,9 @@ public class ServerPacketHandler
                 case ServerPacketType.ObjectMoveDirection:
                     OnUpdateMoveDirection(data);
                     break;
+                case ServerPacketType.GameTime:
+                    OnUpdateGameTime(data);
+                    break;
             }
         });
     }
@@ -202,5 +205,10 @@ public class ServerPacketHandler
     private void OnUpdateMoveDirection(byte[] data) {
         UpdateMoveDirectionPacket packet = new UpdateMoveDirectionPacket(data);
         eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectMoveDirection(packet.getId(), packet.getSpeed(), packet.getDirection()));
+    }
+
+    private void OnUpdateGameTime(byte[] data) {
+        GameTimePacket packet = new GameTimePacket(data);
+        eventProcessor.QueueEvent(() => WorldClock.Instance.SynchronizeClock(packet.GameTicks, packet.TickDurationMs, packet.DayDurationMins));
     }
 }
