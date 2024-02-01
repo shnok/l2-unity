@@ -15,14 +15,14 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
 
 
     void Start() {
-        if(World.GetInstance().offlineMode) {
+        if(World.Instance.OfflineMode) {
             this.enabled = false;
         }
         _networkTransformReceive = GetComponent<NetworkTransformReceive>();
         _animationReceive = GetComponent<NetworkAnimationReceive>();
         _characterController = GetComponent<CharacterController>();
 
-        if(_characterController == null || World.GetInstance().offlineMode || _animationReceive == null) {
+        if(_characterController == null || World.Instance.OfflineMode || _animationReceive == null) {
             this.enabled = false;
         }
         _direction = Vector3.zero;

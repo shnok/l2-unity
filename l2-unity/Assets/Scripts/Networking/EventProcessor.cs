@@ -15,7 +15,7 @@ public class EventProcessor : MonoBehaviour {
     }
 
     private void Start() {
-        if(World.GetInstance().offlineMode) {
+        if(World.Instance.OfflineMode) {
             this.enabled = false;
             return;
         }

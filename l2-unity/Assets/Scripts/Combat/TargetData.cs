@@ -5,23 +5,28 @@ using UnityEngine;
 [System.Serializable]
 public class TargetData
 {
-    public Status status;
-    public NetworkIdentity identity;
-    public ObjectData data;
-    public float distance;
+    [SerializeField] private Status _status;
+    [SerializeField] private NetworkIdentity _identity;
+    [SerializeField] private ObjectData _data;
+    [SerializeField] private float _distance;
+
+    public Status Status { get { return _status; } }
+    public NetworkIdentity Identity { get { return _identity; } }
+    public ObjectData Data { get { return _data; }}
+    public float Distance { get { return _distance; } set { _distance = value; } }
 
     public TargetData(ObjectData target) {
-        data = target;
-        identity = data.objectTransform.GetComponent<Entity>().Identity;
+        _data = target;
+        _identity = _data.ObjectTransform.GetComponent<Entity>().Identity;
 
-        if(identity.EntityType == EntityType.Player) {
-            status = data.objectTransform.GetComponent<PlayerEntity>().Status;
+        if(_identity.EntityType == EntityType.Player) {
+            _status = _data.ObjectTransform.GetComponent<PlayerEntity>().Status;
         }
-        if(identity.EntityType == EntityType.User) {
-            status = data.objectTransform.GetComponent<UserEntity>().Status;
+        if(_identity.EntityType == EntityType.User) {
+            _status = _data.ObjectTransform.GetComponent<UserEntity>().Status;
         }
-        if(identity.EntityType == EntityType.NPC || identity.EntityType == EntityType.Monster) {
-            status = data.objectTransform.GetComponent<NpcEntity>().Status;
+        if(_identity.EntityType == EntityType.NPC || _identity.EntityType == EntityType.Monster) {
+            _status = _data.ObjectTransform.GetComponent<NpcEntity>().Status;
         }
     }
 }

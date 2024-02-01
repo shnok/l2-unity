@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class UserEntity : Entity {
     [SerializeField]
-    private PlayerStatus status;
-    public PlayerStatus Status { get => status; set => status = value; }
+    private PlayerStatus _status;
+    public PlayerStatus Status { get => _status; set => _status = value; }
 }

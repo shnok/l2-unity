@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class PlayerEntity : Entity {
     [SerializeField]
-    private PlayerStatus status;
-    public PlayerStatus Status { get => status; set => status = value; }
+    private PlayerStatus _status;
+    public PlayerStatus Status { get => _status; set => _status = value; }
 
-
-    private static PlayerEntity instance;
-    public static PlayerEntity GetInstance() {
-        return instance;
-    }
+    private static PlayerEntity _instance;
+    public static PlayerEntity Instance { get => _instance; }
 
     void Awake() {
-        if(instance == null) {
-            instance = this;
+        if(_instance == null) {
+            _instance = this;
         }
     }
 }

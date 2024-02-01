@@ -4,8 +4,8 @@ using UnityEngine;
 public class Entity : MonoBehaviour {
 
     [SerializeField]
-    private NetworkIdentity identity;
-    public NetworkIdentity Identity { get => identity; set => identity = value; }
+    private NetworkIdentity _identity;
+    public NetworkIdentity Identity { get => _identity; set => _identity = value; }
 
 
     /* Called when ApplyDamage packet is received */

@@ -22,8 +22,8 @@ public class ThirdPersonListener : MonoBehaviour
 
     void Update() {
         if(_player == null) {
-            if(PlayerController.GetInstance() != null) {
-                _player = PlayerController.GetInstance().gameObject;
+            if(PlayerController.Instance != null) {
+                _player = PlayerController.Instance.gameObject;
             }
         } else {
             _attributes.position = FMODUnity.RuntimeUtils.ToFMODVector(_player.transform.position);

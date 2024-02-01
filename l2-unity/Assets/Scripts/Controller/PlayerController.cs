@@ -1,39 +1,38 @@
 ﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-
     /* Components */
-    public CharacterController controller;
-
+    private CharacterController _controller;
     /*Rotate*/
-    private float finalAngle;
+    private float _finalAngle;
 
-    /* Move */
-    public Vector3 moveDirection;
-    public float currentSpeed;
-    public float defaultSpeed = 4;
-    public Vector2 axis;
-    public bool canMove = true;
+    /* Movement */
+    [SerializeField] private bool _canMove = true;
+    [SerializeField] private Vector3 _moveDirection;
+    [SerializeField] private float _currentSpeed;
+    [SerializeField] private float _defaultSpeed = 4;
+    [SerializeField] private float _measuredSpeed;
+    private Vector3 _currentPos;
+    private Vector3 _lastPos;
+    private Vector2 _axis;
 
     /* Gravity */
     private float _verticalVelocity = 0;
-    public float jumpForce = 10;
-    public float gravity = 28;
+    [SerializeField] private float _jumpForce = 10;
+    [SerializeField] private float _gravity = 28;
 
     /* Target */
-    public Vector3 flatTransformPos;
-    public Vector3 targetPosition;
-    public float followDistance;
-    public bool runToTarget = false;
+    [SerializeField] private Vector3 _targetPosition;
+    [SerializeField] private bool _runningToTarget = false;
+    private float _followDistance;
+    private Vector3 _flatTransformPos;
 
-    public float measuredSpeed;
-    private Vector3 current_pos;
-    private Vector3 last_pos;
+    public float CurrentSpeed { get { return _currentSpeed; } }
+    public bool RunningToTarget { get { return _runningToTarget; } }
+    public bool CanMove { get { return _canMove; } set { _canMove = value; } }
 
-    public static PlayerController _instance;
-    public static PlayerController GetInstance() {
-        return _instance;
-    }
+    private static PlayerController _instance;
+    public static PlayerController Instance { get { return _instance; } }
 
     void Awake() {
         if(_instance == null) {
@@ -42,28 +41,28 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Start() {
-        controller = GetComponent<CharacterController>();
+        _controller = GetComponent<CharacterController>();
     }
 
     void FixedUpdate() {
-        flatTransformPos = new Vector3(transform.position.x, 0, transform.position.z);
+        _flatTransformPos = new Vector3(transform.position.x, 0, transform.position.z);
 
-        if(runToTarget) {
+        if(_runningToTarget) {
             FollowTargetPosition();
         } else {
             FollowInputs();
         }
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * finalAngle), Time.deltaTime * 7.5f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
 
-        moveDirection = ApplyGravity(moveDirection);
-        controller.Move(moveDirection * Time.deltaTime);
+        _moveDirection = ApplyGravity(_moveDirection);
+        _controller.Move(_moveDirection * Time.deltaTime);
 
         MeasureSpeed();
     }
 
     private void FollowTargetPosition() {
-        if(Vector3.Distance(flatTransformPos, targetPosition) > followDistance) {
+        if(Vector3.Distance(_flatTransformPos, _targetPosition) > _followDistance) {
             MoveToTargetPosition();
         } else {
             //ResetTargetPosition();
@@ -76,40 +75,40 @@ public class PlayerController : MonoBehaviour {
 
     private void FollowInputs() {
         /* Update input axis */
-        axis = GetAxis();
+        _axis = GetAxis();
 
         /* Speed */
-        currentSpeed = GetInputMoveSpeed(currentSpeed);
+        _currentSpeed = GetInputMoveSpeed(_currentSpeed);
 
         /* Angle */
-        finalAngle = GetInputRotationValue(finalAngle);
+        _finalAngle = GetInputRotationValue(_finalAngle);
 
         /* Direction */
-        moveDirection = GetInputDirection(currentSpeed);
+        _moveDirection = GetInputDirection(_currentSpeed);
     }
 
     private void MeasureSpeed() {
-        current_pos = transform.position;
-        measuredSpeed = (current_pos - last_pos).magnitude / Time.deltaTime;
-        last_pos = current_pos;
+        _currentPos = transform.position;
+        _measuredSpeed = (_currentPos - _lastPos).magnitude / Time.deltaTime;
+        _lastPos = _currentPos;
     }
 
     public void SetTargetPosition(Vector3 position, float distance) {
-        runToTarget = true;
-        followDistance = distance;
-        targetPosition = VectorUtils.To2D(position);
+        _runningToTarget = true;
+        _followDistance = distance;
+        _targetPosition = VectorUtils.To2D(position);
     }
 
     public void ResetTargetPosition() {
-        runToTarget = false;
-        targetPosition = Vector3.zero;
-        ClickManager.GetInstance().HideLocator();
+        _runningToTarget = false;
+        _targetPosition = Vector3.zero;
+        ClickManager.Instance.HideLocator();
     }
 
     private void MoveToTargetPosition() {
-        Vector3 relativeDirection = targetPosition - flatTransformPos;
+        Vector3 relativeDirection = _targetPosition - _flatTransformPos;
 
-        if(canMove) {         
+        if(_canMove) {         
             Vector3 relativeAxis = new Vector2(relativeDirection.x, relativeDirection.z);
 
             // Use Atan2 to calculate the angle in radians
@@ -121,14 +120,14 @@ public class PlayerController : MonoBehaviour {
             // Ensure the angle is between 0 and 360 degrees
             angleInDegrees = (angleInDegrees + 360) % 360;
 
-            axis = relativeAxis;
-            finalAngle = angleInDegrees;
-            currentSpeed = defaultSpeed;
+            _axis = relativeAxis;
+            _finalAngle = angleInDegrees;
+            _currentSpeed = _defaultSpeed;
         } else {
             relativeDirection = Vector3.zero;
         }
 
-        moveDirection = relativeDirection.normalized * currentSpeed;
+        _moveDirection = relativeDirection.normalized * _currentSpeed;
     }
 
     public Vector2 GetAxis() {
@@ -146,8 +145,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     private float GetInputRotationValue(float angle) {
-        if(InputManager.GetInstance().IsInputPressed(InputType.InputAxis) && canMove) {
-            angle = Mathf.Atan2(axis.x, axis.y) * Mathf.Rad2Deg;
+        if(InputManager.GetInstance().IsInputPressed(InputType.InputAxis) && _canMove) {
+            angle = Mathf.Atan2(_axis.x, _axis.y) * Mathf.Rad2Deg;
             angle = Mathf.Round(angle / 45f);
             angle *= 45f;
             angle += Camera.main.transform.eulerAngles.y;
@@ -159,12 +158,12 @@ public class PlayerController : MonoBehaviour {
     private Vector3 GetInputDirection(float speed) {
         /* Handle input direction */
         Vector3 direction;
-        if(controller.isGrounded && canMove) {
+        if(_controller.isGrounded && _canMove) {
             Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
             Vector3 right = new Vector3(forward.z, 0, -forward.x);
             forward.y = 0;
-            direction = axis.x * right + axis.y * forward;
-        } else if(!controller.isGrounded) {
+            direction = _axis.x * right + _axis.y * forward;
+        } else if(!_controller.isGrounded) {
             direction = transform.forward;
         } else {
             direction = Vector3.zero;
@@ -176,12 +175,12 @@ public class PlayerController : MonoBehaviour {
 
     private Vector3 ApplyGravity(Vector3 dir) {
         /* Handle gravity */
-        if(controller.isGrounded) {
+        if(_controller.isGrounded) {
             if(_verticalVelocity < -1.25f) {
                 _verticalVelocity = -1.25f;
             }
         } else {
-            _verticalVelocity -= gravity * Time.deltaTime;
+            _verticalVelocity -= _gravity * Time.deltaTime;
         }
         dir.y = _verticalVelocity;
 
@@ -192,25 +191,25 @@ public class PlayerController : MonoBehaviour {
         float smoothDuration = 0.2f;
 
         if(InputManager.GetInstance().IsInputPressed(InputType.Move)) {
-            speed = defaultSpeed;
-        } else if(speed > 0 && controller.isGrounded) {
-            speed -= (defaultSpeed / smoothDuration) * Time.deltaTime;
+            speed = _defaultSpeed;
+        } else if(speed > 0 && _controller.isGrounded) {
+            speed -= (_defaultSpeed / smoothDuration) * Time.deltaTime;
         }
 
         return speed < 0 ? 0 : speed;
     }
 
     public void Jump() {
-        if(controller.isGrounded && canMove) {
-            _verticalVelocity = jumpForce;
+        if(_controller.isGrounded && _canMove) {
+            _verticalVelocity = _jumpForce;
         }
     }
 
     public void LookForward(bool followCamera) {
         if(followCamera) {
-            finalAngle = Camera.main.transform.eulerAngles.y;
+            _finalAngle = Camera.main.transform.eulerAngles.y;
         }
 
-        transform.rotation = Quaternion.Euler(Vector3.up * finalAngle);
+        transform.rotation = Quaternion.Euler(Vector3.up * _finalAngle);
     }
 }

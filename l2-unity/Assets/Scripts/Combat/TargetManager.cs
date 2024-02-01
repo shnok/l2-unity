@@ -5,38 +5,38 @@ using UnityEngine;
 
 public class TargetManager : MonoBehaviour
 {
-    [SerializeField] private TargetData target;
+    [SerializeField] private TargetData _target;
 
-    private static TargetManager instance;
-    public static TargetManager GetInstance() {
-        return instance;
-    }
+    private static TargetManager _instance;
+    public static TargetManager Instance { get { return _instance; } }
 
     private void Awake() {
-        instance = this;
+        if(_instance == null) {
+            _instance = this;
+        }
     }
 
     private void Start() {
-        target = null;
+        _target = null;
     }
 
     public void SetTarget(ObjectData target) {
-        this.target = new TargetData(target);
+        this._target = new TargetData(target);
     }
 
     public TargetData GetTargetData() {
-        return target;
+        return _target;
     }
 
     public void ClearTarget() {
-        target = null;
+        _target = null;
     }
 
     void Update() {
         if(HasTarget()) {
-            target.distance = Vector3.Distance(
-                PlayerController.GetInstance().transform.position, 
-                target.data.objectTransform.position);
+            _target.Distance = Vector3.Distance(
+                PlayerController.Instance.transform.position, 
+                _target.Data.ObjectTransform.position);
         } else {
             ClearTarget();
         }
@@ -46,8 +46,7 @@ public class TargetManager : MonoBehaviour
         }
     }
 
-
     internal bool HasTarget() {
-        return (target != null && target.data != null && target.data.objectTransform != null);
+        return (_target != null && _target.Data != null && _target.Data.ObjectTransform != null);
     }
 }

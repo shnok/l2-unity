@@ -18,7 +18,7 @@ public class NetworkTransformReceive : MonoBehaviour {
     [SerializeField] private long _maximumAllowedDesyncTimeMs = 300;
 
     void Start() {
-        if(World.GetInstance().offlineMode) {
+        if(World.Instance.OfflineMode) {
             this.enabled = false;
             return;
         }
@@ -40,7 +40,7 @@ public class NetworkTransformReceive : MonoBehaviour {
     /* Set new theorical position */
     public void SetNewPosition(Vector3 pos) {
         /* adjust y to ground height */
-        pos.y = World.GetInstance().GetGroundHeight(pos);
+        pos.y = World.Instance.GetGroundHeight(pos);
 
         _serverPosition = pos;
 

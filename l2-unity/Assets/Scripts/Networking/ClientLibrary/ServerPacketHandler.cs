@@ -148,7 +148,7 @@ public class ServerPacketHandler
         NetworkIdentity identity = packet.Identity;
         identity.EntityType = EntityType.Player;
         PlayerStatus status = packet.Status;
-        _eventProcessor.QueueEvent(() => World.GetInstance().SpawnPlayer(identity, status));
+        _eventProcessor.QueueEvent(() => World.Instance.SpawnPlayer(identity, status));
     }
 
     private void OnUserInfoReceive(byte[] data) {
@@ -156,26 +156,26 @@ public class ServerPacketHandler
         NetworkIdentity identity = packet.Identity;
         identity.EntityType = EntityType.User;
         PlayerStatus status = packet.Status;
-        _eventProcessor.QueueEvent(() => World.GetInstance().SpawnUser(identity, status));
+        _eventProcessor.QueueEvent(() => World.Instance.SpawnUser(identity, status));
     }
 
     private void OnUpdatePosition(byte[] data) {
         UpdatePositionPacket packet = new UpdatePositionPacket(data);
         int id = packet.Id;
         Vector3 position = packet.Position;
-        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectPosition(id, position));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectPosition(id, position));
     }
 
     private void OnRemoveObject(byte[] data) {
         RemoveObjectPacket packet = new RemoveObjectPacket(data);
-        _eventProcessor.QueueEvent(() => World.GetInstance().RemoveObject(packet.Id));
+        _eventProcessor.QueueEvent(() => World.Instance.RemoveObject(packet.Id));
     }
 
     private void OnUpdateRotation(byte[] data) {
         UpdateRotationPacket packet = new UpdateRotationPacket(data);
         int id = packet.Id;
         float angle = packet.Angle;
-        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectRotation(id, angle));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectRotation(id, angle));
     }
 
     private void OnUpdateAnimation(byte[] data) {
@@ -183,12 +183,12 @@ public class ServerPacketHandler
         int id = packet.Id;
         int animId = packet.AnimId;
         float value = packet.Value;
-        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectAnimation(id, animId, value));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectAnimation(id, animId, value));
     }
 
     private void OnInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
-        _eventProcessor.QueueEvent(() => World.GetInstance().InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value)); 
+        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value)); 
     }
 
     private void OnNpcInfoReceive(byte[] data) {
@@ -197,20 +197,20 @@ public class ServerPacketHandler
         identity.EntityType = EntityType.NPC;
         NpcStatus status = packet.Status;
 
-        _eventProcessor.QueueEvent(() => World.GetInstance().SpawnNpc(identity, status));
+        _eventProcessor.QueueEvent(() => World.Instance.SpawnNpc(identity, status));
     }
 
     private void OnObjectMoveTo(byte[] data) {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
         int id = packet.Id;
         Vector3 position = packet.Pos;
-        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectDestination(id, position));
-        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectMoveSpeed(id, packet.Speed));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(id, position));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectMoveSpeed(id, packet.Speed));
     }
 
     private void OnUpdateMoveDirection(byte[] data) {
         UpdateMoveDirectionPacket packet = new UpdateMoveDirectionPacket(data);
-        _eventProcessor.QueueEvent(() => World.GetInstance().UpdateObjectMoveDirection(packet.Id, packet.Speed, packet.Direction));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectMoveDirection(packet.Id, packet.Speed, packet.Direction));
     }
 
     private void OnUpdateGameTime(byte[] data) {

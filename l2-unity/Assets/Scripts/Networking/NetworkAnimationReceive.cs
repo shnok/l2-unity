@@ -7,7 +7,7 @@ public class NetworkAnimationReceive : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private bool _resetStateOnReceive = false;
     void Start() {
-        if(World.GetInstance().offlineMode) {
+        if(World.Instance.OfflineMode) {
             this.enabled = false;
             return;
         }

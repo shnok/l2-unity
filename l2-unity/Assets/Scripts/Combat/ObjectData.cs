@@ -4,17 +4,24 @@ using UnityEngine;
 
 [System.Serializable]
 public class ObjectData {
-    public string objectLayerName;
-    public int objectLayer;
-    public string objectTag;
-    public string objectScene;
-    public Transform objectTransform;
+    [SerializeField] private string _objectLayerName;
+    [SerializeField] private int _objectLayer;
+    [SerializeField] private string _objectTag;
+    [SerializeField] private string _objectScene;
+    [SerializeField] private Transform _objectTransform;
+
+    public string ObjectLayerName { get { return _objectLayerName; } }
+    public int ObjectLayer { get { return _objectLayer; } }
+    public string ObjectTag { get { return _objectTag; } }
+    public string ObjectScene { get { return _objectScene; } }
+    public Transform ObjectTransform { get { return _objectTransform; } }
+
 
     public ObjectData(GameObject gameObject) {
-        objectTransform = gameObject.transform;
-        objectTag = gameObject.tag;
-        objectLayerName = LayerMask.LayerToName(gameObject.layer);
-        objectLayer = gameObject.layer;
-        objectScene = gameObject.scene.name;
+        _objectTransform = gameObject.transform;
+        _objectTag = gameObject.tag;
+        _objectLayerName = LayerMask.LayerToName(gameObject.layer);
+        _objectLayer = gameObject.layer;
+        _objectScene = gameObject.scene.name;
     }
 }

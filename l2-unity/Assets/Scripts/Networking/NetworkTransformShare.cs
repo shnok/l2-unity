@@ -6,7 +6,7 @@ public class NetworkTransformShare : MonoBehaviour {
     [SerializeField] public Vector3 _serverPosition;
 
     void Start() {
-        if(World.GetInstance().offlineMode) {
+        if(World.Instance.OfflineMode) {
             enabled = false;
             return;
         }

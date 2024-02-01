@@ -4,17 +4,15 @@ using UnityEngine;
 
 
 public class WorldCombat : MonoBehaviour {
-    public GameObject impactParticle;
+    [SerializeField] private GameObject _impactParticle;
 
     private static WorldCombat _instance;
+    public static WorldCombat Instance { get { return _instance; } }
 
     void Awake() {
-        if(_instance == null)
+        if(_instance == null) {
             _instance = this;
-    }
-
-    public static WorldCombat GetInstance() {
-        return _instance;
+        }
     }
 
     public void Attack(Transform target, AttackType attackType) {
@@ -31,14 +29,13 @@ public class WorldCombat : MonoBehaviour {
         // Instantiate damage text
     }
 
-
     private void ParticleImpact(Transform attacker, Transform target) {
         var heading = attacker.position - target.position;
         float angle = Vector3.Angle(heading, target.forward);
         Vector3 cross = Vector3.Cross(heading, target.forward);
         if(cross.y >= 0) angle = -angle;
         Vector3 direction = Quaternion.Euler(0, angle, 0) * target.forward;
-        GameObject go = (GameObject)Instantiate(impactParticle, target.position + direction * 0.3f + Vector3.up * 0.4f, Quaternion.identity);
+        GameObject go = (GameObject)Instantiate(_impactParticle, target.position + direction * 0.3f + Vector3.up * 0.4f, Quaternion.identity);
         go.transform.LookAt(attacker);
         go.transform.eulerAngles = new Vector3(0, go.transform.eulerAngles.y, 0);
     }

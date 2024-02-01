@@ -191,8 +191,8 @@ public class ChatWindow : MonoBehaviour {
 
  
     public void SendChatMessage(string text) {
-        if(World.GetInstance().offlineMode) {
-            Message message = new ChatMessage(PlayerEntity.GetInstance().Identity.Name, text);
+        if(World.Instance.OfflineMode) {
+            Message message = new ChatMessage(PlayerEntity.Instance.Identity.Name, text);
             ReceiveChatMessage(message);
         } else {
             DefaultClient.Instance.SendChatMessage(text);

@@ -4,44 +4,47 @@ using UnityEditor;
 using UnityEngine;
 
 public class World : MonoBehaviour {
-    public GameObject player;
-    public GameObject playerPlaceholder;
-    public GameObject userPlaceholder;
-    public GameObject npcPlaceHolder;
-    public GameObject monsterPlaceholder;
+    [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _playerPlaceholder;
+    [SerializeField] private GameObject _userPlaceholder;
+    [SerializeField] private GameObject _npcPlaceHolder;
+    [SerializeField] private GameObject _monsterPlaceholder;
 
-    public GameObject monstersContainer;
-    public GameObject npcsContainer;
-    public GameObject usersContainer;
+    [SerializeField] private GameObject _monstersContainer;
+    [SerializeField] private GameObject _npcsContainer;
+    [SerializeField] private GameObject _usersContainer;
 
-    public Dictionary<int, Entity> players = new Dictionary<int, Entity>();
-    public Dictionary<int, Entity> npcs = new Dictionary<int, Entity>();
-    public Dictionary<int, Entity> objects = new Dictionary<int, Entity>();
+    private Dictionary<int, Entity> _players = new Dictionary<int, Entity>();
+    private Dictionary<int, Entity> _npcs = new Dictionary<int, Entity>();
+    private Dictionary<int, Entity> _objects = new Dictionary<int, Entity>();
 
     [Header("Layer Masks")]
-    public LayerMask entityMask;
-    public LayerMask entityClickAreaMask;
-    public LayerMask obstacleMask;
-    public LayerMask clickThroughMask;
-    public LayerMask groundMask;
+    [SerializeField] private LayerMask _entityMask;
+    [SerializeField] private LayerMask _entityClickAreaMask;
+    [SerializeField] private LayerMask _obstacleMask;
+    [SerializeField] private LayerMask _clickThroughMask;
+    [SerializeField] private LayerMask _groundMask;
 
-    public bool offlineMode = false;
+    [SerializeField] private bool _offlineMode = false;
 
-    public static World instance;
-    public static World GetInstance() {
-        return instance;
-    }
+    public bool OfflineMode { get { return _offlineMode; } }
+    public LayerMask GroundMask { get { return _groundMask; } }
+
+    private static World _instance;
+    public static World Instance { get { return _instance; } }
 
     void Awake() {
-        instance = this;
+        if(_instance == null) {
+            _instance = this;
+        }
 
-        playerPlaceholder = Resources.Load<GameObject>("Prefab/Player");
-        userPlaceholder = Resources.Load<GameObject>("Prefab/User");
-        npcPlaceHolder = Resources.Load<GameObject>("Prefab/Npc");
-        monsterPlaceholder = Resources.Load<GameObject>("Data/Animations/LineageMonsters/gremlin/gremlin_prefab");
-        npcsContainer = GameObject.Find("Npcs");
-        monstersContainer = GameObject.Find("Monsters");
-        usersContainer = GameObject.Find("Users");
+        _playerPlaceholder = Resources.Load<GameObject>("Prefab/Player");
+        _userPlaceholder = Resources.Load<GameObject>("Prefab/User");
+        _npcPlaceHolder = Resources.Load<GameObject>("Prefab/Npc");
+        _monsterPlaceholder = Resources.Load<GameObject>("Data/Animations/LineageMonsters/gremlin/gremlin_prefab");
+        _npcsContainer = GameObject.Find("Npcs");
+        _monstersContainer = GameObject.Find("Monsters");
+        _usersContainer = GameObject.Find("Users");
     }
 
     void Start() {
@@ -49,27 +52,33 @@ public class World : MonoBehaviour {
     }
 
     void UpdateMasks() {
-        NameplatesManager.GetInstance().SetMask(entityMask);
-        Geodata.Instance.SetMask(obstacleMask);
-        ClickManager.GetInstance().SetMasks(entityClickAreaMask, clickThroughMask);
-        CameraController.Instance.SetMask(obstacleMask);
+        NameplatesManager.GetInstance().SetMask(_entityMask);
+        Geodata.Instance.SetMask(_obstacleMask);
+        ClickManager.Instance.SetMasks(_entityClickAreaMask, _clickThroughMask);
+        CameraController.Instance.SetMask(_obstacleMask);
+    }
+
+    public void ClearEntities() {
+        _objects.Clear();
+        _players.Clear();
+        _npcs.Clear();
     }
 
     public void RemoveObject(int id) {
         Entity transform;
-        if(objects.TryGetValue(id, out transform)) {
-            players.Remove(id);
-            npcs.Remove(id);
-            objects.Remove(id);
+        if(_objects.TryGetValue(id, out transform)) {
+            _players.Remove(id);
+            _npcs.Remove(id);
+            _objects.Remove(id);
 
             Object.Destroy(transform.gameObject);
         }
     }
 
     public void SpawnPlayerOfflineMode() {
-        if(World.GetInstance().offlineMode) {
-            PlayerEntity entity = playerPlaceholder.GetComponent<PlayerEntity>();
-            entity.Identity.Position = playerPlaceholder.transform.position;
+        if(World.Instance.OfflineMode) {
+            PlayerEntity entity = _playerPlaceholder.GetComponent<PlayerEntity>();
+            entity.Identity.Position = _playerPlaceholder.transform.position;
             SpawnPlayer(entity.Identity, entity.Status);
         }
     }
@@ -78,24 +87,24 @@ public class World : MonoBehaviour {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.Player;
         identity.CollisionHeight = 0.45f;
-        GameObject go = (GameObject)Instantiate(playerPlaceholder, identity.Position, Quaternion.identity);
+        GameObject go = (GameObject)Instantiate(_playerPlaceholder, identity.Position, Quaternion.identity);
         PlayerEntity player = go.GetComponent<PlayerEntity>();
         player.Status = status;
         player.Identity = identity;
 
-        players.Add(identity.Id, player);
-        objects.Add(identity.Id, player);
+        _players.Add(identity.Id, player);
+        _objects.Add(identity.Id, player);
 
         go.GetComponent<PlayerController>().enabled = true;
 
-        if(!World.GetInstance().offlineMode) {
+        if(!World.Instance.OfflineMode) {
             go.GetComponent<NetworkTransformShare>().enabled = true;
         }
           
         go.transform.name = identity.Name;
         go.SetActive(true);
 
-        go.transform.SetParent(usersContainer.transform);
+        go.transform.SetParent(_usersContainer.transform);
 
         CameraController.Instance.SetTarget(go);
         CameraController.Instance.enabled = true;
@@ -107,20 +116,20 @@ public class World : MonoBehaviour {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.User;
         identity.CollisionHeight = 0.45f;
-        GameObject go = (GameObject)Instantiate(userPlaceholder, identity.Position, Quaternion.identity);
+        GameObject go = (GameObject)Instantiate(_userPlaceholder, identity.Position, Quaternion.identity);
         UserEntity player = go.GetComponent<UserEntity>();
         player.Status = status;
         player.Identity = identity;
 
-        players.Add(identity.Id, player);
-        objects.Add(identity.Id, player);
+        _players.Add(identity.Id, player);
+        _objects.Add(identity.Id, player);
 
         go.GetComponent<NetworkTransformReceive>().enabled = true;
 
         go.transform.name = identity.Name;
         go.SetActive(true);
 
-        go.transform.SetParent(usersContainer.transform);
+        go.transform.SetParent(_usersContainer.transform);
     }
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status) {
@@ -132,12 +141,12 @@ public class World : MonoBehaviour {
         if(identity.EntityType == EntityType.NPC) {
             go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageNPCs/", prefabName, prefabName + "_prefab"));
             if(go == null) {
-                go = npcPlaceHolder;
+                go = _npcPlaceHolder;
             }
         } else {
             go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageMonsters/", prefabName, prefabName + "_prefab"));
             if(go == null) {
-                go = monsterPlaceholder;
+                go = _monsterPlaceholder;
             }
             if(string.IsNullOrEmpty(identity.Title)) {
                 identity.Title = "Lvl: " + status.Level;
@@ -150,23 +159,23 @@ public class World : MonoBehaviour {
         npc.Status = status;
         npc.Identity = identity;
 
-        npcs.Add(identity.Id, npc);
-        objects.Add(identity.Id, npc);
+        _npcs.Add(identity.Id, npc);
+        _objects.Add(identity.Id, npc);
 
         npcGo.transform.eulerAngles = new Vector3(npcGo.transform.eulerAngles.x, identity.Heading, npcGo.transform.eulerAngles.z);
 
         npcGo.SetActive(true);
 
         if(identity.EntityType == EntityType.NPC) {
-            npcGo.transform.SetParent(npcsContainer.transform);
+            npcGo.transform.SetParent(_npcsContainer.transform);
         } else {
-            npcGo.transform.SetParent(monstersContainer.transform);
+            npcGo.transform.SetParent(_monstersContainer.transform);
         }
     }
 
     public float GetGroundHeight(Vector3 pos) {
         RaycastHit hit;
-        if(Physics.Raycast(pos + Vector3.up * 5f, Vector3.down, out hit, 5.5f, groundMask)) {
+        if(Physics.Raycast(pos + Vector3.up * 5f, Vector3.down, out hit, 5.5f, _groundMask)) {
             return hit.point.y;
         }
 
@@ -175,14 +184,14 @@ public class World : MonoBehaviour {
 
     public void UpdateObjectPosition(int id, Vector3 position) {
         Entity e;
-        if(objects.TryGetValue(id, out e)) {
+        if(_objects.TryGetValue(id, out e)) {
             e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
         }
     }
 
     public void UpdateObjectDestination(int id, Vector3 position) {
         Entity e;
-        if(objects.TryGetValue(id, out e)) {
+        if(_objects.TryGetValue(id, out e)) {
 
             var npcEntity = e.GetComponent<NpcEntity>();
             var playerEntity = e.GetComponent<PlayerEntity>();
@@ -204,14 +213,14 @@ public class World : MonoBehaviour {
 
     public void UpdateObjectRotation(int id, float angle) {
         Entity e;
-        if(objects.TryGetValue(id, out e)) {
+        if(_objects.TryGetValue(id, out e)) {
             e.GetComponent<NetworkTransformReceive>().RotateTo(angle);
         }
     }
 
     public void UpdateObjectAnimation(int id, int animId, float value) {
         Entity e;
-        if(objects.TryGetValue(id, out e)) {
+        if(_objects.TryGetValue(id, out e)) {
             e.GetComponent<NetworkAnimationReceive>().SetAnimationProperty(animId, value);
         }
     }
@@ -219,24 +228,24 @@ public class World : MonoBehaviour {
     public void InflictDamageTo(int sender, int target, byte attackId, int value) {
         Entity senderEntity;
         Entity targetEntity;
-        if(objects.TryGetValue(sender, out senderEntity)) {
-            if(objects.TryGetValue(target, out targetEntity)) {
+        if(_objects.TryGetValue(sender, out senderEntity)) {
+            if(_objects.TryGetValue(target, out targetEntity)) {
                 //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
-                WorldCombat.GetInstance().ApplyDamage(senderEntity.transform, targetEntity.transform, attackId, value);
+                WorldCombat.Instance.ApplyDamage(senderEntity.transform, targetEntity.transform, attackId, value);
             }
         }
     }
 
     public void UpdateObjectMoveDirection(int id, float speed, Vector3 direction) {
         Entity e;
-        if(objects.TryGetValue(id, out e)) {
+        if(_objects.TryGetValue(id, out e)) {
             e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(speed, direction);
         }
     }
 
     public void UpdateObjectMoveSpeed(int id, float speed) {
         Entity e;
-        if(objects.TryGetValue(id, out e)) {
+        if(_objects.TryGetValue(id, out e)) {
             if(e is NpcEntity) {
                 ((NpcEntity)e).Status.MoveSpeed = speed;
             } else if(e is PlayerEntity) {
