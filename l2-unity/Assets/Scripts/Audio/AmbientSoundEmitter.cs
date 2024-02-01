@@ -4,47 +4,59 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AmbientSoundEmitter : EventHandler {
-    public EventReference EventReference;
-    protected FMOD.Studio.EventDescription eventDescription;
-    protected FMOD.Studio.EventInstance instance;
-    public FMOD.Studio.EventDescription EventDescription { get { return eventDescription; } }
-    public FMOD.Studio.EventInstance EventInstance { get { return instance; } }
+    private FMOD.Studio.EventDescription _eventDescription;
+    private FMOD.Studio.EventInstance _instance;
 
-    public EmitterGameEvent PlayEvent = EmitterGameEvent.None;
-    public EmitterGameEvent StopEvent = EmitterGameEvent.None;
-    public AmbientSoundType ambientSoundType;
-    public bool AllowFadeout = true;
-    public bool OverrideAttenuation = false;
-    private float clipLengthSeconds = 0;
-    public float loopDelaySeconds = 1;
-    public float playChancePercent = 100;
-    public float soundPitch = 0;
-    public bool loop = true;
-    public float OverrideMinDistance = -1.0f;
-    public float OverrideMaxDistance = -1.0f;
+    [SerializeField] private EventReference _eventReference;
+    [SerializeField] private EmitterGameEvent _playEvent = EmitterGameEvent.None;
+    [SerializeField] private EmitterGameEvent _stopEvent = EmitterGameEvent.None;
+    [SerializeField] private AmbientSoundType _ambientSoundType;
+    [SerializeField] private bool _allowFadeout = true;
+    [SerializeField] private bool _overrideAttenuation = false;
+    [SerializeField] private float _loopDelaySeconds = 1;
+    [SerializeField] private float _playChancePercent = 100;
+    [SerializeField] private float _soundPitch = 0;
+    [SerializeField] private bool _loop = true;
+    [SerializeField] private float _overrideMinDistance = -1.0f;
+    [SerializeField] private float _overrideMaxDistance = -1.0f;
+
+    public EventReference EventReference { get { return _eventReference; } set { _eventReference = value; } }
+    public EmitterGameEvent PlayEvent { get { return _playEvent; } set { _playEvent = value; } }
+    public EmitterGameEvent StopEvent { get { return _stopEvent; } set { _stopEvent = value; } }
+    public AmbientSoundType AmbientSoundType { get { return _ambientSoundType; } set { _ambientSoundType = value; } }
+    public bool AllowFadeout { get { return _allowFadeout; } set { _allowFadeout = value; } }
+    public bool OverrideAttenuation { get { return _overrideAttenuation; } set { _overrideAttenuation = value; } }
+    public float LoopDelaySeconds { get { return _loopDelaySeconds; } set { _loopDelaySeconds = value; } }
+    public float PlayChancePercent { get { return _playChancePercent; } set { _playChancePercent = value; } }
+    public float SoundPitch { get { return _soundPitch; } set { _soundPitch = value; } }
+    public bool Loop { get { return _loop; } set { _loop = value; } }
+    public float OverrideMinDistance { get { return _overrideMinDistance; } set { _overrideMinDistance = value; } }
+    public float OverrideMaxDistance { get { return _overrideMaxDistance; } set { _overrideMaxDistance = value; } }
+
+    private float _clipLengthSeconds = 0;
 
     private void Awake() {
-        if(!eventDescription.isValid()) {
+        if(!_eventDescription.isValid()) {
             Lookup();
         }
 
         int lengthMs = 0;
-        eventDescription.getLength(out lengthMs);
-        clipLengthSeconds = lengthMs / 1000f;
+        _eventDescription.getLength(out lengthMs);
+        _clipLengthSeconds = lengthMs / 1000f;
     }
 
     private float MaxDistance {
         get {
-            if(OverrideAttenuation) {
-                return OverrideMaxDistance;
+            if(_overrideAttenuation) {
+                return _overrideMaxDistance;
             }
 
-            if(!eventDescription.isValid()) {
+            if(!_eventDescription.isValid()) {
                 Lookup();
             }
 
             float minDistance, maxDistance;
-            eventDescription.getMinMaxDistance(out minDistance, out maxDistance);
+            _eventDescription.getMinMaxDistance(out minDistance, out maxDistance);
             return maxDistance;
         }
     }
@@ -63,19 +75,19 @@ public class AmbientSoundEmitter : EventHandler {
     }
 
     private void Lookup() {
-        eventDescription = RuntimeManager.GetEventDescription(EventReference);
+        _eventDescription = RuntimeManager.GetEventDescription(_eventReference);
     }
 
     public void Play() {
-        if(EventReference.IsNull) {
+        if(_eventReference.IsNull) {
             return;
         }
 
-        if(!eventDescription.isValid()) {
+        if(!_eventDescription.isValid()) {
             Lookup();
         }
 
-        if(loop) {
+        if(_loop) {
             StartCoroutine("StartPlayLoop");
         }
 
@@ -84,7 +96,7 @@ public class AmbientSoundEmitter : EventHandler {
         }
 
         bool is3D;
-        eventDescription.is3D(out is3D);
+        _eventDescription.is3D(out is3D);
 
         if(is3D && Settings.Instance.StopEventsOutsideMaxDistance) {
             UpdatePlayingStatus(true);
@@ -94,19 +106,19 @@ public class AmbientSoundEmitter : EventHandler {
     }
 
     IEnumerator StartPlayLoop() {
-        yield return new WaitForSeconds(clipLengthSeconds);
-        yield return new WaitForSeconds(loopDelaySeconds);
+        yield return new WaitForSeconds(_clipLengthSeconds);
+        yield return new WaitForSeconds(_loopDelaySeconds);
         Play();
     }
 
     private bool ShouldPlayEvent() {
-        if(ambientSoundType == AmbientSoundType.AST1_Day && WorldClock.Instance.IsNightTime()) {
+        if(_ambientSoundType == AmbientSoundType.AST1_Day && WorldClock.Instance.IsNightTime()) {
             return false;
         }
-        if(ambientSoundType == AmbientSoundType.AST1_Night && !WorldClock.Instance.IsNightTime()) {
+        if(_ambientSoundType == AmbientSoundType.AST1_Night && !WorldClock.Instance.IsNightTime()) {
             return false;
         }
-        if(Random.Range(1, 100) <= playChancePercent) {
+        if(Random.Range(1, 100) <= _playChancePercent) {
             return true;
         }
 
@@ -114,35 +126,35 @@ public class AmbientSoundEmitter : EventHandler {
     }
 
     private void PlayInstance() {
-        if(!instance.isValid()) {
-            instance.clearHandle();
+        if(!_instance.isValid()) {
+            _instance.clearHandle();
         }
 
         // Let previous oneshot instances play out
-        if(instance.isValid()) {
-            instance.release();
-            instance.clearHandle();
+        if(_instance.isValid()) {
+            _instance.release();
+            _instance.clearHandle();
         }
 
         bool is3D;
-        eventDescription.is3D(out is3D);
+        _eventDescription.is3D(out is3D);
 
-        if(!instance.isValid()) {
-            eventDescription.createInstance(out instance);
+        if(!_instance.isValid()) {
+            _eventDescription.createInstance(out _instance);
 
             // Only want to update if we need to set 3D attributes
             if(is3D) {
-                instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
+                _instance.set3DAttributes(RuntimeUtils.To3DAttributes(gameObject));
             }
         }
 
-        if(is3D && OverrideAttenuation) {
-            instance.setProperty(FMOD.Studio.EVENT_PROPERTY.MINIMUM_DISTANCE, OverrideMinDistance);
-            instance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, OverrideMaxDistance);
+        if(is3D && _overrideAttenuation) {
+            _instance.setProperty(FMOD.Studio.EVENT_PROPERTY.MINIMUM_DISTANCE, _overrideMinDistance);
+            _instance.setProperty(FMOD.Studio.EVENT_PROPERTY.MAXIMUM_DISTANCE, _overrideMaxDistance);
         }
 
-        instance.setPitch(soundPitch);
-        instance.start();
+        _instance.setPitch(_soundPitch);
+        _instance.start();
     }
 
     public void Stop() {
@@ -151,29 +163,29 @@ public class AmbientSoundEmitter : EventHandler {
 
     private void StopInstance() {
         StopCoroutine("StartPlayLoop");
-        if(instance.isValid()) {
-            instance.stop(AllowFadeout ? FMOD.Studio.STOP_MODE.ALLOWFADEOUT : FMOD.Studio.STOP_MODE.IMMEDIATE);
-            instance.release();
-            if(!AllowFadeout) {
-                instance.clearHandle();
+        if(_instance.isValid()) {
+            _instance.stop(_allowFadeout ? FMOD.Studio.STOP_MODE.ALLOWFADEOUT : FMOD.Studio.STOP_MODE.IMMEDIATE);
+            _instance.release();
+            if(!_allowFadeout) {
+                _instance.clearHandle();
             }
         }
     }
 
     public bool IsPlaying() {
-        if(instance.isValid()) {
+        if(_instance.isValid()) {
             FMOD.Studio.PLAYBACK_STATE playbackState;
-            instance.getPlaybackState(out playbackState);
+            _instance.getPlaybackState(out playbackState);
             return (playbackState != FMOD.Studio.PLAYBACK_STATE.STOPPED);
         }
         return false;
     }
 
     protected override void HandleGameEvent(EmitterGameEvent gameEvent) {
-        if(PlayEvent == gameEvent) {
+        if(_playEvent == gameEvent) {
             Play();
         }
-        if(StopEvent == gameEvent) {
+        if(_stopEvent == gameEvent) {
             Stop();
         }
     }

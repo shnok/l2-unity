@@ -4,36 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectMoveToPacket : ServerPacket {
-    private int id;
-    private Vector3 pos = new Vector3();
-    private float speed;
+    public int Id { get; private set; }
+    public Vector3 Pos { get; private set; }
+    public float Speed { get; private set; }
 
-    public ObjectMoveToPacket() { }
     public ObjectMoveToPacket(byte[] d) : base(d) {
         Parse();
     }
 
     public override void Parse() {
         try {
-            id = ReadI();
-            pos.x = ReadF();
-            pos.y = ReadF();
-            pos.z = ReadF();
-            speed = ReadF();
+            Id = ReadI();
+            Vector3 newPos = new Vector3();
+            newPos.x = ReadF();
+            newPos.y = ReadF();
+            newPos.z = ReadF();
+            Pos = newPos;
+            Speed = ReadF();
         } catch(Exception e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public Vector3 getPosition() {
-        return pos;
-    }
-
-    public float getSpeed() {
-        return speed;
     }
 }

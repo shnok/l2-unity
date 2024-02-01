@@ -6,37 +6,38 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public string defaultScene = "Game";
-    public List<string> mapList = new List<string>();
-    public bool singleScene = true;
-    int totalLoadedScenes = 0;
+    [SerializeField] private string _defaultScene = "Game";
+    [SerializeField] private List<string> _mapList = new List<string>();
+    private int _totalLoadedScenes = 0;
 
-    public static SceneLoader instance;
-    public static SceneLoader GetInstance() {
-        return instance;
-    }
+    public static SceneLoader _instance;
+    public static SceneLoader Instance { get { return _instance; } }
+
     void Awake() {
-        instance = this;
+        if(_instance == null) {
+            _instance = this;
+        }
     }
+
     void Start() {
         LoadDefaultScene();
     }
 
     public void LoadDefaultScene() {
-        Debug.Log("Loaded initial scene " + defaultScene + ". Load count: " + ++totalLoadedScenes);
-        if(SceneManager.GetActiveScene().name != defaultScene) {
-            Debug.Log("Loading default scene " + defaultScene);
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(defaultScene);
-            asyncLoad.completed += (AsyncOperation operation) => OnSceneSwitch(operation, defaultScene);
+        Debug.Log("Loaded initial scene " + _defaultScene + ". Load count: " + ++_totalLoadedScenes);
+        if(SceneManager.GetActiveScene().name != _defaultScene) {
+            Debug.Log("Loading default scene " + _defaultScene);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_defaultScene);
+            asyncLoad.completed += (AsyncOperation operation) => OnSceneSwitch(operation, _defaultScene);
         } else {
-            Debug.Log("Skipping default scene load " + defaultScene);
-            OnDefaultSceneLoad(null, defaultScene);
+            Debug.Log("Skipping default scene load " + _defaultScene);
+            OnDefaultSceneLoad(null, _defaultScene);
         }
     }
 
     private void OnDefaultSceneLoad(AsyncOperation operation, string sceneName) {
-        if(!World.GetInstance().offlineMode) {
-            DefaultClient.GetInstance().Connect(StringUtils.GenerateRandomString());
+        if(!World.Instance.OfflineMode) {
+            DefaultClient.Instance.Connect(StringUtils.GenerateRandomString());
         } else {
             SwitchScene("Game");
         }
@@ -54,10 +55,10 @@ public class SceneLoader : MonoBehaviour
     }
 
     private void OnSceneSwitch(AsyncOperation operation, string sceneName) {
-        Debug.Log("Switched to scene " + sceneName + ". Load count: " + totalLoadedScenes);
+        Debug.Log("Switched to scene " + sceneName + ". Load count: " + _totalLoadedScenes);
         if(sceneName == "Game") {
-            for(int i = 0; i < mapList.Count; i++) {
-                LoadScene(mapList[i], true);
+            for(int i = 0; i < _mapList.Count; i++) {
+                LoadScene(_mapList[i], true);
             }
         }
     }
@@ -82,9 +83,9 @@ public class SceneLoader : MonoBehaviour
     }
 
     private void OnInitialWorldload(AsyncOperation operation, string sceneName) {
-        Debug.Log("Initial scene " + sceneName + " loaded. " + "Load count: " + ++totalLoadedScenes);
+        Debug.Log("Initial scene " + sceneName + " loaded. " + "Load count: " + ++_totalLoadedScenes);
 
-        if(totalLoadedScenes > mapList.Count) {
+        if(_totalLoadedScenes > _mapList.Count) {
             StartCoroutine(StartGame());
         }
     }
@@ -93,16 +94,16 @@ public class SceneLoader : MonoBehaviour
         // TODO wait for every scripts to be loaded.
         yield return new WaitForSeconds(1f);
 
-        if(!World.GetInstance().offlineMode) {
-            DefaultClient.GetInstance().OnWorldSceneLoaded();
+        if(!World.Instance.OfflineMode) {
+            DefaultClient.Instance.OnWorldSceneLoaded();
         } else {
             Debug.Log("Spawn player");
-            World.GetInstance().SpawnPlayerOfflineMode();
+            World.Instance.SpawnPlayerOfflineMode();
         }
     }
 
     private void OnSceneLoad(AsyncOperation operation, string sceneName) {
-        Debug.Log("Scene " + sceneName + " loaded. " + "Load count: " + ++totalLoadedScenes);
+        Debug.Log("Scene " + sceneName + " loaded. " + "Load count: " + ++_totalLoadedScenes);
     }
 
     public void LoadMap(string mapToLoad) {

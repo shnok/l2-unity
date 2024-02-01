@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NetworkCharacterControllerShare : MonoBehaviour {
-    private CharacterController characterController;
-    [SerializeField] private bool sharing = false;
-    [SerializeField] private float sharingLoopDelaySec = 0.1f;
-    [SerializeField] private float lastSpeed; 
-    [SerializeField] private Vector3 lastDirection;
+    private CharacterController _characterController;
+    [SerializeField] private bool _sharing = false;
+    [SerializeField] private float _sharingLoopDelaySec = 0.1f;
+    [SerializeField] private float _lastSpeed; 
+    [SerializeField] private Vector3 _lastDirection;
 
-    void Start()
-    {
-        characterController = GetComponent<CharacterController>();
-        if(characterController == null || World.GetInstance().offlineMode) {
+    void Start() {
+        _characterController = GetComponent<CharacterController>();
+        if(_characterController == null || World.Instance.OfflineMode) {
             this.enabled = false;
             return;
         }
@@ -21,22 +20,22 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
     }
 
     IEnumerator StartSharingMoveDirection() {
-        sharing = true;
-        while(sharing) {
-            yield return new WaitForSeconds(sharingLoopDelaySec);
+        _sharing = true;
+        while(_sharing) {
+            yield return new WaitForSeconds(_sharingLoopDelaySec);
 
-            float speed = characterController.velocity.magnitude;
-            Vector3 direction = characterController.velocity.normalized;
+            float speed = _characterController.velocity.magnitude;
+            Vector3 direction = _characterController.velocity.normalized;
 
-            if(lastSpeed != characterController.velocity.magnitude || lastDirection != direction) {
-                lastSpeed = characterController.velocity.magnitude;
-                lastDirection = direction;
+            if(_lastSpeed != _characterController.velocity.magnitude || _lastDirection != direction) {
+                _lastSpeed = _characterController.velocity.magnitude;
+                _lastDirection = direction;
                 ShareMoveDirection(speed, direction);
             }
         }
     } 
 
     public void ShareMoveDirection(float speed, Vector3 moveDirection) {
-        ClientPacketHandler.GetInstance().UpdateMoveDirection(speed, moveDirection);
+        ClientPacketHandler.Instance.UpdateMoveDirection(speed, moveDirection);
     }
 }

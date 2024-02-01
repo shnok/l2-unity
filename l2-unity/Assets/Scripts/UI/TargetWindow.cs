@@ -58,10 +58,10 @@ public class TargetWindow : MonoBehaviour {
 
         var closeBtnHandle = targetWindowEle.Q<Button>("CloseBtn");
         closeBtnHandle.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.GetInstance().PlayUISound("click_01");
+            AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
         closeBtnHandle.RegisterCallback<MouseUpEvent>(evt => {
-            TargetManager.GetInstance().ClearTarget();
+            TargetManager.Instance.ClearTarget();
         });
 
         horizontalResizeHandle.AddManipulator(horizontalResize);
@@ -97,22 +97,22 @@ public class TargetWindow : MonoBehaviour {
             return;
         }
 
-        if(TargetManager.GetInstance().HasTarget()) {
+        if(TargetManager.Instance.HasTarget()) {
             targetWindowEle.style.display = DisplayStyle.Flex;
 
-            TargetData targetData = TargetManager.GetInstance().GetTargetData();
+            TargetData targetData = TargetManager.Instance.GetTargetData();
             if(nameLabel != null) {
-                nameLabel.text = targetData.identity.Name;
+                nameLabel.text = targetData.Identity.Name;
             }
             if(HPBarBG != null && HPBar != null) {
-                float hpRatio = (float)targetData.status.Hp / targetData.status.MaxHp;
+                float hpRatio = (float)targetData.Status.Hp / targetData.Status.MaxHp;
                 float bgWidth = HPBarBG.resolvedStyle.width;
                 float barWidth = bgWidth * hpRatio;
                 HPBar.style.width = barWidth;
             }
         } else {
             if(targetWindowEle.resolvedStyle.display == DisplayStyle.Flex) {
-                AudioManager.GetInstance().PlayUISound("window_close");
+                AudioManager.Instance.PlayUISound("window_close");
                 targetWindowEle.style.display = DisplayStyle.None;
             }
         }

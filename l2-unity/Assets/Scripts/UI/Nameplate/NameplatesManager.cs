@@ -56,8 +56,8 @@ public class NameplatesManager : MonoBehaviour
 
     private void FixedUpdate() {
         if(playerTransform == null) {
-            if(PlayerEntity.GetInstance() != null && PlayerEntity.GetInstance().transform != null) {
-                playerTransform = PlayerEntity.GetInstance().transform;
+            if(PlayerEntity.Instance != null && PlayerEntity.Instance.transform != null) {
+                playerTransform = PlayerEntity.Instance.transform;
             } else {
                 return;
             }
@@ -80,10 +80,10 @@ public class NameplatesManager : MonoBehaviour
     }
 
     private void CheckMouseOver() {
-        ObjectData hoverObjectData = ClickManager.GetInstance().hoverObjectData;
+        ObjectData hoverObjectData = ClickManager.Instance.HoverObjectData;
         if(hoverObjectData != null) {
-            if(entityMask == (entityMask | (1 << hoverObjectData.objectLayer))) {
-                Entity e = hoverObjectData.objectTransform.GetComponent<Entity>();
+            if(entityMask == (entityMask | (1 << hoverObjectData.ObjectLayer))) {
+                Entity e = hoverObjectData.ObjectTransform.GetComponent<Entity>();
                 if(e != null) {
                     if(!nameplates.ContainsKey(e.Identity.Id)) {
                         CreateNameplate(e);
@@ -94,11 +94,11 @@ public class NameplatesManager : MonoBehaviour
     }
 
     private void CheckTarget() {
-        if(!TargetManager.GetInstance().HasTarget()) {
+        if(!TargetManager.Instance.HasTarget()) {
             return;
         }
 
-        Entity e = TargetManager.GetInstance().GetTargetData().data.objectTransform.GetComponent<Entity>();
+        Entity e = TargetManager.Instance.GetTargetData().Data.ObjectTransform.GetComponent<Entity>();
         if(e != null) {
             if(!nameplates.ContainsKey(e.Identity.Id)) {
                 CreateNameplate(e);
@@ -174,14 +174,14 @@ public class NameplatesManager : MonoBehaviour
     }
 
     private void UpdateNameplateStyle(Nameplate nameplate) {
-        if(TargetManager.GetInstance().HasTarget() && TargetManager.GetInstance().GetTargetData().data.objectTransform == nameplate.target) {
+        if(TargetManager.Instance.HasTarget() && TargetManager.Instance.GetTargetData().Data.ObjectTransform == nameplate.target) {
             nameplate.SetStyle("target-bubble-target");
             return;
         } else {
             nameplate.RemoveStyle("target-bubble-target");
         }
         
-        if(ClickManager.GetInstance().hoverObjectData != null && ClickManager.GetInstance().hoverObjectData.objectTransform == nameplate.target) {
+        if(ClickManager.Instance.HoverObjectData != null && ClickManager.Instance.HoverObjectData.ObjectTransform == nameplate.target) {
             nameplate.SetStyle("target-bubble-hover");
         } else {
             nameplate.RemoveStyle("target-bubble-hover");
@@ -199,17 +199,17 @@ public class NameplatesManager : MonoBehaviour
             return false;
         }
 
-        bool isHover = ClickManager.GetInstance().hoverObjectData != null && ClickManager.GetInstance().hoverObjectData.objectTransform == target;
+        bool isHover = ClickManager.Instance.HoverObjectData != null && ClickManager.Instance.HoverObjectData.ObjectTransform == target;
         if(isHover) {
             return true;
         }
 
-        bool isTarget = TargetManager.GetInstance().HasTarget() && TargetManager.GetInstance().GetTargetData().data.objectTransform == target;
+        bool isTarget = TargetManager.Instance.HasTarget() && TargetManager.Instance.GetTargetData().Data.ObjectTransform == target;
         bool isTooFar = Vector3.Distance(playerTransform.position, target.position) > nameplateViewDistance;
         if(isTooFar && !isTarget) {
             return false;
         }
 
-        return CameraController.GetInstance().IsObjectVisible(target);
+        return CameraController.Instance.IsObjectVisible(target);
     }
 }

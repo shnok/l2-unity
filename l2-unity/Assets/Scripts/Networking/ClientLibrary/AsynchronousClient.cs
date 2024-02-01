@@ -4,74 +4,65 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Text;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using System.Linq;
 
 public class AsynchronousClient {
-    private Socket client;
-    private bool connected;
-    private String _ipAddress;
-    private int _port;
-    private int _ping;
+    private Socket _client;
+    private string _ipAddress;
     private string _username;
+    private int _port;
+    private bool _connected;
+    public int Ping { get; set; }
 
-    public int ping {get; set;}
-
-    public AsynchronousClient(String ip, int port) {
+    public AsynchronousClient(string ip, int port) {
         _ipAddress = ip;
         _port = port;
     }
-
     public bool Connect() {
         IPHostEntry ipHostInfo = Dns.GetHostEntry(_ipAddress);
         IPAddress ipAddress = ipHostInfo.AddressList[0];
-        client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        _client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
         Debug.Log("Connecting...");
 
-        IAsyncResult result = client.BeginConnect(ipAddress, _port, null, null);
+        IAsyncResult result = _client.BeginConnect(ipAddress, _port, null, null);
 
         bool success = result.AsyncWaitHandle.WaitOne(5000, true);
 
-        if (client.Connected) {
+        if (_client.Connected) {
             Debug.Log("Connection success.");
-            client.EndConnect( result );
-            connected = true;
+            _client.EndConnect( result );
+            _connected = true;
 
             Task.Run(StartReceiving);
             return true;
         } else {
             Debug.Log("Connection failed.");
-            client.Close();
+            _client.Close();
             return false;
         }
     }
 
     public void Disconnect() {
-        //Debug.Log((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name);
         try {
-            ServerPacketHandler.GetInstance().CancelTokens();
-
-            connected = false;         
-            client.Close();
-            client.Dispose();           
+            ServerPacketHandler.Instance.CancelTokens();
+            _connected = false;         
+            _client.Close();
+            _client.Dispose();           
         } catch (Exception e) {
-            Debug.Log(e.ToString());
+            Debug.LogError(e);
         }
     }
 
     public void SendPacket(ClientPacket packet) {
-        if(DefaultClient.GetInstance().logSentPackets) {
+        if(DefaultClient.Instance.LogSentPackets) {
             ClientPacketType packetType = (ClientPacketType)packet.GetPacketType();
             if(packetType != ClientPacketType.Ping) {
                 Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] Sending packet:" + packetType);
             }
         }
         try {
-            using (NetworkStream stream = new NetworkStream(client)) {
+            using (NetworkStream stream = new NetworkStream(_client)) {
                 stream.Write(packet.GetData(), 0, (int)packet.GetLength());
                 stream.Flush();
             }
@@ -81,14 +72,14 @@ public class AsynchronousClient {
     }
 
     public void StartReceiving() {
-        using (NetworkStream stream = new NetworkStream(client)) {
+        using (NetworkStream stream = new NetworkStream(_client)) {
             for(;;) {
-                if(!connected) {
+                if(!_connected) {
                     Debug.LogWarning("Disconnected.");
                     break;
                 }
                 int packetType = stream.ReadByte();
-                if (packetType == -1 || !connected) {
+                if (packetType == -1 || !_connected) {
                     Debug.Log("Server terminated the connection.");
                     Disconnect();
                     break;
@@ -107,16 +98,8 @@ public class AsynchronousClient {
                     received += readCount;
                 }
 
-                Task.Run(() => ServerPacketHandler.GetInstance().HandlePacketAsync(packet));        
+                Task.Run(() => ServerPacketHandler.Instance.HandlePacketAsync(packet));        
             }
         }
-    }
-
-    public void SetPing(int ping) {
-        _ping = ping;
-    }
-
-    public int GetPing() {
-        return _ping;
     }
 }

@@ -77,11 +77,10 @@ public class PathFinderFactory : MonoBehaviour {
         for(int i = 0; i < path.Count; i++) {
             Vector3 origin = path[currentNode].center;
             Vector3 destination = path[i].center;
-            Vector3 yOffset = Vector3.up * Geodata.GetInstance().nodeSize * 1.5f;
-            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.GetInstance().GetMask());
+            Vector3 yOffset = Vector3.up * Geodata.Instance.NodeSize * 1.5f;
+            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.Instance.GetMask());
 
             if(cantSeeTarget) {
-                Debug.Log("Hit wall at  " + i);
                 waypoints.Add(path[i - 1]);
                 currentNode = i - 1;
             }

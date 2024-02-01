@@ -19,6 +19,13 @@ public enum InputType {
     Escape
 }
 
+/**
+ * 
+ * 
+ * Need to switch to Unity InputManager
+ *  ==================================
+ * 
+ */
 public class InputManager : MonoBehaviour {
     public Dictionary<InputType, bool> inputsPressed = new Dictionary<InputType, bool>();
     public Vector2 inputAxis;

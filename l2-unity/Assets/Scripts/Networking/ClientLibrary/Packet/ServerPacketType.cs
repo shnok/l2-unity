@@ -13,5 +13,6 @@ public enum ServerPacketType : byte
     NpcInfo = 0x0A,
     ObjectMoveTo = 0x0B,
     UserInfo = 0x0C,
-    ObjectMoveDirection = 0x0D
+    ObjectMoveDirection = 0x0D,
+    GameTime = 0x0E
 }

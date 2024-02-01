@@ -2,123 +2,132 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClickToMoveController : MonoBehaviour {
+[RequireComponent(typeof(CharacterController))]
+public class ClickToMoveController : MonoBehaviour 
+{
+    [Header("Path data")]
+    [SerializeField] private Node _startNode;
+    [SerializeField] private Node _targetNode;
+    [SerializeField] private Vector3 _targetDestination;
+    [SerializeField] private float _destinationThreshold = 0.10f;
+    [SerializeField] private List<Node> _path;
 
-    private static ClickToMoveController instance;
-    public static ClickToMoveController GetInstance() {
-        return instance;
-    }
+    [Header("Ground check")]
+    [SerializeField] private ObjectData _collidingWith;
+    [SerializeField] private LayerMask _ignoredLayers;
+    [SerializeField] private bool _grounded;
 
-    public Node startNode;
-    public Node targetNode;
-    public Vector3 targetDestination;
-    public float destinationThreshold = 0.10f;
-    public List<Node> path;
-    public ObjectData collidingWith;
-    public LayerMask ignoredLayers;
-    public CharacterController characterController;
-    public bool grounded;
-    public bool debugPathFinder;
+    [SerializeField] private bool _debugPathFinder;
 
+    private CharacterController _characterController;
+
+    private static ClickToMoveController _instance;
+    public static ClickToMoveController Instance { get { return _instance; } }
+    
     private void Awake() {
-        if(instance == null) {
-            instance = this;
+        if(_instance == null) {
+            _instance = this;
         }
     }
 
     void Start() {
-        characterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
     }
 
     public void Update() {
         // Update initial node
-        if(characterController.isGrounded && collidingWith != null) {
-            startNode = Geodata.GetInstance().GetNodeAt(collidingWith.objectScene, transform.position);
+        if(_characterController.isGrounded && _collidingWith != null) {
+            _startNode = Geodata.Instance.GetNodeAt(_collidingWith.ObjectScene, transform.position);
         }
 
         // Reset path when user input
         if(InputManager.GetInstance().IsInputPressed(InputType.Move)) {
-            path.Clear();
+            _path.Clear();
         }
-
-
     }
 
     public void FixedUpdate() {
-        if(path.Count > 0) {
-            Vector3 flatTransformPos = VectorUtils.To2D(transform.position);
-            Vector3 flatDestPos;
-            if(path.Count > 1) {
-                flatDestPos = VectorUtils.To2D(path[0].center);
-            } else {
-                // Check distance with clicked point instead
-                flatDestPos = VectorUtils.To2D(targetDestination);
+        Vector3 flatTransformPos = VectorUtils.To2D(transform.position);
+        Vector3 flatDestPos = VectorUtils.To2D(_targetDestination);
+
+        if(_path.Count > 0) {
+            // If path has more than one node remaining run to node center
+            // Otherwise run to destination
+            if(_path.Count > 1) {
+                flatDestPos = VectorUtils.To2D(_path[0].center);
             }
 
-            if(Vector3.Distance(flatDestPos, flatTransformPos) < destinationThreshold) {
-                path.RemoveAt(0);
+            // Remove node from path when node reached
+            if(Vector3.Distance(flatDestPos, flatTransformPos) < _destinationThreshold) {
+                _path.RemoveAt(0);
             }
 
-            if(path.Count > 0) {
-                PlayerController.GetInstance().SetTargetPosition(flatDestPos, destinationThreshold);
-            } else {
-                PlayerController.GetInstance().ResetTargetPosition();
+            // If a node is remaning update the target position
+            if(_path.Count > 0) {
+                PlayerController.Instance.SetTargetPosition(flatDestPos, _destinationThreshold);
+            } 
+            /*else {
+                PlayerController.Instance.ResetTargetPosition();
+            }*/
+        } else { 
+            if(Vector3.Distance(flatDestPos, flatTransformPos) < _destinationThreshold) {
+                PlayerController.Instance.ResetTargetPosition();
             }
         }
     }
 
     public void MoveTo(ObjectData target, Vector3 clickPosition) {
-        targetDestination = clickPosition;
+        _targetDestination = clickPosition;
 
-        Node node = Geodata.GetInstance().GetNodeAt(target.objectScene, clickPosition);
-        if(node != null && startNode != null) {
-            targetNode = node;
+        Node node = Geodata.Instance.GetNodeAt(target.ObjectScene, clickPosition);
+        if(node != null && _startNode != null) {
+            _targetNode = node;
 
-            PathFinderFactory.GetInstance().RequestPathfind(startNode, targetNode, (callback) => {
+            PathFinderFactory.GetInstance().RequestPathfind(_startNode, _targetNode, (callback) => {
                 Debug.Log("Found path with " + callback.Count + " node(s).");
                 if(callback.Count == 0) {
-                    PlayerController.GetInstance().SetTargetPosition(targetDestination, destinationThreshold);
+                    PlayerController.Instance.SetTargetPosition(_targetDestination, _destinationThreshold);
                 } else {
-                    path = PathFinderFactory.GetInstance().SmoothPath(callback);
+                    _path = PathFinderFactory.GetInstance().SmoothPath(callback);
                 }
             });
 
         } else {
-            targetNode = null;
-            PlayerController.GetInstance().SetTargetPosition(targetDestination, destinationThreshold);
+            _targetNode = null;
+            PlayerController.Instance.SetTargetPosition(_targetDestination, _destinationThreshold);
         }
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit) {
-        if(ignoredLayers != (ignoredLayers | (1 << hit.gameObject.layer))) {
-            collidingWith = new ObjectData(hit.gameObject);
+        if(_ignoredLayers != (_ignoredLayers | (1 << hit.gameObject.layer))) {
+            _collidingWith = new ObjectData(hit.gameObject);
         } else {
-            collidingWith = null;
+            _collidingWith = null;
         }
     }
 
     void OnDrawGizmos() {
-        if(!debugPathFinder || !Application.isPlaying)
-            return;
+        if(!_debugPathFinder || !Application.isPlaying)
+            return; 
 
-        float nodeSize = Geodata.GetInstance().nodeSize;
+        float nodeSize = Geodata.Instance.NodeSize;
         Vector3 cubeSize = new Vector3(nodeSize - nodeSize / 10f, 0.1f, nodeSize - nodeSize / 10f);
 
         Gizmos.color = Color.yellow;
 
-        if(targetNode != null) {
-            Gizmos.DrawCube(targetNode.center, cubeSize);
+        if(_targetNode != null) {
+            Gizmos.DrawCube(_targetNode.center, cubeSize);
         }
 
         Gizmos.color = Color.green;
-        if(startNode != null) {
-            Gizmos.DrawCube(startNode.center, cubeSize);
+        if(_startNode != null) {
+            Gizmos.DrawCube(_startNode.center, cubeSize);
         }
 
         Gizmos.color = Color.white;
 
-        if(path != null && path.Count > 0) {
-            foreach(var node in path) {
+        if(_path != null && _path.Count > 0) {
+            foreach(var node in _path) {
                 Gizmos.DrawCube(node.center, cubeSize);
             }
         }

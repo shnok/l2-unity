@@ -126,46 +126,46 @@ public class StatusWindow : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(PlayerEntity.GetInstance() == null) { 
+        if(PlayerEntity.Instance == null) { 
             return; 
         }
 
         if(levelLabel != null) {
-            levelLabel.text = PlayerEntity.GetInstance().Status.Level.ToString();
+            levelLabel.text = PlayerEntity.Instance.Status.Level.ToString();
         }
 
         if(nameLabel != null) {
-            nameLabel.text = PlayerEntity.GetInstance().Identity.Name;
+            nameLabel.text = PlayerEntity.Instance.Identity.Name;
         }
 
         if(CPTextLabel != null) {
-            CPTextLabel.text = PlayerEntity.GetInstance().Status.Cp + "/" + PlayerEntity.GetInstance().Status.MaxCp;
+            CPTextLabel.text = PlayerEntity.Instance.Status.Cp + "/" + PlayerEntity.Instance.Status.MaxCp;
         }
 
         if(HPTextLabel != null) {
-            HPTextLabel.text = PlayerEntity.GetInstance().Status.Hp + "/" + PlayerEntity.GetInstance().Status.MaxHp;
+            HPTextLabel.text = PlayerEntity.Instance.Status.Hp + "/" + PlayerEntity.Instance.Status.MaxHp;
         }
 
         if(MPTextLabel != null) {
-            MPTextLabel.text = PlayerEntity.GetInstance().Status.Mp + "/" + PlayerEntity.GetInstance().Status.MaxMp;
+            MPTextLabel.text = PlayerEntity.Instance.Status.Mp + "/" + PlayerEntity.Instance.Status.MaxMp;
         }
 
         if(CPBarBG != null && CPBar != null) {
-            float cpRatio = (float)PlayerEntity.GetInstance().Status.Cp / PlayerEntity.GetInstance().Status.MaxCp;
+            float cpRatio = (float)PlayerEntity.Instance.Status.Cp / PlayerEntity.Instance.Status.MaxCp;
             float bgWidth = CPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * cpRatio;
             CPBar.style.width = barWidth;
         }
 
         if(HPBarBG != null && HPBar != null) {
-            float hpRatio = (float)PlayerEntity.GetInstance().Status.Hp / PlayerEntity.GetInstance().Status.MaxHp;
+            float hpRatio = (float)PlayerEntity.Instance.Status.Hp / PlayerEntity.Instance.Status.MaxHp;
             float bgWidth = HPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * hpRatio;
             HPBar.style.width = barWidth;
         }
 
         if(MPBarBG != null && MPBar != null) {
-            float mpRatio = (float)PlayerEntity.GetInstance().Status.Mp / PlayerEntity.GetInstance().Status.MaxMp;
+            float mpRatio = (float)PlayerEntity.Instance.Status.Mp / PlayerEntity.Instance.Status.MaxMp;
             float bgWidth = MPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * mpRatio;
             MPBar.style.width = barWidth;

@@ -8,45 +8,47 @@ using UnityEngine;
 
 public class Geodata : MonoBehaviour
 {
-    public float nodeSize = 0.5f;
-    public List<string> mapsToLoad;
-    private LayerMask obstacleMask;
-    public Dictionary<string, Vector3> mapsOrigin = new Dictionary<string, Vector3>();
-    public Dictionary<Vector3, Node> nodes = new Dictionary<Vector3, Node>();
-    public bool loaded = false;
-    public bool drawGizmos = true;
+    [SerializeField] private float _nodeSize = 0.5f;
+    [SerializeField] private List<string> _mapsToLoad;
+    [SerializeField] private Dictionary<string, Vector3> _mapsOrigin = new Dictionary<string, Vector3>();
+    [SerializeField] private Dictionary<Vector3, Node> _nodes = new Dictionary<Vector3, Node>();
+    [SerializeField] private bool _loaded = false;
+    [SerializeField] private bool _drawGizmos = true;
+    private LayerMask _obstacleMask;
+    public float NodeSize { get { return _nodeSize; } }
+    public bool Loaded { get { return _loaded; } }
 
-    private static Geodata instance;
-    public static Geodata GetInstance() {
-        return instance;
-    }
+    private static Geodata _instance;
+    public static Geodata Instance { get { return _instance; } }
 
     private void Awake() {
-        instance = this;
+        if(_instance == null) {
+            _instance = this;
+        }
     }
 
     void Start() {
 
-        foreach(var mapId in mapsToLoad) {
+        foreach(var mapId in _mapsToLoad) {
             LoadMapGeodata(mapId);
         }
-        loaded = true;
+        _loaded = true;
     }
 
     public void SetMask(LayerMask mask) {
-        obstacleMask = mask;
+        _obstacleMask = mask;
     }
 
     public LayerMask GetMask() {
-        return obstacleMask;
+        return _obstacleMask;
     }
 
     public Node GetNodeAt(string mapId, Vector3 pos) {
-        if(mapsOrigin.ContainsKey(mapId)) {
+        if(_mapsOrigin.ContainsKey(mapId)) {
             Vector3 nodePos = FromWorldToNodePos(pos, mapId);
             //Debug.Log(pos + " , " + nodePos);
             Node node;
-            nodes.TryGetValue(nodePos, out node);
+            _nodes.TryGetValue(nodePos, out node);
 
             return node;
         }
@@ -73,8 +75,8 @@ public class Geodata : MonoBehaviour
                         // Create a BinaryReader from the memory stream
                         string mapFolder = Path.Combine("Data", "Maps", mapId);
                         GameObject map = Resources.Load<GameObject>(Path.Combine(mapFolder, mapId));
-                        Vector3 origin = VectorUtils.floorToNearest(map.transform.position, nodeSize);
-                        mapsOrigin.Add(mapId, origin);
+                        Vector3 origin = VectorUtils.floorToNearest(map.transform.position, _nodeSize);
+                        _mapsOrigin.Add(mapId, origin);
 
                         int count = 0;
                         using(BinaryReader reader = new BinaryReader(new MemoryStream(data))) {
@@ -86,9 +88,9 @@ public class Geodata : MonoBehaviour
 
                                 Vector3 scaledPos = new Vector3(x, y, z);
 
-                                Node n = new Node(scaledPos, FromNodeToWorldPos(scaledPos, origin), nodeSize);
+                                Node n = new Node(scaledPos, FromNodeToWorldPos(scaledPos, origin), _nodeSize);
                                 n.walkable = true;
-                                nodes.Add(scaledPos, n);
+                                _nodes.Add(scaledPos, n);
                             }
                         }
 
@@ -104,47 +106,47 @@ public class Geodata : MonoBehaviour
     }
 
     private Vector3 FromNodeToWorldPos(Vector3 nodePos, Vector3 origin) {
-        Vector3 worldPos = nodePos * nodeSize + origin;
+        Vector3 worldPos = nodePos * _nodeSize + origin;
         worldPos = new Vector3(
-            VectorUtils.floorToNearest(worldPos.x, nodeSize),
-            VectorUtils.floorToNearest(worldPos.y, nodeSize),
-            VectorUtils.floorToNearest(worldPos.z, nodeSize));
+            VectorUtils.floorToNearest(worldPos.x, _nodeSize),
+            VectorUtils.floorToNearest(worldPos.y, _nodeSize),
+            VectorUtils.floorToNearest(worldPos.z, _nodeSize));
         return worldPos;
     }
 
     private Vector3 FromWorldToNodePos(Vector3 worldPos, String mapId) {
         Vector3 terrainPos;
-        if(!mapsOrigin.TryGetValue(mapId, out terrainPos)) {
+        if(!_mapsOrigin.TryGetValue(mapId, out terrainPos)) {
             throw new Exception("Terrain not found.");
         }
 
         Vector3 offsetPos = worldPos - terrainPos;
         Vector3 nodePos = new Vector3(
-            Mathf.Floor(offsetPos.x / nodeSize),
-            Mathf.Floor(offsetPos.y / nodeSize),
-            Mathf.Floor(offsetPos.z / nodeSize));
+            Mathf.Floor(offsetPos.x / _nodeSize),
+            Mathf.Floor(offsetPos.y / _nodeSize),
+            Mathf.Floor(offsetPos.z / _nodeSize));
 
         return nodePos;
     }
 
     public Node GetNode(int x, int y, int z) {
         Node node;
-        nodes.TryGetValue(new Vector3(x, y, z), out node);
+        _nodes.TryGetValue(new Vector3(x, y, z), out node);
         return node;
     }
 
     void OnDrawGizmos() {
-        if(!drawGizmos || !Application.isPlaying)
+        if(!_drawGizmos || !Application.isPlaying)
             return;
 
         int count = 0;
-        if(nodes.Count > 0) {
-            foreach(KeyValuePair<Vector3, Node> n in nodes) {
+        if(_nodes.Count > 0) {
+            foreach(KeyValuePair<Vector3, Node> n in _nodes) {
                 if(count >= 250000) {
                     return;
                 }
 
-                Vector3 cubeSize = new Vector3(nodeSize - nodeSize / 10f, 0.1f, nodeSize - nodeSize / 10f);
+                Vector3 cubeSize = new Vector3(_nodeSize - _nodeSize / 10f, 0.1f, _nodeSize - _nodeSize / 10f);
                 if(n.Value.walkable) {
                     Gizmos.color = Color.green;
                 } else {

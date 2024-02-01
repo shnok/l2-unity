@@ -14,17 +14,19 @@ public struct WorldTimer {
 [System.Serializable]
 public struct Clock {
     public float totalRatio;
+    [Header("Day/Night cycle")]
     public float dayRatio;
     public float nightRatio;
+    [Header("Full day cycles")]
     public float dawnRatio;
     public float brightRatio;
     public float duskRatio;
     public float darkRatio;
 }
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class WorldClock : MonoBehaviour {
-    public float dayDurationInSec = 30;
+    public float dayDurationMinutes = 30;
     public string timeHour;
     public float timeElapsed = 0;
     public bool startClock;
@@ -50,7 +52,6 @@ public class WorldClock : MonoBehaviour {
     float sunsetStartTime = 0.85f; // day
     float sunsetEndTime = 0.99f; // day*/
 
-
     void Update() {
         if(startClock) {
             UpdateClock();
@@ -62,11 +63,12 @@ public class WorldClock : MonoBehaviour {
 
     private void UpdateClock() {
         timeElapsed += Time.deltaTime;
-        if(timeElapsed >= dayDurationInSec) {
+
+        if(timeElapsed >= (dayDurationMinutes * 60f)) {
             timeElapsed = 0;
         }
 
-        worldClock.totalRatio = timeElapsed / dayDurationInSec;
+        worldClock.totalRatio = timeElapsed / (dayDurationMinutes * 60f);
 
         // Calculate the number of seconds based on the percentage
         int seconds = (int)(worldClock.totalRatio * 86400);
@@ -81,6 +83,15 @@ public class WorldClock : MonoBehaviour {
 
         // Format the TimeSpan object as a string in the desired format (HH:mm:ss)
         timeHour = time.ToString(@"hh\:mm\:ss");
+    }
+
+    public void SynchronizeClock(long gameTicks, int tickDurationMs, int dayDurationMinutes) {
+        Debug.Log($"{gameTicks} {tickDurationMs} {dayDurationMinutes}");
+        float ticksPerDay = (float)dayDurationMinutes * 60 * 1000 / tickDurationMs;
+        float currentHours = gameTicks / ticksPerDay * 24 % 24;
+        this.dayDurationMinutes = dayDurationMinutes;
+        float serverDayRatio = currentHours / 24f;
+        timeElapsed = serverDayRatio * dayDurationMinutes * 60f;
     }
 
     public bool IsNightTime() {

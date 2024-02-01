@@ -8,22 +8,17 @@ public enum AuthResponse {
 }
 
 public class AuthResponsePacket : ServerPacket {
-    private AuthResponse response;
+    public AuthResponse Response { get; private set; }
 
-    public AuthResponsePacket(){}
     public AuthResponsePacket(byte[] d) : base(d) {
         Parse();
     }
     
     public override void Parse() {    
         try {
-            response = (AuthResponse)ReadB();
+            Response = (AuthResponse)ReadB();
         } catch(Exception e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
-    }
-
-    public AuthResponse GetResponse() {
-        return response;
     }
 }

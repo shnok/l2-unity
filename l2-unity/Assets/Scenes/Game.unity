@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.6756676, g: 0.6756676, b: 0.6756676, a: 1}
+  m_FogColor: {r: 0.6266811, g: 0.6266811, b: 0.6266811, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.03
   m_LinearFogStart: 203.9
@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0.59166914
+  m_AmbientIntensity: 0.5624571
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 74e09fc0417b6f94c95b3a55ae362ec9, type: 2}
@@ -711,30 +711,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af7cb57603ef274e8e4cab22911efc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1753994185}
-  playerPlaceholder: {fileID: 0}
-  userPlaceholder: {fileID: 0}
-  npcPlaceHolder: {fileID: 0}
-  monsterPlaceholder: {fileID: 0}
-  monstersContainer: {fileID: 0}
-  npcsContainer: {fileID: 0}
-  usersContainer: {fileID: 0}
-  entityMask:
+  _player: {fileID: 0}
+  _playerPlaceholder: {fileID: 0}
+  _userPlaceholder: {fileID: 0}
+  _npcPlaceHolder: {fileID: 0}
+  _monsterPlaceholder: {fileID: 0}
+  _monstersContainer: {fileID: 0}
+  _npcsContainer: {fileID: 0}
+  _usersContainer: {fileID: 0}
+  _entityMask:
     serializedVersion: 2
-    m_Bits: 2112
-  entityClickAreaMask:
+    m_Bits: 64
+  _entityClickAreaMask:
     serializedVersion: 2
     m_Bits: 8192
-  obstacleMask:
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 641
+  _clickThroughMask:
+    serializedVersion: 2
+    m_Bits: 23094
+  _groundMask:
     serializedVersion: 2
     m_Bits: 392
-  clickThroughMask:
-    serializedVersion: 2
-    m_Bits: 22530
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 392
-  offlineMode: 0
+  _offlineMode: 0
 --- !u!114 &760118616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,11 +760,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e41391b4c8e9c0d4293f664e698ebe08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeSize: 0.5
-  mapsToLoad:
-  - 17_25
-  loaded: 0
-  drawGizmos: 0
+  _nodeSize: 0.5
+  _mapsToLoad: []
+  _loaded: 0
+  _drawGizmos: 1
 --- !u!1 &792673796
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,20 +1085,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f4104b9ccdbfa459bca60bf1f48634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastClickPosition: {x: 0, y: 0, z: 0}
-  locator: {fileID: 0}
-  targetObjectData:
-    objectLayerName: 
-    objectLayer: 0
-    objectTag: 
-    objectScene: 
-    objectTransform: {fileID: 0}
-  hoverObjectData:
-    objectLayerName: 
-    objectLayer: 0
-    objectTag: 
-    objectScene: 
-    objectTransform: {fileID: 0}
+  _locator: {fileID: 0}
+  _targetObjectData:
+    _objectLayerName: 
+    _objectLayer: 0
+    _objectTag: 
+    _objectScene: 
+    _objectTransform: {fileID: 0}
+  _hoverObjectData:
+    _objectLayerName: 
+    _objectLayer: 0
+    _objectTag: 
+    _objectScene: 
+    _objectTransform: {fileID: 0}
 --- !u!114 &1433411794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1112,27 +1110,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276d2bd066b40f942bca360f382d8bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target:
-    identity:
-      entityType: 0
-      id: 0
-      type: 
-      npcClass: 
-      npcId: 0
-      name: 
-      title: 
-      model: 0
-      position: {x: 0, y: 0, z: 0}
-      heading: 0
-      collisionHeight: 0
-      owned: 0
-    data:
-      objectLayerName: 
-      objectLayer: 0
-      objectTag: 
-      objectScene: 
-      objectTransform: {fileID: 0}
-    distance: 0
+  _target:
+    _identity:
+      _entityType: 0
+      _id: 0
+      _type: 
+      _npcClass: 
+      _npcId: 0
+      _name: 
+      _title: 
+      _model: 0
+      _position: {x: 0, y: 0, z: 0}
+      _heading: 0
+      _collisionHeight: 0
+      _owned: 0
+    _data:
+      _objectLayerName: 
+      _objectLayer: 0
+      _objectTag: 
+      _objectScene: 
+      _objectTransform: {fileID: 0}
+    _distance: 0
 --- !u!114 &1433411798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,13 +1143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81a49d02f1b9ae4fa6fc87875961bf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultScene: Game
-  mapList:
-  - 17_25
-  - 17_24
+  _defaultScene: Game
+  _mapList:
   - 16_25
+  - 17_25
   - 16_24
-  singleScene: 0
+  - 17_24
 --- !u!114 &1433411799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1164,11 +1161,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf309343c3f28b8419882850a8e85fa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterVolume: 0.146
-  musicVolume: 0
-  SFXVolume: 1
-  UIVolume: 1
-  ambientVolume: 1
+  _masterVolume: 1
+  _musicVolume: 1
+  _SFXVolume: 1
+  _UIVolume: 1
+  _ambientVolume: 1
 --- !u!114 &1433411800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,8 +1178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4935b2bb9d07eb64f8e03ec7fee064ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentEventPriority: -1
-  currentMusicEvent:
+  _currentEventPriority: -1
+  _currentMusicEvent:
     Guid:
       Data1: 0
       Data2: 0
@@ -1240,11 +1237,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Color.b
-      value: 0.80671537
+      value: 0.79276025
       objectReference: {fileID: 0}
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Color.g
-      value: 0.9027932
+      value: 0.89571154
       objectReference: {fileID: 0}
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Color.r
@@ -1252,7 +1249,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Intensity
-      value: 0.96970063
+      value: 0.92721033
       objectReference: {fileID: 0}
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Shadows.m_Bias
@@ -1277,6 +1274,18 @@ PrefabInstance:
     - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: duskColor.b
+      value: 0.16905482
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: duskColor.g
+      value: 0.20854397
+      objectReference: {fileID: 0}
+    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: duskColor.r
+      value: 0.2735849
       objectReference: {fileID: 0}
     - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: nightFogColor.b
@@ -1332,7 +1341,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: timeHour
-      value: 16:41:01
+      value: 16:46:22
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Enabled
@@ -1340,15 +1349,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: startClock
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: timeElapsed
-      value: 83.418144
+      value: 1257.9644
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: worldClock.dayRatio
-      value: 0.8903024
+      value: 0.8977382
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: worldClock.darkRatio
@@ -1360,7 +1369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: worldClock.duskRatio
-      value: 0.28787428
+      value: 0.34098715
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: worldClock.nightRatio
@@ -1368,7 +1377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: worldClock.totalRatio
-      value: 0.6951512
+      value: 0.6988691
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: worldClock.brightRatio
@@ -1396,19 +1405,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.13977669
+      value: 0.12874442
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.91324466
+      value: 0.91486514
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.057897408
+      value: 0.05332769
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.37827834
+      value: -0.37894958
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1468,24 +1477,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionTag: Player
-  EventReference:
+  _eventReference:
     Guid:
-      Data1: -1220111703
-      Data2: 1114176032
-      Data3: -1693286011
-      Data4: 1375578192
-    Path: event:/AmbSound/AmbSound/in_cricket_04
-  PlayEvent: 3
-  StopEvent: 4
-  ambientSoundType: 0
-  AllowFadeout: 1
-  OverrideAttenuation: 1
-  loopDelaySeconds: 1
-  playChancePercent: 100
-  soundPitch: 1.55
-  loop: 1
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 10
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  _playEvent: 0
+  _stopEvent: 0
+  _ambientSoundType: 0
+  _allowFadeout: 1
+  _overrideAttenuation: 0
+  _loopDelaySeconds: 1
+  _playChancePercent: 100
+  _soundPitch: 0
+  _loop: 1
+  _overrideMinDistance: -1
+  _overrideMaxDistance: -1
 --- !u!135 &1707425818
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1526,11 +1535,6 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3647439153703269067, guid: 913ea5c51964b2b4dba98c5943ff06f9, type: 3}
   m_PrefabInstance: {fileID: 2882740412019687781}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1753994185 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6373500069190494077, guid: 68b62837eebcb7c4eb9827b331f22a04, type: 3}
-  m_PrefabInstance: {fileID: 7156103002518524672}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1753994186 stripped
 Transform:
@@ -1582,13 +1586,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cbd65467cc8ae429efb38c99a9762e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPlayer: {fileID: 0}
-  username: 
-  connectionTimeoutMs: 10000
-  serverIp: 127.0.0.1
-  serverPort: 11000
-  logReceivedPackets: 1
-  logSentPackets: 0
+  _currentPlayer: {fileID: 0}
+  _username: 
+  _connectionTimeoutMs: 10000
+  _serverIp: 127.0.0.1
+  _serverPort: 11000
+  _logReceivedPackets: 1
+  _logSentPackets: 1
 --- !u!114 &1892573584
 MonoBehaviour:
   m_ObjectHideFlags: 0

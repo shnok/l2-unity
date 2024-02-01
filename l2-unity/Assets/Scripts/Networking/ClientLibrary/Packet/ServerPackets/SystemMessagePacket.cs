@@ -8,32 +8,27 @@ public enum SystemMessageType {
 
 public class SystemMessagePacket : ServerPacket {
 
-    private SystemMessageType type;
-    private SystemMessage message;
+    private SystemMessageType _type;
+    public SystemMessage Message { get; private set; }
 
-    public SystemMessagePacket(){}
     public SystemMessagePacket(byte[] d) : base(d) {
         Parse();
     }
     
     public override void Parse() {    
         try {
-            type = (SystemMessageType)ReadB();
+            _type = (SystemMessageType)ReadB();
 
-            switch (type) {
+            switch (_type) {
                 case SystemMessageType.USER_LOGGED_IN:
-                    message = new MessageLoggedIn(ReadS());
+                    Message = new MessageLoggedIn(ReadS());
                     break;
                 case SystemMessageType.USER_LOGGED_OFF:
-                    message = new MessageLoggedOut(ReadS());
+                    Message = new MessageLoggedOut(ReadS());
                     break;
             }            
         } catch(Exception e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
-    }
-
-    public SystemMessage GetMessage() {
-        return message;
     }
 }

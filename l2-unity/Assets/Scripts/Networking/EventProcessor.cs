@@ -5,19 +5,17 @@ using System;
 
 public class EventProcessor : MonoBehaviour {
 
-    public static EventProcessor _instance;
-    public static EventProcessor GetInstance() {
-        return _instance;
-    }
+    private static EventProcessor _instance;
+    public static EventProcessor Instance { get { return _instance; } }
 
-    void Awake() {
-        if (_instance == null) {
+    private void Awake() {
+        if(_instance == null) {
             _instance = this;
         }
     }
 
     private void Start() {
-        if(World.GetInstance().offlineMode) {
+        if(World.Instance.OfflineMode) {
             this.enabled = false;
             return;
         }

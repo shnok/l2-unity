@@ -3,61 +3,61 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ClickManager : MonoBehaviour {
-    public Vector3 lastClickPosition = Vector3.zero;
-    public GameObject locator;
-    public ObjectData targetObjectData;
-    public ObjectData hoverObjectData;
+    [SerializeField] private GameObject _locator;
+    [SerializeField] private ObjectData _targetObjectData;
+    [SerializeField] private ObjectData _hoverObjectData;
 
-    private LayerMask entityMask;
-    private LayerMask clickThroughMask;
+    public ObjectData HoverObjectData { get { return _hoverObjectData; } }
 
-    public static ClickManager instance;
-    public static ClickManager GetInstance() {
-        return instance;
-    }
+    private Vector3 _lastClickPosition = Vector3.zero;
+    private LayerMask _entityMask;
+    private LayerMask _clickThroughMask;
+
+    private static ClickManager _instance;
+    public static ClickManager Instance { get { return _instance; } }
 
     void Awake() {
-        if(instance == null) {
-            instance = this;
+        if(_instance == null) {
+            _instance = this;
         }
     }
 
     void Start() {
-        locator = GameObject.Find("Locator");
+        _locator = GameObject.Find("Locator");
         HideLocator();
     }
 
     public void SetMasks(LayerMask entityMask, LayerMask clickThroughMask) {
-        this.entityMask = entityMask;
-        this.clickThroughMask = clickThroughMask;
+        _entityMask = entityMask;
+        _clickThroughMask = clickThroughMask;
     }
 
     void Update() {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, 1000f, ~clickThroughMask)) {
+        if(Physics.Raycast(ray, out hit, 1000f, ~_clickThroughMask)) {
             int hitLayer = hit.collider.gameObject.layer;
-            if(entityMask == (entityMask | (1 << hitLayer))) {
-                hoverObjectData = new ObjectData(hit.transform.parent.gameObject);
+            if(_entityMask == (_entityMask | (1 << hitLayer))) {
+                _hoverObjectData = new ObjectData(hit.transform.parent.gameObject);
             } else {
-                hoverObjectData = new ObjectData(hit.collider.gameObject);
+                _hoverObjectData = new ObjectData(hit.collider.gameObject);
             }
 
             if(InputManager.GetInstance().IsInputPressed(InputType.LeftMouseButtonDown) &&
                 !InputManager.GetInstance().IsInputPressed(InputType.RightMouseButton)) 
             {
-                targetObjectData = hoverObjectData;
-                lastClickPosition = hit.point;
+                _targetObjectData = _hoverObjectData;
+                _lastClickPosition = hit.point;
 
-                if(entityMask == (entityMask | (1 << hitLayer)) && targetObjectData.objectTag != "Player") {
+                if(_entityMask == (_entityMask | (1 << hitLayer)) && _targetObjectData.ObjectTag != "Player") {
                     Debug.Log("Hit entity");
-                    TargetManager.GetInstance().SetTarget(targetObjectData);
-                } else if(targetObjectData != null) {                  
-                    ClickToMoveController.GetInstance().MoveTo(targetObjectData, lastClickPosition);
+                    TargetManager.Instance.SetTarget(_targetObjectData);
+                } else if(_targetObjectData != null) {                  
+                    ClickToMoveController.Instance.MoveTo(_targetObjectData, _lastClickPosition);
                     float angle = Vector3.Angle(hit.normal, Vector3.up);
                     if(angle < 85f) {
-                        PlaceLocator(lastClickPosition);
+                        PlaceLocator(_lastClickPosition);
                     } else {
                         HideLocator();
                     }
@@ -67,11 +67,11 @@ public class ClickManager : MonoBehaviour {
     }
 
     public void PlaceLocator(Vector3 position) {
-        locator.SetActive(true);
-        locator.gameObject.transform.position = position;
+        _locator.SetActive(true);
+        _locator.gameObject.transform.position = position;
     }
 
     public void HideLocator() {
-        locator.SetActive(false);
+        _locator.SetActive(false);
     }
 }

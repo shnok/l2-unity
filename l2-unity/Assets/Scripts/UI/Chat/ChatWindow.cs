@@ -88,11 +88,11 @@ public class ChatWindow : MonoBehaviour {
 
         var enlargeTextBtn = chatWindowEle.Q<Button>("EnlargeTextBtn");
         enlargeTextBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.GetInstance().PlayUISound("click_01");
+            AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
         var chatOptionsBtn = chatWindowEle.Q<Button>("ChatOptionsBtn");
         chatOptionsBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.GetInstance().PlayUISound("click_01");
+            AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
 
         L2GameUI.BlinkingCursor(chatInput);
@@ -191,11 +191,11 @@ public class ChatWindow : MonoBehaviour {
 
  
     public void SendChatMessage(string text) {
-        if(World.GetInstance().offlineMode) {
-            Message message = new ChatMessage(PlayerEntity.GetInstance().Identity.Name, text);
+        if(World.Instance.OfflineMode) {
+            Message message = new ChatMessage(PlayerEntity.Instance.Identity.Name, text);
             ReceiveChatMessage(message);
         } else {
-            DefaultClient.GetInstance().SendChatMessage(text);
+            DefaultClient.Instance.SendChatMessage(text);
         }
     }
 

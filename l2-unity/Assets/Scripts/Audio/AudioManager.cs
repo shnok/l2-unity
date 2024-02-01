@@ -1,53 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using FMODUnity;
 using FMOD.Studio;
+using FMODUnity;
+using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
     [Header("Volume")]
     [Range(0, 1)]
-    public float masterVolume = 1;
+    [SerializeField] private float _masterVolume = 1;
     [Range(0, 1)]
-    public float musicVolume = 1;
+    [SerializeField] private float _musicVolume = 1;
     [Range(0, 1)]
-    public float SFXVolume = 1;
+    [SerializeField] private float _SFXVolume = 1;
     [Range(0, 1)]
-    public float UIVolume = 1;
+    [SerializeField] private float _UIVolume = 1;
     [Range(0, 1)]
-    public float ambientVolume = 1;
+    [SerializeField] private float _ambientVolume = 1;
 
-    private Bus masterBus;
-    private Bus musicBus;
-    private Bus SFXBus;
-    private Bus UIBus;
-    private Bus ambientBus;
+    private Bus _masterBus;
+    private Bus _musicBus;
+    private Bus _SFXBus;
+    private Bus _UIBus;
+    private Bus _ambientBus;
 
-    public static AudioManager instance;
-
-    public static AudioManager GetInstance() {
-        return instance;
-    }
+    private static AudioManager _instance;
+    public static AudioManager Instance { get { return _instance; } }
 
     private void Awake() {
-        instance = this;
+        if(_instance == null) {
+            _instance = this;
+        }
+
         SetBuses();
     }
 
     private void SetBuses() {
-        masterBus = RuntimeManager.GetBus("bus:/");
-        musicBus = RuntimeManager.GetBus("bus:/Music");
-        SFXBus = RuntimeManager.GetBus("bus:/SFX");
-        UIBus = RuntimeManager.GetBus("bus:/UI");
-        ambientBus = RuntimeManager.GetBus("bus:/Ambient");
+        _masterBus = RuntimeManager.GetBus("bus:/");
+        _musicBus = RuntimeManager.GetBus("bus:/Music");
+        _SFXBus = RuntimeManager.GetBus("bus:/SFX");
+        _UIBus = RuntimeManager.GetBus("bus:/UI");
+        _ambientBus = RuntimeManager.GetBus("bus:/Ambient");
     }
     private void Update() {
-        masterBus.setVolume(masterVolume);
-        musicBus.setVolume(musicVolume);
-        SFXBus.setVolume(SFXVolume);
-        UIBus.setVolume(UIVolume);
-        ambientBus.setVolume(ambientVolume);
+        _masterBus.setVolume(_masterVolume);
+        _musicBus.setVolume(_musicVolume);
+        _SFXBus.setVolume(_SFXVolume);
+        _UIBus.setVolume(_UIVolume);
+        _ambientBus.setVolume(_ambientVolume);
     }
 
     public void PlayMonsterSound(MonsterSoundEvent monsterSoundEvent, string npcClassName, Vector3 position) {

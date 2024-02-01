@@ -2,40 +2,32 @@ using UnityEngine;
 using System;
 
 public class UserInfoPacket : ServerPacket {
+    public NetworkIdentity Identity { get; private set; }
+    public PlayerStatus Status { get; private set; }
 
-    private NetworkIdentity identity = new NetworkIdentity();
-    private PlayerStatus status = new PlayerStatus();
-
-    public UserInfoPacket(){}
     public UserInfoPacket(byte[] d) : base(d) {
+        Identity = new NetworkIdentity();
+        Status = new PlayerStatus();
         Parse();
     }
     
     public override void Parse() {    
         try {
-            identity.Id = ReadI();
-            identity.Name = ReadS();
-            identity.SetPosX(ReadF());
-            identity.SetPosY(ReadF());
-            identity.SetPosZ(ReadF());
-            identity.Owned = identity.Name == DefaultClient.GetInstance().username;
-            status.Level = ReadI();
-            status.Hp = ReadI();
-            status.MaxHp = ReadI();
-            status.Mp = ReadI(); 
-            status.MaxMp = ReadI();
-            status.Cp = ReadI();
-            status.MaxCp = ReadI();
+            Identity.Id = ReadI();
+            Identity.Name = ReadS();
+            Identity.SetPosX(ReadF());
+            Identity.SetPosY(ReadF());
+            Identity.SetPosZ(ReadF());
+            Identity.Owned = Identity.Name == DefaultClient.Instance.Username;
+            Status.Level = ReadI();
+            Status.Hp = ReadI();
+            Status.MaxHp = ReadI();
+            Status.Mp = ReadI();
+            Status.MaxMp = ReadI();
+            Status.Cp = ReadI();
+            Status.MaxCp = ReadI();
         } catch(Exception e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
-    }
-
-    public NetworkIdentity GetIdentity() {
-        return identity;
-    }
-
-    public PlayerStatus GetStatus() {
-        return status;
     }
 }

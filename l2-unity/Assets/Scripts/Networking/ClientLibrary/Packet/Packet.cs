@@ -9,7 +9,6 @@ public abstract class Packet {
     protected byte _packetLength;
     protected byte _packetType;
 
-    public Packet() {}
     public Packet(byte type) {
         _packetType = type;
     }

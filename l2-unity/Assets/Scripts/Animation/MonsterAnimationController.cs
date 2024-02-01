@@ -5,50 +5,27 @@ using UnityEngine;
 [RequireComponent(typeof(Animator), typeof(MonsterAnimationAudioHandler))]
 public class MonsterAnimationController : MonoBehaviour
 {
-    public Animator animator;
-    public string npcTemplateName;
-    public string animationClipName;
-    private MonsterAnimationAudioHandler monsterAnimationAudioHandler;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private string _npcTemplateName;
+    [SerializeField] private string _animationClipName;
     private bool animationStarting = false;
 
     private void Awake() {
-        if(animator == null) {
-            animator = GetComponent<Animator>();
+        if(_animator == null) {
+            _animator = GetComponent<Animator>();
         }
 
-        if(animator.runtimeAnimatorController == null) {
-            if(npcTemplateName.Length == 0) {
-                npcTemplateName = transform.name;
+        if(_animator.runtimeAnimatorController == null) {
+            if(_npcTemplateName.Length == 0) {
+                _npcTemplateName = transform.name;
             }
-            animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>("Data/Animations/Animator/" + npcTemplateName);
+            _animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>("Data/Animations/Animator/" + _npcTemplateName);
         }
-
-        monsterAnimationAudioHandler = GetComponent<MonsterAnimationAudioHandler>();
-    }
-
-    void Update() {
-
-
-       /* if(IsCurrentState("spwait")) {
-            if(IsAnimationStarting()) {
-                monsterAnimationAudioHandler.PlaySound(MonsterSoundEvent.Breathe);
-            }
-
-            if(IsAnimationFinished() && !IsNextState("wait")) {
-                SetBool("wait", true);
-            }
-        }
-
-        if(IsCurrentState("wait")) {
-            SetBool("wait", false);
-
-    
-        } */
     }
 
     private bool IsAnimationStarting() {
         bool initialState = animationStarting;
-        animationStarting = animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 < 0.05f;
+        animationStarting = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 < 0.05f;
         if(initialState == false && animationStarting == true) {
             return true;
         }
@@ -56,20 +33,20 @@ public class MonsterAnimationController : MonoBehaviour
     }
 
     private bool IsCurrentState(string state) {
-        return animator.GetCurrentAnimatorStateInfo(0).IsName(state);
+        return _animator.GetCurrentAnimatorStateInfo(0).IsName(state);
     }
 
     private bool IsAnimationFinished() {
-        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95f;
+        return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95f;
     }
 
     private bool IsNextState(string state) {
-        return animator.GetNextAnimatorStateInfo(0).IsName(state);
+        return _animator.GetNextAnimatorStateInfo(0).IsName(state);
     }
 
     void SetBool(string name, bool value) {
-        if(animator.GetBool(name) != value) {
-            animator.SetBool(name, value);
+        if(_animator.GetBool(name) != value) {
+            _animator.SetBool(name, value);
         }
     }
 }

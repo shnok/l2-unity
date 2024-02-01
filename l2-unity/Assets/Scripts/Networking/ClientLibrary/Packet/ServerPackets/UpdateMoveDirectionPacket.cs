@@ -4,35 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UpdateMoveDirectionPacket : ServerPacket {
-    private int id;
-    private float speed;
-    private Vector3 direction = new Vector3();
+    public int Id { get; private set; }
+    public float Speed { get; private set; }
+    public Vector3 Direction { get; private set; }
 
-    public UpdateMoveDirectionPacket() { }
     public UpdateMoveDirectionPacket(byte[] d) : base(d) {
         Parse();
     }
 
     public override void Parse() {
         try {
-            id = ReadI();
-            speed = ReadF();
-            direction.x = ReadF();
-            direction.y = ReadF();
-            direction.z = ReadF();
+            Id = ReadI();
+            Speed = ReadF();
+            Vector3 dir = new Vector3();
+            dir.x = ReadF();
+            dir.y = ReadF();
+            dir.z = ReadF();
+            Direction = dir;
         } catch(Exception e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-    public Vector3 getDirection() {
-        return direction;
     }
 }

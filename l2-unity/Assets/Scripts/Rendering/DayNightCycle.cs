@@ -14,26 +14,33 @@ public class SunMoonCycle : MonoBehaviour {
     public Texture2D moonTexture;
     public Vector2 moonTiling = new Vector2(2.5f, 2.5f);
 
+    [Header("Sky colors")]
     public Color dayColor = new Color(19f / 255f, 114f / 255f, 166f / 255f); // peak at sunriseEndTime
     public Color dawnColor = new Color(19f / 255f, 35f / 255f, 55f / 255f); // peak at sunriseStartTime  
     public Color duskColor = new Color(180f / 255f, 152f / 255f, 135f / 255f); // peak at sunsetStartTime
     public Color nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
+
+    [Header("Fog colors")]
     public Color dayFogColor = new Color(240f / 255f, 240f / 255f, 240f / 255f);
     public Color nightFogColor = new Color(10 / 255f, 10 / 255f, 10f / 255f);
 
+    [Header("Main light colors")]
     public Color mainLightDayColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
     public Color mainLightNightColor = new Color(101f / 255f, 110f / 255f, 152f / 255f);
     public Color mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
     public Color mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
 
+    [Header("Clouds opacity")]
     public float dayCloudsOpcacity = 2.54f;
     public float nightCloudsOpacity = 0.12f;
     public float dayHorizonCloudsOpcacity = 1f;
     public float nightHorizonCloudsOpacity = 0.05f;
 
+    [Header("Ambient light intensity")]
     public float ambientMinIntensity = 0.2f;
     public float ambientMaxIntensity = 0.75f;
 
+    [Header("Main light intensity")]
     public float mainLightMinIntensity = 0.4f;
     public float mainLightMaxIntensity = 1.3f;
 
@@ -82,8 +89,8 @@ public class SunMoonCycle : MonoBehaviour {
             }
         }
         if(clock.worldClock.darkRatio > 0) {
-            if(clock.worldClock.darkRatio < 0.1f) {
-                skyColor = Color.Lerp(duskColor, nightColor, clock.worldClock.darkRatio / 0.1f);
+            if(clock.worldClock.darkRatio < 0.05f) {
+                skyColor = Color.Lerp(duskColor, nightColor, clock.worldClock.darkRatio / 0.05f);
             } else if(clock.worldClock.darkRatio < 1f) {
                 skyColor = nightColor;
             }
@@ -108,8 +115,8 @@ public class SunMoonCycle : MonoBehaviour {
             }
         }
         if(clock.worldClock.darkRatio > 0) {
-            if(clock.worldClock.darkRatio < 0.1f) {
-                lightColor = Color.Lerp(mainLightduskColor, mainLightNightColor, clock.worldClock.darkRatio / 0.1f);
+            if(clock.worldClock.darkRatio < 0.05f) {
+                lightColor = Color.Lerp(mainLightduskColor, mainLightNightColor, clock.worldClock.darkRatio / 0.05f);
             } else if(clock.worldClock.darkRatio < 1f) {
                 lightColor = mainLightNightColor;
             }

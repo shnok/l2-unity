@@ -10,10 +10,10 @@ public class RandomUtils
             throw new System.ArgumentException("Probability percentage must be between 0 and 100.");
         }
 
-        // Generate a random value between 0 and 1
-        float randomValue = Random.Range(0f, 1f);
+        // Generate a random value between 1 and 100
+        float randomValue = Random.Range(1, 101);
 
         // Check if the random value is less than the desired probability
-        return randomValue < probabilityPercentage / 100f;
+        return randomValue < probabilityPercentage;
     }
 }

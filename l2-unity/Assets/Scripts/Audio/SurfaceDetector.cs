@@ -5,15 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class SurfaceDetector : MonoBehaviour 
 {
-    public ObjectData surfaceObject;
+    [SerializeField] private ObjectData _surfaceObject;
 
     public string GetSurfaceTag() {
-        if(Physics.Raycast(transform.position + Vector3.up * 1f, Vector3.down, out var hit, 2f, World.GetInstance().groundMask)) {
-            surfaceObject = new ObjectData(hit.collider.gameObject);
+        if(Physics.Raycast(transform.position + Vector3.up * 1f, Vector3.down, out var hit, 2f, World.Instance.GroundMask)) {
+            _surfaceObject = new ObjectData(hit.collider.gameObject);
         } else {
             return null;
         }
 
-        return surfaceObject.objectTag;
+        return _surfaceObject.ObjectTag;
     }
 }
