@@ -6,32 +6,35 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    private static MusicManager instance;
-    public static MusicManager GetInstance() {
-        return instance;
-    }
+    [SerializeField] private int _currentEventPriority = -1;
+    [SerializeField] private EventReference _currentMusicEvent;
+    [SerializeField] private Dictionary<EventReference, EventInstance> _musicInstances;
+    public int CurrentEventPriority { get { return _currentEventPriority; } }
+
+    private static MusicManager _instance;
+    public static MusicManager Instance { get { return _instance; } }
 
     private void Awake() {
-        instance = this;
+        if(_instance == null) {
+            _instance = this;
+        }
+
+        _musicInstances = new Dictionary<EventReference, EventInstance>();
     }
 
-    public int currentEventPriority = -1;
-    public EventReference currentMusicEvent;
-    Dictionary<EventReference, EventInstance> musicInstances = new Dictionary<EventReference, EventInstance>();
-
     public void PlayMusic(EventReference musicEvent, int priority) {   
-        if(priority <= currentEventPriority) {
+        if(priority <= _currentEventPriority) {
             return;
         }
 
-        currentEventPriority = priority;
-        currentMusicEvent = musicEvent;
+        _currentEventPriority = priority;
+        _currentMusicEvent = musicEvent;
 
-        if(musicInstances.ContainsKey(musicEvent)) {
-            musicInstances[musicEvent].start();
+        if(_musicInstances.ContainsKey(musicEvent)) {
+            _musicInstances[musicEvent].start();
         } else {
             EventInstance musicInstance = RuntimeManager.CreateInstance(musicEvent);
-            musicInstances.Add(musicEvent, musicInstance);
+            _musicInstances.Add(musicEvent, musicInstance);
             musicInstance.start();
         }
 
@@ -39,12 +42,12 @@ public class MusicManager : MonoBehaviour
     }
 
     public void StopMusic(EventReference musicEvent) {
-        if(musicInstances.ContainsKey(musicEvent)) {
-            musicInstances[musicEvent].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        if(_musicInstances.ContainsKey(musicEvent)) {
+            _musicInstances[musicEvent].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }             
     }
 
     public void ResetPriority() {
-        currentEventPriority = -1;
+        _currentEventPriority = -1;
     }
 }

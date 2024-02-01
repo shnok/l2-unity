@@ -2,18 +2,14 @@ using UnityEngine;
 
 [System.Serializable]
 public abstract class Status {
-    [SerializeField]
-    private int hp;
-    [SerializeField]
-    private int maxHp;
-    [SerializeField]
-    private int level;
-    [SerializeField]
-    private float moveSpeed;
-    public int Hp { get => hp; set => hp = value; }
-    public int MaxHp { get => maxHp; set => maxHp = value; }
-    public int Level { get => level; set => level = value; }
-    public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
+    [SerializeField] private int _hp;
+    [SerializeField] private int _maxHp;
+    [SerializeField] private int _level;
+    [SerializeField] private float _moveSpeed;
+    public int Hp { get => _hp; set => _hp = value; }
+    public int MaxHp { get => _maxHp; set => _maxHp = value; }
+    public int Level { get => _level; set => _level = value; }
+    public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
 
     public Status() { }
 }

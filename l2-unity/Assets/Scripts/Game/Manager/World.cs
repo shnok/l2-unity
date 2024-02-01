@@ -52,7 +52,7 @@ public class World : MonoBehaviour {
         NameplatesManager.GetInstance().SetMask(entityMask);
         Geodata.Instance.SetMask(obstacleMask);
         ClickManager.GetInstance().SetMasks(entityClickAreaMask, clickThroughMask);
-        CameraController.GetInstance().SetMask(obstacleMask);
+        CameraController.Instance.SetMask(obstacleMask);
     }
 
     public void RemoveObject(int id) {
@@ -97,8 +97,8 @@ public class World : MonoBehaviour {
 
         go.transform.SetParent(usersContainer.transform);
 
-        CameraController.GetInstance().SetTarget(go);
-        CameraController.GetInstance().enabled = true;
+        CameraController.Instance.SetTarget(go);
+        CameraController.Instance.enabled = true;
 
         ChatWindow.GetInstance().ReceiveChatMessage(new MessageLoggedIn(identity.Name));
     }

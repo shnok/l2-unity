@@ -16,12 +16,12 @@ public class AnimationController : MonoBehaviour {
         UpdateAnimator();
     }
 
-    void UpdateAnimator() {
+    private void UpdateAnimator() {
         SetFloat("Speed", _pc.currentSpeed, false);
 
         /*Jump */
         if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Idle")) {
-            CameraController.GetInstance().followRootBoneOffset = true;
+            CameraController.Instance.StickToBone = true;
             SetBool("IdleJump", true);
         } else {
             SetBool("IdleJump", false);
@@ -29,10 +29,10 @@ public class AnimationController : MonoBehaviour {
 
         /* RunJump */
         if(IsNextState("RunJump")) {
-            CameraController.GetInstance().followRootBoneOffset = true;
+            CameraController.Instance.StickToBone = true;
         }
         if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Run") || IsCurrentState("RunJump") && !IsAnimationFinished(0)) {
-            CameraController.GetInstance().followRootBoneOffset = true;
+            CameraController.Instance.StickToBone = true;
             SetBool("RunJump", true);
         } else {
             SetBool("RunJump", false);
@@ -40,7 +40,7 @@ public class AnimationController : MonoBehaviour {
 
         /* Run */
         if(IsNextState("Run")) {
-            CameraController.GetInstance().followRootBoneOffset = false;
+            CameraController.Instance.StickToBone = false;
         }
         if((InputManager.GetInstance().IsInputPressed(InputType.Move) || _pc.runToTarget)
             && (IsCurrentState("Idle") || IsAnimationFinished(0)) && _pc.canMove) {
@@ -52,10 +52,10 @@ public class AnimationController : MonoBehaviour {
 
         /* Sit */
         if(IsNextState("SitTransition")) {
-            CameraController.GetInstance().followRootBoneOffset = true;
+            CameraController.Instance.StickToBone = true;
         }
         if(InputManager.GetInstance().IsInputPressed(InputType.Sit) && (IsCurrentState("Run") || IsCurrentState("Idle"))) {
-            CameraController.GetInstance().followRootBoneOffset = true;
+            CameraController.Instance.StickToBone = true;
             _pc.canMove = false;
             SetBool("Sit", true);
         } else {
@@ -65,10 +65,10 @@ public class AnimationController : MonoBehaviour {
         /* SitWait */
 
         if(IsNextState("SitWait")) {
-            CameraController.GetInstance().followRootBoneOffset = true;
+            CameraController.Instance.StickToBone = true;
         }
         if(IsCurrentState("SitTransition") && IsAnimationFinished(0)) {
-            CameraController.GetInstance().followRootBoneOffset = true;
+            CameraController.Instance.StickToBone = true;
             SetBool("SitWait", true);
         }
 
@@ -76,7 +76,7 @@ public class AnimationController : MonoBehaviour {
         /* Stand */
         if((InputManager.GetInstance().IsInputPressed(InputType.Sit) || InputManager.GetInstance().IsInputPressed(InputType.Move))
             && (IsCurrentState("SitWait"))) {
-            CameraController.GetInstance().followRootBoneOffset = true;
+            CameraController.Instance.StickToBone = true;
             SetBool("Stand", true);
             SetBool("SitWait", false);
         } else {
@@ -84,7 +84,7 @@ public class AnimationController : MonoBehaviour {
         }
 
         if(IsCurrentState("Stand") && IsAnimationFinished(0)) {
-            CameraController.GetInstance().followRootBoneOffset = false;
+            CameraController.Instance.StickToBone = false;
             _pc.canMove = true;
         }
 
@@ -95,7 +95,7 @@ public class AnimationController : MonoBehaviour {
             && !IsCurrentState("SitTransition")
             && !IsCurrentState("Sit")
             && !IsCurrentState("SitWait")) {
-            CameraController.GetInstance().followRootBoneOffset = false;
+            CameraController.Instance.StickToBone = false;
             SetBool("Idle", true);
         } else {
             SetBool("Idle", false);
@@ -114,7 +114,7 @@ public class AnimationController : MonoBehaviour {
         return _animator.GetNextAnimatorStateInfo(0).IsName(state);
     }
 
-    void SetBool(string name, bool value) {
+    private void SetBool(string name, bool value) {
         if(_animator.GetBool(name) != value) {
             _animator.SetBool(name, value);
             if(!World.GetInstance().offlineMode) {
@@ -123,7 +123,7 @@ public class AnimationController : MonoBehaviour {
         }
     }
 
-    void SetFloat(string name, float value, bool share) {
+    private void SetFloat(string name, float value, bool share) {
         if(Mathf.Abs(_animator.GetFloat(name) - value) > 0.2f) {
             _animator.SetFloat(name, value);
             if(!World.GetInstance().offlineMode && share) {
@@ -132,7 +132,7 @@ public class AnimationController : MonoBehaviour {
         }
     }
 
-    void SetInteger(string name, int value) {
+    private void SetInteger(string name, int value) {
         if(_animator.GetInteger(name) != value) {
             _animator.SetInteger(name, value);
             if(!World.GetInstance().offlineMode) {
@@ -141,7 +141,7 @@ public class AnimationController : MonoBehaviour {
         }
     }
 
-    void SetTrigger(string name) {
+    private void SetTrigger(string name) {
         _animator.SetTrigger(name);
         if(!World.GetInstance().offlineMode) {
             EmitAnimatorInfo(name, 0);

@@ -26,9 +26,9 @@ public class ChatTab
         content.text = "";
 
         tab.Q<VisualElement>("unity-tab__header").RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.GetInstance().PlayUISound("click_01");
+            AudioManager.Instance.PlayUISound("click_01");
             if(tabView.activeTab != tab) {
-                AudioManager.GetInstance().PlayUISound("window_open");
+                AudioManager.Instance.PlayUISound("window_open");
             }
         }, TrickleDown.TrickleDown);
 
@@ -56,10 +56,10 @@ public class ChatTab
             VerifyScrollValue();
         });
         highBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.GetInstance().PlayUISound("click_01");
+            AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
         lowBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.GetInstance().PlayUISound("click_01");
+            AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
         dragger.RegisterCallback<MouseUpEvent>(evt => {
             VerifyScrollValue();

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerAnimationAudioHandler : MonoBehaviour
 {
-    SurfaceDetector surfaceDetector;
+    private SurfaceDetector _surfaceDetector;
     private void Start() {
-        surfaceDetector = transform.GetComponentInParent<SurfaceDetector>(true);    
+        _surfaceDetector = transform.GetComponentInParent<SurfaceDetector>(true);    
     }
 
     public void PlayRunStepSound() {
-        if(surfaceDetector.GetSurfaceTag() != null) {
-            AudioManager.GetInstance().PlayStepSound(surfaceDetector.GetSurfaceTag(), transform.position);
+        if(_surfaceDetector.GetSurfaceTag() != null) {
+            AudioManager.Instance.PlayStepSound(_surfaceDetector.GetSurfaceTag(), transform.position);
         }
     }
 }

@@ -28,12 +28,12 @@ public class MonsterAnimationAudioHandler : MonoBehaviour
     }
 
     public void PlaySound(MonsterSoundEvent soundEvent) {
-        AudioManager.GetInstance().PlayMonsterSound(soundEvent, npcClassName, transform.position);
+        AudioManager.Instance.PlayMonsterSound(soundEvent, npcClassName, transform.position);
     }
 
     public void PlaySoundFromAnimationClip(int type) {
         MonsterSoundEvent soundEvent = (MonsterSoundEvent) type;
-        AudioManager.GetInstance().PlayMonsterSound(soundEvent, npcClassName, transform.position);
+        AudioManager.Instance.PlayMonsterSound(soundEvent, npcClassName, transform.position);
     }
 
     public void PlaySoundAtRatio(MonsterSoundEvent soundEvent, float ratio) {

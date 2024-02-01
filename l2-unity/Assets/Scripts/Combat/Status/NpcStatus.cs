@@ -2,15 +2,11 @@ using UnityEngine;
 
 [System.Serializable]
 public class NpcStatus : Status {
-    [SerializeField]
-    private bool friendly = false;
-    [SerializeField]
-    private bool aggressive = false;
+    [SerializeField] private bool _friendly = false;
+    [SerializeField] private bool _aggressive = false;
 
-    public bool Friendly { get => friendly; set => friendly = value; }
-    public bool Aggressive { get => aggressive; set => aggressive = value; }
+    public bool Friendly { get => _friendly; set => _friendly = value; }
+    public bool Aggressive { get => _aggressive; set => _aggressive = value; }
 
     public NpcStatus() {}
-    
-
 }

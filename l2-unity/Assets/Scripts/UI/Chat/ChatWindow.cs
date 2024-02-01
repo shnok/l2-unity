@@ -88,11 +88,11 @@ public class ChatWindow : MonoBehaviour {
 
         var enlargeTextBtn = chatWindowEle.Q<Button>("EnlargeTextBtn");
         enlargeTextBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.GetInstance().PlayUISound("click_01");
+            AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
         var chatOptionsBtn = chatWindowEle.Q<Button>("ChatOptionsBtn");
         chatOptionsBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.GetInstance().PlayUISound("click_01");
+            AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
 
         L2GameUI.BlinkingCursor(chatInput);

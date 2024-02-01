@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class MusicAreaTrigger : MonoBehaviour
 {
-    public int areaPrority;
-    public EventReference enterEvent;
+    [SerializeField] private int _areaPrority;
+    [SerializeField] private EventReference _enterEvent;
 
     private void OnTriggerEnter(Collider other) {
         Debug.Log("Enter area:" + transform.name);
-        MusicManager.GetInstance().PlayMusic(enterEvent, areaPrority);
+        MusicManager.Instance.PlayMusic(_enterEvent, _areaPrority);
     }
 
     private void OnTriggerExit(Collider other) {
         Debug.Log("Exit area:" + transform.name);
-        MusicManager.GetInstance().ResetPriority();
-        MusicManager.GetInstance().StopMusic(enterEvent);
+        MusicManager.Instance.ResetPriority();
+        MusicManager.Instance.StopMusic(_enterEvent);
     }
 
     private void OnTriggerStay(Collider other) {
-        if(MusicManager.GetInstance().currentEventPriority > areaPrority) {
-            MusicManager.GetInstance().StopMusic(enterEvent);
+        if(MusicManager.Instance.CurrentEventPriority > _areaPrority) {
+            MusicManager.Instance.StopMusic(_enterEvent);
         } else {
-            MusicManager.GetInstance().PlayMusic(enterEvent, areaPrority);
+            MusicManager.Instance.PlayMusic(_enterEvent, _areaPrority);
         }
     }
 }

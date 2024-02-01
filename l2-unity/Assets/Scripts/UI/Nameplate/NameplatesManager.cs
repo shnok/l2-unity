@@ -210,6 +210,6 @@ public class NameplatesManager : MonoBehaviour
             return false;
         }
 
-        return CameraController.GetInstance().IsObjectVisible(target);
+        return CameraController.Instance.IsObjectVisible(target);
     }
 }
