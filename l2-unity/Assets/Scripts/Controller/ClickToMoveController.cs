@@ -83,12 +83,12 @@ public class ClickToMoveController : MonoBehaviour
         if(node != null && _startNode != null) {
             _targetNode = node;
 
-            PathFinderFactory.GetInstance().RequestPathfind(_startNode, _targetNode, (callback) => {
+            PathFinderFactory.Instance.RequestPathfind(_startNode, _targetNode, (callback) => {
                 Debug.Log("Found path with " + callback.Count + " node(s).");
                 if(callback.Count == 0) {
                     PlayerController.Instance.SetTargetPosition(_targetDestination, _destinationThreshold);
                 } else {
-                    _path = PathFinderFactory.GetInstance().SmoothPath(callback);
+                    _path = PathFinderFactory.Instance.SmoothPath(callback);
                 }
             });
 

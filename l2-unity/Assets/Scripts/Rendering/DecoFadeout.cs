@@ -2,6 +2,7 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 public class Fadeout : MonoBehaviour {
+    // TODO: Replace with render layers
     public float disableDistance = 100f;
 
     void FixedUpdate() {

@@ -5,27 +5,27 @@ using UnityEngine;
 
 //This class controls the threads
 public class PathFinderFactory : MonoBehaviour {
-    //Singleton
-    private static PathFinderFactory instance;
-    void Awake() {
-        instance = this;
-    }
-    public static PathFinderFactory GetInstance() {
-        return instance;
-    }
-
-    //The maximum simultaneous threads we allow to open
-    public int MaxJobs = 3;
 
     //Delegates are a variable that points to a function
     public delegate void PathfindingJobComplete(List<Node> path);
 
-    private List<PathFinder> currentJobs;
-    private List<PathFinder> todoJobs;
+    //The maximum simultaneous threads we allow to open
+    [SerializeField] private int _maxJobs = 3;
+
+    private List<PathFinder> _currentJobs;
+    private List<PathFinder> _todoJobs;
+
+    private static PathFinderFactory _instance;
+    public static PathFinderFactory Instance { get { return _instance; } }
+    void Awake() {
+        if(_instance == null) {
+            _instance = this;
+        }
+    }
 
     void Start() {
-        currentJobs = new List<PathFinder>();
-        todoJobs = new List<PathFinder>();
+        _currentJobs = new List<PathFinder>();
+        _todoJobs = new List<PathFinder>();
     }
 
     void Update() {
@@ -37,19 +37,19 @@ public class PathFinderFactory : MonoBehaviour {
 
         int i = 0;
 
-        while(i < currentJobs.Count) {
-            if(currentJobs[i].jobDone) {
-                currentJobs[i].NotifyComplete();
-                currentJobs.RemoveAt(i);
+        while(i < _currentJobs.Count) {
+            if(_currentJobs[i].JobDone) {
+                _currentJobs[i].NotifyComplete();
+                _currentJobs.RemoveAt(i);
             } else {
                 i++;
             }
         }
 
-        if(todoJobs.Count > 0 && currentJobs.Count < MaxJobs) {
-            PathFinder job = todoJobs[0];
-            todoJobs.RemoveAt(0);
-            currentJobs.Add(job);
+        if(_todoJobs.Count > 0 && _currentJobs.Count < _maxJobs) {
+            PathFinder job = _todoJobs[0];
+            _todoJobs.RemoveAt(0);
+            _currentJobs.Add(job);
 
             //Start a new thread
 
@@ -65,7 +65,7 @@ public class PathFinderFactory : MonoBehaviour {
 
     public void RequestPathfind(Node start, Node target, PathfindingJobComplete completeCallback) {
         PathFinder newJob = new PathFinder(start, target, completeCallback);
-        todoJobs.Add(newJob);
+        _todoJobs.Add(newJob);
     }
 
     public List<Node> SmoothPath(List<Node> path) {

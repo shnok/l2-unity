@@ -1,59 +1,62 @@
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class SunMoonCycle : MonoBehaviour {
-    [SerializeField] public Material skyboxMaterial;
+public class DayNightCycle : MonoBehaviour {
+    [SerializeField] private Material _skyboxMaterial;
 
-    public Light mainLight;
-    public WorldClock clock;
-    public float horizonOffsetDegree = 10f;
-    public float mainLightRotY = 45f;
+    private Light _mainLight;
+    private WorldClock _clock;
 
-    public Texture2D sunTexture;
-    public Vector2 sunTiling = new Vector2(1.5f, 1.5f);
-    public Texture2D moonTexture;
-    public Vector2 moonTiling = new Vector2(2.5f, 2.5f);
+    [Header("Sun/Moon appearances")]
+    [SerializeField] private float _horizonOffsetDegree = 3f;
+    [SerializeField] private float _mainLightRotY = 45f;
+    [SerializeField] private Texture2D _sunTexture;
+    [SerializeField] private Vector2 _sunTiling = new Vector2(1.5f, 1.5f);
+    [SerializeField] private Texture2D _moonTexture;
+    [SerializeField] private Vector2 _moonTiling = new Vector2(2.5f, 2.5f);
 
     [Header("Sky colors")]
-    public Color dayColor = new Color(19f / 255f, 114f / 255f, 166f / 255f); // peak at sunriseEndTime
-    public Color dawnColor = new Color(19f / 255f, 35f / 255f, 55f / 255f); // peak at sunriseStartTime  
-    public Color duskColor = new Color(180f / 255f, 152f / 255f, 135f / 255f); // peak at sunsetStartTime
-    public Color nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
+    [SerializeField] private Color _dayColor = new Color(19f / 255f, 114f / 255f, 166f / 255f); // peak at sunriseEndTime
+    [SerializeField] private Color _dawnColor = new Color(19f / 255f, 35f / 255f, 55f / 255f); // peak at sunriseStartTime  
+    [SerializeField] private Color _duskColor = new Color(70f / 255f, 53f / 255f, 43f / 255f); // peak at sunsetStartTime
+    [SerializeField] private Color _nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
 
     [Header("Fog colors")]
-    public Color dayFogColor = new Color(240f / 255f, 240f / 255f, 240f / 255f);
-    public Color nightFogColor = new Color(10 / 255f, 10 / 255f, 10f / 255f);
+    [SerializeField] private Color _dayFogColor = new Color(240f / 255f, 240f / 255f, 240f / 255f);
+    [SerializeField] private Color _nightFogColor = new Color(5 / 255f, 5 / 255f, 5 / 255f);
 
     [Header("Main light colors")]
-    public Color mainLightDayColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
-    public Color mainLightNightColor = new Color(101f / 255f, 110f / 255f, 152f / 255f);
-    public Color mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
-    public Color mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
+    [SerializeField] private Color _mainLightDayColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
+    [SerializeField] private Color _mainLightNightColor = new Color(101f / 255f, 110f / 255f, 152f / 255f);
+    [SerializeField] private Color _mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
+    [SerializeField] private Color _mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
 
     [Header("Clouds opacity")]
-    public float dayCloudsOpcacity = 2.54f;
-    public float nightCloudsOpacity = 0.12f;
-    public float dayHorizonCloudsOpcacity = 1f;
-    public float nightHorizonCloudsOpacity = 0.05f;
+    [SerializeField] private float _dayCloudsOpcacity = 2.54f;
+    [SerializeField] private float _nightCloudsOpacity = 0.12f;
+    [SerializeField] private float _dayHorizonCloudsOpcacity = 1f;
+    [SerializeField] private float _nightHorizonCloudsOpacity = 0.05f;
 
     [Header("Ambient light intensity")]
-    public float ambientMinIntensity = 0.2f;
-    public float ambientMaxIntensity = 0.75f;
+    [SerializeField] private float _ambientMinIntensity = 0.2f;
+    [SerializeField] private float _ambientMaxIntensity = 0.75f;
 
     [Header("Main light intensity")]
-    public float mainLightMinIntensity = 0.4f;
-    public float mainLightMaxIntensity = 1.3f;
-
-    void Awake() {
-        clock = GetComponent<WorldClock>();
-        mainLight = GetComponent<Light>();
-    }
+    [SerializeField] private float _mainLightMinIntensity = 0.4f;
+    [SerializeField] private float _mainLightMaxIntensity = 1.2f;
 
     // Update is called once per frame
     void Update() {
-        float mainLightLerpValue = clock.worldClock.dayRatio > 0 ? clock.worldClock.dayRatio : clock.worldClock.nightRatio;
-        float sunRotation = Mathf.Lerp(0 - horizonOffsetDegree, 180 + horizonOffsetDegree, mainLightLerpValue);
-        transform.eulerAngles = new Vector3(sunRotation, mainLightRotY, 0);
+        if(_clock == null) {
+            _clock = GetComponent<WorldClock>();
+        }
+        if(_mainLight == null) {
+            _mainLight = GetComponent<Light>();
+        }
+
+        float mainLightLerpValue = _clock.Clock.dayRatio > 0 ? _clock.Clock.dayRatio : _clock.Clock.nightRatio;
+        float sunRotation = Mathf.Lerp(0 - _horizonOffsetDegree, 180 + _horizonOffsetDegree, mainLightLerpValue);
+        transform.eulerAngles = new Vector3(sunRotation, _mainLightRotY, 0);
 
         // Update main light rotation with sky material
         ShareMainLightRotation();
@@ -77,79 +80,79 @@ public class SunMoonCycle : MonoBehaviour {
     }
 
     private void UpdateSkyColor() {
-        Color skyColor = skyboxMaterial.GetColor("_GradientColor1");
-        if(clock.worldClock.dawnRatio > 0 && clock.worldClock.dawnRatio < 1) {
-            skyColor = Color.Lerp(nightColor, dawnColor, clock.worldClock.dawnRatio);
+        Color skyColor = _skyboxMaterial.GetColor("_GradientColor1");
+        if(_clock.Clock.dawnRatio > 0 && _clock.Clock.dawnRatio < 1) {
+            skyColor = Color.Lerp(_nightColor, _dawnColor, _clock.Clock.dawnRatio);
         }
-        if(clock.worldClock.brightRatio > 0) {
-            if(clock.worldClock.brightRatio < 0.2f) {
-                skyColor = Color.Lerp(dawnColor, dayColor, clock.worldClock.brightRatio / 0.2f);
-            } else if(clock.worldClock.brightRatio < 1f) {
-                skyColor = dayColor;
+        if(_clock.Clock.brightRatio > 0) {
+            if(_clock.Clock.brightRatio < 0.2f) {
+                skyColor = Color.Lerp(_dawnColor, _dayColor, _clock.Clock.brightRatio / 0.2f);
+            } else if(_clock.Clock.brightRatio < 1f) {
+                skyColor = _dayColor;
             }
         }
-        if(clock.worldClock.darkRatio > 0) {
-            if(clock.worldClock.darkRatio < 0.05f) {
-                skyColor = Color.Lerp(duskColor, nightColor, clock.worldClock.darkRatio / 0.05f);
-            } else if(clock.worldClock.darkRatio < 1f) {
-                skyColor = nightColor;
+        if(_clock.Clock.darkRatio > 0) {
+            if(_clock.Clock.darkRatio < 0.05f) {
+                skyColor = Color.Lerp(_duskColor, _nightColor, _clock.Clock.darkRatio / 0.05f);
+            } else if(_clock.Clock.darkRatio < 1f) {
+                skyColor = _nightColor;
             }
         }
-        if(clock.worldClock.duskRatio > 0 && clock.worldClock.duskRatio < 1) {
-            skyColor = Color.Lerp(dayColor, duskColor, clock.worldClock.duskRatio);
+        if(_clock.Clock.duskRatio > 0 && _clock.Clock.duskRatio < 1) {
+            skyColor = Color.Lerp(_dayColor, _duskColor, _clock.Clock.duskRatio);
         }
 
-        skyboxMaterial.SetColor("_GradientColor1", skyColor);
+        _skyboxMaterial.SetColor("_GradientColor1", skyColor);
     }
 
     private void UpdateLightColor() {
-        Color lightColor = mainLight.color;
-        if(clock.worldClock.dawnRatio > 0 && clock.worldClock.dawnRatio < 1) {
-            lightColor = Color.Lerp(mainLightNightColor, mainLightDawnColor, clock.worldClock.dawnRatio);
+        Color lightColor = _mainLight.color;
+        if(_clock.Clock.dawnRatio > 0 && _clock.Clock.dawnRatio < 1) {
+            lightColor = Color.Lerp(_mainLightNightColor, _mainLightDawnColor, _clock.Clock.dawnRatio);
         }
-        if(clock.worldClock.brightRatio > 0) {
-            if(clock.worldClock.brightRatio < 0.2f) {
-                lightColor = Color.Lerp(mainLightDawnColor, mainLightDayColor, clock.worldClock.brightRatio / 0.2f);
-            } else if(clock.worldClock.brightRatio < 1f) {
-                lightColor = mainLightDayColor;
+        if(_clock.Clock.brightRatio > 0) {
+            if(_clock.Clock.brightRatio < 0.2f) {
+                lightColor = Color.Lerp(_mainLightDawnColor, _mainLightDayColor, _clock.Clock.brightRatio / 0.2f);
+            } else if(_clock.Clock.brightRatio < 1f) {
+                lightColor = _mainLightDayColor;
             }
         }
-        if(clock.worldClock.darkRatio > 0) {
-            if(clock.worldClock.darkRatio < 0.05f) {
-                lightColor = Color.Lerp(mainLightduskColor, mainLightNightColor, clock.worldClock.darkRatio / 0.05f);
-            } else if(clock.worldClock.darkRatio < 1f) {
-                lightColor = mainLightNightColor;
+        if(_clock.Clock.darkRatio > 0) {
+            if(_clock.Clock.darkRatio < 0.05f) {
+                lightColor = Color.Lerp(_mainLightduskColor, _mainLightNightColor, _clock.Clock.darkRatio / 0.05f);
+            } else if(_clock.Clock.darkRatio < 1f) {
+                lightColor = _mainLightNightColor;
             }
         }
-        if(clock.worldClock.duskRatio > 0 && clock.worldClock.duskRatio < 1) {
-            lightColor = Color.Lerp(mainLightDayColor, mainLightduskColor, clock.worldClock.duskRatio);
+        if(_clock.Clock.duskRatio > 0 && _clock.Clock.duskRatio < 1) {
+            lightColor = Color.Lerp(_mainLightDayColor, _mainLightduskColor, _clock.Clock.duskRatio);
         }
-        mainLight.color = lightColor;
+        _mainLight.color = lightColor;
     }
 
     private void UpdateFogColor() {
         Color fogColor = RenderSettings.fogColor;
-        if(clock.worldClock.dawnRatio > 0 && clock.worldClock.dawnRatio < 1) {
-            fogColor = Color.Lerp(fogColor, dayFogColor, clock.worldClock.dawnRatio);
+        if(_clock.Clock.dawnRatio > 0 && _clock.Clock.dawnRatio < 1) {
+            fogColor = Color.Lerp(fogColor, _dayFogColor, _clock.Clock.dawnRatio);
         }
-        if(clock.worldClock.brightRatio > 0 && clock.worldClock.brightRatio < 1) {
-            fogColor = dayFogColor;
+        if(_clock.Clock.brightRatio > 0 && _clock.Clock.brightRatio < 1) {
+            fogColor = _dayFogColor;
         }
-        if(clock.worldClock.duskRatio > 0 && clock.worldClock.duskRatio < 1) {
-            fogColor = Color.Lerp(dayFogColor, nightFogColor, clock.worldClock.duskRatio);
+        if(_clock.Clock.duskRatio > 0 && _clock.Clock.duskRatio < 1) {
+            fogColor = Color.Lerp(_dayFogColor, _nightFogColor, _clock.Clock.duskRatio);
         }
-        if(clock.worldClock.darkRatio > 0 && clock.worldClock.darkRatio < 1) {
-            fogColor = nightFogColor;
+        if(_clock.Clock.darkRatio > 0 && _clock.Clock.darkRatio < 1) {
+            fogColor = _nightFogColor;
         }
         RenderSettings.fogColor = fogColor;
     }
 
     private void UpdateLightIntensity() {
         // Ambient light intensity
-        RenderSettings.ambientIntensity = AdjustIntensity(ambientMinIntensity, ambientMaxIntensity, clock.worldClock.dawnRatio, clock.worldClock.duskRatio); ;
+        RenderSettings.ambientIntensity = AdjustIntensity(_ambientMinIntensity, _ambientMaxIntensity, _clock.Clock.dawnRatio, _clock.Clock.duskRatio); ;
 
         // Main light intensity
-        mainLight.intensity = AdjustIntensity(mainLightMinIntensity, mainLightMaxIntensity, clock.worldClock.dawnRatio, clock.worldClock.duskRatio);
+        _mainLight.intensity = AdjustIntensity(_mainLightMinIntensity, _mainLightMaxIntensity, _clock.Clock.dawnRatio, _clock.Clock.duskRatio);
     }
 
 
@@ -162,38 +165,38 @@ public class SunMoonCycle : MonoBehaviour {
     }
 
     private void UpdateCloudsOpacity() {
-        if(clock.worldClock.dawnRatio > 0 && clock.worldClock.dawnRatio < 1) {
-            skyboxMaterial.SetFloat("_Clouds_Opacity", Mathf.Lerp(nightCloudsOpacity, dayCloudsOpcacity, clock.worldClock.dawnRatio));
-            skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", Mathf.Lerp(nightHorizonCloudsOpacity, dayHorizonCloudsOpcacity, clock.worldClock.dawnRatio));
+        if(_clock.Clock.dawnRatio > 0 && _clock.Clock.dawnRatio < 1) {
+            _skyboxMaterial.SetFloat("_Clouds_Opacity", Mathf.Lerp(_nightCloudsOpacity, _dayCloudsOpcacity, _clock.Clock.dawnRatio));
+            _skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", Mathf.Lerp(_nightHorizonCloudsOpacity, _dayHorizonCloudsOpcacity, _clock.Clock.dawnRatio));
         }
-        if(clock.worldClock.brightRatio > 0 && clock.worldClock.brightRatio < 1) {
-            skyboxMaterial.SetFloat("_Clouds_Opacity", dayCloudsOpcacity);
-            skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", dayHorizonCloudsOpcacity);
+        if(_clock.Clock.brightRatio > 0 && _clock.Clock.brightRatio < 1) {
+            _skyboxMaterial.SetFloat("_Clouds_Opacity", _dayCloudsOpcacity);
+            _skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", _dayHorizonCloudsOpcacity);
         }
-        if(clock.worldClock.duskRatio > 0 && clock.worldClock.duskRatio < 1) {
-            skyboxMaterial.SetFloat("_Clouds_Opacity", Mathf.Lerp(dayCloudsOpcacity, nightCloudsOpacity, clock.worldClock.duskRatio));
-            skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", Mathf.Lerp(dayHorizonCloudsOpcacity, nightHorizonCloudsOpacity, clock.worldClock.duskRatio));
+        if(_clock.Clock.duskRatio > 0 && _clock.Clock.duskRatio < 1) {
+            _skyboxMaterial.SetFloat("_Clouds_Opacity", Mathf.Lerp(_dayCloudsOpcacity, _nightCloudsOpacity, _clock.Clock.duskRatio));
+            _skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", Mathf.Lerp(_dayHorizonCloudsOpcacity, _nightHorizonCloudsOpacity, _clock.Clock.duskRatio));
         }
-        if(clock.worldClock.darkRatio > 0 && clock.worldClock.darkRatio < 1) {
-            skyboxMaterial.SetFloat("_Clouds_Opacity", nightCloudsOpacity);
-            skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", nightHorizonCloudsOpacity);
+        if(_clock.Clock.darkRatio > 0 && _clock.Clock.darkRatio < 1) {
+            _skyboxMaterial.SetFloat("_Clouds_Opacity", _nightCloudsOpacity);
+            _skyboxMaterial.SetFloat("_Horizon_Clouds_Opacity", _nightHorizonCloudsOpacity);
         }
     }
 
     private void UpdateMainLightTexture() {
         // Update texture 
-        if(clock.worldClock.dayRatio > 0) {
-            skyboxMaterial.SetTexture("_SunMoon", sunTexture);
-            skyboxMaterial.SetTextureScale("_SunMoon", sunTiling);
+        if(_clock.Clock.dayRatio > 0) {
+            _skyboxMaterial.SetTexture("_SunMoon", _sunTexture);
+            _skyboxMaterial.SetTextureScale("_SunMoon", _sunTiling);
         } else {
-            skyboxMaterial.SetTexture("_SunMoon", moonTexture);
-            skyboxMaterial.SetTextureScale("_SunMoon", moonTiling);
+            _skyboxMaterial.SetTexture("_SunMoon", _moonTexture);
+            _skyboxMaterial.SetTextureScale("_SunMoon", _moonTiling);
         }
     }
 
     private void ShareMainLightRotation() {
-        skyboxMaterial.SetVector("_MainLightForward", transform.forward);
-        skyboxMaterial.SetVector("_MainLightUp", transform.up);
-        skyboxMaterial.SetVector("_MainLightRight", transform.right);
+        _skyboxMaterial.SetVector("_MainLightForward", transform.forward);
+        _skyboxMaterial.SetVector("_MainLightUp", transform.up);
+        _skyboxMaterial.SetVector("_MainLightRight", transform.right);
     }
 }

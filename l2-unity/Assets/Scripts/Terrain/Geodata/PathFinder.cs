@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class PathFinder
 {
-    Geodata gridBase;
-    public Node startPosition;
-    public Node endPosition;
+    private PathFinderFactory.PathfindingJobComplete _completeCallback;
+    private List<Node> _foundPath;
+    private Geodata _gridBase;
 
-    public volatile bool jobDone = false;
-    PathFinderFactory.PathfindingJobComplete completeCallback;
-    List<Node> foundPath;
+    [SerializeField] private Node _startPosition;
+    [SerializeField] private Node _endPosition;
+    [SerializeField] private volatile bool jobDone = false;
+
+    public bool JobDone { get { return jobDone; } }
 
     public PathFinder(Node start, Node target, PathFinderFactory.PathfindingJobComplete callback) {
-        startPosition = start;
-        endPosition = target;
-        completeCallback = callback;
-        gridBase = Geodata.Instance;
+        _startPosition = start;
+        _endPosition = target;
+        _completeCallback = callback;
+        _gridBase = Geodata.Instance;
     }
 
     public void FindPath() {
-        foundPath = FindPathActual(startPosition, endPosition);
+        _foundPath = FindPathActual(_startPosition, _endPosition);
 
         jobDone = true;
     }
 
     public void NotifyComplete() {
-        if(completeCallback != null) {
-            completeCallback(foundPath);
+        if(_completeCallback != null) {
+            _completeCallback(_foundPath);
         }
     }
 
@@ -217,8 +219,8 @@ public class PathFinder
     private Node GetNode(int x, int y, int z) {
         Node n = null;
 
-        lock(gridBase) {
-            n = gridBase.GetNode(x, y, z);
+        lock(_gridBase) {
+            n = _gridBase.GetNode(x, y, z);
         }
         return n;
     }
