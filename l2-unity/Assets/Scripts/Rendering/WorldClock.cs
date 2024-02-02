@@ -24,7 +24,7 @@ public struct Clock {
     public float darkRatio;
 }
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class WorldClock : MonoBehaviour {
     [SerializeField] private float _dayDurationMinutes = 30;
     [SerializeField] private string _timeHour;
@@ -36,7 +36,7 @@ public class WorldClock : MonoBehaviour {
     public Clock Clock { get { return _clock; } }
 
     private static WorldClock _instance;
-    public static WorldClock Instance { get; private set; }
+    public static WorldClock Instance { get { return _instance; } }
     private void Awake() {
         if(_instance == null) {
             _instance = this;

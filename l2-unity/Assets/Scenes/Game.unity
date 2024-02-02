@@ -499,9 +499,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8842a4446adb215469d4f39877fdc7b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseEnabled: 1
-  mouseOverUI: 0
-  uiLoaded: 0
+  _uiLoaded: 0
+  _mouseEnabled: 1
+  _mouseOverUI: 0
 --- !u!114 &661036171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,9 +514,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa54fc0453ab9e4092d2cabd8d49756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusWindowTemplate: {fileID: 0}
-  statusWindowMinWidth: 175
-  statusWindowMaxWidth: 400
+  _statusWindowMinWidth: 175
+  _statusWindowMaxWidth: 400
 --- !u!114 &661036172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,13 +551,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b924f2ee5faed49b55c17e32d096a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameplateTemplate: {fileID: 0}
-  nameplateViewDistance: 25
-  entityMask:
+  _nameplateViewDistance: 50
+  _entityMask:
     serializedVersion: 2
-    m_Bits: 2112
-  occlusionBaseHeight: 1.5
-  playerTransform: {fileID: 0}
+    m_Bits: 0
 --- !u!114 &661036174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,9 +567,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820818033378cea4480aedc5f439ad6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetWindowTemplate: {fileID: 0}
-  statusWindowMinWidth: 175
-  statusWindowMaxWidth: 300
+  _targetWindowMinWidth: 175
+  _targetWindowMaxWidth: 300
 --- !u!1 &688311052
 GameObject:
   m_ObjectHideFlags: 0
@@ -1161,6 +1156,7 @@ MonoBehaviour:
   _SFXVolume: 1
   _UIVolume: 1
   _ambientVolume: 1
+  _muteWhenNotFocused: 1
 --- !u!114 &1433411800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1252,7 +1248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: _startClock
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: _timeElapsed
