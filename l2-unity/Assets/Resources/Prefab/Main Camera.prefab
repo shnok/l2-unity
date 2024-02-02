@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5966979649214767529}
   - component: {fileID: 1030884649167671466}
   - component: {fileID: 7488049617195192662}
+  - component: {fileID: 6471136026442916719}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -170,27 +171,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ac95a8338583c458ec03479c2641dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  rootBone: {fileID: 0}
-  rootBoneHeight: 0
-  followRootBoneOffset: 1
-  lerpTargetPos: {x: 0, y: 0, z: 0}
-  smoothness: 8
-  smoothCamera: 1
-  minDistance: 0.5
-  maxDistance: 10
-  camOffset: {x: 0, y: 0.8, z: 0}
-  camDistance: 2
-  currentDistance: 0
-  camSpeed: 25
-  zoomSpeed: 5
-  targetPos: {x: 0, y: 0, z: 0}
-  detector:
-    collisionLayer:
+  _target: {fileID: 0}
+  _smoothCamera: 1
+  _camOffset: {x: 0, y: 0.8, z: 0}
+  _smoothness: 8
+  _camSpeed: 25
+  _minDistance: 0.5
+  _maxDistance: 10
+  _zoomSpeed: 5
+  _camDistance: 2
+  _currentDistance: 0
+  _stickToBone: 1
+  _rootBone: {fileID: 0}
+  _rootBoneHeight: 0
+  _collisionDetector:
+    _collisionLayer:
       serializedVersion: 2
       m_Bits: 0
-    adjustedDistance: 0
-    collisionObject: {fileID: 0}
+    _adjustedDistance: 0
+    _collisionObject: {fileID: 0}
 --- !u!114 &1030884649167671466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,9 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a1288ba2c6eeb49b4e61ded9b3537d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  cam: {fileID: 0}
-  listener: 0
+  _player: {fileID: 0}
+  _cam: {fileID: 0}
+  _listener: 0
 --- !u!114 &7488049617195192662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,3 +219,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   focusedFrameRate: 60
   unfocusedFrameRate: 5
+--- !u!114 &6471136026442916719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146978712471996646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2aec186ebf9ffd49b2d3ce2bf337aec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _decoCullDistance: 110
