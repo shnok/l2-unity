@@ -61,8 +61,14 @@ public class DayNightCycle : MonoBehaviour {
         // Update main light rotation with sky material
         ShareMainLightRotation();
 
-        // Lerping lights
-        UpdateLightIntensity();
+        if(transform.eulerAngles.x < -1 || transform.eulerAngles.x > 181) {
+            _mainLight.intensity = 0;
+        } else {
+            // Lerping lights
+            UpdateMainLightIntensity();
+        }
+
+        UpdateAmbientLightIntensity();
 
         // Lerping sky color
         UpdateSkyColor();
@@ -147,10 +153,12 @@ public class DayNightCycle : MonoBehaviour {
         RenderSettings.fogColor = fogColor;
     }
 
-    private void UpdateLightIntensity() {
+    private void UpdateAmbientLightIntensity() {
         // Ambient light intensity
         RenderSettings.ambientIntensity = AdjustIntensity(_ambientMinIntensity, _ambientMaxIntensity, _clock.Clock.dawnRatio, _clock.Clock.duskRatio); ;
+    }
 
+    private void UpdateMainLightIntensity() {
         // Main light intensity
         _mainLight.intensity = AdjustIntensity(_mainLightMinIntensity, _mainLightMaxIntensity, _clock.Clock.dawnRatio, _clock.Clock.duskRatio);
     }
