@@ -79,6 +79,6 @@ public class DefaultClient : MonoBehaviour {
         }
 
         World.Instance.ClearEntities();
-        ChatWindow.GetInstance().ClearChat();     
+        ChatWindow.Instance.ClearChat();     
     }
 }

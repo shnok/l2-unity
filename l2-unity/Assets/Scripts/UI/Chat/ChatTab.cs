@@ -5,29 +5,30 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class ChatTab
 {
-    public string tabName = "Tab";
-    public List<MessageType> filteredMessages;
-    public bool autoscroll = true;
-    public Tab tab;
-    public ScrollView scrollView;
-    public Label content;
-    public Scroller scroller;
-    public VisualElement chatWindowEle;
-    public TabView tabView;
+    [SerializeField] string _tabName = "Tab";
+    [SerializeField] private List<MessageType> _filteredMessages;
+    private bool _autoscroll = true;
+    private ScrollView _scrollView;
+    private Label _content;
+    private Scroller _scroller;
+    private VisualElement _chatWindowEle;
+    private TabView _tabView;
+
+    public string TabName { get { return _tabName; } }
+    public List<MessageType> FilteredMessages { get { return _filteredMessages; } }
+    public Label Content { get { return _content; } }
 
     public void Initialize(VisualElement chatWindowEle, Tab tab) {
-        this.tab = tab;
-
-        this.chatWindowEle = chatWindowEle;
-        tabView = chatWindowEle.Q<TabView>("ChatTabView");
-        scrollView = tab.Q<ScrollView>("ScrollView");
-        scroller = scrollView.verticalScroller;
-        content = tab.Q<Label>("Content");
-        content.text = "";
+        _chatWindowEle = chatWindowEle;
+        _tabView = chatWindowEle.Q<TabView>("ChatTabView");
+        _scrollView = tab.Q<ScrollView>("ScrollView");
+        _scroller = _scrollView.verticalScroller;
+        _content = tab.Q<Label>("Content");
+        _content.text = "";
 
         tab.Q<VisualElement>("unity-tab__header").RegisterCallback<MouseDownEvent>(evt => {
             AudioManager.Instance.PlayUISound("click_01");
-            if(tabView.activeTab != tab) {
+            if(_tabView.activeTab != tab) {
                 AudioManager.Instance.PlayUISound("window_open");
             }
         }, TrickleDown.TrickleDown);
@@ -37,17 +38,17 @@ public class ChatTab
     }
 
     private void RegisterAutoScrollEvent() {
-        content.RegisterValueChangedCallback(evt => {
-            if(autoscroll) {
-                ChatWindow.GetInstance().ScrollDown(scroller);
+        _content.RegisterValueChangedCallback(evt => {
+            if(_autoscroll) {
+                ChatWindow.Instance.ScrollDown(_scroller);
             }
         });    
     }
 
     private void RegisterPlayerScrollEvent() {
-        var highBtn = scroller.Q<RepeatButton>("unity-high-button");
-        var lowBtn = scroller.Q<RepeatButton>("unity-low-button");
-        var dragger = scroller.Q<VisualElement>("unity-drag-container");
+        var highBtn = _scroller.Q<RepeatButton>("unity-high-button");
+        var lowBtn = _scroller.Q<RepeatButton>("unity-low-button");
+        var dragger = _scroller.Q<VisualElement>("unity-drag-container");
 
         highBtn.RegisterCallback<MouseUpEvent>(evt => {
             VerifyScrollValue();
@@ -68,18 +69,18 @@ public class ChatTab
             VerifyScrollValue();
         });
         
-        chatWindowEle.RegisterCallback<GeometryChangedEvent>(evt => {
-            if(autoscroll) {
-                ChatWindow.GetInstance().ScrollDown(scroller);
+        _chatWindowEle.RegisterCallback<GeometryChangedEvent>(evt => {
+            if(_autoscroll) {
+                ChatWindow.Instance.ScrollDown(_scroller);
             }
         });
     }
 
     private void VerifyScrollValue() {
-        if(scroller.highValue > 0 && scroller.value == scroller.highValue || scroller.highValue == 0 && scroller.value == 0) {
-            autoscroll = true;
+        if(_scroller.highValue > 0 && _scroller.value == _scroller.highValue || _scroller.highValue == 0 && _scroller.value == 0) {
+            _autoscroll = true;
         } else {
-            autoscroll = false;
+            _autoscroll = false;
         }
     }
 }

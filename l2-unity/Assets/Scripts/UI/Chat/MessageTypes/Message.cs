@@ -1,8 +1,9 @@
 public abstract class Message {
-    public MessageType messageType;
+    private MessageType _messageType;
+    public MessageType MessageType { get { return _messageType; } }
 
     public Message(MessageType messageType) {
-        this.messageType = messageType;
+        _messageType = messageType;
     }
 
     public abstract override string ToString();

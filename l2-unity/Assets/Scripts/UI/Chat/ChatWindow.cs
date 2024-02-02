@@ -5,34 +5,30 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ChatWindow : MonoBehaviour {
-    [SerializeField] private VisualTreeAsset chatWindowTemplate;
-    [SerializeField] private VisualTreeAsset tabTemplate;
+    private VisualTreeAsset _chatWindowTemplate;
+    private VisualTreeAsset _tabTemplate;
+    private TextField _chatInput;
+    private VisualElement _chatInputContainer;
+    private TabView _chatTabView;
+    private VisualElement _chatWindowEle;
 
-    public float chatWindowMinWidth = 225.0f;
-    public float chatWindowMaxWidth = 500.0f;
-    public float chatWindowMinHeight = 175.0f;
-    public float chatWindowMaxHeight = 600.0f;
+    [SerializeField] private float _chatWindowMinWidth = 225.0f;
+    [SerializeField] private float _chatWindowMaxWidth = 500.0f;
+    [SerializeField] private float _chatWindowMinHeight = 175.0f;
+    [SerializeField] private float _chatWindowMaxHeight = 600.0f;
+    [SerializeField] public List<ChatTab> _tabs;
+    [SerializeField] private bool _chatOpened = false;
+    [SerializeField] private int _chatInputCharacterLimit = 64;
 
-    [SerializeField] public List<ChatTab> tabs;
+    public bool ChatOpened { get { return _chatOpened; } }
 
-    private TextField chatInput;
-    private VisualElement chatInputContainer;
-    private TabView chatTabView;
-    private VisualElement chatWindowEle;
-
-    public bool chatOpened = false;
-    public bool autoscroll = true;
-
-    [SerializeField] private int chatInputCharacterLimit = 64;
-
-    private static ChatWindow instance;
-    public static ChatWindow GetInstance() {
-        return instance;
-    }
+    private static ChatWindow _instance;
+    public static ChatWindow Instance { get { return _instance; } }
 
     private void Awake() {
-        instance = this;
-
+        if(_instance == null) {
+            _instance = this;
+        }
     }
 
     void Start() {
@@ -40,22 +36,22 @@ public class ChatWindow : MonoBehaviour {
     }
 
     private void LoadAssets() {
-        if(chatWindowTemplate == null) {
-            chatWindowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ChatWindow");
+        if(_chatWindowTemplate == null) {
+            _chatWindowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ChatWindow");
         }
-        if(chatWindowTemplate == null) {
+        if(_chatWindowTemplate == null) {
             Debug.LogError("Could not load chat window template.");
         }
-        if(tabTemplate == null) {
-            tabTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ChatTab");
+        if(_tabTemplate == null) {
+            _tabTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ChatTab");
         }
-        if(tabTemplate == null) {
+        if(_tabTemplate == null) {
             Debug.LogError("Could not load chat tab template.");
         }
     }
 
     public void AddWindow(VisualElement root) {
-        if(chatWindowTemplate == null) {
+        if(_chatWindowTemplate == null) {
             return;
         }
         StartCoroutine(BuildWindow(root));
@@ -63,45 +59,45 @@ public class ChatWindow : MonoBehaviour {
 
     IEnumerator BuildWindow(VisualElement root) {
 
-        chatWindowEle = chatWindowTemplate.Instantiate()[0];
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(chatWindowEle);
-        chatWindowEle.AddManipulator(mouseOverDetection);
+        _chatWindowEle = _chatWindowTemplate.Instantiate()[0];
+        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(_chatWindowEle);
+        _chatWindowEle.AddManipulator(mouseOverDetection);
 
-        var diagonalResizeHandle = chatWindowEle.Q<VisualElement>(null, "resize-diag");
+        var diagonalResizeHandle = _chatWindowEle.Q<VisualElement>(null, "resize-diag");
 
         DiagonalResizeManipulator diagonalResizeManipulator = new DiagonalResizeManipulator(
             diagonalResizeHandle,
-            chatWindowEle,
-            chatWindowMinWidth,
-            chatWindowMaxWidth,
-            chatWindowMinHeight,
-            chatWindowMaxHeight,
+            _chatWindowEle,
+            _chatWindowMinWidth,
+            _chatWindowMaxWidth,
+            _chatWindowMinHeight,
+            _chatWindowMaxHeight,
             14.5f,
             2f);
 
         diagonalResizeHandle.AddManipulator(diagonalResizeManipulator);
 
-        chatInput = chatWindowEle.Q<TextField>("ChatInputField");
-        chatInput.RegisterCallback<FocusEvent>(OnChatInputFocus);
-        chatInput.RegisterCallback<BlurEvent>(OnChatInputBlur);
-        chatInput.maxLength = chatInputCharacterLimit;
+        _chatInput = _chatWindowEle.Q<TextField>("ChatInputField");
+        _chatInput.RegisterCallback<FocusEvent>(OnChatInputFocus);
+        _chatInput.RegisterCallback<BlurEvent>(OnChatInputBlur);
+        _chatInput.maxLength = _chatInputCharacterLimit;
 
-        var enlargeTextBtn = chatWindowEle.Q<Button>("EnlargeTextBtn");
+        var enlargeTextBtn = _chatWindowEle.Q<Button>("EnlargeTextBtn");
         enlargeTextBtn.RegisterCallback<MouseDownEvent>(evt => {
             AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
-        var chatOptionsBtn = chatWindowEle.Q<Button>("ChatOptionsBtn");
+        var chatOptionsBtn = _chatWindowEle.Q<Button>("ChatOptionsBtn");
         chatOptionsBtn.RegisterCallback<MouseDownEvent>(evt => {
             AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
 
-        L2GameUI.BlinkingCursor(chatInput);
+        L2GameUI.BlinkingCursor(_chatInput);
 
-        chatInputContainer = chatWindowEle.Q<VisualElement>("InnerBar");
+        _chatInputContainer = _chatWindowEle.Q<VisualElement>("InnerBar");
 
         CreateTabs();
 
-        root.Add(chatWindowEle);
+        root.Add(_chatWindowEle);
 
         yield return new WaitForEndOfFrame();
         diagonalResizeManipulator.SnapSize();
@@ -109,21 +105,21 @@ public class ChatWindow : MonoBehaviour {
 
 
     private void CreateTabs() {
-        chatTabView = chatWindowEle.Q<TabView>("ChatTabView");
+        _chatTabView = _chatWindowEle.Q<TabView>("ChatTabView");
         
-        foreach(var tab in tabs) {
-            Tab t = (Tab) tabTemplate.CloneTree()[0][0];
-            tab.Initialize(chatWindowEle, t);
-            t.name = tab.tabName;
-            t.label = tab.tabName;
-          
-            chatTabView.Add(t);
+        foreach(var tab in _tabs) {
+            Tab tabElement = (Tab) _tabTemplate.CloneTree()[0][0];
+            tab.Initialize(_chatWindowEle, tabElement);
+
+            tabElement.name = tab.TabName;
+            tabElement.label = tab.TabName;
+            _chatTabView.Add(tabElement);
         }
     }
 
     void Update() {
         if(InputManager.GetInstance().IsInputPressed(InputType.SendMessage)) {
-            if(chatOpened) {
+            if(_chatOpened) {
                 CloseChat(true);
             } else {
                 StartCoroutine(OpenChat());
@@ -131,61 +127,61 @@ public class ChatWindow : MonoBehaviour {
         }
 
         if(InputManager.GetInstance().IsInputPressed(InputType.Escape)) {
-            if(chatOpened) {
+            if(_chatOpened) {
                 CloseChat(false);
             }
         }
     }
 
     IEnumerator OpenChat() {
-        chatOpened = true;
-        L2GameUI.GetInstance().BlurFocus();
+        _chatOpened = true;
+        L2GameUI.Instance.BlurFocus();
         yield return new WaitForEndOfFrame();
-        chatInput.Focus();
+        _chatInput.Focus();
     }
 
     public void CloseChat(bool sendMessage) {
-        chatOpened = false;
+        _chatOpened = false;
 
-        L2GameUI.GetInstance().BlurFocus();
+        L2GameUI.Instance.BlurFocus();
 
         if(sendMessage) {
-            if(chatInput.text.Length > 0) {
-                SendChatMessage(chatInput.text);
-                chatInput.value = "";
+            if(_chatInput.text.Length > 0) {
+                SendChatMessage(_chatInput.text);
+                _chatInput.value = "";
             }
         }
     }
 
     private void OnChatInputFocus(FocusEvent evt) {
-        if(!chatInputContainer.ClassListContains("highlighted")) {
-            chatInputContainer.AddToClassList("highlighted");
+        if(!_chatInputContainer.ClassListContains("highlighted")) {
+            _chatInputContainer.AddToClassList("highlighted");
         }
 
-        if(!chatOpened) {
-            chatOpened = true;
+        if(!_chatOpened) {
+            _chatOpened = true;
         }
     }
 
     private void OnChatInputBlur(BlurEvent evt) {
-        if(chatInputContainer.ClassListContains("highlighted")) {
-            chatInputContainer.RemoveFromClassList("highlighted");
+        if(_chatInputContainer.ClassListContains("highlighted")) {
+            _chatInputContainer.RemoveFromClassList("highlighted");
         }
 
-        if(chatOpened) {
-            chatOpened = false;
+        if(_chatOpened) {
+            _chatOpened = false;
         }
     }
 
     public void ClearChat() {
-        for(int i = 0; i < tabs.Count; i++) {
+        for(int i = 0; i < _tabs.Count; i++) {
             ClearTab(i);
         }
     }
 
     public void ClearTab(int tabIndex) {
-        if(tabIndex <= tabs.Count - 1) {
-            tabs[tabIndex].content.text = "";
+        if(tabIndex <= _tabs.Count - 1) {
+            _tabs[tabIndex].Content.text = "";
         }
     }
 
@@ -204,10 +200,10 @@ public class ChatWindow : MonoBehaviour {
             return;
         }
 
-        for(int i = 0; i < tabs.Count; i++) {
-            if(tabs[i].filteredMessages.Count > 0) {
-                if(tabs[i].filteredMessages.Contains(message.messageType)) {
-                    ConcatMessage(tabs[i].content, message.ToString());
+        for(int i = 0; i < _tabs.Count; i++) {
+            if(_tabs[i].FilteredMessages.Count > 0) {
+                if(_tabs[i].FilteredMessages.Contains(message.MessageType)) {
+                    ConcatMessage(_tabs[i].Content, message.ToString());
                 }
             }
         }

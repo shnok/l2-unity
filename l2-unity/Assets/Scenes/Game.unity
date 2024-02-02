@@ -529,22 +529,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c3fb83fa7e05d4e85e87bffbb0b9f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chatWindowTemplate: {fileID: 0}
-  tabTemplate: {fileID: 0}
-  chatWindowMinWidth: 225
-  chatWindowMaxWidth: 500
-  chatWindowMinHeight: 175
-  chatWindowMaxHeight: 600
-  tabs:
-  - tabName: General
-    filteredMessages: 0000000001000000
-    autoscroll: 1
-  - tabName: System
-    filteredMessages: 00000000
-    autoscroll: 1
-  chatOpened: 0
-  autoscroll: 1
-  chatInputCharacterLimit: 64
+  _chatWindowMinWidth: 225
+  _chatWindowMaxWidth: 500
+  _chatWindowMinHeight: 175
+  _chatWindowMaxHeight: 600
+  _tabs:
+  - _tabName: All
+    _filteredMessages: 0100000000000000
+  - _tabName: System
+    _filteredMessages: 00000000
+  _chatOpened: 0
+  _chatInputCharacterLimit: 64
 --- !u!114 &661036173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -747,7 +742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e361f7fabf8f2c4cba266953ef8ced1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxJobs: 3
+  _maxJobs: 3
 --- !u!114 &760118617
 MonoBehaviour:
   m_ObjectHideFlags: 0

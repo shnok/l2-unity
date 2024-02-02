@@ -52,7 +52,7 @@ public class World : MonoBehaviour {
     }
 
     void UpdateMasks() {
-        NameplatesManager.GetInstance().SetMask(_entityMask);
+        NameplatesManager.Instance.SetMask(_entityMask);
         Geodata.Instance.SetMask(_obstacleMask);
         ClickManager.Instance.SetMasks(_entityClickAreaMask, _clickThroughMask);
         CameraController.Instance.SetMask(_obstacleMask);
@@ -109,7 +109,7 @@ public class World : MonoBehaviour {
         CameraController.Instance.SetTarget(go);
         CameraController.Instance.enabled = true;
 
-        ChatWindow.GetInstance().ReceiveChatMessage(new MessageLoggedIn(identity.Name));
+        ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
     }
 
     public void SpawnUser(NetworkIdentity identity, PlayerStatus status) {

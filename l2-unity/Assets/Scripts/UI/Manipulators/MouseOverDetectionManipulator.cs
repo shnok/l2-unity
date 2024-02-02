@@ -20,14 +20,14 @@ public class MouseOverDetectionManipulator : PointerManipulator {
     }
 
     private void PointerEnterHandler(PointerEnterEvent evt) {
-        L2GameUI.GetInstance().mouseOverUI = true;
+        L2GameUI.Instance.MouseOverUI = true;
     }
 
     private void PointerOverHandler(PointerOverEvent evt) {
-        L2GameUI.GetInstance().mouseOverUI = true;
+        L2GameUI.Instance.MouseOverUI = true;
     }
 
     private void PointerOutHandler(PointerOutEvent evt) {
-        L2GameUI.GetInstance().mouseOverUI = false;
+        L2GameUI.Instance.MouseOverUI = false;
     }
 }

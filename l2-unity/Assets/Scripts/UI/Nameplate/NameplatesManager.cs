@@ -5,39 +5,34 @@ using UnityEngine.UIElements;
 
 public class NameplatesManager : MonoBehaviour
 {
-    [SerializeField] private VisualTreeAsset nameplateTemplate;
-    private VisualElement rootElement;
-    public float nameplateViewDistance = 50f;
-    [SerializeField] private LayerMask entityMask;
-    public float occlusionBaseHeight = 1.5f;
-    [SerializeField] public RaycastHit[] entitiesInRange;
+    private VisualElement _rootElement;
+    private VisualTreeAsset _nameplateTemplate;
+    private readonly Dictionary<int, Nameplate> _nameplates = new Dictionary<int, Nameplate>();
+    private Transform _playerTransform;
 
-    private Dictionary<int, Nameplate> nameplates = new Dictionary<int, Nameplate>();
-    public Transform playerTransform;
+    [SerializeField] private float _nameplateViewDistance = 50f;
+    [SerializeField] private LayerMask _entityMask;
+    [SerializeField] public RaycastHit[] _entitiesInRange;
 
-    private static NameplatesManager instance;
-    public static NameplatesManager GetInstance() {
-        return instance;
-    }
-
+    private static NameplatesManager _instance;
+    public static NameplatesManager Instance { get { return _instance; } }
     private void Awake() {
-        instance = this;
+        if(_instance == null) {
+            _instance = this;
+        }
     }
 
-    void Start()
-    {
-        if(nameplateTemplate == null) {
-            nameplateTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Nameplate");
+    void Start() {
+        if(_nameplateTemplate == null) {
+            _nameplateTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Nameplate");
         }
-        if(nameplateTemplate == null) {
+        if(_nameplateTemplate == null) {
             Debug.LogError("Could not load chat window template.");
         }
-
-        
     }
 
     public void SetMask(LayerMask mask) {
-        entityMask = mask;
+        _entityMask = mask;
     }
 
     private const int kUpdatesPerSecond = 200;
@@ -55,24 +50,24 @@ public class NameplatesManager : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(playerTransform == null) {
+        if(_playerTransform == null) {
             if(PlayerEntity.Instance != null && PlayerEntity.Instance.transform != null) {
-                playerTransform = PlayerEntity.Instance.transform;
+                _playerTransform = PlayerEntity.Instance.transform;
             } else {
                 return;
             }
         }
 
-        if(!L2GameUI.GetInstance().uiLoaded) {
+        if(!L2GameUI.Instance.UILoaded) {
             return;
         }
 
-        if(rootElement == null) {
-            rootElement = L2GameUI.GetInstance().GetRootElement().Q<VisualElement>("NameplatesContainer");
+        if(_rootElement == null) {
+            _rootElement = L2GameUI.Instance.GetRootElement().Q<VisualElement>("NameplatesContainer");
             return;
         }
 
-        entitiesInRange = Physics.SphereCastAll(playerTransform.position, nameplateViewDistance, transform.forward, 0, entityMask);
+        _entitiesInRange = Physics.SphereCastAll(_playerTransform.position, _nameplateViewDistance, transform.forward, 0, _entityMask);
         CreateNameplateForEntities();
         CheckNameplateVisibility();
         CheckMouseOver();
@@ -82,10 +77,10 @@ public class NameplatesManager : MonoBehaviour
     private void CheckMouseOver() {
         ObjectData hoverObjectData = ClickManager.Instance.HoverObjectData;
         if(hoverObjectData != null) {
-            if(entityMask == (entityMask | (1 << hoverObjectData.ObjectLayer))) {
+            if(_entityMask == (_entityMask | (1 << hoverObjectData.ObjectLayer))) {
                 Entity e = hoverObjectData.ObjectTransform.GetComponent<Entity>();
                 if(e != null) {
-                    if(!nameplates.ContainsKey(e.Identity.Id)) {
+                    if(!_nameplates.ContainsKey(e.Identity.Id)) {
                         CreateNameplate(e);
                     }
                 }
@@ -100,19 +95,19 @@ public class NameplatesManager : MonoBehaviour
 
         Entity e = TargetManager.Instance.GetTargetData().Data.ObjectTransform.GetComponent<Entity>();
         if(e != null) {
-            if(!nameplates.ContainsKey(e.Identity.Id)) {
+            if(!_nameplates.ContainsKey(e.Identity.Id)) {
                 CreateNameplate(e);
             }
         }
     }
 
     private void CreateNameplateForEntities() {
-        foreach(RaycastHit hit in entitiesInRange) {
+        foreach(RaycastHit hit in _entitiesInRange) {
             Entity objectEntity = hit.transform.GetComponent<Entity>();
             if(objectEntity != null) {
                 int objectId = objectEntity.Identity.Id;
 
-                if(!nameplates.ContainsKey(objectId)) {
+                if(!_nameplates.ContainsKey(objectId)) {
                     CreateNameplate(objectEntity);
                 }
             }
@@ -124,43 +119,40 @@ public class NameplatesManager : MonoBehaviour
             return;
         }
 
-        VisualElement visualElement = nameplateTemplate.Instantiate()[0];
+        VisualElement visualElement = _nameplateTemplate.Instantiate()[0];
 
-        Nameplate nameplate = new Nameplate {
-            nameplateEle = visualElement,
-            nameplateEntityName = visualElement.Q<Label>("EntityName"),
-            nameplateEntityTitle = visualElement.Q<Label>("EntityTitle"),
-            target = entity.transform,
-            title = entity.Identity.Title,
-            nameplateOffsetHeight = entity.Identity.CollisionHeight * 2.1f,
-            name = entity.Identity.Name,
-            targetId = entity.Identity.Id,
-            visible = true
-        };
+        Nameplate nameplate = new Nameplate (
+            visualElement,
+            visualElement.Q<Label>("EntityName"),
+            visualElement.Q<Label>("EntityTitle"),
+            entity.transform,
+            entity.Identity.Title,
+            entity.Identity.CollisionHeight * 2.1f,
+            entity.Identity.Name,
+            entity.Identity.Id,
+            true
+            );
 
-        nameplate.nameplateEntityName.text = nameplate.name;
-        nameplate.nameplateEntityTitle.text = nameplate.title;
-
-        nameplates.Add(entity.Identity.Id, nameplate);
-        rootElement.Add(visualElement);
+        _nameplates.Add(entity.Identity.Id, nameplate);
+        _rootElement.Add(visualElement);
     }
 
     private void CheckNameplateVisibility() {
-        foreach(var nameplateId in nameplates.Keys) {
-            var nameplate = nameplates[nameplateId];
-            if(!IsNameplateVisible(nameplate.target)) {
-                nameplate.visible = false;
+        foreach(var nameplateId in _nameplates.Keys) {
+            var nameplate = _nameplates[nameplateId];
+            if(!IsNameplateVisible(nameplate.Target)) {
+                nameplate.Visible = false;
             } else {
-                nameplate.visible = true;
+                nameplate.Visible = true;
             }
         }
     }
 
     private void UpdateNameplates() {
         var keysToRemove = new List<int>();
-        foreach(var nameplateId in nameplates.Keys) {
-            var nameplate = nameplates[nameplateId];
-            if(!nameplate.visible) {
+        foreach(var nameplateId in _nameplates.Keys) {
+            var nameplate = _nameplates[nameplateId];
+            if(!nameplate.Visible) {
                 keysToRemove.Add(nameplateId);
             } else {
                 UpdateNameplatePosition(nameplate);
@@ -168,20 +160,20 @@ public class NameplatesManager : MonoBehaviour
             }
         }
         foreach(var key in keysToRemove) {
-            rootElement.Remove(nameplates[key].nameplateEle);
-            nameplates.Remove(key);
+            _rootElement.Remove(_nameplates[key].NameplateEle);
+            _nameplates.Remove(key);
         }
     }
 
     private void UpdateNameplateStyle(Nameplate nameplate) {
-        if(TargetManager.Instance.HasTarget() && TargetManager.Instance.GetTargetData().Data.ObjectTransform == nameplate.target) {
+        if(TargetManager.Instance.HasTarget() && TargetManager.Instance.GetTargetData().Data.ObjectTransform == nameplate.Target) {
             nameplate.SetStyle("target-bubble-target");
             return;
         } else {
             nameplate.RemoveStyle("target-bubble-target");
         }
         
-        if(ClickManager.Instance.HoverObjectData != null && ClickManager.Instance.HoverObjectData.ObjectTransform == nameplate.target) {
+        if(ClickManager.Instance.HoverObjectData != null && ClickManager.Instance.HoverObjectData.ObjectTransform == nameplate.Target) {
             nameplate.SetStyle("target-bubble-hover");
         } else {
             nameplate.RemoveStyle("target-bubble-hover");
@@ -189,9 +181,9 @@ public class NameplatesManager : MonoBehaviour
     }
 
     private void UpdateNameplatePosition(Nameplate nameplate) {
-        Vector2 nameplatePos = Camera.main.WorldToScreenPoint(nameplate.target.position + Vector3.up * nameplate.nameplateOffsetHeight);
-        nameplate.nameplateEle.style.left = nameplatePos.x - nameplate.nameplateEle.resolvedStyle.width / 2f;
-        nameplate.nameplateEle.style.top = Screen.height - nameplatePos.y - nameplate.nameplateEle.resolvedStyle.height;
+        Vector2 nameplatePos = Camera.main.WorldToScreenPoint(nameplate.Target.position + Vector3.up * nameplate.NameplateOffsetHeight);
+        nameplate.NameplateEle.style.left = nameplatePos.x - nameplate.NameplateEle.resolvedStyle.width / 2f;
+        nameplate.NameplateEle.style.top = Screen.height - nameplatePos.y - nameplate.NameplateEle.resolvedStyle.height;
     }
 
     private bool IsNameplateVisible(Transform target) {
@@ -205,7 +197,7 @@ public class NameplatesManager : MonoBehaviour
         }
 
         bool isTarget = TargetManager.Instance.HasTarget() && TargetManager.Instance.GetTargetData().Data.ObjectTransform == target;
-        bool isTooFar = Vector3.Distance(playerTransform.position, target.position) > nameplateViewDistance;
+        bool isTooFar = Vector3.Distance(_playerTransform.position, target.position) > _nameplateViewDistance;
         if(isTooFar && !isTarget) {
             return false;
         }

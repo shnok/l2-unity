@@ -4,34 +4,36 @@ using UnityEngine.UIElements;
 using static NativeFunctions;
 
 public class L2GameUI : MonoBehaviour {
-    public bool mouseEnabled = true;
-    public bool mouseOverUI = false;
-    public NativeCoords lastMousePosition;
-    public static L2GameUI instance;
-    VisualElement rootElement;
-    public bool uiLoaded = false;
-    public Focusable focusedElement;
+    private NativeCoords _lastMousePosition;
+    private VisualElement _rootElement;
 
-    public static L2GameUI GetInstance() {
-        return instance;
-    }
+    [SerializeField] private bool _uiLoaded = false;
+    [SerializeField] private Focusable _focusedElement;
+    [SerializeField] private bool _mouseEnabled = true;
+    [SerializeField] private bool _mouseOverUI = false;
+
+    public bool MouseOverUI { get { return _mouseOverUI; } set { _mouseOverUI = value; } }
+    public bool UILoaded { get { return _uiLoaded; } set { _uiLoaded = value; } }
+
+    private static L2GameUI _instance;
+    public static L2GameUI Instance { get { return _instance; } }
 
     void Awake() {
-        if(instance == null) {
-            instance = this;
+        if(_instance == null) {
+            _instance = this;
         } 
     }
 
     public void Update() {
-        if(rootElement != null && !float.IsNaN(rootElement.resolvedStyle.width) && uiLoaded == false) {
+        if(_rootElement != null && !float.IsNaN(_rootElement.resolvedStyle.width) && _uiLoaded == false) {
             LoadUI();
-            uiLoaded = true;
+            _uiLoaded = true;
         } else {
-            rootElement = GetComponent<UIDocument>().rootVisualElement;
+            _rootElement = GetComponent<UIDocument>().rootVisualElement;
         }
 
-        if(uiLoaded) {
-            focusedElement = rootElement.focusController.focusedElement;
+        if(_uiLoaded) {
+            _focusedElement = _rootElement.focusController.focusedElement;
         }
 
         if(InputManager.GetInstance().IsInputPressed(InputType.TurnCamera)) {
@@ -42,42 +44,42 @@ public class L2GameUI : MonoBehaviour {
     }
 
     public VisualElement GetRootElement() {
-        if(rootElement != null) {
-            return rootElement;
+        if(_rootElement != null) {
+            return _rootElement;
         }
         return null;
     }
 
     public void BlurFocus() {
-        if(focusedElement != null) {
-            focusedElement.Blur();
+        if(_focusedElement != null) {
+            _focusedElement.Blur();
         }
     }
 
     private void LoadUI() {
-        VisualElement rootVisualContainer = rootElement.Q<VisualElement>("UIContainer");
+        VisualElement rootVisualContainer = _rootElement.Q<VisualElement>("UIContainer");
 
-        StatusWindow.GetInstance().AddWindow(rootVisualContainer);
-        ChatWindow.GetInstance().AddWindow(rootVisualContainer);
-        TargetWindow.GetInstance().AddWindow(rootVisualContainer);
+        StatusWindow.Instance.AddWindow(rootVisualContainer);
+        ChatWindow.Instance.AddWindow(rootVisualContainer);
+        TargetWindow.Instance.AddWindow(rootVisualContainer);
     }
 
     public void EnableMouse() {
-        if(!mouseEnabled) {
-            mouseEnabled = true;
-            NativeFunctions.SetCursorPos(lastMousePosition.X, lastMousePosition.Y);
+        if(!_mouseEnabled) {
+            _mouseEnabled = true;
+            NativeFunctions.SetCursorPos(_lastMousePosition.X, _lastMousePosition.Y);
         }
     }
 
     public void DisableMouse() {
-        if(mouseEnabled) {
-            NativeFunctions.GetCursorPos(out lastMousePosition);
-            mouseEnabled = false;
+        if(_mouseEnabled) {
+            NativeFunctions.GetCursorPos(out _lastMousePosition);
+            _mouseEnabled = false;
         }
     }
 
     public void OnGUI() {
-        if(mouseEnabled) {
+        if(_mouseEnabled) {
             UnityEngine.Cursor.visible = true;
             UnityEngine.Cursor.lockState = CursorLockMode.None;
         } else {

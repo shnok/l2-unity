@@ -45,10 +45,10 @@ public class InputManager : MonoBehaviour {
     }
 
     void Update() {
-        if(!L2GameUI.GetInstance().mouseOverUI) {
+        if(!L2GameUI.Instance.MouseOverUI) {
             if(IsInputPressed(InputType.RightMouseButton) && IsInputPressed(InputType.MouseMoving)) {
                 UpdateInput(InputType.TurnCamera, true);
-                L2GameUI.GetInstance().DisableMouse();
+                L2GameUI.Instance.DisableMouse();
             }
 
             scrollAxis = Input.GetAxis("Mouse ScrollWheel");
@@ -61,7 +61,7 @@ public class InputManager : MonoBehaviour {
 
         if(Input.GetMouseButtonUp(1)) {
             UpdateInput(InputType.TurnCamera, false);
-            L2GameUI.GetInstance().EnableMouse();
+            L2GameUI.Instance.EnableMouse();
         }
 
         mouseAxis = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
@@ -70,7 +70,7 @@ public class InputManager : MonoBehaviour {
         UpdateInput(InputType.SendMessage, Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter));
         UpdateInput(InputType.Escape, Input.GetKeyDown(KeyCode.Escape));
 
-        if(!ChatWindow.GetInstance().chatOpened) {
+        if(!ChatWindow.Instance.ChatOpened) {
             inputAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             UpdateInput(InputType.Jump, Input.GetKeyDown(KeyCode.Space));
             UpdateInput(InputType.Sit, Input.GetKeyDown(KeyCode.E));
