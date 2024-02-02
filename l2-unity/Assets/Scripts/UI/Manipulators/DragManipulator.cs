@@ -2,13 +2,13 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class DragManipulator : PointerManipulator {
-    private VisualElement root;
-    private Vector2 startMousePosition;
-    private Vector2 startPosition;
+    private VisualElement _root;
+    private Vector2 _startMousePosition;
+    private Vector2 _startPosition;
 
     public DragManipulator(VisualElement target, VisualElement root) {
         this.target = target;
-        this.root = root;
+        this._root = root;
     }
 
     protected override void RegisterCallbacksOnTarget() {
@@ -25,8 +25,8 @@ public class DragManipulator : PointerManipulator {
 
     private void PointerDownHandler(PointerDownEvent evt) {
         if(evt.button == 0) {
-            startMousePosition = evt.position;
-            startPosition = root.layout.position + target.layout.position;
+            _startMousePosition = evt.position;
+            _startPosition = _root.layout.position + target.layout.position;
             target.CapturePointer(evt.pointerId);   
         }
         evt.StopPropagation();
@@ -34,9 +34,9 @@ public class DragManipulator : PointerManipulator {
 
     private void PointerMoveHandler(PointerMoveEvent evt) {
         if(target.HasPointerCapture(evt.pointerId)) {
-            Vector2 diff = startMousePosition - new Vector2(evt.position.x, evt.position.y);
-            root.style.left = startPosition.x - diff.x;
-            root.style.top = startPosition.y - diff.y;
+            Vector2 diff = _startMousePosition - new Vector2(evt.position.x, evt.position.y);
+            _root.style.left = _startPosition.x - diff.x;
+            _root.style.top = _startPosition.y - diff.y;
         }
         evt.StopPropagation();
     }

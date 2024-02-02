@@ -20,18 +20,18 @@ public class AmbientSoundEmitter : EventHandler {
     [SerializeField] private float _overrideMinDistance = -1.0f;
     [SerializeField] private float _overrideMaxDistance = -1.0f;
 
-    public EventReference EventReference { get { return _eventReference; } set { _eventReference = value; } }
-    public EmitterGameEvent PlayEvent { get { return _playEvent; } set { _playEvent = value; } }
-    public EmitterGameEvent StopEvent { get { return _stopEvent; } set { _stopEvent = value; } }
-    public AmbientSoundType AmbientSoundType { get { return _ambientSoundType; } set { _ambientSoundType = value; } }
-    public bool AllowFadeout { get { return _allowFadeout; } set { _allowFadeout = value; } }
-    public bool OverrideAttenuation { get { return _overrideAttenuation; } set { _overrideAttenuation = value; } }
-    public float LoopDelaySeconds { get { return _loopDelaySeconds; } set { _loopDelaySeconds = value; } }
-    public float PlayChancePercent { get { return _playChancePercent; } set { _playChancePercent = value; } }
-    public float SoundPitch { get { return _soundPitch; } set { _soundPitch = value; } }
-    public bool Loop { get { return _loop; } set { _loop = value; } }
-    public float OverrideMinDistance { get { return _overrideMinDistance; } set { _overrideMinDistance = value; } }
-    public float OverrideMaxDistance { get { return _overrideMaxDistance; } set { _overrideMaxDistance = value; } }
+    public EventReference EventReference { set { _eventReference = value; } }
+    public EmitterGameEvent PlayEvent { set { _playEvent = value; } }
+    public EmitterGameEvent StopEvent { set { _stopEvent = value; } }
+    public AmbientSoundType AmbientSoundType { set { _ambientSoundType = value; } }
+    public bool AllowFadeout { set { _allowFadeout = value; } }
+    public bool OverrideAttenuation { set { _overrideAttenuation = value; } }
+    public float LoopDelaySeconds { set { _loopDelaySeconds = value; } }
+    public float PlayChancePercent { set { _playChancePercent = value; } }
+    public float SoundPitch { set { _soundPitch = value; } }
+    public bool Loop { set { _loop = value; } }
+    public float OverrideMinDistance { set { _overrideMinDistance = value; } }
+    public float OverrideMaxDistance { set { _overrideMaxDistance = value; } }
 
     private float _clipLengthSeconds = 0;
 

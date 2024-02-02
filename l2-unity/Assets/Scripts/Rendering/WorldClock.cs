@@ -5,7 +5,7 @@ using UnityEngine;
 public struct WorldTimer {
     public float dayStartTime; //0.25f
     public float dayEndTime; //0.75f
-    public float sunriseStartTime; //-0.10f
+    public float sunriseStartTime; //0f
     public float sunriseEndTime; //0.15f
     public float sunsetStartTime; //0.85f
     public float sunsetEndTime; //0.99f
@@ -26,34 +26,25 @@ public struct Clock {
 
 //[ExecuteInEditMode]
 public class WorldClock : MonoBehaviour {
-    public float dayDurationMinutes = 30;
-    public string timeHour;
-    public float timeElapsed = 0;
-    public bool startClock;
+    [SerializeField] private float _dayDurationMinutes = 30;
+    [SerializeField] private string _timeHour;
+    [SerializeField] private float _timeElapsed = 0;
+    [SerializeField] private bool _startClock;
+    [SerializeField] private WorldTimer _worldTimer;
+    [SerializeField] private Clock _clock;
 
-    public WorldTimer worldTimer;
-    public Clock worldClock;
-    public static WorldClock Instance { get; private set; }
+    public Clock Clock { get { return _clock; } }
+
+    private static WorldClock _instance;
+    public static WorldClock Instance { get { return _instance; } }
     private void Awake() {
-        if(Instance != null && Instance != this) {
-            Destroy(this);
-        } else {
-            Instance = this;
+        if(_instance == null) {
+            _instance = this;
         }
     }
 
-    //public float dayStartRatio = 0.25f;
-    // public float worldTimer.dayEndTime = 0.75f;
-    // public float dayRatio;
-    // public float nightRatio;
-    // Define time when dawn end and dusk start
-    /*float sunriseStartTime = -0.10f; // night
-    float sunriseEndTime = 0.15f; // day
-    float sunsetStartTime = 0.85f; // day
-    float sunsetEndTime = 0.99f; // day*/
-
     void Update() {
-        if(startClock) {
+        if(_startClock) {
             UpdateClock();
         }
 
@@ -62,16 +53,16 @@ public class WorldClock : MonoBehaviour {
     }
 
     private void UpdateClock() {
-        timeElapsed += Time.deltaTime;
+        _timeElapsed += Time.deltaTime;
 
-        if(timeElapsed >= (dayDurationMinutes * 60f)) {
-            timeElapsed = 0;
+        if(_timeElapsed >= (_dayDurationMinutes * 60f)) {
+            _timeElapsed = 0;
         }
 
-        worldClock.totalRatio = timeElapsed / (dayDurationMinutes * 60f);
+        _clock.totalRatio = _timeElapsed / (_dayDurationMinutes * 60f);
 
         // Calculate the number of seconds based on the percentage
-        int seconds = (int)(worldClock.totalRatio * 86400);
+        int seconds = (int)(_clock.totalRatio * 86400);
 
         // Convert seconds to hours, minutes, and seconds
         int hours = seconds / 3600;
@@ -82,57 +73,57 @@ public class WorldClock : MonoBehaviour {
         TimeSpan time = new TimeSpan(hours, minutes, remainingSeconds);
 
         // Format the TimeSpan object as a string in the desired format (HH:mm:ss)
-        timeHour = time.ToString(@"hh\:mm\:ss");
+        _timeHour = time.ToString(@"hh\:mm\:ss");
     }
 
     public void SynchronizeClock(long gameTicks, int tickDurationMs, int dayDurationMinutes) {
         Debug.Log($"{gameTicks} {tickDurationMs} {dayDurationMinutes}");
         float ticksPerDay = (float)dayDurationMinutes * 60 * 1000 / tickDurationMs;
         float currentHours = gameTicks / ticksPerDay * 24 % 24;
-        this.dayDurationMinutes = dayDurationMinutes;
+        this._dayDurationMinutes = dayDurationMinutes;
         float serverDayRatio = currentHours / 24f;
-        timeElapsed = serverDayRatio * dayDurationMinutes * 60f;
+        _timeElapsed = serverDayRatio * dayDurationMinutes * 60f;
     }
 
     public bool IsNightTime() {
-        return worldClock.nightRatio > 0 && worldClock.nightRatio <= 1 || worldClock.dayRatio < 0.25f;
+        return _clock.nightRatio > 0 && _clock.nightRatio <= 1 || _clock.dayRatio < 0.25f;
     }
 
     private void CalculateDayNightRatio() {
-        if(worldClock.totalRatio >= worldTimer.dayStartTime && worldClock.totalRatio < worldTimer.dayEndTime) {
-            worldClock.nightRatio = 0;
-            worldClock.dayRatio = (worldClock.totalRatio - worldTimer.dayStartTime) / (worldTimer.dayEndTime - worldTimer.dayStartTime);
+        if(_clock.totalRatio >= _worldTimer.dayStartTime && _clock.totalRatio < _worldTimer.dayEndTime) {
+            _clock.nightRatio = 0;
+            _clock.dayRatio = (_clock.totalRatio - _worldTimer.dayStartTime) / (_worldTimer.dayEndTime - _worldTimer.dayStartTime);
         } else {
-            worldClock.dayRatio = 0;
-            if(worldClock.totalRatio >= worldTimer.dayEndTime) {
-                worldClock.nightRatio = (worldClock.totalRatio - worldTimer.dayEndTime) / (1.0f - worldTimer.dayEndTime + worldTimer.dayStartTime);
+            _clock.dayRatio = 0;
+            if(_clock.totalRatio >= _worldTimer.dayEndTime) {
+                _clock.nightRatio = (_clock.totalRatio - _worldTimer.dayEndTime) / (1.0f - _worldTimer.dayEndTime + _worldTimer.dayStartTime);
             } else {
-                worldClock.nightRatio = (worldClock.totalRatio + (1.0f - worldTimer.dayEndTime)) / (1.0f - worldTimer.dayEndTime + worldTimer.dayStartTime);
+                _clock.nightRatio = (_clock.totalRatio + (1.0f - _worldTimer.dayEndTime)) / (1.0f - _worldTimer.dayEndTime + _worldTimer.dayStartTime);
             }
         }
     }
 
     private void CalculateSunPhaseRatio() {
-        worldClock.dawnRatio = CalculatePeriodRatio(worldTimer.sunriseStartTime, worldTimer.sunriseEndTime);
-        worldClock.brightRatio = CalculatePeriodRatio(worldTimer.sunriseEndTime, worldTimer.sunsetStartTime);
-        worldClock.duskRatio = CalculatePeriodRatio(worldTimer.sunsetStartTime, worldTimer.sunsetEndTime);
-        worldClock.darkRatio = CalculatePeriodRatio(-.99f, worldTimer.sunriseStartTime);
+        _clock.dawnRatio = CalculatePeriodRatio(_worldTimer.sunriseStartTime, _worldTimer.sunriseEndTime);
+        _clock.brightRatio = CalculatePeriodRatio(_worldTimer.sunriseEndTime, _worldTimer.sunsetStartTime);
+        _clock.duskRatio = CalculatePeriodRatio(_worldTimer.sunsetStartTime, _worldTimer.sunsetEndTime);
+        _clock.darkRatio = CalculatePeriodRatio(-.99f, _worldTimer.sunriseStartTime);
     }
 
     private float CalculatePeriodRatio(float startRatio, float endRatio) {
         float periodDuration = (startRatio < 0) ? (Mathf.Abs(startRatio) + endRatio) : (endRatio - startRatio);
 
         float ratio = 0;
-        if(worldClock.dayRatio >= 0 && worldClock.nightRatio == 0) {
+        if(_clock.dayRatio >= 0 && _clock.nightRatio == 0) {
             // Day
-            if(worldClock.dayRatio <= endRatio) {
+            if(_clock.dayRatio <= endRatio) {
                 // In Range        
                 if(startRatio < 0) {
                     ratio += Mathf.Abs(startRatio);
-                    ratio += worldClock.dayRatio;
-                } else if(worldClock.dayRatio >= startRatio) {
+                    ratio += _clock.dayRatio;
+                } else if(_clock.dayRatio >= startRatio) {
                     ratio -= startRatio;
-                    ratio += worldClock.dayRatio;
+                    ratio += _clock.dayRatio;
                 } else {
                     ratio = 0;
                 }
@@ -143,8 +134,8 @@ public class WorldClock : MonoBehaviour {
             }
         } else {
             // Night
-            if(startRatio < 0 && worldClock.nightRatio > (1 + startRatio)) {
-                ratio += Mathf.Clamp((worldClock.nightRatio - (1 + startRatio)) / periodDuration, 0, 1);
+            if(startRatio < 0 && _clock.nightRatio > (1 + startRatio)) {
+                ratio += Mathf.Clamp((_clock.nightRatio - (1 + startRatio)) / periodDuration, 0, 1);
             } else {
                 ratio = 0;
             }

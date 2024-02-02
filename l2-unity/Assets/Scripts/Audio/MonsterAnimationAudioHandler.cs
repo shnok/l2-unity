@@ -5,35 +5,35 @@ using UnityEngine;
 [RequireComponent(typeof(NpcEntity), typeof(Animator))]
 public class MonsterAnimationAudioHandler : MonoBehaviour
 {
-    public string npcClassName;
-    public Animator animator;
+    [SerializeField] private string _npcClassName;
+    [SerializeField] private Animator _animator;
 
     private void Start() {
-        npcClassName = GetComponent<NpcEntity>().Identity.NpcClass;
-        if(!string.IsNullOrEmpty(npcClassName)) {
-            string[] parts = npcClassName.Split('.');
+        _npcClassName = GetComponent<NpcEntity>().Identity.NpcClass;
+        if(!string.IsNullOrEmpty(_npcClassName)) {
+            string[] parts = _npcClassName.Split('.');
             if(parts.Length > 1) {
-                npcClassName = parts[1].ToLower();
+                _npcClassName = parts[1].ToLower();
             }
         }
 
-        if(string.IsNullOrEmpty(npcClassName)) {
+        if(string.IsNullOrEmpty(_npcClassName)) {
             Debug.LogWarning("MonsterAnimationAudioHandler could not load npc class name");
             this.enabled = false;
         }
 
-        if(animator == null) {
-            animator = GetComponent<Animator>();
+        if(_animator == null) {
+            _animator = GetComponent<Animator>();
         }
     }
 
     public void PlaySound(MonsterSoundEvent soundEvent) {
-        AudioManager.Instance.PlayMonsterSound(soundEvent, npcClassName, transform.position);
+        AudioManager.Instance.PlayMonsterSound(soundEvent, _npcClassName, transform.position);
     }
 
     public void PlaySoundFromAnimationClip(int type) {
         MonsterSoundEvent soundEvent = (MonsterSoundEvent) type;
-        AudioManager.Instance.PlayMonsterSound(soundEvent, npcClassName, transform.position);
+        AudioManager.Instance.PlayMonsterSound(soundEvent, _npcClassName, transform.position);
     }
 
     public void PlaySoundAtRatio(MonsterSoundEvent soundEvent, float ratio) {
@@ -41,7 +41,7 @@ public class MonsterAnimationAudioHandler : MonoBehaviour
     }
 
     public IEnumerator PlaySoundAtRatioCoroutine(MonsterSoundEvent soundEvent, float ratio) {
-        while((animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio) {
+        while((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio) {
             yield return null;
         }
 

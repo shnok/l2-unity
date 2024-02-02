@@ -134,13 +134,13 @@ public class ServerPacketHandler
         String sender = packet.Sender;
         String text = packet.Text;
         ChatMessage message = new ChatMessage(sender, text);
-        _eventProcessor.QueueEvent(() => ChatWindow.GetInstance().ReceiveChatMessage(message));
+        _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveChatMessage(message));
     }
 
     private void OnSystemMessageReceive(byte[] data) {
         SystemMessagePacket packet = new SystemMessagePacket(data);
         SystemMessage message = packet.Message;
-        _eventProcessor.QueueEvent(() => ChatWindow.GetInstance().ReceiveChatMessage(message));
+        _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveChatMessage(message));
     }
 
     private void OnPlayerInfoReceive(byte[] data) {

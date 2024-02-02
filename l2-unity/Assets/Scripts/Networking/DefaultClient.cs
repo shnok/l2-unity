@@ -12,10 +12,10 @@ public class DefaultClient : MonoBehaviour {
     [SerializeField] private int _serverPort = 11000;
     [SerializeField] private bool _logReceivedPackets = true;
     [SerializeField] private bool _logSentPackets = true;
-    public string Username { get { return _username; } private set { _username = value; } }
-    public bool LogReceivedPackets { get { return _logReceivedPackets; } private set { _logReceivedPackets = value; } }
-    public bool LogSentPackets { get { return _logSentPackets; } private set { _logSentPackets = value; } }
-    public int ConnectionTimeoutMs { get { return _connectionTimeoutMs; } private set { _connectionTimeoutMs = value; } }
+    public string Username { get { return _username; } }
+    public bool LogReceivedPackets { get { return _logReceivedPackets; } }
+    public bool LogSentPackets { get { return _logSentPackets; } }
+    public int ConnectionTimeoutMs { get { return _connectionTimeoutMs; } }
 
     private static DefaultClient _instance;
     public static DefaultClient Instance { get { return _instance; } }
@@ -79,6 +79,6 @@ public class DefaultClient : MonoBehaviour {
         }
 
         World.Instance.ClearEntities();
-        ChatWindow.GetInstance().ClearChat();     
+        ChatWindow.Instance.ClearChat();     
     }
 }

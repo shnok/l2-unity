@@ -12,6 +12,7 @@ public class TerrainConverter : MonoBehaviour {
     public bool optimizeMesh = false;
     public bool convertTerrain = true;
     public bool convertDecoLayer = false;
+    public bool createMapSafenet = false;
     private TerrainToMesh terrainToMesh;
     private Texture2DArrayGenerator texture2DArrayGenerator;
     private Terrain terrainToConvert;
@@ -28,14 +29,14 @@ public class TerrainConverter : MonoBehaviour {
     }
 
     void Start() {
-        string saveFolder = Path.Combine("Assets", "Data", "Maps", mapToConvert, "TerrainMesh");
+        string saveFolder = Path.Combine("Assets", "Resources", "Data", "Maps", mapToConvert);
         if(saveAssets) {
             if(!Directory.Exists(saveFolder)) {
                 Directory.CreateDirectory(saveFolder);
             }
         }
 
-        string mapFolder = Path.Combine("Assets", "Data", "Maps", mapToConvert);
+        string mapFolder = Path.Combine("Assets", "Resources", "Data", "Maps", mapToConvert, "UnityTerrain");
         GameObject map = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, mapToConvert + ".prefab"));
         if(map != null) {
             map = Instantiate(map);
@@ -50,13 +51,18 @@ public class TerrainConverter : MonoBehaviour {
         if(convertTerrain) {
             Material terrainMat = GenerateMaterial(saveFolder, terrainInfo);
 
-            GameObject destObject = GenerateMesh(terrainToConvert, terrainMat);
+            GameObject destObject = GenerateMesh(terrainToConvert, terrainMat, true);
 
             if(saveAssets) {
-                SaveMesh(saveFolder, destObject);
+                SaveMesh(saveFolder, destObject, false);
                 SaveMaterial(saveFolder, terrainMat);
                 SaveTerrain(saveFolder, destObject);
             }
+        }
+
+        if(createMapSafenet) {
+            GameObject destObject = GenerateMesh(terrainToConvert, null, false);
+            SaveMesh(saveFolder, destObject, true);
         }
 
         // Generate decolayer
@@ -74,7 +80,7 @@ public class TerrainConverter : MonoBehaviour {
         terrainToConvert.gameObject.SetActive(false);
     }
 
-    private GameObject GenerateMesh(Terrain map, Material terrainMat) {
+    private GameObject GenerateMesh(Terrain map, Material terrainMat, bool generateHeightmap) {
         // Generate mesh
         GameObject destObject = new GameObject(terrainToConvert.gameObject.name);
         Vector3 initialPosition = map.transform.position;
@@ -83,7 +89,9 @@ public class TerrainConverter : MonoBehaviour {
         terrainToMesh.terrain = terrainToConvert;
         terrainToMesh.dest = destObject;
         terrainToMesh.BuildMeshBase();
-        terrainToMesh.ConvertTerrain(optimizeMesh);
+        if(generateHeightmap) {
+            terrainToMesh.ConvertTerrain(optimizeMesh);
+        }
         map.transform.position = initialPosition;
 
         // Move terrain to original position
@@ -92,14 +100,20 @@ public class TerrainConverter : MonoBehaviour {
 
 
         // Apply material to terrain
-        destObject.GetComponent<Renderer>().material = terrainMat;
+        if(terrainMat != null) {
+            destObject.GetComponent<Renderer>().material = terrainMat;
+        }
 
         return destObject;
     }
 
-    private void SaveMesh(string saveFolder, GameObject destObject) {
+    private void SaveMesh(string saveFolder, GameObject destObject, bool safenet) {
         Mesh convertedTerrainMesh = destObject.GetComponent<MeshFilter>().mesh;
-        string saveMeshPath = Path.Combine(saveFolder, mapToConvert + "_Mesh.asset");
+        string filename = mapToConvert + "_Mesh.asset";
+        if(safenet) {
+            filename = "Safenet_Mesh.asset";
+        }
+        string saveMeshPath = Path.Combine(filename);
         MeshSaverEditor.SaveMeshToPath(convertedTerrainMesh, saveMeshPath, false, true);
     }
 

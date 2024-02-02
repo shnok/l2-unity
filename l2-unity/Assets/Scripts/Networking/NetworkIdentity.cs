@@ -32,14 +32,6 @@ public class NetworkIdentity
     public bool Owned { get => _owned; set => _owned = value; }
 
     public NetworkIdentity() {}
-    public NetworkIdentity(int id) {
-        Id = id;
-    }
-
-    public NetworkIdentity(int id, string name) {
-        Id = id;
-        Name = name;
-    }
 
     public void SetPosX(float x) {
         _position.x = x;
@@ -48,19 +40,8 @@ public class NetworkIdentity
     public void SetPosY(float y) {
         _position.y = y;
     }
+
     public void SetPosZ(float z) {
         _position.z = z;
-    }
-
-    public int GetPosX() {
-        return (int)_position.x;
-    }
-
-    public int GetPosY() {
-        return (int)_position.y;
-    }
-
-    public int GetPosZ() {
-        return (int)_position.z;
     }
 }

@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private float _UIVolume = 1;
     [Range(0, 1)]
     [SerializeField] private float _ambientVolume = 1;
+    [SerializeField] private bool _muteWhenNotFocused = true;
 
     private Bus _masterBus;
     private Bus _musicBus;
@@ -40,12 +41,21 @@ public class AudioManager : MonoBehaviour
         _UIBus = RuntimeManager.GetBus("bus:/UI");
         _ambientBus = RuntimeManager.GetBus("bus:/Ambient");
     }
+
     private void Update() {
-        _masterBus.setVolume(_masterVolume);
-        _musicBus.setVolume(_musicVolume);
-        _SFXBus.setVolume(_SFXVolume);
-        _UIBus.setVolume(_UIVolume);
-        _ambientBus.setVolume(_ambientVolume);
+        if(_muteWhenNotFocused && !Application.isFocused) {
+            _masterBus.setVolume(0);
+            _musicBus.setVolume(0);
+            _SFXBus.setVolume(0);
+            _UIBus.setVolume(0);
+            _ambientBus.setVolume(0);
+        } else {
+            _masterBus.setVolume(_masterVolume);
+            _musicBus.setVolume(_musicVolume);
+            _SFXBus.setVolume(_SFXVolume * 0.5f);
+            _UIBus.setVolume(_UIVolume * 0.5f);
+            _ambientBus.setVolume(_ambientVolume * 0.5f);
+        }
     }
 
     public void PlayMonsterSound(MonsterSoundEvent monsterSoundEvent, string npcClassName, Vector3 position) {

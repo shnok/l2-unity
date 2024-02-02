@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ChatMessage : Message
 {
-    private string user;
-    private string message;
+    private string _user;
+    private string _message;
 
     public ChatMessage(string user, string message) : base(MessageType.ChatMessage) {
-        this.user = user;
-        this.message = message;
+        _user = user;
+        _message = message;
     }
 
     public override string ToString() {
-        return "<color=#DDDDDD>" + user + ": " + message + "</color>";
+        return "<color=#DDDDDD>" + _user + ": " + _message + "</color>";
     }
 }

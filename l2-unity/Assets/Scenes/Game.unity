@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.6266811, g: 0.6266811, b: 0.6266811, a: 1}
+  m_FogColor: {r: 0.8041777, g: 0.8041777, b: 0.8041777, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.03
   m_LinearFogStart: 203.9
@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0.5624571
+  m_AmbientIntensity: 0.668238
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 74e09fc0417b6f94c95b3a55ae362ec9, type: 2}
@@ -282,7 +282,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 146978712471996646, guid: 50559bb8d22c3c04a8a788ca6ec38fec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1384975017}
   m_SourcePrefab: {fileID: 100100000, guid: 50559bb8d22c3c04a8a788ca6ec38fec, type: 3}
 --- !u!4 &387574029 stripped
 Transform:
@@ -499,9 +502,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8842a4446adb215469d4f39877fdc7b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseEnabled: 1
-  mouseOverUI: 0
-  uiLoaded: 0
+  _uiLoaded: 0
+  _mouseEnabled: 1
+  _mouseOverUI: 0
 --- !u!114 &661036171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,9 +517,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa54fc0453ab9e4092d2cabd8d49756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusWindowTemplate: {fileID: 0}
-  statusWindowMinWidth: 175
-  statusWindowMaxWidth: 400
+  _statusWindowMinWidth: 175
+  _statusWindowMaxWidth: 400
 --- !u!114 &661036172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,22 +531,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c3fb83fa7e05d4e85e87bffbb0b9f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chatWindowTemplate: {fileID: 0}
-  tabTemplate: {fileID: 0}
-  chatWindowMinWidth: 225
-  chatWindowMaxWidth: 500
-  chatWindowMinHeight: 175
-  chatWindowMaxHeight: 600
-  tabs:
-  - tabName: General
-    filteredMessages: 0000000001000000
-    autoscroll: 1
-  - tabName: System
-    filteredMessages: 00000000
-    autoscroll: 1
-  chatOpened: 0
-  autoscroll: 1
-  chatInputCharacterLimit: 64
+  _chatWindowMinWidth: 225
+  _chatWindowMaxWidth: 500
+  _chatWindowMinHeight: 175
+  _chatWindowMaxHeight: 600
+  _tabs:
+  - _tabName: All
+    _filteredMessages: 0100000000000000
+  - _tabName: System
+    _filteredMessages: 00000000
+  _chatOpened: 0
+  _chatInputCharacterLimit: 64
 --- !u!114 &661036173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,13 +554,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b924f2ee5faed49b55c17e32d096a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameplateTemplate: {fileID: 0}
-  nameplateViewDistance: 25
-  entityMask:
+  _nameplateViewDistance: 50
+  _entityMask:
     serializedVersion: 2
-    m_Bits: 2112
-  occlusionBaseHeight: 1.5
-  playerTransform: {fileID: 0}
+    m_Bits: 0
 --- !u!114 &661036174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,9 +570,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 820818033378cea4480aedc5f439ad6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetWindowTemplate: {fileID: 0}
-  statusWindowMinWidth: 175
-  statusWindowMaxWidth: 300
+  _targetWindowMinWidth: 175
+  _targetWindowMaxWidth: 300
 --- !u!1 &688311052
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,7 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e361f7fabf8f2c4cba266953ef8ced1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxJobs: 3
+  _maxJobs: 3
 --- !u!114 &760118617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1021,6 +1014,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 581901348}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1384975009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 146978712471996646, guid: 50559bb8d22c3c04a8a788ca6ec38fec, type: 3}
+  m_PrefabInstance: {fileID: 366704775}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1384975017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384975009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2aec186ebf9ffd49b2d3ce2bf337aec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _decoCullDistance: 110
 --- !u!1 &1433411788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,6 +1177,7 @@ MonoBehaviour:
   _SFXVolume: 1
   _UIVolume: 1
   _ambientVolume: 1
+  _muteWhenNotFocused: 1
 --- !u!114 &1433411800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1237,159 +1249,95 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Color.b
-      value: 0.79276025
+      value: 0.8432937
       objectReference: {fileID: 0}
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Color.g
-      value: 0.89571154
+      value: 0.92135537
       objectReference: {fileID: 0}
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Intensity
-      value: 0.92721033
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Shadows.m_Bias
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_BounceIntensity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Shadows.m_Strength
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Shadows.m_NearPlane
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Shadows.m_NormalBias
-      value: 0.95
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: duskColor.b
-      value: 0.16905482
+    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: m_Intensity
+      value: 1.0810734
       objectReference: {fileID: 0}
     - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: duskColor.g
-      value: 0.20854397
+      propertyPath: _horizonOffsetDegree
+      value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: duskColor.r
-      value: 0.2735849
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _timeHour
+      value: 16:26:59
       objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: nightFogColor.b
-      value: 0.01886791
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _startClock
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: nightFogColor.g
-      value: 0.01886791
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _timeElapsed
+      value: 82.24873
       objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: nightFogColor.r
-      value: 0.01886791
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _clock.dayRatio
+      value: 0.8708122
       objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: dayCloudsOpcacity
-      value: 2.57
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _clock.darkRatio
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: ambientMaxIntensity
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _clock.dawnRatio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _clock.duskRatio
+      value: 0.14865826
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _clock.nightRatio
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _clock.totalRatio
+      value: 0.6854061
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _clock.brightRatio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _dayDurationMinutes
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _worldTimer.dayEndTime
       value: 0.75
       objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: ambientMinIntensity
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: mainLightMaxIntensity
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: mainLightMinIntensity
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: mainLightNightColor.b
-      value: 0.59607846
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: mainLightNightColor.g
-      value: 0.43137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: mainLightNightColor.r
-      value: 0.39607844
-      objectReference: {fileID: 0}
-    - target: {fileID: 5761803617169700733, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_SoftShadowQuality
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5761803617169700733, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_UsePipelineSettings
-      value: 1
+    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
+      propertyPath: _worldTimer.dayStartTime
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: timeHour
-      value: 16:46:22
+      propertyPath: _worldTimer.sunsetEndTime
+      value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: _worldTimer.sunriseEndTime
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: startClock
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: timeElapsed
-      value: 1257.9644
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: worldClock.dayRatio
-      value: 0.8977382
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: worldClock.darkRatio
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: worldClock.dawnRatio
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: worldClock.duskRatio
-      value: 0.34098715
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: worldClock.nightRatio
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: worldClock.totalRatio
-      value: 0.6988691
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: worldClock.brightRatio
-      value: 1
+      propertyPath: _worldTimer.sunsetStartTime
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 7616108795757726014, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Name
       value: Directional Light
-      objectReference: {fileID: 0}
-    - target: {fileID: 7616108795757726014, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1405,19 +1353,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.12874442
+      value: 0.15682156
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.91486514
+      value: 0.91047263
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.05332769
+      value: 0.06495762
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.37894958
+      value: -0.37713012
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
