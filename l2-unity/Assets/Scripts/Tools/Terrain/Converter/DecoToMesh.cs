@@ -7,8 +7,6 @@ public class DecoToMesh {
         GameObject decoLayerBase = new GameObject("DecoLayer");
         decoLayerBase.transform.position = terrain.transform.position;
         decoLayerBase.isStatic = true;
-        Fadeout fadeout = decoLayerBase.AddComponent<Fadeout>();
-        fadeout.disableDistance = 100f;
 
         for(int i = 0; i < decoLayers.Count; i++) {
             Texture2D decoAlphamap = TextureUtils.RotateTexture(decoLayers[i].densityMap);
