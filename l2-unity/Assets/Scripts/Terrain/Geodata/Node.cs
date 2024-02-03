@@ -8,13 +8,8 @@ using System.IO;
 
 [System.Serializable]
 public class Node {
-	public int x;
-	public int y;
-	public int z;
-
-	public float size;
-	public bool walkable;
-	public Vector3 position;
+	public Vector3 nodeIndex;
+	public Vector3 worldPosition;
 	public Vector3 center;
 
 	public Node parentNode;
@@ -24,12 +19,19 @@ public class Node {
 
 	public Node() {}
 
-	public Node(Vector3 scaledPosition, Vector3 position, float size) {
-		x = (int)scaledPosition.x;
-		y = (int)scaledPosition.y;
-		z = (int)scaledPosition.z;
-		this.position = position;
-		this.size = size;
-		center = new Vector3 (position.x + size / 2f, position.y, position.z + size / 2f);
+	public Node(Node original) {
+		this.nodeIndex = original.nodeIndex;
+		this.worldPosition = original.worldPosition;
+		this.center = original.center;
+		this.parentNode = original.parentNode;
+		this.fCost = original.fCost;
+		this.gCost = original.gCost;
+		this.hCost = original.hCost;
+	}
+
+	public Node(Vector3 nodeIndex, Vector3 worldPosition, float size) {
+		this.nodeIndex = nodeIndex;
+		this.worldPosition = worldPosition;
+		center = new Vector3 (worldPosition.x + size / 2f, worldPosition.y, worldPosition.z + size / 2f);
 	}
 }

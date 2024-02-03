@@ -5,6 +5,8 @@ public class CameraCollisionDetection {
     [SerializeField] private LayerMask _collisionLayer;
     [SerializeField] private float _adjustedDistance;
     [SerializeField] private Transform _collisionObject;
+    [SerializeField] private Vector2 _clipPlaneOffset = new Vector2(2f, 1f);
+    [SerializeField] private bool _debug = false;
     private Camera _camera;
     private Transform _target;
     private Vector3 _offset;
@@ -24,10 +26,9 @@ public class CameraCollisionDetection {
         Quaternion camRot = _camera.transform.rotation;
         Vector3 desiredPos = camRot * (Vector3.forward * -distance) + _target.position + _offset;
 
-        float collisionSize = 3f;
         float z = _camera.nearClipPlane;
-        float x = Mathf.Tan(_camera.fieldOfView / collisionSize) * z;
-        float y = x / _camera.aspect;
+        float x = Mathf.Tan(_camera.fieldOfView / _clipPlaneOffset.x) * z;
+        float y = x / _camera.aspect / _clipPlaneOffset.y;
 
         //top left
         cameraClipPoints[0] = (camRot * new Vector3(-x, y, z)) + desiredPos;
@@ -55,17 +56,18 @@ public class CameraCollisionDetection {
         float distance = -1f;
 
         Transform hitObject = null;
+        RaycastHit hit;
         for(int i = 0; i < clipPoints.Length; i++) {
-            Ray ray = new Ray(_target.position, clipPoints[i] - (_target.position));
-            float rayDistance = Vector3.Distance(clipPoints[i], _target.position);
-
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit, rayDistance, _collisionLayer)) {
+            if(Physics.Linecast(_target.position + _offset, clipPoints[i], out hit, _collisionLayer)) {
                 if(distance == -1f || hit.distance < distance) {
                     distance = hit.distance;
                 }
                 hitObject = hit.transform;
-            } 
+            }
+
+            if(_debug) {
+                Debug.DrawLine(clipPoints[i], _target.position, Color.green);
+            }
         }
 
         if(distance != -1f) {

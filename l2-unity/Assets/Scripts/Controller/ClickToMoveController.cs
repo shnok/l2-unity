@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class ClickToMoveController : MonoBehaviour
     [SerializeField] private Vector3 _targetDestination;
     [SerializeField] private float _destinationThreshold = 0.10f;
     [SerializeField] private List<Node> _path;
+    [SerializeField] private bool _simplifyPath = true;
 
     [Header("Ground check")]
     [SerializeField] private ObjectData _collidingWith;
@@ -37,7 +39,11 @@ public class ClickToMoveController : MonoBehaviour
     public void Update() {
         // Update initial node
         if(_characterController.isGrounded && _collidingWith != null) {
-            _startNode = Geodata.Instance.GetNodeAt(_collidingWith.ObjectScene, transform.position);
+            try {
+                _startNode = Geodata.Instance.GetNodeAt(transform.position);
+            } catch(Exception) {
+                _startNode = null;
+            }
         }
 
         // Reset path when user input
@@ -79,16 +85,24 @@ public class ClickToMoveController : MonoBehaviour
     public void MoveTo(ObjectData target, Vector3 clickPosition) {
         _targetDestination = clickPosition;
 
-        Node node = Geodata.Instance.GetNodeAt(target.ObjectScene, clickPosition);
+        Node node = null;
+        try {
+            node = Geodata.Instance.GetNodeAt(clickPosition);
+        } catch(Exception) {}
+
         if(node != null && _startNode != null) {
             _targetNode = node;
 
             PathFinderFactory.Instance.RequestPathfind(_startNode, _targetNode, (callback) => {
-                Debug.Log("Found path with " + callback.Count + " node(s).");
-                if(callback.Count == 0) {
+                if(callback == null || callback.Count == 0) {
                     PlayerController.Instance.SetTargetPosition(_targetDestination, _destinationThreshold);
                 } else {
-                    _path = PathFinderFactory.Instance.SmoothPath(callback);
+                    Debug.Log("Found path with " + callback.Count + " node(s).");
+                    if(_simplifyPath) {
+                        _path = PathFinder.SmoothPath(callback);
+                    } else {
+                        _path = callback;
+                    }
                 }
             });
 
@@ -116,19 +130,19 @@ public class ClickToMoveController : MonoBehaviour
         Gizmos.color = Color.yellow;
 
         if(_targetNode != null) {
-            Gizmos.DrawCube(_targetNode.center, cubeSize);
+            Gizmos.DrawCube(_targetNode.center + Vector3.up * 0.1f , cubeSize);
         }
 
         Gizmos.color = Color.green;
         if(_startNode != null) {
-            Gizmos.DrawCube(_startNode.center, cubeSize);
+            Gizmos.DrawCube(_startNode.center + Vector3.up * 0.1f, cubeSize);
         }
 
         Gizmos.color = Color.white;
 
         if(_path != null && _path.Count > 0) {
             foreach(var node in _path) {
-                Gizmos.DrawCube(node.center, cubeSize);
+                Gizmos.DrawCube(node.center + Vector3.up * 0.1f, cubeSize);
             }
         }
     }

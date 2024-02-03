@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,23 +7,29 @@ public class PathFinder
 {
     private PathFinderFactory.PathfindingJobComplete _completeCallback;
     private List<Node> _foundPath;
-    private Geodata _gridBase;
+    private float _nodeSize;
 
-    [SerializeField] private Node _startPosition;
-    [SerializeField] private Node _endPosition;
-    [SerializeField] private volatile bool jobDone = false;
+    private Node _startPosition;
+    private Node _endPosition;
+    private int _maximumLoopCount;
+    private volatile bool jobDone = false;
 
     public bool JobDone { get { return jobDone; } }
 
-    public PathFinder(Node start, Node target, PathFinderFactory.PathfindingJobComplete callback) {
+    public PathFinder(Node start, Node target, PathFinderFactory.PathfindingJobComplete callback, float nodeSize, int maximumLoopCount) {
         _startPosition = start;
         _endPosition = target;
         _completeCallback = callback;
-        _gridBase = Geodata.Instance;
+        _nodeSize = nodeSize;
+        _maximumLoopCount = maximumLoopCount;
     }
 
     public void FindPath() {
-        _foundPath = FindPathActual(_startPosition, _endPosition);
+        try {
+            _foundPath = FindPathActual(_startPosition, _endPosition);
+        } catch(Exception e) {
+            Debug.LogWarning("Error while finding path: " + e.Message);
+        }
 
         jobDone = true;
     }
@@ -45,6 +52,7 @@ public class PathFinder
         //We start adding to the open set
         openSet.Add(start);
 
+        int currentAttemps = 0;
         while(openSet.Count > 0) {
             Node currentNode = openSet[0];
 
@@ -55,7 +63,7 @@ public class PathFinder
                     (openSet[i].fCost == currentNode.fCost &&
                     openSet[i].hCost < currentNode.hCost)) {
                     //and then we assign a new current node
-                    if(!currentNode.Equals(openSet[i])) {
+                    if(!currentNode.nodeIndex.Equals(openSet[i].nodeIndex)) {
                         currentNode = openSet[i];
                     }
                 }
@@ -66,20 +74,30 @@ public class PathFinder
             closedSet.Add(currentNode);
 
             //if the current node is the target node
-            if(currentNode.Equals(target)) {
+            if(currentNode.nodeIndex.Equals(target.nodeIndex)) {
                 //that means we reached our destination, so we are ready to retrace our path
                 foundPath = RetracePath(start, currentNode);
                 break;
             }
 
+            if(currentAttemps++ > _maximumLoopCount) {
+                Debug.LogWarning("Find path timeout");
+                return foundPath;
+            }
+
             //if we haven't reached our target, then we need to start looking the neighbours
-            foreach(Node neighbour in GetNeighbours(currentNode, true)) {
+            foreach(Node neighbour in GetNeighbours(currentNode.worldPosition)) {
+                if(neighbour == null) {
+                    continue;
+                }
+
                 if(!closedSet.Contains(neighbour)) {
                     //we create a new movement cost for our neighbours
                     float newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
 
                     //and if it's lower than the neighbour's cost
                     if(newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)) {
+
                         //we calculate the new costs
                         neighbour.gCost = newMovementCostToNeighbour;
                         neighbour.hCost = GetDistance(neighbour, target);
@@ -114,124 +132,63 @@ public class PathFinder
         return path;
     }
 
-    private List<Node> GetNeighbours(Node node, bool getVerticalneighbours = false) {
-        //This is were we start taking our neighbours
-        List<Node> retList = new List<Node>();
+    private Node[] GetNeighbours(Vector3 nodePos) {
+        Node[] returnList = new Node[8];
+        short i = 0;
 
         for(int x = -1; x <= 1; x++) {
-            for(int yIndex = -1; yIndex <= 1; yIndex++) {
-                for(int z = -1; z <= 1; z++) {
-                    int y = yIndex;
+            for(int z = -1; z <= 1; z++) {
+                if(x == 0 && z == 0)
+                    continue;
 
-                    //If we don't want a 3d A*, then we don't search the y
-                    if(!getVerticalneighbours) {
-                        y = 0;
+                try {
+                    Vector3 neighborPos = new Vector3(nodePos.x + x * _nodeSize,
+                            nodePos.y,
+                            nodePos.z + z * _nodeSize);
+                    string mapId = Geodata.Instance.GetCurrentMap(neighborPos);
+
+                    Node node = null;
+                    try {
+                        node = Geodata.Instance.GetNodeAt(neighborPos, mapId);
+                    } catch(Exception) { }
+
+                    if(node == null) {
+                        neighborPos.y = nodePos.y + _nodeSize;
+                        try {
+                            node = Geodata.Instance.GetNodeAt(neighborPos, mapId);
+                        } catch(Exception) { }
                     }
 
-                    if(x == 0 && y == 0 && z == 0) {
-                        //000 is the current node
-                    } else {
-                        Node searchPos = new Node();
-
-                        //the nodes we want are what's forward/backwars,left/righ,up/down from us
-                        searchPos.x = node.x + x;
-                        searchPos.y = node.y + y;
-                        searchPos.z = node.z + z;
-
-                        Node newNode = GetNeighbourNode(searchPos, true, node);
-
-                        if(newNode != null) {
-                            retList.Add(newNode);
-                        }
+                    if(node == null) {
+                        neighborPos.y = nodePos.y - _nodeSize;
+                        try {
+                            node = Geodata.Instance.GetNodeAt(neighborPos, mapId);
+                        } catch(Exception) { }
                     }
+
+                    if(node != null) {
+                        returnList[i++] = node;
+                    }
+                } catch(Exception) {
+                    Debug.Log("Node neighbor could not be found.");
                 }
             }
         }
 
-        return retList;
-
+        return returnList;
     }
 
-    private Node GetNeighbourNode(Node adjPos, bool searchTopDown, Node currentNodePos) {
-        //this is where the meat of it is
-        //We can add all the checks we need here to tweak the algorythm to our heart's content
-        //but first let's start from the the usual stuff you'll see in A*
+    /*private float GetDistance(Node posA, Node posB) {
+        return Vector3.Distance(posA.center, posB.center);
+    }*/
 
-        Node retVal = null;
-
-        //let's take the node from the adjacent positions we passed
-        Node node = GetNode(adjPos.x, adjPos.y, adjPos.z);
-
-        //if it's not null and we can walk on it
-        if(node != null && node.walkable) {
-            //we can use that node
-            retVal = node;
-        }//if not
-        else if(searchTopDown)//and we want to have 3d A* 
-        {
-            //then look what the adjacent node have under him
-            adjPos.y -= 1;
-            Node bottomBlock = GetNode(adjPos.x, adjPos.y, adjPos.z);
-
-            //if there is a bottom block and we can walk on it
-            if(bottomBlock != null && bottomBlock.walkable) {
-                retVal = bottomBlock;// we can return that
-            } else {
-                //otherwise, we look what it has on top of it
-                adjPos.y += 2;
-                Node topBlock = GetNode(adjPos.x, adjPos.y, adjPos.z);
-                if(topBlock != null && topBlock.walkable) {
-                    retVal = topBlock;
-                }
-            }
-        }
-
-        //if the node is diagonal to the current node then check the neighbouring nodes
-        //so to move diagonally, we need to have 4 nodes walkable
-        int originalX = adjPos.x - currentNodePos.x;
-        int originalZ = adjPos.z - currentNodePos.z;
-
-        if(Mathf.Abs(originalX) == 1 && Mathf.Abs(originalZ) == 1) {
-            // the first block is originalX, 0 and the second to check is 0, originalZ
-            //They need to be pathfinding walkable
-            Node neighbour1 = GetNode(currentNodePos.x + originalX, currentNodePos.y, currentNodePos.z);
-            if(neighbour1 == null || !neighbour1.walkable) {
-                retVal = null;
-            }
-
-            Node neighbour2 = GetNode(currentNodePos.x, currentNodePos.y, currentNodePos.z + originalZ);
-            if(neighbour2 == null || !neighbour2.walkable) {
-                retVal = null;
-            }
-        }
-
-        //and here's where we can add even more additional checks
-        if(retVal != null) {
-            //Example, do not approach a node from the left
-            /*if(node.x > currentNodePos.x) {
-                node = null;
-            }*/
-        }
-
-        return retVal;
-    }
-
-    private Node GetNode(int x, int y, int z) {
-        Node n = null;
-
-        lock(_gridBase) {
-            n = _gridBase.GetNode(x, y, z);
-        }
-        return n;
-    }
-
-    private int GetDistance(Node posA, Node posB) {
+    private float GetDistance(Node posA, Node posB) {
         //We find the distance between each node
         //not much to explain here
 
-        int distX = Mathf.Abs(posA.x - posB.x);
-        int distZ = Mathf.Abs(posA.z - posB.z);
-        int distY = Mathf.Abs(posA.y - posB.y);
+        float distX = Mathf.Abs(posA.worldPosition.x - posB.worldPosition.x);
+        float distZ = Mathf.Abs(posA.worldPosition.z - posB.worldPosition.z);
+        float distY = Mathf.Abs(posA.worldPosition.y - posB.worldPosition.y);
 
         if(distX > distZ) {
             return 14 * distZ + 10 * (distX - distZ) + 10 * distY;
@@ -240,4 +197,25 @@ public class PathFinder
         return 14 * distX + 10 * (distZ - distX) + 10 * distY;
     }
 
+    public static List<Node> SmoothPath(List<Node> path) {
+        List<Node> waypoints = new List<Node>();
+
+        int currentNode = 0;
+        //waypoints.Add(path[0]);
+
+        for(int i = 0; i < path.Count; i++) {
+            Vector3 origin = path[currentNode].center;
+            Vector3 destination = path[i].center;
+            Vector3 yOffset = Vector3.up * Geodata.Instance.NodeSize * 1.5f;
+            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.Instance.ObstacleMask);
+
+            if(cantSeeTarget) {
+                waypoints.Add(path[i - 1]);
+                currentNode = i - 1;
+            }
+        }
+
+        waypoints.Add(path[path.Count - 1]);
+        return waypoints;
+    }
 }

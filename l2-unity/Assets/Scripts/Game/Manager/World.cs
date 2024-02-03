@@ -54,7 +54,7 @@ public class World : MonoBehaviour {
 
     void UpdateMasks() {
         NameplatesManager.Instance.SetMask(_entityMask);
-        Geodata.Instance.SetMask(_obstacleMask);
+        Geodata.Instance.ObstacleMask = _obstacleMask;
         ClickManager.Instance.SetMasks(_entityClickAreaMask, _clickThroughMask);
         CameraController.Instance.SetMask(_obstacleMask);
     }
@@ -188,7 +188,7 @@ public class World : MonoBehaviour {
         if(_objects.TryGetValue(id, out e)) {
             try {
                 e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
-            } catch(NullReferenceException) {
+            } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);
             }
@@ -214,7 +214,7 @@ public class World : MonoBehaviour {
 
                 e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position, moveSpeed);
                 e.GetComponent<NetworkTransformReceive>().LookAt(position);
-            } catch(NullReferenceException) {
+            } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 _objects.Remove(id);
             }
@@ -227,7 +227,7 @@ public class World : MonoBehaviour {
         if(_objects.TryGetValue(id, out e)) {
             try {
                 e.GetComponent<NetworkTransformReceive>().RotateTo(angle);
-            } catch(NullReferenceException) {
+            } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);
             }
@@ -239,7 +239,7 @@ public class World : MonoBehaviour {
         if(_objects.TryGetValue(id, out e)) {
             try {
                 e.GetComponent<NetworkAnimationReceive>().SetAnimationProperty(animId, value);
-            } catch(NullReferenceException) {
+            } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);
             }
@@ -254,7 +254,7 @@ public class World : MonoBehaviour {
                 //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
                 try {
                     WorldCombat.Instance.ApplyDamage(senderEntity.transform, targetEntity.transform, attackId, value);
-                } catch(NullReferenceException) {
+                } catch(Exception) {
                     Debug.LogWarning("Trying to update a null object");
                 }
             }
@@ -266,7 +266,7 @@ public class World : MonoBehaviour {
         if(_objects.TryGetValue(id, out e)) {
             try {
                 e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(speed, direction);
-            } catch(NullReferenceException) {
+            } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);
             }
@@ -284,7 +284,7 @@ public class World : MonoBehaviour {
                 } else {
                     Debug.LogError("Entity is neither a player or npc");
                 }
-            } catch(NullReferenceException) {
+            } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);
             }

@@ -976,15 +976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 466f0e7aad09a4b4b9d0c4fecc18ecb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootSkinnedRenderer: {fileID: 628414913845488315}
-  destSkinnedRenderer:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 5234168198814214781}
-  - {fileID: 1446929514047611846}
-  - {fileID: 0}
-  - {fileID: 8174284749082220613}
+  _rootSkinnedRenderer: {fileID: 0}
+  _destSkinnedRenderer: []
 --- !u!95 &6702118000005178376
 Animator:
   serializedVersion: 7
@@ -1019,7 +1012,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852945e8ec9a0cc44ba24c5a4b57f2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  local: 1
 --- !u!114 &2193685367435518447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2467,19 +2459,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6dd7d6ef87a0c640b45fe5ff487286d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  moveDirection: {x: 0, y: 0, z: 0}
-  currentSpeed: 0
-  defaultSpeed: 3
-  axis: {x: 0, y: 0}
-  canMove: 1
-  jumpForce: 10
-  gravity: 28
-  flatTransformPos: {x: 0, y: 0, z: 0}
-  targetPosition: {x: 0, y: 0, z: 0}
-  followDistance: 0
-  runToTarget: 0
-  measuredSpeed: 0
+  _canMove: 1
+  _moveDirection: {x: 0, y: 0, z: 0}
+  _currentSpeed: 0
+  _defaultSpeed: 4
+  _measuredSpeed: 0
+  _jumpForce: 10
+  _gravity: 28
+  _targetPosition: {x: 0, y: 0, z: 0}
+  _runningToTarget: 0
 --- !u!114 &3064332933061382819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2492,43 +2480,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cdb86fb2da14ab49b2e8d26c7e44791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startNode:
-    x: 0
-    y: 0
-    z: 0
-    size: 0
-    walkable: 0
-    position: {x: 0, y: 0, z: 0}
+  _startNode:
+    nodeIndex: {x: 0, y: 0, z: 0}
+    worldPosition: {x: 0, y: 0, z: 0}
     center: {x: 0, y: 0, z: 0}
     fCost: 0
     gCost: 0
     hCost: 0
-  targetNode:
-    x: 0
-    y: 0
-    z: 0
-    size: 0
-    walkable: 0
-    position: {x: 0, y: 0, z: 0}
+  _targetNode:
+    nodeIndex: {x: 0, y: 0, z: 0}
+    worldPosition: {x: 0, y: 0, z: 0}
     center: {x: 0, y: 0, z: 0}
     fCost: 0
     gCost: 0
     hCost: 0
-  targetDestination: {x: 0, y: 0, z: 0}
-  destinationThreshold: 0.1
-  path: []
-  collidingWith:
-    objectLayerName: 
-    objectLayer: 0
-    objectTag: 
-    objectScene: 
-    objectTransform: {fileID: 0}
-  ignoredLayers:
+  _targetDestination: {x: 0, y: 0, z: 0}
+  _destinationThreshold: 0.1
+  _path: []
+  _collidingWith:
+    _objectLayerName: 
+    _objectLayer: 0
+    _objectTag: 
+    _objectScene: 
+    _objectTransform: {fileID: 0}
+  _ignoredLayers:
     serializedVersion: 2
     m_Bits: 0
-  characterController: {fileID: 0}
-  grounded: 0
-  debugPathFinder: 1
+  _grounded: 0
+  _debugPathFinder: 1
 --- !u!114 &6719039449346300144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2541,27 +2520,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d00e5a138b0f04598f7c9cf63c621c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  identity:
-    entityType: 0
-    id: 0
-    type: 
-    npcClass: 
-    npcId: 0
-    name: Shnok
-    title: 
-    model: 0
-    position: {x: 4628.31, y: -71.40952, z: -1645.342}
-    heading: 0
-    collisionHeight: 0
-    owned: 0
-  status:
-    hp: 600
-    maxHp: 720
-    level: 10
-    cp: 200
-    maxCp: 200
-    mp: 10
-    maxMp: 120
+  _identity:
+    _entityType: 0
+    _id: 0
+    _type: 
+    _npcClass: 
+    _npcId: 0
+    _name: 
+    _title: 
+    _model: 0
+    _position: {x: 0, y: 0, z: 0}
+    _heading: 0
+    _collisionHeight: 0
+    _owned: 0
+  _status:
+    _hp: 0
+    _maxHp: 0
+    _level: 0
+    _moveSpeed: 0
+    _cp: 0
+    _maxCp: 0
+    _mp: 0
+    _maxMp: 0
 --- !u!143 &2707339679680748419
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2600,7 +2580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8037fc8427c7dc48956c6226796b4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverPosition: {x: 0, y: 0, z: 0}
+  _serverPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &2816631728359154816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2613,10 +2593,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610a23cfa58edea4c83f46e6bb4b5a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharing: 0
-  sharingLoopDelaySec: 0.1
-  lastSpeed: 0
-  lastDirection: {x: 0, y: 0, z: 0}
+  _sharing: 0
+  _sharingLoopDelaySec: 0.1
+  _lastSpeed: 0
+  _lastDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &1710882091163977892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2629,12 +2609,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0d74cfe5e884a048959b4280d60df39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surfaceObject:
-    objectLayerName: 
-    objectLayer: 0
-    objectTag: 
-    objectScene: 
-    objectTransform: {fileID: 0}
+  _surfaceObject:
+    _objectLayerName: 
+    _objectLayer: 0
+    _objectTag: 
+    _objectScene: 
+    _objectTransform: {fileID: 0}
 --- !u!1 &6439147042051212890
 GameObject:
   m_ObjectHideFlags: 0
@@ -5125,11 +5105,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2e6a9ab69d4b08f4bad73a6b0cc1814c, type: 3}
   m_PrefabInstance: {fileID: 2986102650609840821}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &5234168198814214781 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -2174318652780439352, guid: 2e6a9ab69d4b08f4bad73a6b0cc1814c, type: 3}
-  m_PrefabInstance: {fileID: 2986102650609840821}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6459663493824374916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6193,11 +6168,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ad4aafd844ee664d83138ecb7ac9089, type: 3}
---- !u!137 &1446929514047611846 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 5362969032580204100, guid: 3ad4aafd844ee664d83138ecb7ac9089, type: 3}
-  m_PrefabInstance: {fileID: 6807632092374705538}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6481568461065962089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3ad4aafd844ee664d83138ecb7ac9089, type: 3}
@@ -7788,11 +7758,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b59b593eb22a2714a8c6d31954a2a08d, type: 3}
---- !u!137 &8174284749082220613 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 63479927541676469, guid: b59b593eb22a2714a8c6d31954a2a08d, type: 3}
-  m_PrefabInstance: {fileID: 8183429766868460016}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8510637257545221659 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b59b593eb22a2714a8c6d31954a2a08d, type: 3}
