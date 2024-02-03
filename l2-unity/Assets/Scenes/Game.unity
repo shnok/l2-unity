@@ -643,7 +643,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 398782278}
-  - {fileID: 1678428050}
   m_Father: {fileID: 760118614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &710270813 stripped
@@ -685,8 +684,8 @@ Transform:
   m_Children:
   - {fileID: 1024012748}
   - {fileID: 581901348}
-  - {fileID: 702052364}
   - {fileID: 1913599226}
+  - {fileID: 702052364}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &760118615
@@ -751,7 +750,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nodeSize: 0.5
-  _mapsToLoad: []
+  _mapSize: 624.1524
+  _maximumElevationError: 5
+  _mapsToLoad:
+  - 17_25
+  - 16_25
   _loaded: 0
   _drawGizmos: 1
 --- !u!1 &792673796
@@ -1224,7 +1227,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 702052364}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Color.b
@@ -1316,7 +1319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7616108795757726014, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Name
-      value: Directional Light
+      value: DayNight
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1366,11 +1369,6 @@ PrefabInstance:
 --- !u!108 &1678428046 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-  m_PrefabInstance: {fileID: 1678428045}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1678428050 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
   m_PrefabInstance: {fileID: 1678428045}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1707425816
@@ -3270,6 +3268,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 366704775}
+  - {fileID: 1678428045}
   - {fileID: 1433411790}
   - {fileID: 1892573582}
   - {fileID: 661036169}

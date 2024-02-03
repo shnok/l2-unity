@@ -14,6 +14,7 @@ public class PathFinderFactory : MonoBehaviour {
 
     private List<PathFinder> _currentJobs;
     private List<PathFinder> _todoJobs;
+    private float _nodeSize = 0.5f;
 
     private static PathFinderFactory _instance;
     public static PathFinderFactory Instance { get { return _instance; } }
@@ -26,6 +27,7 @@ public class PathFinderFactory : MonoBehaviour {
     void Start() {
         _currentJobs = new List<PathFinder>();
         _todoJobs = new List<PathFinder>();
+        _nodeSize = Geodata.Instance.NodeSize;
     }
 
     void Update() {
@@ -64,7 +66,7 @@ public class PathFinderFactory : MonoBehaviour {
     }
 
     public void RequestPathfind(Node start, Node target, PathfindingJobComplete completeCallback) {
-        PathFinder newJob = new PathFinder(start, target, completeCallback);
+        PathFinder newJob = new PathFinder(start, target, completeCallback, _nodeSize);
         _todoJobs.Add(newJob);
     }
 
@@ -78,7 +80,7 @@ public class PathFinderFactory : MonoBehaviour {
             Vector3 origin = path[currentNode].center;
             Vector3 destination = path[i].center;
             Vector3 yOffset = Vector3.up * Geodata.Instance.NodeSize * 1.5f;
-            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.Instance.GetMask());
+            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.Instance.ObstacleMask);
 
             if(cantSeeTarget) {
                 waypoints.Add(path[i - 1]);

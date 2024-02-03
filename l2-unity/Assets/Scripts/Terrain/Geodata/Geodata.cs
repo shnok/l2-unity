@@ -6,15 +6,26 @@ using System.IO.Compression;
 using UnityEditor;
 using UnityEngine;
 
-public class Geodata : MonoBehaviour
-{
+public class Geodata : MonoBehaviour {
     [SerializeField] private float _nodeSize = 0.5f;
+    [SerializeField] private float _mapSize = 624.1524f;
+    [SerializeField] private float _maximumElevationError = 5f;
+    //[SerializeField] private Dictionary<string, Vector3[][][]> _test;
     [SerializeField] private List<string> _mapsToLoad;
     [SerializeField] private Dictionary<string, Vector3> _mapsOrigin = new Dictionary<string, Vector3>();
-    [SerializeField] private Dictionary<Vector3, Node> _nodes = new Dictionary<Vector3, Node>();
+    [SerializeField] private Dictionary<string, Dictionary<Vector3, List<Node>>> _geodata;
     [SerializeField] private bool _loaded = false;
+
+    [Header("Debug")]
     [SerializeField] private bool _drawGizmos = true;
+    [SerializeField] private bool _drawMapGizmos = true;
+    [SerializeField] private int _drawMapGizmosLimit = 25000;
+    [SerializeField] private bool _drawGizmosAroundPlayer = true;
+    [SerializeField] private int _drawGizmosAroundPlayerRadius = 10;
+
     private LayerMask _obstacleMask;
+    public LayerMask ObstacleMask { get { return _obstacleMask; } set { _obstacleMask = value; } }
+
     public float NodeSize { get { return _nodeSize; } }
     public bool Loaded { get { return _loaded; } }
 
@@ -28,84 +39,139 @@ public class Geodata : MonoBehaviour
     }
 
     void Start() {
+        _geodata = new Dictionary<string, Dictionary<Vector3, List<Node>>>();
 
         foreach(var mapId in _mapsToLoad) {
-            LoadMapGeodata(mapId);
+            byte[] data;
+            try {
+                data = GeodataImporter.Instance.GetGeodataBinaryForMap(mapId);
+            } catch(Exception e) {
+                Debug.LogWarning(e.Message);
+                continue;
+            }
+
+            Vector3 origin;
+            try {
+                origin = GeodataImporter.Instance.LoadMapOrigin(mapId, _nodeSize);
+                _mapsOrigin.Add(mapId, origin);
+            } catch(Exception e) {
+                Debug.LogError(e.Message);
+                continue;
+            }
+
+            _geodata[mapId] = GeodataImporter.Instance.LoadMapGeodata(data, origin, _nodeSize);
         }
         _loaded = true;
     }
 
-    public void SetMask(LayerMask mask) {
-        _obstacleMask = mask;
-    }
-
-    public LayerMask GetMask() {
-        return _obstacleMask;
-    }
-
-    public Node GetNodeAt(string mapId, Vector3 pos) {
-        if(_mapsOrigin.ContainsKey(mapId)) {
-            Vector3 nodePos = FromWorldToNodePos(pos, mapId);
-            //Debug.Log(pos + " , " + nodePos);
-            Node node;
-            _nodes.TryGetValue(nodePos, out node);
-
-            return node;
+    public string GetCurrentMap(Vector3 location) {
+        foreach(var mapName in _mapsOrigin.Keys) {
+            if(IsInMapBounds(location, _mapsOrigin[mapName])) {
+                return mapName;
+            }
         }
-        return null;
+        throw new Exception("Outside bounds.");
     }
 
+    private bool IsInMapBounds(Vector3 location, Vector3 mapOrigin) {
+        if(location.x < mapOrigin.x) {
+            return false;
+        }
+        if(location.x > mapOrigin.x + _mapSize) {
+            return false;
+        }
+        if(location.z < mapOrigin.z) {
+            return false;
+        }
+        if(location.z > mapOrigin.z + _mapSize) {
+            return false;
+        }
 
-    public void LoadMapGeodata(string mapId) {
-        try {
-            string geodataFilePath = Path.Combine("Assets/Resources/Data/Maps/", mapId, mapId + ".geodata");
-            string innerFile = "geodata";
-            using(ZipArchive archive = ZipFile.OpenRead(geodataFilePath)) {
-                ZipArchiveEntry entry = archive.GetEntry(innerFile);
+        return true;
+    }
 
-                if(entry != null) {
-                    using(Stream stream = entry.Open()) {
-                        // Read the entire content into memory
-                        byte[] data;
-                        using(MemoryStream memoryStream = new MemoryStream()) {
-                            stream.CopyTo(memoryStream);
-                            data = memoryStream.ToArray();
+    public Node GetNodeAt(Vector3 nodePos, string mapId) {
+        return GetNodeAt(nodePos, mapId, false);
+    }
+
+    public Node GetNodeAt(Vector3 nodePos) {
+        return GetNodeAt(nodePos, GetCurrentMap(nodePos), false);
+    }
+
+    public Node GetNodeAt(Vector3 nodePos, bool exactElevation) {
+        return GetNodeAt(nodePos, GetCurrentMap(nodePos), exactElevation);
+    }
+
+    // Get node at a given world position
+    public Node GetNodeAt(Vector3 nodePos, string mapId, bool exactElevation) {
+        Vector3 nodeIndex = FromWorldToNodePos(nodePos, mapId);
+
+        // Checks if the map index exists
+        if(_geodata.ContainsKey(mapId)) {
+            Vector3 geodataIndex = new Vector3(nodeIndex.x, 0, nodeIndex.z);
+            if(_geodata[mapId].ContainsKey(geodataIndex)) {
+                List<Node> layers = _geodata[mapId][geodataIndex];
+                foreach(Node layer in layers) {
+                    if(exactElevation) {
+                        if(layer.nodeIndex.y == nodeIndex.y) {
+                            return new Node(layer);
                         }
-
-                        // Create a BinaryReader from the memory stream
-                        string mapFolder = Path.Combine("Data", "Maps", mapId);
-                        GameObject map = Resources.Load<GameObject>(Path.Combine(mapFolder, mapId));
-                        Vector3 origin = VectorUtils.floorToNearest(map.transform.position, _nodeSize);
-                        _mapsOrigin.Add(mapId, origin);
-
-                        int count = 0;
-                        using(BinaryReader reader = new BinaryReader(new MemoryStream(data))) {
-                            while(reader.BaseStream.Position < reader.BaseStream.Length) {
-                                short x = reader.ReadInt16();
-                                short y = reader.ReadInt16();
-                                short z = reader.ReadInt16();
-                                count++;
-
-                                Vector3 scaledPos = new Vector3(x, y, z);
-
-                                Node n = new Node(scaledPos, FromNodeToWorldPos(scaledPos, origin), _nodeSize);
-                                n.walkable = true;
-                                _nodes.Add(scaledPos, n);
-                            }
+                    } else {
+                        float layerOffset = Math.Abs(layer.nodeIndex.y - nodeIndex.y);
+                        // verify if the node y diff is lower or higher than _maximumElevationError
+                        if(layerOffset >= 0 && layerOffset <= _maximumElevationError) {
+                            return new Node(layer);
                         }
-
-                        Debug.Log("Imported " + count + " nodes");
                     }
-                } else {
-                    Debug.LogError("File not found in the ZIP archive.");
                 }
             }
-        } catch(IOException ex) {
-            Debug.LogError("Error reading ZIP file: " + ex.Message);
         }
+
+        throw new Exception("Node not found");
     }
 
-    private Vector3 FromNodeToWorldPos(Vector3 nodePos, Vector3 origin) {
+    public Node GetClosestNodeAt(Vector3 nodePos) {
+        return GetClosestNodeAt(nodePos, GetCurrentMap(nodePos));
+    }
+
+    // Get closest node at a given world position
+    public Node GetClosestNodeAt(Vector3 nodePos, string mapId) {
+        List<Node> layers = GetAllNodesAt(nodePos, mapId);
+
+        // find the closest node of given point
+        // layers should at the highest be 2-3
+        Node closest = null;
+        float lowestDiff = -1;
+        foreach(Node n in layers) {
+            float nodeHeightDiff = Math.Abs(n.center.y - nodePos.y);
+            if(closest == null || nodeHeightDiff < lowestDiff || lowestDiff == -1) {
+                closest = n;
+                lowestDiff = nodeHeightDiff;
+            }
+        }
+
+        return closest;
+    } 
+
+    public List<Node> GetAllNodesAt(Vector3 nodePos) {
+        return GetAllNodesAt(nodePos, GetCurrentMap(nodePos));
+    }
+
+    public List<Node> GetAllNodesAt(Vector3 nodePos, string mapId) {
+        Vector3 nodeIndex = FromWorldToNodePos(nodePos, mapId);
+
+        // Checks if the map index exists
+        if(_geodata.ContainsKey(mapId)) {
+            Vector3 geodataIndex = new Vector3(nodeIndex.x, 0, nodeIndex.z);
+            if(_geodata[mapId].ContainsKey(geodataIndex)) {
+                return _geodata[mapId][geodataIndex];
+            }
+        }
+
+        throw new Exception("Nodes not found");
+    }
+
+    public Vector3 FromNodeToWorldPos(Vector3 nodePos, Vector3 origin) {
         Vector3 worldPos = nodePos * _nodeSize + origin;
         worldPos = new Vector3(
             VectorUtils.floorToNearest(worldPos.x, _nodeSize),
@@ -129,33 +195,61 @@ public class Geodata : MonoBehaviour
         return nodePos;
     }
 
-    public Node GetNode(int x, int y, int z) {
-        Node node;
-        _nodes.TryGetValue(new Vector3(x, y, z), out node);
-        return node;
-    }
-
     void OnDrawGizmos() {
         if(!_drawGizmos || !Application.isPlaying)
             return;
 
-        int count = 0;
-        if(_nodes.Count > 0) {
-            foreach(KeyValuePair<Vector3, Node> n in _nodes) {
-                if(count >= 250000) {
-                    return;
-                }
+        Gizmos.color = Color.green;
 
-                Vector3 cubeSize = new Vector3(_nodeSize - _nodeSize / 10f, 0.1f, _nodeSize - _nodeSize / 10f);
-                if(n.Value.walkable) {
-                    Gizmos.color = Color.green;
-                } else {
-                    Gizmos.color = Color.red;
-                }
-
-                Gizmos.DrawCube(n.Value.center, cubeSize);
-            }
+        if(_drawMapGizmos) {
+            DrawMapGizmos("17_25");
         }
 
+        if(_drawGizmosAroundPlayer) {
+            DrawGizmosAroundPlayer();
+        }
+    }
+
+    private void DrawMapGizmos(string mapId) {
+        int count = 0;
+        Vector3 cubeSize = new Vector3(_nodeSize - _nodeSize / 10f, 0.1f, _nodeSize - _nodeSize / 10f);
+        Dictionary<Vector3, List<Node>> nodes;
+        if(!_geodata.TryGetValue(mapId, out nodes)) {
+            Debug.LogWarning("Can't draw gizmos for map " + mapId);
+            return;
+        }
+
+        foreach(KeyValuePair<Vector3, List<Node>> n in nodes) {
+            if(count++ >= _drawMapGizmosLimit) {
+                return;
+            }
+
+            n.Value.ForEach(layer => {
+                Gizmos.color = Color.green;
+                Gizmos.DrawCube(layer.center, cubeSize);
+            });
+        }
+    }
+
+    private void DrawGizmosAroundPlayer() {
+        if(PlayerController.Instance == null) {
+            return;
+        }
+
+        Vector3 playerPos = PlayerController.Instance.transform.position;
+        Vector3 cubeSize = new Vector3(_nodeSize - _nodeSize / 10f, 0.1f, _nodeSize - _nodeSize / 10f);
+        Gizmos.color = Color.green;
+
+        for(int x = -_drawGizmosAroundPlayerRadius; x <= _drawGizmosAroundPlayerRadius; x++) {
+            for(int z = -_drawGizmosAroundPlayerRadius; z <= _drawGizmosAroundPlayerRadius; z++) {
+                try {
+                    List<Node> nodes = GetAllNodesAt(playerPos + new Vector3(x * _nodeSize, 0, z * _nodeSize));
+                    nodes.ForEach(n => {
+                        Gizmos.DrawCube(n.center, cubeSize);
+                    });
+                } catch(Exception) {
+                }
+            }
+        }
     }
 }

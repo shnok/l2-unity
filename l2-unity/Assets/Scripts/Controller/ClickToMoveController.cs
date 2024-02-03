@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,7 +38,11 @@ public class ClickToMoveController : MonoBehaviour
     public void Update() {
         // Update initial node
         if(_characterController.isGrounded && _collidingWith != null) {
-            _startNode = Geodata.Instance.GetNodeAt(_collidingWith.ObjectScene, transform.position);
+            try {
+                _startNode = Geodata.Instance.GetNodeAt(transform.position);
+            } catch(Exception) {
+                _startNode = null;
+            }
         }
 
         // Reset path when user input
@@ -79,15 +84,19 @@ public class ClickToMoveController : MonoBehaviour
     public void MoveTo(ObjectData target, Vector3 clickPosition) {
         _targetDestination = clickPosition;
 
-        Node node = Geodata.Instance.GetNodeAt(target.ObjectScene, clickPosition);
+        Node node = null;
+        try {
+            node = Geodata.Instance.GetNodeAt(clickPosition);
+        } catch(Exception) {}
+
         if(node != null && _startNode != null) {
             _targetNode = node;
 
             PathFinderFactory.Instance.RequestPathfind(_startNode, _targetNode, (callback) => {
-                Debug.Log("Found path with " + callback.Count + " node(s).");
-                if(callback.Count == 0) {
+                if(callback == null || callback.Count == 0) {
                     PlayerController.Instance.SetTargetPosition(_targetDestination, _destinationThreshold);
                 } else {
+                    Debug.Log("Found path with " + callback.Count + " node(s).");
                     _path = PathFinderFactory.Instance.SmoothPath(callback);
                 }
             });

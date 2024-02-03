@@ -77,7 +77,6 @@ public class WorldClock : MonoBehaviour {
     }
 
     public void SynchronizeClock(long gameTicks, int tickDurationMs, int dayDurationMinutes) {
-        Debug.Log($"{gameTicks} {tickDurationMs} {dayDurationMinutes}");
         float ticksPerDay = (float)dayDurationMinutes * 60 * 1000 / tickDurationMs;
         float currentHours = gameTicks / ticksPerDay * 24 % 24;
         this._dayDurationMinutes = dayDurationMinutes;

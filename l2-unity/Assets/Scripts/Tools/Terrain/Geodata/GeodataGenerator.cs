@@ -61,9 +61,8 @@ public class GeodataGenerator : MonoBehaviour {
 						Vector3 scaledNodePos = new Vector3(x, nodePos.y / nodeSize, z);
 
 						Node n = new Node (scaledNodePos, nodePos + roundedTerrainPos, nodeSize);
-						n.walkable = IsNodeWalkable(n.center);
 
-						if(n.walkable) {
+						if(IsNodeWalkable(n.center)) {
 							terrain.Add (scaledNodePos, n);
 						}
 
@@ -152,29 +151,5 @@ public class GeodataGenerator : MonoBehaviour {
 		
 		return new Vector3(Mathf.Round(x), Mathf.Round(y), Mathf.Floor(z));
 	}*/
-
-	void OnDrawGizmos() {
-
-		if (!drawGizmos || !Application.isPlaying)
-			return;
-
-		int count = 0;
-		if(terrain.Count > 0) {
-			foreach(KeyValuePair<Vector3, Node> n in terrain) {
-				if(count >= 250000) {
-					return;
-				}
-				Vector3 cubeSize = new Vector3 (nodeSize - nodeSize/10f, 0.1f, nodeSize - nodeSize / 10f);
-				if (n.Value.walkable) {
-					Gizmos.color = Color.green;
-				} else {
-					Gizmos.color = Color.red;
-				}
-
-				Gizmos.DrawCube (n.Value.center, cubeSize);
-			}
-		}
-
-	}
 }
 #endif

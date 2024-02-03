@@ -284,6 +284,68 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &218271901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 218271903}
+  - component: {fileID: 218271902}
+  m_Layer: 0
+  m_Name: Geodata
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &218271902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218271901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f6427f0dd98354db59a370fa0d0f94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainTransform: {fileID: 862987951}
+  terrainWidth: 625
+  scaledTerrainWidth: 0
+  nodeSize: 0.5
+  characterHeight: 2
+  erosionThreshold: 0.3
+  drawGizmos: 0
+  walkableMask:
+    serializedVersion: 2
+    m_Bits: 264
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 640
+  allowWalkMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  export: 1
+  exportPath: geodata
+--- !u!4 &218271903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218271901}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4666.02, y: -68.729996, z: -1575.79}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &300687767
 Mesh:
   m_ObjectHideFlags: 0
@@ -1331,6 +1393,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &862987951 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7357121087097430362, guid: 41a4c4f3f3ea8c744b40e2c3ee4974f4, type: 3}
+  m_PrefabInstance: {fileID: 518110962}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &919386530
 Mesh:
   m_ObjectHideFlags: 0
@@ -3405,3 +3472,4 @@ SceneRoots:
   - {fileID: 518110962}
   - {fileID: 1703278868}
   - {fileID: 1593990144}
+  - {fileID: 218271903}
