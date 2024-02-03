@@ -205,7 +205,6 @@ MonoBehaviour:
   nodeSize: 0.5
   characterHeight: 2
   erosionThreshold: 0.3
-  drawGizmos: 0
   walkableMask:
     serializedVersion: 2
     m_Bits: 264
@@ -215,6 +214,15 @@ MonoBehaviour:
   allowWalkMask:
     serializedVersion: 2
     m_Bits: 1024
+  castHeight: 0.25
+  castOffset: 0.75
+  castLength: 1
+  enableCustomGeneratedTerrainWidth: 1
+  customGeneratedTerrainWidth: 100
+  enableCustomGeneratedTerrainOrigin: 1
+  customGeneratedTerrainOrigin: {x: 4536.7, y: -182.2352, z: -1544.1}
+  drawGizmos: 0
+  gizmosDistance: 100
   export: 1
   exportPath: geodata
 --- !u!4 &330464026 stripped
@@ -662,6 +670,7 @@ GameObject:
   - component: {fileID: 760118615}
   - component: {fileID: 760118617}
   - component: {fileID: 760118616}
+  - component: {fileID: 760118618}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -710,7 +719,7 @@ MonoBehaviour:
   _usersContainer: {fileID: 0}
   _entityMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2112
   _entityClickAreaMask:
     serializedVersion: 2
     m_Bits: 8192
@@ -737,6 +746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxJobs: 3
+  _maximumLoopCount: 250
 --- !u!114 &760118617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,8 +765,27 @@ MonoBehaviour:
   _mapsToLoad:
   - 17_25
   - 16_25
+  - 16_24
+  - 17_24
   _loaded: 0
   _drawGizmos: 1
+  _drawMapGizmos: 0
+  _drawMapGizmosLimit: 25000
+  _drawGizmosAroundPlayer: 1
+  _drawGizmosAroundPlayerRadius: 5
+--- !u!114 &760118618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760118613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a5141e8436f624896295f9425aee45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxJobs: 16
 --- !u!1 &792673796
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,8 +1183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf309343c3f28b8419882850a8e85fa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _masterVolume: 1
-  _musicVolume: 1
+  _masterVolume: 0.188
+  _musicVolume: 0
   _SFXVolume: 1
   _UIVolume: 1
   _ambientVolume: 1

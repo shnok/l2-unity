@@ -42,27 +42,29 @@ public class Geodata : MonoBehaviour {
         _geodata = new Dictionary<string, Dictionary<Vector3, List<Node>>>();
 
         foreach(var mapId in _mapsToLoad) {
-            byte[] data;
-            try {
-                data = GeodataImporter.Instance.GetGeodataBinaryForMap(mapId);
-            } catch(Exception e) {
-                Debug.LogWarning(e.Message);
-                continue;
-            }
 
             Vector3 origin;
             try {
-                origin = GeodataImporter.Instance.LoadMapOrigin(mapId, _nodeSize);
+                origin = GeodataImporter.LoadMapOrigin(mapId, _nodeSize);
                 _mapsOrigin.Add(mapId, origin);
             } catch(Exception e) {
                 Debug.LogError(e.Message);
                 continue;
             }
 
-            _geodata[mapId] = GeodataImporter.Instance.LoadMapGeodata(data, origin, _nodeSize);
+            GeodataImporterFactory.Instance.RequestImportGeodata(mapId, _nodeSize, origin, (callback) => {
+                if(callback != null) {
+                    Debug.Log("Found path with " + callback.Count + " node(s).");
+                    _geodata[mapId] = callback;
+                }
+
+                if(_geodata.Keys.Count == _mapsToLoad.Count) {
+                    _loaded = true;
+                }
+            });
         }
-        _loaded = true;
     }
+
 
     public string GetCurrentMap(Vector3 location) {
         foreach(var mapName in _mapsOrigin.Keys) {

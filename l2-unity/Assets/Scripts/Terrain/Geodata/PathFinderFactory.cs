@@ -11,6 +11,7 @@ public class PathFinderFactory : MonoBehaviour {
 
     //The maximum simultaneous threads we allow to open
     [SerializeField] private int _maxJobs = 3;
+    [SerializeField] private int _maximumLoopCount = 250;
 
     private List<PathFinder> _currentJobs;
     private List<PathFinder> _todoJobs;
@@ -66,29 +67,7 @@ public class PathFinderFactory : MonoBehaviour {
     }
 
     public void RequestPathfind(Node start, Node target, PathfindingJobComplete completeCallback) {
-        PathFinder newJob = new PathFinder(start, target, completeCallback, _nodeSize);
+        PathFinder newJob = new PathFinder(start, target, completeCallback, _nodeSize, _maximumLoopCount);
         _todoJobs.Add(newJob);
-    }
-
-    public List<Node> SmoothPath(List<Node> path) {
-        List<Node> waypoints = new List<Node>();
-
-        int currentNode = 0;
-        //waypoints.Add(path[0]);
-
-        for(int i = 0; i < path.Count; i++) {
-            Vector3 origin = path[currentNode].center;
-            Vector3 destination = path[i].center;
-            Vector3 yOffset = Vector3.up * Geodata.Instance.NodeSize * 1.5f;
-            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.Instance.ObstacleMask);
-
-            if(cantSeeTarget) {
-                waypoints.Add(path[i - 1]);
-                currentNode = i - 1;
-            }
-        }
-
-        waypoints.Add(path[path.Count - 1]);
-        return waypoints;
     }
 }

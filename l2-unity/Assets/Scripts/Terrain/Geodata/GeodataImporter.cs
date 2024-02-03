@@ -8,13 +8,45 @@ using UnityEngine;
 public class GeodataImporter
 {
     private string _geodataEntryName = "geodata";
-    private static GeodataImporter _instance;
-    public static GeodataImporter Instance {
-        get {
-            if(_instance == null) {
-                _instance = new GeodataImporter();
+    private string _mapId;
+    private float _nodeSize;
+    private Vector3 _origin;
+    private Dictionary<Vector3, List<Node>> _mapNodes;
+    private GeodataImporterFactory.ImportJobComplete _completeCallback;
+
+
+    private volatile bool jobDone = false;
+    public bool JobDone { get { return jobDone; } }
+
+    public GeodataImporter(string mapId, float nodeSize, Vector3 origin, GeodataImporterFactory.ImportJobComplete callback) {
+        _mapId = mapId;
+        _nodeSize = nodeSize;
+        _completeCallback = callback;
+        _origin = origin;
+    }
+
+    public void ImportGeodata() {
+        try {
+            byte[] data = null;
+            try {
+                data = GetGeodataBinaryForMap(_mapId);
+            } catch(Exception e) {
+                Debug.LogWarning(e.Message);
             }
-            return _instance;
+
+            if(data != null) {
+                _mapNodes = LoadMapGeodata(data, _origin, _nodeSize);
+            }
+        } catch(Exception e) {
+            Debug.LogWarning("Error while finding path: " + e.Message);
+        }
+
+        jobDone = true;
+    }
+
+    public void NotifyComplete() {
+        if(_completeCallback != null) {
+            _completeCallback(_mapNodes);
         }
     }
 
@@ -45,21 +77,12 @@ public class GeodataImporter
         }
     }
 
-    public Vector3 LoadMapOrigin(string mapId, float nodeSize) {
-        string mapFolder = Path.Combine("Data", "Maps", mapId);
-        GameObject map = Resources.Load<GameObject>(Path.Combine(mapFolder, mapId));
-        if(map == null) {
-            throw new Exception($"Map {mapId} prefab not found at {mapFolder}.");
-        }
-
-        Vector3 origin = VectorUtils.floorToNearest(map.transform.position, nodeSize);
-        return origin;
-    }
-
     public Dictionary<Vector3, List<Node>> LoadMapGeodata(byte[] data, Vector3 mapOrigin, float nodeSize) {
         long startLoadingTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        Dictionary<Vector3, List<Node>> mapNodes = new Dictionary<Vector3, List<Node>>();
+        _mapNodes = new Dictionary<Vector3, List<Node>>();
         int count = 0;
+
+        List<Node> layers;
 
         // Create a BinaryReader from the memory stream
         using(BinaryReader reader = new BinaryReader(new MemoryStream(data))) {
@@ -73,10 +96,9 @@ public class GeodataImporter
                 Vector3 nodeId = new Vector3(x, 0, z);
                 Node n = new Node(scaledPos, Geodata.Instance.FromNodeToWorldPos(scaledPos, mapOrigin), nodeSize);
 
-                List<Node> layers;
-                if(!mapNodes.TryGetValue(nodeId, out layers)) {
+                if(!_mapNodes.TryGetValue(nodeId, out layers)) {
                     layers = new List<Node>();
-                    mapNodes[nodeId] = layers;
+                    _mapNodes[nodeId] = layers;
                 }
 
                 layers.Add(n);
@@ -86,6 +108,17 @@ public class GeodataImporter
         long elapsed = (DateTimeOffset.Now.ToUnixTimeMilliseconds() - startLoadingTime);
         Debug.Log($"Imported {count} nodes in {elapsed}ms.");
 
-        return mapNodes;
+        return _mapNodes;
+    }
+
+    public static Vector3 LoadMapOrigin(string mapId, float nodeSize) {
+        string mapFolder = Path.Combine("Data", "Maps", mapId);
+        GameObject map = Resources.Load<GameObject>(Path.Combine(mapFolder, mapId));
+        if(map == null) {
+            throw new Exception($"Map {mapId} prefab not found at {mapFolder}.");
+        }
+
+        Vector3 origin = VectorUtils.floorToNearest(map.transform.position, nodeSize);
+        return origin;
     }
 }

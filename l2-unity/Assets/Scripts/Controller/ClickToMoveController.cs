@@ -12,6 +12,7 @@ public class ClickToMoveController : MonoBehaviour
     [SerializeField] private Vector3 _targetDestination;
     [SerializeField] private float _destinationThreshold = 0.10f;
     [SerializeField] private List<Node> _path;
+    [SerializeField] private bool _simplifyPath = true;
 
     [Header("Ground check")]
     [SerializeField] private ObjectData _collidingWith;
@@ -97,7 +98,11 @@ public class ClickToMoveController : MonoBehaviour
                     PlayerController.Instance.SetTargetPosition(_targetDestination, _destinationThreshold);
                 } else {
                     Debug.Log("Found path with " + callback.Count + " node(s).");
-                    _path = PathFinderFactory.Instance.SmoothPath(callback);
+                    if(_simplifyPath) {
+                        _path = PathFinder.SmoothPath(callback);
+                    } else {
+                        _path = callback;
+                    }
                 }
             });
 
@@ -125,19 +130,19 @@ public class ClickToMoveController : MonoBehaviour
         Gizmos.color = Color.yellow;
 
         if(_targetNode != null) {
-            Gizmos.DrawCube(_targetNode.center, cubeSize);
+            Gizmos.DrawCube(_targetNode.center + Vector3.up * 0.1f , cubeSize);
         }
 
         Gizmos.color = Color.green;
         if(_startNode != null) {
-            Gizmos.DrawCube(_startNode.center, cubeSize);
+            Gizmos.DrawCube(_startNode.center + Vector3.up * 0.1f, cubeSize);
         }
 
         Gizmos.color = Color.white;
 
         if(_path != null && _path.Count > 0) {
             foreach(var node in _path) {
-                Gizmos.DrawCube(node.center, cubeSize);
+                Gizmos.DrawCube(node.center + Vector3.up * 0.1f, cubeSize);
             }
         }
     }

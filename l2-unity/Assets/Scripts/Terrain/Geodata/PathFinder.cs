@@ -9,18 +9,19 @@ public class PathFinder
     private List<Node> _foundPath;
     private float _nodeSize;
 
-    [SerializeField] private Node _startPosition;
-    [SerializeField] private Node _endPosition;
-    [SerializeField] private int _maximumLoopCount = 250;
-    [SerializeField] private volatile bool jobDone = false;
+    private Node _startPosition;
+    private Node _endPosition;
+    private int _maximumLoopCount;
+    private volatile bool jobDone = false;
 
     public bool JobDone { get { return jobDone; } }
 
-    public PathFinder(Node start, Node target, PathFinderFactory.PathfindingJobComplete callback, float nodeSize) {
+    public PathFinder(Node start, Node target, PathFinderFactory.PathfindingJobComplete callback, float nodeSize, int maximumLoopCount) {
         _startPosition = start;
         _endPosition = target;
         _completeCallback = callback;
         _nodeSize = nodeSize;
+        _maximumLoopCount = maximumLoopCount;
     }
 
     public void FindPath() {
@@ -177,7 +178,44 @@ public class PathFinder
         return returnList;
     }
 
-    private float GetDistance(Node posA, Node posB) {
+    /*private float GetDistance(Node posA, Node posB) {
         return Vector3.Distance(posA.center, posB.center);
+    }*/
+
+    private float GetDistance(Node posA, Node posB) {
+        //We find the distance between each node
+        //not much to explain here
+
+        float distX = Mathf.Abs(posA.worldPosition.x - posB.worldPosition.x);
+        float distZ = Mathf.Abs(posA.worldPosition.z - posB.worldPosition.z);
+        float distY = Mathf.Abs(posA.worldPosition.y - posB.worldPosition.y);
+
+        if(distX > distZ) {
+            return 14 * distZ + 10 * (distX - distZ) + 10 * distY;
+        }
+
+        return 14 * distX + 10 * (distZ - distX) + 10 * distY;
+    }
+
+    public static List<Node> SmoothPath(List<Node> path) {
+        List<Node> waypoints = new List<Node>();
+
+        int currentNode = 0;
+        //waypoints.Add(path[0]);
+
+        for(int i = 0; i < path.Count; i++) {
+            Vector3 origin = path[currentNode].center;
+            Vector3 destination = path[i].center;
+            Vector3 yOffset = Vector3.up * Geodata.Instance.NodeSize * 1.5f;
+            bool cantSeeTarget = Physics.Linecast(destination + yOffset, origin + yOffset, Geodata.Instance.ObstacleMask);
+
+            if(cantSeeTarget) {
+                waypoints.Add(path[i - 1]);
+                currentNode = i - 1;
+            }
+        }
+
+        waypoints.Add(path[path.Count - 1]);
+        return waypoints;
     }
 }

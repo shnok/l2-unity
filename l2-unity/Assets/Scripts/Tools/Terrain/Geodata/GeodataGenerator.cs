@@ -12,22 +12,43 @@ public class GeodataGenerator : MonoBehaviour {
 	public float nodeSize = .25f;
 	public float characterHeight = 2f;
 	public float erosionThreshold = 1.5f;
-	public bool drawGizmos = true;
+
 	public LayerMask walkableMask;
 	public LayerMask obstacleMask;
 	public LayerMask allowWalkMask;
+
+	[Header("Obstacle cast offsets")]
+	public float castHeight = 0.25f;
+	public float castOffset = 0.75f;
+	public float castLength = 1f;
+
+	[Header("Custom generated terrain width")]
+	public bool enableCustomGeneratedTerrainWidth = true;
+	public int customGeneratedTerrainWidth = 100;
+	public bool enableCustomGeneratedTerrainOrigin = true;
+	public Vector3 customGeneratedTerrainOrigin = new Vector3(4536.7f, -182.2352f, -1544.1f);
+
+	[Header("Debug")]
+	public bool drawGizmos = true;
+	public float gizmosDistance = 100f;
+
+	[Header("Export")]
 	public bool export;
-	public string exportPath = "terraindata.dat";
+	public string exportPath = "geodata";
 
 	void Start() {
-		scaledTerrainWidth = (int)(terrainWidth / nodeSize);
+		if(!enableCustomGeneratedTerrainWidth) {
+			scaledTerrainWidth = (int)(terrainWidth / nodeSize);
+		} else {
+			scaledTerrainWidth = customGeneratedTerrainWidth;
+        }
 
-        System.Diagnostics.Stopwatch s = new System.Diagnostics.Stopwatch();
+		System.Diagnostics.Stopwatch s = new System.Diagnostics.Stopwatch();
 		s.Start();
 		GenerateGeodata();
 		s.Stop();
 
-		Debug.Log("Built the terrain in " + s.ElapsedMilliseconds + " ms");
+		Debug.Log("Built the geodata with " + terrain.Keys.Count + " node(s) in " + s.ElapsedMilliseconds + "ms");
 
 		if(export) {
 			GeodataExporter.Export(exportPath, terrain);
@@ -36,6 +57,9 @@ public class GeodataGenerator : MonoBehaviour {
 
 	void GenerateGeodata() {
 		Vector3 roundedTerrainPos = VectorUtils.floorToNearest(terrainTransform.position, nodeSize);
+		if(enableCustomGeneratedTerrainOrigin) {
+			roundedTerrainPos = VectorUtils.floorToNearest(customGeneratedTerrainOrigin, nodeSize);
+        }
 		Debug.Log(roundedTerrainPos);
 		for (int x = 0; x < scaledTerrainWidth; x++) {
 			for (int z = 0; z < scaledTerrainWidth; z++) {
@@ -116,22 +140,21 @@ public class GeodataGenerator : MonoBehaviour {
 		}
 
 		/* Horizontal cast */
-		float castHeight = nodeSize * 1.25f;
-		float castOffset = nodeSize * 0.4f;
-		float castLength = nodeSize* 0.8f;
-
-		Vector3 origin = nodeCenter + Vector3.up * castHeight;
-		if(Physics.Linecast(origin + Vector3.left * castOffset, origin + Vector3.right * castLength, mask)) {
-			return true;
-		}
-		if(Physics.Linecast(origin + Vector3.right * castOffset, origin + Vector3.left * castLength, mask)) {
-			return true;
-		}
-		if(Physics.Linecast(origin + Vector3.forward * castOffset, origin + Vector3.back * castLength, mask)) {
-			return true;
-		}
-		if(Physics.Linecast(origin + Vector3.back * castOffset, origin + Vector3.forward * castLength, mask)) {
-			return true;
+		int iterations = 5;
+		for(int i = 1; i < iterations; i++) {
+			Vector3 origin = nodeCenter + Vector3.up * 1f * ((float)i / iterations);
+			if(Physics.Linecast(origin + Vector3.left * castOffset, origin + Vector3.right * castLength, mask)) {
+				return true;
+			}
+			if(Physics.Linecast(origin + Vector3.right * castOffset, origin + Vector3.left * castLength, mask)) {
+				return true;
+			}
+			if(Physics.Linecast(origin + Vector3.forward * castOffset, origin + Vector3.back * castLength, mask)) {
+				return true;
+			}
+			if(Physics.Linecast(origin + Vector3.back * castOffset, origin + Vector3.forward * castLength, mask)) {
+				return true;
+			}
 		}
 
 		return obstacle;
@@ -151,5 +174,37 @@ public class GeodataGenerator : MonoBehaviour {
 		
 		return new Vector3(Mathf.Round(x), Mathf.Round(y), Mathf.Floor(z));
 	}*/
+
+	void OnDrawGizmos() {
+
+		if(!drawGizmos || !Application.isPlaying)
+			return;
+
+		if(terrain.Count > 0) {
+			foreach(KeyValuePair<Vector3, Node> n in terrain) {
+
+				if(PlayerController.Instance == null) {
+					return;
+                }
+
+				if(Vector3.Distance(n.Value.center, PlayerController.Instance.transform.position) < gizmosDistance) {
+					Vector3 cubeSize = new Vector3(nodeSize - nodeSize / 10f, 0.02f, nodeSize - nodeSize / 10f);
+					Gizmos.color = Color.green;
+					Gizmos.DrawCube(n.Value.center, cubeSize);
+					Gizmos.color = Color.red;
+					int iterations = 3;
+					for(int i = 1; i <= iterations; i++) {
+						Vector3 origin = n.Value.center + Vector3.up * 0.75f * ((float) i / iterations);
+						Gizmos.DrawLine(origin + Vector3.left * castOffset, origin + Vector3.right * castLength);
+						Gizmos.DrawLine(origin + Vector3.right * castOffset, origin + Vector3.left * castLength);
+						Gizmos.DrawLine(origin + Vector3.forward * castOffset, origin + Vector3.back * castLength);
+						Gizmos.DrawLine(origin + Vector3.back * castOffset, origin + Vector3.forward * castLength);
+						Gizmos.DrawLine(origin + Vector3.left * castOffset, origin + Vector3.right * castLength);
+						Gizmos.DrawLine(origin + Vector3.left * castOffset, origin + Vector3.right * castLength);
+					}
+				}
+			}
+		} 
+	}
 }
 #endif
