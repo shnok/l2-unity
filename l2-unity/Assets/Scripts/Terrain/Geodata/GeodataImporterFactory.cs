@@ -47,8 +47,8 @@ public class GeodataImporterFactory : MonoBehaviour {
         }
     }
 
-    public void RequestImportGeodata(string mapId, float nodeSize, Vector3 origin, ImportJobComplete completeCallback) {
-        GeodataImporter newJob = new GeodataImporter(mapId, nodeSize, origin, completeCallback);
+    public void RequestImportGeodata(string mapId, float nodeSize, byte maximumLayerCount, Vector3 origin, ImportJobComplete completeCallback) {
+        GeodataImporter newJob = new GeodataImporter(mapId, nodeSize, maximumLayerCount, origin, completeCallback);
         if(newJob != null) {
             _todoJobs.Add(newJob);
         } else {

@@ -9,8 +9,8 @@ using UnityEngine;
 public class Geodata : MonoBehaviour {
     [SerializeField] private float _nodeSize = 0.5f;
     [SerializeField] private float _mapSize = 624.1524f;
+    [SerializeField] private int _maximumLayerCount = 4;
     [SerializeField] private float _maximumElevationError = 5f;
-    //[SerializeField] private Dictionary<string, Vector3[][][]> _test;
     [SerializeField] private List<string> _mapsToLoad;
     [SerializeField] private Dictionary<string, Vector3> _mapsOrigin = new Dictionary<string, Vector3>();
     [SerializeField] private Dictionary<string, Node[,,]> _geodata;
@@ -52,7 +52,7 @@ public class Geodata : MonoBehaviour {
                 continue;
             }
 
-            GeodataImporterFactory.Instance.RequestImportGeodata(mapId, _nodeSize, origin, (callback) => {
+            GeodataImporterFactory.Instance.RequestImportGeodata(mapId, _nodeSize, (byte) _maximumLayerCount, origin, (callback) => {
                 if(callback != null) {
                     _geodata[mapId] = callback;
                 }
@@ -161,14 +161,6 @@ public class Geodata : MonoBehaviour {
 
     public List<Node> GetAllNodesAt(Vector3 nodePos, string mapId) {
         Vector3 nodeIndex = FromWorldToNodePos(nodePos, mapId);
-
-        // Checks if the map index exists
-        //if(_geodata.ContainsKey(mapId)) {
-        //    Vector3 geodataIndex = new Vector3(nodeIndex.x, 0, nodeIndex.z);
-        //    if(_geodata[mapId].ContainsKey(geodataIndex)) {
-        //        return _geodata[mapId][geodataIndex];
-        //    }
-        //}
 
         // Checks if the map index exists
         if (!_geodata.ContainsKey(mapId)) {
