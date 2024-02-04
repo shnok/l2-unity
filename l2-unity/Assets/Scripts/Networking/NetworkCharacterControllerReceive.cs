@@ -12,6 +12,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private Vector3 _destination;
     [SerializeField] private float _gravity = 28f;
+    [SerializeField] private float _moveSpeedMultiplier = 0.95f;
 
 
     void Start() {
@@ -46,7 +47,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
             SetMoveDirectionToDestination();
         }
 
-        Vector3 ajustedDirection = _direction * _speed + Vector3.down * _gravity;
+        Vector3 ajustedDirection = _direction * _speed * _moveSpeedMultiplier + Vector3.down * _gravity;
         _characterController.Move(ajustedDirection * Time.deltaTime);
     }
 
@@ -60,7 +61,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         Vector3 transformFlat = VectorUtils.To2D(transform.position);
         Vector3 destinationFlat = VectorUtils.To2D(_destination);
 
-        if(Vector3.Distance(transformFlat, destinationFlat) > Geodata.Instance.NodeSize / 10f) {
+        if(Vector3.Distance(transformFlat, destinationFlat) > Geodata.Instance.NodeSize / 20f) {
             _networkTransformReceive.PausePositionSync();
             _direction = (destinationFlat - transformFlat).normalized;
         } else {
