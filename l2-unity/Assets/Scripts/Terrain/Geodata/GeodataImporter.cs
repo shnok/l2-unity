@@ -11,18 +11,24 @@ public class GeodataImporter
     private string _mapId;
     private float _nodeSize;
     private Vector3 _origin;
-    private Dictionary<Vector3, List<Node>> _mapNodes;
+    private long _startTime;
+    private byte _maximumLayerCount = 8;
+    private int _mapSize = 625;
+    private long _timeout = 10000;
+    private Node[,,] _mapNodes;
     private GeodataImporterFactory.ImportJobComplete _completeCallback;
 
 
-    private volatile bool jobDone = false;
-    public bool JobDone { get { return jobDone; } }
+    private volatile bool _jobDone = false;
+    public bool JobDone { get { return _jobDone; } }
 
-    public GeodataImporter(string mapId, float nodeSize, Vector3 origin, GeodataImporterFactory.ImportJobComplete callback) {
+    public GeodataImporter(string mapId, float nodeSize, byte maximumLayerCount, Vector3 origin, GeodataImporterFactory.ImportJobComplete callback) {
+        _startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         _mapId = mapId;
         _nodeSize = nodeSize;
         _completeCallback = callback;
         _origin = origin;
+        _maximumLayerCount = maximumLayerCount;
     }
 
     public void ImportGeodata() {
@@ -41,7 +47,7 @@ public class GeodataImporter
             Debug.LogWarning("Error while finding path: " + e.Message);
         }
 
-        jobDone = true;
+        _jobDone = true;
     }
 
     public void NotifyComplete() {
@@ -77,38 +83,55 @@ public class GeodataImporter
         }
     }
 
-    public Dictionary<Vector3, List<Node>> LoadMapGeodata(byte[] data, Vector3 mapOrigin, float nodeSize) {
+    public Node[,,] LoadMapGeodata(byte[] data, Vector3 mapOrigin, float nodeSize) {
         long startLoadingTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        _mapNodes = new Dictionary<Vector3, List<Node>>();
-        int count = 0;
 
-        List<Node> layers;
+        Vector3 lastNodeIndex = new Vector3(-1, -1, -1);
+        Vector3 scaledPos = Vector3.zero;
+        Vector3 nodeId = Vector3.zero;
+
+        int rowCount = (int)Mathf.Ceil(_mapSize / _nodeSize);
+        Node[,,] nodes = new Node[rowCount, _maximumLayerCount, rowCount];
+        int layer = 0;
+        int count = 0;
+        int nodesToImport = data.Length / 6;
 
         // Create a BinaryReader from the memory stream
-        using(BinaryReader reader = new BinaryReader(new MemoryStream(data))) {
+        using (BinaryReader reader = new BinaryReader(new MemoryStream(data))) {
             while(reader.BaseStream.Position < reader.BaseStream.Length) {
+                if(DateTimeOffset.Now.ToUnixTimeMilliseconds() - _startTime > _timeout) {
+                    Debug.LogWarning($"Geodata import timeout. Imported nodes: {count}.");
+                    return null;
+                }
                 short x = reader.ReadInt16();
                 short y = reader.ReadInt16();
                 short z = reader.ReadInt16();
                 count++;
 
-                Vector3 scaledPos = new Vector3(x, y, z);
-                Vector3 nodeId = new Vector3(x, 0, z);
+                scaledPos.x = x;
+                scaledPos.y = y;
+                scaledPos.z = z;
+
+                nodeId.x = x;
+                nodeId.z = z;
+
                 Node n = new Node(scaledPos, Geodata.Instance.FromNodeToWorldPos(scaledPos, mapOrigin), nodeSize);
 
-                if(!_mapNodes.TryGetValue(nodeId, out layers)) {
-                    layers = new List<Node>();
-                    _mapNodes[nodeId] = layers;
+                if (lastNodeIndex == nodeId) {
+                    layer++;
+                } else {
+                    layer = 0;
                 }
 
-                layers.Add(n);
+                nodes[x, layer, z] = n;
+                lastNodeIndex = nodeId;
             }
         }
 
         long elapsed = (DateTimeOffset.Now.ToUnixTimeMilliseconds() - startLoadingTime);
-        Debug.Log($"Imported {count} nodes in {elapsed}ms.");
+        Debug.Log($"Imported {count}/{nodesToImport} nodes in {elapsed}ms.");
 
-        return _mapNodes;
+        return nodes;
     }
 
     public static Vector3 LoadMapOrigin(string mapId, float nodeSize) {

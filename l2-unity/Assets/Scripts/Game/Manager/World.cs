@@ -102,7 +102,7 @@ public class World : MonoBehaviour {
             go.GetComponent<NetworkTransformShare>().enabled = true;
         }
           
-        go.transform.name = identity.Name;
+        go.transform.name = "Player";
         go.SetActive(true);
 
         go.transform.SetParent(_usersContainer.transform);
@@ -165,9 +165,11 @@ public class World : MonoBehaviour {
 
         npcGo.transform.eulerAngles = new Vector3(npcGo.transform.eulerAngles.x, identity.Heading, npcGo.transform.eulerAngles.z);
 
+        npcGo.transform.name = identity.Name;
+
         npcGo.SetActive(true);
 
-        if(identity.EntityType == EntityType.NPC) {
+        if (identity.EntityType == EntityType.NPC) {
             npcGo.transform.SetParent(_npcsContainer.transform);
         } else {
             npcGo.transform.SetParent(_monstersContainer.transform);
@@ -176,7 +178,7 @@ public class World : MonoBehaviour {
 
     public float GetGroundHeight(Vector3 pos) {
         RaycastHit hit;
-        if(Physics.Raycast(pos + Vector3.up * 5f, Vector3.down, out hit, 5.5f, _groundMask)) {
+        if(Physics.Raycast(pos + Vector3.up * 1.0f, Vector3.down, out hit, 2.5f, _groundMask)) {
             return hit.point.y;
         }
 

@@ -26,8 +26,8 @@ public class PathFinder
 
     public void FindPath() {
         try {
-            _foundPath = FindPathActual(_startPosition, _endPosition);
-        } catch(Exception e) {
+            _foundPath = SearchByClosest(_startPosition, _endPosition);
+        } catch (Exception e) {
             Debug.LogWarning("Error while finding path: " + e.Message);
         }
 
@@ -40,95 +40,89 @@ public class PathFinder
         }
     }
 
-    private List<Node> FindPathActual(Node start, Node target) {
-        //Typical A* algorythm from here and on
+    public List<Node> SearchByClosest(Node start, Node end)
+    {
+        // List of Visited Nodes
+        List<Node> visitedNodes = new List<Node>();
 
-        List<Node> foundPath = new List<Node>();
+        // List of Nodes to Visit
+        List<Node> nodesToVisit = new List<Node>();
+        nodesToVisit.Add(start);
 
-        //We need two lists, one for the nodes we need to check and one for the nodes we've already checked
-        List<Node> openSet = new List<Node>();
-        HashSet<Node> closedSet = new HashSet<Node>();
+        bool added;
 
-        //We start adding to the open set
-        openSet.Add(start);
+        int i = 0;
+        while (i++ < _maximumLoopCount) {
+            Node node;
 
-        int currentAttemps = 0;
-        while(openSet.Count > 0) {
-            Node currentNode = openSet[0];
-
-            for(int i = 0; i < openSet.Count; i++) {
-                //We check the costs for the current node
-                //You can have more opt. here but that's not important now
-                if(openSet[i].fCost < currentNode.fCost ||
-                    (openSet[i].fCost == currentNode.fCost &&
-                    openSet[i].hCost < currentNode.hCost)) {
-                    //and then we assign a new current node
-                    if(!currentNode.nodeIndex.Equals(openSet[i].nodeIndex)) {
-                        currentNode = openSet[i];
-                    }
-                }
+            // Get and remove node from the nodesToVisit list
+            try {
+                node = nodesToVisit[0];
+                nodesToVisit.RemoveAt(0);
+            } catch (Exception) {
+                // No Path found
+                Debug.Log($"No path found - {start.center} to {end.center}.");
+                return null;
             }
 
-            //we remove the current node from the open set and add to the closed set
-            openSet.Remove(currentNode);
-            closedSet.Add(currentNode);
-
-            //if the current node is the target node
-            if(currentNode.nodeIndex.Equals(target.nodeIndex)) {
-                //that means we reached our destination, so we are ready to retrace our path
-                foundPath = RetracePath(start, currentNode);
-                break;
+            // Current node is the destination node
+            // Path was found
+            if (node.nodeIndex.Equals(end.nodeIndex)) {
+                Debug.Log($"Found path - {start.center} to {end.center} after {i} iteration(s).");
+                return ConstructPathFull(node);
             }
 
-            if(currentAttemps++ > _maximumLoopCount) {
-                Debug.LogWarning("Find path timeout");
-                return foundPath;
+            // Add node to visited nodes
+            visitedNodes.Add(node);
+
+            Node[] neighbors = GetNeighbours(node.center);
+            if (neighbors == null) {
+                continue;
             }
 
-            //if we haven't reached our target, then we need to start looking the neighbours
-            foreach(Node neighbour in GetNeighbours(currentNode.worldPosition)) {
-                if(neighbour == null) {
+            //node.setNeighbors(neighbors);
+
+            // Iterate through node's neighbors
+            foreach (Node neighbor in neighbors) {
+                if (neighbor == null) {
                     continue;
                 }
 
-                if(!closedSet.Contains(neighbour)) {
-                    //we create a new movement cost for our neighbours
-                    float newMovementCostToNeighbour = currentNode.gCost + GetDistance(currentNode, neighbour);
+                // check if neighbor was visited and needs to be visited
+                if (!visitedNodes.Contains(neighbor) && !nodesToVisit.Contains(neighbor)) {
 
-                    //and if it's lower than the neighbour's cost
-                    if(newMovementCostToNeighbour < neighbour.gCost || !openSet.Contains(neighbour)) {
+                    // Calculate neighbor node cost
+                    neighbor.parentNode = new Node(node);
+                    neighbor.cost = Vector3.Distance(neighbor.center, end.center);
 
-                        //we calculate the new costs
-                        neighbour.gCost = newMovementCostToNeighbour;
-                        neighbour.hCost = GetDistance(neighbour, target);
-                        //Assign the parent node
-                        neighbour.parentNode = currentNode;
-                        //And add the neighbour node to the open set
-                        if(!openSet.Contains(neighbour)) {
-                            openSet.Add(neighbour);
+
+                    // insert neighbor into the nodes to visit based on its cost
+                    added = false;
+                    for (int index = 0; index < nodesToVisit.Count; index++) {
+                        if (neighbor.cost < nodesToVisit[index].cost) {
+                            nodesToVisit.Insert(index, neighbor);
+                            added = true;
+                            break;
                         }
+                    }
+
+                    // add neighbor at the end of the nodes to visit list
+                    if (!added) {
+                        nodesToVisit.Add(neighbor);
                     }
                 }
             }
         }
-        
-        return foundPath;
+
+        return null;
     }
 
-    private List<Node> RetracePath(Node startNode, Node endNode) {
-        //Retrace the path, is basically going from the endNode to the startNode
+    public List<Node> ConstructPathFull(Node node) {
         List<Node> path = new List<Node>();
-        Node currentNode = endNode;
-
-        while(currentNode != startNode) {
-            path.Add(currentNode);
-            //by taking the parentNodes we assigned
-            currentNode = currentNode.parentNode;
+        while (node.parentNode != null) {
+            path.Insert(0, node);
+            node = node.parentNode;
         }
-
-        //then we simply reverse the list
-        path.Reverse();
-
         return path;
     }
 

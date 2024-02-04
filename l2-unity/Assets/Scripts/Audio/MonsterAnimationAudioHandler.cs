@@ -7,6 +7,23 @@ public class MonsterAnimationAudioHandler : MonoBehaviour
 {
     [SerializeField] private string _npcClassName;
     [SerializeField] private Animator _animator;
+    [SerializeField] private float[] _walkStepRatios = new float[] { 0.25f, 0.75f };
+    [SerializeField] private float[] _runStepRatios = new float[] { 0.25f, 0.75f };
+    [SerializeField] private float _swishRatio = 0.25f;
+    [SerializeField] private float _atkRatio = 0f;
+    [SerializeField] private float _atkWaitRatio = 0f;
+    [SerializeField] private float _deathRatio = 0f;
+    [SerializeField] private float _fallRatio = 0.7f;
+    [SerializeField] private int _waitSoundChance = 5;
+
+    public float[] WalkStepRatios { get { return _walkStepRatios; } }
+    public float[] RunStepRatios { get { return _runStepRatios; } }
+    public float SwishRatio { get { return _swishRatio; } }
+    public float AtkWaitRatio { get { return _atkWaitRatio; } }
+    public float AtkRatio { get { return _atkRatio; } }
+    public float DeathRatio { get { return _deathRatio; } }
+    public float FallRatio { get { return _fallRatio; } }
+    public int WaitSoundChance { get { return _waitSoundChance; } }
 
     private void Start() {
         _npcClassName = GetComponent<NpcEntity>().Identity.NpcClass;
@@ -37,6 +54,11 @@ public class MonsterAnimationAudioHandler : MonoBehaviour
     }
 
     public void PlaySoundAtRatio(MonsterSoundEvent soundEvent, float ratio) {
+        if(ratio == 0) {
+            PlaySound(soundEvent);
+            return;
+        }
+
         StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
     }
 

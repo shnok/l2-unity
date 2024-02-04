@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MonsterStateSpWait : MonsterStateBase
 {
-    public int playWaitSoundChancePercent = 5;
     public int playSpWaitChancePercent = 10;
     private bool hasStarted = false;
 
@@ -12,7 +11,6 @@ public class MonsterStateSpWait : MonsterStateBase
         LoadComponents(animator);
         hasStarted = true;
         SetBool("wait", false);
-
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -20,7 +18,7 @@ public class MonsterStateSpWait : MonsterStateBase
         if(hasStarted && (stateInfo.normalizedTime % 1) < 0.5f) {
             SetBool("wait", false);
 
-            if(RandomUtils.ShouldEventHappen(playWaitSoundChancePercent)) {
+            if(RandomUtils.ShouldEventHappen(audioHandler.WaitSoundChance)) {
                 audioHandler.PlaySound(MonsterSoundEvent.Breathe);
             }
             hasStarted = false;

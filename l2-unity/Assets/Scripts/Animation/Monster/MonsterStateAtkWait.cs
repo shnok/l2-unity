@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class MonsterStateAtkWait : MonsterStateBase
 {
-    public int playAtkWaitSoundChancePercent = 25;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
-        if(RandomUtils.ShouldEventHappen(playAtkWaitSoundChancePercent)) {
-            audioHandler.PlaySound(MonsterSoundEvent.AtkWait);
-        }
+        audioHandler.PlaySoundAtRatio(MonsterSoundEvent.AtkWait, audioHandler.AtkWaitRatio);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

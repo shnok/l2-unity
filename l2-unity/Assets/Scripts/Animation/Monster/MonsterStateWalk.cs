@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class MonsterStateWalk : MonsterStateBase
 {
-    float lastNormalizedTime = 0;
+    private float _lastNormalizedTime = 0;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
-        audioHandler.PlaySoundAtRatio(MonsterSoundEvent.Step, 0.25f); 
-        audioHandler.PlaySoundAtRatio(MonsterSoundEvent.Step, 0.75f);
-        lastNormalizedTime = 0;
+        foreach(var ratio in audioHandler.WalkStepRatios) {
+            audioHandler.PlaySoundAtRatio(MonsterSoundEvent.Step, ratio);
+        }
+        _lastNormalizedTime = 0;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         // Check if the state has looped (re-entered)
-        if((stateInfo.normalizedTime - lastNormalizedTime) >= 1f) {
+        if((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             // This block will be executed once when the state is re-entered after completion
-            lastNormalizedTime = stateInfo.normalizedTime;
-            audioHandler.PlaySoundAtRatio(MonsterSoundEvent.Step, 0.25f);
-            audioHandler.PlaySoundAtRatio(MonsterSoundEvent.Step, 0.75f);
+            _lastNormalizedTime = stateInfo.normalizedTime;
+            foreach (var ratio in audioHandler.WalkStepRatios) {
+                audioHandler.PlaySoundAtRatio(MonsterSoundEvent.Step, ratio);
+            }
         }
     }
 

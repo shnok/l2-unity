@@ -13,9 +13,7 @@ public class Node {
 	public Vector3 center;
 
 	public Node parentNode;
-	public float fCost;
-	public float gCost;
-	public float hCost;
+	public float cost;
 
 	public Node() {}
 
@@ -24,9 +22,7 @@ public class Node {
 		this.worldPosition = original.worldPosition;
 		this.center = original.center;
 		this.parentNode = original.parentNode;
-		this.fCost = original.fCost;
-		this.gCost = original.gCost;
-		this.hCost = original.hCost;
+		this.cost = original.cost;
 	}
 
 	public Node(Vector3 nodeIndex, Vector3 worldPosition, float size) {
