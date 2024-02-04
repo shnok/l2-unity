@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GeodataImporterFactory : MonoBehaviour {
     //Delegates are a variable that points to a function
-    public delegate void ImportJobComplete(Dictionary<Vector3, List<Node>> geodata);
+    public delegate void ImportJobComplete(Node[,,] geodata);
 
     //The maximum simultaneous threads we allow to open
     [SerializeField] private int _maxJobs = 16;
@@ -20,9 +20,7 @@ public class GeodataImporterFactory : MonoBehaviour {
         if(_instance == null) {
             _instance = this;
         }
-    }
 
-    void Start() {
         _currentJobs = new List<GeodataImporter>();
         _todoJobs = new List<GeodataImporter>();
     }
@@ -51,6 +49,10 @@ public class GeodataImporterFactory : MonoBehaviour {
 
     public void RequestImportGeodata(string mapId, float nodeSize, Vector3 origin, ImportJobComplete completeCallback) {
         GeodataImporter newJob = new GeodataImporter(mapId, nodeSize, origin, completeCallback);
-        _todoJobs.Add(newJob);
+        if(newJob != null) {
+            _todoJobs.Add(newJob);
+        } else {
+            Debug.LogWarning("New job is null");
+        }
     }
 }

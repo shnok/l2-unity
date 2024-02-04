@@ -13,7 +13,7 @@ public class Geodata : MonoBehaviour {
     //[SerializeField] private Dictionary<string, Vector3[][][]> _test;
     [SerializeField] private List<string> _mapsToLoad;
     [SerializeField] private Dictionary<string, Vector3> _mapsOrigin = new Dictionary<string, Vector3>();
-    [SerializeField] private Dictionary<string, Dictionary<Vector3, List<Node>>> _geodata;
+    [SerializeField] private Dictionary<string, Node[,,]> _geodata;
     [SerializeField] private bool _loaded = false;
 
     [Header("Debug")]
@@ -39,7 +39,7 @@ public class Geodata : MonoBehaviour {
     }
 
     void Start() {
-        _geodata = new Dictionary<string, Dictionary<Vector3, List<Node>>>();
+        _geodata = new Dictionary<string, Node[,,]>();
 
         foreach(var mapId in _mapsToLoad) {
 
@@ -54,7 +54,6 @@ public class Geodata : MonoBehaviour {
 
             GeodataImporterFactory.Instance.RequestImportGeodata(mapId, _nodeSize, origin, (callback) => {
                 if(callback != null) {
-                    Debug.Log("Found path with " + callback.Count + " node(s).");
                     _geodata[mapId] = callback;
                 }
 
@@ -109,23 +108,24 @@ public class Geodata : MonoBehaviour {
         Vector3 nodeIndex = FromWorldToNodePos(nodePos, mapId);
 
         // Checks if the map index exists
-        if(_geodata.ContainsKey(mapId)) {
-            Vector3 geodataIndex = new Vector3(nodeIndex.x, 0, nodeIndex.z);
-            if(_geodata[mapId].ContainsKey(geodataIndex)) {
-                List<Node> layers = _geodata[mapId][geodataIndex];
-                foreach(Node layer in layers) {
-                    if(exactElevation) {
-                        if(layer.nodeIndex.y == nodeIndex.y) {
-                            return new Node(layer);
-                        }
-                    } else {
-                        float layerOffset = Math.Abs(layer.nodeIndex.y - nodeIndex.y);
-                        // verify if the node y diff is lower or higher than _maximumElevationError
-                        if(layerOffset >= 0 && layerOffset <= _maximumElevationError) {
-                            return new Node(layer);
-                        }
-                    }
-                }
+        if (!_geodata.ContainsKey(mapId)) {
+            throw new Exception("Map Id not found");
+        }
+
+        int x = (int) nodeIndex.x;
+        int z = (int) nodeIndex.z;
+
+        Vector3 geodataIndex = new Vector3(nodeIndex.x, 0, nodeIndex.z);
+        for (int y = 0; y < _geodata[mapId].GetLength(1); y++) {
+            Node layer = _geodata[mapId][x, y, z];
+            if (layer == null) {
+                continue;
+            }
+
+            float layerOffset = Math.Abs(layer.nodeIndex.y - nodeIndex.y);
+            // verify if the node y diff is lower or higher than _maximumElevationError
+            if (layerOffset >= 0 && layerOffset <= _maximumElevationError) {
+                return new Node(layer);
             }
         }
 
@@ -163,12 +163,33 @@ public class Geodata : MonoBehaviour {
         Vector3 nodeIndex = FromWorldToNodePos(nodePos, mapId);
 
         // Checks if the map index exists
-        if(_geodata.ContainsKey(mapId)) {
-            Vector3 geodataIndex = new Vector3(nodeIndex.x, 0, nodeIndex.z);
-            if(_geodata[mapId].ContainsKey(geodataIndex)) {
-                return _geodata[mapId][geodataIndex];
-            }
+        //if(_geodata.ContainsKey(mapId)) {
+        //    Vector3 geodataIndex = new Vector3(nodeIndex.x, 0, nodeIndex.z);
+        //    if(_geodata[mapId].ContainsKey(geodataIndex)) {
+        //        return _geodata[mapId][geodataIndex];
+        //    }
+        //}
+
+        // Checks if the map index exists
+        if (!_geodata.ContainsKey(mapId)) {
+            throw new Exception("Map Id not found");
         }
+
+        int x = (int)nodeIndex.x;
+        int z = (int)nodeIndex.z;
+
+        List<Node> layers = new List<Node>();
+
+        for (int y = 0; y < _geodata[mapId].GetLength(1); y++) {
+            Node layer = _geodata[mapId][x, y, z];
+            if (layer == null) {
+                continue;
+            }
+
+            layers.Add(layer);
+        }
+
+        return layers;
 
         throw new Exception("Nodes not found");
     }
@@ -215,21 +236,25 @@ public class Geodata : MonoBehaviour {
     private void DrawMapGizmos(string mapId) {
         int count = 0;
         Vector3 cubeSize = new Vector3(_nodeSize - _nodeSize / 10f, 0.1f, _nodeSize - _nodeSize / 10f);
-        Dictionary<Vector3, List<Node>> nodes;
+
+        Node[,,] nodes;
         if(!_geodata.TryGetValue(mapId, out nodes)) {
             Debug.LogWarning("Can't draw gizmos for map " + mapId);
             return;
         }
 
-        foreach(KeyValuePair<Vector3, List<Node>> n in nodes) {
-            if(count++ >= _drawMapGizmosLimit) {
-                return;
-            }
+        for (int x = 0; x < nodes.GetLength(0); x++) {
+            for (int z = 0; z < nodes.GetLength(2); z++) {
+                for (int y = 0; y < nodes.GetLength(1); y++) {
+                    if(nodes[x, y, z] != null) {
+                        if(count++ > _drawMapGizmosLimit) {
+                            return;
+                        }
 
-            n.Value.ForEach(layer => {
-                Gizmos.color = Color.green;
-                Gizmos.DrawCube(layer.center, cubeSize);
-            });
+                        Gizmos.DrawCube(nodes[x, y, z].center, cubeSize);
+                    }
+                }
+            }
         }
     }
 
