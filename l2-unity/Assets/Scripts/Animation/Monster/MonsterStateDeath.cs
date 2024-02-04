@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class MonsterStateDeath : MonsterStateBase
 {
-    public float fallSoundRatio = 0.70f;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
-        audioHandler.PlaySound(MonsterSoundEvent.Death);
-        PlaySoundAtRatio(MonsterSoundEvent.Fall, fallSoundRatio);
+        PlaySoundAtRatio(MonsterSoundEvent.Death, audioHandler.DeathRatio);
+        PlaySoundAtRatio(MonsterSoundEvent.Fall, audioHandler.FallRatio);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

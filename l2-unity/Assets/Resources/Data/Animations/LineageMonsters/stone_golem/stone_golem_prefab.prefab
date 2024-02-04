@@ -950,6 +950,7 @@ MonoBehaviour:
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
   _gravity: 28
+  _moveSpeedMultiplier: 0.95
 --- !u!114 &513104410504783462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -964,6 +965,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _npcClassName: 
   _animator: {fileID: 0}
+  _walkStepRatios:
+  - 0
+  - 0.47
+  _runStepRatios:
+  - 0
+  - 0.47
+  _swishRatio: 0.25
+  _atkRatio: 0
+  _atkWaitRatio: 0
+  _deathRatio: 0
+  _fallRatio: 0.7
+  _waitSoundChance: 5
 --- !u!4 &5218757760226211448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 23e248e52e14dea47aa553c7abbcea39, type: 3}

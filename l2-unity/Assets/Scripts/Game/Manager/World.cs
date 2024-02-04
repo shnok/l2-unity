@@ -102,7 +102,7 @@ public class World : MonoBehaviour {
             go.GetComponent<NetworkTransformShare>().enabled = true;
         }
           
-        go.transform.name = "_Player";
+        go.transform.name = "Player";
         go.SetActive(true);
 
         go.transform.SetParent(_usersContainer.transform);
@@ -166,8 +166,6 @@ public class World : MonoBehaviour {
         npcGo.transform.eulerAngles = new Vector3(npcGo.transform.eulerAngles.x, identity.Heading, npcGo.transform.eulerAngles.z);
 
         npcGo.transform.name = identity.Name;
-
-        Debug.Log("New NPC: " + identity.Name);
 
         npcGo.SetActive(true);
 

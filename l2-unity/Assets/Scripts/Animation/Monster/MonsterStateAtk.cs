@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class MonsterStateAtk : MonsterStateBase
 {
-    public float swishRatio = 0.25f;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
-        audioHandler.PlaySound(MonsterSoundEvent.Atk);
-        PlaySoundAtRatio(MonsterSoundEvent.Swish, swishRatio);
-
+        PlaySoundAtRatio(MonsterSoundEvent.Atk, audioHandler.AtkRatio);
+        PlaySoundAtRatio(MonsterSoundEvent.Swish, audioHandler.SwishRatio);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

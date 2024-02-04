@@ -418,8 +418,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b37216beee5d6a4897e9224d4eedbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  resetStateOnReceive: 1
+  _animator: {fileID: 0}
+  _resetStateOnReceive: 0
 --- !u!95 &3023934457491091865
 Animator:
   serializedVersion: 7
@@ -480,16 +480,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23401e4c6afa7ec43922ae596b8c60a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverPosition: {x: 0, y: 0, z: 0}
-  positionSyncProtection: 1
-  positionSyncNodesThreshold: 2
-  positionSynced: 0
-  positionSyncPaused: 0
-  lerpDuration: 0.3
-  positionDelta: 0
-  lastDesyncTime: 0
-  lastDesyncDuration: 0
-  maximumAllowedDesyncTimeMs: 300
+  _serverPosition: {x: 0, y: 0, z: 0}
+  _positionSyncProtection: 1
+  _positionSyncNodesThreshold: 2
+  _positionSynced: 0
+  _positionSyncPaused: 0
+  _lerpDuration: 0.3
+  _positionDelta: 0
+  _lastDesyncTime: 0
+  _lastDesyncDuration: 0
+  _maximumAllowedDesyncTimeMs: 300
 --- !u!114 &2351095843022271990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,10 +502,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d95d876eae19f4099fa56602b7d22d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0, z: 0}
-  speed: 0
-  destination: {x: 0, y: 0, z: 0}
-  gravity: 28
+  _direction: {x: 0, y: 0, z: 0}
+  _speed: 0
+  _destination: {x: 0, y: 0, z: 0}
+  _gravity: 28
+  _moveSpeedMultiplier: 0.95
 --- !u!114 &4645731724818619214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,26 +519,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c9a66a877afa74d92a0ebb9f03618a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  identity:
-    entityType: 2
-    id: 0
-    type: 
-    npcClass: 
-    npcId: 0
-    name: 
-    title: 
-    model: 0
-    position: {x: 0, y: 0, z: 0}
-    heading: 0
-    collisionHeight: 0
-    owned: 0
-  status:
-    hp: 0
-    maxHp: 0
-    level: 0
-    moveSpeed: 0
-    friendly: 0
-    aggressive: 0
+  _identity:
+    _entityType: 0
+    _id: 0
+    _type: 
+    _npcClass: 
+    _npcId: 0
+    _name: 
+    _title: 
+    _model: 0
+    _position: {x: 0, y: 0, z: 0}
+    _heading: 0
+    _collisionHeight: 0
+    _owned: 0
+  _status:
+    _hp: 0
+    _maxHp: 0
+    _level: 0
+    _moveSpeed: 0
+    _friendly: 0
+    _aggressive: 0
 --- !u!114 &1065488930256838727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,9 +551,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae24ab87f9545c74e98453405da53d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  npcTemplateName: 
-  animationClipName: 
+  _animator: {fileID: 0}
+  _npcTemplateName: 
+  _animationClipName: 
 --- !u!114 &8889694809834475436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,5 +566,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b171cd31a29e44a957f2c850e56144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcClassName: 
-  animator: {fileID: 0}
+  _npcClassName: 
+  _animator: {fileID: 0}
+  _walkStepRatios:
+  - 0
+  - 0.45
+  - 0.52
+  - 0.92
+  _runStepRatios:
+  - 0
+  - 0.45
+  - 0.52
+  - 0.92
+  _swishRatio: 0.25
+  _atkRatio: 0
+  _atkWaitRatio: 0
+  _deathRatio: 0
+  _fallRatio: 0.7
+  _waitSoundChance: 5
