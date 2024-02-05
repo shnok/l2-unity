@@ -100,15 +100,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 790d475271f966541b5af44fb4d86900, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 790d475271f966541b5af44fb4d86900, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 790d475271f966541b5af44fb4d86900, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 790d475271f966541b5af44fb4d86900, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -527,6 +527,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 790d475271f966541b5af44fb4d86900, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1016408952182454604}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 790d475271f966541b5af44fb4d86900, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 58314018842136540}
   m_SourcePrefab: {fileID: 100100000, guid: 790d475271f966541b5af44fb4d86900, type: 3}
 --- !u!1 &1469068534086554072 stripped
 GameObject:
@@ -658,8 +661,36 @@ MonoBehaviour:
     _maxHp: 0
     _level: 0
     _moveSpeed: 0
+    _race: 0
     _friendly: 0
     _aggressive: 0
+--- !u!114 &58314018842136540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469068534086554072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03160d09deb1df3479a66ba449c32ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _npcClassName: 
+  _animator: {fileID: 0}
+  _walkStepRatios:
+  - 0.25
+  - 0.75
+  _runStepRatios:
+  - 0.25
+  - 0.75
+  _swishRatio: 0.25
+  _atkRatio: 0
+  _atkWaitRatio: 0
+  _deathRatio: 0
+  _fallRatio: 0.7
+  _waitSoundChance: 5
+  _race: 14
 --- !u!4 &2245324380720499554 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 790d475271f966541b5af44fb4d86900, type: 3}
