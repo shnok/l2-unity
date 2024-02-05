@@ -51,7 +51,7 @@ public class L2AmbientSoundImporter : AssetImporter {
         AmbientSound[] sounds = ParseAmbientSoundFile(fileToProcess);
         Debug.Log(sounds.Length);
 
-        GameObject container = new GameObject("AmbientSounds");
+        GameObject container = new GameObject(Path.GetFileNameWithoutExtension(fileToProcess));
 
         foreach(AmbientSound ambientSound in sounds) {
             Debug.Log(ambientSound);
@@ -68,7 +68,7 @@ public class L2AmbientSoundImporter : AssetImporter {
 
         // collider
         SphereCollider collider = go.AddComponent<SphereCollider>();
-        float soundRadius = ambientSound.soundRadius / 52.5f * 10f;
+        float soundRadius = ambientSound.soundRadius / 52.5f * 15f;
         collider.radius = soundRadius;
         collider.isTrigger = true;
 

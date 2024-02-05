@@ -54,7 +54,7 @@ public class AudioManager : MonoBehaviour
             _musicBus.setVolume(_musicVolume);
             _SFXBus.setVolume(_SFXVolume);
             _UIBus.setVolume(_UIVolume);
-            _ambientBus.setVolume(_ambientVolume);
+            _ambientBus.setVolume(_ambientVolume * 0.7f);
         }
     }
 
@@ -66,9 +66,17 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayCharacterSound(CharacterSoundEvent characterSoundEvent, CharacterRace characterRace, Vector3 position) {
+        string eventKey = characterSoundEvent.ToString();
+        EventReference er = RuntimeManager.PathToEventReference("event:/ChrSound/" + characterRace + "/" + characterRace + "_" + eventKey);
+        if (!er.IsNull) {
+            PlaySound(er, position);
+        }
+    }
+
     public void PlayUISound(string soundName) {
         EventReference er = RuntimeManager.PathToEventReference("event:/InterfaceSound/" + soundName);
-        if(!er.IsNull) {
+        if (!er.IsNull) {
             PlaySound(er);
         }
     }

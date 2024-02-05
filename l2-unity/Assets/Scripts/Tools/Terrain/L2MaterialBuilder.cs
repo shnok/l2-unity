@@ -51,7 +51,12 @@ public class L2MaterialBuilder {
                 continue;
             }
 
-            if(!overwrite && File.Exists(materialPath)) {
+            if(materialPath.EndsWith("_ori.mat") || materialPath.EndsWith("_sp.mat")) {
+                Debug.Log("Skipping materials with props");
+                continue;
+            }
+
+            if (!overwrite && File.Exists(materialPath)) {
                 continue;
             }
 
@@ -65,7 +70,14 @@ public class L2MaterialBuilder {
             material.SetFloat("_EnvironmentReflections", 0f);
             material.SetFloat("_SpecularHighlights", 0f);
 
-            ApplyTextureToMaterial(material, texturePath);
+
+            if (materialPath.EndsWith("_h.mat")) {
+                material.SetFloat("_AlphaClip", 1f);
+                material.SetFloat("_Cutoff", 0.5f);
+                Debug.Log("Setting hair as alpha");
+            }
+
+            ApplyTextureToMaterial(material, texturePath, null);
             Debug.Log(materialPath);
             AssetDatabase.CreateAsset(material, materialPath);
         }
@@ -77,6 +89,7 @@ public class L2MaterialBuilder {
 
         for(int i = 0; i < propsTxtGUIDs.Length; i++) {
             string textureName = string.Empty;
+            string specularTextureName = string.Empty;
             string propsPath = AssetDatabase.GUIDToAssetPath(propsTxtGUIDs[i]);
             Material material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             material.SetColor("_BaseColor", Color.white);
@@ -94,20 +107,33 @@ public class L2MaterialBuilder {
                             texRef = texRef.Substring(0, texRef.Length - 1);
                             string[] texRefEntries = texRef.Split('.');
                             textureName = texRefEntries[texRefEntries.Length - 1];
+                            Debug.Log("Texture: " + textureName);
+                        }
+                    } else if (line.StartsWith("SpecularityMask")) {
+                        string value = line.Split("=")[1].Trim();
+                        if (value.StartsWith("Texture")) {
+                            string texRef = value.Substring(8);
+                            texRef = texRef.Substring(0, texRef.Length - 1);
+                            string[] texRefEntries = texRef.Split('.');
+                            specularTextureName = texRefEntries[texRefEntries.Length - 1];
+                            Debug.Log("Specular texture: " + specularTextureName);
                         }
                     } else if(line.StartsWith("TwoSided")) {
                         string value = line.Split("=")[1].Trim();
                         float state = (value == "true") ? 0f : 2f;
+                        Debug.Log("TwoSided:" + state);
                         material.SetFloat("_Cull", state);
                     } else if(line.StartsWith("AlphaTest")) {
                         string value = line.Split("=")[1].Trim();
                         if(value == "true") {
                             material.SetFloat("_AlphaClip", 1f);
                         }
+                        Debug.Log("AlphaTest:" + value);
                     } else if(line.StartsWith("OutputBlending")) {
                         string value = line.Split("=")[1].Trim();
+                        Debug.Log("OutputBlending:");
 
-                        if(value.StartsWith("OB_Masked")) {
+                        if (value.StartsWith("OB_Masked")) {
                             material.SetFloat("_AlphaClip", 1f);
                         } else if(value.StartsWith("OB_Brighten")) {
                             material.shader = Shader.Find("Universal Render Pipeline/Particles/Unlit");
@@ -122,7 +148,12 @@ public class L2MaterialBuilder {
                 }
             }
 
-            string materialPath = Path.Combine(Path.GetDirectoryName(propsPath), Path.GetFileNameWithoutExtension(propsPath).Replace(".props", string.Empty) + ".mat");
+
+            string materialPath = Path.Combine(
+                Path.GetDirectoryName(propsPath), 
+                Path.GetFileNameWithoutExtension(propsPath)
+                    .Replace(".props", string.Empty)
+                    .Replace("_sh", string.Empty) + ".mat");
 
             if(!overwrite && File.Exists(materialPath)) {
                 continue;
@@ -135,8 +166,13 @@ public class L2MaterialBuilder {
             string parentFolder = Directory.GetParent(materialDirectory).FullName;
             string texturePath = Path.Combine(parentFolder, textureName + ".png");
             texturePath = Path.Combine("Assets", Path.GetRelativePath(Application.dataPath, texturePath));
+            string specularTexturePath = null;
+            if(specularTextureName.Length > 0) {
+                specularTexturePath = Path.Combine(parentFolder, specularTextureName + ".png");
+                specularTexturePath = Path.Combine("Assets", Path.GetRelativePath(Application.dataPath, specularTexturePath));
+            }
 
-            ApplyTextureToMaterial(material, texturePath);
+            ApplyTextureToMaterial(material, texturePath, specularTexturePath);
 
             if(!Directory.Exists(materialDirectory)) {
                 Directory.CreateDirectory(materialDirectory);
@@ -146,12 +182,33 @@ public class L2MaterialBuilder {
         }
     }
 
-    static void ApplyTextureToMaterial(Material material, string texturePath) {
+    static void ApplyTextureToMaterial(Material material, string texturePath, string specularTexturePath) {
         Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath);
+        Texture2D specularMap = null;
+        if (specularTexturePath != null) {
+            specularMap = AssetDatabase.LoadAssetAtPath<Texture2D>(specularTexturePath);
+            if(specularMap == null) {
+                Debug.LogError("NO SPEC TEX: " + specularTexturePath);
+            } else {
+                Debug.Log("Loaded specular map " + specularTexturePath);
+            }
+        }
 
         if(texture != null) {
+            if (specularMap != null) {
+                Debug.Log("Setting specular map");
+                material.EnableKeyword("_METALLICSPECGLOSSMAP");
+                material.EnableKeyword("_SPECULAR_SETUP");
+                material.SetFloat("_WorkflowMode", 0);
+                material.SetFloat("_Smoothness", 1);
+                material.SetTexture("_SpecGlossMap", specularMap);
+                material.SetTexture("_METALLICSPECGLOSSMAP", specularMap);
+                material.SetTexture("_Specular", specularMap);
+
+            }
             material.SetTexture("_MainTex", texture);
             material.SetTexture("_BaseMap", texture);
+  
         } else {
             Debug.LogError("NO TEX: " + texturePath);
         }
