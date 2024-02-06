@@ -44,6 +44,29 @@ public class CameraCollisionDetection {
         return cameraClipPoints;
     }
 
+    public Vector3[] GetCameraViewPortPoints() {
+        Vector3[] cameraClipPoints = new Vector3[5];
+        Quaternion camRot = _camera.transform.rotation;
+        Vector3 camPos = _camera.transform.position;
+
+        float z = _camera.nearClipPlane;
+        float x = Mathf.Tan(_camera.fieldOfView) * z;
+        float y = x / _camera.aspect / _clipPlaneOffset.y;
+
+        //top left
+        cameraClipPoints[0] = (camRot * new Vector3(-x, y, z)) + camPos;
+        //top right
+        cameraClipPoints[1] = (camRot * new Vector3(x, y, z)) + camPos;
+        //bottom left
+        cameraClipPoints[2] = (camRot * new Vector3(-x, -y, z)) + camPos;
+        //bottom right
+        cameraClipPoints[3] = (camRot * new Vector3(x, -y, z)) + camPos;
+        //camera position
+        cameraClipPoints[4] = camPos - (_camera.transform.forward * 0.25f);
+
+        return cameraClipPoints;
+    }
+
     /* Cast a ray from the target to each clip points */
     public void DetectCollision(float desiredDistance) {
         if(_camera == null) {
@@ -51,6 +74,7 @@ public class CameraCollisionDetection {
         }
 
         Vector3[] clipPoints = GetCameraClipPoints(desiredDistance);
+        Vector3[] viewPoints = GetCameraViewPortPoints();
 
         _adjustedDistance = desiredDistance;
         float distance = -1f;
@@ -67,6 +91,8 @@ public class CameraCollisionDetection {
 
             if(_debug) {
                 Debug.DrawLine(clipPoints[i], _target.position, Color.green);
+                Debug.DrawLine(viewPoints[i], _target.position, Color.yellow);
+
             }
         }
 

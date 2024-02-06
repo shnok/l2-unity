@@ -76,7 +76,7 @@ public class CameraController : MonoBehaviour {
 
     public bool IsObjectVisible(Transform target) {
         RaycastHit hit;
-        Vector3[] cameraClips = _collisionDetector.GetCameraClipPoints(_currentDistance);
+        Vector3[] cameraClips = _collisionDetector.GetCameraViewPortPoints();
         bool visible = false;
         for(int i = 0; i < cameraClips.Length; i++) {
             if(!Physics.Linecast(cameraClips[i], target.position + 0.5f * Vector3.up, out hit, _collisionMask)) {
