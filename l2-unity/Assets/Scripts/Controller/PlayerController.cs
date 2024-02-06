@@ -159,7 +159,13 @@ public class PlayerController : MonoBehaviour {
         /* Handle input direction */
         Vector3 direction;
         if(_controller.isGrounded && _canMove) {
-            Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
+            //Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
+            Vector3 rotationAxis = Vector3.up; // Axis of rotation (e.g., upwards)
+            // Create a Quaternion representing the rotation
+            Quaternion rotation = Quaternion.AngleAxis(Camera.main.transform.eulerAngles.y, rotationAxis);
+            // Rotate the vector based on camera angle
+            Vector3 forward = rotation * Vector3.forward;
+            // Calculate vector based on keyboard inputs + camera angle
             Vector3 right = new Vector3(forward.z, 0, -forward.x);
             forward.y = 0;
             direction = _axis.x * right + _axis.y * forward;
