@@ -9,7 +9,7 @@ public class ChatWindow : MonoBehaviour {
     private VisualTreeAsset _tabTemplate;
     private TextField _chatInput;
     private VisualElement _chatInputContainer;
-    private TabView _chatTabView;
+    //private TabView _chatTabView;
     private VisualElement _chatWindowEle;
 
     [SerializeField] private float _chatWindowMinWidth = 225.0f;
@@ -105,15 +105,15 @@ public class ChatWindow : MonoBehaviour {
 
 
     private void CreateTabs() {
-        _chatTabView = _chatWindowEle.Q<TabView>("ChatTabView");
+        //_chatTabView = _chatWindowEle.Q<TabView>("ChatTabView");
         
         foreach(var tab in _tabs) {
-            Tab tabElement = (Tab) _tabTemplate.CloneTree()[0][0];
-            tab.Initialize(_chatWindowEle, tabElement);
+            //Tab tabElement = (Tab) _tabTemplate.CloneTree()[0][0];
+            //tab.Initialize(_chatWindowEle, tabElement);
 
-            tabElement.name = tab.TabName;
-            tabElement.label = tab.TabName;
-            _chatTabView.Add(tabElement);
+            //tabElement.name = tab.TabName;
+            //tabElement.label = tab.TabName;
+            //_chatTabView.Add(tabElement);
         }
     }
 

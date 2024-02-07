@@ -12,30 +12,30 @@ public class ChatTab
     private Label _content;
     private Scroller _scroller;
     private VisualElement _chatWindowEle;
-    private TabView _tabView;
+    //private TabView _tabView;
 
     public string TabName { get { return _tabName; } }
     public List<MessageType> FilteredMessages { get { return _filteredMessages; } }
     public Label Content { get { return _content; } }
 
-    public void Initialize(VisualElement chatWindowEle, Tab tab) {
-        _chatWindowEle = chatWindowEle;
-        _tabView = chatWindowEle.Q<TabView>("ChatTabView");
-        _scrollView = tab.Q<ScrollView>("ScrollView");
-        _scroller = _scrollView.verticalScroller;
-        _content = tab.Q<Label>("Content");
-        _content.text = "";
+    //public void Initialize(VisualElement chatWindowEle, Tab tab) {
+    //    _chatWindowEle = chatWindowEle;
+    //    _tabView = chatWindowEle.Q<TabView>("ChatTabView");
+    //    _scrollView = tab.Q<ScrollView>("ScrollView");
+    //    _scroller = _scrollView.verticalScroller;
+    //    _content = tab.Q<Label>("Content");
+    //    _content.text = "";
 
-        tab.Q<VisualElement>("unity-tab__header").RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-            if(_tabView.activeTab != tab) {
-                AudioManager.Instance.PlayUISound("window_open");
-            }
-        }, TrickleDown.TrickleDown);
+    //    tab.Q<VisualElement>("unity-tab__header").RegisterCallback<MouseDownEvent>(evt => {
+    //        AudioManager.Instance.PlayUISound("click_01");
+    //        if(_tabView.activeTab != tab) {
+    //            AudioManager.Instance.PlayUISound("window_open");
+    //        }
+    //    }, TrickleDown.TrickleDown);
 
-        RegisterAutoScrollEvent();
-        RegisterPlayerScrollEvent();
-    }
+    //    RegisterAutoScrollEvent();
+    //    RegisterPlayerScrollEvent();
+    //}
 
     private void RegisterAutoScrollEvent() {
         _content.RegisterValueChangedCallback(evt => {

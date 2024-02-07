@@ -134,7 +134,7 @@ public class L2TerrainGenerator {
             terrainLayer.metallic = 0;
             terrainLayer.specular = Color.black;
             terrainLayer.smoothness = 0;
-            terrainLayer.smoothnessSource = TerrainLayerSmoothnessSource.Constant;
+            //terrainLayer.smoothnessSource = TerrainLayerSmoothnessSource.Constant;
             terrainLayer.tileOffset = Vector2.zero;
             terrainLayer.tileSize = new Vector2(terrainInfo.uvLayers[i].uScale, terrainInfo.uvLayers[i].vScale) * MapLoader.MAP_SCALE * MapLoader.UV_TILE_SIZE;
 
