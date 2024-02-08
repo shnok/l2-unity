@@ -1,6 +1,7 @@
+using AtmosphericHeightFog;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class DayNightCycle : MonoBehaviour {
     [SerializeField] private Material _skyboxMaterial;
 
@@ -22,8 +23,10 @@ public class DayNightCycle : MonoBehaviour {
     [SerializeField] private Color _nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
 
     [Header("Fog colors")]
-    [SerializeField] private Color _dayFogColor = new Color(240f / 255f, 240f / 255f, 240f / 255f);
-    [SerializeField] private Color _nightFogColor = new Color(5 / 255f, 5 / 255f, 5 / 255f);
+    [SerializeField] private Color _dayFogColorStart = new Color(126f / 255f, 190f / 255f, 255f / 255f);
+    [SerializeField] private Color _dayFogColorEnd = new Color(115f / 255f, 153f / 255f, 191f / 255f) * 0.7388527f;
+    [SerializeField] private Color _nightFogColorStart = new Color(174f / 255f, 204f / 255f, 233f / 255f);
+    [SerializeField] private Color _nightFogColorEnd = new Color(115f / 255f, 153f / 255f, 191f / 255f) * 0.7388527f;
 
     [Header("Main light colors")]
     [SerializeField] private Color _mainLightDayColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
@@ -137,20 +140,27 @@ public class DayNightCycle : MonoBehaviour {
     }
 
     private void UpdateFogColor() {
-        Color fogColor = RenderSettings.fogColor;
-        if(_clock.Clock.dawnRatio > 0 && _clock.Clock.dawnRatio < 1) {
-            fogColor = Color.Lerp(fogColor, _dayFogColor, _clock.Clock.dawnRatio);
+        Color fogColorStart = HeightFogGlobal.Instance.fogColorStart;
+        Color fogColorEnd = HeightFogGlobal.Instance.fogColorEnd;
+        if (_clock.Clock.dawnRatio > 0 && _clock.Clock.dawnRatio < 1) {
+            fogColorStart = Color.Lerp(fogColorStart, _dayFogColorStart, _clock.Clock.dawnRatio);
+            fogColorEnd = Color.Lerp(fogColorEnd, _dayFogColorEnd, _clock.Clock.dawnRatio);
         }
         if(_clock.Clock.brightRatio > 0 && _clock.Clock.brightRatio < 1) {
-            fogColor = _dayFogColor;
+            fogColorStart = _dayFogColorStart;
+            fogColorEnd = _dayFogColorEnd;
         }
         if(_clock.Clock.duskRatio > 0 && _clock.Clock.duskRatio < 1) {
-            fogColor = Color.Lerp(_dayFogColor, _nightFogColor, _clock.Clock.duskRatio);
+            fogColorStart = Color.Lerp(_dayFogColorStart, _nightFogColorStart, _clock.Clock.duskRatio);
+            fogColorEnd = Color.Lerp(_dayFogColorEnd, _nightFogColorEnd, _clock.Clock.duskRatio);
         }
         if(_clock.Clock.darkRatio > 0 && _clock.Clock.darkRatio < 1) {
-            fogColor = _nightFogColor;
+            fogColorStart = _nightFogColorStart;
+            fogColorEnd = _nightFogColorEnd;
         }
-        RenderSettings.fogColor = fogColor;
+
+        HeightFogGlobal.Instance.fogColorStart = fogColorStart;
+        HeightFogGlobal.Instance.fogColorEnd = fogColorEnd;
     }
 
     private void UpdateAmbientLightIntensity() {
@@ -162,7 +172,6 @@ public class DayNightCycle : MonoBehaviour {
         // Main light intensity
         _mainLight.intensity = AdjustIntensity(_mainLightMinIntensity, _mainLightMaxIntensity, _clock.Clock.dawnRatio, _clock.Clock.duskRatio);
     }
-
 
     private float AdjustIntensity(float minIntensity, float fullIntensity, float dawnRatio, float duskRatio) {
         if(duskRatio > 0) {

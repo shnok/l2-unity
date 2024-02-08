@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Apply Height Fog Unlit
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor v1.9.1.9\n// Available at the
+    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19109\nNode;AmplifyShaderEditor.LerpOp;82;-1344,-768;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;81;-1664,-768;Inherit;False;Color;3;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;87;-1344,-576;Inherit;False;False;-1;Fog
+    Alpha;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;86;-1344,-640;Inherit;False;False;-1;Fog
+    Color;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CommentaryNode;56;-1664,-896;Inherit;False;890.9961;100;Final
+    Pass;0;;0.684,1,0,1;0;0\nNode;AmplifyShaderEditor.FunctionNode;96;-1664,-640;Inherit;False;Base;0;;1022;13c50910e5b86de4097e1181ba121e0e;36,360,0,376,0,380,0,372,0,384,0,476,0,450,0,382,0,370,0,378,0,386,0,555,0,557,0,388,0,550,0,374,0,347,0,351,0,685,0,339,0,392,0,355,0,116,0,364,0,361,0,366,0,597,0,343,0,354,0,99,0,500,0,603,0,681,0,345,0,368,0,349,0;0;3;FLOAT4;113;FLOAT3;86;FLOAT;87\nNode;AmplifyShaderEditor.FunctionOutput;85;-896,-768;Inherit;False;True;-1;Color;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nWireConnection;82;0;81;0\nWireConnection;82;1;96;86\nWireConnection;82;2;96;87\nWireConnection;87;0;96;87\nWireConnection;86;0;96;86\nWireConnection;85;0;82;0\nASEEND*/\n//CHKSM=950F27DDAE657021A516C0B22DA033291F493BB7"
+  m_functionName: 
+  m_description: "Use this function to apply fog on transparent or custom UI shaders
+    made with Amplify Shader Editor. \n\no Surface Shaders\nWhen using Surface Shaders
+    or Lightweight PBR template, connect the function to the Emission port. If Emission
+    is used, pass the emission color through the Apply Height Fog node.\n\no Fragment
+    Shaders:\nWhen Unlit or custom UI shaders are used, pass the final color through
+    the Apply Height Fog node.\n"
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 1
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_headerStyle: 0
+  m_headerColor: {r: 1, g: 0.4, b: 0, a: 1}
+  m_customNodeCategory: Atmospheric Height Fog
+  m_previewPosition: 0
+  m_hidden: 0
+  m_url: 

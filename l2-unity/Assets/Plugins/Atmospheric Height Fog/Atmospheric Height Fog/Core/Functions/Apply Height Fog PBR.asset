@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Apply Height Fog PBR
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor v1.9.1.9\n// Available at the
+    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19109\nNode;AmplifyShaderEditor.CommentaryNode;56;-1664,-896;Inherit;False;890.9961;100;Final
+    Pass;0;;0.684,1,0,1;0;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;96;-1408,-768;Half;False;FogColor;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionNode;100;-1664,-768;Inherit;False;Base;0;;1022;13c50910e5b86de4097e1181ba121e0e;36,360,0,376,0,380,0,372,0,384,0,476,0,450,0,382,0,370,0,378,0,386,0,555,0,557,0,388,0,550,0,374,0,347,0,351,0,685,0,339,0,392,0,355,0,116,0,364,0,361,0,366,0,597,0,343,0,354,0,99,0,500,0,603,0,681,0,345,0,368,0,349,0;0;3;FLOAT4;113;FLOAT3;86;FLOAT;87\nNode;AmplifyShaderEditor.LerpOp;106;-1408,-320;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;104;-1024,-320;Inherit;False;False;-1;Emissive;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;98;-1664,-512;Inherit;False;Albedo;3;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.LerpOp;102;-1408,-512;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;103;-1664,-448;Inherit;False;97;FogAlpha;1;0;OBJECT;;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;101;-1664,-64;Inherit;False;Metallic;1;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;99;-1664,192;Inherit;False;Smoothness;1;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.LerpOp;110;-1408,-64;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.LerpOp;112;-1408,192;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.GetLocalVarNode;111;-1664,0;Inherit;False;97;FogAlpha;1;0;OBJECT;;False;1;FLOAT;0\nNode;AmplifyShaderEditor.GetLocalVarNode;113;-1664,256;Inherit;False;97;FogAlpha;1;0;OBJECT;;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;108;-1024,-64;Inherit;False;False;-1;Metallic;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;114;-1102.502,223;Inherit;False;False;-1;Smoothness;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.GetLocalVarNode;107;-1664,-192;Inherit;False;97;FogAlpha;1;0;OBJECT;;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;105;-1664,-320;Inherit;False;Emissive;3;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;115;-1664,-256;Inherit;False;96;FogColor;1;0;OBJECT;;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;97;-1408,-704;Half;False;FogAlpha;-1;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;87;-1024,-512;Inherit;False;True;-1;Albedo;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;116;-1024,-768;Inherit;False;False;-1;Fog
+    Color;4;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;117;-1024,-704;Inherit;False;False;-1;Fog
+    Alpha;5;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;96;0;100;86\nWireConnection;106;0;105;0\nWireConnection;106;1;115;0\nWireConnection;106;2;107;0\nWireConnection;104;0;106;0\nWireConnection;102;0;98;0\nWireConnection;102;2;103;0\nWireConnection;110;0;101;0\nWireConnection;110;2;111;0\nWireConnection;112;0;99;0\nWireConnection;112;2;113;0\nWireConnection;108;0;110;0\nWireConnection;114;0;112;0\nWireConnection;97;0;100;87\nWireConnection;87;0;102;0\nWireConnection;116;0;96;0\nWireConnection;117;0;97;0\nASEEND*/\n//CHKSM=F29E312CE4D23914A67BD1D75D3EDF46B4F84D23"
+  m_functionName: 
+  m_description: "Use this function to apply fog on transparent or custom UI shaders
+    made with Amplify Shader Editor. \n\no Surface Shaders\nWhen using Surface Shaders
+    or Lightweight PBR template, connect the function to the Emission port. If Emission
+    is used, pass the emission color through the Apply Height Fog node.\n\no Fragment
+    Shaders:\nWhen Unlit or custom UI shaders are used, pass the final color through
+    the Apply Height Fog node.\n"
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 1
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_headerStyle: 0
+  m_headerColor: {r: 1, g: 0.4, b: 0, a: 1}
+  m_customNodeCategory: Atmospheric Height Fog
+  m_previewPosition: 0
+  m_hidden: 0
+  m_url: 
