@@ -4,6 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public class L2MapStaticMeshBuilder : MonoBehaviour
 {
     [MenuItem("Shnok/[StaticMeshes] Build static meshes")]
@@ -60,3 +61,4 @@ public class L2MapStaticMeshBuilder : MonoBehaviour
         }
     }
 }
+#endif
