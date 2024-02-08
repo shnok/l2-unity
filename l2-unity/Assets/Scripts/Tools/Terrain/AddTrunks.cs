@@ -13,6 +13,9 @@ public class AddTrunks
         string treeName = "speaking_tree_s";
         GameObject[] foundObjects = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         foreach(var gameObj in foundObjects) {
+            if (!gameObj.activeSelf)
+                continue;
+
             if(gameObj.name.Contains(treeName)) {
                 gameObj.GetComponent<MeshCollider>().enabled = false;
 
