@@ -1,0 +1,104 @@
+#define NUMTHREAD_X 8
+#define NUMTHREAD_Y 8
+
+#define MaxUint 4294967295u
+#define MaxHalf 65504.0
+
+SamplerState PointClampSampler;
+SamplerState LinearClampSampler;
+
+float4 _RTSize;
+float _HorizontalPlaneHeightWS;
+float _FadeOutScreenBorderWidthVerticle;
+float _FadeOutScreenBorderWidthHorizontal; 
+float3 _CameraDirection;
+
+float _DepthHolesFillDistance;
+
+Texture2D _CameraOpaqueTexture;
+Texture2D _CameraDepthTexture;
+Texture2D _PrevReflectionRT;
+float4 _PrevReflectionRTHandleSize;
+
+RWTexture2D<half4> ColorRT;
+RWTexture2D<uint> HashRT;
+RWTexture2D<float> PosWSyRT;
+
+float4x4 KW_MATRIX_I_VP;
+float4x4 KW_PREV_MATRIX_I_VP;
+
+float4x4 KW_MATRIX_VP;
+float4x4 KW_PREV_MATRIX_VP;
+
+#include "UnityCG.cginc"
+
+inline float GetCameraDepth(float2 uv)
+{
+	return _CameraDepthTexture.SampleLevel(PointClampSampler, uv, 0);
+}
+
+inline half3 GetCameraColor(float2 uv)
+{
+	return _CameraOpaqueTexture.SampleLevel(LinearClampSampler, uv, 0).xyz;
+}
+
+inline float3 GetPrevReflection(float2 uv)
+{
+	return _PrevReflectionRT.SampleLevel(LinearClampSampler, uv * _PrevReflectionRTHandleSize.xy, 0).xyz;
+}
+
+float3 ComputeWorldSpacePositionFromDepth(float2 positionNDC, float deviceDepth, float4x4 inverseVP)
+{
+	float4 positionCS = float4(positionNDC * 2.0 - 1.0, deviceDepth, 1.0);
+#if UNITY_UV_STARTS_AT_TOP
+	positionCS.y = -positionCS.y;
+#endif
+	float4 hpositionWS = mul(inverseVP, positionCS);
+	return hpositionWS.xyz / hpositionWS.w;
+}
+
+
+inline float3 ScreenToWorldPos(uint2 id)
+{
+	float2 screenUV = id * _RTSize.zw;
+	float depth = GetCameraDepth(screenUV);
+	float3 posWS = ComputeWorldSpacePositionFromDepth(screenUV, depth, KW_MATRIX_I_VP);
+	return posWS;
+}
+
+inline float3 PrevScreenToWorldPos(uint2 id)
+{
+	float2 screenUV = id * _RTSize.zw;
+	float depth = GetCameraDepth(screenUV);
+	float3 posWS = ComputeWorldSpacePositionFromDepth(screenUV, depth, KW_PREV_MATRIX_I_VP);
+	return posWS;
+}
+
+inline float2 WorldToScreenPos(float3 pos) {
+	float4 projected = mul(KW_MATRIX_VP, float4(pos, 1.0f));
+	float2 uv = (projected.xy / projected.w) * 0.5f + 0.5f;
+#ifdef UNITY_UV_STARTS_AT_TOP 
+	uv.y = 1 - uv.y;
+#endif
+	return uv;
+}
+
+inline float2 PrevWorldToScreenPos(float3 pos) {
+	float4 projected = mul(KW_PREV_MATRIX_VP, float4(pos, 1.0f));
+	float2 uv = (projected.xy / projected.w) * 0.5f + 0.5f;
+#ifdef UNITY_UV_STARTS_AT_TOP 
+	uv.y = 1 - uv.y;
+#endif
+	return uv;
+}
+
+
+#include "../Common/KWS_CommonHelpers.cginc"
+#include "../Common/CommandPass/KWS_SSR_Common.cginc"
+
+
+#pragma kernel Clear_kernel
+#pragma kernel RenderHash_kernel
+#pragma kernel RenderColorFromHash_kernel
+#pragma kernel RenderSinglePassSSR_kernel
+#pragma kernel FillHoles_kernel
