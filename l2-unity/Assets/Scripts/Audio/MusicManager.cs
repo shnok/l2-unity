@@ -10,6 +10,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private EventReference _currentMusicEvent;
     [SerializeField] private Dictionary<EventReference, EventInstance> _musicInstances;
     public int CurrentEventPriority { get { return _currentEventPriority; } }
+    public EventReference CurrentMusicEvent { get { return _currentMusicEvent; } }
 
     private static MusicManager _instance;
     public static MusicManager Instance { get { return _instance; } }
@@ -23,7 +24,7 @@ public class MusicManager : MonoBehaviour
     }
 
     public void PlayMusic(EventReference musicEvent, int priority) {   
-        if(priority <= _currentEventPriority) {
+        if(priority < _currentEventPriority) {
             return;
         }
 

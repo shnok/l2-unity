@@ -64,7 +64,6 @@ public class AmbientSoundEmitter : EventHandler {
         }
     }
 
-
     private void Lookup() {
         _eventDescription = RuntimeManager.GetEventDescription(_eventReference);
     }
