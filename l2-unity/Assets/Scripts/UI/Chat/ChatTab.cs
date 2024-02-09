@@ -11,24 +11,29 @@ public class ChatTab
     private ScrollView _scrollView;
     private Label _content;
     private Scroller _scroller;
+    private VisualElement _tabContainer;
+    private VisualElement _tabHeader;
     private VisualElement _chatWindowEle;
-    private TabView _tabView;
 
     public string TabName { get { return _tabName; } }
     public List<MessageType> FilteredMessages { get { return _filteredMessages; } }
     public Label Content { get { return _content; } }
+    public VisualElement TabContainer { get { return _tabContainer; } }
+    public VisualElement TabHeader { get { return _tabHeader; } }
+    public Scroller Scroller { get { return _scroller; } }
 
-    public void Initialize(VisualElement chatWindowEle, Tab tab) {
+    public void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader) {
         _chatWindowEle = chatWindowEle;
-        _tabView = chatWindowEle.Q<TabView>("ChatTabView");
-        _scrollView = tab.Q<ScrollView>("ScrollView");
+        _tabContainer = tabContainer;
+        _tabHeader = tabHeader;
+        _scrollView = tabContainer.Q<ScrollView>("ScrollView");
         _scroller = _scrollView.verticalScroller;
-        _content = tab.Q<Label>("Content");
+        _content = tabContainer.Q<Label>("Content");
         _content.text = "";
 
-        tab.Q<VisualElement>("unity-tab__header").RegisterCallback<MouseDownEvent>(evt => {
+        tabHeader.RegisterCallback<MouseDownEvent>(evt => {
             AudioManager.Instance.PlayUISound("click_01");
-            if(_tabView.activeTab != tab) {
+            if(ChatWindow.Instance.SwitchTab(this)) {
                 AudioManager.Instance.PlayUISound("window_open");
             }
         }, TrickleDown.TrickleDown);

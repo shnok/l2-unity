@@ -50,11 +50,11 @@ public class AudioManager : MonoBehaviour
             _UIBus.setVolume(0);
             _ambientBus.setVolume(0);
         } else {
-            _masterBus.setVolume(_masterVolume * 0.5f);
-            _musicBus.setVolume(_musicVolume);
+            _masterBus.setVolume(_masterVolume * 0.75f);
+            _musicBus.setVolume(_musicVolume * 0.7f);
             _SFXBus.setVolume(_SFXVolume);
             _UIBus.setVolume(_UIVolume);
-            _ambientBus.setVolume(_ambientVolume * 0.7f);
+            _ambientBus.setVolume(_ambientVolume * 0.45f);
         }
     }
 

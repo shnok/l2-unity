@@ -19,6 +19,8 @@ public class AmbientSoundEmitter : EventHandler {
     [SerializeField] private bool _loop = true;
     [SerializeField] private float _overrideMinDistance = -1.0f;
     [SerializeField] private float _overrideMaxDistance = -1.0f;
+    [SerializeField] private float _clipLengthSeconds = 0;
+    [SerializeField] private bool _isSound3D = true;
 
     public EventReference EventReference { set { _eventReference = value; } }
     public EmitterGameEvent PlayEvent { set { _playEvent = value; } }
@@ -33,8 +35,6 @@ public class AmbientSoundEmitter : EventHandler {
     public float OverrideMinDistance { set { _overrideMinDistance = value; } }
     public float OverrideMaxDistance { set { _overrideMaxDistance = value; } }
 
-    private float _clipLengthSeconds = 0;
-
     private void Awake() {
         if(!_eventDescription.isValid()) {
             Lookup();
@@ -43,6 +43,9 @@ public class AmbientSoundEmitter : EventHandler {
         int lengthMs = 0;
         _eventDescription.getLength(out lengthMs);
         _clipLengthSeconds = lengthMs / 1000f;
+        _clipLengthSeconds = _clipLengthSeconds / _soundPitch;
+
+        _eventDescription.is3D(out _isSound3D);
     }
 
     private float MaxDistance {
@@ -61,18 +64,6 @@ public class AmbientSoundEmitter : EventHandler {
         }
     }
 
-    private void UpdatePlayingStatus(bool force = false) {
-        // If at least one listener is within the max distance, ensure an event instance is playing
-        bool playInstance = StudioListener.DistanceSquaredToNearestListener(transform.position) <= (MaxDistance * MaxDistance);
-
-        if(force || playInstance != IsPlaying()) {
-            if(playInstance) {
-                PlayInstance();
-            } else {
-                StopInstance();
-            }
-        }
-    }
 
     private void Lookup() {
         _eventDescription = RuntimeManager.GetEventDescription(_eventReference);
@@ -87,28 +78,34 @@ public class AmbientSoundEmitter : EventHandler {
             Lookup();
         }
 
-        if(_loop) {
-            StartCoroutine("StartPlayLoop");
-        }
-
-        if(!ShouldPlayEvent()) {
+        if (_loop) {
+            StopCoroutine(StartPlayLoop());
+            StartCoroutine(StartPlayLoop());
             return;
         }
 
-        bool is3D;
-        _eventDescription.is3D(out is3D);
-
-        if(is3D && Settings.Instance.StopEventsOutsideMaxDistance) {
-            UpdatePlayingStatus(true);
-        } else {
+        if (_isSound3D && ShouldStop()) {
+            Stop();
+        } else if (ShouldPlayEvent()) {
             PlayInstance();
         }
     }
 
+
     IEnumerator StartPlayLoop() {
-        yield return new WaitForSeconds(_clipLengthSeconds);
-        yield return new WaitForSeconds(_loopDelaySeconds);
-        Play();
+        while(true) {
+            yield return new WaitForSeconds(_clipLengthSeconds * 0.99f); // 1% for error margin
+            if (_loopDelaySeconds > 0) {
+                yield return new WaitForSeconds(_loopDelaySeconds);
+            }
+            if (_isSound3D && ShouldStop()) {
+                Stop();
+                yield break;
+            }
+            if(ShouldPlayEvent()) {
+                PlayInstance();
+            }
+        }
     }
 
     private bool ShouldPlayEvent() {
@@ -125,13 +122,17 @@ public class AmbientSoundEmitter : EventHandler {
         return false;
     }
 
+    private bool ShouldStop() {
+        return Vector3.Distance(transform.position, Camera.main.transform.position) > (MaxDistance);
+    }
+
     private void PlayInstance() {
         if(!_instance.isValid()) {
             _instance.clearHandle();
         }
 
         // Let previous oneshot instances play out
-        if(_instance.isValid()) {
+        if (_instance.isValid()) {
             _instance.release();
             _instance.clearHandle();
         }
@@ -158,6 +159,7 @@ public class AmbientSoundEmitter : EventHandler {
     }
 
     public void Stop() {
+        StopCoroutine(StartPlayLoop());
         StopInstance();
     }
 

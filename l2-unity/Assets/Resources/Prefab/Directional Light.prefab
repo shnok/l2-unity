@@ -43,10 +43,11 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7616108795757726014}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 10
   m_Type: 1
-  m_Color: {r: 1, g: 0.89571154, b: 0.79276025, a: 1}
-  m_Intensity: 0.92721033
+  m_Shape: 0
+  m_Color: {r: 1, g: 0.8625669, b: 0.7274459, a: 1}
+  m_Intensity: 0.72834265
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skyboxMaterial: {fileID: 2100000, guid: 74e09fc0417b6f94c95b3a55ae362ec9, type: 2}
-  _horizonOffsetDegree: 3
+  _horizonOffsetDegree: 5
   _mainLightRotY: 45
   _sunTexture: {fileID: 2800000, guid: 87bfdbc0202b0e440b4b25a3824f15db, type: 3}
   _sunTiling: {x: 1.5, y: 1.5}
@@ -142,8 +143,10 @@ MonoBehaviour:
   _dawnColor: {r: 0.07450981, g: 0.13725491, b: 0.21568628, a: 1}
   _duskColor: {r: 0.27450982, g: 0.20784314, b: 0.16862746, a: 1}
   _nightColor: {r: -0.003921569, g: -0.003921569, b: -0.007843138, a: -1}
-  _dayFogColor: {r: 0.9411765, g: 0.9411765, b: 0.9411765, a: 1}
-  _nightFogColor: {r: 0.019607844, g: 0.019607844, b: 0.019607844, a: 1}
+  _dayFogColorStart: {r: 0.49411765, g: 0.74509805, b: 1, a: 1}
+  _dayFogColorEnd: {r: 0.33320808, g: 0.44331163, b: 0.5534152, a: 0.7388527}
+  _nightFogColorStart: {r: 0.68235296, g: 0.8, b: 0.9137255, a: 1}
+  _nightFogColorEnd: {r: 0.33320808, g: 0.44331163, b: 0.5534152, a: 0.7388527}
   _mainLightDayColor: {r: 1, g: 0.9411765, b: 0.88235295, a: 1}
   _mainLightNightColor: {r: 0.39607844, g: 0.43137255, b: 0.59607846, a: 1}
   _mainLightduskColor: {r: 1, g: 0.80784315, b: 0.61960787, a: 1}
@@ -168,22 +171,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474109ebd6107a34da7c11918a8b42a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayDurationMinutes: 30
-  timeHour: 16:46:22
-  timeElapsed: 1257.9644
-  startClock: 1
-  worldTimer:
+  _dayDurationMinutes: 2
+  _timeHour: 17:11:25
+  _timeElapsed: 85.9524
+  _startClock: 0
+  _worldTimer:
     dayStartTime: 0.25
     dayEndTime: 0.75
     sunriseStartTime: 0
     sunriseEndTime: 0.15
     sunsetStartTime: 0.85
     sunsetEndTime: 0.99
-  worldClock:
-    totalRatio: 0.6988691
-    dayRatio: 0.8977382
+  _clock:
+    totalRatio: 0.71627
+    dayRatio: 0.93254006
     nightRatio: 0
     dawnRatio: 1
     brightRatio: 1
-    duskRatio: 0.34098715
+    duskRatio: 0.5895717
     darkRatio: 1

@@ -1,5 +1,5 @@
 * {
-    cursor: url('project://database/Assets/Resources/Data/UI/Cursor/Default.png');
+    cursor: url('project://database/Assets/Resources/Data/UI/Cursor/Default.png?fileID=2800000&guid=56b7edcd62f0a5d4cb23cc185e1e2b99&type=3#Default');
 }
 
 .resize-hor {
@@ -24,13 +24,14 @@
 }
 
 .ui-bg {
-    background-color: rgba(19, 19, 19, 0.83)
+    background-color: rgba(19, 19, 19, 0.83);
 }
 
 .ui-border {
     border-width: 1px;
-    border-color: rgba(66, 59, 41, 1);
+    border-color: rgb(66, 59, 41);
 }
+
 .drag-area {
 }
 
@@ -118,63 +119,6 @@
 
 .status-window .bar-inner .center {
     flex-grow: 1;
-}
-
-.chat-window .unity-tab-view__header-container {
-    margin-left: 23px;
-}
-
-.chat-window .unity-tab-view__content-container {
-    flex-grow: 1;
-}
-
-.chat-window .unity-tab__header-underline {
-    width: 0;
-}
-
-.chat-window .unity-tab__header {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
-    background-color: transparent;
-    -unity-slice-top: 24;
-    -unity-slice-left: 5;
-    -unity-slice-bottom: 0;
-    -unity-slice-right: 5;
-    -unity-slice-scale: 1px;
-    rotate: 180deg;
-    height: 25px;
-    padding: 0;
-    width: 64px;
-    justify-content: center;
-}
-
-.chat-window .unity-tab__header:checked {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
-    -unity-slice-top: 24;
-    -unity-slice-left: 5;
-    -unity-slice-bottom: 0;
-    -unity-slice-right: 5;
-    -unity-slice-scale: 1px;
-}
-
-.chat-window .unity-tab__header:checked:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
-    -unity-slice-top: 24;
-    -unity-slice-left: 5;
-    -unity-slice-bottom: 0;
-    -unity-slice-right: 5;
-    -unity-slice-scale: 1px;
-}
-
-.chat-window .unity-tab__header:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
-}
-
-.chat-window .unity-tab__header-label {
-    rotate: 180deg;
-    color: rgb(220, 220, 220);
-    font-size: 11px;
-    padding-bottom: 2px;
-    margin: 0;
 }
 
 .chat-window .chat-content {
@@ -380,7 +324,7 @@
     min-width: 14px;
     width: 14px;
     margin-left: -3px;
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/SliderBar.png');
+    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/SliderBar.png?fileID=2800000&guid=13d15d7bea173064da0757930d99d7a0&type=3#SliderBar');
     background-color: transparent;
     -unity-slice-top: 0;
     -unity-slice-left: 0;
@@ -404,11 +348,127 @@
 }
 
 .chat-window .unity-scroller__high-button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarDownBtn.png');
+    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarDownBtn.png?fileID=2800000&guid=80ca62d60b1f8ba4e8e1783db945a3df&type=3#ScrollBarDownBtn');
 }
 
 .chat-window .unity-scroller__low-button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarUpBtn.png');
+    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarUpBtn.png?fileID=2800000&guid=1afd826ca3da2ec48bc50e97ea39d325&type=3#ScrollBarUpBtn');
+}
+
+.chat-window .unity-tab-view__header-container {
+    margin-left: 23px;
+}
+
+.chat-window #tab-header-container {
+    margin-left: 23px;
+}
+
+.chat-window .unity-tab-view__content-container {
+    flex-grow: 1;
+}
+
+.chat-window #tab-content-container {
+    flex-grow: 1;
+}
+
+.chat-window .unity-tab__header-underline {
+    width: 0;
+}
+
+.chat-window .unity-tab__header {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-color: transparent;
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+    rotate: 180deg;
+    height: 25px;
+    padding: 0;
+    width: 64px;
+    justify-content: center;
+}
+
+.chat-window .tab-header {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-color: transparent;
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+    rotate: 180deg;
+    height: 25px;
+    padding: 0;
+    width: 64px;
+    justify-content: center;
+}
+
+.chat-window .unity-tab__header:checked {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.chat-window .tab-header.active {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.chat-window .unity-tab__header:checked:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.chat-window .tab-header.active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.chat-window .unity-tab__header:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+}
+
+.chat-window .tab-header:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+}
+
+.chat-window .unity-tab__header-label {
+    rotate: 180deg;
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+    -unity-text-align: middle-center;
+}
+
+.chat-window .tab-header-label {
+    rotate: 180deg;
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+    -unity-text-align: middle-center;
+}
+
+.chat-window .unselected-tab {
+    display: none;
 }
 
 .nameplate .target-bubble {
@@ -421,15 +481,15 @@
 }
 
 .nameplate .target-bubble-hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Target/HeadDisplay_DF_Target_Normal.png');
+    background-image: url('project://database/Assets/Resources/Data/UI/Target/HeadDisplay_DF_Target_Normal.png?fileID=2800000&guid=f160c451cc463df438332391c03a8c51&type=3#HeadDisplay_DF_Target_Normal');
 }
 
 .nameplate .target-bubble-target {
-    background-image: url('project://database/Assets/Resources/Data/UI/Target/HeadDisplay_DF_Target_Target.png');
+    background-image: url('project://database/Assets/Resources/Data/UI/Target/HeadDisplay_DF_Target_Target.png?fileID=2800000&guid=0bd90bc3cd302574eb43d2e6a9511227&type=3#HeadDisplay_DF_Target_Target');
 }
 
 .nameplate .target-bubble-attack {
-    background-image: url('project://database/Assets/Resources/Data/UI/Target/HeadDisplay_DF_Target_Attack.png');
+    background-image: url('project://database/Assets/Resources/Data/UI/Target/HeadDisplay_DF_Target_Attack.png?fileID=2800000&guid=6bdf58b5adb48c842a9dde3553704ef0&type=3#HeadDisplay_DF_Target_Attack');
 }
 
 .nameplate .target-name {
@@ -441,12 +501,12 @@
     padding-right: 2px;
     padding-bottom: 0;
     padding-left: 2px;
-    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/tahoma.ttf');
+    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
     color: rgb(255, 255, 255);
     -unity-font-style: bold;
     font-size: 12px;
     -unity-text-outline-width: 1px;
-    -unity-text-outline-color: rgb(0,0,0);
+    -unity-text-outline-color: rgb(0, 0, 0);
     text-shadow: 0.5px 0 1px rgb(0, 0, 0);
 }
 
@@ -460,7 +520,7 @@
     padding-bottom: 0;
     padding-left: 0;
     -unity-text-align: upper-center;
-    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/tahoma.ttf');
+    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
     color: rgb(156, 218, 144);
     -unity-font-style: bold;
     -unity-text-outline-width: 1px;
@@ -518,18 +578,22 @@
     width: 10px;
     height: 10px;
     border-width: 0;
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close.png');
+    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close.png?fileID=2800000&guid=6e7037ea9d27a4e4886d39a91b3b289b&type=3#frames_df_btn_close');
     margin: 0;
     padding: 0;
 }
 
 .close-btn:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png');
-}
-.close-btn:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png');
-}
-.close-btn:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Over.png');
+    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png?fileID=2800000&guid=40ee7601c8c45864e8419eb5c3b8112f&type=3#frames_df_btn_close_Down');
 }
 
+.close-btn:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png?fileID=2800000&guid=40ee7601c8c45864e8419eb5c3b8112f&type=3#frames_df_btn_close_Down');
+}
+
+.close-btn:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Over.png?fileID=2800000&guid=153013be4375b9842ae5bca3021a6343&type=3#frames_df_btn_close_Over');
+}
+
+.chat-tab {
+}

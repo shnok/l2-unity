@@ -68,7 +68,7 @@ public class L2AmbientSoundImporter : AssetImporter {
 
         // collider
         SphereCollider collider = go.AddComponent<SphereCollider>();
-        float soundRadius = ambientSound.soundRadius / 52.5f * 15f;
+        float soundRadius = ambientSound.soundRadius / 52.5f * 14f;
         collider.radius = soundRadius;
         collider.isTrigger = true;
 
@@ -83,7 +83,7 @@ public class L2AmbientSoundImporter : AssetImporter {
 
         emitter.EventReference = er;
         emitter.OverrideAttenuation = true;
-        emitter.OverrideMinDistance = soundRadius * 0.30f;
+        emitter.OverrideMinDistance = soundRadius * 0.05f;
         emitter.OverrideMaxDistance = soundRadius;
         emitter.Loop = true;
         emitter.PlayEvent = EmitterGameEvent.TriggerEnter;

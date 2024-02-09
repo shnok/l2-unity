@@ -18,5 +18,14 @@ public class L2StaticMeshActorImporter {
         Debug.Log(data.ToString());
         return data;
     }
+
+    public L2StaticMeshActor GetL2StaticMeshActorFromFile(string jsonPath) {
+        string jsonText = File.ReadAllText(jsonPath);
+        L2StaticMeshActor data = JsonConvert.DeserializeObject<L2StaticMeshActor>(jsonText);
+
+        Debug.Log("GetL2StaticMeshActor for " + jsonPath);
+        Debug.Log(data.ToString());
+        return data;
+    }
 }
 #endif
