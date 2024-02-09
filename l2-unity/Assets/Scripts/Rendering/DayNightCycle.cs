@@ -18,7 +18,7 @@ public class DayNightCycle : MonoBehaviour {
 
     [Header("Sky colors")]
     [SerializeField] private Color _dayColor = new Color(19f / 255f, 114f / 255f, 166f / 255f); // peak at sunriseEndTime
-    [SerializeField] private Color _dawnColor = new Color(19f / 255f, 35f / 255f, 55f / 255f); // peak at sunriseStartTime  
+    [SerializeField] private Color _dawnColor = new Color(107f / 255f, 135f / 255f, 171f / 255f); // peak at sunriseStartTime  
     [SerializeField] private Color _duskColor = new Color(70f / 255f, 53f / 255f, 43f / 255f); // peak at sunsetStartTime
     [SerializeField] private Color _nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
 
