@@ -17,7 +17,7 @@ public class DayNightCycle : MonoBehaviour {
     [SerializeField] private Vector2 _moonTiling = new Vector2(2.5f, 2.5f);
 
     [Header("Sky colors")]
-    [SerializeField] private Color _dayColor = new Color(19f / 255f, 114f / 255f, 166f / 255f); // peak at sunriseEndTime
+    [SerializeField] private Color _dayColor = new Color(0f / 255f, 90f / 255f, 140f / 255f); // peak at sunriseEndTime
     [SerializeField] private Color _dawnColor = new Color(107f / 255f, 135f / 255f, 171f / 255f); // peak at sunriseStartTime  
     [SerializeField] private Color _duskColor = new Color(70f / 255f, 53f / 255f, 43f / 255f); // peak at sunsetStartTime
     [SerializeField] private Color _nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
@@ -29,7 +29,7 @@ public class DayNightCycle : MonoBehaviour {
     [SerializeField] private Color _nightFogColorEnd = new Color(115f / 255f, 153f / 255f, 191f / 255f) * 0.7388527f;
 
     [Header("Main light colors")]
-    [SerializeField] private Color _mainLightDayColor = new Color(255f / 255f, 240f / 255f, 225f / 255f);
+    [SerializeField] private Color _mainLightDayColor = new Color(255f / 255f, 249f / 255f, 225f / 255f);
     [SerializeField] private Color _mainLightNightColor = new Color(101f / 255f, 110f / 255f, 152f / 255f);
     [SerializeField] private Color _mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
     [SerializeField] private Color _mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
