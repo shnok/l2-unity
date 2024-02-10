@@ -21,7 +21,14 @@ public class TargetManager : MonoBehaviour
     }
 
     public void SetTarget(ObjectData target) {
-        this._target = new TargetData(target);
+        if(target == null) {
+            ClearTarget();
+            return;
+        }
+
+        _target = new TargetData(target);
+
+        ClientPacketHandler.Instance.SendRequestSetTarget(_target.Identity.Id);
     }
 
     public TargetData GetTargetData() {
@@ -29,7 +36,10 @@ public class TargetManager : MonoBehaviour
     }
 
     public void ClearTarget() {
-        _target = null;
+        if(_target != null) {
+            ClientPacketHandler.Instance.SendRequestSetTarget(-1);
+            _target = null;
+        }
     }
 
     void Update() {

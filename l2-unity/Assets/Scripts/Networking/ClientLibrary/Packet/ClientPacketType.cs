@@ -8,5 +8,6 @@ public enum ClientPacketType : byte
     RequestRotate = 5,
     RequestAnim = 6,
     RequestAttack = 7,
-    RequestMoveDirection = 8
+    RequestMoveDirection = 8,
+    RequestSetTarget = 9
 }

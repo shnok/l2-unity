@@ -18,7 +18,7 @@ public class GameTimePacket : ServerPacket {
             TickDurationMs = ReadI();
             DayDurationMins = ReadI();
         } catch(Exception e) {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
     }
 }

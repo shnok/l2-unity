@@ -14,5 +14,6 @@ public enum ServerPacketType : byte
     ObjectMoveTo = 0x0B,
     UserInfo = 0x0C,
     ObjectMoveDirection = 0x0D,
-    GameTime = 0x0E
+    GameTime = 0x0E,
+    EntitySetTarget = 0x0F
 }

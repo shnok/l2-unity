@@ -62,4 +62,9 @@ public class ClientPacketHandler
         RequestMoveDirectionPacket packet = new RequestMoveDirectionPacket(speed, direction);
         _client.SendPacket(packet);
     }
+
+    public void SendRequestSetTarget(int targetId) {
+        RequestSetTargetPacket packet = new RequestSetTargetPacket(targetId);
+        _client.SendPacket(packet);
+    }
 }
