@@ -78,6 +78,9 @@ public class ServerPacketHandler
                 case ServerPacketType.GameTime:
                     OnUpdateGameTime(data);
                     break;
+                case ServerPacketType.EntitySetTarget:
+                    OnEntitySetTarget(data);
+                    break;
             }
         });
     }
@@ -216,5 +219,10 @@ public class ServerPacketHandler
     private void OnUpdateGameTime(byte[] data) {
         GameTimePacket packet = new GameTimePacket(data);
         _eventProcessor.QueueEvent(() => WorldClock.Instance.SynchronizeClock(packet.GameTicks, packet.TickDurationMs, packet.DayDurationMins));
+    }
+
+    private void OnEntitySetTarget(byte[] data) {
+        EntitySetTargetPacket packet = new EntitySetTargetPacket(data);
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateEntityTarget(packet.EntityId, packet.TargetId));
     }
 }

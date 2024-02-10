@@ -279,14 +279,20 @@ public class World : MonoBehaviour {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                if(e is NpcEntity) {
-                    ((NpcEntity)e).Status.MoveSpeed = speed;
-                } else if(e is PlayerEntity) {
-                    ((PlayerEntity)e).Status.MoveSpeed = speed;
-                } else {
-                    Debug.LogError("Entity is neither a player or npc");
-                }
+                e.Status.MoveSpeed = speed;
             } catch(Exception) {
+                Debug.LogWarning("Trying to update a null object");
+                RemoveObject(id);
+            }
+        }
+    }
+
+    public void UpdateEntityTarget(int id, int targetId) {
+        Entity e;
+        if (_objects.TryGetValue(id, out e)) {
+            try {
+                e.Target = targetId;
+            } catch (Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);
             }

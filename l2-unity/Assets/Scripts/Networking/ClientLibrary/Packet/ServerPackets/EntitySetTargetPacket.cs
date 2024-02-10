@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 public class EntitySetTargetPacket : ServerPacket {
-    public long EntityId { get; private set; }
+    public int EntityId { get; private set; }
     public int TargetId { get; private set; }
 
     public EntitySetTargetPacket(byte[] d) : base(d) {
