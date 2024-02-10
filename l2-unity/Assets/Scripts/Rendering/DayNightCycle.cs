@@ -27,6 +27,8 @@ public class DayNightCycle : MonoBehaviour {
     [SerializeField] private Color _dayFogColorEnd = new Color(115f / 255f, 153f / 255f, 191f / 255f) * 0.7388527f;
     [SerializeField] private Color _nightFogColorStart = new Color(174f / 255f, 204f / 255f, 233f / 255f);
     [SerializeField] private Color _nightFogColorEnd = new Color(115f / 255f, 153f / 255f, 191f / 255f) * 0.7388527f;
+    [SerializeField] private float _dayDirectionalIntensity = 0.250f;
+    [SerializeField] private float _nightDirectionalIntensity = 0;
 
     [Header("Main light colors")]
     [SerializeField] private Color _mainLightDayColor = new Color(255f / 255f, 249f / 255f, 225f / 255f);
@@ -142,25 +144,31 @@ public class DayNightCycle : MonoBehaviour {
     private void UpdateFogColor() {
         Color fogColorStart = HeightFogGlobal.Instance.fogColorStart;
         Color fogColorEnd = HeightFogGlobal.Instance.fogColorEnd;
+        float directionalIntensity = HeightFogGlobal.Instance.directionalIntensity;
         if (_clock.Clock.dawnRatio > 0 && _clock.Clock.dawnRatio < 1) {
             fogColorStart = Color.Lerp(fogColorStart, _dayFogColorStart, _clock.Clock.dawnRatio);
             fogColorEnd = Color.Lerp(fogColorEnd, _dayFogColorEnd, _clock.Clock.dawnRatio);
+            directionalIntensity = Mathf.Lerp(directionalIntensity, _dayDirectionalIntensity, _clock.Clock.dawnRatio);
         }
         if(_clock.Clock.brightRatio > 0 && _clock.Clock.brightRatio < 1) {
             fogColorStart = _dayFogColorStart;
             fogColorEnd = _dayFogColorEnd;
+            directionalIntensity = _dayDirectionalIntensity;
         }
         if(_clock.Clock.duskRatio > 0 && _clock.Clock.duskRatio < 1) {
             fogColorStart = Color.Lerp(_dayFogColorStart, _nightFogColorStart, _clock.Clock.duskRatio);
             fogColorEnd = Color.Lerp(_dayFogColorEnd, _nightFogColorEnd, _clock.Clock.duskRatio);
+            directionalIntensity = Mathf.Lerp(directionalIntensity, _nightDirectionalIntensity, _clock.Clock.duskRatio);
         }
-        if(_clock.Clock.darkRatio > 0 && _clock.Clock.darkRatio < 1) {
+        if (_clock.Clock.darkRatio > 0 && _clock.Clock.darkRatio < 1) {
             fogColorStart = _nightFogColorStart;
             fogColorEnd = _nightFogColorEnd;
+            directionalIntensity = _nightDirectionalIntensity;
         }
 
         HeightFogGlobal.Instance.fogColorStart = fogColorStart;
         HeightFogGlobal.Instance.fogColorEnd = fogColorEnd;
+        HeightFogGlobal.Instance.directionalIntensity = directionalIntensity;
     }
 
     private void UpdateAmbientLightIntensity() {

@@ -80,7 +80,7 @@ public class World : MonoBehaviour {
         if(_offlineMode) {
             PlayerEntity entity = _playerPlaceholder.GetComponent<PlayerEntity>();
             entity.Identity.Position = _playerPlaceholder.transform.position;
-            SpawnPlayer(entity.Identity, entity.Status);
+            SpawnPlayer(entity.Identity, (PlayerStatus) entity.Status);
         }
     }
 
