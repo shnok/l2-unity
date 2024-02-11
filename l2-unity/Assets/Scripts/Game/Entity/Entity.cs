@@ -11,8 +11,8 @@ public class Entity : MonoBehaviour {
     public int Target { get => _target; set => _target = value; }
 
     /* Called when ApplyDamage packet is received */
-    public void ApplyDamage(byte attackId, int value) {
-
+    public void ApplyDamage(AttackType attackType, int value) {
+        _status.Hp = Mathf.Max(Status.Hp - value, 0);
     }
 
     /* Notify server that entity got attacked */

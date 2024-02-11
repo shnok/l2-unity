@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class InflictAttackPacket : ClientPacket {
-    public InflictAttackPacket(int targetId, AttackType type) : base((byte)ClientPacketType.RequestAttack) {
+public class RequestAttackPacket : ClientPacket {
+    public RequestAttackPacket(int targetId, AttackType type) : base((byte)ClientPacketType.RequestAttack) {
         WriteI(targetId);
         WriteB((byte)type);
 

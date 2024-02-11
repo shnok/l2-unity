@@ -9,11 +9,16 @@ public class CombatController : MonoBehaviour
         if(InputManager.Instance.IsInputPressed(InputType.Attack)) {
             // for debug purpose
             if(TargetManager.Instance.HasTarget()) {
-                WorldCombat.Instance.ApplyDamage(
-                    transform, 
-                    TargetManager.Instance.GetTargetData().Data.ObjectTransform, 
-                    (byte) AttackType.AutoAttack, 
-                    1);
+                //WorldCombat.Instance.InflictAttack(
+                //    transform, 
+                //    TargetManager.Instance.GetTargetData().Data.ObjectTransform, 
+                //    (byte) AttackType.AutoAttack, 
+                //    1);
+
+                Entity entity = TargetManager.Instance.GetTargetData().Data.ObjectTransform.GetComponent<Entity>();
+                if (entity != null) {
+                    entity.InflictAttack(AttackType.AutoAttack);
+                }
             }
         }
     }

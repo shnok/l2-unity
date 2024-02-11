@@ -255,7 +255,7 @@ public class World : MonoBehaviour {
             if(_objects.TryGetValue(target, out targetEntity)) {
                 //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
                 try {
-                    WorldCombat.Instance.ApplyDamage(senderEntity.transform, targetEntity.transform, attackId, value);
+                    WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, (AttackType) attackId, value);
                 } catch(Exception) {
                     Debug.LogWarning("Trying to update a null object");
                 }

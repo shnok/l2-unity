@@ -54,7 +54,7 @@ public class ClientPacketHandler
     }
 
     public void InflictAttack(int targetId, AttackType type) {
-        InflictAttackPacket packet = new InflictAttackPacket(targetId, type);
+        RequestAttackPacket packet = new RequestAttackPacket(targetId, type);
         _client.SendPacket(packet);
     }
 
