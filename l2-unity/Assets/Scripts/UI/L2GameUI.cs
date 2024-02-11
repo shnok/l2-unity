@@ -36,7 +36,7 @@ public class L2GameUI : MonoBehaviour {
             _focusedElement = _rootElement.focusController.focusedElement;
         }
 
-        if(InputManager.GetInstance().IsInputPressed(InputType.TurnCamera)) {
+        if(InputManager.Instance.IsInputPressed(InputType.TurnCamera)) {
             DisableMouse();
         } else {
             EnableMouse();

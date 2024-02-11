@@ -22,7 +22,7 @@ public enum InputType {
 /**
  * 
  * 
- * Need to switch to Unity InputManager
+ *  TODO: Need to switch to Unity InputManager
  *  ==================================
  * 
  */
@@ -33,14 +33,11 @@ public class InputManager : MonoBehaviour {
     public float scrollAxis;
 
     private static InputManager _instance;
-    public static InputManager GetInstance() {
-        return _instance;
-    }
+    public static InputManager Instance { get { return _instance; } }
+
     void Awake() {
         if(_instance == null) {
             _instance = this;
-        } else {
-            Object.Destroy(gameObject);
         }
     }
 
@@ -81,6 +78,7 @@ public class InputManager : MonoBehaviour {
         UpdateInput(InputType.InputAxis, inputAxis.x != 0 || inputAxis.y != 0);
         UpdateInput(InputType.Move, IsInputPressed(InputType.InputAxis) || IsInputPressed(InputType.MoveForward));
         UpdateInput(InputType.MoveForward, IsInputPressed(InputType.LeftMouseButton) && IsInputPressed(InputType.RightMouseButton));
+        UpdateInput(InputType.Attack, Input.GetKeyDown(KeyCode.F));
     }
 
     public bool IsInputPressed(InputType type) {

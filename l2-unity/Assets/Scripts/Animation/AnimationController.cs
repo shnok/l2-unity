@@ -20,7 +20,7 @@ public class AnimationController : MonoBehaviour {
         SetFloat("Speed", _pc.CurrentSpeed, false);
 
         /*Jump */
-        if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Idle")) {
+        if(InputManager.Instance.IsInputPressed(InputType.Jump) && IsCurrentState("Idle")) {
             CameraController.Instance.StickToBone = true;
             SetBool("IdleJump", true);
         } else {
@@ -31,7 +31,7 @@ public class AnimationController : MonoBehaviour {
         if(IsNextState("RunJump")) {
             CameraController.Instance.StickToBone = true;
         }
-        if(InputManager.GetInstance().IsInputPressed(InputType.Jump) && IsCurrentState("Run") || IsCurrentState("RunJump") && !IsAnimationFinished(0)) {
+        if(InputManager.Instance.IsInputPressed(InputType.Jump) && IsCurrentState("Run") || IsCurrentState("RunJump") && !IsAnimationFinished(0)) {
             CameraController.Instance.StickToBone = true;
             SetBool("RunJump", true);
         } else {
@@ -42,7 +42,7 @@ public class AnimationController : MonoBehaviour {
         if(IsNextState("Run")) {
             CameraController.Instance.StickToBone = false;
         }
-        if((InputManager.GetInstance().IsInputPressed(InputType.Move) || _pc.RunningToTarget)
+        if((InputManager.Instance.IsInputPressed(InputType.Move) || _pc.RunningToTarget)
             && (IsCurrentState("Idle") || IsAnimationFinished(0)) && _pc.CanMove) {
             SetBool("Moving", true);
             
@@ -54,7 +54,7 @@ public class AnimationController : MonoBehaviour {
         if(IsNextState("SitTransition")) {
             CameraController.Instance.StickToBone = true;
         }
-        if(InputManager.GetInstance().IsInputPressed(InputType.Sit) && (IsCurrentState("Run") || IsCurrentState("Idle"))) {
+        if(InputManager.Instance.IsInputPressed(InputType.Sit) && (IsCurrentState("Run") || IsCurrentState("Idle"))) {
             CameraController.Instance.StickToBone = true;
             _pc.CanMove = false;
             SetBool("Sit", true);
@@ -74,7 +74,7 @@ public class AnimationController : MonoBehaviour {
 
 
         /* Stand */
-        if((InputManager.GetInstance().IsInputPressed(InputType.Sit) || InputManager.GetInstance().IsInputPressed(InputType.Move))
+        if((InputManager.Instance.IsInputPressed(InputType.Sit) || InputManager.Instance.IsInputPressed(InputType.Move))
             && (IsCurrentState("SitWait"))) {
             CameraController.Instance.StickToBone = true;
             SetBool("Stand", true);
@@ -89,7 +89,7 @@ public class AnimationController : MonoBehaviour {
         }
 
         /* Idle */
-        if(!InputManager.GetInstance().IsInputPressed(InputType.Move)
+        if(!InputManager.Instance.IsInputPressed(InputType.Move)
             && !_pc.RunningToTarget
             && (IsCurrentState("Run") || IsAnimationFinished(0) || IsCurrentState("Idle"))
             && !IsCurrentState("SitTransition")

@@ -53,7 +53,7 @@ public class TargetManager : MonoBehaviour
             ClearTarget();
         }
 
-        if(InputManager.GetInstance().IsInputPressed(InputType.Escape)) {
+        if(InputManager.Instance.IsInputPressed(InputType.Escape)) {
             ClearTarget();
         }
     }

@@ -37,6 +37,6 @@ public class WorldCombat : MonoBehaviour {
         Vector3 direction = Quaternion.Euler(0, angle, 0) * target.forward;
         GameObject go = (GameObject)Instantiate(_impactParticle, target.position + direction * 0.3f + Vector3.up * 0.4f, Quaternion.identity);
         go.transform.LookAt(attacker);
-        go.transform.eulerAngles = new Vector3(0, go.transform.eulerAngles.y, 0);
+        go.transform.eulerAngles = new Vector3(0, go.transform.eulerAngles.y + 180f, 0);
     }
 }
