@@ -44,11 +44,11 @@ public class DayNightCycle : MonoBehaviour {
 
     [Header("Ambient light intensity")]
     [SerializeField] private float _ambientMinIntensity = 0.2f;
-    [SerializeField] private float _ambientMaxIntensity = 0.75f;
+    [SerializeField] private float _ambientMaxIntensity = 0.6f;
 
     [Header("Main light intensity")]
     [SerializeField] private float _mainLightMinIntensity = 0.4f;
-    [SerializeField] private float _mainLightMaxIntensity = 1.2f;
+    [SerializeField] private float _mainLightMaxIntensity = 1.1f;
 
     // Update is called once per frame
     void Update() {
