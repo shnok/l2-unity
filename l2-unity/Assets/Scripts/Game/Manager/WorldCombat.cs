@@ -40,14 +40,19 @@ public class WorldCombat : MonoBehaviour {
     }
 
     private void ParticleImpact(Transform attacker, Transform target) {
+        // Calculate the position and rotation based on attacker
         var heading = attacker.position - target.position;
         float angle = Vector3.Angle(heading, target.forward);
         Vector3 cross = Vector3.Cross(heading, target.forward);
         if(cross.y >= 0) angle = -angle;
         Vector3 direction = Quaternion.Euler(0, angle, 0) * target.forward;
 
-        float particleHeight = target.GetComponent<Entity>().Identity.CollisionHeight;
-        GameObject go = (GameObject)Instantiate(_impactParticle, target.position + direction * 0.3f + Vector3.up * particleHeight, Quaternion.identity);
+        float particleHeight = target.GetComponent<Entity>().Identity.CollisionHeight * 1.25f;
+        GameObject go = (GameObject)Instantiate(
+            _impactParticle, 
+            target.position + direction * 0.3f + Vector3.up * particleHeight, 
+            Quaternion.identity);
+
         go.transform.LookAt(attacker);
         go.transform.eulerAngles = new Vector3(0, go.transform.eulerAngles.y + 180f, 0);
     }
