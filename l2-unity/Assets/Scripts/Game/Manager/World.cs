@@ -208,7 +208,6 @@ public class World : MonoBehaviour {
 
                 if(entity != null) {
                     moveSpeed = entity.Status.MoveSpeed;
-                    Debug.LogWarning("Entity moving with movespeed: " + moveSpeed);
                 } else {
                     Debug.LogWarning("Entity is null");
                     e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
