@@ -163,7 +163,7 @@ public class ChatWindow : MonoBehaviour {
     }
 
     void Update() {
-        if(InputManager.GetInstance().IsInputPressed(InputType.SendMessage)) {
+        if(InputManager.Instance.IsInputPressed(InputType.SendMessage)) {
             if(_chatOpened) {
                 CloseChat(true);
             } else {
@@ -171,7 +171,7 @@ public class ChatWindow : MonoBehaviour {
             }
         }
 
-        if(InputManager.GetInstance().IsInputPressed(InputType.Escape)) {
+        if(InputManager.Instance.IsInputPressed(InputType.Escape)) {
             if(_chatOpened) {
                 CloseChat(false);
             }
@@ -236,7 +236,7 @@ public class ChatWindow : MonoBehaviour {
             Message message = new ChatMessage(PlayerEntity.Instance.Identity.Name, text);
             ReceiveChatMessage(message);
         } else {
-            DefaultClient.Instance.SendChatMessage(text);
+            ClientPacketHandler.Instance.SendMessage(text);
         }
     }
 

@@ -2,8 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(NetworkAnimationReceive)),
+    RequireComponent(typeof(NetworkTransformReceive)),
+    RequireComponent(typeof(NetworkCharacterControllerReceive))]
+
 public class UserEntity : Entity {
-    [SerializeField]
-    private PlayerStatus _status;
-    public PlayerStatus Status { get => _status; set => _status = value; }
+
+    protected override void Initialize() {
+        base.Initialize();
+    }
+
+    protected override void OnDeath() {
+        base.OnDeath();
+    }
+
+    protected override void OnHit(bool criticalHit) {
+        base.OnHit(criticalHit);
+    }
 }

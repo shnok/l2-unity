@@ -8,6 +8,7 @@ public class NpcStateDeath : NpcStateBase
         LoadComponents(animator);
         PlaySoundAtRatio(CharacterSoundEvent.Death, audioHandler.DeathRatio);
         PlaySoundAtRatio(CharacterSoundEvent.Fall, audioHandler.FallRatio);
+        animator.SetBool("death", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

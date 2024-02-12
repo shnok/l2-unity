@@ -15,18 +15,28 @@ public class WorldCombat : MonoBehaviour {
         }
     }
 
+    // Inflict attack to the target
     public void Attack(Transform target, AttackType attackType) {
         target.GetComponent<Entity>().InflictAttack(attackType);
     }
 
-    public void ApplyDamage(Transform attacker, Transform target, byte attackId, int value) {
-        // Apply damage to target
-        target.GetComponent<Entity>().ApplyDamage(attackId, value);
+    // Apply the damage to target and spawn extra effects
+    public void InflictAttack(Transform attacker, Transform target, AttackType attackId, int value, bool criticalHit) {
+
+        ApplyDamage(target, attackId, value, criticalHit);
 
         // Instantiate hit particle
         ParticleImpact(attacker, target);
 
         // Instantiate damage text
+    }
+
+    private void ApplyDamage(Transform target, AttackType attackId, int damage, bool criticalHit) {
+        Entity entity = target.GetComponent<Entity>();
+        if (entity != null) {
+            // Apply damage to target
+            entity.ApplyDamage(attackId, damage, criticalHit);
+        }
     }
 
     private void ParticleImpact(Transform attacker, Transform target) {
@@ -37,6 +47,6 @@ public class WorldCombat : MonoBehaviour {
         Vector3 direction = Quaternion.Euler(0, angle, 0) * target.forward;
         GameObject go = (GameObject)Instantiate(_impactParticle, target.position + direction * 0.3f + Vector3.up * 0.4f, Quaternion.identity);
         go.transform.LookAt(attacker);
-        go.transform.eulerAngles = new Vector3(0, go.transform.eulerAngles.y, 0);
+        go.transform.eulerAngles = new Vector3(0, go.transform.eulerAngles.y + 180f, 0);
     }
 }

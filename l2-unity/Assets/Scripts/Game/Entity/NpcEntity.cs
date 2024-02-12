@@ -2,9 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NpcEntity : Entity
-{
-    [SerializeField]
-    private NpcStatus _status;
-    public NpcStatus Status { get => _status; set => _status = value; }
+[RequireComponent(typeof(NetworkAnimationReceive)),
+    RequireComponent(typeof(NetworkTransformReceive)),
+    RequireComponent(typeof(NetworkCharacterControllerReceive)),
+    RequireComponent(typeof(NpcAnimationAudioHandler))]
+public class NpcEntity : Entity {
+    private NpcAnimationAudioHandler _npcAnimationAudioHandler;
+
+    protected override void Initialize() {
+        base.Initialize();
+        _npcAnimationAudioHandler = GetComponent<NpcAnimationAudioHandler>();
+    }
+
+    protected override void OnDeath() {
+        base.OnDeath();
+        _networkAnimationReceive.SetAnimationProperty((int) NpcAnimationEvent.Death, 1f, true);
+    }
+
+    protected override void OnHit(bool criticalHit) {
+        base.OnHit(criticalHit);
+        _npcAnimationAudioHandler.PlaySound(CharacterSoundEvent.Dmg);
+    }
 }

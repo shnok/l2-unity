@@ -95,8 +95,8 @@ public class CameraController : MonoBehaviour {
     }
 
     private void UpdateInputs() {
-        if(InputManager.GetInstance().IsInputPressed(InputType.TurnCamera)) {
-            Vector2 mouseAxis = InputManager.GetInstance().mouseAxis;
+        if(InputManager.Instance.IsInputPressed(InputType.TurnCamera)) {
+            Vector2 mouseAxis = InputManager.Instance.mouseAxis;
             _x += mouseAxis.x * _camSpeed * 0.1f;
             _y -= mouseAxis.y * _camSpeed * 0.1f;
             _y = ClampAngle(_y, -90, 90);
@@ -104,8 +104,8 @@ public class CameraController : MonoBehaviour {
     }
 
     private void UpdateZoom() {
-        if(InputManager.GetInstance().IsInputPressed(InputType.Zoom)) {
-            float scrollAxis = InputManager.GetInstance().scrollAxis;
+        if(InputManager.Instance.IsInputPressed(InputType.Zoom)) {
+            float scrollAxis = InputManager.Instance.scrollAxis;
             _camDistance = Mathf.Clamp(_camDistance - scrollAxis * _zoomSpeed, _minDistance, _maxDistance);
         }
     }

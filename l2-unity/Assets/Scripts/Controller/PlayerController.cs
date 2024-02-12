@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour {
             //ResetTargetPosition();
         }
 
-        if(InputManager.GetInstance().IsInputPressed(InputType.Move)) {
+        if(InputManager.Instance.IsInputPressed(InputType.Move)) {
             ResetTargetPosition();
         }
     }
@@ -132,20 +132,20 @@ public class PlayerController : MonoBehaviour {
 
     public Vector2 GetAxis() {
         Vector2 localAxis;
-        if(InputManager.GetInstance().IsInputPressed(InputType.MoveForward)) {
+        if(InputManager.Instance.IsInputPressed(InputType.MoveForward)) {
             LookForward(true);
             localAxis = Vector2.up;
         } else {
             localAxis = Vector2.zero;
         }
-        localAxis = (localAxis + InputManager.GetInstance().inputAxis);
+        localAxis = (localAxis + InputManager.Instance.inputAxis);
         localAxis = new Vector2(Mathf.Clamp(localAxis.x, -1f, 1f), Mathf.Clamp(localAxis.y, -1f, 1f));
 
         return localAxis;
     }
 
     private float GetInputRotationValue(float angle) {
-        if(InputManager.GetInstance().IsInputPressed(InputType.InputAxis) && _canMove) {
+        if(InputManager.Instance.IsInputPressed(InputType.InputAxis) && _canMove) {
             angle = Mathf.Atan2(_axis.x, _axis.y) * Mathf.Rad2Deg;
             angle = Mathf.Round(angle / 45f);
             angle *= 45f;
@@ -196,7 +196,7 @@ public class PlayerController : MonoBehaviour {
     private float GetInputMoveSpeed(float speed) {
         float smoothDuration = 0.2f;
 
-        if(InputManager.GetInstance().IsInputPressed(InputType.Move)) {
+        if(InputManager.Instance.IsInputPressed(InputType.Move)) {
             speed = _defaultSpeed;
         } else if(speed > 0 && _controller.isGrounded) {
             speed -= (_defaultSpeed / smoothDuration) * Time.deltaTime;

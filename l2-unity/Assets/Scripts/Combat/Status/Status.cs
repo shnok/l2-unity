@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public abstract class Status {
+public class Status {
     [SerializeField] private int _hp;
     [SerializeField] private int _maxHp;
     [SerializeField] private int _level;

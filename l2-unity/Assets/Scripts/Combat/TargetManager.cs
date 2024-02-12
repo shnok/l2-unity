@@ -21,7 +21,15 @@ public class TargetManager : MonoBehaviour
     }
 
     public void SetTarget(ObjectData target) {
-        this._target = new TargetData(target);
+        if(target == null) {
+            ClearTarget();
+            return;
+        }
+
+        _target = new TargetData(target);
+
+        PlayerEntity.Instance.Target = _target.Identity.Id;
+        ClientPacketHandler.Instance.SendRequestSetTarget(_target.Identity.Id);
     }
 
     public TargetData GetTargetData() {
@@ -29,10 +37,18 @@ public class TargetManager : MonoBehaviour
     }
 
     public void ClearTarget() {
-        _target = null;
+        if(_target != null) {
+            ClientPacketHandler.Instance.SendRequestSetTarget(-1);
+            PlayerEntity.Instance.Target = -1;
+            _target = null;
+        }
     }
 
     void Update() {
+        if (PlayerEntity.Instance == null) {
+            return;
+        }
+
         if(HasTarget()) {
             _target.Distance = Vector3.Distance(
                 PlayerController.Instance.transform.position, 
@@ -41,7 +57,7 @@ public class TargetManager : MonoBehaviour
             ClearTarget();
         }
 
-        if(InputManager.GetInstance().IsInputPressed(InputType.Escape)) {
+        if(InputManager.Instance.IsInputPressed(InputType.Escape)) {
             ClearTarget();
         }
     }

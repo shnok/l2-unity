@@ -56,10 +56,6 @@ public class DefaultClient : MonoBehaviour {
     public int GetPing() {
         return _client.Ping;
     }
-
-    public void SendChatMessage(string message) {
-        ClientPacketHandler.Instance.SendMessage(message);
-    }
  
     public void Disconnect() {
         Debug.Log("Disconnected");

@@ -59,7 +59,7 @@ public class MusicAreaTrigger : MonoBehaviour
     private void OnTriggerStay(Collider other) {
         if(MusicManager.Instance.CurrentEventPriority > _areaPrority) {
             MusicManager.Instance.StopMusic(_enterEvent);
-        } else if(MusicManager.Instance.CurrentMusicEvent.Path != _enterEvent.Path) {
+        } else if(MusicManager.Instance.CurrentMusicEvent.Guid != _enterEvent.Guid) {
             MusicManager.Instance.PlayMusic(_enterEvent, _areaPrority);
         }
     }

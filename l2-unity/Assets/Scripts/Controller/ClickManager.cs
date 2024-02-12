@@ -44,8 +44,8 @@ public class ClickManager : MonoBehaviour {
                 _hoverObjectData = new ObjectData(hit.collider.gameObject);
             }
 
-            if(InputManager.GetInstance().IsInputPressed(InputType.LeftMouseButtonDown) &&
-                !InputManager.GetInstance().IsInputPressed(InputType.RightMouseButton)) 
+            if(InputManager.Instance.IsInputPressed(InputType.LeftMouseButtonDown) &&
+                !InputManager.Instance.IsInputPressed(InputType.RightMouseButton)) 
             {
                 _targetObjectData = _hoverObjectData;
                 _lastClickPosition = hit.point;

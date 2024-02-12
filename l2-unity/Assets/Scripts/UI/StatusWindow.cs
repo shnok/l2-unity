@@ -129,6 +129,13 @@ public class StatusWindow : MonoBehaviour
             return; 
         }
 
+        if(!(PlayerEntity.Instance.Status is PlayerStatus)) {
+            Debug.LogWarning("Player status is not of type playerstatus");
+            return;
+        }
+
+        PlayerStatus status = (PlayerStatus)PlayerEntity.Instance.Status;
+
         if(_levelLabel != null) {
             _levelLabel.text = PlayerEntity.Instance.Status.Level.ToString();
         }
@@ -138,33 +145,33 @@ public class StatusWindow : MonoBehaviour
         }
 
         if(_CPTextLabel != null) {
-            _CPTextLabel.text = PlayerEntity.Instance.Status.Cp + "/" + PlayerEntity.Instance.Status.MaxCp;
+            _CPTextLabel.text = status.Cp + "/" + status.MaxCp;
         }
 
         if(_HPTextLabel != null) {
-            _HPTextLabel.text = PlayerEntity.Instance.Status.Hp + "/" + PlayerEntity.Instance.Status.MaxHp;
+            _HPTextLabel.text = status.Hp + "/" + status.MaxHp;
         }
 
         if(_MPTextLabel != null) {
-            _MPTextLabel.text = PlayerEntity.Instance.Status.Mp + "/" + PlayerEntity.Instance.Status.MaxMp;
+            _MPTextLabel.text = status.Mp + "/" + status.MaxMp;
         }
 
         if(_CPBarBG != null && _CPBar != null) {
-            float cpRatio = (float)PlayerEntity.Instance.Status.Cp / PlayerEntity.Instance.Status.MaxCp;
+            float cpRatio = (float)status.Cp / status.MaxCp;
             float bgWidth = _CPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * cpRatio;
             _CPBar.style.width = barWidth;
         }
 
         if(_HPBarBG != null && _HPBar != null) {
-            float hpRatio = (float)PlayerEntity.Instance.Status.Hp / PlayerEntity.Instance.Status.MaxHp;
+            float hpRatio = (float)status.Hp / status.MaxHp;
             float bgWidth = _HPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * hpRatio;
             _HPBar.style.width = barWidth;
         }
 
         if(_MPBarBG != null && _MPBar != null) {
-            float mpRatio = (float)PlayerEntity.Instance.Status.Mp / PlayerEntity.Instance.Status.MaxMp;
+            float mpRatio = (float)status.Mp / status.MaxMp;
             float bgWidth = _MPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * mpRatio;
             _MPBar.style.width = barWidth;

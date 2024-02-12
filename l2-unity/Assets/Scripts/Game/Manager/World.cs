@@ -80,7 +80,7 @@ public class World : MonoBehaviour {
         if(_offlineMode) {
             PlayerEntity entity = _playerPlaceholder.GetComponent<PlayerEntity>();
             entity.Identity.Position = _playerPlaceholder.transform.position;
-            SpawnPlayer(entity.Identity, entity.Status);
+            SpawnPlayer(entity.Identity, (PlayerStatus) entity.Status);
         }
     }
 
@@ -154,9 +154,17 @@ public class World : MonoBehaviour {
             }
         }
 
-        GameObject npcGo = Instantiate(go, identity.Position, Quaternion.identity); 
+        GameObject npcGo = Instantiate(go, identity.Position, Quaternion.identity);
 
-        NpcEntity npc = npcGo.GetComponent<NpcEntity>();
+        Entity npc;
+        if (identity.EntityType == EntityType.NPC) {
+            npcGo.transform.SetParent(_npcsContainer.transform);
+            npc = npcGo.GetComponent<NpcEntity>();
+        } else {
+            npcGo.transform.SetParent(_monstersContainer.transform);
+            npc = npcGo.GetComponent<MonsterEntity>();
+        }
+
         npc.Status = status;
         npc.Identity = identity;
 
@@ -168,12 +176,6 @@ public class World : MonoBehaviour {
         npcGo.transform.name = identity.Name;
 
         npcGo.SetActive(true);
-
-        if (identity.EntityType == EntityType.NPC) {
-            npcGo.transform.SetParent(_npcsContainer.transform);
-        } else {
-            npcGo.transform.SetParent(_monstersContainer.transform);
-        }
     }
 
     public float GetGroundHeight(Vector3 pos) {
@@ -201,16 +203,13 @@ public class World : MonoBehaviour {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                var npcEntity = e.GetComponent<NpcEntity>();
-                var playerEntity = e.GetComponent<PlayerEntity>();
+                Entity entity = e.GetComponent<Entity>();
                 float moveSpeed = 0;
 
-                if(npcEntity != null) {
-                    moveSpeed = npcEntity.Status.MoveSpeed;
-
-                } else if(playerEntity != null) {
-                    moveSpeed = playerEntity.Status.MoveSpeed;
+                if(entity != null) {
+                    moveSpeed = entity.Status.MoveSpeed;
                 } else {
+                    Debug.LogWarning("Entity is null");
                     e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
                 }
 
@@ -248,14 +247,14 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void InflictDamageTo(int sender, int target, byte attackId, int value) {
+    public void InflictDamageTo(int sender, int target, byte attackId, int value, bool criticalHit) {
         Entity senderEntity;
         Entity targetEntity;
         if(_objects.TryGetValue(sender, out senderEntity)) {
             if(_objects.TryGetValue(target, out targetEntity)) {
                 //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
                 try {
-                    WorldCombat.Instance.ApplyDamage(senderEntity.transform, targetEntity.transform, attackId, value);
+                    WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, (AttackType) attackId, value, criticalHit);
                 } catch(Exception) {
                     Debug.LogWarning("Trying to update a null object");
                 }
@@ -279,14 +278,20 @@ public class World : MonoBehaviour {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                if(e is NpcEntity) {
-                    ((NpcEntity)e).Status.MoveSpeed = speed;
-                } else if(e is PlayerEntity) {
-                    ((PlayerEntity)e).Status.MoveSpeed = speed;
-                } else {
-                    Debug.LogError("Entity is neither a player or npc");
-                }
+                e.Status.MoveSpeed = speed;
             } catch(Exception) {
+                Debug.LogWarning("Trying to update a null object");
+                RemoveObject(id);
+            }
+        }
+    }
+
+    public void UpdateEntityTarget(int id, int targetId) {
+        Entity e;
+        if (_objects.TryGetValue(id, out e)) {
+            try {
+                e.Target = targetId;
+            } catch (Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);
             }

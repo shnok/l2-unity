@@ -54,12 +54,17 @@ public class ClientPacketHandler
     }
 
     public void InflictAttack(int targetId, AttackType type) {
-        InflictAttackPacket packet = new InflictAttackPacket(targetId, type);
+        RequestAttackPacket packet = new RequestAttackPacket(targetId, type);
         _client.SendPacket(packet);
     }
 
     public void UpdateMoveDirection(float speed, Vector3 direction) {
         RequestMoveDirectionPacket packet = new RequestMoveDirectionPacket(speed, direction);
+        _client.SendPacket(packet);
+    }
+
+    public void SendRequestSetTarget(int targetId) {
+        RequestSetTargetPacket packet = new RequestSetTargetPacket(targetId);
         _client.SendPacket(packet);
     }
 }

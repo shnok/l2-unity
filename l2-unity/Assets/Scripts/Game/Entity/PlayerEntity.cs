@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerEntity : Entity {
-    [SerializeField]
-    private PlayerStatus _status;
-    public PlayerStatus Status { get => _status; set => _status = value; }
 
     private static PlayerEntity _instance;
     public static PlayerEntity Instance { get => _instance; }
 
-    void Awake() {
-        if(_instance == null) {
+    protected override void Initialize() {
+        base.Initialize();
+
+        if (_instance == null) {
             _instance = this;
         }
+    }
+
+    protected override void OnDeath() {
+        base.OnDeath();
+    }
+
+    protected override void OnHit(bool criticalHit) {
+        base.OnHit(criticalHit);
     }
 }

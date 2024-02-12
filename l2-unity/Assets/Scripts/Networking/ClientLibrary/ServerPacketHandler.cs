@@ -78,6 +78,9 @@ public class ServerPacketHandler
                 case ServerPacketType.GameTime:
                     OnUpdateGameTime(data);
                     break;
+                case ServerPacketType.EntitySetTarget:
+                    OnEntitySetTarget(data);
+                    break;
             }
         });
     }
@@ -188,7 +191,7 @@ public class ServerPacketHandler
 
     private void OnInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value)); 
+        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value, packet.CriticalHit)); 
     }
 
     private void OnNpcInfoReceive(byte[] data) {
@@ -204,8 +207,8 @@ public class ServerPacketHandler
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
         int id = packet.Id;
         Vector3 position = packet.Pos;
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(id, position));
         _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectMoveSpeed(id, packet.Speed));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(id, position));
     }
 
     private void OnUpdateMoveDirection(byte[] data) {
@@ -216,5 +219,10 @@ public class ServerPacketHandler
     private void OnUpdateGameTime(byte[] data) {
         GameTimePacket packet = new GameTimePacket(data);
         _eventProcessor.QueueEvent(() => WorldClock.Instance.SynchronizeClock(packet.GameTicks, packet.TickDurationMs, packet.DayDurationMins));
+    }
+
+    private void OnEntitySetTarget(byte[] data) {
+        EntitySetTargetPacket packet = new EntitySetTargetPacket(data);
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateEntityTarget(packet.EntityId, packet.TargetId));
     }
 }

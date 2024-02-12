@@ -59,8 +59,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -134,15 +132,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -372,10 +370,10 @@ PrefabInstance:
       addedObject: {fileID: 2251475048185080607}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1727945791296381001}
+      addedObject: {fileID: 5585337290138571160}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5585337290138571160}
+      addedObject: {fileID: 5386699847335486728}
   m_SourcePrefab: {fileID: 100100000, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
 --- !u!4 &128510364696113543 stripped
 Transform:
@@ -403,7 +401,7 @@ MonoBehaviour:
   _resetStateOnReceive: 0
 --- !u!95 &5122521172409033120
 Animator:
-  serializedVersion: 7
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -417,7 +415,6 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -488,38 +485,6 @@ MonoBehaviour:
   _destination: {x: 0, y: 0, z: 0}
   _gravity: 28
   _moveSpeedMultiplier: 0.95
---- !u!114 &1727945791296381001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 757554519874382653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c9a66a877afa74d92a0ebb9f03618a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _identity:
-    _entityType: 0
-    _id: 0
-    _type: 
-    _npcClass: 
-    _npcId: 0
-    _name: 
-    _title: 
-    _model: 0
-    _position: {x: 0, y: 0, z: 0}
-    _heading: 0
-    _collisionHeight: 0
-    _owned: 0
-  _status:
-    _hp: 0
-    _maxHp: 0
-    _level: 0
-    _moveSpeed: 0
-    _friendly: 0
-    _aggressive: 0
 --- !u!114 &5585337290138571160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,5 +509,36 @@ MonoBehaviour:
   _atkRatio: 0
   _atkWaitRatio: 0
   _deathRatio: 0
-  _fallRatio: 0.7
+  _fallRatio: 0.5
   _waitSoundChance: 5
+--- !u!114 &5386699847335486728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757554519874382653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e8f6bf2a22cde488eee1ee4f91bd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _identity:
+    _entityType: 3
+    _id: 0
+    _type: 
+    _npcClass: 
+    _npcId: 0
+    _name: 
+    _title: 
+    _model: 0
+    _position: {x: 0, y: 0, z: 0}
+    _heading: 0
+    _collisionHeight: 0
+    _owned: 0
+  _status:
+    _hp: 0
+    _maxHp: 0
+    _level: 0
+    _moveSpeed: 0
+  _target: 0

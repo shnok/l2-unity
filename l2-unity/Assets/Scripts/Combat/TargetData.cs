@@ -19,14 +19,20 @@ public class TargetData
         _data = target;
         _identity = _data.ObjectTransform.GetComponent<Entity>().Identity;
 
-        if(_identity.EntityType == EntityType.Player) {
-            _status = _data.ObjectTransform.GetComponent<PlayerEntity>().Status;
-        }
-        if(_identity.EntityType == EntityType.User) {
-            _status = _data.ObjectTransform.GetComponent<UserEntity>().Status;
-        }
-        if(_identity.EntityType == EntityType.NPC || _identity.EntityType == EntityType.Monster) {
-            _status = _data.ObjectTransform.GetComponent<NpcEntity>().Status;
-        }
+        //switch (_identity.EntityType) {
+        //    case EntityType.Player:
+        //        _status = _data.ObjectTransform.GetComponent<PlayerEntity>().Status;
+        //        break;
+        //    case EntityType.User:
+        //        _status = _data.ObjectTransform.GetComponent<UserEntity>().Status;
+        //        break;
+        //    case EntityType.NPC:
+        //        _status = _data.ObjectTransform.GetComponent<NpcEntity>().Status;
+        //        break;
+        //    case EntityType.Monster:
+        //        _status = _data.ObjectTransform.GetComponent<MonsterEntity>().Status;
+        //        break;
+        //}
+        _status = _data.ObjectTransform.GetComponent<Entity>().Status;
     }
 }
