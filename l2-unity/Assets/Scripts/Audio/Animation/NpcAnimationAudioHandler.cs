@@ -6,24 +6,8 @@ public class NpcAnimationAudioHandler : BaseAnimationAudioHandler
 {
     [SerializeField] private CharacterRace _race;
 
-    private void Start() {
-        _npcClassName = GetComponent<NpcEntity>().Identity.NpcClass;
-        if (!string.IsNullOrEmpty(_npcClassName)) {
-            string[] parts = _npcClassName.Split('.');
-            if (parts.Length > 1) {
-                _npcClassName = parts[1].ToLower();
-            }
-        }
-
-        if (string.IsNullOrEmpty(_npcClassName)) {
-            Debug.LogWarning("MonsterAnimationAudioHandler could not load npc class name");
-            this.enabled = false;
-        }
-
-        if (_animator == null) {
-            _animator = GetComponent<Animator>();
-        }
-
+    protected override void Initialize() {
+        base.Initialize();
         if(_race == CharacterRace.Default) {
             string[] raceParts = _npcClassName.Split("_");
             if (raceParts.Length > 1) {

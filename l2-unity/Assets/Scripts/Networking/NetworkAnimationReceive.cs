@@ -20,15 +20,19 @@ public class NetworkAnimationReceive : MonoBehaviour
     }
 
     public void SetAnimationProperty(int animId, float value) {
-        if(animId >= 0 && animId < _animator.parameters.Length) {
-            if(_resetStateOnReceive) {
+        SetAnimationProperty(animId, value, false);
+    }
+
+    public void SetAnimationProperty(int animId, float value, bool forceReset) {
+        if (animId >= 0 && animId < _animator.parameters.Length) {
+            if (_resetStateOnReceive || forceReset) {
                 ClearAnimParams();
             }
 
             AnimatorControllerParameter anim = _animator.parameters[animId];
             //Debug.Log("Updating animation: " + transform.name + " " + anim.name + "=" + value);
 
-            switch(anim.type) {
+            switch (anim.type) {
                 case AnimatorControllerParameterType.Float:
                     _animator.SetFloat(anim.name, value);
                     break;

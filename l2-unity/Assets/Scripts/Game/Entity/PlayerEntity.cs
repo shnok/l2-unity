@@ -7,9 +7,19 @@ public class PlayerEntity : Entity {
     private static PlayerEntity _instance;
     public static PlayerEntity Instance { get => _instance; }
 
-    void Awake() {
-        if(_instance == null) {
+    protected override void Initialize() {
+        base.Initialize();
+
+        if (_instance == null) {
             _instance = this;
         }
+    }
+
+    protected override void OnDeath() {
+        base.OnDeath();
+    }
+
+    protected override void OnHit() {
+
     }
 }

@@ -154,9 +154,17 @@ public class World : MonoBehaviour {
             }
         }
 
-        GameObject npcGo = Instantiate(go, identity.Position, Quaternion.identity); 
+        GameObject npcGo = Instantiate(go, identity.Position, Quaternion.identity);
 
-        NpcEntity npc = npcGo.GetComponent<NpcEntity>();
+        Entity npc;
+        if (identity.EntityType == EntityType.NPC) {
+            npcGo.transform.SetParent(_npcsContainer.transform);
+            npc = npcGo.GetComponent<NpcEntity>();
+        } else {
+            npcGo.transform.SetParent(_monstersContainer.transform);
+            npc = npcGo.GetComponent<MonsterEntity>();
+        }
+
         npc.Status = status;
         npc.Identity = identity;
 
@@ -168,12 +176,6 @@ public class World : MonoBehaviour {
         npcGo.transform.name = identity.Name;
 
         npcGo.SetActive(true);
-
-        if (identity.EntityType == EntityType.NPC) {
-            npcGo.transform.SetParent(_npcsContainer.transform);
-        } else {
-            npcGo.transform.SetParent(_monstersContainer.transform);
-        }
     }
 
     public float GetGroundHeight(Vector3 pos) {
@@ -201,15 +203,11 @@ public class World : MonoBehaviour {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                var npcEntity = e.GetComponent<NpcEntity>();
-                var playerEntity = e.GetComponent<PlayerEntity>();
+                Entity entity = e.GetComponent<Entity>();
                 float moveSpeed = 0;
 
-                if(npcEntity != null) {
-                    moveSpeed = npcEntity.Status.MoveSpeed;
-
-                } else if(playerEntity != null) {
-                    moveSpeed = playerEntity.Status.MoveSpeed;
+                if(entity != null) {
+                    moveSpeed = entity.Status.MoveSpeed;
                 } else {
                     e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
                 }

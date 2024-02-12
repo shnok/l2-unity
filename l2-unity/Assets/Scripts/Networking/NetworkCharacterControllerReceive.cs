@@ -51,6 +51,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     }
 
     public void SetDestination(Vector3 destination, float speed) {
+        Debug.Log("Set destination: " + destination + " " + speed);
         _speed = speed;
         _destination = destination;
         _animationReceive.SetFloat("Speed", speed);

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimationAudioHandler : MonoBehaviour
 {
+    //TODO Update like NPC audio handler
     private SurfaceDetector _surfaceDetector;
     private void Start() {
         _surfaceDetector = transform.GetComponentInParent<SurfaceDetector>(true);    

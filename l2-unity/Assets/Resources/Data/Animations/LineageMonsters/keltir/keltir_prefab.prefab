@@ -390,10 +390,10 @@ PrefabInstance:
       addedObject: {fileID: 2351095843022271990}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4645731724818619214}
+      addedObject: {fileID: 8889694809834475436}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8889694809834475436}
+      addedObject: {fileID: 7097427613620351574}
   m_SourcePrefab: {fileID: 100100000, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
 --- !u!4 &3647439153703269067 stripped
 Transform:
@@ -505,38 +505,6 @@ MonoBehaviour:
   _destination: {x: 0, y: 0, z: 0}
   _gravity: 28
   _moveSpeedMultiplier: 0.95
---- !u!114 &4645731724818619214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167410998973950065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c9a66a877afa74d92a0ebb9f03618a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _identity:
-    _entityType: 0
-    _id: 0
-    _type: 
-    _npcClass: 
-    _npcId: 0
-    _name: 
-    _title: 
-    _model: 0
-    _position: {x: 0, y: 0, z: 0}
-    _heading: 0
-    _collisionHeight: 0
-    _owned: 0
-  _status:
-    _hp: 0
-    _maxHp: 0
-    _level: 0
-    _moveSpeed: 0
-    _friendly: 0
-    _aggressive: 0
 --- !u!114 &8889694809834475436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,5 +533,36 @@ MonoBehaviour:
   _atkRatio: 0
   _atkWaitRatio: 0
   _deathRatio: 0
-  _fallRatio: 0.7
+  _fallRatio: 0.5
   _waitSoundChance: 5
+--- !u!114 &7097427613620351574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167410998973950065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e8f6bf2a22cde488eee1ee4f91bd94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _identity:
+    _entityType: 3
+    _id: 0
+    _type: 
+    _npcClass: 
+    _npcId: 0
+    _name: 
+    _title: 
+    _model: 0
+    _position: {x: 0, y: 0, z: 0}
+    _heading: 0
+    _collisionHeight: 0
+    _owned: 0
+  _status:
+    _hp: 0
+    _maxHp: 0
+    _level: 0
+    _moveSpeed: 0
+  _target: 0

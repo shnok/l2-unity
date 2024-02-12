@@ -8,6 +8,7 @@ public class MonsterStateDeath : MonsterStateBase
         LoadComponents(animator);
         PlaySoundAtRatio(MonsterSoundEvent.Death, audioHandler.DeathRatio);
         PlaySoundAtRatio(MonsterSoundEvent.Fall, audioHandler.FallRatio);
+        animator.SetBool("death", false);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
