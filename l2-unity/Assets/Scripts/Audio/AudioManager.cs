@@ -107,6 +107,19 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayHitSound(bool criticalHit, Vector3 position) {
+        EventReference er;
+        if (criticalHit) {
+            er = RuntimeManager.PathToEventReference("event:/SkillSound/critical_hit");
+        } else {
+            er = RuntimeManager.PathToEventReference("event:/ItemSound/armor_hit_underwear");
+        }
+
+        if (!er.IsNull) {
+            PlaySound(er, position);
+        }
+    }
+
     public void PlaySound(EventReference sound, Vector3 postition) {
         RuntimeManager.PlayOneShot(sound, postition);
     }

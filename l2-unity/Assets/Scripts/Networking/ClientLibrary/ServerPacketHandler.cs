@@ -191,7 +191,7 @@ public class ServerPacketHandler
 
     private void OnInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value)); 
+        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value, packet.CriticalHit)); 
     }
 
     private void OnNpcInfoReceive(byte[] data) {
@@ -207,8 +207,8 @@ public class ServerPacketHandler
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
         int id = packet.Id;
         Vector3 position = packet.Pos;
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(id, position));
         _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectMoveSpeed(id, packet.Speed));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(id, position));
     }
 
     private void OnUpdateMoveDirection(byte[] data) {

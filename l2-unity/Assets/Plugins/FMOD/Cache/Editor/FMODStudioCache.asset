@@ -3462,6 +3462,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2636
+--- !u!114 &-4087580331289081187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/ItemSound.bank
+  m_EditorClassIdentifier: 
+  Path: ../l2-unity-fmod/Build/Desktop/ItemSound.bank
+  Name: ItemSound
+  StudioPath: bank:/ItemSound
+  lastModified: 638433502147832175
+  FileSizes:
+  - Name: Desktop
+    Value: 17024
+  Exists: 1
 --- !u!114 &-3988398949346242447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5372,6 +5392,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-551893919495034280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SkillSound/critical_hit
+  m_EditorClassIdentifier: 
+  Path: event:/SkillSound/critical_hit
+  Guid:
+    Data1: 1559006594
+    Data2: 1249129737
+    Data3: 1160231613
+    Data4: -122699625
+  Banks:
+  - {fileID: 7257044493985927708}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-466317484134658811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5582,6 +5629,8 @@ MonoBehaviour:
   - {fileID: 4383125019818357033}
   - {fileID: -8009714366042012825}
   - {fileID: -3011412142988031523}
+  - {fileID: -4087580331289081187}
+  - {fileID: 7257044493985927708}
   EditorEvents:
   - {fileID: 2185133539662627471}
   - {fileID: -8900648545727749425}
@@ -5965,12 +6014,14 @@ MonoBehaviour:
   - {fileID: 2190242968654133609}
   - {fileID: -8166603111359896642}
   - {fileID: -222447617142192382}
+  - {fileID: 6245648824919584708}
+  - {fileID: -551893919495034280}
   EditorParameters: []
   MasterBanks:
   - {fileID: 2229391322859867197}
   StringsBanks:
   - {fileID: 1305589092353993695}
-  cacheTime: 638431175121465219
+  cacheTime: 638433502148041600
   cacheVersion: 131609
 --- !u!114 &73035236526180599
 MonoBehaviour:
@@ -6520,10 +6571,10 @@ MonoBehaviour:
   Path: ../l2-unity-fmod/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638428457426116635
+  lastModified: 638433456568026950
   FileSizes:
   - Name: Desktop
-    Value: 16814
+    Value: 17054
   Exists: 1
 --- !u!114 &1459724555632607183
 MonoBehaviour:
@@ -7053,7 +7104,7 @@ MonoBehaviour:
   Path: ../l2-unity-fmod/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638428457426086748
+  lastModified: 638433456567996988
   FileSizes:
   - Name: Desktop
     Value: 1632
@@ -9346,6 +9397,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 8536
+--- !u!114 &6245648824919584708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ItemSound/armor_hit_underwear
+  m_EditorClassIdentifier: 
+  Path: event:/ItemSound/armor_hit_underwear
+  Guid:
+    Data1: 637440406
+    Data2: 1209250538
+    Data3: 136563340
+    Data4: 411953320
+  Banks:
+  - {fileID: -4087580331289081187}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 15
+  Length: 0
 --- !u!114 &6322850805002795718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9913,6 +9991,26 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5462
+--- !u!114 &7257044493985927708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SkillSound.bank
+  m_EditorClassIdentifier: 
+  Path: ../l2-unity-fmod/Build/Desktop/SkillSound.bank
+  Name: SkillSound
+  StudioPath: bank:/SkillSound
+  lastModified: 638433502148041600
+  FileSizes:
+  - Name: Desktop
+    Value: 18688
+  Exists: 1
 --- !u!114 &7261985052182833350
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -208,7 +208,9 @@ public class World : MonoBehaviour {
 
                 if(entity != null) {
                     moveSpeed = entity.Status.MoveSpeed;
+                    Debug.LogWarning("Entity moving with movespeed: " + moveSpeed);
                 } else {
+                    Debug.LogWarning("Entity is null");
                     e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
                 }
 
@@ -246,14 +248,14 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void InflictDamageTo(int sender, int target, byte attackId, int value) {
+    public void InflictDamageTo(int sender, int target, byte attackId, int value, bool criticalHit) {
         Entity senderEntity;
         Entity targetEntity;
         if(_objects.TryGetValue(sender, out senderEntity)) {
             if(_objects.TryGetValue(target, out targetEntity)) {
                 //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
                 try {
-                    WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, (AttackType) attackId, value);
+                    WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, (AttackType) attackId, value, criticalHit);
                 } catch(Exception) {
                     Debug.LogWarning("Trying to update a null object");
                 }

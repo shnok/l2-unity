@@ -19,7 +19,8 @@ public class MonsterEntity : Entity {
         _networkAnimationReceive.SetAnimationProperty((int)MonsterAnimationEvent.Death, 1f, true);
     }
 
-    protected override void OnHit() {
+    protected override void OnHit(bool criticalHit) {
+        base.OnHit(criticalHit);
         _monsterAnimationAudioHandler.PlaySound(MonsterSoundEvent.Dmg);
     }
 }

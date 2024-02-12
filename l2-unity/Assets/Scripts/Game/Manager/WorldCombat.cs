@@ -21,9 +21,9 @@ public class WorldCombat : MonoBehaviour {
     }
 
     // Apply the damage to target and spawn extra effects
-    public void InflictAttack(Transform attacker, Transform target, AttackType attackId, int value) {
+    public void InflictAttack(Transform attacker, Transform target, AttackType attackId, int value, bool criticalHit) {
 
-        ApplyDamage(target, attackId, value);
+        ApplyDamage(target, attackId, value, criticalHit);
 
         // Instantiate hit particle
         ParticleImpact(attacker, target);
@@ -31,11 +31,11 @@ public class WorldCombat : MonoBehaviour {
         // Instantiate damage text
     }
 
-    private void ApplyDamage(Transform target, AttackType attackId, int damage) {
+    private void ApplyDamage(Transform target, AttackType attackId, int damage, bool criticalHit) {
         Entity entity = target.GetComponent<Entity>();
         if (entity != null) {
             // Apply damage to target
-            entity.ApplyDamage(attackId, damage);
+            entity.ApplyDamage(attackId, damage, criticalHit);
         }
     }
 

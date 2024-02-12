@@ -25,7 +25,7 @@ public class Entity : MonoBehaviour {
     }
 
     /* Called when ApplyDamage packet is received */
-    public void ApplyDamage(AttackType attackType, int value) {
+    public void ApplyDamage(AttackType attackType, int value, bool criticalHit) {
         if(_status.Hp <= 0) {
             Debug.LogWarning("Trying to apply damage to a dead entity");
             return;
@@ -33,7 +33,7 @@ public class Entity : MonoBehaviour {
 
         _status.Hp = Mathf.Max(Status.Hp - value, 0);
 
-        OnHit();
+        OnHit(criticalHit);
 
         if(_status.Hp == 0) {
             OnDeath();
@@ -57,7 +57,8 @@ public class Entity : MonoBehaviour {
         }
     }
 
-    protected virtual void OnHit() {
-        // TODO: Play basic hit sound
+    protected virtual void OnHit(bool criticalHit) {
+        // TODO: Add armor type for more hit sounds
+        AudioManager.Instance.PlayHitSound(criticalHit, transform.position);
     }
 }

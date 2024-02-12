@@ -19,7 +19,7 @@ public class PlayerEntity : Entity {
         base.OnDeath();
     }
 
-    protected override void OnHit() {
-
+    protected override void OnHit(bool criticalHit) {
+        base.OnHit(criticalHit);
     }
 }

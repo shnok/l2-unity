@@ -19,7 +19,8 @@ public class NpcEntity : Entity {
         _networkAnimationReceive.SetAnimationProperty((int) NpcAnimationEvent.Death, 1f, true);
     }
 
-    protected override void OnHit() {
+    protected override void OnHit(bool criticalHit) {
+        base.OnHit(criticalHit);
         _npcAnimationAudioHandler.PlaySound(CharacterSoundEvent.Dmg);
     }
 }

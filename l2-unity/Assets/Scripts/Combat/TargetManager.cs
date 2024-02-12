@@ -45,6 +45,10 @@ public class TargetManager : MonoBehaviour
     }
 
     void Update() {
+        if (PlayerEntity.Instance == null) {
+            return;
+        }
+
         if(HasTarget()) {
             _target.Distance = Vector3.Distance(
                 PlayerController.Instance.transform.position, 
