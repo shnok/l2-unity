@@ -199,30 +199,6 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void UpdateObjectDestination(int id, Vector3 position) {
-        Entity e;
-        if(_objects.TryGetValue(id, out e)) {
-            try {
-                Entity entity = e.GetComponent<Entity>();
-                float moveSpeed = 0;
-
-                if(entity != null) {
-                    moveSpeed = entity.Status.MoveSpeed;
-                } else {
-                    Debug.LogWarning("Entity is null");
-                    e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
-                }
-
-                e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position, moveSpeed);
-                e.GetComponent<NetworkTransformReceive>().LookAt(position);
-            } catch(Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                _objects.Remove(id);
-            }
-
-        }
-    }
-
     public void UpdateObjectRotation(int id, float angle) {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
@@ -235,10 +211,36 @@ public class World : MonoBehaviour {
         }
     }
 
+    public void UpdateObjectDestination(int id, Vector3 position, float speed, bool walking) {
+        Entity e;
+        if (_objects.TryGetValue(id, out e)) {
+            try {
+                Entity entity = e.GetComponent<Entity>();
+
+                if (entity != null) {
+                    entity.Status.MoveSpeed = speed;
+                } else {
+                    Debug.LogWarning("Entity is null");
+                    e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
+                }
+
+                e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position, speed);
+                e.GetComponent<NetworkTransformReceive>().LookAt(position);
+                entity.OnStartMoving(walking);
+                
+            } catch (Exception) {
+                Debug.LogWarning("Trying to update a null object");
+                _objects.Remove(id);
+            }
+
+        }
+    }
+
     public void UpdateObjectAnimation(int id, int animId, float value) {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
+                Debug.Log($"Setting {id} anim {animId} at {value}");
                 e.GetComponent<NetworkAnimationReceive>().SetAnimationProperty(animId, value);
             } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");

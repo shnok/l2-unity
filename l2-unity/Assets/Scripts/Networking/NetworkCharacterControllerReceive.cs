@@ -8,6 +8,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     private CharacterController _characterController;
     private NetworkAnimationReceive _animationReceive;
     private NetworkTransformReceive _networkTransformReceive;
+    private Entity _entity;
     [SerializeField] private Vector3 _direction;
     [SerializeField] private float _speed;
     [SerializeField] private Vector3 _destination;
@@ -18,6 +19,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         if(World.Instance.OfflineMode) {
             this.enabled = false;
         }
+        _entity = GetComponent<Entity>();
         _networkTransformReceive = GetComponent<NetworkTransformReceive>();
         _animationReceive = GetComponent<NetworkAnimationReceive>();
         _characterController = GetComponent<CharacterController>();
@@ -51,7 +53,6 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     }
 
     public void SetDestination(Vector3 destination, float speed) {
-        Debug.Log("Set destination: " + destination + " " + speed);
         _speed = speed;
         _destination = destination;
         _animationReceive.SetFloat("Speed", speed);
@@ -65,6 +66,11 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
             _networkTransformReceive.PausePositionSync();
             _direction = (destinationFlat - transformFlat).normalized;
         } else {
+            if(_direction != Vector3.zero) {
+                _entity.OnStopMoving();
+                //TODO check if has target and is attacking
+            }
+
             _direction = Vector3.zero;
             _networkTransformReceive.ResumePositionSync();
         }

@@ -61,4 +61,8 @@ public class Entity : MonoBehaviour {
         // TODO: Add armor type for more hit sounds
         AudioManager.Instance.PlayHitSound(criticalHit, transform.position);
     }
+
+    public virtual void OnStopMoving() {}
+
+    public virtual void OnStartMoving(bool walking) {}
 }

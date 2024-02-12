@@ -23,4 +23,13 @@ public class NpcEntity : Entity {
         base.OnHit(criticalHit);
         _npcAnimationAudioHandler.PlaySound(CharacterSoundEvent.Dmg);
     }
+
+    public override void OnStopMoving() {
+        _networkAnimationReceive.SetAnimationProperty((int)NpcAnimationEvent.Wait, 1f);
+    }
+
+    public override void OnStartMoving(bool walking) {
+        _networkAnimationReceive.SetAnimationProperty(walking ? (int)NpcAnimationEvent.Walk : (int)NpcAnimationEvent.Run, 1f);
+    }
+
 }

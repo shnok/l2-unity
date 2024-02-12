@@ -23,4 +23,12 @@ public class MonsterEntity : Entity {
         base.OnHit(criticalHit);
         _monsterAnimationAudioHandler.PlaySound(MonsterSoundEvent.Dmg);
     }
+
+    public override void OnStopMoving() {
+        _networkAnimationReceive.SetAnimationProperty((int)NpcAnimationEvent.Wait, 1f);
+    }
+
+    public override void OnStartMoving(bool walking) {
+        _networkAnimationReceive.SetAnimationProperty(walking ? (int)MonsterAnimationEvent.Walk : (int)MonsterAnimationEvent.Run, 1f);
+    }
 }

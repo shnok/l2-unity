@@ -30,7 +30,6 @@ public class NetworkAnimationReceive : MonoBehaviour
             }
 
             AnimatorControllerParameter anim = _animator.parameters[animId];
-            //Debug.Log("Updating animation: " + transform.name + " " + anim.name + "=" + value);
 
             switch (anim.type) {
                 case AnimatorControllerParameterType.Float:

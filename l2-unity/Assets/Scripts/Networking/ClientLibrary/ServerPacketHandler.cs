@@ -205,10 +205,8 @@ public class ServerPacketHandler
 
     private void OnObjectMoveTo(byte[] data) {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
-        int id = packet.Id;
-        Vector3 position = packet.Pos;
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectMoveSpeed(id, packet.Speed));
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(id, position));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(packet.Id, packet.Pos, packet.Speed, packet.Walking));
+
     }
 
     private void OnUpdateMoveDirection(byte[] data) {
