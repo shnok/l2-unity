@@ -34,13 +34,13 @@ public class Entity : MonoBehaviour {
     }
 
     /* Called when ApplyDamage packet is received */
-    public void ApplyDamage(AttackType attackType, int value, bool criticalHit) {
+    public void ApplyDamage(int damage, int newHp, bool criticalHit) {
         if(_status.Hp <= 0) {
             Debug.LogWarning("Trying to apply damage to a dead entity");
             return;
         }
 
-        _status.Hp = Mathf.Max(Status.Hp - value, 0);
+        _status.Hp = Mathf.Max(newHp, 0);
 
         OnHit(criticalHit);
 

@@ -15,27 +15,22 @@ public class WorldCombat : MonoBehaviour {
         }
     }
 
-    // Inflict attack to the target
-    public void Attack(Transform target, AttackType attackType) {
-        target.GetComponent<Entity>().InflictAttack(attackType);
+    public void InflictAttack(Transform target, int damage, int newHp, bool criticalHit) {
+        ApplyDamage(target, damage, newHp, criticalHit);
     }
 
-    // Apply the damage to target and spawn extra effects
-    public void InflictAttack(Transform attacker, Transform target, AttackType attackId, int value, bool criticalHit) {
-
-        ApplyDamage(target, attackId, value, criticalHit);
+    public void InflictAttack(Transform attacker, Transform target, int damage, int newHp, bool criticalHit) {
+        ApplyDamage(target, damage, newHp, criticalHit);
 
         // Instantiate hit particle
         ParticleImpact(attacker, target);
-
-        // Instantiate damage text
     }
 
-    private void ApplyDamage(Transform target, AttackType attackId, int damage, bool criticalHit) {
+    private void ApplyDamage(Transform target, int damage, int newHp, bool criticalHit) {
         Entity entity = target.GetComponent<Entity>();
         if (entity != null) {
             // Apply damage to target
-            entity.ApplyDamage(attackId, damage, criticalHit);
+            entity.ApplyDamage(damage, newHp, criticalHit);
         }
     }
 

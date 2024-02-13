@@ -197,7 +197,7 @@ public class ServerPacketHandler
 
     private void OnInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value, packet.CriticalHit)); 
+        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.Value, packet.NewHp, packet.CriticalHit)); 
     }
 
     private void OnNpcInfoReceive(byte[] data) {

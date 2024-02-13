@@ -249,19 +249,23 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void InflictDamageTo(int sender, int target, byte attackId, int value, bool criticalHit) {
+    public void InflictDamageTo(int sender, int target, int damage, int newHp, bool criticalHit) {
         Entity senderEntity;
         Entity targetEntity;
-        if(_objects.TryGetValue(sender, out senderEntity)) {
-            if(_objects.TryGetValue(target, out targetEntity)) {
-                //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
-                try {
-                    WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, (AttackType) attackId, value, criticalHit);
-                } catch(Exception) {
-                    Debug.LogWarning("Trying to update a null object");
+        if (_objects.TryGetValue(target, out targetEntity)) {
+            _objects.TryGetValue(sender, out senderEntity);
+            //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
+            try {
+                if (senderEntity != null) {
+                    WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, damage, newHp, criticalHit);
+                } else {
+                    WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, newHp, criticalHit);
                 }
+            } catch (Exception) {
+                Debug.LogWarning("Trying to update a null object");
             }
         }
+
     }
 
     public void UpdateObjectMoveDirection(int id, float speed, Vector3 direction) {
