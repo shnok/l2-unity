@@ -81,6 +81,12 @@ public class ServerPacketHandler
                 case ServerPacketType.EntitySetTarget:
                     OnEntitySetTarget(data);
                     break;
+                case ServerPacketType.AutoAttackStart:
+                    OnEntityAutoAttackStart(data);
+                    break;
+                case ServerPacketType.AutoAttackStop:
+                    OnEntityAutoAttackStop(data);
+                    break;
             }
         });
     }
@@ -222,5 +228,17 @@ public class ServerPacketHandler
     private void OnEntitySetTarget(byte[] data) {
         EntitySetTargetPacket packet = new EntitySetTargetPacket(data);
         _eventProcessor.QueueEvent(() => World.Instance.UpdateEntityTarget(packet.EntityId, packet.TargetId));
+    }
+
+    private void OnEntityAutoAttackStart(byte[] data) {
+        Debug.Log("OnEntityAutoAttackStart");
+        AutoAttackStartPacket packet = new AutoAttackStartPacket(data);
+        _eventProcessor.QueueEvent(() => World.Instance.EntityStartAutoAttacking(packet.EntityId));
+    }
+
+    private void OnEntityAutoAttackStop(byte[] data) {
+        Debug.Log("OnEntityAutoAttackStop");
+        AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
+        _eventProcessor.QueueEvent(() => World.Instance.EntityStopAutoAttacking(packet.EntityId));
     }
 }

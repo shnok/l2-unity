@@ -39,6 +39,14 @@ public class WorldCombat : MonoBehaviour {
         }
     }
 
+    public void EntityStartAutoAttacking(Entity entity) {
+        entity.StartAutoAttacking();
+    }
+
+    public void EntityStopAutoAttacking(Entity entity) {
+        entity.StopAutoAttacking();
+    }
+
     private void ParticleImpact(Transform attacker, Transform target) {
         // Calculate the position and rotation based on attacker
         var heading = attacker.position - target.position;

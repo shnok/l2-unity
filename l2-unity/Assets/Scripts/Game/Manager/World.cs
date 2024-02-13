@@ -289,10 +289,43 @@ public class World : MonoBehaviour {
     }
 
     public void UpdateEntityTarget(int id, int targetId) {
+        Entity targeter;
+        Entity targeted;
+        if (_objects.TryGetValue(id, out targeter)) {
+            if (_objects.TryGetValue(targetId, out targeted)) {
+                try {
+                    targeter.TargetId = targetId;
+                    targeter.Target = targeted.transform;
+                } catch (Exception) {
+                    Debug.LogWarning("Trying to update a null object");
+                    if(targeter == null) {
+                        RemoveObject(id);
+                    }
+                    if (targeted == null) {
+                        RemoveObject(targetId);
+                    }
+                }
+            }
+        }
+    }
+
+    public void EntityStartAutoAttacking(int id) {
         Entity e;
         if (_objects.TryGetValue(id, out e)) {
             try {
-                e.Target = targetId;
+                WorldCombat.Instance.EntityStartAutoAttacking(e);
+            } catch (Exception) {
+                Debug.LogWarning("Trying to update a null object");
+                RemoveObject(id);
+            }
+        }
+    }
+
+    public void EntityStopAutoAttacking(int id) {
+        Entity e;
+        if (_objects.TryGetValue(id, out e)) {
+            try {
+                WorldCombat.Instance.EntityStopAutoAttacking(e);
             } catch (Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);

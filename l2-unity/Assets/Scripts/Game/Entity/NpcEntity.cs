@@ -32,4 +32,19 @@ public class NpcEntity : Entity {
         _networkAnimationReceive.SetAnimationProperty(walking ? (int)NpcAnimationEvent.Walk : (int)NpcAnimationEvent.Run, 1f);
     }
 
+    public override bool StartAutoAttacking() {
+        if (base.StartAutoAttacking()) {
+            _networkAnimationReceive.SetAnimationProperty((int)NpcAnimationEvent.Atk01, 1f);
+        }
+
+        return true;
+    }
+
+    public override bool StopAutoAttacking() {
+        if (base.StopAutoAttacking()) {
+            _networkAnimationReceive.SetAnimationProperty((int)NpcAnimationEvent.AtkWait, 1f);
+        }
+
+        return true;
+    }
 }

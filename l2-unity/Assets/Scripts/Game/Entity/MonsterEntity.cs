@@ -31,4 +31,20 @@ public class MonsterEntity : Entity {
     public override void OnStartMoving(bool walking) {
         _networkAnimationReceive.SetAnimationProperty(walking ? (int)MonsterAnimationEvent.Walk : (int)MonsterAnimationEvent.Run, 1f);
     }
+
+    public override bool StartAutoAttacking() {
+        if (base.StartAutoAttacking()) {
+            _networkAnimationReceive.SetAnimationProperty((int)MonsterAnimationEvent.Atk01, 1f);
+        }
+
+        return true;
+    }
+
+    public override bool StopAutoAttacking() {
+        if (base.StopAutoAttacking()) {
+            _networkAnimationReceive.SetAnimationProperty((int)MonsterAnimationEvent.AtkWait, 1f);
+        }
+
+        return true;
+    }
 }

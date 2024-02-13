@@ -4,7 +4,9 @@ using UnityEngine;
 public class Entity : MonoBehaviour {
     [SerializeField] private NetworkIdentity _identity;
     [SerializeField] private Status _status;
-    [SerializeField] private int _target;
+    [SerializeField] private int _targetId;
+    [SerializeField] private Transform _target;
+    [SerializeField] private Transform _attackTarget;
 
     protected NetworkAnimationReceive _networkAnimationReceive;
     private NetworkTransformReceive _networkTransformReceive;
@@ -12,10 +14,17 @@ public class Entity : MonoBehaviour {
 
     public Status Status { get => _status; set => _status = value; }
     public NetworkIdentity Identity { get => _identity; set => _identity = value; }
-    public int Target { get => _target; set => _target = value; }
+    public int TargetId { get => _targetId; set => _targetId = value; }
+    public Transform Target { get { return _target; } set { _target = value; } }
 
     public void Awake() {
         Initialize();
+    }
+
+    public void FixedUpdate() {
+        if (_attackTarget != null) {
+            transform.LookAt(new Vector3(_attackTarget.position.x, transform.position.y, _attackTarget.position.z));
+        }
     }
 
     protected virtual void Initialize() {
@@ -65,4 +74,24 @@ public class Entity : MonoBehaviour {
     public virtual void OnStopMoving() {}
 
     public virtual void OnStartMoving(bool walking) {}
+
+    public virtual bool StartAutoAttacking() {
+        if (_target == null) {
+            Debug.LogWarning("Trying to attack a null target");
+            return false;
+        }
+
+        _attackTarget = _target;
+
+        return true;
+    }
+
+    public virtual bool StopAutoAttacking() {
+        if (_attackTarget == null) {
+            return false;
+        }
+
+        _attackTarget = null;
+        return true;
+    }
 }
