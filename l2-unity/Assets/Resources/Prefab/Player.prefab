@@ -988,7 +988,7 @@ Animator:
   m_GameObject: {fileID: 2712722817207786006}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 226954a6982c383449c228291b07861a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 51f7c0fcd2fab0e4e904f623cefb73b2, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1011,6 +1011,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852945e8ec9a0cc44ba24c5a4b57f2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
+  _resetStateOnReceive: 0
+  _atk01ClipLength: 1000
+  _spAtk01ClipLength: 1000
 --- !u!114 &2193685367435518447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,6 +1027,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7649f2963c2bfc94f8312afeb8e3c0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _npcClassName: 
+  _animator: {fileID: 0}
+  _walkStepRatios:
+  - 0.25
+  - 0.75
+  _runStepRatios:
+  - 0.25
+  - 0.75
+  _swishRatio: 0.25
+  _atkRatio: 0
+  _atkWaitRatio: 0
+  _deathRatio: 0
+  _fallRatio: 0.5
+  _waitSoundChance: 5
+  _playerClassName: 4
 --- !u!1 &2803677630866277489
 GameObject:
   m_ObjectHideFlags: 0
@@ -2534,8 +2553,13 @@ MonoBehaviour:
     _hp: 0
     _maxHp: 0
     _level: 0
-    _moveSpeed: 0
-  _target: 0
+    _speed: 0
+    _scaledSpeed: 0
+    _pAtkSpd: 0
+    _mAtkSpd: 0
+  _targetId: 0
+  _target: {fileID: 0}
+  _attackTarget: {fileID: 0}
 --- !u!143 &2707339679680748419
 CharacterController:
   m_ObjectHideFlags: 0

@@ -2,56 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour {
-
-    private Animator _animator;
+public class PlayerAnimationController : BaseAnimationController {
     private PlayerController _pc;
-    [SerializeField] private float _atk01ClipLength = 1000;
-    [SerializeField] private float _spAtk01ClipLength = 1000;
-
-
     private static PlayerAnimationController _instance;
     public static PlayerAnimationController Instance { get { return _instance; } }
 
-    private void Awake() {
+    protected override void Initialize() {
+        base.Initialize();
+
         if (_instance == null) {
             _instance = this;
-        }
-
-        _animator = GetComponent<Animator>();
-        _pc = transform.parent.GetComponent<PlayerController>();
-
-        FetchAnimationClipLengths();
-    }
-
-    private void FetchAnimationClipLengths() {
-        RuntimeAnimatorController rac = _animator.runtimeAnimatorController;
-        AnimationClip[] clips = rac.animationClips;
-        bool foundSpAtk = false;
-        for (int i = 0; i < clips.Length; i++) {
-            if (clips[i] == null) {
-                continue;
-            }
-
-            if (clips[i].name.ToLower().Contains("atk01")) {
-                _atk01ClipLength = clips[i].length * 1000;
-            }
-
-            if (clips[i].name.ToLower().Contains("spatk01")) {
-                foundSpAtk = true;
-                _spAtk01ClipLength = clips[i].length * 1000;
-            }
-
-            if (clips[i].name.ToLower().Contains("spwait01")) {
-                if (!foundSpAtk) {
-                    _spAtk01ClipLength = clips[i].length * 1000;
-                }
-            }
         }
     }
 
     private void Update() {
-        UpdateAnimator();
+        //UpdateAnimator();
     }
     
     private void UpdateAnimator() {
@@ -199,20 +164,6 @@ public class PlayerAnimationController : MonoBehaviour {
         if(index != -1) {
             _animator.GetComponentInParent<NetworkTransformShare>().ShareAnimation((byte)index, value);
         }
-    }
-
-    public void SetMoveSpeed(float value) {
-        _animator.SetFloat("speed", value);
-    }
-
-    public void SetPAtkSpd(float value) {
-        float newAtkSpd = _atk01ClipLength / value;
-        SetFloat("patkspd", newAtkSpd, false);
-    }
-
-    public void SetMAtkSpd(float value) {
-        float newMAtkSpd = _spAtk01ClipLength / value;
-        SetFloat("matkspd", newMAtkSpd, false);
     }
 }
 

@@ -1,0 +1,70 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BaseAnimationController : MonoBehaviour
+{
+    [SerializeField] protected Animator _animator;
+    [SerializeField] protected bool _resetStateOnReceive = false;
+    [SerializeField] protected float _atk01ClipLength = 1000;
+    [SerializeField] protected float _spAtk01ClipLength = 1000;
+
+    private void Awake() {
+        Initialize();
+    }
+
+    protected virtual void Initialize() {
+        _animator = gameObject.GetComponentInChildren<Animator>(true);
+        FetchAnimationClipLengths();
+    }
+
+    private void FetchAnimationClipLengths() {
+        RuntimeAnimatorController rac = _animator.runtimeAnimatorController;
+        AnimationClip[] clips = rac.animationClips;
+        bool foundSpAtk = false;
+        for (int i = 0; i < clips.Length; i++) {
+            if (clips[i] == null) {
+                continue;
+            }
+
+            if (clips[i].name.ToLower().Contains("atk01")) {
+                _atk01ClipLength = clips[i].length * 1000;
+            }
+
+            if (clips[i].name.ToLower().Contains("spatk01")) {
+                foundSpAtk = true;
+                _spAtk01ClipLength = clips[i].length * 1000;
+            }
+
+            if (clips[i].name.ToLower().Contains("spwait01")) {
+                if (!foundSpAtk) {
+                    _spAtk01ClipLength = clips[i].length * 1000;
+                }
+            }
+        }
+    }
+
+    public void SetMoveSpeed(float value) {
+        _animator.SetFloat("speed", value);
+    }
+
+    public void SetPAtkSpd(float value) {
+        float newAtkSpd = _atk01ClipLength / value;
+        _animator.SetFloat("patkspd", value);
+    }
+
+    public void SetMAtkSpd(float value) {
+        //TODO: update for cast animation
+        float newMAtkSpd = _spAtk01ClipLength / value;
+        _animator.SetFloat("matkspd", value);
+    }
+
+    public void ClearAnimParams() {
+        for (int i = 0; i < _animator.parameters.Length; i++) {
+            AnimatorControllerParameter anim = _animator.parameters[i];
+            if (anim.type == AnimatorControllerParameterType.Bool) {
+                _animator.SetBool(anim.name, false);
+            }
+        }
+    }
+}
