@@ -211,22 +211,17 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void UpdateObjectDestination(int id, Vector3 position, float speed, bool walking) {
+    public void UpdateObjectDestination(int id, Vector3 position, int speed, bool walking) {
         Entity e;
         if (_objects.TryGetValue(id, out e)) {
             try {
-                Entity entity = e.GetComponent<Entity>();
-
-                if (entity != null) {
-                    entity.Status.MoveSpeed = speed;
-                } else {
-                    Debug.LogWarning("Entity is null");
-                    e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
+                if (speed != e.Status.Speed) {
+                    e.UpdateSpeed(speed);
                 }
 
-                e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position, speed);
+                e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position);
                 e.GetComponent<NetworkTransformReceive>().LookAt(position);
-                entity.OnStartMoving(walking);
+                e.OnStartMoving(walking);
                 
             } catch (Exception) {
                 Debug.LogWarning("Trying to update a null object");
@@ -268,23 +263,15 @@ public class World : MonoBehaviour {
 
     }
 
-    public void UpdateObjectMoveDirection(int id, float speed, Vector3 direction) {
+    public void UpdateObjectMoveDirection(int id, int speed, Vector3 direction) {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(speed, direction);
-            } catch(Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                RemoveObject(id);
-            }
-        }
-    }
+                if(speed != e.Status.Speed) {
+                    e.UpdateSpeed(speed);
+                }
 
-    public void UpdateObjectMoveSpeed(int id, float speed) {
-        Entity e;
-        if(_objects.TryGetValue(id, out e)) {
-            try {
-                e.Status.MoveSpeed = speed;
+                e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(direction);
             } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);

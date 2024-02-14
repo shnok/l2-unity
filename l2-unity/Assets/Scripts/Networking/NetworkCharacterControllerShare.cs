@@ -30,12 +30,12 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
             if(_lastSpeed != _characterController.velocity.magnitude || _lastDirection != direction) {
                 _lastSpeed = _characterController.velocity.magnitude;
                 _lastDirection = direction;
-                ShareMoveDirection(speed, direction);
+                ShareMoveDirection(direction);
             }
         }
     } 
 
-    public void ShareMoveDirection(float speed, Vector3 moveDirection) {
-        ClientPacketHandler.Instance.UpdateMoveDirection(speed, moveDirection);
+    public void ShareMoveDirection(Vector3 moveDirection) {
+        ClientPacketHandler.Instance.UpdateMoveDirection(moveDirection);
     }
 }

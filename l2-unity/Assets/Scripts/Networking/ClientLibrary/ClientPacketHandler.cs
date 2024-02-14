@@ -58,8 +58,8 @@ public class ClientPacketHandler
         _client.SendPacket(packet);
     }
 
-    public void UpdateMoveDirection(float speed, Vector3 direction) {
-        RequestMoveDirectionPacket packet = new RequestMoveDirectionPacket(speed, direction);
+    public void UpdateMoveDirection(Vector3 direction) {
+        RequestMoveDirectionPacket packet = new RequestMoveDirectionPacket(direction);
         _client.SendPacket(packet);
     }
 

@@ -47,4 +47,25 @@ public class MonsterEntity : Entity {
 
         return true;
     }
+
+    public override float UpdateMAtkSpeed(int mAtkSpd) {
+        float converted = base.UpdateMAtkSpeed(mAtkSpd);
+        _networkAnimationReceive.SetMAtkSpd(converted);
+
+        return converted;
+    }
+
+    public override float UpdatePAtkSpeed(int pAtkSpd) {
+        float converted = base.UpdatePAtkSpeed(pAtkSpd);
+        _networkAnimationReceive.SetPAtkSpd(converted);
+
+        return converted;
+    }
+
+    public override float UpdateSpeed(int speed) {
+        float converted = base.UpdateSpeed(speed);
+        _networkAnimationReceive.SetMoveSpeed(converted);
+        Debug.Log("2: " + converted);
+        return converted;
+    }
 }

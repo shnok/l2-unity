@@ -31,10 +31,14 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         _destination = Vector3.zero;
     }
 
-    public void UpdateMoveDirection(float speed, Vector3 direction) {
-        _speed = speed;
+    public void UpdateMoveDirection(Vector3 direction) {
+        _speed = _entity.Status.ScaledSpeed;
         _direction = direction;
-        _animationReceive.SetFloat("Speed", speed);
+    }
+
+    public void SetDestination(Vector3 destination) {
+        _speed = _entity.Status.ScaledSpeed;
+        _destination = destination;
     }
 
     private void FixedUpdate() {
@@ -50,12 +54,6 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
 
         Vector3 ajustedDirection = _direction * _speed * _moveSpeedMultiplier + Vector3.down * _gravity;
         _characterController.Move(ajustedDirection * Time.deltaTime);
-    }
-
-    public void SetDestination(Vector3 destination, float speed) {
-        _speed = speed;
-        _destination = destination;
-        _animationReceive.SetFloat("Speed", speed);
     }
 
     public void SetMoveDirectionToDestination() {

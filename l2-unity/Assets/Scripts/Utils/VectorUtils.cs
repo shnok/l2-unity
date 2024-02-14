@@ -28,18 +28,13 @@ public class VectorUtils : MonoBehaviour {
         return new Vector2(newX, newY);
     }
 
-    public static float floorToNearest(float value, float step) {
-        return step * Mathf.Floor(value / step);
-    }
-
     public static Vector3 floorToNearest(Vector3 vector, float step) {
-        return new Vector3(floorToNearest(vector.x, step),
-            floorToNearest(vector.y, step),
-            floorToNearest(vector.z, step));
+        return new Vector3(NumberUtils.FloorToNearest(vector.x, step),
+            NumberUtils.FloorToNearest(vector.y, step),
+            NumberUtils.FloorToNearest(vector.z, step));
     }
 
     public static Vector3 To2D(Vector3 pos) {
         return new Vector3(pos.x, 0, pos.z);
     }
-
 }

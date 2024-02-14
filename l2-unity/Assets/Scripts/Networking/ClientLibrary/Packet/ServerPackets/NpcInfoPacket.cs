@@ -27,7 +27,9 @@ public class NpcInfoPacket : ServerPacket {
             Identity.SetPosY(ReadF());
             Identity.SetPosZ(ReadF());
             Identity.CollisionHeight = ReadF();
-            Status.MoveSpeed = ReadF();
+            Status.Speed = ReadI();
+            Status.PAtkSpd = ReadI();
+            Status.MAtkSpd = ReadI();
             Status.Level = ReadI();
             Status.Hp = ReadI();
             Status.MaxHp = ReadI();

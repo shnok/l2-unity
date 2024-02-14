@@ -17,7 +17,7 @@ public class Entity : MonoBehaviour {
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Transform Target { get { return _target; } set { _target = value; } }
 
-    public void Awake() {
+    public void Start() {
         Initialize();
     }
 
@@ -31,6 +31,10 @@ public class Entity : MonoBehaviour {
         TryGetComponent(out _networkAnimationReceive);
         TryGetComponent(out _networkTransformReceive);
         TryGetComponent(out _networkCharacterControllerReceive);
+
+        UpdatePAtkSpeed(_status.PAtkSpd);
+        UpdateMAtkSpeed(_status.PAtkSpd);
+        UpdateSpeed(_status.Speed);
     }
 
     /* Called when ApplyDamage packet is received */
@@ -93,5 +97,22 @@ public class Entity : MonoBehaviour {
 
         _attackTarget = null;
         return true;
+    }
+
+    public virtual float UpdatePAtkSpeed(int pAtkSpd) {
+        Status.PAtkSpd = pAtkSpd;
+        return StatsConverter.Instance.ConvertStat(Stat.PHYS_ATTACK_SPEED, pAtkSpd);
+    }
+
+    public virtual float UpdateMAtkSpeed(int mAtkSpd) {
+        Status.MAtkSpd = mAtkSpd;
+        return StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
+    }
+
+    public virtual float UpdateSpeed(int speed) {
+        float scaled = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
+        Status.Speed = speed;
+        Status.ScaledSpeed = scaled;
+        return StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
     }
 }

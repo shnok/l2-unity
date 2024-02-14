@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     private Vector3 _flatTransformPos;
 
     public float CurrentSpeed { get { return _currentSpeed; } }
+    public float DefaultSpeed { get { return _defaultSpeed; } set { _defaultSpeed = value; } }
     public bool RunningToTarget { get { return _runningToTarget; } }
     public bool CanMove { get { return _canMove; } set { _canMove = value; } }
 

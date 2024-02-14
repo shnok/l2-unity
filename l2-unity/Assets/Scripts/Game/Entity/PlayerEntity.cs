@@ -22,4 +22,26 @@ public class PlayerEntity : Entity {
     protected override void OnHit(bool criticalHit) {
         base.OnHit(criticalHit);
     }
+
+    public override float UpdateMAtkSpeed(int mAtkSpd) {
+        float converted = base.UpdateMAtkSpeed(mAtkSpd);
+        PlayerAnimationController.Instance.SetMAtkSpd(converted);
+
+        return converted;
+    }
+
+    public override float UpdatePAtkSpeed(int pAtkSpd) {
+        float converted = base.UpdatePAtkSpeed(pAtkSpd);
+        PlayerAnimationController.Instance.SetPAtkSpd(converted);
+
+        return converted;
+    }
+
+    public override float UpdateSpeed(int speed) {
+        float converted = base.UpdateSpeed(speed);
+        PlayerAnimationController.Instance.SetMoveSpeed(converted);
+        PlayerController.Instance.DefaultSpeed = converted;
+
+        return converted;
+    }
 }
