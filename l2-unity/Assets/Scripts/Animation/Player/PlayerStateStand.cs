@@ -9,6 +9,7 @@ public class PlayerStateStand : PlayerStateBase {
         LoadComponents(animator);
         SetBool("stand", false);
         _lastNormalizedTime = 0;
+        _audioHandler.PlaySound(CharacterSoundEvent.Standup);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -20,6 +21,6 @@ public class PlayerStateStand : PlayerStateBase {
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         CameraController.Instance.StickToBone = false;
-        PlayerController.Instance.CanMove = true;
+        PlayerController.Instance.SetCanMove(true);
     }
 }

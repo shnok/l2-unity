@@ -68,7 +68,6 @@ public class BaseAnimationController : MonoBehaviour
         }
     }
 
-
     public void SetAnimationProperty(int animId, float value) {
         SetAnimationProperty(animId, value, false);
     }

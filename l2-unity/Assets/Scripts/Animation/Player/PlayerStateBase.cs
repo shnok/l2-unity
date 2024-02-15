@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStateBase : StateMachineBehaviour {
-    protected PlayerAnimationAudioHandler _audioHandler;
+    protected CharacterAnimationAudioHandler _audioHandler;
     protected Animator _animator;
+    protected PlayerAnimationController _controller;
 
     //TODO implement weapon system
     [SerializeField] protected string _weaponType = "hand";
 
     public void LoadComponents(Animator animator) {
         if (_audioHandler == null) {
-            _audioHandler = animator.gameObject.GetComponent<PlayerAnimationAudioHandler>();
+            _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();
         }
-        if (this._animator == null) {
-            this._animator = animator;
+        if (_animator == null) {
+            _animator = animator;
         }
     }
 
@@ -23,8 +24,6 @@ public class PlayerStateBase : StateMachineBehaviour {
     }
 
     public void SetBool(string name, bool value) {
-        if (_animator.GetBool(name) != value) {
-            _animator.SetBool(name, value);
-        }
+        PlayerAnimationController.Instance.SetBool(name, value);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkAnimationReceive : BaseAnimationController {
+public class NetworkAnimationController : BaseAnimationController {
     protected override void Initialize() {
         if (World.Instance.OfflineMode) {
             this.enabled = false;

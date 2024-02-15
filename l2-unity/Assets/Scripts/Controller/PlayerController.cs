@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour {
     public float CurrentSpeed { get { return _currentSpeed; } }
     public float DefaultSpeed { get { return _defaultSpeed; } set { _defaultSpeed = value; } }
     public bool RunningToTarget { get { return _runningToTarget; } }
-    public bool CanMove { get { return _canMove; } set { _canMove = value; } }
+    public bool CanMove { get { return _canMove; } }
 
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour {
 
     public Vector2 GetAxis() {
         Vector2 localAxis;
-        if(InputManager.Instance.IsInputPressed(InputType.MoveForward)) {
+        if(InputManager.Instance.IsInputPressed(InputType.MoveForward) && _canMove) {
             LookForward(true);
             localAxis = Vector2.up;
         } else {
@@ -218,5 +218,10 @@ public class PlayerController : MonoBehaviour {
         }
 
         transform.rotation = Quaternion.Euler(Vector3.up * _finalAngle);
+    }
+
+    public void SetCanMove(bool canMove) {
+        Debug.Log("SetCanMove: " + canMove);
+        _canMove = canMove;
     }
 }

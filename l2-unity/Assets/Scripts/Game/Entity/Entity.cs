@@ -8,7 +8,7 @@ public class Entity : MonoBehaviour {
     [SerializeField] private Transform _target;
     [SerializeField] private Transform _attackTarget;
 
-    protected NetworkAnimationReceive _networkAnimationReceive;
+    protected NetworkAnimationController _networkAnimationReceive;
     private NetworkTransformReceive _networkTransformReceive;
     private NetworkCharacterControllerReceive _networkCharacterControllerReceive;
 

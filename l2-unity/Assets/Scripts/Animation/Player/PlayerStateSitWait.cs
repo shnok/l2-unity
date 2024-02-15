@@ -10,7 +10,7 @@ public class PlayerStateSitWait : PlayerStateBase {
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         if (InputManager.Instance.IsInputPressed(InputType.Sit) || InputManager.Instance.IsInputPressed(InputType.Move)) {
             CameraController.Instance.StickToBone = true;
-            PlayerController.Instance.CanMove = false;
+            PlayerController.Instance.SetCanMove(false);
             SetBool("stand", true);
         }
     }

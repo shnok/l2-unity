@@ -7,7 +7,6 @@ public class NpcStateDeath : NpcStateBase
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
         PlaySoundAtRatio(CharacterSoundEvent.Death, audioHandler.DeathRatio);
-        PlaySoundAtRatio(CharacterSoundEvent.Fall, audioHandler.FallRatio);
         animator.SetBool("death", false);
     }
 

@@ -939,7 +939,8 @@ GameObject:
   - component: {fileID: 6799400128651179859}
   - component: {fileID: 6702118000005178376}
   - component: {fileID: 8501881575014511868}
-  - component: {fileID: 2193685367435518447}
+  - component: {fileID: 6423803062703328590}
+  - component: {fileID: 8572804233177005570}
   m_Layer: 11
   m_Name: FDarkElf_anim
   m_TagString: Untagged
@@ -1012,10 +1013,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
-  _resetStateOnReceive: 0
+  _resetStateOnReceive: 1
   _atk01ClipLength: 1000
   _spAtk01ClipLength: 1000
---- !u!114 &2193685367435518447
+--- !u!114 &6423803062703328590
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1024,10 +1025,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2712722817207786006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7649f2963c2bfc94f8312afeb8e3c0a5, type: 3}
+  m_Script: {fileID: 11500000, guid: 03160d09deb1df3479a66ba449c32ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _npcClassName: 
   _animator: {fileID: 0}
   _walkStepRatios:
   - 0.25
@@ -1041,7 +1041,27 @@ MonoBehaviour:
   _deathRatio: 0
   _fallRatio: 0.5
   _waitSoundChance: 5
-  _playerClassName: 4
+  _runBreathChance: 5
+  _race: 4
+  _surfaceDetector: {fileID: 0}
+--- !u!114 &8572804233177005570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2712722817207786006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0d74cfe5e884a048959b4280d60df39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _surfaceObject:
+    _objectLayerName: 
+    _objectLayer: 0
+    _objectTag: 
+    _objectScene: 
+    _objectTransform: {fileID: 0}
 --- !u!1 &2803677630866277489
 GameObject:
   m_ObjectHideFlags: 0
@@ -2434,7 +2454,6 @@ GameObject:
   - component: {fileID: 2707339679680748419}
   - component: {fileID: 5186500308137901694}
   - component: {fileID: 2816631728359154816}
-  - component: {fileID: 1710882091163977892}
   - component: {fileID: 8933600304522640627}
   m_Layer: 11
   m_Name: Player
@@ -2615,24 +2634,6 @@ MonoBehaviour:
   _sharingLoopDelaySec: 0.1
   _lastSpeed: 0
   _lastDirection: {x: 0, y: 0, z: 0}
---- !u!114 &1710882091163977892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6373500069190494077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0d74cfe5e884a048959b4280d60df39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _surfaceObject:
-    _objectLayerName: 
-    _objectLayer: 0
-    _objectTag: 
-    _objectScene: 
-    _objectTransform: {fileID: 0}
 --- !u!114 &8933600304522640627
 MonoBehaviour:
   m_ObjectHideFlags: 0

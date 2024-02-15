@@ -10,6 +10,7 @@ public class PlayerStateJump : PlayerStateBase {
         LoadComponents(animator);
         SetBool("jump", false);
         SetBool("run_jump", false);
+        _audioHandler.PlaySound(CharacterSoundEvent.Jump_1);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -25,5 +26,7 @@ public class PlayerStateJump : PlayerStateBase {
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         CameraController.Instance.StickToBone = false;
+        _audioHandler.PlaySound(CharacterSoundEvent.Step);
+        _audioHandler.PlaySound(CharacterSoundEvent.Step);
     }
 }

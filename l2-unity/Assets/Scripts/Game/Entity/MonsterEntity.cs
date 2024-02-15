@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(NetworkAnimationReceive)), 
+[RequireComponent(typeof(NetworkAnimationController)), 
     RequireComponent(typeof(NetworkTransformReceive)), 
     RequireComponent(typeof(NetworkCharacterControllerReceive)), 
     RequireComponent(typeof(MonsterAnimationAudioHandler))]

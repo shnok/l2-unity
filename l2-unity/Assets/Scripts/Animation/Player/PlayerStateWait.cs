@@ -17,7 +17,7 @@ public class PlayerStateWait : PlayerStateBase {
         }
         if (InputManager.Instance.IsInputPressed(InputType.Sit)) {
             CameraController.Instance.StickToBone = true;
-            PlayerController.Instance.CanMove = false;
+            PlayerController.Instance.SetCanMove(false);
             SetBool("sit", true);
         }
     }

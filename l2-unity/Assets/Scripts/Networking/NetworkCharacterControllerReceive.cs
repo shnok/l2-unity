@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine; 
 
-[RequireComponent(typeof(NetworkAnimationReceive), typeof(NetworkTransformReceive), typeof(CharacterController))]
+[RequireComponent(typeof(NetworkAnimationController), typeof(NetworkTransformReceive), typeof(CharacterController))]
 public class NetworkCharacterControllerReceive : MonoBehaviour
 {
     private CharacterController _characterController;
-    private NetworkAnimationReceive _animationReceive;
+    private NetworkAnimationController _animationReceive;
     private NetworkTransformReceive _networkTransformReceive;
     private Entity _entity;
     [SerializeField] private Vector3 _direction;
@@ -21,7 +21,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         }
         _entity = GetComponent<Entity>();
         _networkTransformReceive = GetComponent<NetworkTransformReceive>();
-        _animationReceive = GetComponent<NetworkAnimationReceive>();
+        _animationReceive = GetComponent<NetworkAnimationController>();
         _characterController = GetComponent<CharacterController>();
 
         if(_characterController == null || World.Instance.OfflineMode || _animationReceive == null) {

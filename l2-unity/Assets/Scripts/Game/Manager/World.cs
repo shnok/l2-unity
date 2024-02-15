@@ -236,7 +236,7 @@ public class World : MonoBehaviour {
         if(_objects.TryGetValue(id, out e)) {
             try {
                 Debug.Log($"Setting {id} anim {animId} at {value}");
-                e.GetComponent<NetworkAnimationReceive>().SetAnimationProperty(animId, value);
+                e.GetComponent<NetworkAnimationController>().SetAnimationProperty(animId, value);
             } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);

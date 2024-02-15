@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(NetworkAnimationReceive)),
+[RequireComponent(typeof(NetworkAnimationController)),
     RequireComponent(typeof(NetworkTransformReceive)),
     RequireComponent(typeof(NetworkCharacterControllerReceive)),
-    RequireComponent(typeof(NpcAnimationAudioHandler))]
+    RequireComponent(typeof(CharacterAnimationAudioHandler))]
 public class NpcEntity : Entity {
-    private NpcAnimationAudioHandler _npcAnimationAudioHandler;
+    private CharacterAnimationAudioHandler _npcAnimationAudioHandler;
 
     protected override void Initialize() {
         base.Initialize();
-        _npcAnimationAudioHandler = GetComponent<NpcAnimationAudioHandler>();
+        _npcAnimationAudioHandler = GetComponent<CharacterAnimationAudioHandler>();
     }
 
     protected override void OnDeath() {
