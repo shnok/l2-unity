@@ -17,6 +17,8 @@ public class PlayerEntity : Entity {
 
     protected override void OnDeath() {
         base.OnDeath();
+        Debug.Log("Player on death _networkAnimationReceive:" + _networkAnimationReceive);
+        PlayerAnimationController.Instance.SetAnimationProperty((int)PlayerAnimationEvent.Death, 1f, true);
     }
 
     protected override void OnHit(bool criticalHit) {

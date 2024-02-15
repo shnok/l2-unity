@@ -2,29 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NpcStateAtk : NpcStateBase {
+public class PlayerStateJump : PlayerStateBase {
     private float _lastNormalizedTime = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        LoadComponents(animator);
         _lastNormalizedTime = 0;
-        PlaySoundAtRatio(CharacterSoundEvent.Atk, audioHandler.AtkRatio);
-        PlaySoundAtRatio(CharacterSoundEvent.Swish, audioHandler.SwishRatio);
+        LoadComponents(animator);
+        SetBool("jump", false);
+        SetBool("run_jump", false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        // Check if the state has looped (re-entered)
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
-            // This block will be executed once when the state is re-entered after completion
             _lastNormalizedTime = stateInfo.normalizedTime;
-            foreach (var ratio in audioHandler.WalkStepRatios) {
-                PlaySoundAtRatio(CharacterSoundEvent.Atk, audioHandler.AtkRatio);
-                PlaySoundAtRatio(CharacterSoundEvent.Swish, audioHandler.SwishRatio);
+            if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToTarget) && PlayerController.Instance.CanMove) {
+                SetBool("run_" + _weaponType, true);
+            } else {
+                SetBool("wait_" + _weaponType, true);
             }
         }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-
+        CameraController.Instance.StickToBone = false;
     }
 }

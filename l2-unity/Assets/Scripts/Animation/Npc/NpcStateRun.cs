@@ -7,6 +7,7 @@ public class NpcStateRun : NpcStateBase {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+        _lastNormalizedTime = 0;
         foreach (var ratio in audioHandler.RunStepRatios) {
             audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
         }
