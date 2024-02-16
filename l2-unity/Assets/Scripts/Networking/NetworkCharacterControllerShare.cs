@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(NetworkTransformShare))]
 public class NetworkCharacterControllerShare : MonoBehaviour {
     private CharacterController _characterController;
+    private NetworkTransformShare _networkTransformShare;
+
     [SerializeField] private bool _sharing = false;
     [SerializeField] private float _sharingLoopDelaySec = 0.1f;
     [SerializeField] private float _lastSpeed; 
@@ -14,6 +17,10 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
         if(_characterController == null || World.Instance.OfflineMode) {
             this.enabled = false;
             return;
+        }
+
+        if (_networkTransformShare == null) {
+            _networkTransformShare = GetComponent<NetworkTransformShare>();
         }
 
         StartCoroutine(StartSharingMoveDirection());
@@ -31,6 +38,11 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
                 _lastSpeed = _characterController.velocity.magnitude;
                 _lastDirection = direction;
                 ShareMoveDirection(direction);
+
+                if(direction.x == 0 && direction.z == 0) {
+                    Debug.Log("Player stopped, share pos");
+                    _networkTransformShare.SharePosition();
+                }
             }
         }
     } 

@@ -251,8 +251,8 @@ public class World : MonoBehaviour {
             _objects.TryGetValue(sender, out senderEntity);
             //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
 
-            Debug.Log($"{sender} inflicts {damage} damages to {target}. HP: {newHp}");
-            Debug.Log($"{senderEntity} inflicts {targetEntity}");
+            //Debug.Log($"{sender} inflicts {damage} damages to {target}. HP: {newHp}");
+            //Debug.Log($"{senderEntity} inflicts {targetEntity}");
 
             try {
                 if (senderEntity != null) {

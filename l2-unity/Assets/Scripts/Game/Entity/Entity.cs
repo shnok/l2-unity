@@ -87,6 +87,11 @@ public class Entity : MonoBehaviour {
 
         _attackTarget = _target;
 
+        if (_networkCharacterControllerReceive != null) {
+            // Should stop moving if autoattacking
+            _networkCharacterControllerReceive.SetDestination(transform.position);
+        }
+
         return true;
     }
 

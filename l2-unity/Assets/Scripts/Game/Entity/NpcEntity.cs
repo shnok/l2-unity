@@ -25,7 +25,9 @@ public class NpcEntity : Entity {
     }
 
     public override void OnStopMoving() {
-        _networkAnimationReceive.SetAnimationProperty((int)NpcAnimationEvent.Wait, 1f);
+        if(_networkAnimationReceive.GetAnimationProperty((int)NpcAnimationEvent.Atk01) == 0f) {
+            _networkAnimationReceive.SetAnimationProperty((int)NpcAnimationEvent.Wait, 1f);
+        }
     }
 
     public override void OnStartMoving(bool walking) {

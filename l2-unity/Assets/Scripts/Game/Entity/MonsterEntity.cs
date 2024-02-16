@@ -25,7 +25,9 @@ public class MonsterEntity : Entity {
     }
 
     public override void OnStopMoving() {
-        _networkAnimationReceive.SetAnimationProperty((int)NpcAnimationEvent.Wait, 1f);
+        if (_networkAnimationReceive.GetAnimationProperty((int)MonsterAnimationEvent.Atk01) == 0f) {
+            _networkAnimationReceive.SetAnimationProperty((int)MonsterAnimationEvent.Wait, 1f);
+        }
     }
 
     public override void OnStartMoving(bool walking) {

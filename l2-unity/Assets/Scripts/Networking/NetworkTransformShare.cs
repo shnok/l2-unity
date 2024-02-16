@@ -17,18 +17,27 @@ public class NetworkTransformShare : MonoBehaviour {
     }
 
     void Update() {
-        SharePosition();
+        if (ShouldSharePosition()) {
+            SharePosition();
+        }
         ShareRotation();
     }
 
-    public void SharePosition() {
-        if(Vector3.Distance(transform.position, _lastPos) > .25f || Time.time - _lastSharedPosTime >= 10f) {
-            _lastSharedPosTime = Time.time;
-            ClientPacketHandler.Instance.UpdatePosition(transform.position);
-            _lastPos = transform.position;
-
-            ClientPacketHandler.Instance.UpdateRotation(transform.eulerAngles.y);
+    // Share position every 0.25f and based on delay
+    public bool ShouldSharePosition() {
+        if (Vector3.Distance(transform.position, _lastPos) > .25f || Time.time - _lastSharedPosTime >= 10f) {
+            return true;
         }
+
+        return false;
+    }
+
+    public void SharePosition() {
+        ClientPacketHandler.Instance.UpdatePosition(transform.position);
+        _lastSharedPosTime = Time.time;
+        _lastPos = transform.position;
+
+        ClientPacketHandler.Instance.UpdateRotation(transform.eulerAngles.y);
     }
 
     public void ShareRotation() {

@@ -14,10 +14,10 @@ public class PlayerAnimationController : BaseAnimationController {
         }
     }
 
-    public void SetBool(string name, bool value) {
+    public void SetBool(string name, bool value, bool share) {
         if (_animator.GetBool(name) != value) {
             _animator.SetBool(name, value);
-            if (!World.Instance.OfflineMode) {
+            if (!World.Instance.OfflineMode && share) {
                 EmitAnimatorInfo(name, value ? 1 : 0);
             }
         }
