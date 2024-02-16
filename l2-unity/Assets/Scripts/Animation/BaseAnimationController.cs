@@ -99,7 +99,6 @@ public class BaseAnimationController : MonoBehaviour
     }
 
     public float GetAnimationProperty(int animId) {
-        Debug.Log("animId " + animId + "/" + _animator.parameters.Length);
         if (animId >= 0 && animId < _animator.parameters.Length) {   
             AnimatorControllerParameter anim = _animator.parameters[animId];
 

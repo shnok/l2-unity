@@ -29,6 +29,7 @@ public class TargetManager : MonoBehaviour
         _target = new TargetData(target);
 
         PlayerEntity.Instance.TargetId = _target.Identity.Id;
+        PlayerEntity.Instance.Target = _target.Data.ObjectTransform;
         ClientPacketHandler.Instance.SendRequestSetTarget(_target.Identity.Id);
     }
 
@@ -40,6 +41,7 @@ public class TargetManager : MonoBehaviour
         if(_target != null) {
             ClientPacketHandler.Instance.SendRequestSetTarget(-1);
             PlayerEntity.Instance.TargetId = -1;
+            PlayerEntity.Instance.Target = null;
             _target = null;
         }
     }

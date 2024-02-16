@@ -82,12 +82,12 @@ public class ClickToMoveController : MonoBehaviour
         }
     }
 
-    public void MoveTo(ObjectData target, Vector3 clickPosition) {
-        _targetDestination = clickPosition;
+    public void MoveTo(Vector3 position) {
+        _targetDestination = position;
 
         Node node = null;
         try {
-            node = Geodata.Instance.GetNodeAt(clickPosition);
+            node = Geodata.Instance.GetNodeAt(position);
         } catch(Exception) {}
 
         if(node != null && _startNode != null) {

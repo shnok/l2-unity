@@ -28,11 +28,6 @@ public class MonsterAnimationAudioHandler : BaseAnimationAudioHandler
         AudioManager.Instance.PlayMonsterSound(soundEvent, _monsterName, transform.position);
     }
 
-    public void PlaySoundFromAnimationClip(int type) {
-        MonsterSoundEvent soundEvent = (MonsterSoundEvent) type;
-        AudioManager.Instance.PlayMonsterSound(soundEvent, _monsterName, transform.position);
-    }
-
     public void PlaySoundAtRatio(MonsterSoundEvent soundEvent, float ratio) {
         if(ratio == 0) {
             PlaySound(soundEvent);

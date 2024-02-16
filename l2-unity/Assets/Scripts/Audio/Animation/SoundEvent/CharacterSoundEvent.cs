@@ -17,4 +17,3 @@ public enum CharacterSoundEvent : int {
     Atk_1H_S,
     Jump_1
 }
-

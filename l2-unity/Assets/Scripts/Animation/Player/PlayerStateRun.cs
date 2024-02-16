@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateRun : PlayerStateBase {
+public class PlayerStateRun : PlayerStateAction {
     private bool _hasStarted = false;
     private float _lastNormalizedTime = 0;
 
@@ -17,19 +17,13 @@ public class PlayerStateRun : PlayerStateBase {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (InputManager.Instance.IsInputPressed(InputType.Jump)) {
-            CameraController.Instance.StickToBone = true;
-            SetBool("run_jump", true);
-        }
-        if (!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToTarget || !PlayerController.Instance.CanMove) {
-            SetBool("wait_" + _weaponType, true);
-        }
-        if (InputManager.Instance.IsInputPressed(InputType.Sit)) {
-            CameraController.Instance.StickToBone = true;
-            PlayerController.Instance.SetCanMove(false);
-            SetBool("sit", true);
-        }
+        VerifyIdle();
 
+        VerifyJump(true);
+
+        VerifySit();
+
+        VerifyAttack();
 
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f) {
             if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance)) {

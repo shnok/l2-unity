@@ -25,6 +25,14 @@ public class PlayerEntity : Entity {
         base.OnHit(criticalHit);
     }
 
+    public override bool StartAutoAttacking() {
+        if (base.StartAutoAttacking()) {
+            PlayerAnimationController.Instance.SetAnimationProperty((int)PlayerAnimationEvent.Atk011HS, 1f);
+        }
+
+        return true;
+    }
+
     public override float UpdateMAtkSpeed(int mAtkSpd) {
         float converted = base.UpdateMAtkSpeed(mAtkSpd);
         PlayerAnimationController.Instance.SetMAtkSpd(converted);

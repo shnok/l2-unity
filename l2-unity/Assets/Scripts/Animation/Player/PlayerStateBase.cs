@@ -23,6 +23,10 @@ public class PlayerStateBase : StateMachineBehaviour {
         _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
+    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio) {
+        _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
+    }
+
     public void SetBool(string name, bool value) {
         PlayerAnimationController.Instance.SetBool(name, value, true);
     }

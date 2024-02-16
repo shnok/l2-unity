@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour {
     [SerializeField] private float _currentDistance = 0;
 
     [Header("Bone stickiness")]
-    [SerializeField] private bool _stickToBone = true;
+    [SerializeField] private bool _stickToBone = false;
     [SerializeField] private Transform _rootBone;
     [SerializeField] private float _rootBoneHeight = 0;
 

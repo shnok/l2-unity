@@ -120,6 +120,16 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayItemSound(ItemSoundEvent itemSoundEvent, Vector3 position) {
+        EventReference er;
+        er = RuntimeManager.PathToEventReference("event:/ItemSound/" + itemSoundEvent.ToString());
+       
+
+        if (!er.IsNull) {
+            PlaySound(er, position);
+        }
+    }
+
     public void PlaySound(EventReference sound, Vector3 postition) {
         RuntimeManager.PlayOneShot(sound, postition);
     }

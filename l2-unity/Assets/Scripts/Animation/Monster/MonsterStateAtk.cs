@@ -18,10 +18,8 @@ public class MonsterStateAtk : MonsterStateBase
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             // This block will be executed once when the state is re-entered after completion
             _lastNormalizedTime = stateInfo.normalizedTime;
-            foreach (var ratio in audioHandler.WalkStepRatios) {
-                PlaySoundAtRatio(MonsterSoundEvent.Atk, audioHandler.AtkRatio);
-                PlaySoundAtRatio(MonsterSoundEvent.Swish, audioHandler.SwishRatio);
-            }
+            PlaySoundAtRatio(MonsterSoundEvent.Atk, audioHandler.AtkRatio);
+            PlaySoundAtRatio(MonsterSoundEvent.Swish, audioHandler.SwishRatio);
         }
     }
 

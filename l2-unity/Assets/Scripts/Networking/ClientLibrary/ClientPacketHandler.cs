@@ -67,4 +67,9 @@ public class ClientPacketHandler
         RequestSetTargetPacket packet = new RequestSetTargetPacket(targetId);
         _client.SendPacket(packet);
     }
+
+    public void SendRequestAutoAttack() {
+        RequestAutoAttackPacket packet = new RequestAutoAttackPacket();
+        _client.SendPacket(packet);
+    }
 }

@@ -22,6 +22,7 @@ public class PlayerInfoPacket : ServerPacket {
             Status.Speed = ReadI();
             Status.PAtkSpd = ReadI();
             Status.MAtkSpd = ReadI();
+            Status.AttackRange = ReadF();
             Status.Level = ReadI();
             Status.Hp = ReadI();
             Status.MaxHp = ReadI();

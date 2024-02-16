@@ -54,7 +54,7 @@ public class ClickManager : MonoBehaviour {
                     Debug.Log("Hit entity");
                     TargetManager.Instance.SetTarget(_targetObjectData);
                 } else if(_targetObjectData != null) {                  
-                    ClickToMoveController.Instance.MoveTo(_targetObjectData, _lastClickPosition);
+                    ClickToMoveController.Instance.MoveTo(_lastClickPosition);
                     float angle = Vector3.Angle(hit.normal, Vector3.up);
                     if(angle < 85f) {
                         PlaceLocator(_lastClickPosition);

@@ -28,6 +28,27 @@ public class BaseAnimationAudioHandler : MonoBehaviour
         Initialize();
     }
 
+    public void PlaySound(ItemSoundEvent soundEvent) {
+        AudioManager.Instance.PlayItemSound(soundEvent, transform.position);
+    }
+
+    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio) {
+        if (ratio == 0) {
+            PlaySound(soundEvent);
+            return;
+        }
+
+        StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
+    }
+
+    public IEnumerator PlaySoundAtRatioCoroutine(ItemSoundEvent soundEvent, float ratio) {
+        while ((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio) {
+            yield return null;
+        }
+
+        PlaySound(soundEvent);
+    }
+
     protected virtual void Initialize() {
         if (_animator == null) {
             _animator = GetComponent<Animator>();

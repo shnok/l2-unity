@@ -17,10 +17,8 @@ public class NpcStateAtk : NpcStateBase {
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             // This block will be executed once when the state is re-entered after completion
             _lastNormalizedTime = stateInfo.normalizedTime;
-            foreach (var ratio in audioHandler.WalkStepRatios) {
-                PlaySoundAtRatio(CharacterSoundEvent.Atk, audioHandler.AtkRatio);
-                PlaySoundAtRatio(CharacterSoundEvent.Swish, audioHandler.SwishRatio);
-            }
+            PlaySoundAtRatio(CharacterSoundEvent.Atk, audioHandler.AtkRatio);
+            PlaySoundAtRatio(CharacterSoundEvent.Swish, audioHandler.SwishRatio);
         }
     }
 
