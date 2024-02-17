@@ -35,7 +35,9 @@ public class PlayerStateAction : PlayerStateBase
 
     protected void VerifyIdle() {
         if (!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToTarget || !PlayerController.Instance.CanMove) {
-            SetBool("wait_" + _weaponType, true);
+            if(PlayerEntity.Instance.AttackTarget == null) {
+                SetBool("wait_" + _weaponType, true);
+            }
         }
     }
 }

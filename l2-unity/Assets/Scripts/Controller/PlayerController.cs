@@ -221,7 +221,6 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void SetCanMove(bool canMove) {
-        Debug.Log("SetCanMove: " + canMove);
         _canMove = canMove;
     }
 }

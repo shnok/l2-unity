@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(NetworkTransformShare))]
+[RequireComponent(typeof(NetworkTransformShare)), RequireComponent(typeof(CharacterController))]
 public class NetworkCharacterControllerShare : MonoBehaviour {
     private CharacterController _characterController;
     private NetworkTransformShare _networkTransformShare;
@@ -42,6 +42,9 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
                 if(direction.x == 0 && direction.z == 0) {
                     Debug.Log("Player stopped, share pos");
                     _networkTransformShare.SharePosition();
+                    _networkTransformShare.ShouldShareRotation = false;
+                } else {
+                    _networkTransformShare.ShouldShareRotation = true;
                 }
             }
         }

@@ -28,6 +28,7 @@ public class PlayerStateBase : StateMachineBehaviour {
     }
 
     public void SetBool(string name, bool value) {
+        Debug.Log(name + ":" + value);
         PlayerAnimationController.Instance.SetBool(name, value, true);
     }
 

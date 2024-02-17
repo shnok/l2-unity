@@ -34,7 +34,10 @@ public class PlayerCombatController : MonoBehaviour
                 float attackRange = ((PlayerStatus)PlayerEntity.Instance.Status).AttackRange;
                 float distance = Vector3.Distance(transform.position, target.position);
                 Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
+
                 if (distance <= attackRange) {
+                    ClickToMoveController.Instance.ClearPath();
+                    PlayerController.Instance.ResetTargetPosition();
                     ClientPacketHandler.Instance.SendRequestAutoAttack();
                 } else {
 

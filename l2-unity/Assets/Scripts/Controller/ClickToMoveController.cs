@@ -48,8 +48,12 @@ public class ClickToMoveController : MonoBehaviour
 
         // Reset path when user input
         if(InputManager.Instance.IsInputPressed(InputType.Move)) {
-            _path.Clear();
+            ClearPath();
         }
+    }
+
+    public void ClearPath() {
+        _path.Clear();
     }
 
     public void FixedUpdate() {

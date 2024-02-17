@@ -16,6 +16,7 @@ public class Entity : MonoBehaviour {
     public NetworkIdentity Identity { get => _identity; set => _identity = value; }
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Transform Target { get { return _target; } set { _target = value; } }
+    public Transform AttackTarget { get { return _attackTarget; } set { _attackTarget = value; } }
 
     public void Start() {
         Initialize();
