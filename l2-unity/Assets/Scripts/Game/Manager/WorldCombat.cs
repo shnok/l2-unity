@@ -9,7 +9,7 @@ public class WorldCombat : MonoBehaviour {
     private static WorldCombat _instance;
     public static WorldCombat Instance { get { return _instance; } }
 
-    void Awake() {
+    private void Awake() {
         if(_instance == null) {
             _instance = this;
         }
@@ -53,7 +53,7 @@ public class WorldCombat : MonoBehaviour {
         float particleHeight = target.GetComponent<Entity>().Identity.CollisionHeight * 1.25f;
         GameObject go = (GameObject)Instantiate(
             _impactParticle, 
-            target.position + direction * 0.3f + Vector3.up * particleHeight, 
+            target.position + direction * 0.15f + Vector3.up * particleHeight, 
             Quaternion.identity);
 
         go.transform.LookAt(attacker);

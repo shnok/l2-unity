@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class ClickToMoveController : MonoBehaviour 
+public class PathFinderController : MonoBehaviour 
 {
     [Header("Path data")]
     [SerializeField] private Node _startNode;
     [SerializeField] private Node _targetNode;
     [SerializeField] private Vector3 _targetDestination;
-    [SerializeField] private float _destinationThreshold = 0.10f;
+    [SerializeField] private float _defaultDestinationThreshold = 0.10f;
+    [SerializeField] private float _currentDestinationThreshold = 0.10f;
     [SerializeField] private List<Node> _path;
     [SerializeField] private bool _simplifyPath = true;
 
@@ -23,8 +24,8 @@ public class ClickToMoveController : MonoBehaviour
 
     private CharacterController _characterController;
 
-    private static ClickToMoveController _instance;
-    public static ClickToMoveController Instance { get { return _instance; } }
+    private static PathFinderController _instance;
+    public static PathFinderController Instance { get { return _instance; } }
     
     private void Awake() {
         if(_instance == null) {
@@ -68,30 +69,37 @@ public class ClickToMoveController : MonoBehaviour
             }
 
             // Remove node from path when node reached
-            if(Vector3.Distance(flatDestPos, flatTransformPos) < _destinationThreshold) {
+            if(Vector3.Distance(flatDestPos, flatTransformPos) < _currentDestinationThreshold) {
                 _path.RemoveAt(0);
             }
 
             // If a node is remaning update the target position
             if(_path.Count > 0) {
-                PlayerController.Instance.SetTargetPosition(flatDestPos, _destinationThreshold);
-            } 
-            /*else {
-                PlayerController.Instance.ResetTargetPosition();
-            }*/
-        } else { 
-            if(Vector3.Distance(flatDestPos, flatTransformPos) < _destinationThreshold) {
-                PlayerController.Instance.ResetTargetPosition();
+                PlayerController.Instance.SetDestination(flatDestPos, _currentDestinationThreshold);
+            }
+        } else {
+            if (Vector3.Distance(flatDestPos, flatTransformPos) < _currentDestinationThreshold) {
+                if(PlayerController.Instance.RunningToDestination) {
+                    PlayerCombatController.Instance.OnReachingTarget();
+                }
+
+                PlayerController.Instance.ResetDestination();
             }
         }
     }
 
-    public void MoveTo(Vector3 position) {
-        _targetDestination = position;
+    public void MoveTo(Vector3 destination) {
+        _currentDestinationThreshold = _defaultDestinationThreshold;
+        MoveTo(destination, _defaultDestinationThreshold);
+    }
+
+    public void MoveTo(Vector3 destination, float stopAtRange) {
+        _currentDestinationThreshold = stopAtRange;
+        _targetDestination = destination;
 
         Node node = null;
         try {
-            node = Geodata.Instance.GetNodeAt(position);
+            node = Geodata.Instance.GetNodeAt(destination);
         } catch(Exception) {}
 
         if(node != null && _startNode != null) {
@@ -99,7 +107,7 @@ public class ClickToMoveController : MonoBehaviour
 
             PathFinderFactory.Instance.RequestPathfind(_startNode, _targetNode, (callback) => {
                 if(callback == null || callback.Count == 0) {
-                    PlayerController.Instance.SetTargetPosition(_targetDestination, _destinationThreshold);
+                    PlayerController.Instance.SetDestination(_targetDestination, _currentDestinationThreshold);
                 } else {
                     Debug.Log("Found path with " + callback.Count + " node(s).");
                     if(_simplifyPath) {
@@ -112,7 +120,7 @@ public class ClickToMoveController : MonoBehaviour
 
         } else {
             _targetNode = null;
-            PlayerController.Instance.SetTargetPosition(_targetDestination, _destinationThreshold);
+            PlayerController.Instance.SetDestination(_targetDestination, _currentDestinationThreshold);
         }
     }
 

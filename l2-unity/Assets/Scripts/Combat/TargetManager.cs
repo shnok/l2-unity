@@ -6,6 +6,10 @@ using UnityEngine;
 public class TargetManager : MonoBehaviour
 {
     [SerializeField] private TargetData _target;
+    [SerializeField] private TargetData _attackTarget;
+
+    public TargetData Target { get { return _target; } }
+    public TargetData AttackTarget { get { return _attackTarget; } }
 
     private static TargetManager _instance;
     public static TargetManager Instance { get { return _instance; } }
@@ -18,6 +22,7 @@ public class TargetManager : MonoBehaviour
 
     private void Start() {
         _target = null;
+        _attackTarget = null;
     }
 
     public void SetTarget(ObjectData target) {
@@ -33,16 +38,24 @@ public class TargetManager : MonoBehaviour
         ClientPacketHandler.Instance.SendRequestSetTarget(_target.Identity.Id);
     }
 
-    public TargetData GetTargetData() {
-        return _target;
+    public void SetAttackTarget() {
+        _attackTarget = _target;
+    }
+
+    public void ClearAttackTarget() {
+        _attackTarget = null;
     }
 
     public void ClearTarget() {
-        if(_target != null) {
-            ClientPacketHandler.Instance.SendRequestSetTarget(-1);
-            PlayerEntity.Instance.TargetId = -1;
-            PlayerEntity.Instance.Target = null;
+        if (HasTarget()) {
+            if(PlayerEntity.Instance.TargetId != -1) {
+                ClientPacketHandler.Instance.SendRequestSetTarget(-1);
+                PlayerEntity.Instance.TargetId = -1;
+                PlayerEntity.Instance.Target = null;
+            }
+
             _target = null;
+            _attackTarget = null;
         }
     }
 
@@ -56,10 +69,6 @@ public class TargetManager : MonoBehaviour
                 PlayerController.Instance.transform.position, 
                 _target.Data.ObjectTransform.position);
         } else {
-            ClearTarget();
-        }
-
-        if(InputManager.Instance.IsInputPressed(InputType.Escape)) {
             ClearTarget();
         }
     }

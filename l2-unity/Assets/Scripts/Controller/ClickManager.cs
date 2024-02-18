@@ -48,22 +48,32 @@ public class ClickManager : MonoBehaviour {
                 !InputManager.Instance.IsInputPressed(InputType.RightMouseButton)) 
             {
                 _targetObjectData = _hoverObjectData;
-                _lastClickPosition = hit.point;
 
                 if(_entityMask == (_entityMask | (1 << hitLayer)) && _targetObjectData.ObjectTag != "Player") {
-                    Debug.Log("Hit entity");
-                    TargetManager.Instance.SetTarget(_targetObjectData);
-                } else if(_targetObjectData != null) {                  
-                    ClickToMoveController.Instance.MoveTo(_lastClickPosition);
-                    float angle = Vector3.Angle(hit.normal, Vector3.up);
-                    if(angle < 85f) {
-                        PlaceLocator(_lastClickPosition);
-                    } else {
-                        HideLocator();
-                    }
+                    OnClickOnEntity();
+                } else if(_targetObjectData != null) {
+                    OnClickToMove(hit);
                 }
             }
         }
+    }
+
+    public void OnClickToMove(RaycastHit hit) {
+        _lastClickPosition = hit.point;
+
+        TargetManager.Instance.ClearAttackTarget();
+        PathFinderController.Instance.MoveTo(_lastClickPosition);
+        float angle = Vector3.Angle(hit.normal, Vector3.up);
+        if (angle < 85f) {
+            PlaceLocator(_lastClickPosition);
+        } else {
+            HideLocator();
+        }
+    }
+
+    public void OnClickOnEntity() {
+        Debug.Log("Hit entity");
+        TargetManager.Instance.SetTarget(_targetObjectData);
     }
 
     public void PlaceLocator(Vector3 position) {

@@ -13,6 +13,7 @@ public class PlayerStateAtk : PlayerStateAction {
         PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
         PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
         _lastNormalizedTime = 0;
+        PlayerCombatController.Instance.AutoAttacking = true;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -33,6 +34,8 @@ public class PlayerStateAtk : PlayerStateAction {
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        PlayerCombatController.Instance.AutoAttacking = false;
+        PlayerEntity.Instance.StopAutoAttacking();
         PlayerController.Instance.SetCanMove(true);
     }
 }

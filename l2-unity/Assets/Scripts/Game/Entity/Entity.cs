@@ -97,6 +97,7 @@ public class Entity : MonoBehaviour {
     }
 
     public virtual bool StopAutoAttacking() {
+        Debug.Log("Stop autoattacking");
         if (_attackTarget == null) {
             return false;
         }

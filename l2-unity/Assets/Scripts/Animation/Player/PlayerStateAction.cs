@@ -28,13 +28,13 @@ public class PlayerStateAction : PlayerStateBase
     }
 
     protected void VerifyRun() {
-        if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToTarget) && PlayerController.Instance.CanMove) {
+        if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) && PlayerController.Instance.CanMove) {
             SetBool("run_" + _weaponType, true);
         }
     }
 
     protected void VerifyIdle() {
-        if (!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToTarget || !PlayerController.Instance.CanMove) {
+        if (!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToDestination || !PlayerController.Instance.CanMove) {
             if(PlayerEntity.Instance.AttackTarget == null) {
                 SetBool("wait_" + _weaponType, true);
             }

@@ -100,7 +100,7 @@ public class TargetWindow : MonoBehaviour {
         if(TargetManager.Instance.HasTarget()) {
             _targetWindowEle.style.display = DisplayStyle.Flex;
 
-            TargetData targetData = TargetManager.Instance.GetTargetData();
+            TargetData targetData = TargetManager.Instance.Target;
             if(_nameLabel != null) {
                 _nameLabel.text = targetData.Identity.Name;
             }
