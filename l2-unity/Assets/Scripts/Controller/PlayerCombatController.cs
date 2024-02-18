@@ -46,7 +46,7 @@ public class PlayerCombatController : MonoBehaviour {
         }
     }
 
-    public void VerifyAttackInput() {
+    public bool VerifyAttackInput() {
         if (InputManager.Instance.IsInputPressed(InputType.Attack)) {
             if (TargetManager.Instance.HasTarget()) {
                 //Should follow target
@@ -63,8 +63,12 @@ public class PlayerCombatController : MonoBehaviour {
                     _isRunningToTarget = true;
                     PathFinderController.Instance.MoveTo(target.position, ((PlayerStatus) PlayerEntity.Instance.Status).AttackRange);
                 }
+
+                return true;
             }
         }
+
+        return false;
     }
 
     // Send a request auto attack when close enough

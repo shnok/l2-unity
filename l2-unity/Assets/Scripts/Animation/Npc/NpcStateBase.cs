@@ -5,6 +5,7 @@ using UnityEngine;
 public class NpcStateBase : StateMachineBehaviour {
     public CharacterAnimationAudioHandler audioHandler;
     public Animator animator;
+    private Entity _entity;
 
     public void LoadComponents(Animator animator) {
         if(audioHandler == null) {
@@ -12,6 +13,9 @@ public class NpcStateBase : StateMachineBehaviour {
         }
         if(this.animator == null) {
             this.animator = animator;
+        }
+        if (_entity == null) {
+            _entity = animator.gameObject.GetComponent<Entity>();
         }
     }
 

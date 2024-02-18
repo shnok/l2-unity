@@ -6,6 +6,7 @@ public class PlayerStateBase : StateMachineBehaviour {
     protected CharacterAnimationAudioHandler _audioHandler;
     protected Animator _animator;
     protected PlayerAnimationController _controller;
+    protected Entity _entity;
 
     //TODO implement weapon system
     [SerializeField] protected string _weaponType = "hand";
@@ -16,6 +17,9 @@ public class PlayerStateBase : StateMachineBehaviour {
         }
         if (_animator == null) {
             _animator = animator;
+        }
+        if (_entity == null) {
+            _entity = PlayerEntity.Instance;
         }
     }
 
@@ -28,7 +32,6 @@ public class PlayerStateBase : StateMachineBehaviour {
     }
 
     public void SetBool(string name, bool value) {
-        Debug.Log(name + ":" + value);
         PlayerAnimationController.Instance.SetBool(name, value, true);
     }
 

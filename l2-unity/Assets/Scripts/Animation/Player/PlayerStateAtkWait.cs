@@ -2,17 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class NewBehaviourScript : PlayerStateAction {
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        LoadComponents(animator);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if(ShouldAttack()) {
+            return;
+        }
+
+        if (ShouldRun()) {
+            return;
+        }
+
+        if (ShouldJump(false)) {
+            return;
+        }
+
+        if (ShouldSit()) {
+            return;
+        }
+
+        if(ShouldAtkWait()) {
+            return;
+        }
+
+        if (ShouldIdle()) {
+            return;
+        }
+    }
+
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        SetBool("atkwait_" + _weaponType, false);
     }
 }
+

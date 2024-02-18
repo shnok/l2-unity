@@ -427,6 +427,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
   _resetStateOnReceive: 1
+  _atk01ClipLength: 1000
+  _spAtk01ClipLength: 1000
 --- !u!95 &5650791358189638832
 Animator:
   serializedVersion: 5
@@ -512,7 +514,7 @@ MonoBehaviour:
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
   _gravity: 28
-  _moveSpeedMultiplier: 0.95
+  _moveSpeedMultiplier: 1
 --- !u!114 &5606435543542922207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,7 +527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b171cd31a29e44a957f2c850e56144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _npcClassName: 
   _animator: {fileID: 0}
   _walkStepRatios:
   - 0
@@ -543,6 +544,8 @@ MonoBehaviour:
   _deathRatio: 0
   _fallRatio: 0.5
   _waitSoundChance: 5
+  _runBreathChance: 5
+  _monsterName: 
 --- !u!114 &1786143611870425587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,5 +575,12 @@ MonoBehaviour:
     _hp: 0
     _maxHp: 0
     _level: 0
-    _moveSpeed: 0
-  _target: 0
+    _speed: 0
+    _scaledSpeed: 0
+    _pAtkSpd: 0
+    _mAtkSpd: 0
+  _targetId: 0
+  _target: {fileID: 0}
+  _attackTarget: {fileID: 0}
+  _stopAutoAttackTime: 0
+  _startAutoAttackTime: 0

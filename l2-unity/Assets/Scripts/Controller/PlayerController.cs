@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     /* Components */
@@ -24,6 +25,8 @@ public class PlayerController : MonoBehaviour {
     /* Target */
     [SerializeField] private Vector3 _targetPosition;
     [SerializeField] private bool _runningToDestination = false;
+    [SerializeField] private Transform _lookAtTarget;
+    private Coroutine _lookAtCoroutine;
     private float _stopAtRange;
     private Vector3 _flatTransformPos;
 
@@ -61,7 +64,11 @@ public class PlayerController : MonoBehaviour {
             ListenToInputs();
         }
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
+        if(_lookAtTarget == null) {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
+        } else {
+            transform.LookAt(new Vector3(_lookAtTarget.position.x, transform.position.y, _lookAtTarget.position.z));
+        }
 
         _moveDirection = ApplyGravity(_moveDirection);
         _controller.Move(_moveDirection * Time.deltaTime);
@@ -219,7 +226,34 @@ public class PlayerController : MonoBehaviour {
         transform.rotation = Quaternion.Euler(Vector3.up * _finalAngle);
     }
 
-    public void LookAt(Transform target) {
+    public void StartLookAt(Transform target) {
+        UpdateFinalAngleToLookAt(target);
+
+        // Wait for a small delay to lock on to target
+        _lookAtTarget = null;
+        _lookAtCoroutine = StartCoroutine(LookAtAfter(target));
+    }
+
+    IEnumerator LookAtAfter(Transform target) {
+        yield return new WaitForSeconds(0.2f);
+        if (target != null) {
+            _lookAtTarget = target;
+        }
+    }
+
+    public void StopLookAt() {
+        UpdateFinalAngleToLookAt(_lookAtTarget);
+        _lookAtTarget = null;
+        if (_lookAtCoroutine != null) {
+            StopCoroutine(_lookAtCoroutine);
+        }
+    }
+
+    public void UpdateFinalAngleToLookAt(Transform target) {
+        if (target == null) {
+            return;
+        }
+
         float angle = Mathf.Atan2(target.position.x - transform.position.x, target.position.z - transform.position.z) * Mathf.Rad2Deg;
         angle = Mathf.Round(angle / 45f);
         angle *= 45f;

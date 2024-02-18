@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [System.Serializable]
@@ -7,6 +8,8 @@ public class Entity : MonoBehaviour {
     [SerializeField] private int _targetId;
     [SerializeField] private Transform _target;
     [SerializeField] private Transform _attackTarget;
+    [SerializeField] private long _stopAutoAttackTime;
+    [SerializeField] private long _startAutoAttackTime;
 
     protected NetworkAnimationController _networkAnimationReceive;
     private NetworkTransformReceive _networkTransformReceive;
@@ -17,6 +20,8 @@ public class Entity : MonoBehaviour {
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Transform Target { get { return _target; } set { _target = value; } }
     public Transform AttackTarget { get { return _attackTarget; } set { _attackTarget = value; } }
+    public long StopAutoAttackTime { get { return _stopAutoAttackTime; } }
+    public long StartAutoAttackTime { get { return _startAutoAttackTime; } }
 
     public void Start() {
         Initialize();
@@ -90,6 +95,7 @@ public class Entity : MonoBehaviour {
             return false;
         }
 
+        _startAutoAttackTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         _attackTarget = _target;
 
         if (_networkCharacterControllerReceive != null) {
@@ -106,6 +112,7 @@ public class Entity : MonoBehaviour {
             return false;
         }
 
+        _stopAutoAttackTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         _attackTarget = null;
         return true;
     }
@@ -125,5 +132,9 @@ public class Entity : MonoBehaviour {
         Status.Speed = speed;
         Status.ScaledSpeed = scaled;
         return StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
+    }
+
+    public bool IsDead() {
+        return Status.Hp <= 0;
     }
 }

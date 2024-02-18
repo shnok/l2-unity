@@ -9,21 +9,22 @@ public class PlayerStateAtk : PlayerStateAction {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
         SetBool("atk01_" + _weaponType, false);
-        PlayerController.Instance.SetCanMove(false);
         LoadComponents(animator);
-        PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
-        PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
+
+        if(TargetManager.Instance.HasAttackTarget()) {
+            PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
+            PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
+            PlayerController.Instance.SetCanMove(false);
+            PlayerCombatController.Instance.AutoAttacking = true;
+        }
+
         _lastNormalizedTime = 0;
-        PlayerCombatController.Instance.AutoAttacking = true;
         moved = false;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        // Check if the state has looped (re-entered)
-
         if(!moved) {
             if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
-                // This block will be executed once when the state is re-entered after completion
                 _lastNormalizedTime = stateInfo.normalizedTime;
                 PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
                 PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
@@ -35,15 +36,18 @@ public class PlayerStateAtk : PlayerStateAction {
                 if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination)) {
                     PlayerController.Instance.SetCanMove(true);
                 }
-                moved = VerifyRun();
+                moved = ShouldRun();
+
+                if(!TargetManager.Instance.HasAttackTarget() || TargetManager.Instance.AttackTarget.Data.Entity.IsDead()) {
+                    PlayerEntity.Instance.StopAutoAttacking();
+                }
             }
         }
 
-        VerifyAttack();
+        ShouldAttack();
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        Debug.LogWarning("Cancel autoattack");
         PlayerCombatController.Instance.AutoAttacking = false;
         PlayerEntity.Instance.StopAutoAttacking();
         PlayerController.Instance.SetCanMove(true);

@@ -17,14 +17,6 @@ public class PlayerStateRun : PlayerStateAction {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        VerifyIdle();
-
-        VerifyJump(true);
-
-        VerifySit();
-
-        VerifyAttack();
-
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f) {
             if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance)) {
                 _audioHandler.PlaySound(CharacterSoundEvent.Breath);
@@ -40,6 +32,22 @@ public class PlayerStateRun : PlayerStateAction {
             foreach (var ratio in _audioHandler.RunStepRatios) {
                 _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
             }
+        }
+
+        if (ShouldAttack()) {
+            return;
+        }
+        if (ShouldJump(true)) {
+            return;
+        }
+        if (ShouldSit()) {
+            return;
+        }
+        if (ShouldAtkWait()) {
+            return;
+        }
+        if (ShouldIdle()) {
+            return;
         }
     }
 

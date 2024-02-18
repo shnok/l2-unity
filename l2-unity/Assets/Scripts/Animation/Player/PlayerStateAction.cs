@@ -1,18 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStateAction : PlayerStateBase
 {
-    protected void VerifySit() {
+    protected bool ShouldSit() {
         if (InputManager.Instance.IsInputPressed(InputType.Sit)) {
             CameraController.Instance.StickToBone = true;
             PlayerController.Instance.SetCanMove(false);
             SetBool("sit", true);
+            return true;
         }
+
+        return false;
     }
 
-    protected void VerifyJump(bool run) {
+    protected bool ShouldJump(bool run) {
         if (InputManager.Instance.IsInputPressed(InputType.Jump)) {
             CameraController.Instance.StickToBone = true;
             if (run) {
@@ -20,14 +24,17 @@ public class PlayerStateAction : PlayerStateBase
             } else {
                 SetBool("jump", true);
             }
+            return true;
         }
+
+        return false;
     }
 
-    protected void VerifyAttack() {
-        PlayerCombatController.Instance.VerifyAttackInput();
+    protected bool ShouldAttack() {
+        return PlayerCombatController.Instance.VerifyAttackInput();
     }
 
-    protected bool VerifyRun() {
+    protected bool ShouldRun() {
         if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) && PlayerController.Instance.CanMove) {
             SetBool("run_" + _weaponType, true);
             return true;
@@ -36,11 +43,27 @@ public class PlayerStateAction : PlayerStateBase
         return false;
     }
 
-    protected void VerifyIdle() {
+    protected bool ShouldIdle() {
         if (!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToDestination || !PlayerController.Instance.CanMove) {
             if(PlayerEntity.Instance.AttackTarget == null) {
                 SetBool("wait_" + _weaponType, true);
+                return true;
             }
         }
+
+        return false;
+    }
+
+    protected bool ShouldAtkWait() {
+        long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        if ((!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToDestination || !PlayerController.Instance.CanMove)
+             && now - _entity.StopAutoAttackTime < 5000) {
+            if (PlayerEntity.Instance.AttackTarget == null) {
+                SetBool("atkwait_" + _weaponType, true);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

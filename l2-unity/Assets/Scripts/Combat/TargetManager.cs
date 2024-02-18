@@ -47,7 +47,7 @@ public class TargetManager : MonoBehaviour
     }
 
     public bool HasTarget() {
-        return _target != null;
+        return _target != null && _target.Data.ObjectTransform != null;
     }
 
     public bool HasAttackTarget() {

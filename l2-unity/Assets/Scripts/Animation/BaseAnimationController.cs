@@ -73,7 +73,7 @@ public class BaseAnimationController : MonoBehaviour
     }
 
     public void SetAnimationProperty(int animId, float value, bool forceReset) {
-        Debug.Log("animId " + animId + "/" + _animator.parameters.Length);
+        //Debug.Log("animId " + animId + "/" + _animator.parameters.Length);
         if (animId >= 0 && animId < _animator.parameters.Length) {
             if (_resetStateOnReceive || forceReset) {
                 ClearAnimParams();

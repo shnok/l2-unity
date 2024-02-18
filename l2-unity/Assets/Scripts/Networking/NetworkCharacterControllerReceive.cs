@@ -13,7 +13,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private Vector3 _destination;
     [SerializeField] private float _gravity = 28f;
-    [SerializeField] private float _moveSpeedMultiplier = 0.95f;
+    [SerializeField] private float _moveSpeedMultiplier = 1f;
 
     void Start() {
         if(World.Instance.OfflineMode) {

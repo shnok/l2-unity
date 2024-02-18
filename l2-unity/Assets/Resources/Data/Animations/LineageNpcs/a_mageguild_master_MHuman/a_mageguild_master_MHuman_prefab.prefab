@@ -586,7 +586,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &834737203160778497
 Animator:
-  serializedVersion: 7
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -600,7 +600,6 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -635,10 +634,15 @@ MonoBehaviour:
     _hp: 0
     _maxHp: 0
     _level: 0
-    _moveSpeed: 0
-    _race: 0
-    _friendly: 0
-    _aggressive: 0
+    _speed: 0
+    _scaledSpeed: 0
+    _pAtkSpd: 0
+    _mAtkSpd: 0
+  _targetId: 0
+  _target: {fileID: 0}
+  _attackTarget: {fileID: 0}
+  _stopAutoAttackTime: 0
+  _startAutoAttackTime: 0
 --- !u!114 &1739040313581345778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,6 +657,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 0}
   _resetStateOnReceive: 0
+  _atk01ClipLength: 1000
+  _spAtk01ClipLength: 1000
 --- !u!114 &7969098781954984649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,7 +723,7 @@ MonoBehaviour:
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
   _gravity: 28
-  _moveSpeedMultiplier: 0.95
+  _moveSpeedMultiplier: 1
 --- !u!114 &8152222522227118758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,7 +736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03160d09deb1df3479a66ba449c32ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _npcClassName: 
   _animator: {fileID: 0}
   _walkStepRatios:
   - 0.25
@@ -744,7 +749,9 @@ MonoBehaviour:
   _deathRatio: 0
   _fallRatio: 0.7
   _waitSoundChance: 5
+  _runBreathChance: 5
   _race: 14
+  _surfaceDetector: {fileID: 0}
 --- !u!4 &1823497471912456009 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 75cfed091bd24f94faba5bff1cac1fe0, type: 3}

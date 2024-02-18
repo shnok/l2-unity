@@ -29,8 +29,17 @@ public class PlayerEntity : Entity {
 
     public override bool StartAutoAttacking() {
         if (base.StartAutoAttacking()) {
-            PlayerController.Instance.LookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
+            PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
             PlayerAnimationController.Instance.SetAnimationProperty((int)PlayerAnimationEvent.Atk011HS, 1f);
+        }
+
+        return true;
+    }
+
+    public override bool StopAutoAttacking() {
+        if (base.StopAutoAttacking()) {
+            PlayerController.Instance.StopLookAt();
+            PlayerAnimationController.Instance.SetAnimationProperty((int)PlayerAnimationEvent.AtkWait1HS, 1f);
         }
 
         return true;
