@@ -15,6 +15,8 @@ public class PlayerEntity : Entity {
         }
     }
 
+    protected override void LookAtTarget() { }
+
     protected override void OnDeath() {
         base.OnDeath();
         Debug.Log("Player on death _networkAnimationReceive:" + _networkAnimationReceive);
@@ -27,6 +29,7 @@ public class PlayerEntity : Entity {
 
     public override bool StartAutoAttacking() {
         if (base.StartAutoAttacking()) {
+            PlayerController.Instance.LookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
             PlayerAnimationController.Instance.SetAnimationProperty((int)PlayerAnimationEvent.Atk011HS, 1f);
         }
 
@@ -53,5 +56,16 @@ public class PlayerEntity : Entity {
         PlayerController.Instance.DefaultSpeed = converted;
 
         return converted;
+    }
+
+    public void OnActionFailed(PlayerAction action) {
+        switch (action) {
+            case PlayerAction.SetTarget:
+                TargetManager.Instance.ClearTarget();
+                break;
+            case PlayerAction.AutoAttack:
+                PlayerCombatController.Instance.OnAutoAttackFailed();
+                break;
+        }
     }
 }

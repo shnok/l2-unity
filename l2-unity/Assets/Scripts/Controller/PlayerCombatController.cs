@@ -6,9 +6,11 @@ public class PlayerCombatController : MonoBehaviour {
     private NetworkTransformShare _networkTransformShare;
     private NetworkCharacterControllerShare _networkCharacterControllerShare;
     [SerializeField] private bool _isAutoAttacking = false;
+    [SerializeField] private bool _isRunningToTarget = false;
 
 
     public bool AutoAttacking { get { return _isAutoAttacking; } set { _isAutoAttacking = value; } }
+    public bool RunningToTarget { get { return _isRunningToTarget; } set { _isRunningToTarget = value; } }
 
 
     private static PlayerCombatController _instance;
@@ -25,6 +27,7 @@ public class PlayerCombatController : MonoBehaviour {
 
     void Update() {
         if (PlayerController.Instance.CanMove && InputManager.Instance.IsInputPressed(InputType.Move)) {
+            _isRunningToTarget = false;
             TargetManager.Instance.ClearAttackTarget();
         }
 
@@ -53,24 +56,26 @@ public class PlayerCombatController : MonoBehaviour {
                 float distance = Vector3.Distance(transform.position, target.position);
                 Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
 
-                TargetManager.Instance.SetAttackTarget();
-
                 if (distance <= attackRange) {
                     OnReachingTarget();
                 } else {                  
                     ClickManager.Instance.HideLocator();
+                    _isRunningToTarget = true;
                     PathFinderController.Instance.MoveTo(target.position, ((PlayerStatus) PlayerEntity.Instance.Status).AttackRange);
                 }
             }
         }
     }
 
+    // Send a request auto attack when close enough
     public void OnReachingTarget() {
-        if(TargetManager.Instance.AttackTarget != null && !_isAutoAttacking) {
+        if(TargetManager.Instance.Target != null && (!_isAutoAttacking || TargetManager.Instance.AttackTarget != TargetManager.Instance.Target)) {
             Debug.LogWarning("On Reaching Target");
+            TargetManager.Instance.SetAttackTarget();
             PathFinderController.Instance.ClearPath();
             PlayerController.Instance.ResetDestination();
             PlayerController.Instance.SetCanMove(false);
+
             //TODO set can move to true if action failed packet returned
 
             if (_networkTransformShare != null) {
@@ -78,10 +83,16 @@ public class PlayerCombatController : MonoBehaviour {
             }
 
             if (_networkCharacterControllerShare != null) {
-                _networkCharacterControllerShare.ShareMoveDirection(Vector3.zero);
+               // _networkCharacterControllerShare.ShareMoveDirection(Vector3.zero);
             }
 
             ClientPacketHandler.Instance.SendRequestAutoAttack();
         }
+    }
+
+    // Autoattack failed (entity probably too far)
+    public void OnAutoAttackFailed() {
+        Debug.LogWarning("AutoAttack failed");
+        PlayerController.Instance.SetCanMove(true);
     }
 }

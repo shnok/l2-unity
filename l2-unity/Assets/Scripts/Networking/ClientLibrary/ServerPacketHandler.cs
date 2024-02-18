@@ -87,6 +87,9 @@ public class ServerPacketHandler
                 case ServerPacketType.AutoAttackStop:
                     OnEntityAutoAttackStop(data);
                     break;
+                case ServerPacketType.ActionFailed:
+                    OnActionFailed(data);
+                    break;
             }
         });
     }
@@ -240,5 +243,10 @@ public class ServerPacketHandler
         Debug.Log("OnEntityAutoAttackStop");
         AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
         _eventProcessor.QueueEvent(() => World.Instance.EntityStopAutoAttacking(packet.EntityId));
+    }
+
+    private void OnActionFailed(byte[] data) {
+        ActionFailedPacket packet = new ActionFailedPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
     }
 }

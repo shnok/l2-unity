@@ -60,6 +60,7 @@ public class ClickManager : MonoBehaviour {
 
     public void OnClickToMove(RaycastHit hit) {
         _lastClickPosition = hit.point;
+        PlayerCombatController.Instance.RunningToTarget = false;
 
         TargetManager.Instance.ClearAttackTarget();
         PathFinderController.Instance.MoveTo(_lastClickPosition);

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class TargetManager : MonoBehaviour
 {
-    [SerializeField] private TargetData _target;
-    [SerializeField] private TargetData _attackTarget;
+    private TargetData _target = null;
+    private TargetData _attackTarget = null;
 
     public TargetData Target { get { return _target; } }
     public TargetData AttackTarget { get { return _attackTarget; } }
@@ -46,6 +46,14 @@ public class TargetManager : MonoBehaviour
         _attackTarget = null;
     }
 
+    public bool HasTarget() {
+        return _target != null;
+    }
+
+    public bool HasAttackTarget() {
+        return _attackTarget != null;
+    }
+
     public void ClearTarget() {
         if (HasTarget()) {
             if(PlayerEntity.Instance.TargetId != -1) {
@@ -71,9 +79,5 @@ public class TargetManager : MonoBehaviour
         } else {
             ClearTarget();
         }
-    }
-
-    internal bool HasTarget() {
-        return (_target != null && _target.Data != null && _target.Data.ObjectTransform != null);
     }
 }

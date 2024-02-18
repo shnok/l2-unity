@@ -219,7 +219,15 @@ public class PlayerController : MonoBehaviour {
         transform.rotation = Quaternion.Euler(Vector3.up * _finalAngle);
     }
 
+    public void LookAt(Transform target) {
+        float angle = Mathf.Atan2(target.position.x - transform.position.x, target.position.z - transform.position.z) * Mathf.Rad2Deg;
+        angle = Mathf.Round(angle / 45f);
+        angle *= 45f;
+        _finalAngle = angle;
+    }
+
     public void SetCanMove(bool canMove) {
+        _moveDirection = new Vector3(0, _moveDirection.y, 0);
         _canMove = canMove;
     }
 }

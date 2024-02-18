@@ -17,5 +17,6 @@ public enum ServerPacketType : byte
     GameTime = 0x0E,
     EntitySetTarget = 0x0F,
     AutoAttackStart = 0x10,
-    AutoAttackStop = 0x11
+    AutoAttackStop = 0x11,
+    ActionFailed = 0x12
 }

@@ -27,10 +27,13 @@ public class PlayerStateAction : PlayerStateBase
         PlayerCombatController.Instance.VerifyAttackInput();
     }
 
-    protected void VerifyRun() {
+    protected bool VerifyRun() {
         if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) && PlayerController.Instance.CanMove) {
             SetBool("run_" + _weaponType, true);
+            return true;
         }
+
+        return false;
     }
 
     protected void VerifyIdle() {

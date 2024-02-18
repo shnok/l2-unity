@@ -23,8 +23,12 @@ public class Entity : MonoBehaviour {
     }
 
     public void FixedUpdate() {
-        if (_attackTarget != null) {
-            transform.LookAt(new Vector3(_attackTarget.position.x, transform.position.y, _attackTarget.position.z));
+        LookAtTarget();
+    }
+
+    protected virtual void LookAtTarget() {
+        if (AttackTarget != null) {
+            transform.LookAt(new Vector3(AttackTarget.position.x, transform.position.y, AttackTarget.position.z));
         }
     }
 
