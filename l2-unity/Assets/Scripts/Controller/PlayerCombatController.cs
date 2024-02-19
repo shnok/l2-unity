@@ -17,12 +17,18 @@ public class PlayerCombatController : MonoBehaviour {
     public static PlayerCombatController Instance { get { return _instance; } }
 
     private void Awake() {
-        if(_instance == null) {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
 
         TryGetComponent<NetworkTransformShare>(out _networkTransformShare);
         TryGetComponent<NetworkCharacterControllerShare>(out _networkCharacterControllerShare);
+    }
+
+    void OnDestroy() {
+        _instance = null;
     }
 
     void Update() {

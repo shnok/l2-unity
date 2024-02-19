@@ -16,11 +16,18 @@ public class MusicManager : MonoBehaviour
     public static MusicManager Instance { get { return _instance; } }
 
     private void Awake() {
-        if(_instance == null) {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
 
         _musicInstances = new Dictionary<EventReference, EventInstance>();
+    }
+
+    void OnDestroy() {
+        _musicInstances.Clear();
+        _instance = null;
     }
 
     public void PlayMusic(EventReference musicEvent, int priority) {   

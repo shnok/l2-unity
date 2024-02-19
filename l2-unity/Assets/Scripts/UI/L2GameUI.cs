@@ -18,10 +18,16 @@ public class L2GameUI : MonoBehaviour {
     private static L2GameUI _instance;
     public static L2GameUI Instance { get { return _instance; } }
 
-    void Awake() {
-        if(_instance == null) {
+    private void Awake() {
+        if (_instance == null) {
             _instance = this;
-        } 
+        } else {
+            Destroy(this);
+        }
+    }
+
+    private void OnDestroy() {
+        _instance = null;
     }
 
     public void Update() {

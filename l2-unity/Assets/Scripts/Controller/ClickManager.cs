@@ -16,10 +16,16 @@ public class ClickManager : MonoBehaviour {
     private static ClickManager _instance;
     public static ClickManager Instance { get { return _instance; } }
 
-    void Awake() {
-        if(_instance == null) {
+    private void Awake() {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
+    }
+
+    void OnDestroy() {
+        _instance = null;
     }
 
     void Start() {

@@ -34,9 +34,11 @@ public class World : MonoBehaviour {
     private static World _instance;
     public static World Instance { get { return _instance; } }
 
-    void Awake() {
-        if(_instance == null) {
+    private void Awake() {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
 
         _playerPlaceholder = Resources.Load<GameObject>("Prefab/Player");
@@ -46,6 +48,10 @@ public class World : MonoBehaviour {
         _npcsContainer = GameObject.Find("Npcs");
         _monstersContainer = GameObject.Find("Monsters");
         _usersContainer = GameObject.Find("Users");
+    }
+
+    void OnDestroy() {
+        _instance = null;
     }
 
     void Start() {

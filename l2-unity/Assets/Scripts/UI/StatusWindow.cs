@@ -22,14 +22,19 @@ public class StatusWindow : MonoBehaviour
     [SerializeField] private float _statusWindowMinWidth = 175.0f;
     [SerializeField] private float _statusWindowMaxWidth = 400.0f;
 
-    private static StatusWindow instance;
-    public static StatusWindow Instance { get { return instance; } }
-
+    private static StatusWindow _instance;
+    public static StatusWindow Instance { get { return _instance; } }
 
     private void Awake() {
-        if(instance == null) {
-            instance = this;
+        if (_instance == null) {
+            _instance = this;
+        } else {
+            Destroy(this);
         }
+    }
+
+    private void OnDestroy() {
+        _instance = null;
     }
 
     void Start() {

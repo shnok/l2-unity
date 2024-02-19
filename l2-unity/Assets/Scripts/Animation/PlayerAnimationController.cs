@@ -11,7 +11,13 @@ public class PlayerAnimationController : BaseAnimationController {
 
         if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
+    }
+
+    void OnDestroy() {
+        _instance = null;
     }
 
     public void SetBool(string name, bool value, bool share) {

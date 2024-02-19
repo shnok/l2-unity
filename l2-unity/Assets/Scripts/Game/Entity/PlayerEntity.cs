@@ -15,6 +15,10 @@ public class PlayerEntity : Entity {
         }
     }
 
+    void OnDestroy() {
+        _instance = null;
+    }
+
     protected override void LookAtTarget() { }
 
     protected override Transform GetLeftHandBone() {

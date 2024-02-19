@@ -21,10 +21,17 @@ public class DefaultClient : MonoBehaviour {
     public static DefaultClient Instance { get { return _instance; } }
 
     private void Awake() {
-        if(_instance == null) {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
     }
+
+    void OnDestroy() {
+        _instance = null;
+    }
+
 
     private void Start() {
         if(World.Instance.OfflineMode) {
@@ -46,7 +53,7 @@ public class DefaultClient : MonoBehaviour {
 
     public void OnConnectionAllowed() {
         Debug.Log("Connected");
-        SceneLoader.Instance.SwitchScene("Game");
+        SceneLoader.Instance.SwitchScene(SceneLoader.Instance.GameScene);
     }
 
     public void OnWorldSceneLoaded() {

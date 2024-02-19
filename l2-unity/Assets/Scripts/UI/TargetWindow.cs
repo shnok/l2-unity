@@ -19,9 +19,15 @@ public class TargetWindow : MonoBehaviour {
     public static TargetWindow Instance { get { return _instance; } }
 
     private void Awake() {
-        if(_instance == null) {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
+    }
+
+    private void OnDestroy() {
+        _instance = null;
     }
 
     void Start() {

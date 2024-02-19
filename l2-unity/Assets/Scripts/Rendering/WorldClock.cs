@@ -37,10 +37,17 @@ public class WorldClock : MonoBehaviour {
 
     private static WorldClock _instance;
     public static WorldClock Instance { get { return _instance; } }
+
     private void Awake() {
-        if(_instance == null) {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
+    }
+
+    void OnDestroy() {
+        _instance = null;
     }
 
     void Update() {

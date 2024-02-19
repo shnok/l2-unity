@@ -19,11 +19,18 @@ public class PathFinderFactory : MonoBehaviour {
 
     private static PathFinderFactory _instance;
     public static PathFinderFactory Instance { get { return _instance; } }
-    void Awake() {
-        if(_instance == null) {
+    private void Awake() {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
     }
+
+    void OnDestroy() {
+        _instance = null;
+    }
+
 
     void Start() {
         _currentJobs = new List<PathFinder>();
