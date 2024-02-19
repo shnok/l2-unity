@@ -21,6 +21,9 @@ public class PlayerStateBase : StateMachineBehaviour {
         if (_entity == null) {
             _entity = PlayerEntity.Instance;
         }
+        if (_entity != null) {
+            _weaponType = _entity.WeaponType;
+        }
     }
 
     public void PlaySoundAtRatio(CharacterSoundEvent soundEvent, float ratio) {

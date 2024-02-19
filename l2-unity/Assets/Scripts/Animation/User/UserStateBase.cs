@@ -8,7 +8,6 @@ public class UserStateBase : StateMachineBehaviour {
     protected PlayerAnimationController _controller;
     protected Entity _entity;
 
-    //TODO implement weapon system
     [SerializeField] protected WeaponType _weaponType;
 
     public void LoadComponents(Animator animator) {
@@ -20,6 +19,9 @@ public class UserStateBase : StateMachineBehaviour {
         }
         if (_entity == null) {
             _entity = PlayerEntity.Instance;
+        }
+        if (_entity != null) {
+            _weaponType = _entity.WeaponType;
         }
     }
 
