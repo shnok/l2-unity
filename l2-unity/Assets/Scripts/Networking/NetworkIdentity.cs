@@ -16,6 +16,8 @@ public class NetworkIdentity
     [SerializeField] private Vector3 _position = new Vector3(0, 0, 0);
     [SerializeField] private float _heading;
     [SerializeField] private float _collisionHeight;
+    [SerializeField] protected int _leftHandId = -1;
+    [SerializeField] protected int _rightHandId = -1;
     [SerializeField] private bool _owned = false;
 
     public EntityType EntityType { get => _entityType; set => _entityType = value; }
@@ -29,6 +31,8 @@ public class NetworkIdentity
     public Vector3 Position { get => _position; set => _position = value; }
     public float Heading { get => _heading; set => _heading = value; }
     public float CollisionHeight { get => _collisionHeight; set => _collisionHeight = value; }
+    public int LeftHandId { get => _leftHandId; set => _leftHandId = value; }
+    public int RightHandId { get => _rightHandId; set => _rightHandId = value; }
     public bool Owned { get => _owned; set => _owned = value; }
 
     public NetworkIdentity() {}

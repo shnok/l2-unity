@@ -81,6 +81,15 @@ public class ServerPacketHandler
                 case ServerPacketType.EntitySetTarget:
                     OnEntitySetTarget(data);
                     break;
+                case ServerPacketType.AutoAttackStart:
+                    OnEntityAutoAttackStart(data);
+                    break;
+                case ServerPacketType.AutoAttackStop:
+                    OnEntityAutoAttackStop(data);
+                    break;
+                case ServerPacketType.ActionFailed:
+                    OnActionFailed(data);
+                    break;
             }
         });
     }
@@ -191,7 +200,7 @@ public class ServerPacketHandler
 
     private void OnInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.AttackId, packet.Value, packet.CriticalHit)); 
+        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.Value, packet.NewHp, packet.CriticalHit)); 
     }
 
     private void OnNpcInfoReceive(byte[] data) {
@@ -205,10 +214,8 @@ public class ServerPacketHandler
 
     private void OnObjectMoveTo(byte[] data) {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
-        int id = packet.Id;
-        Vector3 position = packet.Pos;
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectMoveSpeed(id, packet.Speed));
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(id, position));
+        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(packet.Id, packet.Pos, packet.Speed, packet.Walking));
+
     }
 
     private void OnUpdateMoveDirection(byte[] data) {
@@ -224,5 +231,22 @@ public class ServerPacketHandler
     private void OnEntitySetTarget(byte[] data) {
         EntitySetTargetPacket packet = new EntitySetTargetPacket(data);
         _eventProcessor.QueueEvent(() => World.Instance.UpdateEntityTarget(packet.EntityId, packet.TargetId));
+    }
+
+    private void OnEntityAutoAttackStart(byte[] data) {
+        Debug.Log("OnEntityAutoAttackStart");
+        AutoAttackStartPacket packet = new AutoAttackStartPacket(data);
+        _eventProcessor.QueueEvent(() => World.Instance.EntityStartAutoAttacking(packet.EntityId));
+    }
+
+    private void OnEntityAutoAttackStop(byte[] data) {
+        Debug.Log("OnEntityAutoAttackStop");
+        AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
+        _eventProcessor.QueueEvent(() => World.Instance.EntityStopAutoAttacking(packet.EntityId));
+    }
+
+    private void OnActionFailed(byte[] data) {
+        ActionFailedPacket packet = new ActionFailedPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
     }
 }

@@ -6,7 +6,8 @@ using UnityEngine;
 public class ObjectMoveToPacket : ServerPacket {
     public int Id { get; private set; }
     public Vector3 Pos { get; private set; }
-    public float Speed { get; private set; }
+    public int Speed { get; private set; }
+    public bool Walking { get; private set; }
 
     public ObjectMoveToPacket(byte[] d) : base(d) {
         Parse();
@@ -20,7 +21,8 @@ public class ObjectMoveToPacket : ServerPacket {
             newPos.y = ReadF();
             newPos.z = ReadF();
             Pos = newPos;
-            Speed = ReadF();
+            Speed = ReadI();
+            Walking = ReadB() == 1;
         } catch(Exception e) {
             Debug.LogError(e);
         }

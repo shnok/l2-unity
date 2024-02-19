@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NpcStateBase : StateMachineBehaviour {
-    public NpcAnimationAudioHandler audioHandler;
+    public CharacterAnimationAudioHandler audioHandler;
     public Animator animator;
+    private Entity _entity;
 
     public void LoadComponents(Animator animator) {
         if(audioHandler == null) {
-            audioHandler = animator.gameObject.GetComponent<NpcAnimationAudioHandler>();
+            audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();
         }
         if(this.animator == null) {
             this.animator = animator;
+        }
+        if (_entity == null) {
+            _entity = animator.gameObject.GetComponent<Entity>();
         }
     }
 

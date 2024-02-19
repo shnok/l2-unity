@@ -57,7 +57,7 @@ public class AsynchronousClient {
     public void SendPacket(ClientPacket packet) {
         if(DefaultClient.Instance.LogSentPackets) {
             ClientPacketType packetType = (ClientPacketType)packet.GetPacketType();
-            if(packetType != ClientPacketType.Ping) {
+            if(packetType != ClientPacketType.Ping && packetType != ClientPacketType.RequestRotate) {
                 Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] Sending packet:" + packetType);
             }
         }

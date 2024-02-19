@@ -12,6 +12,7 @@ public enum InputType {
     LeftMouseButton,
     RightMouseButton,
     Attack,
+    DebugAttack,
     Sit,
     Jump,
     TurnCamera,
@@ -79,6 +80,7 @@ public class InputManager : MonoBehaviour {
         UpdateInput(InputType.Move, IsInputPressed(InputType.InputAxis) || IsInputPressed(InputType.MoveForward));
         UpdateInput(InputType.MoveForward, IsInputPressed(InputType.LeftMouseButton) && IsInputPressed(InputType.RightMouseButton));
         UpdateInput(InputType.Attack, Input.GetKeyDown(KeyCode.F));
+        UpdateInput(InputType.DebugAttack, Input.GetKeyDown(KeyCode.C));
     }
 
     public bool IsInputPressed(InputType type) {

@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class TargetManager : MonoBehaviour
 {
-    [SerializeField] private TargetData _target;
+    private TargetData _target = null;
+    private TargetData _attackTarget = null;
+
+    public TargetData Target { get { return _target; } }
+    public TargetData AttackTarget { get { return _attackTarget; } }
 
     private static TargetManager _instance;
     public static TargetManager Instance { get { return _instance; } }
@@ -18,6 +22,7 @@ public class TargetManager : MonoBehaviour
 
     private void Start() {
         _target = null;
+        _attackTarget = null;
     }
 
     public void SetTarget(ObjectData target) {
@@ -28,19 +33,37 @@ public class TargetManager : MonoBehaviour
 
         _target = new TargetData(target);
 
-        PlayerEntity.Instance.Target = _target.Identity.Id;
+        PlayerEntity.Instance.TargetId = _target.Identity.Id;
+        PlayerEntity.Instance.Target = _target.Data.ObjectTransform;
         ClientPacketHandler.Instance.SendRequestSetTarget(_target.Identity.Id);
     }
 
-    public TargetData GetTargetData() {
-        return _target;
+    public void SetAttackTarget() {
+        _attackTarget = _target;
+    }
+
+    public void ClearAttackTarget() {
+        _attackTarget = null;
+    }
+
+    public bool HasTarget() {
+        return _target != null && _target.Data.ObjectTransform != null;
+    }
+
+    public bool HasAttackTarget() {
+        return _attackTarget != null;
     }
 
     public void ClearTarget() {
-        if(_target != null) {
-            ClientPacketHandler.Instance.SendRequestSetTarget(-1);
-            PlayerEntity.Instance.Target = -1;
+        if (HasTarget()) {
+            if(PlayerEntity.Instance.TargetId != -1) {
+                ClientPacketHandler.Instance.SendRequestSetTarget(-1);
+                PlayerEntity.Instance.TargetId = -1;
+                PlayerEntity.Instance.Target = null;
+            }
+
             _target = null;
+            _attackTarget = null;
         }
     }
 
@@ -56,13 +79,5 @@ public class TargetManager : MonoBehaviour
         } else {
             ClearTarget();
         }
-
-        if(InputManager.Instance.IsInputPressed(InputType.Escape)) {
-            ClearTarget();
-        }
-    }
-
-    internal bool HasTarget() {
-        return (_target != null && _target.Data != null && _target.Data.ObjectTransform != null);
     }
 }

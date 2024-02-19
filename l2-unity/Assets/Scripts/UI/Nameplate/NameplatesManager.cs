@@ -93,7 +93,7 @@ public class NameplatesManager : MonoBehaviour
             return;
         }
 
-        Entity e = TargetManager.Instance.GetTargetData().Data.ObjectTransform.GetComponent<Entity>();
+        Entity e = TargetManager.Instance.Target.Data.ObjectTransform.GetComponent<Entity>();
         if(e != null) {
             if(!_nameplates.ContainsKey(e.Identity.Id)) {
                 CreateNameplate(e);
@@ -166,10 +166,16 @@ public class NameplatesManager : MonoBehaviour
     }
 
     private void UpdateNameplateStyle(Nameplate nameplate) {
-        if(TargetManager.Instance.HasTarget() && TargetManager.Instance.GetTargetData().Data.ObjectTransform == nameplate.Target) {
-            nameplate.SetStyle("target-bubble-target");
+        if(TargetManager.Instance.HasTarget() && TargetManager.Instance.Target.Data.ObjectTransform == nameplate.Target) {
+            if (TargetManager.Instance.AttackTarget == TargetManager.Instance.Target) {
+                nameplate.SetStyle("target-bubble-attack");
+            } else {
+                nameplate.SetStyle("target-bubble-target");
+                nameplate.RemoveStyle("target-bubble-attack");
+            }
             return;
         } else {
+            nameplate.RemoveStyle("target-bubble-attack");
             nameplate.RemoveStyle("target-bubble-target");
         }
         
@@ -198,7 +204,7 @@ public class NameplatesManager : MonoBehaviour
             return true;
         }
 
-        bool isTarget = TargetManager.Instance.HasTarget() && TargetManager.Instance.GetTargetData().Data.ObjectTransform == target;
+        bool isTarget = TargetManager.Instance.HasTarget() && TargetManager.Instance.Target.Data.ObjectTransform == target;
         bool isTooFar = Vector3.Distance(_playerTransform.position, target.position) > _nameplateViewDistance;
         if(isTooFar && !isTarget) {
             return false;

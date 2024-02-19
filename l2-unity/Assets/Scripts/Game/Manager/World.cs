@@ -114,6 +114,7 @@ public class World : MonoBehaviour {
     }
 
     public void SpawnUser(NetworkIdentity identity, PlayerStatus status) {
+        Debug.Log("Spawn User");
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.User;
         identity.CollisionHeight = 0.45f;
@@ -199,30 +200,6 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void UpdateObjectDestination(int id, Vector3 position) {
-        Entity e;
-        if(_objects.TryGetValue(id, out e)) {
-            try {
-                Entity entity = e.GetComponent<Entity>();
-                float moveSpeed = 0;
-
-                if(entity != null) {
-                    moveSpeed = entity.Status.MoveSpeed;
-                } else {
-                    Debug.LogWarning("Entity is null");
-                    e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
-                }
-
-                e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position, moveSpeed);
-                e.GetComponent<NetworkTransformReceive>().LookAt(position);
-            } catch(Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                _objects.Remove(id);
-            }
-
-        }
-    }
-
     public void UpdateObjectRotation(int id, float angle) {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
@@ -235,11 +212,32 @@ public class World : MonoBehaviour {
         }
     }
 
+    public void UpdateObjectDestination(int id, Vector3 position, int speed, bool walking) {
+        Entity e;
+        if (_objects.TryGetValue(id, out e)) {
+            try {
+                if (speed != e.Status.Speed) {
+                    e.UpdateSpeed(speed);
+                }
+
+                e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position);
+                e.GetComponent<NetworkTransformReceive>().LookAt(position);
+                e.OnStartMoving(walking);
+                
+            } catch (Exception) {
+                Debug.LogWarning("Trying to update a null object");
+                _objects.Remove(id);
+            }
+
+        }
+    }
+
     public void UpdateObjectAnimation(int id, int animId, float value) {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                e.GetComponent<NetworkAnimationReceive>().SetAnimationProperty(animId, value);
+                Debug.Log($"Setting {id} anim {animId} at {value}");
+                e.GetComponent<NetworkAnimationController>().SetAnimationProperty(animId, value);
             } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);
@@ -247,38 +245,38 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void InflictDamageTo(int sender, int target, byte attackId, int value, bool criticalHit) {
+    public void InflictDamageTo(int sender, int target, int damage, int newHp, bool criticalHit) {
         Entity senderEntity;
         Entity targetEntity;
-        if(_objects.TryGetValue(sender, out senderEntity)) {
-            if(_objects.TryGetValue(target, out targetEntity)) {
-                //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
-                try {
-                    WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, (AttackType) attackId, value, criticalHit);
-                } catch(Exception) {
-                    Debug.LogWarning("Trying to update a null object");
+        if (_objects.TryGetValue(target, out targetEntity)) {
+            _objects.TryGetValue(sender, out senderEntity);
+            //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
+
+            //Debug.Log($"{sender} inflicts {damage} damages to {target}. HP: {newHp}");
+            //Debug.Log($"{senderEntity} inflicts {targetEntity}");
+
+            try {
+                if (senderEntity != null) {
+                    WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, damage, newHp, criticalHit);
+                } else {
+                    WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, newHp, criticalHit);
                 }
-            }
-        }
-    }
-
-    public void UpdateObjectMoveDirection(int id, float speed, Vector3 direction) {
-        Entity e;
-        if(_objects.TryGetValue(id, out e)) {
-            try {
-                e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(speed, direction);
-            } catch(Exception) {
+            } catch (Exception) {
                 Debug.LogWarning("Trying to update a null object");
-                RemoveObject(id);
             }
         }
+
     }
 
-    public void UpdateObjectMoveSpeed(int id, float speed) {
+    public void UpdateObjectMoveDirection(int id, int speed, Vector3 direction) {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                e.Status.MoveSpeed = speed;
+                if(speed != e.Status.Speed) {
+                    e.UpdateSpeed(speed);
+                }
+
+                e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(direction);
             } catch(Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);
@@ -287,10 +285,43 @@ public class World : MonoBehaviour {
     }
 
     public void UpdateEntityTarget(int id, int targetId) {
+        Entity targeter;
+        Entity targeted;
+        if (_objects.TryGetValue(id, out targeter)) {
+            if (_objects.TryGetValue(targetId, out targeted)) {
+                try {
+                    targeter.TargetId = targetId;
+                    targeter.Target = targeted.transform;
+                } catch (Exception) {
+                    Debug.LogWarning("Trying to update a null object");
+                    if(targeter == null) {
+                        RemoveObject(id);
+                    }
+                    if (targeted == null) {
+                        RemoveObject(targetId);
+                    }
+                }
+            }
+        }
+    }
+
+    public void EntityStartAutoAttacking(int id) {
         Entity e;
         if (_objects.TryGetValue(id, out e)) {
             try {
-                e.Target = targetId;
+                WorldCombat.Instance.EntityStartAutoAttacking(e);
+            } catch (Exception) {
+                Debug.LogWarning("Trying to update a null object");
+                RemoveObject(id);
+            }
+        }
+    }
+
+    public void EntityStopAutoAttacking(int id) {
+        Entity e;
+        if (_objects.TryGetValue(id, out e)) {
+            try {
+                WorldCombat.Instance.EntityStopAutoAttacking(e);
             } catch (Exception) {
                 Debug.LogWarning("Trying to update a null object");
                 RemoveObject(id);

@@ -18,7 +18,12 @@ public class UserInfoPacket : ServerPacket {
             Identity.SetPosX(ReadF());
             Identity.SetPosY(ReadF());
             Identity.SetPosZ(ReadF());
+            Identity.LeftHandId = ReadI();
+            Identity.RightHandId = ReadI();
             Identity.Owned = Identity.Name == DefaultClient.Instance.Username;
+            Status.Speed = ReadI();
+            Status.PAtkSpd = ReadI();
+            Status.MAtkSpd = ReadI();
             Status.Level = ReadI();
             Status.Hp = ReadI();
             Status.MaxHp = ReadI();

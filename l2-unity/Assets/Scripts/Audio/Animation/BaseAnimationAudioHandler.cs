@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BaseAnimationAudioHandler : MonoBehaviour
 {
-    [SerializeField] protected string _npcClassName;
     [SerializeField] protected Animator _animator;
     [SerializeField] protected float[] _walkStepRatios = new float[] { 0.25f, 0.75f };
     [SerializeField] protected float[] _runStepRatios = new float[] { 0.25f, 0.75f };
@@ -14,7 +13,9 @@ public class BaseAnimationAudioHandler : MonoBehaviour
     [SerializeField] protected float _deathRatio = 0f;
     [SerializeField] protected float _fallRatio = 0.5f;
     [SerializeField] private int _waitSoundChance = 5;
+    [SerializeField] private int _runBreathChance = 5;
     public int WaitSoundChance { get { return _waitSoundChance; } }
+    public int RunBreathChance { get { return _runBreathChance; } }
     public float[] WalkStepRatios { get { return _walkStepRatios; } }
     public float[] RunStepRatios { get { return _runStepRatios; } }
     public float SwishRatio { get { return _swishRatio; } }
@@ -24,25 +25,33 @@ public class BaseAnimationAudioHandler : MonoBehaviour
     public float FallRatio { get { return _fallRatio; } }
 
     private void Start() {
-        _npcClassName = GetComponent<Entity>().Identity.NpcClass;
-        if (!string.IsNullOrEmpty(_npcClassName)) {
-            string[] parts = _npcClassName.Split('.');
-            if (parts.Length > 1) {
-                _npcClassName = parts[1].ToLower();
-            }
-        }
-
-        if (string.IsNullOrEmpty(_npcClassName)) {
-            Debug.LogWarning("AnimationAudioHandler could not load npc class name");
-            this.enabled = false;
-        }
-
-        if (_animator == null) {
-            _animator = GetComponent<Animator>();
-        }
-
         Initialize();
     }
 
-    protected virtual void Initialize() { }
+    public void PlaySound(ItemSoundEvent soundEvent) {
+        AudioManager.Instance.PlayItemSound(soundEvent, transform.position);
+    }
+
+    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio) {
+        if (ratio == 0) {
+            PlaySound(soundEvent);
+            return;
+        }
+
+        StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
+    }
+
+    public IEnumerator PlaySoundAtRatioCoroutine(ItemSoundEvent soundEvent, float ratio) {
+        while ((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio) {
+            yield return null;
+        }
+
+        PlaySound(soundEvent);
+    }
+
+    protected virtual void Initialize() {
+        if (_animator == null) {
+            _animator = GetComponent<Animator>();
+        }
+    }
 }

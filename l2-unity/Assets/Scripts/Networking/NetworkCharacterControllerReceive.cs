@@ -2,24 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine; 
 
-[RequireComponent(typeof(NetworkAnimationReceive), typeof(NetworkTransformReceive), typeof(CharacterController))]
+[RequireComponent(typeof(NetworkAnimationController), typeof(NetworkTransformReceive), typeof(CharacterController))]
 public class NetworkCharacterControllerReceive : MonoBehaviour
 {
     private CharacterController _characterController;
-    private NetworkAnimationReceive _animationReceive;
+    private NetworkAnimationController _animationReceive;
     private NetworkTransformReceive _networkTransformReceive;
+    private Entity _entity;
     [SerializeField] private Vector3 _direction;
     [SerializeField] private float _speed;
     [SerializeField] private Vector3 _destination;
     [SerializeField] private float _gravity = 28f;
-    [SerializeField] private float _moveSpeedMultiplier = 0.95f;
+    [SerializeField] private float _moveSpeedMultiplier = 1f;
 
     void Start() {
         if(World.Instance.OfflineMode) {
             this.enabled = false;
         }
+        _entity = GetComponent<Entity>();
         _networkTransformReceive = GetComponent<NetworkTransformReceive>();
-        _animationReceive = GetComponent<NetworkAnimationReceive>();
+        _animationReceive = GetComponent<NetworkAnimationController>();
         _characterController = GetComponent<CharacterController>();
 
         if(_characterController == null || World.Instance.OfflineMode || _animationReceive == null) {
@@ -29,10 +31,14 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         _destination = Vector3.zero;
     }
 
-    public void UpdateMoveDirection(float speed, Vector3 direction) {
-        _speed = speed;
+    public void UpdateMoveDirection(Vector3 direction) {
+        _speed = _entity.Status.ScaledSpeed;
         _direction = direction;
-        _animationReceive.SetFloat("Speed", speed);
+    }
+
+    public void SetDestination(Vector3 destination) {
+        _speed = _entity.Status.ScaledSpeed;
+        _destination = destination;
     }
 
     private void FixedUpdate() {
@@ -50,13 +56,6 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         _characterController.Move(ajustedDirection * Time.deltaTime);
     }
 
-    public void SetDestination(Vector3 destination, float speed) {
-        Debug.Log("Set destination: " + destination + " " + speed);
-        _speed = speed;
-        _destination = destination;
-        _animationReceive.SetFloat("Speed", speed);
-    }
-
     public void SetMoveDirectionToDestination() {
         Vector3 transformFlat = VectorUtils.To2D(transform.position);
         Vector3 destinationFlat = VectorUtils.To2D(_destination);
@@ -65,6 +64,11 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
             _networkTransformReceive.PausePositionSync();
             _direction = (destinationFlat - transformFlat).normalized;
         } else {
+            if(_direction != Vector3.zero) {
+                _entity.OnStopMoving();
+                //TODO check if has target and is attacking
+            }
+
             _direction = Vector3.zero;
             _networkTransformReceive.ResumePositionSync();
         }

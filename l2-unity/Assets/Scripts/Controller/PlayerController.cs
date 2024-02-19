@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     /* Components */
@@ -23,13 +24,17 @@ public class PlayerController : MonoBehaviour {
 
     /* Target */
     [SerializeField] private Vector3 _targetPosition;
-    [SerializeField] private bool _runningToTarget = false;
-    private float _followDistance;
+    [SerializeField] private bool _runningToDestination = false;
+    [SerializeField] private Transform _lookAtTarget;
+    private Coroutine _lookAtCoroutine;
+    private float _stopAtRange;
     private Vector3 _flatTransformPos;
 
     public float CurrentSpeed { get { return _currentSpeed; } }
-    public bool RunningToTarget { get { return _runningToTarget; } }
-    public bool CanMove { get { return _canMove; } set { _canMove = value; } }
+    public float DefaultSpeed { get { return _defaultSpeed; } set { _defaultSpeed = value; } }
+    public bool RunningToDestination { get { return _runningToDestination; } }
+    public bool CanMove { get { return _canMove; } }
+    public Vector3 MoveDirection { get { return _moveDirection; } }
 
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
@@ -47,13 +52,23 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate() {
         _flatTransformPos = new Vector3(transform.position.x, 0, transform.position.z);
 
-        if(_runningToTarget) {
-            FollowTargetPosition();
+        if(_runningToDestination) {
+            if (InputManager.Instance.IsInputPressed(InputType.Move)) {
+                ResetDestination();
+            }
+
+            if(ShouldRunToDestination(_stopAtRange)) {
+                MoveToTargetPosition();
+            }
         } else {
-            FollowInputs();
+            ListenToInputs();
         }
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
+        if(_lookAtTarget == null) {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
+        } else {
+            transform.LookAt(new Vector3(_lookAtTarget.position.x, transform.position.y, _lookAtTarget.position.z));
+        }
 
         _moveDirection = ApplyGravity(_moveDirection);
         _controller.Move(_moveDirection * Time.deltaTime);
@@ -61,19 +76,23 @@ public class PlayerController : MonoBehaviour {
         MeasureSpeed();
     }
 
-    private void FollowTargetPosition() {
-        if(Vector3.Distance(_flatTransformPos, _targetPosition) > _followDistance) {
-            MoveToTargetPosition();
-        } else {
-            //ResetTargetPosition();
-        }
-
-        if(InputManager.Instance.IsInputPressed(InputType.Move)) {
-            ResetTargetPosition();
-        }
+    private bool ShouldRunToDestination(float stopAtRange) {
+        return Vector3.Distance(_flatTransformPos, _targetPosition) > stopAtRange; 
     }
 
-    private void FollowInputs() {
+    public void SetDestination(Vector3 position, float distance) {
+        _runningToDestination = true;
+        _stopAtRange = distance;
+        _targetPosition = VectorUtils.To2D(position);
+    }
+
+    public void ResetDestination() {
+        _runningToDestination = false;
+        _targetPosition = _flatTransformPos;
+        ClickManager.Instance.HideLocator();
+    }
+
+    private void ListenToInputs() {
         /* Update input axis */
         _axis = GetAxis();
 
@@ -91,18 +110,6 @@ public class PlayerController : MonoBehaviour {
         _currentPos = transform.position;
         _measuredSpeed = (_currentPos - _lastPos).magnitude / Time.deltaTime;
         _lastPos = _currentPos;
-    }
-
-    public void SetTargetPosition(Vector3 position, float distance) {
-        _runningToTarget = true;
-        _followDistance = distance;
-        _targetPosition = VectorUtils.To2D(position);
-    }
-
-    public void ResetTargetPosition() {
-        _runningToTarget = false;
-        _targetPosition = Vector3.zero;
-        ClickManager.Instance.HideLocator();
     }
 
     private void MoveToTargetPosition() {
@@ -132,7 +139,7 @@ public class PlayerController : MonoBehaviour {
 
     public Vector2 GetAxis() {
         Vector2 localAxis;
-        if(InputManager.Instance.IsInputPressed(InputType.MoveForward)) {
+        if(InputManager.Instance.IsInputPressed(InputType.MoveForward) && _canMove) {
             LookForward(true);
             localAxis = Vector2.up;
         } else {
@@ -217,5 +224,44 @@ public class PlayerController : MonoBehaviour {
         }
 
         transform.rotation = Quaternion.Euler(Vector3.up * _finalAngle);
+    }
+
+    public void StartLookAt(Transform target) {
+        UpdateFinalAngleToLookAt(target);
+
+        // Wait for a small delay to lock on to target
+        _lookAtTarget = null;
+        _lookAtCoroutine = StartCoroutine(LookAtAfter(target));
+    }
+
+    IEnumerator LookAtAfter(Transform target) {
+        yield return new WaitForSeconds(0.2f);
+        if (target != null) {
+            _lookAtTarget = target;
+        }
+    }
+
+    public void StopLookAt() {
+        UpdateFinalAngleToLookAt(_lookAtTarget);
+        _lookAtTarget = null;
+        if (_lookAtCoroutine != null) {
+            StopCoroutine(_lookAtCoroutine);
+        }
+    }
+
+    public void UpdateFinalAngleToLookAt(Transform target) {
+        if (target == null) {
+            return;
+        }
+
+        float angle = Mathf.Atan2(target.position.x - transform.position.x, target.position.z - transform.position.z) * Mathf.Rad2Deg;
+        angle = Mathf.Round(angle / 45f);
+        angle *= 45f;
+        _finalAngle = angle;
+    }
+
+    public void SetCanMove(bool canMove) {
+        _moveDirection = new Vector3(0, _moveDirection.y, 0);
+        _canMove = canMove;
     }
 }

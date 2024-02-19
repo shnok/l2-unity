@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class MonsterStateAtk : MonsterStateBase
 {
+    private float _lastNormalizedTime = 0;
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
         PlaySoundAtRatio(MonsterSoundEvent.Atk, audioHandler.AtkRatio);
         PlaySoundAtRatio(MonsterSoundEvent.Swish, audioHandler.SwishRatio);
+        _lastNormalizedTime = 0;
     }
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        // Check if the state has looped (re-entered)
+        if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
+            // This block will be executed once when the state is re-entered after completion
+            _lastNormalizedTime = stateInfo.normalizedTime;
+            PlaySoundAtRatio(MonsterSoundEvent.Atk, audioHandler.AtkRatio);
+            PlaySoundAtRatio(MonsterSoundEvent.Swish, audioHandler.SwishRatio);
+        }
     }
 
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 
-    }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-    }
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
     }
 }

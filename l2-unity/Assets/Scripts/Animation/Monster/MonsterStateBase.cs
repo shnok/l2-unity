@@ -6,6 +6,7 @@ public class MonsterStateBase : StateMachineBehaviour
 {
     public MonsterAnimationAudioHandler audioHandler;
     public Animator animator;
+    private Entity _entity;
 
     public void LoadComponents(Animator animator) {
         if(audioHandler == null) {
@@ -13,6 +14,9 @@ public class MonsterStateBase : StateMachineBehaviour
         }
         if(this.animator == null) {
             this.animator = animator;
+        }
+        if (_entity == null) {
+            _entity = animator.gameObject.GetComponent<Entity>();
         }
     }
 

@@ -1,13 +1,14 @@
 public enum ClientPacketType : byte
 {
-    Ping = 0,
-    AuthRequest = 1,
-    SendMessage = 2,
-    RequestMove = 3,
-    LoadWorld = 4,
-    RequestRotate = 5,
-    RequestAnim = 6,
-    RequestAttack = 7,
-    RequestMoveDirection = 8,
-    RequestSetTarget = 9
+    Ping = 0x00,
+    AuthRequest = 0x01,
+    SendMessage = 0x02,
+    RequestMove = 0x03,
+    LoadWorld = 0x04,
+    RequestRotate = 0x05,
+    RequestAnim = 0x06,
+    RequestAttack = 0x07,
+    RequestMoveDirection = 0x08,
+    RequestSetTarget = 0x09,
+    RequestAutoAttack = 0x0A
 }

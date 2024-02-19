@@ -189,9 +189,9 @@ public class Geodata : MonoBehaviour {
     public Vector3 FromNodeToWorldPos(Vector3 nodePos, Vector3 origin) {
         Vector3 worldPos = nodePos * _nodeSize + origin;
         worldPos = new Vector3(
-            VectorUtils.floorToNearest(worldPos.x, _nodeSize),
-            VectorUtils.floorToNearest(worldPos.y, _nodeSize),
-            VectorUtils.floorToNearest(worldPos.z, _nodeSize));
+            NumberUtils.FloorToNearest(worldPos.x, _nodeSize),
+            NumberUtils.FloorToNearest(worldPos.y, _nodeSize),
+            NumberUtils.FloorToNearest(worldPos.z, _nodeSize));
         return worldPos;
     }
 
