@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateBase : StateMachineBehaviour {
+public class UserStateBase : StateMachineBehaviour {
     protected CharacterAnimationAudioHandler _audioHandler;
     protected Animator _animator;
     protected PlayerAnimationController _controller;
@@ -32,10 +32,6 @@ public class PlayerStateBase : StateMachineBehaviour {
     }
 
     public void SetBool(string name, bool value) {
-        PlayerAnimationController.Instance.SetBool(name, value, true);
-    }
-
-    public void SetBool(string name, bool value, bool share) {
-        PlayerAnimationController.Instance.SetBool(name, value, share);
+        _animator.SetBool(name, value);
     }
 }

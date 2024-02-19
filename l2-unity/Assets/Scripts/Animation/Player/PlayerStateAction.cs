@@ -36,7 +36,7 @@ public class PlayerStateAction : PlayerStateBase
 
     protected bool ShouldRun() {
         if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) && PlayerController.Instance.CanMove) {
-            SetBool("run_" + _weaponType, true);
+            SetBool("run" + _weaponType.ToString(), true);
             return true;
         }
 
@@ -46,7 +46,7 @@ public class PlayerStateAction : PlayerStateBase
     protected bool ShouldIdle() {
         if (!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToDestination || !PlayerController.Instance.CanMove) {
             if(PlayerEntity.Instance.AttackTarget == null) {
-                SetBool("wait_" + _weaponType, true);
+                SetBool("wait" + _weaponType.ToString(), true);
                 return true;
             }
         }
@@ -59,7 +59,7 @@ public class PlayerStateAction : PlayerStateBase
         if ((!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToDestination || !PlayerController.Instance.CanMove)
              && now - _entity.StopAutoAttackTime < 5000) {
             if (PlayerEntity.Instance.AttackTarget == null) {
-                SetBool("atkwait_" + _weaponType, true);
+                SetBool("atkwait" + _weaponType.ToString(), true, false);
                 return true;
             }
         }

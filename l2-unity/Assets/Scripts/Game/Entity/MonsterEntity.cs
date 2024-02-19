@@ -67,7 +67,6 @@ public class MonsterEntity : Entity {
     public override float UpdateSpeed(int speed) {
         float converted = base.UpdateSpeed(speed);
         _networkAnimationReceive.SetMoveSpeed(converted);
-        Debug.Log("2: " + converted);
         return converted;
     }
 }

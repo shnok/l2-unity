@@ -114,6 +114,7 @@ public class World : MonoBehaviour {
     }
 
     public void SpawnUser(NetworkIdentity identity, PlayerStatus status) {
+        Debug.Log("Spawn User");
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.User;
         identity.CollisionHeight = 0.45f;

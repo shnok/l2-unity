@@ -2,30 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateWait : PlayerStateAction {
+public class UserStateDead : UserStateBase {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+        SetBool("death", false);
+        PlaySoundAtRatio(CharacterSoundEvent.Death, _audioHandler.DeathRatio);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (ShouldAttack()) {
-            return;
-        }
-        if (ShouldRun()) {
-            return;
-        }
-        if(ShouldJump(false)) {
-            return;
-        }
-        if(ShouldSit()) {
-            return;
-        }
-        if (ShouldAtkWait()) {
-            return;
-        }
+        SetBool("death", false);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetBool("wait" + _weaponType.ToString(), false, false);
+
     }
 }
+

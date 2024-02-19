@@ -142,6 +142,10 @@ public class DayNightCycle : MonoBehaviour {
     }
 
     private void UpdateFogColor() {
+        if(HeightFogGlobal.Instance == null) {
+            return;
+        }
+
         Color fogColorStart = HeightFogGlobal.Instance.fogColorStart;
         Color fogColorEnd = HeightFogGlobal.Instance.fogColorEnd;
         float directionalIntensity = HeightFogGlobal.Instance.directionalIntensity;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateRun : PlayerStateAction {
+public class UserStateRun : UserStateBase {
     private bool _hasStarted = false;
     private float _lastNormalizedTime = 0;
 
@@ -10,13 +10,14 @@ public class PlayerStateRun : PlayerStateAction {
         LoadComponents(animator);
         _hasStarted = true;
         _lastNormalizedTime = 0;
-
+        SetBool("run" + _weaponType.ToString(), false);
         foreach (var ratio in _audioHandler.RunStepRatios) {
             _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
         }
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        SetBool("run" + _weaponType.ToString(), false);
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f) {
             if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance)) {
                 _audioHandler.PlaySound(CharacterSoundEvent.Breath);
@@ -33,25 +34,9 @@ public class PlayerStateRun : PlayerStateAction {
                 _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
             }
         }
-
-        if (ShouldAttack()) {
-            return;
-        }
-        if (ShouldJump(true)) {
-            return;
-        }
-        if (ShouldSit()) {
-            return;
-        }
-        if (ShouldAtkWait()) {
-            return;
-        }
-        if (ShouldIdle()) {
-            return;
-        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetBool("run" + _weaponType.ToString(), false, false);
+        
     }
 }

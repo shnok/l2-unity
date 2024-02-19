@@ -8,8 +8,7 @@ public class PlayerStateAtk : PlayerStateAction {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
-        SetBool("atk01_" + _weaponType, false);
-        LoadComponents(animator);
+        SetBool("atk01" + _weaponType.ToString(), false, false);
 
         if(TargetManager.Instance.HasAttackTarget()) {
             PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);

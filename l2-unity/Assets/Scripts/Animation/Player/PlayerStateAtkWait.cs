@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : PlayerStateAction {
+public class PlayerStateAtkWait : PlayerStateAction {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
     }
@@ -34,7 +34,6 @@ public class NewBehaviourScript : PlayerStateAction {
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetBool("atkwait_" + _weaponType, false);
+        SetBool("atkwait" + _weaponType.ToString(), false, false);
     }
 }
-
