@@ -16,13 +16,19 @@ public class GeodataImporterFactory : MonoBehaviour {
     private static GeodataImporterFactory _instance;
     public static GeodataImporterFactory Instance { get { return _instance; } }
 
-    void Awake() {
-        if(_instance == null) {
+    private void Awake() {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
 
         _currentJobs = new List<GeodataImporter>();
         _todoJobs = new List<GeodataImporter>();
+    }
+
+    void OnDestroy() {
+        _instance = null;
     }
 
     void Update() {

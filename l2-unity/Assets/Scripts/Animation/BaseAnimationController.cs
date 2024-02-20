@@ -68,6 +68,10 @@ public class BaseAnimationController : MonoBehaviour
         }
     }
 
+    public void SetBool(string name, bool value) {
+        _animator.SetBool(name, value);
+    }
+
     public void SetAnimationProperty(int animId, float value) {
         SetAnimationProperty(animId, value, false);
     }

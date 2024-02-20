@@ -15,9 +15,15 @@ public class TargetManager : MonoBehaviour
     public static TargetManager Instance { get { return _instance; } }
 
     private void Awake() {
-        if(_instance == null) {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
+    }
+
+    void OnDestroy() {
+        _instance = null;
     }
 
     private void Start() {

@@ -39,6 +39,11 @@ public class MonsterEntity : Entity {
             _networkAnimationReceive.SetAnimationProperty((int)MonsterAnimationEvent.Atk01, 1f);
         }
 
+        if (networkCharacterController != null) {
+            // Should stop moving if autoattacking
+            networkCharacterController.SetDestination(transform.position);
+        }
+
         return true;
     }
 

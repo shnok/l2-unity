@@ -39,6 +39,11 @@ public class NpcEntity : Entity {
             _networkAnimationReceive.SetAnimationProperty((int)NpcAnimationEvent.Atk01, 1f);
         }
 
+        if (networkCharacterController != null) {
+            // Should stop moving if autoattacking
+            networkCharacterController.SetDestination(transform.position);
+        }
+
         return true;
     }
 

@@ -16,10 +16,18 @@ public class NameplatesManager : MonoBehaviour
 
     private static NameplatesManager _instance;
     public static NameplatesManager Instance { get { return _instance; } }
+
     private void Awake() {
         if(_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
+    }
+
+    private void OnDestroy() {
+        _nameplates.Clear();
+        _instance = null;
     }
 
     void Start() {

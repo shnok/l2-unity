@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UserStateRun : UserStateBase {
+public class UserStateRun : UserStateAction {
     private bool _hasStarted = false;
     private float _lastNormalizedTime = 0;
 
@@ -33,6 +33,13 @@ public class UserStateRun : UserStateBase {
             foreach (var ratio in _audioHandler.RunStepRatios) {
                 _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
             }
+        }
+
+        if(!IsMoving()) {
+            if (ShouldAtkWait()) {
+                return;
+            }
+            _animator.SetBool("wait" + _weaponType.ToString(), true);
         }
     }
 

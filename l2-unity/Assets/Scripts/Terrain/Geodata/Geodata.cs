@@ -35,7 +35,14 @@ public class Geodata : MonoBehaviour {
     private void Awake() {
         if(_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
+    }
+
+    void OnDestroy() {
+        _geodata.Clear();
+        _instance = null;
     }
 
     void Start() {

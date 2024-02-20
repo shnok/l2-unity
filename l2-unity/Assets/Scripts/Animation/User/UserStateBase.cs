@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UserStateBase : StateMachineBehaviour {
     protected CharacterAnimationAudioHandler _audioHandler;
+    protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
     protected Animator _animator;
     protected PlayerAnimationController _controller;
     protected Entity _entity;
@@ -12,16 +13,19 @@ public class UserStateBase : StateMachineBehaviour {
 
     public void LoadComponents(Animator animator) {
         if (_audioHandler == null) {
-            _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();
+            _audioHandler = animator.transform.GetComponent<CharacterAnimationAudioHandler>();
         }
         if (_animator == null) {
             _animator = animator;
         }
         if (_entity == null) {
-            _entity = PlayerEntity.Instance;
+            _entity = animator.transform.parent.parent.GetComponent<Entity>();
         }
         if (_entity != null) {
             _weaponType = _entity.WeaponType;
+        }
+        if (_networkCharacterControllerReceive == null) {
+            _networkCharacterControllerReceive = animator.transform.parent.parent.GetComponent<NetworkCharacterControllerReceive>();
         }
     }
 

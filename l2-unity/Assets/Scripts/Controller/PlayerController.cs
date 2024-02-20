@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private Vector3 _targetPosition;
     [SerializeField] private bool _runningToDestination = false;
     [SerializeField] private Transform _lookAtTarget;
-    private Coroutine _lookAtCoroutine;
     private float _stopAtRange;
     private Vector3 _flatTransformPos;
 
@@ -39,10 +38,16 @@ public class PlayerController : MonoBehaviour {
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
 
-    void Awake() {
-        if(_instance == null) {
+    private void Awake() {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
+    }
+
+    void OnDestroy() {
+        _instance = null;
     }
 
     void Start() {
@@ -64,11 +69,11 @@ public class PlayerController : MonoBehaviour {
             ListenToInputs();
         }
 
-        if(_lookAtTarget == null) {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
-        } else {
-            transform.LookAt(new Vector3(_lookAtTarget.position.x, transform.position.y, _lookAtTarget.position.z));
-        }
+        if(_lookAtTarget != null) {
+            UpdateFinalAngleToLookAt(_lookAtTarget);
+        } 
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
 
         _moveDirection = ApplyGravity(_moveDirection);
         _controller.Move(_moveDirection * Time.deltaTime);
@@ -230,23 +235,12 @@ public class PlayerController : MonoBehaviour {
         UpdateFinalAngleToLookAt(target);
 
         // Wait for a small delay to lock on to target
-        _lookAtTarget = null;
-        _lookAtCoroutine = StartCoroutine(LookAtAfter(target));
-    }
-
-    IEnumerator LookAtAfter(Transform target) {
-        yield return new WaitForSeconds(0.2f);
-        if (target != null) {
-            _lookAtTarget = target;
-        }
+        _lookAtTarget = target;
     }
 
     public void StopLookAt() {
         UpdateFinalAngleToLookAt(_lookAtTarget);
         _lookAtTarget = null;
-        if (_lookAtCoroutine != null) {
-            StopCoroutine(_lookAtCoroutine);
-        }
     }
 
     public void UpdateFinalAngleToLookAt(Transform target) {

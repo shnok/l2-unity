@@ -1,0 +1,137 @@
+TODO
+
+should move away from animation share to state share
+reduce amount of packets sent by players
+todo remove request rotate, calculate rotation based on movedirection
+share action instead of animationid, store current action in entity
+
+wait for monster attack animation end before following player
+monster should follow even if not on geodata/path cant be found
+
+global variable to scale all ambientsounds
+Update terrain textures with Microsplat
+Nature renderer for deco layer ?
+replace curent input system with unity input system
+
+loading screen
+
+DONE
+should set animation to idle if animation is run and movedirection is 0
+add atk wait timeout to other user
+fix other player desync when atk
+fix locator decal layer
+fix cant target other players
+OPTIMIZE RAM/CPU USAGE
+- reduce texture2darray size
+- change water shader
+better handle of equiped weapons
+share equipped weapons from users and npcs from server
+refacto user sync
+player stop attack when entity dies
+add atkwait timeout when idle
+stop autoattack loop when player is dead...
+allow player to attack another target while attacking
+set can move to false when requesting autoattack, if cant return error packet
+reduce hit particle offset
+share position when reaching path points
+player run to target when pressing autoattack
+clear any path when pressing autoattack
+refactor player animation/sound like NPCs and monsters
+implement player auto attack
+add invulnerable/static npcs
+fix monster autoattack anim stop sometimes
+fix monster stopping too far from the player
+refacto player animator and state machine
+add sounds for player animations
+include player and user atkspeed, movespeed, matkspeed in packet
+share speed for player too
+revert speed to original value
+share new total entity hp in inflict attack packet
+share monster damage info client side
+monster stop attack when target is dead
+make monster deal damage
+calculate attack delay based on database atk speed
+calculate stats based on base template
+client side monster auto attack animation
+make entity attack player when at attack range
+make entity follow player when receiving attack
+particle y pos based on npc height
+fix respawn position desync
+client side npc death
+monster hit sound
+monster die animation / sound
+fix target hp bar
+monsters respawn
+monsters take damages/death
+share target client side
+share target server side
+hit particle
+fix npcs still having disconnected users in knownlist
+add cooldown between musics
+improve post process
+night fog start and end should be grey
+remove useless scripts on monsters
+keltir is fox ?
+Find a workaround for UI Tab/Tabview
+UPDATE ALL MODELS WITH LEGACY CALCULATE NORMALS (entities ok,need to check for static mesh)
+Fix deco layer materials
+Add layers/tags to bridges
+Add trunk to trees
+FIX Brushes materials
+Add better water shader (KWS)
+Rebuild materials with Universal Render Pipeline/Nature/SpeedTree8_PBRLit when transparent
+Downgrade to Unity 2022.3
+fix clouds
+fix playercontroller when looking from top
+fix nameplate showing behind walls for a while
+reduce min ambientsound dropoff to 5%
+fix ambient sound loop
+add harbor music / elven ruins music
+remove fisher/obelisk/olympiad manager/manor from spawn list
+add all talking island npcs
+add npc sounds
+increase ambient sounds range by 50%
+add golem, spider, cat the cat sounds
+fix npc respawn y
+add all talking island monsters
+geodata import perf improvements
+fix path cannot be found when steep angle
+multi-thread geodata load in client
+fix geodata with doors
+fix geodata to detect trunks
+add geodata for all talking island
+change client geodata to act like server's (layers)
+add all talking island spawnlist
+fix camera collision not working with terrain
+replace DecoFadeout with camera layer cull distances
+need better sunset
+mute sound when not focused
+add platform under maps
+C# refacto
+- change input to input manager
+- Terrin / UI / Rendering folders left
+- change getInstance and getter setter in C#
+- add _ in front of private variables
+Sync server/client time
+reduce volume of monsters steps
+remove collider for tree leaves
+Reduce amount of npc emote/sound
+fix npcs cant find random drift point somehow
+fix spawn position (by checking at closest node on Y axis)
+
+Weapons to add
+
+RHAND
+1
+2
+4
+5
+14
+89
+129
+156
+275
+
+LHAND
+20
+102

@@ -10,10 +10,17 @@ public class WorldCombat : MonoBehaviour {
     public static WorldCombat Instance { get { return _instance; } }
 
     private void Awake() {
-        if(_instance == null) {
+        if (_instance == null) {
             _instance = this;
+        } else {
+            Destroy(this);
         }
     }
+
+    void OnDestroy() {
+        _instance = null;
+    }
+
 
     public void InflictAttack(Transform target, int damage, int newHp, bool criticalHit) {
         ApplyDamage(target, damage, newHp, criticalHit);
