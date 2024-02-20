@@ -26,6 +26,7 @@ public class Entity : MonoBehaviour {
     private NetworkTransformReceive _networkTransformReceive;
     private NetworkCharacterControllerReceive _networkCharacterControllerReceive;
 
+    public NetworkCharacterControllerReceive networkCharacterController { get { return _networkCharacterControllerReceive; } }
     public Status Status { get => _status; set => _status = value; }
     public NetworkIdentity Identity { get => _identity; set => _identity = value; }
     public int TargetId { get => _targetId; set => _targetId = value; }
@@ -44,7 +45,8 @@ public class Entity : MonoBehaviour {
     }
 
     protected virtual void LookAtTarget() {
-        if (AttackTarget != null) {
+        if (AttackTarget != null && Status.Hp > 0) {
+            //TODO: add lerp rotation
             transform.LookAt(new Vector3(AttackTarget.position.x, transform.position.y, AttackTarget.position.z));
         }
     }
@@ -201,17 +203,13 @@ public class Entity : MonoBehaviour {
         _startAutoAttackTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         _attackTarget = _target;
 
-        if (_networkCharacterControllerReceive != null) {
-            // Should stop moving if autoattacking
-            _networkCharacterControllerReceive.SetDestination(transform.position);
-        }
-
         return true;
     }
 
     public virtual bool StopAutoAttacking() {
-        Debug.Log("Stop autoattacking");
+        Debug.Log($"[{Identity.Name}] Stop autoattacking");
         if (_attackTarget == null) {
+            Debug.Log("AttackTarget was null");
             return false;
         }
 

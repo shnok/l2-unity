@@ -31,13 +31,15 @@ public class PlayerStateAtk : PlayerStateAction {
 
             if ((stateInfo.normalizedTime % 1) <= 0.50f) {
                 PlayerController.Instance.SetCanMove(false);
-            } else {
+            } else { 
                 if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination)) {
                     PlayerController.Instance.SetCanMove(true);
                 }
                 moved = ShouldRun();
+            }
 
-                if(!TargetManager.Instance.HasAttackTarget() || TargetManager.Instance.AttackTarget.Data.Entity.IsDead()) {
+            if ((stateInfo.normalizedTime % 1) >= 0.90f) {
+                if (!TargetManager.Instance.HasAttackTarget() || TargetManager.Instance.AttackTarget.Data.Entity.IsDead()) {
                     PlayerEntity.Instance.StopAutoAttacking();
                 }
             }

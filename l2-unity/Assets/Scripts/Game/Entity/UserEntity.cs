@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,9 @@ public class UserEntity : Entity {
 
     protected override void OnDeath() {
         base.OnDeath();
+        _networkAnimationReceive.SetAnimationProperty((int)PlayerAnimationEvent.death, 1f, true);
     }
+
 
     protected override Transform GetLeftHandBone() {
         if (_leftHandBone == null) {
@@ -37,6 +40,22 @@ public class UserEntity : Entity {
         return _shieldBone;
     }
 
+    public override bool StartAutoAttacking() {
+        if (base.StartAutoAttacking()) {
+            _networkAnimationReceive.SetBool("atk01" + WeaponType, true);
+        }
+
+        return true;
+    }
+
+    public override bool StopAutoAttacking() {
+        if (base.StopAutoAttacking()) {
+            _networkAnimationReceive.SetBool("atk01" + WeaponType, false);
+            _networkAnimationReceive.SetBool("atkwait" + WeaponType, true);
+        }
+
+        return true;
+    }
 
     protected override void OnHit(bool criticalHit) {
         base.OnHit(criticalHit);
