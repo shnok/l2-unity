@@ -371,6 +371,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5572040722084701097, guid: 96d6d38eba6e43e468b31f62ec54bf9d, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572040722084701097, guid: 96d6d38eba6e43e468b31f62ec54bf9d, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 05f14fcb58e038a40ba1d10ad1fa37e1, type: 2}
@@ -617,6 +621,8 @@ MonoBehaviour:
     _position: {x: 0, y: 0, z: 0}
     _heading: 0
     _collisionHeight: 0
+    _leftHandId: -1
+    _rightHandId: -1
     _owned: 0
   _status:
     _hp: 0
@@ -631,6 +637,11 @@ MonoBehaviour:
   _attackTarget: {fileID: 0}
   _stopAutoAttackTime: 0
   _startAutoAttackTime: 0
+  _rightHandType: 0
+  _rightHandBone: {fileID: 0}
+  _leftHandType: 0
+  _leftHandBone: {fileID: 0}
+  _shieldBone: {fileID: 0}
 --- !u!4 &3130405488082229304 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 96d6d38eba6e43e468b31f62ec54bf9d, type: 3}

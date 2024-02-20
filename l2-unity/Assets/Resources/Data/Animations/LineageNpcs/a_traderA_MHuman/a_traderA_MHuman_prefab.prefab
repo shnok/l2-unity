@@ -122,6 +122,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -8207269981983608818, guid: 6c3b7801a50671945af3d36284ebecb3, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: -8164561276502211144, guid: 6c3b7801a50671945af3d36284ebecb3, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -526,6 +530,8 @@ MonoBehaviour:
     _position: {x: 0, y: 0, z: 0}
     _heading: 0
     _collisionHeight: 0
+    _leftHandId: -1
+    _rightHandId: -1
     _owned: 0
   _status:
     _hp: 0
@@ -540,6 +546,11 @@ MonoBehaviour:
   _attackTarget: {fileID: 0}
   _stopAutoAttackTime: 0
   _startAutoAttackTime: 0
+  _rightHandType: 0
+  _rightHandBone: {fileID: 0}
+  _leftHandType: 0
+  _leftHandBone: {fileID: 0}
+  _shieldBone: {fileID: 0}
 --- !u!114 &3377683160364976282
 MonoBehaviour:
   m_ObjectHideFlags: 0

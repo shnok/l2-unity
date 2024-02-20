@@ -38,7 +38,7 @@ For now the aim is to create a basic demo, therefore only basic features will be
     - Monsters ✅
     - Monsters AI with Pathfinding ✅
 - Import Lineage2's world
-    - Talking island region only (for now) ✅
+    - Talking island region ✅
         - StaticMeshes ✅
         - Brushes ✅
         - Terrain ✅
