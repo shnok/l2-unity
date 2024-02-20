@@ -164,10 +164,12 @@ public class ServerPacketHandler
     }
 
     private void OnUserInfoReceive(byte[] data) {
+        Debug.Log("On user info receive");
         UserInfoPacket packet = new UserInfoPacket(data);
         NetworkIdentity identity = packet.Identity;
         identity.EntityType = EntityType.User;
         PlayerStatus status = packet.Status;
+        Debug.Log(identity.Id);
         _eventProcessor.QueueEvent(() => World.Instance.SpawnUser(identity, status));
     }
 

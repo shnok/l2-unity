@@ -199,9 +199,8 @@ public class World : MonoBehaviour {
         if(_objects.TryGetValue(id, out e)) {
             try {
                 e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
-            } catch(Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                RemoveObject(id);
+            } catch(Exception ex) {
+                Debug.LogWarning($"UpdateObjectPosition fail - Target {id} - Error {ex.Message}");
             }
         }
     }
@@ -211,9 +210,8 @@ public class World : MonoBehaviour {
         if(_objects.TryGetValue(id, out e)) {
             try {
                 e.GetComponent<NetworkTransformReceive>().RotateTo(angle);
-            } catch(Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                RemoveObject(id);
+            } catch (Exception ex) {
+                Debug.LogWarning($"UpdateObjectRotation fail - Target {id} - Error {ex.Message}");
             }
         }
     }
@@ -229,12 +227,10 @@ public class World : MonoBehaviour {
                 e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position);
                 e.GetComponent<NetworkTransformReceive>().LookAt(position);
                 e.OnStartMoving(walking);
-                
-            } catch (Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                _objects.Remove(id);
-            }
 
+            } catch (Exception ex) {
+                Debug.LogWarning($"UpdateObjectDestination fail - Target {id} - Error {ex.Message}");
+            }
         }
     }
 
@@ -244,9 +240,8 @@ public class World : MonoBehaviour {
             try {
                 Debug.Log($"Setting {id} anim {animId} at {value}");
                 e.GetComponent<NetworkAnimationController>().SetAnimationProperty(animId, value);
-            } catch(Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                RemoveObject(id);
+            } catch (Exception ex) {
+                Debug.LogWarning($"UpdateObjectAnimation fail - Target {id} - Error {ex.Message}");
             }
         }
     }
@@ -267,11 +262,10 @@ public class World : MonoBehaviour {
                 } else {
                     WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, newHp, criticalHit);
                 }
-            } catch (Exception) {
-                Debug.LogWarning("Trying to update a null object");
+            } catch (Exception ex) {
+                Debug.LogWarning($"InflictDamageTo fail - Sender {sender} Target {target} - Error {ex.Message}");
             }
         }
-
     }
 
     public void UpdateObjectMoveDirection(int id, int speed, Vector3 direction) {
@@ -283,9 +277,8 @@ public class World : MonoBehaviour {
                 }
 
                 e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(direction);
-            } catch(Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                RemoveObject(id);
+            } catch (Exception ex) {
+                Debug.LogWarning($"InflictDamageTo fail - Target {id} - Error {ex.Message}");
             }
         }
     }
@@ -316,9 +309,8 @@ public class World : MonoBehaviour {
         if (_objects.TryGetValue(id, out e)) {
             try {
                 WorldCombat.Instance.EntityStartAutoAttacking(e);
-            } catch (Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                RemoveObject(id);
+            } catch (Exception ex) {
+                Debug.LogWarning($"EntityStartAutoAttacking fail - Target {id} - Error {ex.Message}");
             }
         }
     }
@@ -328,9 +320,8 @@ public class World : MonoBehaviour {
         if (_objects.TryGetValue(id, out e)) {
             try {
                 WorldCombat.Instance.EntityStopAutoAttacking(e);
-            } catch (Exception) {
-                Debug.LogWarning("Trying to update a null object");
-                RemoveObject(id);
+            } catch (Exception ex) {
+                Debug.LogWarning($"EntityStopAutoAttacking fail - Target {id} - Error {ex.Message}");
             }
         }
     }
