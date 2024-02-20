@@ -6,6 +6,8 @@ public class FpsLimiter : MonoBehaviour {
     [SerializeField] private int unfocusedFrameRate = 5;
 
     private void Start() {
+        QualitySettings.vSyncCount = 0;
+
         // Set the initial frame rate
         SetFrameRate(focusedFrameRate);
     }
