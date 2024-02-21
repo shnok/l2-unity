@@ -11,6 +11,7 @@ public class UserStateAtk : UserStateBase {
             return;
         }
 
+        SetBool("atkwait" + _weaponType.ToString(), false);
         SetBool("atk01" + _weaponType.ToString(), false);
 
         PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);

@@ -42,7 +42,7 @@ public class World : MonoBehaviour {
         }
 
         _playerPlaceholder = Resources.Load<GameObject>("Prefab/Player_FDarkElf");
-        _userPlaceholder = Resources.Load<GameObject>("Prefab/User_FDwarf");
+        _userPlaceholder = Resources.Load<GameObject>("Prefab/User_FDarkElf");
         _npcPlaceHolder = Resources.Load<GameObject>("Prefab/Npc");
         _monsterPlaceholder = Resources.Load<GameObject>("Data/Animations/LineageMonsters/gremlin/gremlin_prefab");
         _npcsContainer = GameObject.Find("Npcs");

@@ -8,6 +8,7 @@ public class UserStateBase : StateMachineBehaviour {
     protected Animator _animator;
     protected PlayerAnimationController _controller;
     protected Entity _entity;
+    protected bool _cancelAction = false;
     [SerializeField] protected bool _enabled = true;
 
     [SerializeField] protected WeaponType _weaponType;
@@ -44,6 +45,7 @@ public class UserStateBase : StateMachineBehaviour {
     }
 
     public void SetBool(string name, bool value) {
+        _cancelAction = true;
         _animator.SetBool(name, value);
     }
 }

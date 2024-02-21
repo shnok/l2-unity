@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UserStateWait : UserStateBase {
+public class UserStateWait : UserStateAction {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
         if (!_enabled) {
@@ -18,6 +18,10 @@ public class UserStateWait : UserStateBase {
         }
 
         SetBool("wait" + _weaponType.ToString(), false);
+
+        if (IsMoving()) {
+            SetBool("run" + _weaponType.ToString(), true);
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
