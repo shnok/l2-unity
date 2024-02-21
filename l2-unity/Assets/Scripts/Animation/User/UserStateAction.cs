@@ -9,11 +9,14 @@ public class UserStateAction : UserStateBase
         return !VectorUtils.IsVectorZero2D(_networkCharacterControllerReceive.MoveDirection); 
     }
 
+    public bool IsAttacking() {
+        return _animator.GetBool("atk01" + _weaponType);
+    }
+
     protected bool ShouldAtkWait() {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         if (now - _entity.StopAutoAttackTime < 5000) {
             if (_entity.AttackTarget == null) {
-                SetBool("atkwait" + _weaponType.ToString(), true);
                 return true;
             }
         }

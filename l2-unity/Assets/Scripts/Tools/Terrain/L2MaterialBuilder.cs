@@ -45,11 +45,11 @@ public class L2MaterialBuilder {
                        .Replace(".props", string.Empty)
                        .Replace("_sh", string.Empty) + ".mat");
 
-            //if (File.Exists(materialPath)) {
-            //    if (!overwrite) {
-            //        continue;
-            //    }
-            //} 
+            if (File.Exists(materialPath)) {
+                if (!overwrite) {
+                    continue;
+                }
+            }
 
             bool isTransparent = false;
             bool isSpecular = false;

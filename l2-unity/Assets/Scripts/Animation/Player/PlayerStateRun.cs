@@ -8,6 +8,10 @@ public class PlayerStateRun : PlayerStateAction {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+        if (!_enabled) {
+            return;
+        }
+
         _hasStarted = true;
         _lastNormalizedTime = 0;
 
@@ -17,6 +21,10 @@ public class PlayerStateRun : PlayerStateAction {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (!_enabled) {
+            return;
+        }
+
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f) {
             if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance)) {
                 _audioHandler.PlaySound(CharacterSoundEvent.Breath);
@@ -52,6 +60,10 @@ public class PlayerStateRun : PlayerStateAction {
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (!_enabled) {
+            return;
+        }
+
         SetBool("run" + _weaponType.ToString(), false, false);
     }
 }

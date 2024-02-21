@@ -41,8 +41,8 @@ public class World : MonoBehaviour {
             Destroy(this);
         }
 
-        _playerPlaceholder = Resources.Load<GameObject>("Prefab/Player");
-        _userPlaceholder = Resources.Load<GameObject>("Prefab/User");
+        _playerPlaceholder = Resources.Load<GameObject>("Prefab/Player_FDarkElf");
+        _userPlaceholder = Resources.Load<GameObject>("Prefab/User_FDwarf");
         _npcPlaceHolder = Resources.Load<GameObject>("Prefab/Npc");
         _monsterPlaceholder = Resources.Load<GameObject>("Data/Animations/LineageMonsters/gremlin/gremlin_prefab");
         _npcsContainer = GameObject.Find("Npcs");
@@ -113,8 +113,8 @@ public class World : MonoBehaviour {
 
         go.transform.SetParent(_usersContainer.transform);
 
-        CameraController.Instance.SetTarget(go);
         CameraController.Instance.enabled = true;
+        CameraController.Instance.SetTarget(go);
 
         ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
     }

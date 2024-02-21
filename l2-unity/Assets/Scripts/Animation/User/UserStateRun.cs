@@ -8,6 +8,10 @@ public class UserStateRun : UserStateAction {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+        if (!_enabled) {
+            return;
+        }
+
         _hasStarted = true;
         _lastNormalizedTime = 0;
         SetBool("run" + _weaponType.ToString(), false);
@@ -17,6 +21,10 @@ public class UserStateRun : UserStateAction {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (!_enabled) {
+            return;
+        }
+
         SetBool("run" + _weaponType.ToString(), false);
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f) {
             if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance)) {
@@ -37,6 +45,7 @@ public class UserStateRun : UserStateAction {
 
         if(!IsMoving()) {
             if (ShouldAtkWait()) {
+                SetBool("atkwait" + _weaponType.ToString(), true);
                 return;
             }
             _animator.SetBool("wait" + _weaponType.ToString(), true);

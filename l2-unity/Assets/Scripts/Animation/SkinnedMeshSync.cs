@@ -6,10 +6,11 @@ public class SkinnedMeshSync : MonoBehaviour {
 
     void Start() {
         _destSkinnedRenderer = new SkinnedMeshRenderer[transform.parent.childCount - 1];
-        for(int i = 0; i < transform.parent.childCount; i++) {
+        byte childIndex = 0;
+        for(byte i = 0; i < transform.parent.childCount; i++) {
             Transform child = transform.parent.GetChild(i);
             if(child != transform) {
-                _destSkinnedRenderer[i] = child.GetComponentInChildren<SkinnedMeshRenderer>();
+                _destSkinnedRenderer[childIndex++] = child.GetComponentInChildren<SkinnedMeshRenderer>();
             } else {
                 _rootSkinnedRenderer = transform.GetComponentInChildren<SkinnedMeshRenderer>();
             }
@@ -17,7 +18,7 @@ public class SkinnedMeshSync : MonoBehaviour {
 
         foreach(var renderer in _destSkinnedRenderer) {
             renderer.bones = _rootSkinnedRenderer.bones;
-            renderer.rootBone = _rootSkinnedRenderer.rootBone;
+            //renderer.rootBone = _rootSkinnedRenderer.rootBone;
         }
     }
 }

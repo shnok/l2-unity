@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UserStateSitWait : UserStateBase {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        LoadComponents(animator);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

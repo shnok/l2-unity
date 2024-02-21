@@ -8,6 +8,10 @@ public class PlayerStateAtk : PlayerStateAction {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+        if (!_enabled) {
+            return;
+        }
+
         SetBool("atk01" + _weaponType.ToString(), false, false);
 
         if(TargetManager.Instance.HasAttackTarget()) {
@@ -22,7 +26,11 @@ public class PlayerStateAtk : PlayerStateAction {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if(!moved) {
+        if (!_enabled) {
+            return;
+        }
+
+        if (!moved) {
             if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
                 _lastNormalizedTime = stateInfo.normalizedTime;
                 PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
