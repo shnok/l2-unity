@@ -21,12 +21,13 @@ For now the aim is to create a basic demo, therefore only basic features will be
     - Nameplates ✅
     - Skillbar
 - Basic combat ✅
-- Basic RPG features 🛠️ (Structure only for now)
+- Basic RPG features 
     - HP Loss and regen 🛠️ (Players can fight but still can't regen)
     - Exp gain on kills
     - Leveling
 - Small range of models
-    - 1 to 2 models for players 🛠️ (Only Female Dark elf for now)
+    - 1 to 2 races for players ✅ (FDarkElf, FDwarf)
+	- 1 to 2 weapons of each type 🛠️ (Only 1Hand sword for now)
     - All Monsters of Talking island ✅
     - All NPCs of Talking island ✅
 - Server/Client features (server project [here](https://gitlab.com/shnok/unity-mmo-server))
