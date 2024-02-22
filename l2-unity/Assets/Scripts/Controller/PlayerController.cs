@@ -258,4 +258,8 @@ public class PlayerController : MonoBehaviour {
         _moveDirection = new Vector3(0, _moveDirection.y, 0);
         _canMove = canMove;
     }
+
+    public bool IsMoving() {
+        return !VectorUtils.IsVectorZero2D(_moveDirection) && _canMove;
+    }
 }

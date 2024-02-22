@@ -64,7 +64,9 @@ public class PlayerEntity : Entity {
     public override bool StopAutoAttacking() {
         if (base.StopAutoAttacking()) {
             PlayerController.Instance.StopLookAt();
-            PlayerAnimationController.Instance.SetBool("atkwait" + WeaponType, true);
+            if(!PlayerController.Instance.IsMoving()) {
+                PlayerAnimationController.Instance.SetBool("atkwait" + WeaponType, true);
+            }
         }
 
         return true;
