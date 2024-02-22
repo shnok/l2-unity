@@ -209,7 +209,7 @@ public class World : MonoBehaviour {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                e.GetComponent<NetworkTransformReceive>().RotateTo(angle);
+                e.GetComponent<NetworkTransformReceive>().SetFinalRotation(angle);
             } catch (Exception ex) {
                 Debug.LogWarning($"UpdateObjectRotation fail - Target {id} - Error {ex.Message}");
             }

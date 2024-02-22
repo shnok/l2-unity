@@ -6,7 +6,7 @@ using UnityEngine;
 public class UserStateAction : UserStateBase
 {
     public bool IsMoving() {
-        return !VectorUtils.IsVectorZero2D(_networkCharacterControllerReceive.MoveDirection); 
+        return _networkCharacterControllerReceive.IsMoving();
     }
 
     public bool IsAttacking() {

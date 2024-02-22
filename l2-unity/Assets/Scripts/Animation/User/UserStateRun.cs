@@ -43,7 +43,7 @@ public class UserStateRun : UserStateAction {
             }
         }
 
-        if(!IsMoving()) {
+        if(!IsMoving() && (stateInfo.normalizedTime) >= 0.10f) {
             if (ShouldAtkWait()) {
                 SetBool("atkwait" + _weaponType.ToString(), true);
                 return;

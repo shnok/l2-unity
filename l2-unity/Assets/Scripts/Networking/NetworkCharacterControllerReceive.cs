@@ -75,4 +75,8 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
             _networkTransformReceive.ResumePositionSync();
         }
     }
+
+    public bool IsMoving() {
+        return !VectorUtils.IsVectorZero2D(_direction);
+    }
 }

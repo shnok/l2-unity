@@ -23,8 +23,8 @@ public class Entity : MonoBehaviour {
     [SerializeField] protected Transform _shieldBone;
 
     protected NetworkAnimationController _networkAnimationReceive;
-    private NetworkTransformReceive _networkTransformReceive;
-    private NetworkCharacterControllerReceive _networkCharacterControllerReceive;
+    protected NetworkTransformReceive _networkTransformReceive;
+    protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
 
     public NetworkCharacterControllerReceive networkCharacterController { get { return _networkCharacterControllerReceive; } }
     public Status Status { get => _status; set => _status = value; }
@@ -46,8 +46,7 @@ public class Entity : MonoBehaviour {
 
     protected virtual void LookAtTarget() {
         if (AttackTarget != null && Status.Hp > 0) {
-            //TODO: add lerp rotation
-            transform.LookAt(new Vector3(AttackTarget.position.x, transform.position.y, AttackTarget.position.z));
+            _networkTransformReceive.LookAt(_attackTarget);
         }
     }
 
