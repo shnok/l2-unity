@@ -3,11 +3,15 @@ using System;
 
 public class UserInfoPacket : ServerPacket {
     public NetworkIdentity Identity { get; private set; }
-    public PlayerStatus Status { get; private set; }
+    public Status Status { get; private set; }
+    public Stats Stats { get; private set; }
+    public PlayerAppearance Appearance { get; private set; }
 
     public UserInfoPacket(byte[] d) : base(d) {
         Identity = new NetworkIdentity();
-        Status = new PlayerStatus();
+        Status = new Status();
+        Stats = new Stats();
+        Appearance = new PlayerAppearance();
         Parse();
     }
     
@@ -15,22 +19,33 @@ public class UserInfoPacket : ServerPacket {
         try {
             Identity.Id = ReadI();
             Identity.Name = ReadS();
+            Identity.Heading = ReadF();
             Identity.SetPosX(ReadF());
             Identity.SetPosY(ReadF());
             Identity.SetPosZ(ReadF());
-            Identity.LeftHandId = ReadI();
-            Identity.RightHandId = ReadI();
             Identity.Owned = Identity.Name == DefaultClient.Instance.Username;
-            Status.Speed = ReadI();
-            Status.PAtkSpd = ReadI();
-            Status.MAtkSpd = ReadI();
+            // Status
             Status.Level = ReadI();
             Status.Hp = ReadI();
             Status.MaxHp = ReadI();
-            Status.Mp = ReadI();
-            Status.MaxMp = ReadI();
-            Status.Cp = ReadI();
-            Status.MaxCp = ReadI();
+            // Stats
+            Stats.Speed = ReadI();
+            Stats.PAtkSpd = ReadI();
+            Stats.MAtkSpd = ReadI();
+            // Appearance
+            Appearance.CollisionHeight = ReadF();
+            Appearance.CollisionRadius = ReadF();
+            Appearance.Face = ReadB();
+            Appearance.HairStyle = ReadB();
+            Appearance.HairColor = ReadB();
+            // Gear
+            Appearance.LHand = ReadI();
+            Appearance.RHand = ReadI();
+            Appearance.Chest = ReadI();
+            Appearance.Legs = ReadI();
+            Appearance.Gloves = ReadI();
+            Appearance.Feet = ReadI();
+
         } catch(Exception e) {
             Debug.LogError(e);
         }

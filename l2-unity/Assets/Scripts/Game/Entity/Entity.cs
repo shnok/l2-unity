@@ -5,6 +5,8 @@ using UnityEngine;
 public class Entity : MonoBehaviour {
     [SerializeField] private NetworkIdentity _identity;
     [SerializeField] private Status _status;
+    [SerializeField] private Stats _stats;
+    [SerializeField] private Appearance _appearance;
 
     [Header("Combat")]
     [SerializeField] private int _targetId;
@@ -28,6 +30,8 @@ public class Entity : MonoBehaviour {
 
     public NetworkCharacterControllerReceive networkCharacterController { get { return _networkCharacterControllerReceive; } }
     public Status Status { get => _status; set => _status = value; }
+    public Stats Stats { get => _stats; set => _stats = value; }
+    public Appearance Appearance { get => _appearance; set => _appearance = value; }
     public NetworkIdentity Identity { get => _identity; set => _identity = value; }
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Transform Target { get { return _target; } set { _target = value; } }
@@ -55,9 +59,9 @@ public class Entity : MonoBehaviour {
         TryGetComponent(out _networkTransformReceive);
         TryGetComponent(out _networkCharacterControllerReceive);
 
-        UpdatePAtkSpeed(_status.PAtkSpd);
-        UpdateMAtkSpeed(_status.PAtkSpd);
-        UpdateSpeed(_status.Speed);
+        UpdatePAtkSpeed(_stats.PAtkSpd);
+        UpdateMAtkSpeed(_stats.MAtkSpd);
+        UpdateSpeed(_stats.Speed);
 
         EquipAllWeapons();
     }
@@ -79,11 +83,11 @@ public class Entity : MonoBehaviour {
     }
 
     protected virtual void EquipAllWeapons() {
-        if (_identity.LeftHandId != 0) {
-            EquipWeapon(_identity.LeftHandId, true);
+        if (_appearance.LHand != 0) {
+            EquipWeapon(_appearance.LHand, true);
         }
-        if (_identity.RightHandId != 0) {
-            EquipWeapon(_identity.RightHandId, false);
+        if (_appearance.RHand != 0) {
+            EquipWeapon(_appearance.RHand, false);
         }
     }
 
@@ -218,19 +222,19 @@ public class Entity : MonoBehaviour {
     }
 
     public virtual float UpdatePAtkSpeed(int pAtkSpd) {
-        Status.PAtkSpd = pAtkSpd;
+        _stats.PAtkSpd = pAtkSpd;
         return StatsConverter.Instance.ConvertStat(Stat.PHYS_ATTACK_SPEED, pAtkSpd);
     }
 
     public virtual float UpdateMAtkSpeed(int mAtkSpd) {
-        Status.MAtkSpd = mAtkSpd;
+        _stats.MAtkSpd = mAtkSpd;
         return StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
     }
 
     public virtual float UpdateSpeed(int speed) {
         float scaled = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
-        Status.Speed = speed;
-        Status.ScaledSpeed = scaled;
+        _stats.Speed = speed;
+        _stats.ScaledSpeed = scaled;
         return StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
     }
 
