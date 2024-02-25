@@ -42,6 +42,6 @@ public class PlayerStateAtkWait : PlayerStateAction {
             return;
         }
 
-        SetBool("atkwait" + _weaponType.ToString(), false, false);
+        SetBool("atkwait_" + _weaponAnim, false, false);
     }
 }

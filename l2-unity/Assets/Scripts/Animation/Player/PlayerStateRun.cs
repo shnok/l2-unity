@@ -64,6 +64,6 @@ public class PlayerStateRun : PlayerStateAction {
             return;
         }
 
-        SetBool("run" + _weaponType.ToString(), false, false);
+        SetBool("run_" + _weaponAnim, false, false);
     }
 }

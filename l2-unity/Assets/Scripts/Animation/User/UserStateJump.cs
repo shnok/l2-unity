@@ -27,9 +27,9 @@ public class UserStateJump : UserStateBase {
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
             if(_wasRunning) {
-                SetBool("run" + _weaponType.ToString(), true);
+                SetBool("run_" + _weaponAnim, true);
             } else {
-                SetBool("wait" + _weaponType.ToString(), true);
+                SetBool("wait_" + _weaponAnim, true);
             }
         }
     }

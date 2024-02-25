@@ -42,7 +42,7 @@ public class UserEntity : Entity {
 
     public override bool StartAutoAttacking() {
         if (base.StartAutoAttacking()) {
-            _networkAnimationReceive.SetBool("atk01" + WeaponType, true);
+            _networkAnimationReceive.SetBool("atk01_" + _weaponAnim, true);
         }
 
         return true;
@@ -50,9 +50,9 @@ public class UserEntity : Entity {
 
     public override bool StopAutoAttacking() {
         if (base.StopAutoAttacking()) {
-            _networkAnimationReceive.SetBool("atk01" + WeaponType, false);
+            _networkAnimationReceive.SetBool("atk01_" + _weaponAnim, false);
             if(!_networkCharacterControllerReceive.IsMoving()) {
-                _networkAnimationReceive.SetBool("atkwait" + WeaponType, true);
+                _networkAnimationReceive.SetBool("atkwait_" + _weaponAnim, true);
             }
         }
 

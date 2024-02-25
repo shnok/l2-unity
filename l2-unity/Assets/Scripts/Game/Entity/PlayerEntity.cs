@@ -55,7 +55,7 @@ public class PlayerEntity : Entity {
     public override bool StartAutoAttacking() {
         if (base.StartAutoAttacking()) {
             PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
-            PlayerAnimationController.Instance.SetBool("atk01" + WeaponType, true);
+            PlayerAnimationController.Instance.SetBool("atk01_" + _weaponAnim, true);
         }
 
         return true;
@@ -65,7 +65,7 @@ public class PlayerEntity : Entity {
         if (base.StopAutoAttacking()) {
             PlayerController.Instance.StopLookAt();
             if(!PlayerController.Instance.IsMoving()) {
-                PlayerAnimationController.Instance.SetBool("atkwait" + WeaponType, true);
+                PlayerAnimationController.Instance.SetBool("atkwait_" + _weaponAnim, true);
             }
         }
 

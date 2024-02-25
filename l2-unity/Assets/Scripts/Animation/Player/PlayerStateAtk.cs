@@ -12,7 +12,7 @@ public class PlayerStateAtk : PlayerStateAction {
             return;
         }
 
-        SetBool("atk01" + _weaponType.ToString(), false, false);
+        SetBool("atk01_" + _weaponAnim, false, false);
 
         if(TargetManager.Instance.HasAttackTarget()) {
             PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);

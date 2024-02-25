@@ -23,7 +23,7 @@ public class PlayerStateStand : PlayerStateBase {
 
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            SetBool("wait" + _weaponType.ToString(), true);
+            SetBool("wait_" + _weaponAnim, true);
         }
     }
 

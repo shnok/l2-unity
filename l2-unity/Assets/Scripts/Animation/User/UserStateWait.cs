@@ -9,7 +9,7 @@ public class UserStateWait : UserStateAction {
             return;
         }
 
-        SetBool("wait" + _weaponType.ToString(), false);
+        SetBool("wait_" + _weaponAnim, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -17,10 +17,10 @@ public class UserStateWait : UserStateAction {
             return;
         }
 
-        SetBool("wait" + _weaponType.ToString(), false);
+        SetBool("wait_" + _weaponAnim, false);
 
         if (IsMoving()) {
-            SetBool("run" + _weaponType.ToString(), true);
+            SetBool("run_" + _weaponAnim, true);
         }
     }
 

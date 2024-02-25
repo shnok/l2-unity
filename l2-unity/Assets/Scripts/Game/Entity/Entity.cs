@@ -23,6 +23,7 @@ public class Entity : MonoBehaviour {
     [SerializeField] private WeaponType _leftHandType;
     [SerializeField] protected Transform _leftHandBone;
     [SerializeField] protected Transform _shieldBone;
+    [SerializeField] protected string _weaponAnim;
 
     protected NetworkAnimationController _networkAnimationReceive;
     protected NetworkTransformReceive _networkTransformReceive;
@@ -38,7 +39,8 @@ public class Entity : MonoBehaviour {
     public Transform AttackTarget { get { return _attackTarget; } set { _attackTarget = value; } }
     public long StopAutoAttackTime { get { return _stopAutoAttackTime; } }
     public long StartAutoAttackTime { get { return _startAutoAttackTime; } }
-    public WeaponType WeaponType { get { return _rightHandType; } }
+    public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
+    public string WeaponAnim { get { return _weaponAnim; } }
 
     public void Start() {
         Initialize();
@@ -62,6 +64,8 @@ public class Entity : MonoBehaviour {
         UpdatePAtkSpeed(_stats.PAtkSpd);
         UpdateMAtkSpeed(_stats.MAtkSpd);
         UpdateSpeed(_stats.Speed);
+
+        _weaponAnim = WeaponTypeParser.GetWeaponAnim(WeaponType.hand);
 
         EquipAllWeapons();
     }
@@ -100,7 +104,7 @@ public class Entity : MonoBehaviour {
         Debug.LogWarning("Equip weapon");
 
         // Loading from database
-        Weapon weapon = WeaponDatabase.Instance.GetWeapon(weaponId);
+        Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
         if(weapon == null) {
             Debug.LogWarning($"Could find weapon {weaponId} in DB for entity {Identity.Id}.");
             return;
@@ -118,14 +122,16 @@ public class Entity : MonoBehaviour {
             _rightHandType = weapon.WeaponType;
         }
 
+        _weaponAnim = WeaponTypeParser.GetWeaponAnim(weapon.WeaponType);
+
         // Instantiating weapon
         GameObject go = GameObject.Instantiate(weapon.Prefab);
         go.SetActive(false);
         go.transform.name = "weapon";
 
-        if (weapon.WeaponType == WeaponType._shield) {
+        if (weapon.WeaponType == WeaponType.none) {
             go.transform.SetParent(GetShieldBone(), false);
-        } else if (weapon.WeaponType == WeaponType._bow) {
+        } else if (weapon.WeaponType == WeaponType.bow) {
             go.transform.SetParent(GetLeftHandBone(), false);
         } else if(leftSlot) {
             go.transform.SetParent(GetLeftHandBone(), false);

@@ -8,8 +8,8 @@ public class PlayerStateBase : StateMachineBehaviour {
     protected PlayerAnimationController _controller;
     protected Entity _entity;
     [SerializeField] protected bool _enabled = true;
-
     [SerializeField] protected WeaponType _weaponType;
+    [SerializeField] protected string _weaponAnim;
 
     public void LoadComponents(Animator animator) {
         if (_entity == null) {
@@ -21,7 +21,7 @@ public class PlayerStateBase : StateMachineBehaviour {
         }
 
         _weaponType = _entity.WeaponType;
-  
+        _weaponAnim = _entity.WeaponAnim;
 
         if (_audioHandler == null) {
             _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();

@@ -38,6 +38,6 @@ public class PlayerStateWait : PlayerStateAction {
             return;
         }
 
-        SetBool("wait" + _weaponType.ToString(), false, false);
+        SetBool("wait_" + _weaponAnim, false, false);
     }
 }

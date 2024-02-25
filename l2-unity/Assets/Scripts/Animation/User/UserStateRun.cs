@@ -14,7 +14,7 @@ public class UserStateRun : UserStateAction {
 
         _hasStarted = true;
         _lastNormalizedTime = 0;
-        SetBool("run" + _weaponType.ToString(), false);
+        SetBool("run_" + _weaponAnim, false);
         foreach (var ratio in _audioHandler.RunStepRatios) {
             _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
         }
@@ -25,7 +25,7 @@ public class UserStateRun : UserStateAction {
             return;
         }
 
-        SetBool("run" + _weaponType.ToString(), false);
+        SetBool("run_" + _weaponAnim, false);
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f) {
             if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance)) {
                 _audioHandler.PlaySound(CharacterSoundEvent.Breath);
@@ -45,10 +45,10 @@ public class UserStateRun : UserStateAction {
 
         if(!IsMoving() && (stateInfo.normalizedTime) >= 0.10f) {
             if (ShouldAtkWait()) {
-                SetBool("atkwait" + _weaponType.ToString(), true);
+                SetBool("atkwait_" + _weaponAnim, true);
                 return;
             }
-            _animator.SetBool("wait" + _weaponType.ToString(), true);
+            _animator.SetBool("wait_" + _weaponAnim, true);
         }
     }
 
