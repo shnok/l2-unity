@@ -23,6 +23,7 @@ public class ItemTable : MonoBehaviour
 
     private void OnDestroy() {
         _weapons.Clear();
+        _armors.Clear();
         _instance = null;
     }
 
@@ -47,10 +48,10 @@ public class ItemTable : MonoBehaviour
     }
 
     private void CacheArmors() {
-        _armors.Add(425, new Armor(425, "Apprentice's Tunic", ItemSlot.chest, false, ArmorType.magic, 2150, ItemMaterial.cloth, ItemGrade.none, 0, -1, 17, 0, 19, 26, 0, false, false, true, false));
-        _armors.Add(425, new Armor(461, "Apprentice's Stockings", ItemSlot.legs, false, ArmorType.magic, 1100, ItemMaterial.cloth, ItemGrade.none, 0, -1, 10, 0, 10, 6, 0, false, false, true, false));
-        _armors.Add(425, new Armor(1146, "Squire's Shirt", ItemSlot.chest, false, ArmorType.light, 3301, ItemMaterial.cloth, ItemGrade.none, 0, -1, 33, 0, 0, 26, 0, false, false, true, false));
-        _armors.Add(425, new Armor(1147, "Squire's Pants", ItemSlot.legs, false, ArmorType.light, 1750, ItemMaterial.cloth, ItemGrade.none, 0, -1, 20, 0, 0, 6, 0, false, false, true, false));
+        _armors.Add(425, new Armor(425, 1, "Apprentice's Tunic", ItemSlot.chest, false, ArmorType.magic, 2150, ItemMaterial.cloth, ItemGrade.none, 0, -1, 17, 0, 19, 26, 0, false, false, true, false));
+        _armors.Add(425, new Armor(461, 1, "Apprentice's Stockings", ItemSlot.legs, false, ArmorType.magic, 1100, ItemMaterial.cloth, ItemGrade.none, 0, -1, 10, 0, 10, 6, 0, false, false, true, false));
+        _armors.Add(425, new Armor(1146, 1, "Squire's Shirt", ItemSlot.chest, false, ArmorType.light, 3301, ItemMaterial.cloth, ItemGrade.none, 0, -1, 33, 0, 0, 26, 0, false, false, true, false));
+        _armors.Add(425, new Armor(1147, 1, "Squire's Pants", ItemSlot.legs, false, ArmorType.light, 1750, ItemMaterial.cloth, ItemGrade.none, 0, -1, 20, 0, 0, 6, 0, false, false, true, false));
     }
 
     public Weapon GetWeapon(int id) {

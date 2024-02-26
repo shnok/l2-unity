@@ -19,6 +19,8 @@ public class UserInfoPacket : ServerPacket {
         try {
             Identity.Id = ReadI();
             Identity.Name = ReadS();
+            Identity.PlayerClass = ReadB();
+            Identity.IsMage = ReadB() == 1;
             Identity.Heading = ReadF();
             Identity.SetPosX(ReadF());
             Identity.SetPosY(ReadF());
@@ -35,6 +37,8 @@ public class UserInfoPacket : ServerPacket {
             // Appearance
             Appearance.CollisionHeight = ReadF();
             Appearance.CollisionRadius = ReadF();
+            Appearance.Race = ReadB();
+            Appearance.Sex = ReadB();
             Appearance.Face = ReadB();
             Appearance.HairStyle = ReadB();
             Appearance.HairColor = ReadB();

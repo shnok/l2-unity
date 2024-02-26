@@ -72,7 +72,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayCharacterSound(CharacterSoundEvent characterSoundEvent, CharacterRace characterRace, Vector3 position) {
+    public void PlayCharacterSound(CharacterSoundEvent characterSoundEvent, CharacterRaceSound characterRace, Vector3 position) {
         string eventKey = characterSoundEvent.ToString();
         EventReference er = RuntimeManager.PathToEventReference("event:/ChrSound/" + characterRace + "/" + characterRace + "_" + eventKey);
         if (!er.IsNull) {

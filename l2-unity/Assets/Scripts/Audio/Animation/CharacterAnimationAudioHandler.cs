@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterAnimationAudioHandler : BaseAnimationAudioHandler
 {
-    [SerializeField] protected CharacterRace _race;
+    [SerializeField] protected CharacterRaceSound _race;
     [SerializeField] protected SurfaceDetector _surfaceDetector;
 
     protected override void Initialize() {

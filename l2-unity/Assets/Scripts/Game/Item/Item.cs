@@ -21,10 +21,7 @@ public class Item
     [SerializeField] protected bool _destroyable;
     [SerializeField] protected bool _tradeable;
     [SerializeField] protected string _icon;
-    [SerializeField] protected string _clientName;
-    [SerializeField] protected GameObject _prefab;
 
-    public GameObject Prefab { get { return _prefab; } }
     public Item(
         int id, 
         string name, 
@@ -56,7 +53,5 @@ public class Item
         _sellable = sellable;
         _crystalCount = crystalCount;
         _tradeable = tradeable;
-
-        _clientName = name.Replace("'", string.Empty).Replace(" ", "_").ToLower();
     }
 }

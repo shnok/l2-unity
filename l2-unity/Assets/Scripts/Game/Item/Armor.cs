@@ -5,15 +5,18 @@ using UnityEngine;
 
 [System.Serializable]
 public class Armor : Item {
-    [SerializeField] protected ArmorType _armorType;
-    [SerializeField] protected int _pDef;
-    [SerializeField] protected int _mDef;
-    [SerializeField] protected int _mpBonus;
+    [SerializeField] private ArmorType _armorType;
+    [SerializeField] private int _clientModelId;
+    [SerializeField] private int _pDef;
+    [SerializeField] private int _mDef;
+    [SerializeField] private int _mpBonus;
 
     public ArmorType ArmorType { get { return _armorType; } }
+    public int ClientModelId { get { return _clientModelId; } }
 
     public Armor(
         int id,
+        int clientModelId,
         string name,
         ItemSlot slot,
         bool crystallizable,
@@ -33,6 +36,7 @@ public class Armor : Item {
         bool destroyable,
         bool tradeable)
         : base(id, name, "nice armor", slot, weight, price, material, grade, duration, crystallizable, crystalCount, sellable, droppable, tradeable, destroyable) {
+        _clientModelId = clientModelId;
         _armorType = armorType;
         _pDef = pDef;
         _mDef = mDef;

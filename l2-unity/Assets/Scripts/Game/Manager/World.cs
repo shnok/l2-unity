@@ -95,7 +95,11 @@ public class World : MonoBehaviour {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.Player;
 
-        GameObject go = (GameObject)Instantiate(_playerPlaceholder, identity.Position, Quaternion.identity);
+        //GameObject go = (GameObject)Instantiate(_playerPlaceholder, identity.Position, Quaternion.identity);
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(appearance, identity.IsMage, true);
+
+        go.transform.position = identity.Position;
+
         PlayerEntity player = go.GetComponent<PlayerEntity>();
         player.Status = status;
         player.Identity = identity;
@@ -127,7 +131,9 @@ public class World : MonoBehaviour {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.User;
 
-        GameObject go = (GameObject)Instantiate(_userPlaceholder, identity.Position, Quaternion.identity);
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(appearance, identity.IsMage, false);
+
+        go.transform.position = identity.Position;
 
         UserEntity user = go.GetComponent<UserEntity>();
         user.Status = status;
