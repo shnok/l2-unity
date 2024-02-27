@@ -60,13 +60,14 @@ public class CharacterBuilder : MonoBehaviour
             CharacterRace race = CharacterRaceParser.ParseRace(raceId);
             for (int hs = 0; hs < HAIR_STYLE_COUNT; hs++) {
                 for (int hc = 0; hc < HAIR_COLOR_COUNT; hc++) {
+                    int index = hs * HAIR_STYLE_COUNT + (hc * 2);
                     path = $"Data/Animations/{race}/{raceId}/Hair/{raceId}_h_{hs}_{hc}_ah";
-                    _hair[r, hs * hc + hc] = Resources.Load<GameObject>(path);
-                    Debug.Log($"Loading hair {hs} color {hc} at {hs * hc + hc} for race {raceId} [{path}]");
+                    _hair[r, index] = Resources.Load<GameObject>(path);
+                    Debug.Log($"Loading hair {hs} color {hc} at {index} for race {raceId} [{path}]");
 
                     path = $"Data/Animations/{race}/{raceId}/Hair/{raceId}_h_{hs}_{hc}_bh";
-                    _hair[r, hs * hc + hc + 1] = Resources.Load<GameObject>(path);
-                    Debug.Log($"Loading hair {hs} color {hc} at {hs * hc + hc + 1} for race {raceId} [{path}]");
+                    _hair[r, index + 1] = Resources.Load<GameObject>(path);
+                    Debug.Log($"Loading hair {hs} color {hc} at {index + 1} for race {raceId} [{path}]");
                 }
             }
         }
@@ -140,6 +141,8 @@ public class CharacterBuilder : MonoBehaviour
         if(bh) {
             index += 1;
         }
+
+        Debug.Log($"Loading hair[{index}] Race:{raceId} Model:{hairStyle}_{hairColor}_{(bh ? "bh" : "ah")}");
 
         GameObject go = _hair[(byte)raceId, index];
         if (go == null) {
