@@ -6,7 +6,10 @@ This [video](https://www.youtube.com/watch?v=IEHY37bJ7nk) inspired me to start o
 
 <p>Preview of the current state of the project:</p>
 
-![Preview](https://media.discordapp.net/attachments/584218502148259901/1180162232814940280/image.png?ex=657c6aba&is=6569f5ba&hm=7ba3f918f9a96d7a48c29f5aaa063b5e05543ad976bb2765c02522a6b9af696d&=&format=webp&quality=lossless)
+![Preview](https://cdn.discordapp.com/attachments/584218502148259901/1180162232814940280/image.png?ex=65eb28ba&is=65d8b3ba&hm=9fb347f90e0969ded501640e36d58353dd8046d107e54147c7e0abee926446aa&)
+
+![Preview2](https://cdn.discordapp.com/attachments/584218502148259901/1212439526278959145/image.png?ex=65f1d74d&is=65df624d&hm=b2cb83a301f76a94b164b1361ada939144734a3dadcbb94160bb64739f307c4f&)
+
 
 ## What are the expected features?
 
@@ -27,7 +30,8 @@ For now the aim is to create a basic demo, therefore only basic features will be
     - Leveling
 - Small range of models
     - 1 to 2 races for players ✅ (FDarkElf, FDwarf)
-	- 1 to 2 weapons of each type 🛠️ (Only 1Hand sword for now)
+	- A few armor sets for each race
+	- A few of weapons each type 🛠️ (Only 1Hand sword for now)
     - All Monsters of Talking island ✅
     - All NPCs of Talking island ✅
 - Server/Client features (server project [here](https://gitlab.com/shnok/unity-mmo-server))
@@ -56,11 +60,11 @@ For now the aim is to create a basic demo, therefore only basic features will be
 
 <p>Open the "Game" scene and drag&drop the 1x_1x scenes into your scene.</p>
 
-![Import](https://media.discordapp.net/attachments/584218502148259901/1180168459104034877/image.png?ex=657c7087&is=6569fb87&hm=8da8cfdd84e33b729bf989b79b547dd8de97faf06dfa511b9cd4b7961501781a&=&format=webp&quality=lossless&width=575&height=608)
+![Import](https://cdn.discordapp.com/attachments/584218502148259901/1180168459104034877/image.png?ex=65eb2e87&is=65d8b987&hm=a869d1c373c75b9ff52b93ccddaf91ccf853af21dd5e948cce3d53217f0ca124&)
 
 If you don't want to setup the [server](https://gitlab.com/shnok/unity-mmo-server) and just want to run in an empty map. Select the <b>Game</b> GameObject in the <b>Game</b> scene and tick the <i>"offline mode"</i> checkbox.
 
-![offline](https://cdn.discordapp.com/attachments/584218502148259901/1182499680056250418/image.png?ex=6584eba5&is=657276a5&hm=f6f37f9d0a9c7f2e1f43060f11b6b62fb7cf8975a26e91796f5990b3e09b97af&&width=575&height=608)
+![offline](https://cdn.discordapp.com/attachments/584218502148259901/1182499680056250418/image.png?ex=65ea6f25&is=65d7fa25&hm=a87480c4915cbf9c2723cc2b4c32f1c39c42e3e511bb0503db3ff4a6e031c998&)
 
 
 
