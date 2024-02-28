@@ -58,7 +58,7 @@ public class PlayerCombatController : MonoBehaviour {
                 //Should follow target
                 //Should request for autoattack once reaching target
                 Transform target = TargetManager.Instance.Target.Data.ObjectTransform;
-                float attackRange = ((PlayerStatus)PlayerEntity.Instance.Status).AttackRange;
+                float attackRange = ((PlayerStats) PlayerEntity.Instance.Stats).AttackRange;
                 float distance = Vector3.Distance(transform.position, target.position);
                 Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
 
@@ -67,7 +67,7 @@ public class PlayerCombatController : MonoBehaviour {
                 } else {                  
                     ClickManager.Instance.HideLocator();
                     _isRunningToTarget = true;
-                    PathFinderController.Instance.MoveTo(target.position, ((PlayerStatus) PlayerEntity.Instance.Status).AttackRange);
+                    PathFinderController.Instance.MoveTo(target.position, ((PlayerStats) PlayerEntity.Instance.Stats).AttackRange);
                 }
 
                 return true;

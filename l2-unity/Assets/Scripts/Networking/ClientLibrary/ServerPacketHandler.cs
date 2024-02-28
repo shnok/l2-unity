@@ -157,20 +157,12 @@ public class ServerPacketHandler
 
     private void OnPlayerInfoReceive(byte[] data) {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        NetworkIdentity identity = packet.Identity;
-        identity.EntityType = EntityType.Player;
-        PlayerStatus status = packet.Status;
-        _eventProcessor.QueueEvent(() => World.Instance.SpawnPlayer(identity, status));
+        _eventProcessor.QueueEvent(() => World.Instance.SpawnPlayer(packet.Identity, packet.Status, packet.Stats, packet.Appearance));
     }
 
     private void OnUserInfoReceive(byte[] data) {
-        Debug.Log("On user info receive");
         UserInfoPacket packet = new UserInfoPacket(data);
-        NetworkIdentity identity = packet.Identity;
-        identity.EntityType = EntityType.User;
-        PlayerStatus status = packet.Status;
-        Debug.Log(identity.Id);
-        _eventProcessor.QueueEvent(() => World.Instance.SpawnUser(identity, status));
+        _eventProcessor.QueueEvent(() => World.Instance.SpawnUser(packet.Identity, packet.Status, packet.Stats, packet.Appearance));
     }
 
     private void OnUpdatePosition(byte[] data) {
@@ -207,11 +199,7 @@ public class ServerPacketHandler
 
     private void OnNpcInfoReceive(byte[] data) {
         NpcInfoPacket packet = new NpcInfoPacket(data);
-        NetworkIdentity identity = packet.Identity;
-        identity.EntityType = EntityType.NPC;
-        NpcStatus status = packet.Status;
-
-        _eventProcessor.QueueEvent(() => World.Instance.SpawnNpc(identity, status));
+        _eventProcessor.QueueEvent(() => World.Instance.SpawnNpc(packet.Identity, packet.Status, packet.Stats, packet.Appearance));
     }
 
     private void OnObjectMoveTo(byte[] data) {

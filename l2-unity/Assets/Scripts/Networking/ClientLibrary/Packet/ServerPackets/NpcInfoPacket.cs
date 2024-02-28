@@ -7,10 +7,14 @@ public class NpcInfoPacket : ServerPacket {
 
     public NetworkIdentity Identity { get; private set; }
     public NpcStatus Status { get; private set; }
+    public Stats Stats { get; private set; }
+    public Appearance Appearance { get; private set; }
 
     public NpcInfoPacket(byte[] d) : base(d) {
         Identity = new NetworkIdentity();
         Status = new NpcStatus();
+        Stats = new Stats();
+        Appearance = new Appearance();
         Parse();
     }
 
@@ -26,16 +30,19 @@ public class NpcInfoPacket : ServerPacket {
             Identity.SetPosX(ReadF());
             Identity.SetPosY(ReadF());
             Identity.SetPosZ(ReadF());
-            Identity.LeftHandId = ReadI();
-            Identity.RightHandId = ReadI();
-            Identity.CollisionHeight = ReadF();
-            Status.Speed = ReadI();
-            Status.PAtkSpd = ReadI();
-            Status.MAtkSpd = ReadI();
+            // Appearance
+            Appearance.CollisionHeight = ReadF();
+            Appearance.CollisionRadius = ReadF();
+            Appearance.LHand = ReadI();
+            Appearance.RHand = ReadI();
+            // Stats
+            Stats.Speed = ReadI();
+            Stats.PAtkSpd = ReadI();
+            Stats.MAtkSpd = ReadI();
+            // Status
             Status.Level = ReadI();
             Status.Hp = ReadI();
             Status.MaxHp = ReadI();
-            Identity.Owned = false;
         } catch(Exception e) {
             Debug.LogError(e);
         }

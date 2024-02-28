@@ -2,67 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CharacterRace : int
-{
-    Default,
-    FElf,
-    MElf,
-    MDElf,
-    FDElf,
-    FDwarf,
-    MDwarf,
-    MOMagician,
-    FOMagician,
-    MOFighter,
-    FOFighter,
-    FHMagician,
-    MHMagician,
-    FHFighter,
-    MHFighter,
-    Monster
+public enum CharacterRace : byte { 
+    Human = 0,
+    Elf = 1,
+    DarkElf = 2,
+    Orc = 3,
+    Dwarf = 4,
+    Monster = 5
 }
 
 public static class CharacterRaceParser {
-    public static CharacterRace ParseRace(string type) {
-        switch (type.ToLower()) {
-            case "fhuman":
-                return CharacterRace.FHFighter;
-            case "mhuman":
-                return CharacterRace.MHFighter;
-            case "forc":
-                return CharacterRace.FOFighter;
-            case "morc":
-                return CharacterRace.MOFighter;
-            case "felf":
-                return CharacterRace.FElf;
-            case "melf":
-                return CharacterRace.MElf;
-            case "mdelf":
-                return CharacterRace.MDElf;
-            case "fdelf":
-                return CharacterRace.FDElf;
-            case "fdwarf":
-                return CharacterRace.FDwarf;
-            case "mdwarf":
-                return CharacterRace.MDwarf;
-            case "momagician":
-                return CharacterRace.MOMagician;
-            case "fomagician":
-                return CharacterRace.FOMagician;
-            case "fofighter":
-                return CharacterRace.FOFighter;
-            case "mofighter":
-                return CharacterRace.MOFighter;
-            case "fhmagician":
-                return CharacterRace.FHMagician;
-            case "mhmagician":
-                return CharacterRace.MHMagician;
-            case "fhfighter":
-                return CharacterRace.FHFighter;
-            case "mhfighter":
-                return CharacterRace.MHFighter;
+    public static CharacterRace ParseRace(CharacterRaceAnimation race) {
+        switch (race) {
+            case CharacterRaceAnimation.MDwarf:
+            case CharacterRaceAnimation.FDwarf:
+                return CharacterRace.Dwarf;
+            case CharacterRaceAnimation.FDarkElf:
+            case CharacterRaceAnimation.MDarkElf:
+                return CharacterRace.DarkElf;
+            case CharacterRaceAnimation.MElf:
+            case CharacterRaceAnimation.FElf:
+                return CharacterRace.Elf;
+            case CharacterRaceAnimation.MShaman:
+            case CharacterRaceAnimation.FShaman:
+            case CharacterRaceAnimation.MOrc:
+            case CharacterRaceAnimation.FOrc:
+                return CharacterRace.Orc;
+            case CharacterRaceAnimation.MFighter:
+            case CharacterRaceAnimation.FFighter:
+            case CharacterRaceAnimation.MMagic:
+            case CharacterRaceAnimation.FMagic:
+                return CharacterRace.Human;
             default:
-                return CharacterRace.Monster;
+                return CharacterRace.Dwarf;
         }
     }
 }

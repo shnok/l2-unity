@@ -41,8 +41,8 @@ public class World : MonoBehaviour {
             Destroy(this);
         }
 
-        _playerPlaceholder = Resources.Load<GameObject>("Prefab/Player");
-        _userPlaceholder = Resources.Load<GameObject>("Prefab/User");
+        _playerPlaceholder = Resources.Load<GameObject>("Prefab/Player_FDarkElf");
+        _userPlaceholder = Resources.Load<GameObject>("Prefab/User_FDarkElf");
         _npcPlaceHolder = Resources.Load<GameObject>("Prefab/Npc");
         _monsterPlaceholder = Resources.Load<GameObject>("Data/Animations/LineageMonsters/gremlin/gremlin_prefab");
         _npcsContainer = GameObject.Find("Npcs");
@@ -86,18 +86,28 @@ public class World : MonoBehaviour {
         if(_offlineMode) {
             PlayerEntity entity = _playerPlaceholder.GetComponent<PlayerEntity>();
             entity.Identity.Position = _playerPlaceholder.transform.position;
-            SpawnPlayer(entity.Identity, (PlayerStatus) entity.Status);
+            // TODO: Add default stats
+            SpawnPlayer(entity.Identity, (PlayerStatus) entity.Status, new PlayerStats(), new PlayerAppearance());
         }
     }
 
-    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus status) {
+    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance) {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.Player;
-        identity.CollisionHeight = 0.45f;
-        GameObject go = (GameObject)Instantiate(_playerPlaceholder, identity.Position, Quaternion.identity);
+
+        CharacterRace race = (CharacterRace) appearance.Race;
+        CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
+
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, true);
+        go.transform.position = identity.Position;
+
         PlayerEntity player = go.GetComponent<PlayerEntity>();
         player.Status = status;
         player.Identity = identity;
+        player.Stats = stats;
+        player.Appearance = appearance;
+        player.Race = race;
+        player.RaceId = raceId;
 
         _players.Add(identity.Id, player);
         _objects.Add(identity.Id, player);
@@ -113,24 +123,33 @@ public class World : MonoBehaviour {
 
         go.transform.SetParent(_usersContainer.transform);
 
-        CameraController.Instance.SetTarget(go);
         CameraController.Instance.enabled = true;
+        CameraController.Instance.SetTarget(go);
 
         ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
     }
 
-    public void SpawnUser(NetworkIdentity identity, PlayerStatus status) {
+    public void SpawnUser(NetworkIdentity identity, Status status, Stats stats, PlayerAppearance appearance) {
         Debug.Log("Spawn User");
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.User;
-        identity.CollisionHeight = 0.45f;
-        GameObject go = (GameObject)Instantiate(_userPlaceholder, identity.Position, Quaternion.identity);
-        UserEntity player = go.GetComponent<UserEntity>();
-        player.Status = status;
-        player.Identity = identity;
 
-        _players.Add(identity.Id, player);
-        _objects.Add(identity.Id, player);
+        CharacterRace race = (CharacterRace)appearance.Race;
+        CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
+
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, false);
+        go.transform.position = identity.Position;
+
+        UserEntity user = go.GetComponent<UserEntity>();
+        user.Status = status;
+        user.Identity = identity;
+        user.Appearance = appearance;
+        user.Stats = stats;
+        user.Race = race;
+        user.RaceId = raceId;
+
+        _players.Add(identity.Id, user);
+        _objects.Add(identity.Id, user);
 
         go.GetComponent<NetworkTransformReceive>().enabled = true;
 
@@ -140,7 +159,7 @@ public class World : MonoBehaviour {
         go.transform.SetParent(_usersContainer.transform);
     }
 
-    public void SpawnNpc(NetworkIdentity identity, NpcStatus status) {
+    public void SpawnNpc(NetworkIdentity identity, NpcStatus status, Stats stats, Appearance appearance) {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityTypeParser.ParseEntityType(identity.Type);
 
@@ -174,6 +193,8 @@ public class World : MonoBehaviour {
 
         npc.Status = status;
         npc.Identity = identity;
+        npc.Stats = stats;
+        npc.Appearance = appearance;
 
         _npcs.Add(identity.Id, npc);
         _objects.Add(identity.Id, npc);
@@ -209,7 +230,7 @@ public class World : MonoBehaviour {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                e.GetComponent<NetworkTransformReceive>().RotateTo(angle);
+                e.GetComponent<NetworkTransformReceive>().SetFinalRotation(angle);
             } catch (Exception ex) {
                 Debug.LogWarning($"UpdateObjectRotation fail - Target {id} - Error {ex.Message}");
             }
@@ -220,7 +241,7 @@ public class World : MonoBehaviour {
         Entity e;
         if (_objects.TryGetValue(id, out e)) {
             try {
-                if (speed != e.Status.Speed) {
+                if (speed != e.Stats.Speed) {
                     e.UpdateSpeed(speed);
                 }
 
@@ -272,7 +293,7 @@ public class World : MonoBehaviour {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                if(speed != e.Status.Speed) {
+                if(speed != e.Stats.Speed) {
                     e.UpdateSpeed(speed);
                 }
 

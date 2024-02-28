@@ -57,7 +57,7 @@ public class WorldCombat : MonoBehaviour {
         if(cross.y >= 0) angle = -angle;
         Vector3 direction = Quaternion.Euler(0, angle, 0) * target.forward;
 
-        float particleHeight = target.GetComponent<Entity>().Identity.CollisionHeight * 1.25f;
+        float particleHeight = target.GetComponent<Entity>().Appearance.CollisionHeight * 1.25f;
         GameObject go = (GameObject)Instantiate(
             _impactParticle, 
             target.position + direction * 0.15f + Vector3.up * particleHeight, 

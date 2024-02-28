@@ -11,38 +11,45 @@ public class UserEntity : Entity {
 
     protected override void Initialize() {
         base.Initialize();
+
+        EquipAllArmors();
+    }
+
+    private void EquipAllArmors() {
+        PlayerAppearance appearance = (PlayerAppearance)_appearance;
+        if (appearance.Chest != 0) {
+            ((UserGear)_gear).EquipArmor(appearance.Chest);
+        } else {
+            ((UserGear)_gear).EquipArmor(0, ItemSlot.chest);
+        }
+
+        if (appearance.Legs != 0) {
+            ((UserGear)_gear).EquipArmor(appearance.Legs);
+        } else {
+            ((UserGear)_gear).EquipArmor(0, ItemSlot.legs);
+        }
+
+        if (appearance.Gloves != 0) {
+            ((UserGear)_gear).EquipArmor(appearance.Gloves);
+        } else {
+            ((UserGear)_gear).EquipArmor(0, ItemSlot.gloves);
+        }
+
+        if (appearance.Feet != 0) {
+            ((UserGear)_gear).EquipArmor(appearance.Feet);
+        } else {
+            ((UserGear)_gear).EquipArmor(0, ItemSlot.feet);
+        }
     }
 
     protected override void OnDeath() {
         base.OnDeath();
         _networkAnimationReceive.SetAnimationProperty((int)PlayerAnimationEvent.death, 1f, true);
-    }
-
-
-    protected override Transform GetLeftHandBone() {
-        if (_leftHandBone == null) {
-            _leftHandBone = _networkAnimationReceive.transform.FindRecursive("Weapon_L_Bone");
-        }
-        return _leftHandBone;
-    }
-
-    protected override Transform GetRightHandBone() {
-        if (_rightHandBone == null) {
-            _rightHandBone = _networkAnimationReceive.transform.FindRecursive("Weapon_R_Bone");
-        }
-        return _rightHandBone;
-    }
-
-    protected override Transform GetShieldBone() {
-        if (_shieldBone == null) {
-            _shieldBone = _networkAnimationReceive.transform.FindRecursive("Shield_L_Bone");
-        }
-        return _shieldBone;
-    }
+    } 
 
     public override bool StartAutoAttacking() {
         if (base.StartAutoAttacking()) {
-            _networkAnimationReceive.SetBool("atk01" + WeaponType, true);
+            _networkAnimationReceive.SetBool("atk01_" + _gear.WeaponAnim, true);
         }
 
         return true;
@@ -50,8 +57,10 @@ public class UserEntity : Entity {
 
     public override bool StopAutoAttacking() {
         if (base.StopAutoAttacking()) {
-            _networkAnimationReceive.SetBool("atk01" + WeaponType, false);
-            _networkAnimationReceive.SetBool("atkwait" + WeaponType, true);
+            _networkAnimationReceive.SetBool("atk01_" + _gear.WeaponAnim, false);
+            if(!_networkCharacterControllerReceive.IsMoving()) {
+                _networkAnimationReceive.SetBool("atkwait_" + _gear.WeaponAnim, true);
+            }
         }
 
         return true;

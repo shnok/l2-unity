@@ -13,34 +13,42 @@ public class PlayerEntity : Entity {
         if (_instance == null) {
             _instance = this;
         }
+
+        EquipAllArmors();
     }
 
     void OnDestroy() {
         _instance = null;
     }
 
+    private void EquipAllArmors() {
+        PlayerAppearance appearance = (PlayerAppearance) _appearance;
+        if(appearance.Chest != 0) {
+            ((PlayerGear)_gear).EquipArmor(appearance.Chest);
+        } else {
+            ((PlayerGear)_gear).EquipArmor(0, ItemSlot.chest);
+        }
+
+        if (appearance.Legs != 0) {
+            ((PlayerGear)_gear).EquipArmor(appearance.Legs);
+        } else {
+            ((PlayerGear)_gear).EquipArmor(0, ItemSlot.legs);
+        }
+
+        if (appearance.Gloves != 0) {
+            ((PlayerGear)_gear).EquipArmor(appearance.Gloves);
+        } else {
+            ((PlayerGear)_gear).EquipArmor(0, ItemSlot.gloves);
+        }
+
+        if (appearance.Feet != 0) {
+            ((PlayerGear)_gear).EquipArmor(appearance.Feet);
+        } else {
+            ((PlayerGear)_gear).EquipArmor(0, ItemSlot.feet);
+        }
+    }
+
     protected override void LookAtTarget() { }
-
-    protected override Transform GetLeftHandBone() {
-        if (_leftHandBone == null) {
-            _leftHandBone = PlayerAnimationController.Instance.transform.FindRecursive("Weapon_L_Bone");
-        }
-        return _leftHandBone;
-    }
-
-    protected override Transform GetRightHandBone() {
-        if (_rightHandBone == null) {
-            _rightHandBone = PlayerAnimationController.Instance.transform.FindRecursive("Weapon_R_Bone");
-        }
-        return _rightHandBone;
-    }
-
-    protected override Transform GetShieldBone() {
-        if (_shieldBone == null) {
-            _shieldBone = PlayerAnimationController.Instance.transform.FindRecursive("Shield_L_Bone");
-        }
-        return _shieldBone;
-    }
 
     protected override void OnDeath() {
         base.OnDeath();
@@ -55,7 +63,7 @@ public class PlayerEntity : Entity {
     public override bool StartAutoAttacking() {
         if (base.StartAutoAttacking()) {
             PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
-            PlayerAnimationController.Instance.SetBool("atk01" + WeaponType, true);
+            PlayerAnimationController.Instance.SetBool("atk01_" + _gear.WeaponAnim, true);
         }
 
         return true;
@@ -64,7 +72,9 @@ public class PlayerEntity : Entity {
     public override bool StopAutoAttacking() {
         if (base.StopAutoAttacking()) {
             PlayerController.Instance.StopLookAt();
-            PlayerAnimationController.Instance.SetBool("atkwait" + WeaponType, true);
+            if(!PlayerController.Instance.IsMoving()) {
+                PlayerAnimationController.Instance.SetBool("atkwait_" + _gear.WeaponAnim, true);
+            }
         }
 
         return true;

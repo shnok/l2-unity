@@ -8,7 +8,11 @@ public class PlayerStateAtkWait : PlayerStateAction {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if(ShouldAttack()) {
+        if (!_enabled) {
+            return;
+        }
+
+        if (ShouldAttack()) {
             return;
         }
 
@@ -34,6 +38,10 @@ public class PlayerStateAtkWait : PlayerStateAction {
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetBool("atkwait" + _weaponType.ToString(), false, false);
+        if (!_enabled) {
+            return;
+        }
+
+        SetBool("atkwait_" + _weaponAnim, false, false);
     }
 }

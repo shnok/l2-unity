@@ -7,7 +7,12 @@ public class UserStateAtk : UserStateBase {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
-        SetBool("atk01" + _weaponType.ToString(), false);
+        if (!_enabled) {
+            return;
+        }
+
+        SetBool("atkwait_" + _weaponAnim, false);
+        SetBool("atk01_" + _weaponAnim, false);
 
         PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
         PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
@@ -17,7 +22,11 @@ public class UserStateAtk : UserStateBase {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetBool("atk01" + _weaponType.ToString(), false);
+        if (!_enabled) {
+            return;
+        }
+
+        SetBool("atk01_" + _weaponAnim, false);
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
             PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);

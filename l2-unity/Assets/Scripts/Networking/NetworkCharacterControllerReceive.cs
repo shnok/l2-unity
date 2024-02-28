@@ -34,12 +34,12 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     }
 
     public void UpdateMoveDirection(Vector3 direction) {
-        _speed = _entity.Status.ScaledSpeed;
+        _speed = _entity.Stats.ScaledSpeed;
         _direction = direction;
     }
 
     public void SetDestination(Vector3 destination) {
-        _speed = _entity.Status.ScaledSpeed;
+        _speed = _entity.Stats.ScaledSpeed;
         _destination = destination;
     }
 
@@ -74,5 +74,9 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
             _direction = Vector3.zero;
             _networkTransformReceive.ResumePositionSync();
         }
+    }
+
+    public bool IsMoving() {
+        return !VectorUtils.IsVectorZero2D(_direction);
     }
 }

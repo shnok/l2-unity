@@ -5,9 +5,17 @@ using UnityEngine;
 public class PlayerStateSitWait : PlayerStateBase {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+        if (!_enabled) {
+            return;
+        }
+
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (!_enabled) {
+            return;
+        }
+
         if (InputManager.Instance.IsInputPressed(InputType.Sit) || InputManager.Instance.IsInputPressed(InputType.Move)) {
             CameraController.Instance.StickToBone = true;
             PlayerController.Instance.SetCanMove(false);

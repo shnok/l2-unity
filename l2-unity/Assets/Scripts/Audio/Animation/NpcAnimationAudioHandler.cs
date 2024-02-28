@@ -9,11 +9,11 @@ public class NpcAnimationAudioHandler : CharacterAnimationAudioHandler
     protected override void Initialize() {
         base.Initialize();
 
-        if (_race == CharacterRace.Default) {
+        if (_race == CharacterRaceSound.Default) {
             string[] raceParts = _npcClassName.Split("_");
             if (raceParts.Length > 1) {
                 string raceName = raceParts[raceParts.Length - 1];
-                _race = CharacterRaceParser.ParseRace(raceName);
+                _race = CharacterRaceSoundParser.ParseRace(raceName);
             }
 
             _npcClassName = GetComponent<Entity>().Identity.NpcClass;

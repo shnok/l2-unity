@@ -1,0 +1,20 @@
+public enum ItemSlot : byte {
+    none = 0,
+    head = 1,
+    chest = 2,
+    legs = 3,
+    fullarmor = 4,
+    gloves = 5,
+    feet = 6,
+    lhand = 7,
+    rhand = 8,
+    lrhand = 9,
+    rfinger = 10,
+    lfinger = 11,
+    lear = 12,
+    rear = 13,
+    neck = 14,
+    underwear = 15,
+    ring = 16,
+    earring = 17
+}

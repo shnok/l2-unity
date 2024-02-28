@@ -1,11 +1,17 @@
 TODO
 
+randomize atk animations
+build player based on appearance data
+share chardata over network (face, color, race, sex, class, weapons, armors)
+
+fix moving monster desync at login
 should move away from animation share to state share
 reduce amount of packets sent by players
 todo remove request rotate, calculate rotation based on movedirection
 share action instead of animationid, store current action in entity
 
 wait for monster attack animation end before following player
+check if AI isnt dead before applying damage to target
 monster should follow even if not on geodata/path cant be found
 
 global variable to scale all ambientsounds
@@ -13,17 +19,21 @@ Update terrain textures with Microsplat
 Nature renderer for deco layer ?
 replace curent input system with unity input system
 
+reduce texture2darray size
+
 loading screen
 
 DONE
+
+fix atk wait when running after attacking
+other players should lock on attacking target
+add fdwarf
 should set animation to idle if animation is run and movedirection is 0
 add atk wait timeout to other user
 fix other player desync when atk
 fix locator decal layer
 fix cant target other players
-OPTIMIZE RAM/CPU USAGE
-- reduce texture2darray size
-- change water shader
+change water shader
 better handle of equiped weapons
 share equipped weapons from users and npcs from server
 refacto user sync
@@ -126,6 +136,8 @@ RHAND
 2
 4
 5
+6
+10
 14
 89
 129
@@ -135,3 +147,7 @@ RHAND
 LHAND
 20
 102
+
+Armors
+425
+461

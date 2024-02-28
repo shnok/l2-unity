@@ -135,7 +135,7 @@ public class NameplatesManager : MonoBehaviour
             visualElement.Q<Label>("EntityTitle"),
             entity.transform,
             entity.Identity.Title,
-            entity.Identity.CollisionHeight * 2.1f,
+            entity.Appearance.CollisionHeight * 2.1f,
             entity.Identity.Name,
             entity.Identity.Id,
             true

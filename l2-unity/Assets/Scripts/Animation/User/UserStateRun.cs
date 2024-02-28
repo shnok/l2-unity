@@ -8,16 +8,24 @@ public class UserStateRun : UserStateAction {
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+        if (!_enabled) {
+            return;
+        }
+
         _hasStarted = true;
         _lastNormalizedTime = 0;
-        SetBool("run" + _weaponType.ToString(), false);
+        SetBool("run_" + _weaponAnim, false);
         foreach (var ratio in _audioHandler.RunStepRatios) {
             _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
         }
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetBool("run" + _weaponType.ToString(), false);
+        if (!_enabled) {
+            return;
+        }
+
+        SetBool("run_" + _weaponAnim, false);
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f) {
             if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance)) {
                 _audioHandler.PlaySound(CharacterSoundEvent.Breath);
@@ -35,11 +43,12 @@ public class UserStateRun : UserStateAction {
             }
         }
 
-        if(!IsMoving()) {
+        if(!IsMoving() && (stateInfo.normalizedTime) >= 0.10f) {
             if (ShouldAtkWait()) {
+                SetBool("atkwait_" + _weaponAnim, true);
                 return;
             }
-            _animator.SetBool("wait" + _weaponType.ToString(), true);
+            _animator.SetBool("wait_" + _weaponAnim, true);
         }
     }
 

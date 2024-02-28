@@ -27,10 +27,6 @@ public class SceneLoader : MonoBehaviour
         _instance = null;
     }
 
-    void Start() {
-        LoadDefaultScene();
-    }
-
     public void LoadDefaultScene() {
         Debug.Log("Loaded initial scene " + _gameSceme + ". Load count: " + ++_totalLoadedScenes);
         if(SceneManager.GetActiveScene().name != _gameSceme) {

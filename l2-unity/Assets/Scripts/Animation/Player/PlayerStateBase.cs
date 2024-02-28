@@ -7,22 +7,32 @@ public class PlayerStateBase : StateMachineBehaviour {
     protected Animator _animator;
     protected PlayerAnimationController _controller;
     protected Entity _entity;
-
-    //TODO implement weapon system
+    protected PlayerGear _gear;
+    [SerializeField] protected bool _enabled = true;
     [SerializeField] protected WeaponType _weaponType;
+    [SerializeField] protected string _weaponAnim;
 
     public void LoadComponents(Animator animator) {
+        if (_entity == null) {
+            _entity = animator.transform.parent.GetComponent<Entity>();
+        }
+        if (_entity == null || _entity is UserEntity) {
+            _enabled = false;
+            return;
+        }
+
+        if (_gear == null) {
+            _gear = _entity.GetComponent<PlayerGear>();
+        }
+
+        _weaponType = _gear.WeaponType;
+        _weaponAnim = _gear.WeaponAnim;
+
         if (_audioHandler == null) {
             _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();
         }
         if (_animator == null) {
             _animator = animator;
-        }
-        if (_entity == null) {
-            _entity = PlayerEntity.Instance;
-        }
-        if (_entity != null) {
-            _weaponType = _entity.WeaponType;
         }
     }
 
