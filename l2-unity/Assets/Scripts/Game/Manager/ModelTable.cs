@@ -136,7 +136,7 @@ public class ModelTable
     private void CacheNakedArmors() {
         _armors = new Dictionary<int, GameObject[,]>();
         if (!_armors.ContainsKey(0)) {
-            _armors.Add(0, new GameObject[RACE_COUNT, 4]);
+            _armors.Add(0, new GameObject[RACE_COUNT, 5]);
         }
 
         //Load naked armors
@@ -147,9 +147,9 @@ public class ModelTable
             string path = $"Data/Animations/{race}/{raceId}/{raceId}_m{0.ToString("000")}";
 
             _armors[0][(byte) raceId, 0] = LoadArmorPiece(path, raceId, ItemSlot.chest);
-            _armors[0][(byte) raceId, 0] = LoadArmorPiece(path, raceId, ItemSlot.legs);
-            _armors[0][(byte) raceId, 0] = LoadArmorPiece(path, raceId, ItemSlot.gloves);
-            _armors[0][(byte) raceId, 0] = LoadArmorPiece(path, raceId, ItemSlot.feet);
+            _armors[0][(byte) raceId, 1] = LoadArmorPiece(path, raceId, ItemSlot.legs);
+            _armors[0][(byte) raceId, 3] = LoadArmorPiece(path, raceId, ItemSlot.gloves);
+            _armors[0][(byte) raceId, 4] = LoadArmorPiece(path, raceId, ItemSlot.feet);
         }
     }
 
@@ -207,10 +207,9 @@ public class ModelTable
     // -------
     // Getters
     // -------
-    public GameObject GetArmorPieceByItemId(int itemId, CharacterRaceAnimation raceId) {
-        Armor armor = ItemTable.Instance.GetArmor(itemId);
+    public GameObject GetArmorPiece(Armor armor, CharacterRaceAnimation raceId) {
         if (armor == null) {
-            Debug.LogWarning($"Can't find armor {itemId} in ItemTable");
+            Debug.LogWarning($"Given armor is null");
             return null;
         }
 
@@ -228,15 +227,39 @@ public class ModelTable
         return go;
     }
 
+    public GameObject GetArmorPieceByItemId(int itemId, CharacterRaceAnimation raceId) {
+        Armor armor = ItemTable.Instance.GetArmor(itemId);
+        if (armor == null) {
+            Debug.LogWarning($"Can't find armor {itemId} in ItemTable");
+            return null;
+        }
+
+        if (!_armors.ContainsKey(armor.ClientModelId)) {
+            Debug.LogWarning($"Can't find armor model {armor.ClientModelId} in ModelTable");
+            return null;
+        }
+
+        byte slotId = (byte)(armor.ItemSlot - 2);
+        GameObject go = _armors[armor.ClientModelId][(byte)raceId, slotId];
+        if (go == null) {
+            Debug.LogWarning($"Can't find armor model {armor.ClientModelId} for {raceId} slot {armor.ItemSlot} - {slotId} in ModelTable");
+            return null;
+        }
+
+        return go;
+    }
+
     public GameObject GetArmorPieceByModelId(int modelId, CharacterRaceAnimation raceId, ItemSlot slot) {
         if (!_armors.ContainsKey(modelId)) {
             Debug.LogWarning($"Can't find armor model {modelId} in ModelTable");
             return null;
         }
 
-        GameObject go = _armors[modelId][(byte) raceId, (byte)(slot - 2)];
+        byte slotId = (byte)(slot - 2);
+        Debug.Log("Slot:" + slot + " " + slotId);
+        GameObject go = _armors[modelId][(byte) raceId, slotId];
         if (go == null) {
-            Debug.LogWarning($"Can't find armor model {modelId} for {raceId} slot {slot} in ModelTable");
+            Debug.LogWarning($"Can't find armor model {modelId} for {raceId} slot {slot} - {slotId} in ModelTable");
             return null;
         }
 

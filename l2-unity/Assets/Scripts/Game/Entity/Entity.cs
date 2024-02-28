@@ -6,7 +6,10 @@ public class Entity : MonoBehaviour {
     [SerializeField] private NetworkIdentity _identity;
     [SerializeField] private Status _status;
     [SerializeField] private Stats _stats;
-    [SerializeField] private Appearance _appearance;
+    [SerializeField] protected Appearance _appearance;
+
+    [SerializeField] private CharacterRace _race;
+    [SerializeField] private CharacterRaceAnimation _raceId;
 
     [Header("Combat")]
     [SerializeField] private int _targetId;
@@ -23,13 +26,15 @@ public class Entity : MonoBehaviour {
     public NetworkCharacterControllerReceive networkCharacterController { get { return _networkCharacterControllerReceive; } }
     public Status Status { get => _status; set => _status = value; }
     public Stats Stats { get => _stats; set => _stats = value; }
-    public Appearance Appearance { get => _appearance; set => _appearance = value; }
+    public Appearance Appearance { get => _appearance; set { _appearance = value; } }
     public NetworkIdentity Identity { get => _identity; set => _identity = value; }
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Transform Target { get { return _target; } set { _target = value; } }
     public Transform AttackTarget { get { return _attackTarget; } set { _attackTarget = value; } }
     public long StopAutoAttackTime { get { return _stopAutoAttackTime; } }
     public long StartAutoAttackTime { get { return _startAutoAttackTime; } }
+    public CharacterRace Race { get { return _race; } set { _race = value; } }
+    public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
 
     public void Start() {
         Initialize();

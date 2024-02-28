@@ -11,6 +11,35 @@ public class UserEntity : Entity {
 
     protected override void Initialize() {
         base.Initialize();
+
+        EquipAllArmors();
+    }
+
+    private void EquipAllArmors() {
+        PlayerAppearance appearance = (PlayerAppearance)_appearance;
+        if (appearance.Chest != 0) {
+            ((UserGear)_gear).EquipArmor(appearance.Chest);
+        } else {
+            ((UserGear)_gear).EquipArmor(0, ItemSlot.chest);
+        }
+
+        if (appearance.Legs != 0) {
+            ((UserGear)_gear).EquipArmor(appearance.Legs);
+        } else {
+            ((UserGear)_gear).EquipArmor(0, ItemSlot.legs);
+        }
+
+        if (appearance.Gloves != 0) {
+            ((UserGear)_gear).EquipArmor(appearance.Gloves);
+        } else {
+            ((UserGear)_gear).EquipArmor(0, ItemSlot.gloves);
+        }
+
+        if (appearance.Feet != 0) {
+            ((UserGear)_gear).EquipArmor(appearance.Feet);
+        } else {
+            ((UserGear)_gear).EquipArmor(0, ItemSlot.feet);
+        }
     }
 
     protected override void OnDeath() {

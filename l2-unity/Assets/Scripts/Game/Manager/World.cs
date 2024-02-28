@@ -95,9 +95,10 @@ public class World : MonoBehaviour {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.Player;
 
-        //GameObject go = (GameObject)Instantiate(_playerPlaceholder, identity.Position, Quaternion.identity);
-        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(appearance, identity.IsMage, true);
+        CharacterRace race = (CharacterRace) appearance.Race;
+        CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
 
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, true);
         go.transform.position = identity.Position;
 
         PlayerEntity player = go.GetComponent<PlayerEntity>();
@@ -105,6 +106,8 @@ public class World : MonoBehaviour {
         player.Identity = identity;
         player.Stats = stats;
         player.Appearance = appearance;
+        player.Race = race;
+        player.RaceId = raceId;
 
         _players.Add(identity.Id, player);
         _objects.Add(identity.Id, player);
@@ -131,8 +134,10 @@ public class World : MonoBehaviour {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.User;
 
-        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(appearance, identity.IsMage, false);
+        CharacterRace race = (CharacterRace)appearance.Race;
+        CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
 
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, false);
         go.transform.position = identity.Position;
 
         UserEntity user = go.GetComponent<UserEntity>();
@@ -140,6 +145,8 @@ public class World : MonoBehaviour {
         user.Identity = identity;
         user.Appearance = appearance;
         user.Stats = stats;
+        user.Race = race;
+        user.RaceId = raceId;
 
         _players.Add(identity.Id, user);
         _objects.Add(identity.Id, user);

@@ -13,10 +13,39 @@ public class PlayerEntity : Entity {
         if (_instance == null) {
             _instance = this;
         }
+
+        EquipAllArmors();
     }
 
     void OnDestroy() {
         _instance = null;
+    }
+
+    private void EquipAllArmors() {
+        PlayerAppearance appearance = (PlayerAppearance) _appearance;
+        if(appearance.Chest != 0) {
+            ((PlayerGear)_gear).EquipArmor(appearance.Chest);
+        } else {
+            ((PlayerGear)_gear).EquipArmor(0, ItemSlot.chest);
+        }
+
+        if (appearance.Legs != 0) {
+            ((PlayerGear)_gear).EquipArmor(appearance.Legs);
+        } else {
+            ((PlayerGear)_gear).EquipArmor(0, ItemSlot.legs);
+        }
+
+        if (appearance.Gloves != 0) {
+            ((PlayerGear)_gear).EquipArmor(appearance.Gloves);
+        } else {
+            ((PlayerGear)_gear).EquipArmor(0, ItemSlot.gloves);
+        }
+
+        if (appearance.Feet != 0) {
+            ((PlayerGear)_gear).EquipArmor(appearance.Feet);
+        } else {
+            ((PlayerGear)_gear).EquipArmor(0, ItemSlot.feet);
+        }
     }
 
     protected override void LookAtTarget() { }
