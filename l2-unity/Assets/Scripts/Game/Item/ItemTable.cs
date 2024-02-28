@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemTable : MonoBehaviour
+public class ItemTable
 {
     private static ItemTable _instance;
-    public static ItemTable Instance { get { return _instance; } }
+    public static ItemTable Instance {
+        get {
+            if (_instance == null) {
+                _instance = new ItemTable();
+            }
+
+            return _instance;
+        }
+    }
 
     private Dictionary<int, Weapon> _weapons = new Dictionary<int, Weapon>();
     private Dictionary<int, Armor> _armors = new Dictionary<int, Armor>();
+    public Dictionary<int, Weapon> Weapons { get { return _weapons; } }
+    public Dictionary<int, Armor> Armors { get { return _armors; } }
 
-    void Awake() {
-        if(_instance == null) { 
-            _instance = this; 
-        } else {
-            Destroy(this);
-        }
-
+    public void Initialize() {
         CacheWeapons();
         CacheArmors();
     }

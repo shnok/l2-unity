@@ -8,6 +8,7 @@ public class UserStateBase : StateMachineBehaviour {
     protected Animator _animator;
     protected PlayerAnimationController _controller;
     protected Entity _entity;
+    protected UserGear _gear;
     protected bool _cancelAction = false;
     [SerializeField] protected bool _enabled = true;
     [SerializeField] protected string _weaponAnim;
@@ -21,9 +22,12 @@ public class UserStateBase : StateMachineBehaviour {
             _enabled = false;
             return;
         }
+        if (_gear == null) {
+            _gear = _entity.GetComponent<UserGear>();
+        }
 
-        _weaponType = _entity.WeaponType;
-        _weaponAnim = _entity.WeaponAnim;
+        _weaponType = _gear.WeaponType;
+        _weaponAnim = _gear.WeaponAnim;
 
         if (_audioHandler == null) {
             _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();

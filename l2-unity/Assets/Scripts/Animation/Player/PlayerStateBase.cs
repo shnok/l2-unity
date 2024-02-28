@@ -7,6 +7,7 @@ public class PlayerStateBase : StateMachineBehaviour {
     protected Animator _animator;
     protected PlayerAnimationController _controller;
     protected Entity _entity;
+    protected PlayerGear _gear;
     [SerializeField] protected bool _enabled = true;
     [SerializeField] protected WeaponType _weaponType;
     [SerializeField] protected string _weaponAnim;
@@ -20,8 +21,12 @@ public class PlayerStateBase : StateMachineBehaviour {
             return;
         }
 
-        _weaponType = _entity.WeaponType;
-        _weaponAnim = _entity.WeaponAnim;
+        if (_gear == null) {
+            _gear = _entity.GetComponent<PlayerGear>();
+        }
+
+        _weaponType = _gear.WeaponType;
+        _weaponAnim = _gear.WeaponAnim;
 
         if (_audioHandler == null) {
             _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();

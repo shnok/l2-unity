@@ -15,19 +15,10 @@ public class Entity : MonoBehaviour {
     [SerializeField] private long _stopAutoAttackTime;
     [SerializeField] private long _startAutoAttackTime;
 
-    [Header("Weapons")]
-    [Header("Right hand")]
-    [SerializeField] private WeaponType _rightHandType;
-    [SerializeField] protected Transform _rightHandBone;
-    [Header("LeftHand")]
-    [SerializeField] private WeaponType _leftHandType;
-    [SerializeField] protected Transform _leftHandBone;
-    [SerializeField] protected Transform _shieldBone;
-    [SerializeField] protected string _weaponAnim;
-
     protected NetworkAnimationController _networkAnimationReceive;
     protected NetworkTransformReceive _networkTransformReceive;
     protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
+    protected Gear _gear;
 
     public NetworkCharacterControllerReceive networkCharacterController { get { return _networkCharacterControllerReceive; } }
     public Status Status { get => _status; set => _status = value; }
@@ -39,8 +30,6 @@ public class Entity : MonoBehaviour {
     public Transform AttackTarget { get { return _attackTarget; } set { _attackTarget = value; } }
     public long StopAutoAttackTime { get { return _stopAutoAttackTime; } }
     public long StartAutoAttackTime { get { return _startAutoAttackTime; } }
-    public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
-    public string WeaponAnim { get { return _weaponAnim; } }
 
     public void Start() {
         Initialize();
@@ -60,12 +49,11 @@ public class Entity : MonoBehaviour {
         TryGetComponent(out _networkAnimationReceive);
         TryGetComponent(out _networkTransformReceive);
         TryGetComponent(out _networkCharacterControllerReceive);
+        TryGetComponent(out _gear);
 
         UpdatePAtkSpeed(_stats.PAtkSpd);
         UpdateMAtkSpeed(_stats.MAtkSpd);
         UpdateSpeed(_stats.Speed);
-
-        _weaponAnim = WeaponTypeParser.GetWeaponAnim(WeaponType.hand);
 
         EquipAllWeapons();
     }
@@ -87,93 +75,15 @@ public class Entity : MonoBehaviour {
     }
 
     protected virtual void EquipAllWeapons() {
+        if(_gear == null) {
+            Debug.LogWarning("Gear script is not attached to entity");
+            return;
+        }
         if (_appearance.LHand != 0) {
-            EquipWeapon(_appearance.LHand, true);
+            _gear.EquipWeapon(_appearance.LHand, true);
         }
         if (_appearance.RHand != 0) {
-            EquipWeapon(_appearance.RHand, false);
-        }
-    }
-
-    protected virtual void EquipWeapon(int weaponId, bool leftSlot) {
-        UnequipWeapon(leftSlot);
-        if (weaponId == 0) {
-            return;
-        }
-
-        Debug.LogWarning("Equip weapon");
-
-        // Loading from database
-        Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
-        if(weapon == null) {
-            Debug.LogWarning($"Could find weapon {weaponId} in DB for entity {Identity.Id}.");
-            return;
-        }
-
-        if(weapon.Prefab == null) {
-            Debug.LogWarning($"Could load prefab for {weaponId} in DB for entity {Identity.Id}.");
-            return;
-        }
-
-        // Updating weapon type
-        if (leftSlot) {
-            _leftHandType = weapon.WeaponType;
-        } else {
-            _rightHandType = weapon.WeaponType;
-        }
-
-        _weaponAnim = WeaponTypeParser.GetWeaponAnim(weapon.WeaponType);
-
-        // Instantiating weapon
-        GameObject go = GameObject.Instantiate(weapon.Prefab);
-        go.SetActive(false);
-        go.transform.name = "weapon";
-
-        if (weapon.WeaponType == WeaponType.none) {
-            go.transform.SetParent(GetShieldBone(), false);
-        } else if (weapon.WeaponType == WeaponType.bow) {
-            go.transform.SetParent(GetLeftHandBone(), false);
-        } else if(leftSlot) {
-            go.transform.SetParent(GetLeftHandBone(), false);
-        } else {
-            go.transform.SetParent(GetRightHandBone(), false);
-        }
-
-        go.SetActive(true);
-    }
-
-    protected virtual Transform GetLeftHandBone() {
-        if (_leftHandBone == null) {
-            _leftHandBone = _networkAnimationReceive.transform.FindRecursive("Bow Bone");
-        }
-        return _leftHandBone;
-    }
-
-    protected virtual Transform GetRightHandBone() {
-        if (_rightHandBone == null) {
-            _rightHandBone = _networkAnimationReceive.transform.FindRecursive("Sword Bone");
-        }
-        return _rightHandBone;
-    }
-
-    protected virtual Transform GetShieldBone() {
-        if (_shieldBone == null) {
-            _shieldBone = _networkAnimationReceive.transform.FindRecursive("Shield Bone");
-        }
-        return _shieldBone;
-    }
-
-    protected virtual void UnequipWeapon(bool leftSlot) {
-        Transform weapon;
-        if (leftSlot) {
-            weapon = GetLeftHandBone().Find("weapon");
-        } else {
-            weapon = GetRightHandBone().Find("weapon");
-        }
-
-        if (weapon != null) {
-            Debug.LogWarning("Unequip weapon");
-            Destroy(weapon);
+            _gear.EquipWeapon(_appearance.RHand, false);
         }
     }
 

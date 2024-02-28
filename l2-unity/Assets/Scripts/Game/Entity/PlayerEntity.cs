@@ -21,27 +21,6 @@ public class PlayerEntity : Entity {
 
     protected override void LookAtTarget() { }
 
-    protected override Transform GetLeftHandBone() {
-        if (_leftHandBone == null) {
-            _leftHandBone = PlayerAnimationController.Instance.transform.FindRecursive("Weapon_L_Bone");
-        }
-        return _leftHandBone;
-    }
-
-    protected override Transform GetRightHandBone() {
-        if (_rightHandBone == null) {
-            _rightHandBone = PlayerAnimationController.Instance.transform.FindRecursive("Weapon_R_Bone");
-        }
-        return _rightHandBone;
-    }
-
-    protected override Transform GetShieldBone() {
-        if (_shieldBone == null) {
-            _shieldBone = PlayerAnimationController.Instance.transform.FindRecursive("Shield_L_Bone");
-        }
-        return _shieldBone;
-    }
-
     protected override void OnDeath() {
         base.OnDeath();
         Debug.Log("Player on death _networkAnimationReceive:" + _networkAnimationReceive);
@@ -55,7 +34,7 @@ public class PlayerEntity : Entity {
     public override bool StartAutoAttacking() {
         if (base.StartAutoAttacking()) {
             PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
-            PlayerAnimationController.Instance.SetBool("atk01_" + _weaponAnim, true);
+            PlayerAnimationController.Instance.SetBool("atk01_" + _gear.WeaponAnim, true);
         }
 
         return true;
@@ -65,7 +44,7 @@ public class PlayerEntity : Entity {
         if (base.StopAutoAttacking()) {
             PlayerController.Instance.StopLookAt();
             if(!PlayerController.Instance.IsMoving()) {
-                PlayerAnimationController.Instance.SetBool("atkwait_" + _weaponAnim, true);
+                PlayerAnimationController.Instance.SetBool("atkwait_" + _gear.WeaponAnim, true);
             }
         }
 

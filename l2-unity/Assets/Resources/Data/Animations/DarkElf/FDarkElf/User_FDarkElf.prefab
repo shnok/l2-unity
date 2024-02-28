@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 5733643542121449354}
   - component: {fileID: 3478450228567174879}
   - component: {fileID: 4463289532557031153}
+  - component: {fileID: -2046524599472184396}
   m_Layer: 6
   m_Name: User_FDarkElf
   m_TagString: User
@@ -214,12 +215,6 @@ MonoBehaviour:
   _attackTarget: {fileID: 0}
   _stopAutoAttackTime: 0
   _startAutoAttackTime: 0
-  _rightHandType: 0
-  _rightHandBone: {fileID: 9202796185684391692}
-  _leftHandType: 0
-  _leftHandBone: {fileID: 5597152907015575636}
-  _shieldBone: {fileID: 7627950161130467807}
-  _weaponAnim: 
 --- !u!114 &5733643542121449354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +270,31 @@ MonoBehaviour:
   _resetStateOnReceive: 0
   _atk01ClipLength: 1000
   _spAtk01ClipLength: 1000
+--- !u!114 &-2046524599472184396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252958834938601816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c9bdd7f05411824eb481988706385f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rightHandType: 0
+  _rightHandBone: {fileID: 0}
+  _rightHand: {fileID: 0}
+  _leftHandType: 0
+  _leftHandBone: {fileID: 0}
+  _shieldBone: {fileID: 0}
+  _leftHand: {fileID: 0}
+  _weaponAnim: 
+  _torso: {fileID: 0}
+  _fullplate: {fileID: 0}
+  _legs: {fileID: 0}
+  _gloves: {fileID: 0}
+  _boots: {fileID: 0}
 --- !u!1 &6411853543172213777
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,23 +636,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9998093fcee9cc64da5e65d1c54b388a, type: 3}
---- !u!4 &5597152907015575636 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3717663871311493853, guid: 9998093fcee9cc64da5e65d1c54b388a, type: 3}
-  m_PrefabInstance: {fileID: 9095828077944398473}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6917556780932060210 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2178271400092677819, guid: 9998093fcee9cc64da5e65d1c54b388a, type: 3}
-  m_PrefabInstance: {fileID: 9095828077944398473}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7627950161130467807 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1720712814780666710, guid: 9998093fcee9cc64da5e65d1c54b388a, type: 3}
-  m_PrefabInstance: {fileID: 9095828077944398473}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &9202796185684391692 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 111526963326211461, guid: 9998093fcee9cc64da5e65d1c54b388a, type: 3}
   m_PrefabInstance: {fileID: 9095828077944398473}
   m_PrefabAsset: {fileID: 0}

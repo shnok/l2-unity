@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5186500308137901694}
   - component: {fileID: 2816631728359154816}
   - component: {fileID: 8933600304522640627}
+  - component: {fileID: 6158534783003311445}
   m_Layer: 11
   m_Name: Player_FDwarf
   m_TagString: Player
@@ -149,12 +150,6 @@ MonoBehaviour:
   _attackTarget: {fileID: 0}
   _stopAutoAttackTime: 0
   _startAutoAttackTime: 0
-  _rightHandType: 0
-  _rightHandBone: {fileID: 0}
-  _leftHandType: 0
-  _leftHandBone: {fileID: 0}
-  _shieldBone: {fileID: 0}
-  _weaponAnim: 
 --- !u!143 &2707339679680748419
 CharacterController:
   m_ObjectHideFlags: 0
@@ -224,6 +219,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isAutoAttacking: 0
   _isRunningToTarget: 0
+--- !u!114 &6158534783003311445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373500069190494077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e175ae1c7d2db47864ba360adcc743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rightHandType: 0
+  _rightHandBone: {fileID: 0}
+  _rightHand: {fileID: 0}
+  _leftHandType: 0
+  _leftHandBone: {fileID: 0}
+  _shieldBone: {fileID: 0}
+  _leftHand: {fileID: 0}
+  _weaponAnim: 
+  _torso: {fileID: 0}
+  _fullplate: {fileID: 0}
+  _legs: {fileID: 0}
+  _gloves: {fileID: 0}
+  _boots: {fileID: 0}
 --- !u!1001 &118123985875661586
 PrefabInstance:
   m_ObjectHideFlags: 0

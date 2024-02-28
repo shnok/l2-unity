@@ -22,6 +22,9 @@ public class Item
     [SerializeField] protected bool _tradeable;
     [SerializeField] protected string _icon;
 
+    public string Name { get { return _name; } }
+    public ItemSlot ItemSlot { get { return _bodypart; } }
+
     public Item(
         int id, 
         string name, 
