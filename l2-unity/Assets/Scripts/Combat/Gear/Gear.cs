@@ -37,46 +37,46 @@ public class Gear : MonoBehaviour {
             return;
         }
 
-        Debug.LogWarning("Equip weapon");
+        //Debug.LogWarning("Equip weapon");
 
-        // Loading from database
-        Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
-        if (weapon == null) {
-            Debug.LogWarning($"Could find weapon {weaponId} in DB for entity {_entity.Identity.Id}.");
-            return;
-        }
+        //// Loading from database
+        //Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
+        //if (weapon == null) {
+        //    Debug.LogWarning($"Could find weapon {weaponId} in DB for entity {_entity.Identity.Id}.");
+        //    return;
+        //}
 
-        GameObject weaponPrefab = ModelTable.Instance.GetWeapon(weaponId);
-        if (weaponPrefab == null) {
-            Debug.LogWarning($"Could load prefab for {weaponId} in DB for entity {_entity.Identity.Id}.");
-            return;
-        }
+        //GameObject weaponPrefab = ModelTable.Instance.GetWeapon(weaponId);
+        //if (weaponPrefab == null) {
+        //    Debug.LogWarning($"Could load prefab for {weaponId} in DB for entity {_entity.Identity.Id}.");
+        //    return;
+        //}
 
-        // Updating weapon type
-        if (leftSlot) {
-            _leftHandType = weapon.WeaponType;
-        } else {
-            _rightHandType = weapon.WeaponType;
-        }
+        //// Updating weapon type
+        //if (leftSlot) {
+        //    _leftHandType = weapon.WeaponType;
+        //} else {
+        //    _rightHandType = weapon.WeaponType;
+        //}
 
-        _weaponAnim = WeaponTypeParser.GetWeaponAnim(weapon.WeaponType);
+        //_weaponAnim = WeaponTypeParser.GetWeaponAnim(weapon.WeaponType);
 
-        // Instantiating weapon
-        GameObject go = GameObject.Instantiate(weaponPrefab);
-        go.SetActive(false);
-        go.transform.name = "weapon";
+        //// Instantiating weapon
+        //GameObject go = GameObject.Instantiate(weaponPrefab);
+        //go.SetActive(false);
+        //go.transform.name = "weapon";
 
-        if (weapon.WeaponType == WeaponType.none) {
-            go.transform.SetParent(GetShieldBone(), false);
-        } else if (weapon.WeaponType == WeaponType.bow) {
-            go.transform.SetParent(GetLeftHandBone(), false);
-        } else if (leftSlot) {
-            go.transform.SetParent(GetLeftHandBone(), false);
-        } else {
-            go.transform.SetParent(GetRightHandBone(), false);
-        }
+        //if (weapon.WeaponType == WeaponType.none) {
+        //    go.transform.SetParent(GetShieldBone(), false);
+        //} else if (weapon.WeaponType == WeaponType.bow) {
+        //    go.transform.SetParent(GetLeftHandBone(), false);
+        //} else if (leftSlot) {
+        //    go.transform.SetParent(GetLeftHandBone(), false);
+        //} else {
+        //    go.transform.SetParent(GetRightHandBone(), false);
+        //}
 
-        go.SetActive(true);
+        //go.SetActive(true);
     }
 
     protected virtual Transform GetLeftHandBone() {

@@ -48,22 +48,22 @@ public class UserGear : Gear
     }
 
     public void EquipArmor(int itemId) {
-        Armor armor = ItemTable.Instance.GetArmor(itemId);
-        if (armor == null) {
-            Debug.LogWarning($"Can't find armor {itemId} in ItemTable");
-            return;
-        }
+        //Armor armor = ItemTable.Instance.GetArmor(itemId);
+        //if (armor == null) {
+        //    Debug.LogWarning($"Can't find armor {itemId} in ItemTable");
+        //    return;
+        //}
 
-        ItemSlot slot = armor.ItemSlot;
-        Debug.Log($"Equipping armor {itemId} in slot {slot}");
+        //ItemSlot slot = armor.ItemSlot;
+        //Debug.Log($"Equipping armor {itemId} in slot {slot}");
 
-        GameObject armorPiece = ModelTable.Instance.GetArmorPiece(armor, _entity.RaceId);
-        if (armorPiece == null) {
-            Debug.LogWarning($"Can't find armor {itemId} in ModelTable");
-            return;
-        }
+        //GameObject armorPiece = ModelTable.Instance.GetArmorPiece(armor, _entity.RaceId);
+        //if (armorPiece == null) {
+        //    Debug.LogWarning($"Can't find armor {itemId} in ModelTable");
+        //    return;
+        //}
 
-        SetArmorPiece(armorPiece, slot);
+        //SetArmorPiece(armorPiece, slot);
     }
 
     public void EquipArmor(int modelId, ItemSlot slot) {
