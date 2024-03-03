@@ -47,33 +47,17 @@ public class UserGear : Gear
         return _shieldBone;
     }
 
-    public void EquipArmor(int itemId) {
-        //Armor armor = ItemTable.Instance.GetArmor(itemId);
-        //if (armor == null) {
-        //    Debug.LogWarning($"Can't find armor {itemId} in ItemTable");
-        //    return;
-        //}
-
-        //ItemSlot slot = armor.ItemSlot;
-        //Debug.Log($"Equipping armor {itemId} in slot {slot}");
-
-        //GameObject armorPiece = ModelTable.Instance.GetArmorPiece(armor, _entity.RaceId);
-        //if (armorPiece == null) {
-        //    Debug.LogWarning($"Can't find armor {itemId} in ModelTable");
-        //    return;
-        //}
-
-        //SetArmorPiece(armorPiece, slot);
-    }
-
-    public void EquipArmor(int modelId, ItemSlot slot) {
-        GameObject armorPiece = ModelTable.Instance.GetArmorPieceByModelId(modelId, _entity.RaceId, slot);
+    public void EquipArmor(int itemId, ItemSlot slot) {
+        ModelTable.L2ArmorPiece armorPiece = ModelTable.Instance.GetArmorPieceByItemId(itemId, _entity.RaceId);
         if (armorPiece == null) {
-            Debug.LogWarning($"Can't find armor {modelId} for race {_entity.RaceId} in slot {slot} in ModelTable");
+            Debug.LogWarning($"Can't find armor {itemId} for race {_entity.RaceId} in slot {slot} in ModelTable");
             return;
         }
 
-        SetArmorPiece(armorPiece, slot);
+        GameObject mesh = Instantiate(armorPiece.baseArmorModel);
+        mesh.GetComponentInChildren<SkinnedMeshRenderer>().material = armorPiece.material;
+
+        SetArmorPiece(mesh, slot);
     }
 
     private void SetArmorPiece(GameObject armorPiece, ItemSlot slot) {
@@ -84,9 +68,9 @@ public class UserGear : Gear
                 }
                 if (_fullarmor != null) {
                     Destroy(_fullarmor);
-                    EquipArmor(0, ItemSlot.legs);
+                    EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.legs);
                 }
-                _torso = GameObject.Instantiate(armorPiece);
+                _torso = armorPiece;
                 _torso.transform.SetParent(_container.transform, false);
                 break;
             case ItemSlot.fullarmor:
@@ -96,7 +80,7 @@ public class UserGear : Gear
                 if (_legs != null) {
                     Destroy(_legs);
                 }
-                _fullarmor = GameObject.Instantiate(armorPiece);
+                _fullarmor = armorPiece;
                 _fullarmor.transform.SetParent(_container.transform, false);
                 break;
             case ItemSlot.legs:
@@ -105,23 +89,23 @@ public class UserGear : Gear
                 }
                 if (_fullarmor != null) {
                     Destroy(_fullarmor);
-                    EquipArmor(0, ItemSlot.chest);
+                    EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.chest);
                 }
-                _legs = GameObject.Instantiate(armorPiece);
+                _legs = armorPiece;
                 _legs.transform.SetParent(_container.transform, false);
                 break;
             case ItemSlot.gloves:
                 if (_gloves != null) {
                     Destroy(_gloves);
                 }
-                _gloves = GameObject.Instantiate(armorPiece);
+                _gloves = armorPiece;
                 _gloves.transform.SetParent(_container.transform, false);
                 break;
             case ItemSlot.feet:
                 if (_boots != null) {
                     Destroy(_boots);
                 }
-                _boots = GameObject.Instantiate(armorPiece);
+                _boots = armorPiece;
                 _boots.transform.SetParent(_container.transform, false);
                 break;
         }

@@ -8,11 +8,13 @@ public class GameManager : MonoBehaviour
 
     void Awake() {
         ItemTable.Instance.Initialize();
-        ModelTable.Instance.Initialize();
+        ItemNameTable.Instance.Initialize();
+        ItemStatDataTable.Instance.Initialize();
         ArmorgrpTable.Instance.Initialize();
         EtcItemgrpTable.Instance.Initialize();
+        WeapongrpTable.Instance.Initialize();
         ItemTable.Instance.CacheItems();
-
+        ModelTable.Instance.Initialize();
     }
 
     void Start() {

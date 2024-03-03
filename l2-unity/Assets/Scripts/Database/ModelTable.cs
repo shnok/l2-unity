@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-struct L2Model {
-    public GameObject baseModel;
-    public Dictionary<string, Material> materials;
-}
-
 public class ModelTable
 {
     private static ModelTable _instance;
@@ -32,14 +27,27 @@ public class ModelTable
     private GameObject[,] _hair;
     private Dictionary<int, GameObject> _weapons;
     //private Dictionary<int, GameObject[,]> _armors; // ModelID(..).Model[Race(14),bodypart(5)]
-    private Dictionary<int, L2Model[,]> _armors; // ModelID(..).Model[Race(14),bodypart(5)]
+    private Dictionary<string, L2Armor> _armors;
+    private class L2Armor {
+        public GameObject baseModel;
+        public Dictionary<string, Material> materials;
+    }
+
+    public class L2ArmorPiece {
+        public GameObject baseArmorModel;
+        public Material material;
+
+        public L2ArmorPiece(GameObject baseArmorModel, Material material) {
+            this.baseArmorModel = baseArmorModel;
+            this.material = material;
+        }
+    }
 
     public void Initialize() {
         CachePlayerContainers();
         CacheFaces();
         CacheHair();
         CacheWeapons();
-      //  CacheNakedArmors();
         CacheArmors();
     }
 
@@ -120,159 +128,166 @@ public class ModelTable
     }
 
     private void CacheWeapons() {
-        //_weapons = new Dictionary<int, GameObject>();
-        //int success = 0;
-        //foreach (KeyValuePair<int, Weapon> kvp in ItemTable.Instance.Weapons) {
-        //    string clientName = kvp.Value.Name.Replace("'", string.Empty).Replace(" ", "_").ToLower();
-        //    string path = Path.Combine("Data", "Animations", "LineageWeapons", clientName + "_m00_wp", clientName + "_m00_wp_prefab");
-        //    GameObject prefab = (GameObject) Resources.Load(path);
-        //    if (prefab == null) {
-        //        //Debug.LogWarning($"Could not load prefab for item {kvp.Value.Name}.");
-        //        continue;
-        //    } else {
-        //        _weapons[kvp.Key] = prefab;
-        //        Debug.Log($"Successfully loaded weapon {kvp.Key}: {clientName} model.");
-        //    }
-        //    success++;
-        //}
+        _weapons = new Dictionary<int, GameObject>();
+        int success = 0;
+        foreach (KeyValuePair<int, Weapon> kvp in ItemTable.Instance.Weapons) {
+            GameObject weapon = LoadWeaponModel(kvp.Value.Weapongrp.Model);
+            if (weapon != null) {
+                success++;
+                _weapons[kvp.Key] = weapon;
+            }
+        }
 
-        //Debug.Log($"Successfully loaded {success} weapon model(s).");
+        Debug.Log($"Successfully loaded {success}/{ItemTable.Instance.Weapons.Count} weapon model(s).");
     }
 
-    //private void CacheNakedArmors() {
-    //    _armors = new Dictionary<int, GameObject[,]>();
-    //    if (!_armors.ContainsKey(0)) {
-    //        _armors.Add(0, new GameObject[RACE_COUNT, 5]);
-    //    }
+    private GameObject LoadWeaponModel(string model) {
+        string[] folderFile = model.Split(".");
 
-    //    //Load naked armors
-    //    for (int r = 0; r < RACE_COUNT; r++) {
-    //        CharacterRaceAnimation raceId = (CharacterRaceAnimation)r;
-    //        CharacterRace race = CharacterRaceParser.ParseRace(raceId);
+        string modelPath = $"Data/Animations/{folderFile[0]}/{folderFile[1]}";
+        Debug.Log("====> " + modelPath);
 
-    //        string path = $"Data/Animations/{race}/{raceId}/{raceId}_m{0.ToString("000")}";
+        GameObject weapon = (GameObject)Resources.Load(modelPath);
+        if (weapon == null) {
+            //Debug.LogWarning($"Can't find armor model at {modelPath}");
+        } else {
+            Debug.Log($"Successfully loaded weapon {model} model.");
+        }
 
-    //        _armors[0][(byte) raceId, 0] = LoadArmorPiece(path, raceId, ItemSlot.chest);
-    //        _armors[0][(byte) raceId, 1] = LoadArmorPiece(path, raceId, ItemSlot.legs);
-    //        _armors[0][(byte) raceId, 3] = LoadArmorPiece(path, raceId, ItemSlot.gloves);
-    //        _armors[0][(byte) raceId, 4] = LoadArmorPiece(path, raceId, ItemSlot.feet);
-    //    }
-    //}
+        return weapon;
+    }
 
     private void CacheArmors() {
-        //foreach (KeyValuePair<int, Armor> kvp in ItemTable.Instance.Armors) {
-        //    int modelIndex = kvp.Value.ClientModelId;
+        _armors = new Dictionary<string, L2Armor>();
 
-        //    if (!_armors.ContainsKey(modelIndex)) {
-        //        _armors.Add(modelIndex, new GameObject[RACE_COUNT, 5]);
-        //    }
+        int armorMaterials = 0;
+        foreach (KeyValuePair<int, Armor> kvp in ItemTable.Instance.Armors) {
+            for (int i = 0; i < RACE_COUNT; i++) {
+                string model = kvp.Value.Armorgrp.Model[i];
+                if (model == null) {
+                    Debug.LogWarning($"Model string is null for race {(CharacterRaceAnimation)i} in armor {kvp.Key}");
+                    continue;
+                }
 
-        //    ItemSlot slot = kvp.Value.ItemSlot;
-        //    byte slotIndex = (byte)(slot - 2);
+                L2Armor l2Model = null;
+                if (!_armors.ContainsKey(model)) {
+                    l2Model = new L2Armor();
+                    l2Model.baseModel = LoadArmorModel(model);
+                    if(l2Model.baseModel != null) {
+                        l2Model.materials = new Dictionary<string, Material>();
+                        _armors.Add(model, l2Model);
+                    }
+                }
 
-        //    for (int r = 0; r < RACE_COUNT; r++) {
-        //        CharacterRaceAnimation raceId = (CharacterRaceAnimation)r;
-        //        CharacterRace race = CharacterRaceParser.ParseRace(raceId);
+                if (l2Model == null) {
+                    _armors.TryGetValue(model, out l2Model);
+                }
 
-        //        string path = $"Data/Animations/{race}/{raceId}/{raceId}_m{modelIndex.ToString("000")}";
+                if (l2Model == null || l2Model.baseModel == null) {
+                    //Debug.LogWarning($"Armor {kvp.Key} model cannot be loaded for race {(CharacterRaceAnimation)i} at {model}");
+                    continue;
+                }
 
-        //        _armors[modelIndex][(byte)raceId, slotIndex] = LoadArmorPiece(path, raceId, slot);
-        //    }
-        //}
-    }
+                string texture = kvp.Value.Armorgrp.Texture[i];
 
-    private string UpdatePath(string path, ItemSlot slot) {
-            switch (slot) {
-                case ItemSlot.chest:
-                    return path + "_u";
-                case ItemSlot.legs:
-                    return path + "_l";
-                case ItemSlot.fullarmor:
-                    return path + "_u"; //TODO to verify
-                case ItemSlot.gloves:
-                    return path + "_g";
-                case ItemSlot.feet:
-                    return path + "_b";
-                default: return path + "_u";
+                if(l2Model.materials.ContainsKey(texture)) {
+                    continue;
+                }
+
+                Material armorMaterial = LoadArmorMaterial(texture);
+
+                if (armorMaterial == null) {
+                   // Debug.LogWarning($"Armor {kvp.Key} material cannot be loaded for race {(CharacterRaceAnimation)i} at {texture}");
+                    continue;
+                }
+
+                l2Model.materials.Add(texture, armorMaterial);
+                armorMaterials++;
             }
+        }
+
+        Debug.Log($"Successfully loaded {_armors.Count} armor model(s).");
+        Debug.Log($"Successfully loaded {armorMaterials} armor marerial(s).");
     }
 
-    private GameObject LoadArmorPiece(string path, CharacterRaceAnimation raceId, ItemSlot slot) {
-        string modelPath = UpdatePath(path, slot);
+    private GameObject LoadArmorModel(string model) {
+
+        string[] folderFile = model.Split(".");
+
+        string modelPath = $"Data/Animations/{folderFile[0]}/{folderFile[1]}";
 
         GameObject armorPiece = (GameObject)Resources.Load(modelPath);
         if (armorPiece == null) {
-           // Debug.LogWarning($"Can't find armor model at {modelPath} for {raceId}");
+            //Debug.LogWarning($"Can't find armor model at {modelPath}");
         } else {
-            Debug.Log($"Successfully loaded armor model at {modelPath} for {raceId}");
+            Debug.Log($"Successfully loaded armor model at {modelPath}");
         }
 
         return armorPiece;
     }
 
+    private Material LoadArmorMaterial(string texture) {
+        string[] folderFile = texture.Split(".");
+
+        string materialPath = $"Data/SysTextures/{folderFile[0]}/Materials/{folderFile[1]}";
+
+        Material material = (Material)Resources.Load(materialPath);
+        if (material == null) {
+           // Debug.LogWarning($"Can't find armor model at {materialPath}");
+        } else {
+            Debug.Log($"Successfully loaded armor model at {materialPath}");
+        }
+
+        return material;
+    }
+
     // -------
     // Getters
     // -------
-    public GameObject GetArmorPiece(Armor armor, CharacterRaceAnimation raceId) {
-        //if (armor == null) {
-        //    Debug.LogWarning($"Given armor is null");
-        //    return null;
-        //}
+    public L2ArmorPiece GetArmorPiece(Armor armor, CharacterRaceAnimation raceId) {
+        if (armor == null) {
+            Debug.LogWarning($"Given armor is null");
+            return null;
+        }
 
-        //if (!_armors.ContainsKey(armor.ClientModelId)) {
-        //    Debug.LogWarning($"Can't find armor model {armor.ClientModelId} in ModelTable");
-        //    return null;
-        //}
+        string model = armor.Armorgrp.Model[(byte)raceId];
+        if (!_armors.ContainsKey(model)) {
+            Debug.LogWarning($"Can't find armor model {model} in ModelTable");
+            return null;
+        }
 
-        //GameObject go = _armors[armor.ClientModelId][(byte)raceId, (byte)(armor.ItemSlot - 2)];
-        //if (go == null) {
-        //    Debug.LogWarning($"Can't find armor model {armor.ClientModelId} for {raceId} slot {armor.ItemSlot} in ModelTable");
-        //    return null;
-        //}
+        GameObject baseModel = _armors[model].baseModel;
+        if (baseModel == null) {
+            Debug.LogWarning($"Can't find armor model {model} for {raceId} in ModelTable");
+            return null;
+        }
 
-        //return go;
-        return null;
+        if (_armors[model].materials == null) {
+            Debug.LogWarning($"Can't find armor material for {model} and {raceId} in ModelTable");
+            return null;
+        }
+
+        if(armor.Armorgrp.Texture == null || armor.Armorgrp.Texture.Length < RACE_COUNT || armor.Armorgrp.Texture[(byte)raceId] == null) {
+            Debug.LogWarning($"Can't find armor material for {model} and {raceId} in ModelTable");
+            return null;
+        }
+
+        Material material;
+        _armors[model].materials.TryGetValue(armor.Armorgrp.Texture[(byte) raceId], out material);
+
+        if (material == null) {
+            Debug.LogWarning($"Can't find armor material for {model} and {raceId} in ModelTable");
+            return null;
+        }
+
+        L2ArmorPiece armorModel = new L2ArmorPiece(baseModel, material);
+        return armorModel;
     }
 
-    public GameObject GetArmorPieceByItemId(int itemId, CharacterRaceAnimation raceId) {
-        //Armor armor = ItemTable.Instance.GetArmor(itemId);
-        //if (armor == null) {
-        //    Debug.LogWarning($"Can't find armor {itemId} in ItemTable");
-        //    return null;
-        //}
+    public L2ArmorPiece GetArmorPieceByItemId(int itemId, CharacterRaceAnimation raceId) {
+        Armor armor = ItemTable.Instance.GetArmor(itemId);
 
-        //if (!_armors.ContainsKey(armor.ClientModelId)) {
-        //    Debug.LogWarning($"Can't find armor model {armor.ClientModelId} in ModelTable");
-        //    return null;
-        //}
-
-        //byte slotId = (byte)(armor.ItemSlot - 2);
-        //GameObject go = _armors[armor.ClientModelId][(byte)raceId, slotId];
-        //if (go == null) {
-        //    Debug.LogWarning($"Can't find armor model {armor.ClientModelId} for {raceId} slot {armor.ItemSlot} - {slotId} in ModelTable");
-        //    return null;
-        //}
-
-        //return go;
-        return null;
-    }
-
-    public GameObject GetArmorPieceByModelId(int modelId, CharacterRaceAnimation raceId, ItemSlot slot) {
-        //if (!_armors.ContainsKey(modelId)) {
-        //    Debug.LogWarning($"Can't find armor model {modelId} in ModelTable");
-        //    return null;
-        //}
-
-        //byte slotId = (byte)(slot - 2);
-        //Debug.Log("Slot:" + slot + " " + slotId);
-        //GameObject go = _armors[modelId][(byte) raceId, slotId];
-        //if (go == null) {
-        //    Debug.LogWarning($"Can't find armor model {modelId} for {raceId} slot {slot} - {slotId} in ModelTable");
-        //    return null;
-        //}
-
-        //return go;
-        return null;
+        return GetArmorPiece(armor, raceId);
     }
 
     public GameObject GetWeapon(int itemId) {
