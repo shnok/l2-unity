@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class UserEntity : Entity {
 
-    protected override void Initialize() {
+    public override void Initialize() {
         base.Initialize();
 
         EquipAllArmors();

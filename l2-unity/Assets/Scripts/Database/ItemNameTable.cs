@@ -26,7 +26,7 @@ public class ItemNameTable {
 
     private void ReadItemNameDat() {
         _itemNames = new Dictionary<int, ItemName>();
-        string dataPath = "Assets/Resources/Data/Meta/ItemName_Classic-eu.txt";
+        string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/ItemName_Classic-eu.txt");
         if (!File.Exists(dataPath)) {
             Debug.LogWarning("File not found: " + dataPath);
             return;

@@ -27,7 +27,7 @@ public class ArmorgrpTable {
 
     private void ReadArmorGrpDat() {
         _armorgrps = new Dictionary<int, Armorgrp>();
-        string dataPath = "Assets/Resources/Data/Meta/Armorgrp_Classic.txt";
+        string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/Armorgrp_Classic.txt");
         if (!File.Exists(dataPath)) {
             Debug.LogWarning("File not found: " + dataPath);
             return;

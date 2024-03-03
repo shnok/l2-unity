@@ -7,7 +7,7 @@ public class PlayerEntity : Entity {
     private static PlayerEntity _instance;
     public static PlayerEntity Instance { get => _instance; }
 
-    protected override void Initialize() {
+    public override void Initialize() {
         base.Initialize();
 
         if (_instance == null) {

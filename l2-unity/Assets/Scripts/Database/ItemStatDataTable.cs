@@ -24,7 +24,7 @@ public class ItemStatDataTable {
 
     private void ReadItemStatDataDat() {
         _itemStatData = new Dictionary<int, ItemStatData>();
-        string dataPath = "Assets/Resources/Data/Meta/ItemStatData_Classic.txt";
+        string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/ItemStatData_Classic.txt");
         if (!File.Exists(dataPath)) {
             Debug.LogWarning("File not found: " + dataPath);
             return;

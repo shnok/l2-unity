@@ -26,7 +26,7 @@ public class WeapongrpTable {
     private void ReadWeaponGrpDat() {
         _weaponGrps = new Dictionary<int, Weapongrp>();
 
-        string dataPath = "Assets/Resources/Data/Meta/Weapongrp_Classic.txt";
+        string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/Weapongrp_Classic.txt");
         if (!File.Exists(dataPath)) {
             Debug.LogWarning("File not found: " + dataPath);
             return;
@@ -105,6 +105,13 @@ public class WeapongrpTable {
                     }
                 }
 
+                if(weaponType == WeaponType.blunt) {
+                    if(handness == 14) {
+                        weaponType = WeaponType.bigblunt;
+                    }
+                }
+
+                weaponGrp.WeaponType = weaponType;
 
                 if (!ItemTable.Instance.ShouldLoadItem(weaponGrp.ObjectId) || _weaponGrps.ContainsKey(weaponGrp.ObjectId)) {
                     continue;

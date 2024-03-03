@@ -25,7 +25,7 @@ public class EtcItemgrpTable {
 
     private void ReadEtcItemgrpDat() {
         _etcItemGrps = new Dictionary<int, EtcItemgrp>();
-        string dataPath = "Assets/Resources/Data/Meta/EtcItemgrp_Classic.txt";
+        string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/EtcItemgrp_Classic.txt");
         if (!File.Exists(dataPath)) {
             Debug.LogWarning("File not found: " + dataPath);
             return;

@@ -25,7 +25,7 @@ public class ModelTable
     private GameObject[] _userContainers;
     private GameObject[,] _faces;
     private GameObject[,] _hair;
-    private Dictionary<int, GameObject> _weapons;
+    private Dictionary<string, GameObject> _weapons;
     //private Dictionary<int, GameObject[,]> _armors; // ModelID(..).Model[Race(14),bodypart(5)]
     private Dictionary<string, L2Armor> _armors;
     private class L2Armor {
@@ -128,13 +128,17 @@ public class ModelTable
     }
 
     private void CacheWeapons() {
-        _weapons = new Dictionary<int, GameObject>();
+        _weapons = new Dictionary<string, GameObject>();
         int success = 0;
         foreach (KeyValuePair<int, Weapon> kvp in ItemTable.Instance.Weapons) {
+            if(_weapons.ContainsKey(kvp.Value.Weapongrp.Model)) {
+                continue;
+            }
+
             GameObject weapon = LoadWeaponModel(kvp.Value.Weapongrp.Model);
             if (weapon != null) {
                 success++;
-                _weapons[kvp.Key] = weapon;
+                _weapons[kvp.Value.Weapongrp.Model] = weapon;
             }
         }
 
@@ -145,11 +149,10 @@ public class ModelTable
         string[] folderFile = model.Split(".");
 
         string modelPath = $"Data/Animations/{folderFile[0]}/{folderFile[1]}";
-        Debug.Log("====> " + modelPath);
 
         GameObject weapon = (GameObject)Resources.Load(modelPath);
         if (weapon == null) {
-            //Debug.LogWarning($"Can't find armor model at {modelPath}");
+            Debug.LogWarning($"Can't find weapon model at {modelPath}");
         } else {
             Debug.Log($"Successfully loaded weapon {model} model.");
         }
@@ -290,15 +293,24 @@ public class ModelTable
         return GetArmorPiece(armor, raceId);
     }
 
-    public GameObject GetWeapon(int itemId) {
-        if (!_weapons.ContainsKey(itemId)) {
-            Debug.LogWarning($"Can't find weapon model {itemId} in ModelTable");
+    public GameObject GetWeaponById(int itemId) {
+        Weapon weapon = ItemTable.Instance.GetWeapon(itemId);
+        if (weapon == null) {
+            Debug.LogWarning($"Can't find weapon {itemId} in ItemTable");
+        }
+
+        return GetWeapon(weapon.Weapongrp.Model);
+    }
+
+    public GameObject GetWeapon(string model) {
+        if (!_weapons.ContainsKey(model)) {
+            Debug.LogWarning($"Can't find weapon model {model} in ModelTable");
             return null;
         }
 
-        GameObject go = _weapons[itemId];
+        GameObject go = _weapons[model];
         if (go == null) {
-            Debug.LogWarning($"Can't find weapon model {itemId} in ModelTable");
+            Debug.LogWarning($"Can't find weapon model {model} in ModelTable");
             return null;
         }
 

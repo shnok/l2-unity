@@ -100,6 +100,7 @@ public class World : MonoBehaviour {
 
         GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, true);
         go.transform.position = identity.Position;
+        go.transform.name = "Player";
 
         PlayerEntity player = go.GetComponent<PlayerEntity>();
         player.Status = status;
@@ -112,20 +113,24 @@ public class World : MonoBehaviour {
         _players.Add(identity.Id, player);
         _objects.Add(identity.Id, player);
 
-        go.GetComponent<PlayerController>().enabled = true;
 
         if(!_offlineMode) {
             go.GetComponent<NetworkTransformShare>().enabled = true;
         }
-          
-        go.transform.name = "Player";
+
+        go.GetComponent<PlayerController>().enabled = true;
+        go.GetComponent<PlayerController>().Initialize();
+
         go.SetActive(true);
+        go.GetComponentInChildren<PlayerAnimationController>().Initialize();
+        go.GetComponent<Gear>().Initialize();
+
+        player.Initialize();
 
         go.transform.SetParent(_usersContainer.transform);
 
         CameraController.Instance.enabled = true;
         CameraController.Instance.SetTarget(go);
-
         ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
     }
 
@@ -154,7 +159,12 @@ public class World : MonoBehaviour {
         go.GetComponent<NetworkTransformReceive>().enabled = true;
 
         go.transform.name = identity.Name;
+
         go.SetActive(true);
+
+        user.GetComponent<NetworkAnimationController>().Initialize();
+        go.GetComponent<Gear>().Initialize();
+        user.Initialize();
 
         go.transform.SetParent(_usersContainer.transform);
     }
@@ -204,6 +214,10 @@ public class World : MonoBehaviour {
         npcGo.transform.name = identity.Name;
 
         npcGo.SetActive(true);
+
+        npc.GetComponent<NetworkAnimationController>().Initialize();
+        npcGo.GetComponent<Gear>().Initialize();
+        npc.Initialize();
     }
 
     public float GetGroundHeight(Vector3 pos) {
