@@ -1,17 +1,19 @@
-TODO
+TODO (priority from top to bottom)
 
+load npcs based on system/npcgrp.dat (reduce packet size)
 randomize atk animations
-build player based on appearance data
-share chardata over network (face, color, race, sex, class, weapons, armors)
 
+fix player position desync
 fix moving monster desync at login
 should move away from animation share to state share
-reduce amount of packets sent by players
-todo remove request rotate, calculate rotation based on movedirection
-share action instead of animationid, store current action in entity
+
+reduce amount data sent by players:
+	- remove request rotate, calculate rotation based on movedirection
+	- share action instead of animationid, store current action in entity
+	- get col_r, col_r from system/chargrp.dat instead
 
 wait for monster attack animation end before following player
-check if AI isnt dead before applying damage to target
+check if AI isnt dead before applying damage to AI's target
 monster should follow even if not on geodata/path cant be found
 
 global variable to scale all ambientsounds
@@ -20,11 +22,14 @@ Nature renderer for deco layer ?
 replace curent input system with unity input system
 
 reduce texture2darray size
-
 loading screen
+login server
 
 DONE
 
+add missing weapons
+build player based on appearance data
+share chardata over network (face, color, race, sex, class, weapons, armors)
 fix atk wait when running after attacking
 other players should lock on attacking target
 add fdwarf

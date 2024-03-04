@@ -6,7 +6,7 @@ public class PlayerAnimationController : BaseAnimationController {
     private static PlayerAnimationController _instance;
     public static PlayerAnimationController Instance { get { return _instance; } }
 
-    protected override void Initialize() {
+    public override void Initialize() {
         base.Initialize();
 
         if (_instance == null) {

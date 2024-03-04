@@ -9,7 +9,7 @@ using UnityEngine;
 public class MonsterEntity : Entity {
     private MonsterAnimationAudioHandler _monsterAnimationAudioHandler;
 
-    protected override void Initialize() {
+    public override void Initialize() {
         base.Initialize();
         _monsterAnimationAudioHandler = GetComponent<MonsterAnimationAudioHandler>();
     }

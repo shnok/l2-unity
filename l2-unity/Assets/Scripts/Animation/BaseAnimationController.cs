@@ -9,11 +9,7 @@ public class BaseAnimationController : MonoBehaviour
     [SerializeField] protected float _atk01ClipLength = 1000;
     [SerializeField] protected float _spAtk01ClipLength = 1000;
 
-    private void Awake() {
-        Initialize();
-    }
-
-    protected virtual void Initialize() {
+    public virtual void Initialize() {
         _animator = gameObject.GetComponentInChildren<Animator>(true);
         FetchAnimationClipLengths();
     }

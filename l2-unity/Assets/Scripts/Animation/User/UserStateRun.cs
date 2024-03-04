@@ -48,7 +48,7 @@ public class UserStateRun : UserStateAction {
                 SetBool("atkwait_" + _weaponAnim, true);
                 return;
             }
-            _animator.SetBool("wait_" + _weaponAnim, true);
+            SetBool("wait_" + _weaponAnim, true);
         }
     }
 

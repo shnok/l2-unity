@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
     private static PlayerController _instance;
     public static PlayerController Instance { get { return _instance; } }
 
-    private void Awake() {
+    public void Initialize() {
         if (_instance == null) {
             _instance = this;
         } else {

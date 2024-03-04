@@ -36,10 +36,6 @@ public class Entity : MonoBehaviour {
     public CharacterRace Race { get { return _race; } set { _race = value; } }
     public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
 
-    public void Start() {
-        Initialize();
-    }
-
     public void FixedUpdate() {
         LookAtTarget();
     }
@@ -50,7 +46,7 @@ public class Entity : MonoBehaviour {
         }
     }
 
-    protected virtual void Initialize() {
+    public virtual void Initialize() {
         TryGetComponent(out _networkAnimationReceive);
         TryGetComponent(out _networkTransformReceive);
         TryGetComponent(out _networkCharacterControllerReceive);

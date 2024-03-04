@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class UserEntity : Entity {
 
-    protected override void Initialize() {
+    public override void Initialize() {
         base.Initialize();
 
         EquipAllArmors();
@@ -18,27 +18,27 @@ public class UserEntity : Entity {
     private void EquipAllArmors() {
         PlayerAppearance appearance = (PlayerAppearance)_appearance;
         if (appearance.Chest != 0) {
-            ((UserGear)_gear).EquipArmor(appearance.Chest);
+            ((UserGear)_gear).EquipArmor(appearance.Chest, ItemSlot.chest);
         } else {
-            ((UserGear)_gear).EquipArmor(0, ItemSlot.chest);
+            ((UserGear)_gear).EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.chest);
         }
 
         if (appearance.Legs != 0) {
-            ((UserGear)_gear).EquipArmor(appearance.Legs);
+            ((UserGear)_gear).EquipArmor(appearance.Legs, ItemSlot.legs);
         } else {
-            ((UserGear)_gear).EquipArmor(0, ItemSlot.legs);
+            ((UserGear)_gear).EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.legs);
         }
 
         if (appearance.Gloves != 0) {
-            ((UserGear)_gear).EquipArmor(appearance.Gloves);
+            ((UserGear)_gear).EquipArmor(appearance.Gloves, ItemSlot.gloves);
         } else {
-            ((UserGear)_gear).EquipArmor(0, ItemSlot.gloves);
+            ((UserGear)_gear).EquipArmor(ItemTable.NAKED_GLOVES, ItemSlot.gloves);
         }
 
         if (appearance.Feet != 0) {
-            ((UserGear)_gear).EquipArmor(appearance.Feet);
+            ((UserGear)_gear).EquipArmor(appearance.Feet, ItemSlot.feet);
         } else {
-            ((UserGear)_gear).EquipArmor(0, ItemSlot.feet);
+            ((UserGear)_gear).EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.feet);
         }
     }
 

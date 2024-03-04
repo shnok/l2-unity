@@ -58,7 +58,7 @@ public class GeodataImporter
 
     public byte[] GetGeodataBinaryForMap(string mapId) {
         try {
-            string geodataFilePath = Path.Combine("Assets/Resources/Data/Maps/", mapId, mapId + ".geodata");
+            string geodataFilePath = Path.Combine(Application.streamingAssetsPath, "Data/Maps/Geodata", mapId + ".geodata");
 
             using(ZipArchive archive = ZipFile.OpenRead(geodataFilePath)) {
                 ZipArchiveEntry entry = archive.GetEntry(_geodataEntryName);

@@ -9,7 +9,7 @@ using UnityEngine;
 public class NpcEntity : Entity {
     private CharacterAnimationAudioHandler _npcAnimationAudioHandler;
 
-    protected override void Initialize() {
+    public override void Initialize() {
         base.Initialize();
         _npcAnimationAudioHandler = GetComponent<CharacterAnimationAudioHandler>();
     }

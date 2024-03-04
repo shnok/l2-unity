@@ -7,6 +7,10 @@ public class Gear : MonoBehaviour {
     protected Entity _entity;
 
     [Header("Weapons")]
+    [Header("Meta")]
+    [SerializeField] private Weapon _rightHandWeapon;
+    [SerializeField] private Weapon _leftHandWeapon;
+    [Header("Models")]
     [Header("Right hand")]
     [SerializeField] private WeaponType _rightHandType;
     [SerializeField] protected Transform _rightHandBone;
@@ -21,13 +25,8 @@ public class Gear : MonoBehaviour {
     public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
     public string WeaponAnim { get { return _weaponAnim; } }
 
-    private void Awake() {
-        _weaponAnim = WeaponTypeParser.GetWeaponAnim(WeaponType.hand);
+    public virtual void Initialize() {
         _entity = GetComponent<Entity>();
-        Initialize();
-    }
-
-    protected virtual void Initialize() {
         TryGetComponent(out _networkAnimationReceive);
     }
 
@@ -37,7 +36,7 @@ public class Gear : MonoBehaviour {
             return;
         }
 
-        Debug.LogWarning("Equip weapon");
+        Debug.LogWarning("Equip weapon: " + weaponId);
 
         // Loading from database
         Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
@@ -46,7 +45,7 @@ public class Gear : MonoBehaviour {
             return;
         }
 
-        GameObject weaponPrefab = ModelTable.Instance.GetWeapon(weaponId);
+        GameObject weaponPrefab = ModelTable.Instance.GetWeaponById(weaponId);
         if (weaponPrefab == null) {
             Debug.LogWarning($"Could load prefab for {weaponId} in DB for entity {_entity.Identity.Id}.");
             return;
@@ -54,21 +53,23 @@ public class Gear : MonoBehaviour {
 
         // Updating weapon type
         if (leftSlot) {
-            _leftHandType = weapon.WeaponType;
+            _leftHandWeapon = weapon;
+            _leftHandType = weapon.Weapongrp.WeaponType;
         } else {
-            _rightHandType = weapon.WeaponType;
+            _rightHandWeapon = weapon;
+            _rightHandType = weapon.Weapongrp.WeaponType;
         }
 
-        _weaponAnim = WeaponTypeParser.GetWeaponAnim(weapon.WeaponType);
+        UpdateWeaponType(weapon.Weapongrp.WeaponType);
 
         // Instantiating weapon
         GameObject go = GameObject.Instantiate(weaponPrefab);
         go.SetActive(false);
         go.transform.name = "weapon";
 
-        if (weapon.WeaponType == WeaponType.none) {
+        if (weapon.Weapongrp.WeaponType == WeaponType.none) {
             go.transform.SetParent(GetShieldBone(), false);
-        } else if (weapon.WeaponType == WeaponType.bow) {
+        } else if (weapon.Weapongrp.WeaponType == WeaponType.bow) {
             go.transform.SetParent(GetLeftHandBone(), false);
         } else if (leftSlot) {
             go.transform.SetParent(GetLeftHandBone(), false);
@@ -77,6 +78,17 @@ public class Gear : MonoBehaviour {
         }
 
         go.SetActive(true);
+    }
+
+    private void UpdateWeaponType(WeaponType weaponType) {
+        _weaponAnim = WeaponTypeParser.GetWeaponAnim(weaponType);
+        UpdateIdleAnimation();
+    }
+
+    protected virtual void UpdateIdleAnimation() {
+        if(_networkAnimationReceive != null) {
+            _networkAnimationReceive.SetBool("wait_" + _weaponAnim, true);
+        }
     }
 
     protected virtual Transform GetLeftHandBone() {

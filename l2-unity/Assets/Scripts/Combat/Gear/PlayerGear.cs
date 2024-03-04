@@ -24,4 +24,9 @@ public class PlayerGear : UserGear
         }
         return _shieldBone;
     }
+
+    protected override void UpdateIdleAnimation() {
+        Debug.LogWarning("Update idle animation");
+        PlayerAnimationController.Instance.SetBool("wait_" + _weaponAnim, true);
+    }
 }

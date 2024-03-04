@@ -8,7 +8,7 @@ This [video](https://www.youtube.com/watch?v=IEHY37bJ7nk) inspired me to start o
 
 ![Preview](https://cdn.discordapp.com/attachments/584218502148259901/1180162232814940280/image.png?ex=65eb28ba&is=65d8b3ba&hm=9fb347f90e0969ded501640e36d58353dd8046d107e54147c7e0abee926446aa&)
 
-![Preview2](https://cdn.discordapp.com/attachments/584218502148259901/1212439526278959145/image.png?ex=65f1d74d&is=65df624d&hm=b2cb83a301f76a94b164b1361ada939144734a3dadcbb94160bb64739f307c4f&)
+![Preview2](https://cdn.discordapp.com/attachments/584218502148259901/1214221893154897940/image.png?ex=65f85342&is=65e5de42&hm=27e2098e5dc3365d8e5e5e51f821a666531256df2412214585a6b75afafd54ed&)
 
 
 ## What are the expected features?
@@ -25,13 +25,13 @@ For now the aim is to create a basic demo, therefore only basic features will be
     - Skillbar
 - Basic combat ✅
 - Basic RPG features 
-    - HP Loss and regen 🛠️ (Players can fight but still can't regen)
+    - HP Loss and regen 🛠️ (Players can fight mobs but wont regen)
     - Exp gain on kills
     - Leveling
 - Small range of models
-    - 1 to 2 races for players ✅ (FDarkElf, FDwarf)
-	- A few armor sets for each race
-	- A few of weapons each type 🛠️ (Only 1Hand sword for now)
+    - 2 races for players ✅ (FDarkElf, FDwarf)
+	- A few armor sets for each race ✅ (naked set, starter set)
+	- A few of weapons each type ✅
     - All Monsters of Talking island ✅
     - All NPCs of Talking island ✅
 - Server/Client features (server project [here](https://gitlab.com/shnok/unity-mmo-server))
