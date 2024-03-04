@@ -105,10 +105,8 @@ public class WeapongrpTable {
                     }
                 }
 
-                if(weaponType == WeaponType.blunt) {
-                    if(handness == 14) {
-                        weaponType = WeaponType.bigblunt;
-                    }
+                if(handness == 14) {
+                    weaponType = WeaponType.pole;
                 }
 
                 weaponGrp.WeaponType = weaponType;

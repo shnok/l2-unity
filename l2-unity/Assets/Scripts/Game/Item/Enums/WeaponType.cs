@@ -58,7 +58,7 @@ public class WeaponTypeParser {
             case "dagger":
                 return WeaponType.dual;
             case "staff":
-                return WeaponType.bigblunt;
+                return WeaponType.bow;
             case "fist": // shield or hand check at handness
                 return WeaponType.hand;
             case "twohandblunt":
@@ -96,8 +96,8 @@ public class WeaponTypeParser {
                 return WeaponType.hand;
             case 12: 
                 return WeaponType.dagger;
-            case 14:
-                return WeaponType.bigblunt;
+            case 14: //staff
+                return WeaponType.pole;
             default:
                 return WeaponType.hand;
 
