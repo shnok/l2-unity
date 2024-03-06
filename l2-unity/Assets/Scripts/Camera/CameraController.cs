@@ -85,7 +85,7 @@ public class CameraController : MonoBehaviour {
         Vector3[] cameraClips = _collisionDetector.GetCameraViewPortPoints();
         bool visible = false;
         for(int i = 0; i < cameraClips.Length; i++) {
-            if(!Physics.Linecast(cameraClips[i], target.position + 0.5f * Vector3.up, out hit, _collisionMask)) {
+            if(!Physics.Linecast(cameraClips[i], target.position + 1f * Vector3.up, out hit, _collisionMask)) {
                 visible = true;
                 break;
             }

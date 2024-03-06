@@ -76,11 +76,11 @@ public class ItemNameTable {
                     }
                 }
 
-                if (!ItemTable.Instance.ShouldLoadItem(itemName.Id) || _itemNames.ContainsKey(itemName.Id)) {
+                if (!ItemTable.Instance.ShouldLoadItem(itemName.Id)) {
                     continue;
                 }
 
-                _itemNames.Add(itemName.Id, itemName);
+                _itemNames.TryAdd(itemName.Id, itemName);
             }
 
             Debug.Log($"Successfully imported {_itemNames.Count} itemNames(s)");

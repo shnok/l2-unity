@@ -96,11 +96,11 @@ public class ItemStatDataTable {
                     }
                 }
 
-                if (!ItemTable.Instance.ShouldLoadItem(itemStatData.ObjectId) || _itemStatData.ContainsKey(itemStatData.ObjectId)) {
+                if (!ItemTable.Instance.ShouldLoadItem(itemStatData.ObjectId)) {
                     continue;
                 }
 
-                _itemStatData.Add(itemStatData.ObjectId, itemStatData);
+                _itemStatData.TryAdd(itemStatData.ObjectId, itemStatData);
             }
 
             Debug.Log($"Successfully imported {_itemStatData.Count} itemStatData(s)");

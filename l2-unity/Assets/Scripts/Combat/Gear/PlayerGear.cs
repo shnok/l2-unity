@@ -26,7 +26,6 @@ public class PlayerGear : UserGear
     }
 
     protected override void UpdateIdleAnimation() {
-        Debug.LogWarning("Update idle animation");
         PlayerAnimationController.Instance.SetBool("wait_" + _weaponAnim, true);
     }
 }

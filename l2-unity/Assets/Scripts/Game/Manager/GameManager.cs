@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
         EtcItemgrpTable.Instance.Initialize();
         WeapongrpTable.Instance.Initialize();
         ItemTable.Instance.CacheItems();
+        NpcgrpTable.Instance.Initialize();
+        NpcNameTable.Instance.Initialize();
         ModelTable.Instance.Initialize();
     }
 

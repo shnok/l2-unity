@@ -9,9 +9,9 @@ public class NetworkIdentity
     [SerializeField] private int _id;
     [SerializeField] private string _name;
     [SerializeField] private string _title;
+    [SerializeField] private string _titleColor = "9CE8A9FF"; // default color
 
     [Header("Npc")]
-    [SerializeField] private string _type;
     [SerializeField] private int _npcId;
     [SerializeField] private string _npcClass;
 
@@ -28,10 +28,10 @@ public class NetworkIdentity
     public EntityType EntityType { get => _entityType; set => _entityType = value; }
     public int Id { get => _id; set => _id = value; }
     public int NpcId { get => _npcId; set => _npcId = value; }
-    public string Type { get => _type; set => _type = value; }
     public string NpcClass { get => _npcClass; set => _npcClass = value; }
     public string Name { get => _name; set => _name = value; }
     public string Title { get => _title; set => _title = value; }
+    public string TitleColor { get => _titleColor; set => _titleColor = value; }
     public Vector3 Position { get => _position; set => _position = value; }
     public float Heading { get => _heading; set => _heading = value; }
     public bool Owned { get => _owned; set => _owned = value; }

@@ -8,7 +8,7 @@ public class DatUtils {
         return name.Replace("[", string.Empty).Replace("]", string.Empty);
     }
 
-    public static string[] ParseModelTexture(string value) {
+    public static string[] ParseArray(string value) {
         return SplitJSON(value);
     }
 
@@ -20,14 +20,14 @@ public class DatUtils {
         return value.Replace("{", string.Empty).Replace("}", string.Empty).Replace("[", string.Empty).Replace("]", string.Empty).Split(";");
     }
 
-    public static bool ParseBaseAbstractGrpDat(Abstractgrp abstractgrp, string key, string value) {
+    public static bool ParseBaseAbstractItemGrpDat(Abstractgrp abstractgrp, string key, string value) {
 
         switch (key) {
             case "object_id":
                 abstractgrp.ObjectId = int.Parse(value);
                 break;
             case "drop_texture": //{{[dropitems.drop_mfighter_m001_t02_u_m00];{[MFighter.MFighter_m001_t02_u]}}}
-                string[] modTex = DatUtils.ParseModelTexture(value);
+                string[] modTex = DatUtils.ParseArray(value);
                 abstractgrp.DropTexture = modTex[1];
                 abstractgrp.DropModel = modTex[0];
                 break;

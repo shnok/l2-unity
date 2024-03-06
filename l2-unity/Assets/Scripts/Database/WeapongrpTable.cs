@@ -53,7 +53,7 @@ public class WeapongrpTable {
                     string key = keyval[0];
                     string value = keyval[1];
 
-                    if (DatUtils.ParseBaseAbstractGrpDat(weaponGrp, key, value)) {
+                    if (DatUtils.ParseBaseAbstractItemGrpDat(weaponGrp, key, value)) {
                         continue;
                     }
 
@@ -78,16 +78,16 @@ public class WeapongrpTable {
                             break;
                         case "wp_mesh": //{{[LineageWeapons.hell_knife_m00_wp]};{1}}
                             //TODO for dualswords, store 2 models and textures
-                            modTex = DatUtils.ParseModelTexture(value);
+                            modTex = DatUtils.ParseArray(value);
                             weaponGrp.Model = modTex[0];
                             break;
                         case "texture": //{[LineageWeaponsTex.hell_knife_t00_wp]}	
                             //TODO for dualswords, store 2 models and textures
-                            modTex = DatUtils.ParseModelTexture(value);
+                            modTex = DatUtils.ParseArray(value);
                             weaponGrp.Texture = modTex[0];
                             break;
                         case "item_sound": // {[ItemSound.sword_small_2];[ItemSound.public_sword_shing_9];[ItemSound.sword_small_7];[ItemSound.dagger_4]}
-                            string[] itemsounds = DatUtils.ParseModelTexture(value);
+                            string[] itemsounds = DatUtils.ParseArray(value);
                             weaponGrp.ItemSounds = itemsounds;
                             break;                 
                     }
@@ -111,7 +111,7 @@ public class WeapongrpTable {
 
                 weaponGrp.WeaponType = weaponType;
 
-                if (!ItemTable.Instance.ShouldLoadItem(weaponGrp.ObjectId) || _weaponGrps.ContainsKey(weaponGrp.ObjectId)) {
+                if (!ItemTable.Instance.ShouldLoadItem(weaponGrp.ObjectId)) {
                     continue;
                 }
 

@@ -199,7 +199,7 @@ public class ServerPacketHandler
 
     private void OnNpcInfoReceive(byte[] data) {
         NpcInfoPacket packet = new NpcInfoPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.SpawnNpc(packet.Identity, packet.Status, packet.Stats, packet.Appearance));
+        _eventProcessor.QueueEvent(() => World.Instance.SpawnNpc(packet.Identity, packet.Status, packet.Stats));
     }
 
     private void OnObjectMoveTo(byte[] data) {

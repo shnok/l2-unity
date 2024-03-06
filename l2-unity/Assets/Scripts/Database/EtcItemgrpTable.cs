@@ -46,7 +46,7 @@ public class EtcItemgrpTable {
                     string key = keyval[0];
                     string value = keyval[1];
 
-                    if (DatUtils.ParseBaseAbstractGrpDat(etcItemgrp, key, value)) {
+                    if (DatUtils.ParseBaseAbstractItemGrpDat(etcItemgrp, key, value)) {
                         continue;
                     }
 
@@ -57,11 +57,11 @@ public class EtcItemgrpTable {
                     }
                 }
 
-                if (!ItemTable.Instance.ShouldLoadItem(etcItemgrp.ObjectId) || _etcItemGrps.ContainsKey(etcItemgrp.ObjectId)) {
+                if (!ItemTable.Instance.ShouldLoadItem(etcItemgrp.ObjectId)) {
                     continue;
                 }
 
-                _etcItemGrps.Add(etcItemgrp.ObjectId, etcItemgrp);
+                _etcItemGrps.TryAdd(etcItemgrp.ObjectId, etcItemgrp);
             }
 
             Debug.Log($"Successfully imported {_etcItemGrps.Count} etcItemgrp(s)");

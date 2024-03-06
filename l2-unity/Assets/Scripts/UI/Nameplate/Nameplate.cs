@@ -26,7 +26,7 @@ public class Nameplate {
 
     public Nameplate(
         VisualElement visualElement, Label entityName, Label entityTitle, Transform target,
-        string title, float nameplateHeight, string name, int targetId, bool visible) {
+        string title, string titleColor, float nameplateHeight, string name, int targetId, bool visible) {
         _nameplateEle = visualElement;
         _nameplateEntityName = entityName;
         _nameplateEntityTitle = entityTitle;
@@ -39,6 +39,7 @@ public class Nameplate {
 
         _nameplateEntityName.text = name;
         _nameplateEntityTitle.text = title;
+        _nameplateEntityTitle.style.color = StringUtils.HexToColor(titleColor);
     }
 
     public void SetStyle(string className) {

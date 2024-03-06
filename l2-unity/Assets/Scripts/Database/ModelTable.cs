@@ -26,7 +26,7 @@ public class ModelTable
     private GameObject[,] _faces;
     private GameObject[,] _hair;
     private Dictionary<string, GameObject> _weapons;
-    //private Dictionary<int, GameObject[,]> _armors; // ModelID(..).Model[Race(14),bodypart(5)]
+    private Dictionary<string, GameObject> _npcs;
     private Dictionary<string, L2Armor> _armors;
     private class L2Armor {
         public GameObject baseModel;
@@ -49,6 +49,7 @@ public class ModelTable
         CacheHair();
         CacheWeapons();
         CacheArmors();
+        CacheNpcs();
     }
 
     private void OnDestroy() {
@@ -154,7 +155,7 @@ public class ModelTable
         if (weapon == null) {
             Debug.LogWarning($"Can't find weapon model at {modelPath}");
         } else {
-            Debug.Log($"Successfully loaded weapon {model} model.");
+            //Debug.Log($"Successfully loaded weapon {model} model.");
         }
 
         return weapon;
@@ -223,7 +224,7 @@ public class ModelTable
         if (armorPiece == null) {
             //Debug.LogWarning($"Can't find armor model at {modelPath}");
         } else {
-            Debug.Log($"Successfully loaded armor model at {modelPath}");
+           // Debug.Log($"Successfully loaded armor model at {modelPath}");
         }
 
         return armorPiece;
@@ -238,10 +239,40 @@ public class ModelTable
         if (material == null) {
            // Debug.LogWarning($"Can't find armor model at {materialPath}");
         } else {
-            Debug.Log($"Successfully loaded armor model at {materialPath}");
+           // Debug.Log($"Successfully loaded armor model at {materialPath}");
         }
 
         return material;
+    }
+
+    private void CacheNpcs() {
+        _npcs = new Dictionary<string, GameObject>();
+        int success = 0;
+        foreach (KeyValuePair<int, Npcgrp> kvp in NpcgrpTable.Instance.Npcgrps) {
+            if (_npcs.ContainsKey(kvp.Value.Mesh)) {
+                continue;
+            }
+
+            GameObject npc = LoadNpc(kvp.Value.Mesh);
+            if (npc != null) {
+                success++;
+                _npcs[kvp.Value.Mesh] = npc;
+            }
+        }
+
+        Debug.Log($"Loaded {success} npc model(s).");
+    }
+
+    private GameObject LoadNpc(string meshname) {
+        string[] folderFile = meshname.Split(".");
+
+        if (folderFile.Length < 2) {
+            return null;
+        }
+
+        string path = $"Data/Animations/{folderFile[0]}/{folderFile[1]}/{folderFile[1]}";
+
+        return Resources.Load<GameObject>(path);
     }
 
     // -------
@@ -350,5 +381,15 @@ public class ModelTable
         }
 
         return go;
+    }
+
+    public GameObject GetNpc(string meshname) {
+        GameObject npc = null;
+        _npcs.TryGetValue(meshname, out npc);
+        if (npc == null) {
+            Debug.LogError($"Can't find npc {meshname} model in ModelTable.");
+        }
+
+        return npc;
     }
 }
