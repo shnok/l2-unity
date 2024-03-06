@@ -10,6 +10,9 @@ This [video](https://www.youtube.com/watch?v=IEHY37bJ7nk) inspired me to start o
 
 ![Preview2](https://cdn.discordapp.com/attachments/584218502148259901/1214221893154897940/image.png?ex=65f85342&is=65e5de42&hm=27e2098e5dc3365d8e5e5e51f821a666531256df2412214585a6b75afafd54ed&)
 
+![Preview3](https://cdn.discordapp.com/attachments/584218502148259901/1214952502492008500/image.png?ex=65fafbb1&is=65e886b1&hm=4de069cf9464fd2d5c18ac7a3a4d87757afc0926b3119c8807df1fd1c49bf951&)
+
+![Preview4](https://cdn.discordapp.com/attachments/584218502148259901/1214956247506485290/image.png?ex=65faff2e&is=65e88a2e&hm=b71267feb997a17efd3bee0a1926fd8bc4ad434fb0cd0fd76bce439298f74831&)
 
 ## What are the expected features?
 
@@ -70,5 +73,4 @@ If you don't want to setup the [server](https://gitlab.com/shnok/unity-mmo-serve
 
 ## Contributing
 
-Pull requests are very welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+Feel free to fork the repository and open any pull request.

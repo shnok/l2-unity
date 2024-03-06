@@ -9,6 +9,10 @@ using UnityEngine;
 public class NpcEntity : Entity {
     private CharacterAnimationAudioHandler _npcAnimationAudioHandler;
 
+    [SerializeField] private NpcData _npcData;
+
+    public NpcData NpcData { get { return _npcData; } set { _npcData = value; } }
+
     public override void Initialize() {
         base.Initialize();
         _npcAnimationAudioHandler = GetComponent<CharacterAnimationAudioHandler>();

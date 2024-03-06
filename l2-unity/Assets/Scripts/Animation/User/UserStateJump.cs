@@ -22,6 +22,10 @@ public class UserStateJump : UserStateBase {
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (!_enabled) {
+            return;
+        }
+
         SetBool("jump", false);
         SetBool("run_jump", false);
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
@@ -35,6 +39,10 @@ public class UserStateJump : UserStateBase {
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (!_enabled) {
+            return;
+        }
+
         _audioHandler.PlaySound(CharacterSoundEvent.Step);
         _audioHandler.PlaySound(CharacterSoundEvent.Step);
     }

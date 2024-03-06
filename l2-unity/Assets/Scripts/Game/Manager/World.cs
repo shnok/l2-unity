@@ -169,40 +169,56 @@ public class World : MonoBehaviour {
         go.transform.SetParent(_usersContainer.transform);
     }
 
-    public void SpawnNpc(NetworkIdentity identity, NpcStatus status, Stats stats, Appearance appearance) {
-        identity.SetPosY(GetGroundHeight(identity.Position));
-        identity.EntityType = EntityTypeParser.ParseEntityType(identity.Type);
+    public void SpawnNpc(NetworkIdentity identity, NpcStatus status, Stats stats) {
 
-        string prefabName = identity.NpcClass.Split(".")[1].ToLower();
-        GameObject go;
-        if(identity.EntityType == EntityType.NPC) {
-            go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageNPCs/", prefabName, prefabName + "_prefab"));
-            if(go == null) {
-                go = _npcPlaceHolder;
-            }
-        } else {
-            go = Resources.Load<GameObject>(Path.Combine("Data/Animations/LineageMonsters/", prefabName, prefabName + "_prefab"));
-            if(go == null) {
-                go = _monsterPlaceholder;
-            }
-            if(string.IsNullOrEmpty(identity.Title)) {
-                identity.Title = "Lvl: " + status.Level;
-            }
+        Npcgrp npcgrp = NpcgrpTable.Instance.GetNpcgrp(identity.NpcId);
+        NpcName npcName = NpcNameTable.Instance.GetNpcName(identity.NpcId);
+        if (npcName == null || npcgrp == null) {
+            Debug.LogError($"Npc {identity.NpcId} could not be loaded correctly.");
+            return;
         }
 
-        GameObject npcGo = Instantiate(go, identity.Position, Quaternion.identity);
+        GameObject go = ModelTable.Instance.GetNpc(npcgrp.Mesh);
+        if (go == null) {
+            Debug.LogError($"Npc {identity.NpcId} could not be loaded correctly.");
+            return;
+        }
 
+        identity.SetPosY(GetGroundHeight(identity.Position));
+        GameObject npcGo = Instantiate(go, identity.Position, Quaternion.identity);
+        NpcData npcData = new NpcData(npcName, npcgrp);
+
+        identity.EntityType = EntityTypeParser.ParseEntityType(npcgrp.ClassName);
         Entity npc;
         if (identity.EntityType == EntityType.NPC) {
             npcGo.transform.SetParent(_npcsContainer.transform);
             npc = npcGo.GetComponent<NpcEntity>();
+            ((NpcEntity)npc).NpcData = npcData;
         } else {
             npcGo.transform.SetParent(_monstersContainer.transform);
             npc = npcGo.GetComponent<MonsterEntity>();
+            ((MonsterEntity)npc).NpcData = npcData;
         }
 
+        Appearance appearance = new Appearance();
+        appearance.RHand = npcgrp.Rhand;
+        appearance.LHand = npcgrp.Lhand;
+        appearance.CollisionRadius = npcgrp.CollisionRadius;
+        appearance.CollisionHeight = npcgrp.CollisionHeight;
+
         npc.Status = status;
+
         npc.Identity = identity;
+        npc.Identity.NpcClass = npcgrp.ClassName;
+        npc.Identity.Name = npcName.Name; 
+        npc.Identity.Title = npcName.Title;
+        if (npc.Identity.Title == null || npc.Identity.Title.Length == 0) {
+            if(identity.EntityType == EntityType.Monster) {
+                npc.Identity.Title = " Lvl: " + npc.Status.Level;
+            }
+        }
+        npc.Identity.TitleColor = npcName.TitleColor;
+
         npc.Stats = stats;
         npc.Appearance = appearance;
 

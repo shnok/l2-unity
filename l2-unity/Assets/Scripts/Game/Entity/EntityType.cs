@@ -14,13 +14,10 @@ public enum EntityType
 
 public static class EntityTypeParser {
     public static EntityType ParseEntityType(string type) {
-        switch(type) {
-            case "L2Monster":
-                return EntityType.Monster;
-            case "L2Npc":
-                return EntityType.NPC;
-            default:
-                return EntityType.NPC;
+        if(type.Contains("LineageNPC")) {
+            return EntityType.NPC;
+        } else {
+            return EntityType.Monster;
         }
     }
 }

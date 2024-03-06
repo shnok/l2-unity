@@ -1,11 +1,13 @@
 TODO (priority from top to bottom)
 
-load npcs based on system/npcgrp.dat (reduce packet size)
 randomize atk animations
 
+cache entity heading server side
 fix player position desync
 fix moving monster desync at login
-should move away from animation share to state share
+shadows are too dark
+
+update npc animator as player animator to adapt to different weapon types
 
 reduce amount data sent by players:
 	- remove request rotate, calculate rotation based on movedirection
@@ -27,6 +29,7 @@ login server
 
 DONE
 
+load npcs based on system/npcgrp.dat (reduce packet size)
 add missing weapons
 build player based on appearance data
 share chardata over network (face, color, race, sex, class, weapons, armors)
