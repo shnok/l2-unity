@@ -17,7 +17,6 @@ public class PlayerStateAtk : PlayerStateAction {
             clipInfos = animator.GetCurrentAnimatorClipInfo(0);
         }
 
-        Debug.LogWarning(clipInfos[0].clip.length + " " + clipInfos[0].clip.name + " " + clipInfos.Length);
         PlayerAnimationController.Instance.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
         SetBool("atk01_" + _weaponAnim, false, false);

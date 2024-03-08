@@ -8,6 +8,14 @@ public class MonsterStateAtk : MonsterStateBase
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+
+        AnimatorClipInfo[] clipInfos = animator.GetNextAnimatorClipInfo(0);
+        if (clipInfos == null || clipInfos.Length == 0) {
+            clipInfos = animator.GetCurrentAnimatorClipInfo(0);
+        }
+
+        _networkAnimationController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
+
         PlaySoundAtRatio(MonsterSoundEvent.Atk, audioHandler.AtkRatio);
         PlaySoundAtRatio(MonsterSoundEvent.Swish, audioHandler.SwishRatio);
         _lastNormalizedTime = 0;

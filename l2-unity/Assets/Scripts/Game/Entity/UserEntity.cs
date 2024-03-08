@@ -8,9 +8,11 @@ using UnityEngine;
     RequireComponent(typeof(NetworkCharacterControllerReceive))]
 
 public class UserEntity : Entity {
+    private CharacterAnimationAudioHandler _characterAnimationAudioHandler;
 
     public override void Initialize() {
         base.Initialize();
+        _characterAnimationAudioHandler = transform.GetChild(0).GetComponentInChildren<CharacterAnimationAudioHandler>();
 
         EquipAllArmors();
     }
@@ -68,6 +70,7 @@ public class UserEntity : Entity {
 
     protected override void OnHit(bool criticalHit) {
         base.OnHit(criticalHit);
+        _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Dmg);
     }
 
     public override float UpdateMAtkSpeed(int mAtkSpd) {

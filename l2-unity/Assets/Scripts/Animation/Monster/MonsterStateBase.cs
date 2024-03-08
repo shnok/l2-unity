@@ -5,6 +5,7 @@ using UnityEngine;
 public class MonsterStateBase : StateMachineBehaviour
 {
     public MonsterAnimationAudioHandler audioHandler;
+    protected NetworkAnimationController _networkAnimationController;
     public Animator animator;
     private Entity _entity;
 
@@ -17,6 +18,9 @@ public class MonsterStateBase : StateMachineBehaviour
         }
         if (_entity == null) {
             _entity = animator.gameObject.GetComponent<Entity>();
+        }
+        if(_networkAnimationController == null) {
+            _networkAnimationController = animator.gameObject.GetComponent<NetworkAnimationController>();
         }
     }
 

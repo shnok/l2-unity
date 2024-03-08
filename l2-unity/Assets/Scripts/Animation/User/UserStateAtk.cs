@@ -11,6 +11,13 @@ public class UserStateAtk : UserStateBase {
             return;
         }
 
+        AnimatorClipInfo[] clipInfos = animator.GetNextAnimatorClipInfo(0);
+        if (clipInfos == null || clipInfos.Length == 0) {
+            clipInfos = animator.GetCurrentAnimatorClipInfo(0);
+        }
+
+        _networkAnimationController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
+
         SetBool("atkwait_" + _weaponAnim, false);
         SetBool("atk01_" + _weaponAnim, false);
 

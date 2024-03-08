@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerStateBase : StateMachineBehaviour {
     protected CharacterAnimationAudioHandler _audioHandler;
     protected Animator _animator;
-    protected PlayerAnimationController _controller;
     protected Entity _entity;
     protected PlayerGear _gear;
     [SerializeField] protected bool _enabled = true;

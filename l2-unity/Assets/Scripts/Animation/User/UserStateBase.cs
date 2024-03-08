@@ -5,8 +5,8 @@ using UnityEngine;
 public class UserStateBase : StateMachineBehaviour {
     protected CharacterAnimationAudioHandler _audioHandler;
     protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
+    protected NetworkAnimationController _networkAnimationController;
     protected Animator _animator;
-    protected PlayerAnimationController _controller;
     protected Entity _entity;
     protected UserGear _gear;
     protected bool _cancelAction = false;
@@ -37,6 +37,9 @@ public class UserStateBase : StateMachineBehaviour {
         }
         if (_networkCharacterControllerReceive == null) {
             _networkCharacterControllerReceive = _entity.transform.GetComponent<NetworkCharacterControllerReceive>();
+        }
+        if (_networkAnimationController == null) {
+            _networkAnimationController = _entity.transform.GetComponent<NetworkAnimationController>();
         }
     }
 

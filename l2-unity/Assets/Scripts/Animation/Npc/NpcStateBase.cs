@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NpcStateBase : StateMachineBehaviour {
+    protected NetworkAnimationController _networkAnimationController;
     public CharacterAnimationAudioHandler audioHandler;
     public Animator animator;
     private Entity _entity;
@@ -16,6 +17,9 @@ public class NpcStateBase : StateMachineBehaviour {
         }
         if (_entity == null) {
             _entity = animator.gameObject.GetComponent<Entity>();
+        }
+        if (_networkAnimationController == null) {
+            _networkAnimationController = animator.gameObject.GetComponent<NetworkAnimationController>();
         }
     }
 
