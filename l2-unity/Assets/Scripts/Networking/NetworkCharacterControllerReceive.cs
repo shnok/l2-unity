@@ -16,6 +16,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     [SerializeField] private float _moveSpeedMultiplier = 1f;
 
     public Vector3 MoveDirection { get { return _direction; } set { _direction = value; } }
+    public NetworkAnimationController NetworkAnimationController { get { return _animationReceive; } }
 
     void Start() {
         if(World.Instance.OfflineMode) {

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerEntity : Entity {
+    private CharacterAnimationAudioHandler _characterAnimationAudioHandler;
 
     private static PlayerEntity _instance;
     public static PlayerEntity Instance { get => _instance; }
 
     public override void Initialize() {
         base.Initialize();
+
+        _characterAnimationAudioHandler = GetComponentInChildren<CharacterAnimationAudioHandler>();
 
         if (_instance == null) {
             _instance = this;
@@ -58,6 +61,7 @@ public class PlayerEntity : Entity {
 
     protected override void OnHit(bool criticalHit) {
         base.OnHit(criticalHit);
+        _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Dmg);
     }
 
     public override bool StartAutoAttacking() {
