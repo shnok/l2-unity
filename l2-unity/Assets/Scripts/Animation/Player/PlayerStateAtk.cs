@@ -12,6 +12,14 @@ public class PlayerStateAtk : PlayerStateAction {
             return;
         }
 
+        AnimatorClipInfo[] clipInfos = animator.GetNextAnimatorClipInfo(0);
+        if (clipInfos == null || clipInfos.Length == 0) {
+            clipInfos = animator.GetCurrentAnimatorClipInfo(0);
+        }
+
+        Debug.LogWarning(clipInfos[0].clip.length + " " + clipInfos[0].clip.name + " " + clipInfos.Length);
+        PlayerAnimationController.Instance.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
+
         SetBool("atk01_" + _weaponAnim, false, false);
 
         if(TargetManager.Instance.HasAttackTarget()) {
@@ -57,8 +65,11 @@ public class PlayerStateAtk : PlayerStateAction {
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        PlayerCombatController.Instance.AutoAttacking = false;
-        PlayerEntity.Instance.StopAutoAttacking();
-        PlayerController.Instance.SetCanMove(true);
+        if(!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack")) {
+            Debug.Log("Exiting atk state. Next tag: " + animator.GetCurrentAnimatorStateInfo(0).tagHash);
+            PlayerCombatController.Instance.AutoAttacking = false;
+            PlayerEntity.Instance.StopAutoAttacking();
+            PlayerController.Instance.SetCanMove(true);
+        }
     }
 }
