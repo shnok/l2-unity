@@ -6,13 +6,10 @@ This [video](https://www.youtube.com/watch?v=IEHY37bJ7nk) inspired me to start o
 
 <p>Preview of the current state of the project:</p>
 
-![Preview](https://cdn.discordapp.com/attachments/584218502148259901/1180162232814940280/image.png?ex=65eb28ba&is=65d8b3ba&hm=9fb347f90e0969ded501640e36d58353dd8046d107e54147c7e0abee926446aa&)
-
-![Preview2](https://cdn.discordapp.com/attachments/584218502148259901/1214221893154897940/image.png?ex=65f85342&is=65e5de42&hm=27e2098e5dc3365d8e5e5e51f821a666531256df2412214585a6b75afafd54ed&)
-
-![Preview3](https://cdn.discordapp.com/attachments/584218502148259901/1214952502492008500/image.png?ex=65fafbb1&is=65e886b1&hm=4de069cf9464fd2d5c18ac7a3a4d87757afc0926b3119c8807df1fd1c49bf951&)
-
-![Preview4](https://cdn.discordapp.com/attachments/584218502148259901/1214956247506485290/image.png?ex=65faff2e&is=65e88a2e&hm=b71267feb997a17efd3bee0a1926fd8bc4ad434fb0cd0fd76bce439298f74831&)
+<img src="https://i.imgur.com/Dwrg15Y.png" alt="Preview" style="max-width: 75%; height: auto;">
+<img src="https://i.imgur.com/OnWL7RX.png" alt="Preview3" style="max-width: 75%; height: auto;">
+<img src="https://i.imgur.com/OqnzT1H.png" alt="Preview2" style="max-width: 75%; height: auto;">
+<img src="https://i.imgur.com/hemt26R.png" alt="Preview4" style="max-width: 75%; height: auto;">
 
 ## What are the expected features?
 
@@ -63,13 +60,9 @@ For now the aim is to create a basic demo, therefore only basic features will be
 
 <p>Open the "Game" scene and drag&drop the 1x_1x scenes into your scene.</p>
 
-![Import](https://cdn.discordapp.com/attachments/584218502148259901/1180168459104034877/image.png?ex=65eb2e87&is=65d8b987&hm=a869d1c373c75b9ff52b93ccddaf91ccf853af21dd5e948cce3d53217f0ca124&)
+<img src="https://i.imgur.com/FDleY0u.png" alt="Preview4" style="max-width: 75%; height: auto;">
 
-If you don't want to setup the [server](https://gitlab.com/shnok/unity-mmo-server) and just want to run in an empty map. Select the <b>Game</b> GameObject in the <b>Game</b> scene and tick the <i>"offline mode"</i> checkbox.
-
-![offline](https://cdn.discordapp.com/attachments/584218502148259901/1182499680056250418/image.png?ex=65ea6f25&is=65d7fa25&hm=a87480c4915cbf9c2723cc2b4c32f1c39c42e3e511bb0503db3ff4a6e031c998&)
-
-
+Download and run the [server] project (https://gitlab.com/shnok/unity-mmo-server).
 
 ## Contributing
 
