@@ -60,9 +60,9 @@ For now the aim is to create a basic demo, therefore only basic features will be
 
 <p>Open the "Game" scene and drag&drop the 1x_1x scenes into your scene.</p>
 
-<img src="https://i.imgur.com/FDleY0u.png" alt="Preview4" style="max-width: 75%; height: auto;">
+<img src="https://i.imgur.com/FDleY0u.png" alt="Preview4" style="max-width: 50%; height: auto;">
 
-Download and run the [server] project (https://gitlab.com/shnok/unity-mmo-server).
+Download and run the [server](https://gitlab.com/shnok/unity-mmo-server) project.
 
 ## Contributing
 
