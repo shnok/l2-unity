@@ -6,13 +6,10 @@ This [video](https://www.youtube.com/watch?v=IEHY37bJ7nk) inspired me to start o
 
 <p>Preview of the current state of the project:</p>
 
-![Preview](https://i.imgur.com/Dwrg15Y.png)
-
-![Preview2](https://i.imgur.com/OqnzT1H.png)
-
-![Preview3](https://i.imgur.com/OnWL7RX.png)
-
-![Preview4](https://i.imgur.com/hemt26R.png)
+<img src="https://i.imgur.com/Dwrg15Y.png" alt="Preview" style="max-width: 75%; height: auto;">
+<img src="https://i.imgur.com/OnWL7RX.png" alt="Preview3" style="max-width: 75%; height: auto;">
+<img src="https://i.imgur.com/OqnzT1H.png" alt="Preview2" style="max-width: 75%; height: auto;">
+<img src="https://i.imgur.com/hemt26R.png" alt="Preview4" style="max-width: 75%; height: auto;">
 
 ## What are the expected features?
 
@@ -63,7 +60,7 @@ For now the aim is to create a basic demo, therefore only basic features will be
 
 <p>Open the "Game" scene and drag&drop the 1x_1x scenes into your scene.</p>
 
-![Import](https://i.imgur.com/FDleY0u.png)
+<img src="https://i.imgur.com/FDleY0u.png" alt="Preview4" style="max-width: 75%; height: auto;">
 
 Download and run the [server] project (https://gitlab.com/shnok/unity-mmo-server).
 
