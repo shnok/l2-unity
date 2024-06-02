@@ -67,3 +67,7 @@ For now the aim is to create a basic demo, therefore only basic features will be
 ## Contributing
 
 Feel free to fork the repository and open any pull request.
+
+## Discord
+
+Project [discord](https://discord.gg/ra3BmraPKp).
