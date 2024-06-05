@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using UnityEngine;
 
@@ -73,13 +74,13 @@ public class NpcgrpTable {
                             npcgrp.AttackEffect = DatUtils.CleanupString(value);
                             break;
                         case "npc_speed": //{[LineageNPCsTex.e_warehouse_keeper_FDwarf_m00_t00_b00];[LineageNPCsTex.e_warehouse_keeper_FDwarf_m00_t00_b01];...}
-                            npcgrp.Speed = float.Parse(value) / 52.5f;
+                            npcgrp.Speed = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat) / 52.5f;
                             break;
                         case "collision_height":
-                            npcgrp.CollisionHeight = float.Parse(value) / 52.5f;
+                            npcgrp.CollisionHeight = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat) / 52.5f;
                             break;
                         case "collision_radius":
-                            npcgrp.CollisionRadius = float.Parse(value) / 52.5f;
+                            npcgrp.CollisionRadius = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat) / 52.5f;
                             break;
                         case "social":
                             npcgrp.Friendly = (value == "1");
@@ -94,10 +95,11 @@ public class NpcgrpTable {
                             npcgrp.Lhand = int.Parse(value);
                             break;
                         case "org_hp":
-                            npcgrp.MaxHp = float.Parse(value);
+                           // npcgrp.MaxHp = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
+                           npcgrp.MaxHp = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                         case "org_mp":
-                            npcgrp.MaxMp = float.Parse(value);
+                            npcgrp.MaxMp = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                     }
                 }

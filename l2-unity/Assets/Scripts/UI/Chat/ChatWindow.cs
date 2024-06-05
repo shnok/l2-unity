@@ -100,6 +100,7 @@ public class ChatWindow : MonoBehaviour {
         enlargeTextBtn.RegisterCallback<MouseDownEvent>(evt => {
             AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
+
         var chatOptionsBtn = _chatWindowEle.Q<Button>("ChatOptionsBtn");
         chatOptionsBtn.RegisterCallback<MouseDownEvent>(evt => {
             AudioManager.Instance.PlayUISound("click_01");
@@ -126,12 +127,14 @@ public class ChatWindow : MonoBehaviour {
             Debug.LogError("tab-header-container is null");
         }
         VisualElement tabContainer = _chatTabView.Q<VisualElement>("tab-content-container");
+
         if (tabContainer == null) {
             Debug.LogError("tab-content-container");
         }
 
         for (int i = 0; i < _tabs.Count; i++) {
             VisualElement tabElement = _tabTemplate.CloneTree()[0];
+            // tabElement.name = _tabs[i].TabName;
             tabElement.name = _tabs[i].TabName;
             tabElement.AddToClassList("unselected-tab");
 
