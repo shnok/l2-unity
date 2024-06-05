@@ -68,6 +68,7 @@ public class L2GameUI : MonoBehaviour {
         StatusWindow.Instance.AddWindow(rootVisualContainer);
         ChatWindow.Instance.AddWindow(rootVisualContainer);
         TargetWindow.Instance.AddWindow(rootVisualContainer);
+        MenuWindow.Instance.AddWindow(rootVisualContainer);
     }
 
     public void EnableMouse() {

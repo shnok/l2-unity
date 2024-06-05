@@ -26,7 +26,7 @@ public class DragManipulator : PointerManipulator {
     private void PointerDownHandler(PointerDownEvent evt) {
         if(evt.button == 0) {
             _startMousePosition = evt.position;
-            _startPosition = _root.layout.position + target.layout.position;
+            _startPosition = _root.layout.position; //+ target.layout.position;
             target.CapturePointer(evt.pointerId);   
         }
         evt.StopPropagation();
