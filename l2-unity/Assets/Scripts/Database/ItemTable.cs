@@ -80,7 +80,12 @@ public class ItemTable
             ItemStatData itemStatData = ItemStatDataTable.Instance.GetItemStatData(kvp.Key);
 
             Weapon weapon = new Weapon(kvp.Key, itemName, itemStatData, weapongrp);
-            _weapons.Add(kvp.Key, weapon);
+
+            if (!_weapons.ContainsKey(kvp.Key))
+            {
+                _weapons.Add(kvp.Key, weapon);
+            }
+            
         }
     }
 

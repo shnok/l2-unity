@@ -14,7 +14,6 @@ public class ChatTab
     private VisualElement _tabContainer;
     private VisualElement _tabHeader;
     private VisualElement _chatWindowEle;
-
     public string TabName { get { return _tabName; } }
     public List<MessageType> FilteredMessages { get { return _filteredMessages; } }
     public Label Content { get { return _content; } }
@@ -37,7 +36,7 @@ public class ChatTab
                 AudioManager.Instance.PlayUISound("window_open");
             }
         }, TrickleDown.TrickleDown);
-
+      
         RegisterAutoScrollEvent();
         RegisterPlayerScrollEvent();
     }
@@ -63,9 +62,11 @@ public class ChatTab
         });
         highBtn.RegisterCallback<MouseDownEvent>(evt => {
             AudioManager.Instance.PlayUISound("click_01");
+           // Debug.Log("EEEEEEEE");
         }, TrickleDown.TrickleDown);
         lowBtn.RegisterCallback<MouseDownEvent>(evt => {
             AudioManager.Instance.PlayUISound("click_01");
+           // Debug.Log("EEEEEEEE");
         }, TrickleDown.TrickleDown);
         dragger.RegisterCallback<MouseUpEvent>(evt => {
             VerifyScrollValue();

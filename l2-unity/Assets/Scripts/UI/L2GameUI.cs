@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UI;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static NativeFunctions;
@@ -65,10 +66,17 @@ public class L2GameUI : MonoBehaviour {
     private void LoadUI() {
         VisualElement rootVisualContainer = _rootElement.Q<VisualElement>("UIContainer");
 
+        // TestUI.Instance.AddWindow(rootVisualContainer);
+        MenuWindow.Instance.AddWindow(rootVisualContainer);
+        ShortCutPanel.Instance.AddWindow(rootVisualContainer);
+        ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
+        IconOverlay.Instance.AddWindow(rootVisualContainer);
         StatusWindow.Instance.AddWindow(rootVisualContainer);
         ChatWindow.Instance.AddWindow(rootVisualContainer);
         TargetWindow.Instance.AddWindow(rootVisualContainer);
-        MenuWindow.Instance.AddWindow(rootVisualContainer);
+        
+
+
     }
 
     public void EnableMouse() {

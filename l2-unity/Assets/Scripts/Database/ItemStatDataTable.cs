@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using System.Globalization;
 
 public class ItemStatDataTable {
     private static ItemStatDataTable _instance;
@@ -66,16 +67,16 @@ public class ItemStatDataTable {
                             itemStatData.PAtkSpd = int.Parse(value);
                             break;
                         case "pHit":
-                            itemStatData.PHit = float.Parse(value);
+                            itemStatData.PHit =  float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                         case "mHit":
-                            itemStatData.MHit = float.Parse(value);
+                            itemStatData.MHit = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                         case "pCritical":
-                            itemStatData.PCrit = float.Parse(value);
+                            itemStatData.PCrit = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                         case "mCritical":
-                            itemStatData.MCrit = float.Parse(value);
+                            itemStatData.MCrit = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                         case "speed":
                             itemStatData.Speed = int.Parse(value);
@@ -87,10 +88,10 @@ public class ItemStatDataTable {
                             itemStatData.ShieldDefRate = int.Parse(value);
                             break;
                         case "pavoid":
-                            itemStatData.PAvoid = float.Parse(value);
+                            itemStatData.PAvoid = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                         case "mavoid":
-                            itemStatData.MAvoid = float.Parse(value);
+                            itemStatData.MAvoid = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
 
                     }
