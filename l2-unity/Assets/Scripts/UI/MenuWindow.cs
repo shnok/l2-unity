@@ -62,13 +62,9 @@ public class MenuWindow : MonoBehaviour {
 
         yield return new WaitForEndOfFrame();
 
-        //var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
-        //DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle);
-        //dragAreaEle.AddManipulator(drag);
-
-        //_windowEle.style.position = Position.Absolute;
-        //_windowEle.style.left = Screen.width - _windowEle.resolvedStyle.width / 2f;
-        //_windowEle.style.bottom = 0;
+        var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
+        DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle);
+        dragAreaEle.AddManipulator(drag);
     }
 
     private void RegisterButtonCallBack(string buttonId) {
