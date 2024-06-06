@@ -102,7 +102,7 @@ public class ShortCutPanel : MonoBehaviour
 
 
 
-        ClickSliderShortCutManipulator slider = new ClickSliderShortCutManipulator(shortcutImage1, ShortCutPanelMinimal.Instance);
+        ClickSliderShortCutManipulator slider = new ClickSliderShortCutManipulator(ShortCutPanelMinimal.Instance , drag);
         buttonSlider.AddManipulator(slider);
 
        // float x_root = root.worldBound.max.x;

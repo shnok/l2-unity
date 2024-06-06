@@ -11,10 +11,11 @@ public class ClickSliderShortCutManipulator : PointerManipulator
     private VisualElement target_buttonSlider;
     private ShortCutPanelMinimal shortcutminimal;
     private int numberClick = 0;
-    public ClickSliderShortCutManipulator(VisualElement target_buttonSlider, ShortCutPanelMinimal shortcutminimal)
+    private DragManipulatorsChildren drag;
+    public ClickSliderShortCutManipulator(ShortCutPanelMinimal shortcutminimal , DragManipulatorsChildren drag)
     {
-        this.target_buttonSlider = target_buttonSlider;
         this.shortcutminimal = shortcutminimal;
+        this.drag = drag;
     }
     protected override void RegisterCallbacksOnTarget()
     {
@@ -32,20 +33,18 @@ public class ClickSliderShortCutManipulator : PointerManipulator
 
         if(visualelement != null)
         {
+
+
             var rootVector2 = GetPositionWorld(visualelement, numberClick);
 
             if (numberClick > shortcutminimal.Count()) numberClick = 0;
 
             if (numberClick <= shortcutminimal.Count())
             {
-                int clickCount = numberClick + 1;
                 float sdvig = 23;
-
                 var newPosition = new Vector2(rootVector2.x - sdvig, rootVector2.y);
+                shortcutminimal.newPosition(newPosition, numberClick++  , rootVector2);
 
-                shortcutminimal.newPosition(newPosition, numberClick++);
-                //transform.position = Vector3.MoveTowards(transform.position, _endPos, Time.deltaTime * _velocity);
-                //iconOverlay.AddAnim(SkillTimeArray.GetArrayImage(), 0.0001f);
             }
         }
       

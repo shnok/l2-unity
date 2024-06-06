@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class DragManipulatorsChildren : PointerManipulator
 {
-    private VisualElement _root;
+    private VisualElement rootShortCutPanel;
+
     private Vector2 _startMousePosition;
     private Vector2 _startPosition;
     private Vector2 _childreStartPosition;
     private VisualElement target;
     private VisualElement[] children;
 
-    public DragManipulatorsChildren(VisualElement target, VisualElement root)
+    public DragManipulatorsChildren(VisualElement target, VisualElement rootShortCutPanel)
     {
         this.target = target;
-        this._root = root;
+        this.rootShortCutPanel = rootShortCutPanel;
     }
 
     public void setChildren(VisualElement[] children)
@@ -47,14 +49,27 @@ public class DragManipulatorsChildren : PointerManipulator
         if (evt.button == 0)
         {
             _startMousePosition = evt.position;
-            _startPosition = _root.layout.position + target.layout.position;
+            _startPosition = rootShortCutPanel.layout.position + target.layout.position;
             _childreStartPosition = children[0].layout.position + target.layout.position;
+            _childreStartPosition = children[1].layout.position + target.layout.position;
 
             target.CapturePointer(evt.pointerId);
-            children[0].ReleasePointer(evt.pointerId);
-            children[1].ReleasePointer(evt.pointerId);
+            SetPointerChildren(evt.pointerId);
         }
         evt.StopPropagation();
+    }
+
+    private void SetPointerChildren(int pointerId)
+    {
+        for (int i = 0; i < children.Length; i++)
+        {
+            children[i].ReleasePointer(pointerId);
+        }
+    }
+
+    public Vector2 getPositionRoot()
+    {
+        return _startPosition;
     }
 
     public void PointerMoveHandler(PointerMoveEvent evt)
@@ -65,48 +80,42 @@ public class DragManipulatorsChildren : PointerManipulator
 
             float endX = _startPosition.x - diff.x;
             float endY = _startPosition.y - diff.y;
-            _root.style.left = endX;
-            _root.style.top = endY;
-            float endX2 = _childreStartPosition.x - diff.x;
-            float endY2 = _childreStartPosition.y - diff.y;
-            children[0].style.left = endX2;
-            children[0].style.top = endY2;
 
-           // children[1].style.left = endX2;
-           // children[1].style.top = endY;
-            // changePositionChildren(endX, endY);
+            rootShortCutPanel.style.left = endX;
+            rootShortCutPanel.style.top = endY;
+
+            addDiffChildren(diff);
         }
         evt.StopPropagation();
     }
+
+    private void addDiffChildren(Vector2 diff)
+    {
+        for(int i = 0; i < children.Length; i++)
+        {
+            float endX2 = _childreStartPosition.x - diff.x;
+            float endY2 = _childreStartPosition.y - diff.y;
+            children[i].style.left = endX2;
+            children[i].style.top = endY2;
+        }
+    }
+
+
 
     public void PointerUpHandler(PointerUpEvent evt)
     {
         if (target.HasPointerCapture(evt.pointerId))
         {
             target.ReleasePointer(evt.pointerId);
-            children[0].ReleasePointer(evt.pointerId);
-            children[1].ReleasePointer(evt.pointerId);
+            SetPointerChildren(evt.pointerId);
         }
         evt.StopPropagation();
     }
 
-    private void changePositionChildren(float endX, float endY)
-    {
-        Vector2 vector2 = new Vector2(_root.worldBound.position.x - 30, _root.worldBound.position.y);
-        Vector2 vector = new Vector2(_root.worldBound.position.x - 22, _root.worldBound.position.y);
-         for(int i =0; i < children.Length; i++)
-         {
-            if (i == 0)
-            {
-                children[0].transform.position = vector2;
-            }
-            else
-            {
-                children[1].transform.position = vector2;
-            }
-         }
+  
 
-    }
+
+
 
 
 }

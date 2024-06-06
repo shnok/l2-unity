@@ -6,14 +6,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 using static UnityEngine.Rendering.DebugUI.MessageBox;
 
 
 public class ShortCutPanelMinimal : MonoBehaviour
 {
-    private VisualTreeAsset[] arrayTemplate = new VisualTreeAsset[2];
-    public VisualElement[] arrayPanels = new VisualElement[2];
+    private VisualTreeAsset[] arrayTemplate = new VisualTreeAsset[5];
+    public VisualElement[] arrayPanels = new VisualElement[5];
     private bool initPosition = false;
 
     public void Start()
@@ -29,6 +30,7 @@ public class ShortCutPanelMinimal : MonoBehaviour
             if (shortCutPosition.x != 0 & shortCutPosition.y != 0)
             {
                 InitPosition(shortCutPosition.x, shortCutPosition.y, arrayPanels);
+                Debug.Log("Initttt Minimal " + shortCutPosition.x.ToString());
                 if(arrayPanels != null)
                 {
                     ShortCutPanel.Instance.setDrugChildren(arrayPanels);
@@ -43,7 +45,7 @@ public class ShortCutPanelMinimal : MonoBehaviour
 
     private VisualTreeAsset[] createObject(VisualTreeAsset[] arrayTemplate)
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < arrayTemplate.Length; i++)
         {
             if (arrayTemplate[i] == null)
             {
@@ -115,17 +117,29 @@ public class ShortCutPanelMinimal : MonoBehaviour
         }
 
     }
-    public void newPosition(Vector2 vector, int activePanels)
+    public void newPosition(Vector2 vector, int activePanels , Vector2 originalRootVector )
     {
         if (getActivePanel(activePanels) != null)
         {
-            //каждую итерацию вычисляет шаг для движения
-            //Vector2 test = Vector2.MoveTowards(result.transform.position, vector, Time.deltaTime * 10);
-            // minimal_panel.transform.position = vector;
+            VisualElement activePanel = getActivePanel(activePanels);
             Vector2 newVector = GetVector(activePanels, vector);
+
+            ResetDiff(activePanel);
+            SyncRootPosition(activePanel, originalRootVector);
+
             HideElement(false, arrayPanels, activePanels);
             AddAnim(newVector, getActivePanel(activePanels));
         }
+    }
+
+    public void SyncRootPosition(VisualElement activePanel , Vector2 originalRootVector)
+    {
+        activePanel.transform.position = originalRootVector;
+    }
+    private void ResetDiff(VisualElement activePanel)
+    {
+        activePanel.style.left = 0;
+        activePanel.style.top = 0;
     }
 
     // 0 - panels sync to shortcutpanel
@@ -208,7 +222,7 @@ public class ShortCutPanelMinimal : MonoBehaviour
         {
             Vector2 source = activeElement.transform.position;
             Vector2 tempVector = Vector2.MoveTowards(source, target_postion, Time.deltaTime * 500);
-           if (source.Equals(target_postion))
+            if (source.Equals(target_postion))
             {
                 break;
             }
