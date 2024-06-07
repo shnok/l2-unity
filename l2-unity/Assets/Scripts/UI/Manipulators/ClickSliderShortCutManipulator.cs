@@ -29,30 +29,49 @@ public class ClickSliderShortCutManipulator : PointerManipulator
 
     private void PointerDownHandler(PointerDownEvent evt)
     {
-        var visualelement = GetRootElement(evt, numberClick);
+        var visualElement = GetRootElement(evt, numberClick);
 
-        if(visualelement != null)
+        if (visualElement != null)
         {
-
-
-            var rootVector2 = GetPositionWorld(visualelement, numberClick);
-
-            if (numberClick > shortcutminimal.Count()) numberClick = 0;
-
-            if (numberClick <= shortcutminimal.Count())
-            {
-                float sdvig = 23;
-                var newPosition = new Vector2(rootVector2.x - sdvig, rootVector2.y);
-                shortcutminimal.newPosition(newPosition, numberClick++  , rootVector2);
-
-            }
+            drag.SetActivePanel(numberClick);
+            NextPanel(visualElement);
         }
-      
+        else
+        {
+            ResetPositionPanel();
+        }
+    }
 
+    private void NextPanel(VisualElement visualElement)
+    {
+        var rootVector2 = GetPositionWorld(visualElement, numberClick);
+
+        //if (numberClick > shortcutminimal.Count()) numberClick = 0;
+
+        if (numberClick <= shortcutminimal.Count())
+        {
+            float sdvig = 23;
+            var newPosition = new Vector2(rootVector2.x - sdvig, rootVector2.y);
+            shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2);
+
+        }
+    
+
+    }
+
+    private void ResetPositionPanel()
+    {
+        
+        shortcutminimal.SetResetPosition();
+        shortcutminimal.SetHidePanels();
+        this.numberClick = 0;
     }
 
     private VisualElement GetRootElement(PointerDownEvent evt , int activeIndex)
     {
+        if (activeIndex >= shortcutminimal.Count()) return null;
+
+
         if (activeIndex == 0) {
             return (VisualElement) evt.currentTarget;
         } 

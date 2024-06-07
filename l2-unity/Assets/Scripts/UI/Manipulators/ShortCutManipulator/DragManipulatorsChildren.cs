@@ -10,7 +10,8 @@ public class DragManipulatorsChildren : PointerManipulator
 
     private Vector2 _startMousePosition;
     private Vector2 _startPosition;
-    private Vector2 _childreStartPosition;
+    private Vector2[] _childreStartPosition;
+    private int activePanelIndex = 0;
     private VisualElement target;
     private VisualElement[] children;
 
@@ -25,8 +26,14 @@ public class DragManipulatorsChildren : PointerManipulator
         if(children != null)
         {
             this.children = children;
+            this._childreStartPosition = new Vector2[children.Length];
         }
         
+    }
+
+    public void SetActivePanel(int index)
+    {
+        activePanelIndex = index;
     }
 
     protected override void RegisterCallbacksOnTarget()
@@ -50,15 +57,20 @@ public class DragManipulatorsChildren : PointerManipulator
         {
             _startMousePosition = evt.position;
             _startPosition = rootShortCutPanel.layout.position + target.layout.position;
-            _childreStartPosition = children[0].layout.position + target.layout.position;
-            _childreStartPosition = children[1].layout.position + target.layout.position;
-
+            SetChildrenStartPosition();
             target.CapturePointer(evt.pointerId);
             SetPointerChildren(evt.pointerId);
         }
         evt.StopPropagation();
     }
 
+    private void SetChildrenStartPosition()
+    {
+        for(int i=0; i < _childreStartPosition.Length; i++)
+        {
+            _childreStartPosition[i] = children[i].layout.position + target.layout.position;
+        }
+    }
     private void SetPointerChildren(int pointerId)
     {
         for (int i = 0; i < children.Length; i++)
@@ -84,17 +96,17 @@ public class DragManipulatorsChildren : PointerManipulator
             rootShortCutPanel.style.left = endX;
             rootShortCutPanel.style.top = endY;
 
-            addDiffChildren(diff);
+            AddDiffChildren(diff);
         }
         evt.StopPropagation();
     }
 
-    private void addDiffChildren(Vector2 diff)
+    private void AddDiffChildren(Vector2 diff)
     {
         for(int i = 0; i < children.Length; i++)
         {
-            float endX2 = _childreStartPosition.x - diff.x;
-            float endY2 = _childreStartPosition.y - diff.y;
+            float endX2 = _childreStartPosition[i].x - diff.x;
+            float endY2 = _childreStartPosition[i].y - diff.y;
             children[i].style.left = endX2;
             children[i].style.top = endY2;
         }

@@ -3,23 +3,28 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.Rendering.DebugUI.MessageBox;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 
 public class ShortCutPanelMinimal : MonoBehaviour
 {
     private VisualTreeAsset[] arrayTemplate = new VisualTreeAsset[5];
     public VisualElement[] arrayPanels = new VisualElement[5];
+    public ShortCutChildrenModel[] arrayRowsPanels = new ShortCutChildrenModel[5];
     private bool initPosition = false;
 
     public void Start()
     {
-        arrayTemplate = createObject(arrayTemplate);
+        CretaeDemoInfo();
+        arrayTemplate = CreateObject(arrayTemplate);
     }
 
     void Update()
@@ -30,20 +35,54 @@ public class ShortCutPanelMinimal : MonoBehaviour
             if (shortCutPosition.x != 0 & shortCutPosition.y != 0)
             {
                 InitPosition(shortCutPosition.x, shortCutPosition.y, arrayPanels);
-                Debug.Log("Initttt Minimal " + shortCutPosition.x.ToString());
-                if(arrayPanels != null)
+
+                if (arrayPanels != null)
                 {
                     ShortCutPanel.Instance.setDrugChildren(arrayPanels);
                 }
-                
+
                 initPosition = true;
             }
 
         }
 
     }
+    public void SetResetPosition()
+    {
+        this.initPosition = false;
+    }
 
-    private VisualTreeAsset[] createObject(VisualTreeAsset[] arrayTemplate)
+    public void SetHidePanels()
+    {
+        HideElements(true, arrayPanels);
+    }
+
+    private void CretaeDemoInfo()
+    {
+        for (int i = 0; i < arrayRowsPanels.Length; i++)
+        {
+            if(i == 0)
+            {
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0914", "", "", "", "", "", "", "", "", "", "" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+            if(i == 1)
+            {
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill0009", "Data/UI/ShortCut/demo_skills/skill5760", "", "", "", "", "", "", "", "", "", "" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+
+            if(i >= 2) { 
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "", "", "", "", "", "", "", "", "", "", "", "" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+           
+        }
+    }
+    private VisualTreeAsset[] CreateObject(VisualTreeAsset[] arrayTemplate)
     {
         for (int i = 0; i < arrayTemplate.Length; i++)
         {
@@ -82,6 +121,7 @@ public class ShortCutPanelMinimal : MonoBehaviour
 
 
         arrayPanels = CreatePanels(arrayTemplate, arrayPanels);
+        //setRows(arrayTemplate);
         HideElements(true, arrayPanels);
         //InitPosition(x_root, y_root, arrayPanels);
         AddPanelsToRoot(root, arrayPanels);
@@ -101,10 +141,29 @@ public class ShortCutPanelMinimal : MonoBehaviour
         {
             var shortCutMinimal = arrayTemplate[i].Instantiate()[0];
             var minimal_panel = shortCutMinimal.Q(className: "minimal-panel");
+            var row1 = shortCutMinimal.Q(className: "row1");
+            var row2 = shortCutMinimal.Q(className: "row2");
+            setRows(row1, i, 0);
+            setRows(row2, i, 1);
             arrayPanels[i] = minimal_panel;
         }
 
         return arrayPanels;
+    }
+
+    private void setRows(VisualElement row, int i , int id_path)
+    {
+       setImage(row, i, id_path);
+    }
+
+    private void setImage(VisualElement row , int i , int id_path)
+    {
+        string path = arrayRowsPanels[i].GetRowImgPath(id_path);
+        Texture2D imgSource1 = Resources.Load<Texture2D>(path);
+        if(imgSource1 != null)
+        {
+            row.style.backgroundImage = new StyleBackground(imgSource1);
+        }
     }
 
     private void InitPosition(float x_root, float y_root, VisualElement[] arrayPanels)
@@ -117,18 +176,21 @@ public class ShortCutPanelMinimal : MonoBehaviour
         }
 
     }
-    public void newPosition(Vector2 vector, int activePanels , Vector2 originalRootVector )
+    public void NewPosition(Vector2 vector, int activePanels , Vector2 originalRootVector )
     {
-        if (getActivePanel(activePanels) != null)
+        VisualElement active = GetActivePanel(activePanels);
+
+
+        if (active != null)
         {
-            VisualElement activePanel = getActivePanel(activePanels);
+            VisualElement activePanel = active;
             Vector2 newVector = GetVector(activePanels, vector);
 
             ResetDiff(activePanel);
             SyncRootPosition(activePanel, originalRootVector);
 
             HideElement(false, arrayPanels, activePanels);
-            AddAnim(newVector, getActivePanel(activePanels));
+            AddAnim(newVector, active);
         }
     }
 
@@ -171,13 +233,18 @@ public class ShortCutPanelMinimal : MonoBehaviour
         return arrayPanels.Length;
     }
 
-    private VisualElement getActivePanel(int indexPanel)
+    private VisualElement GetActivePanel(int indexPanel)
     {
+ 
         if (indexPanel >= 0 && indexPanel < arrayPanels.Length)
         {
             return arrayPanels[indexPanel];
         }
-        return null;
+        else
+        {
+            return arrayPanels[arrayPanels.Length - 1];
+        }
+      
     }
     public void AddAnim( Vector2 target_postion , VisualElement activeElement)
     {
@@ -201,6 +268,10 @@ public class ShortCutPanelMinimal : MonoBehaviour
 
     private void HideElement(bool is_hide, VisualElement[] arrayPanels , int index)
     {
+        if(index >= arrayPanels.Length)
+        {
+            index = arrayPanels.Length - 1;
+        }
 
         if(arrayPanels[index] != null)
         {
