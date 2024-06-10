@@ -60,7 +60,6 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         _speed = _entity.Stats.ScaledSpeed;
         _direction = direction;
 
-        Debug.Log("call: " + direction);
         if (direction.x != 0 || direction.z != 0) {
             _networkTransformReceive.SetFinalRotation(VectorUtils.CalculateMoveDirectionAngle(direction.x, direction.z));
         }

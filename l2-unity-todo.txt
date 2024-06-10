@@ -1,8 +1,9 @@
 TODO (priority from top to bottom)
 
-cache entity heading server side
-fix player position desync
 fix moving monster desync at login
+wait for monster attack animation end before following player
+check if AI isnt dead before applying damage to AI's target
+
 shadows are too dark
 
 update npc animator as player animator to adapt to different weapon types
@@ -12,8 +13,7 @@ reduce amount data sent by players:
 	- share action instead of animationid, store current action in entity
 	- get col_r, col_r from system/chargrp.dat instead
 
-wait for monster attack animation end before following player
-check if AI isnt dead before applying damage to AI's target
+
 monster should follow even if not on geodata/path cant be found
 
 global variable to scale all ambientsounds
@@ -27,6 +27,8 @@ login server
 
 DONE
 
+cache entity heading server side
+fix player position desync
 add player damage sound
 dual/bow animations
 add all atk animations (atk01..03)
