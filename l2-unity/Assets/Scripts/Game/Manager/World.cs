@@ -99,6 +99,7 @@ public class World : MonoBehaviour {
         CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
 
         GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, true);
+        go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
         go.transform.position = identity.Position;
         go.transform.name = "Player";
 
@@ -144,6 +145,7 @@ public class World : MonoBehaviour {
 
         GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, false);
         go.transform.position = identity.Position;
+        go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
 
         UserEntity user = go.GetComponent<UserEntity>();
         user.Status = status;

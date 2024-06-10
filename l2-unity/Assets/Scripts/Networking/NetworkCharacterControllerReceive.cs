@@ -36,33 +36,39 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         if(_characterController == null || World.Instance.OfflineMode || _animationReceive == null) {
             this.enabled = false;
         }
+
         _direction = Vector3.zero;
         _destination = Vector3.zero;
     }
 
-    public void UpdateMoveDirection(Vector3 direction) {
-        _speed = _entity.Stats.ScaledSpeed;
-        _direction = direction;
-    }
-
-    public void SetDestination(Vector3 destination) {
-        _speed = _entity.Stats.ScaledSpeed;
-        _destination = destination;
-    }
-
     private void FixedUpdate() {
 
-        if(!_networkTransformReceive.IsPositionSynced()) {
+        if (!_networkTransformReceive.IsPositionSynced()) {
             /* pause script during position sync */
             return;
         }
 
-        if(_destination != null && _destination != Vector3.zero) {
+        if (_destination != null && _destination != Vector3.zero) {
             SetMoveDirectionToDestination();
         }
 
         Vector3 ajustedDirection = _direction * _speed * _moveSpeedMultiplier + Vector3.down * _gravity;
         _characterController.Move(ajustedDirection * Time.deltaTime);
+    }
+
+    public void UpdateMoveDirection(Vector3 direction) {
+        _speed = _entity.Stats.ScaledSpeed;
+        _direction = direction;
+
+        Debug.Log("call: " + direction);
+        if (direction.x != 0 || direction.z != 0) {
+            _networkTransformReceive.SetFinalRotation(VectorUtils.CalculateMoveDirectionAngle(direction.x, direction.z));
+        }
+    }
+
+    public void SetDestination(Vector3 destination) {
+        _speed = _entity.Stats.ScaledSpeed;
+        _destination = destination;
     }
 
     public void SetMoveDirectionToDestination() {

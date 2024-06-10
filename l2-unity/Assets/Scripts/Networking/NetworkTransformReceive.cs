@@ -87,19 +87,12 @@ public class NetworkTransformReceive : MonoBehaviour {
 
     public void LookAt(Transform target) {
         if (target != null) {
-            _newRotation = CalculateAngleToLookAt(target.position);
+            _newRotation = VectorUtils.CalculateMoveDirectionAngle(transform.position, target.position);
         }
     }
 
     public void LookAt(Vector3 position) {
-        _newRotation = CalculateAngleToLookAt(position);
-    }
-
-    private float CalculateAngleToLookAt(Vector3 position) { 
-        float angle = Mathf.Atan2(position.x - transform.position.x, position.z - transform.position.z) * Mathf.Rad2Deg;
-        angle = Mathf.Round(angle / 45f);
-        angle *= 45f;
-        return angle;
+        _newRotation = VectorUtils.CalculateMoveDirectionAngle(transform.position, position);
     }
 
     public bool IsPositionSynced() {

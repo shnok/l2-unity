@@ -141,7 +141,7 @@ public class GeodataImporter
             throw new Exception($"Map {mapId} prefab not found at {mapFolder}.");
         }
 
-        Vector3 origin = VectorUtils.floorToNearest(map.transform.position, nodeSize);
+        Vector3 origin = VectorUtils.FloorToNearest(map.transform.position, nodeSize);
         return origin;
     }
 }

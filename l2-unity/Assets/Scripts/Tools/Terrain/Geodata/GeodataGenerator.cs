@@ -56,9 +56,9 @@ public class GeodataGenerator : MonoBehaviour {
 	}
 
 	void GenerateGeodata() {
-		Vector3 roundedTerrainPos = VectorUtils.floorToNearest(terrainTransform.position, nodeSize);
+		Vector3 roundedTerrainPos = VectorUtils.FloorToNearest(terrainTransform.position, nodeSize);
 		if(enableCustomGeneratedTerrainOrigin) {
-			roundedTerrainPos = VectorUtils.floorToNearest(customGeneratedTerrainOrigin, nodeSize);
+			roundedTerrainPos = VectorUtils.FloorToNearest(customGeneratedTerrainOrigin, nodeSize);
         }
 		Debug.Log(roundedTerrainPos);
 		for (int x = 0; x < scaledTerrainWidth; x++) {
@@ -79,7 +79,7 @@ public class GeodataGenerator : MonoBehaviour {
 
 					float y = hits[i].point.y - roundedTerrainPos.y;
 					Vector3 nodePos = new Vector3 (x * nodeSize, y, z * nodeSize);
-					nodePos = VectorUtils.floorToNearest(nodePos, nodeSize);
+					nodePos = VectorUtils.FloorToNearest(nodePos, nodeSize);
 
 					if((oldHeight - hits[i].point.y) > characterHeight || i == 0) {
 						Vector3 scaledNodePos = new Vector3(x, nodePos.y / nodeSize, z);

@@ -41,7 +41,7 @@ public class L2BrushBuilder {
 
             GameObject brush = new GameObject(b.name);
             brush.transform.parent = brushContainer.transform;
-            brush.transform.position = VectorUtils.convertToUnity(b.position) - VectorUtils.convertToUnity(b.prePivot);
+            brush.transform.position = VectorUtils.ConvertToUnity(b.position) - VectorUtils.ConvertToUnity(b.prePivot);
 
             Debug.Log(b.name);
             Model model = b.model;
@@ -52,7 +52,7 @@ public class L2BrushBuilder {
 
                 // Adjust verticles
                 for(int p = 0; p < polyData.vertices.Length; p++) {
-                    polyData.vertices[p] = VectorUtils.convertToUnity(polyData.vertices[p]);
+                    polyData.vertices[p] = VectorUtils.ConvertToUnity(polyData.vertices[p]);
                 }
 
                 List<string> pPolyFlags = new List<string>(polyData.polyFlags);
@@ -80,9 +80,9 @@ public class L2BrushBuilder {
 
         Material material = GetMaterialForTexture(polyData.texture);
 
-        Vector3 adjustedNormal = VectorUtils.convertToUnityUnscaled(polyData.normal);
-        Vector3 adjustedU = VectorUtils.convertToUnityUnscaled(polyData.textureU);
-        Vector3 adjustedV = VectorUtils.convertToUnityUnscaled(polyData.textureV);
+        Vector3 adjustedNormal = VectorUtils.ConvertToUnityUnscaled(polyData.normal);
+        Vector3 adjustedU = VectorUtils.ConvertToUnityUnscaled(polyData.textureU);
+        Vector3 adjustedV = VectorUtils.ConvertToUnityUnscaled(polyData.textureV);
 
         Quaternion rt = Quaternion.FromToRotation(Vector3.forward, adjustedNormal);
         Vector3 rotatedU = rt * adjustedU;
