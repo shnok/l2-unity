@@ -38,6 +38,10 @@ public class VectorUtils : MonoBehaviour {
         return new Vector3(pos.x, 0, pos.z);
     }
 
+    public static float Distance2D(Vector3 from, Vector3 to) {
+        return Vector3.Distance(To2D(from), To2D(to));
+    }
+
     public static bool IsVectorZero2D(Vector3 vector) {
         return vector.x == 0 && vector.z == 0;
     }

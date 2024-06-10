@@ -289,7 +289,7 @@ public class World : MonoBehaviour {
         Entity e;
         if(_objects.TryGetValue(id, out e)) {
             try {
-                Debug.Log($"Setting {id} anim {animId} at {value}");
+               // Debug.Log($"Setting {id} anim {animId} at {value}");
                 e.GetComponent<NetworkAnimationController>().SetAnimationProperty(animId, value);
             } catch (Exception ex) {
                 Debug.LogWarning($"UpdateObjectAnimation fail - Target {id} - Error {ex.Message}");

@@ -8,14 +8,14 @@ public class NetworkTransformReceive : MonoBehaviour {
     private float _newRotation;
     private float _posLerpValue;
     [SerializeField] private bool _positionSyncProtection = true;
-    [SerializeField] private float _positionSyncNodesThreshold = 2f;
+    private float _positionSyncNodesThreshold = 3f;
     [SerializeField] private bool _positionSynced = false;
     [SerializeField] private bool _positionSyncPaused = false;
-    [SerializeField] private float _lerpDuration = 0.3f;
+    private float _lerpDuration = 0.1f;
     [SerializeField] private float _positionDelta;
     [SerializeField] private long _lastDesyncTime = 0;
     [SerializeField] private long _lastDesyncDuration = 0;
-    [SerializeField] private long _maximumAllowedDesyncTimeMs = 300;
+    private long _maximumAllowedDesyncTimeMs = 0;
 
     void Start() {
         if(World.Instance.OfflineMode) {
@@ -46,14 +46,16 @@ public class NetworkTransformReceive : MonoBehaviour {
         /* reset states */
         _lastPos = transform.position;
         _posLerpValue = 0;
+
+        Debug.Log($"Updating network position: {pos} Current position: {transform.position} Delta: {VectorUtils.Distance2D(pos, transform.position)}");
     }
 
     /* Safety measure to keep the transform position synced */
 
     public void UpdatePosition() {
         /* Check if client transform position is synced with server's */
-        _positionDelta = Vector3.Distance(transform.position, _serverPosition);
-        if(_positionDelta > Geodata.Instance.NodeSize * _positionSyncNodesThreshold) {
+        _positionDelta = VectorUtils.Distance2D(transform.position, _serverPosition);
+        if(_positionDelta > Geodata.Instance.NodeSize * _positionSyncNodesThreshold && _positionSynced) {
             _lastDesyncTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             _positionSynced = false;
         }

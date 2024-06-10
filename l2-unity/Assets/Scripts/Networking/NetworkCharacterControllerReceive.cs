@@ -13,7 +13,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private Vector3 _destination;
     [SerializeField] private float _gravity = 28f;
-    [SerializeField] private float _moveSpeedMultiplier = 1f;
+    private float _moveSpeedMultiplier = 1f;
 
     public Vector3 MoveDirection { get { return _direction; } set { _direction = value; } }
     public NetworkAnimationController NetworkAnimationController { get { return _animationReceive; } }
@@ -26,6 +26,12 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         _networkTransformReceive = GetComponent<NetworkTransformReceive>();
         _animationReceive = GetComponent<NetworkAnimationController>();
         _characterController = GetComponent<CharacterController>();
+
+        //adjust movespeed for player entities
+        //TODO: Should not need this for players to be synced...
+        if (_entity.Identity.EntityType == EntityType.User) {
+            _moveSpeedMultiplier = 1.1f;
+        }
 
         if(_characterController == null || World.Instance.OfflineMode || _animationReceive == null) {
             this.enabled = false;
@@ -48,7 +54,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
 
         if(!_networkTransformReceive.IsPositionSynced()) {
             /* pause script during position sync */
-            //return;
+            return;
         }
 
         if(_destination != null && _destination != Vector3.zero) {
