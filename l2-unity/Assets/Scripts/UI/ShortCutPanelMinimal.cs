@@ -19,6 +19,7 @@ public class ShortCutPanelMinimal : MonoBehaviour
     private VisualTreeAsset[] arrayTemplate = new VisualTreeAsset[5];
     public VisualElement[] arrayPanels = new VisualElement[5];
     public ShortCutChildrenModel[] arrayRowsPanels = new ShortCutChildrenModel[5];
+    private int sizeCell = 11;
     private bool initPosition = false;
 
     public void Start()
@@ -76,7 +77,7 @@ public class ShortCutPanelMinimal : MonoBehaviour
 
             if(i >= 2) { 
                 int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
-                string[] img = { "", "", "", "", "", "", "", "", "", "", "", "" };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915" };
                 arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
             }
            
@@ -137,31 +138,47 @@ public class ShortCutPanelMinimal : MonoBehaviour
     }
     private VisualElement[] CreatePanels(VisualTreeAsset[] arrayTemplate, VisualElement[] arrayPanels)
     {
-        for (int i = 0; i < arrayTemplate.Length; i++)
+        //6 panels
+        for (int panel = 0; panel < arrayTemplate.Length; panel++)
         {
-            var shortCutMinimal = arrayTemplate[i].Instantiate()[0];
+            var shortCutMinimal = arrayTemplate[panel].Instantiate()[0];
             var minimal_panel = shortCutMinimal.Q(className: "minimal-panel");
-            var row1 = shortCutMinimal.Q(className: "row1");
-            var row2 = shortCutMinimal.Q(className: "row2");
-            setRows(row1, i, 0);
-            setRows(row2, i, 1);
-            arrayPanels[i] = minimal_panel;
+            //12 cells
+            // panel number panels | b number cell
+            for (int cell =0; cell <= sizeCell; cell++)
+            {
+                var row = shortCutMinimal.Q(className: "row" + cell);
+                var border = GetBorderRow(shortCutMinimal, cell);
+                SetRows(border, row, panel, cell);
+            }
+
+            arrayPanels[panel] = minimal_panel;
         }
 
         return arrayPanels;
     }
 
-    private void setRows(VisualElement row, int i , int id_path)
+    private void SetRows(VisualElement border  , VisualElement row, int i , int id_path)
     {
-       setImage(row, i, id_path);
+       SetImage(border , row, i, id_path);
     }
 
-    private void setImage(VisualElement row , int i , int id_path)
+    private void VisibleBorder(VisualElement border, bool show)
+    {
+        if(border != null) border.visible = show;
+    }
+
+    private VisualElement GetBorderRow(VisualElement shortCutMinimal , int index)
+    {
+        return shortCutMinimal.Q(className: "border_row" + index);
+    }
+    private void SetImage(VisualElement border , VisualElement row , int i , int id_path)
     {
         string path = arrayRowsPanels[i].GetRowImgPath(id_path);
         Texture2D imgSource1 = Resources.Load<Texture2D>(path);
         if(imgSource1 != null)
         {
+            VisibleBorder(border, true);
             row.style.backgroundImage = new StyleBackground(imgSource1);
         }
     }
