@@ -16,6 +16,8 @@ public class NpcEntity : Entity {
     public override void Initialize() {
         base.Initialize();
         _npcAnimationAudioHandler = GetComponent<CharacterAnimationAudioHandler>();
+
+        EntityLoaded = true;
     }
 
     protected override void OnDeath() {

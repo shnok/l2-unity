@@ -15,6 +15,8 @@ public class UserEntity : Entity {
         _characterAnimationAudioHandler = transform.GetChild(0).GetComponentInChildren<CharacterAnimationAudioHandler>();
 
         EquipAllArmors();
+
+        EntityLoaded = true;
     }
 
     private void EquipAllArmors() {

@@ -3,6 +3,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class Entity : MonoBehaviour {
+    [SerializeField] private bool _entityLoaded;
     [SerializeField] private NetworkIdentity _identity;
     [SerializeField] private Status _status;
     [SerializeField] private Stats _stats;
@@ -35,6 +36,7 @@ public class Entity : MonoBehaviour {
     public long StartAutoAttackTime { get { return _startAutoAttackTime; } }
     public CharacterRace Race { get { return _race; } set { _race = value; } }
     public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
+    public bool EntityLoaded { get { return _entityLoaded; } set { _entityLoaded = value; } }
 
     public void FixedUpdate() {
         LookAtTarget();

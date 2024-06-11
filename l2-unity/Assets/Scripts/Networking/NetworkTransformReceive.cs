@@ -46,8 +46,6 @@ public class NetworkTransformReceive : MonoBehaviour {
         /* reset states */
         _lastPos = transform.position;
         _posLerpValue = 0;
-
-        Debug.Log($"Updating network position: {pos} Current position: {transform.position} Delta: {VectorUtils.Distance2D(pos, transform.position)}");
     }
 
     /* Safety measure to keep the transform position synced */
