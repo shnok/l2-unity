@@ -75,12 +75,26 @@ public class ShortCutPanelMinimal : MonoBehaviour
                 arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
             }
 
-            if(i >= 2) { 
+            if(i == 2) { 
                 int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
                 string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915" };
                 arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
             }
-           
+
+            if (i == 3)
+            {
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+
+            if (i == 4)
+            {
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "", "", "", "", "", "", "", "", "" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+
         }
     }
     private VisualTreeAsset[] CreateObject(VisualTreeAsset[] arrayTemplate)
@@ -236,7 +250,7 @@ public class ShortCutPanelMinimal : MonoBehaviour
 
     }
 
-    public VisualElement getLastElement(int index)
+    public VisualElement GetLastElement(int index)
     {
         if (index >= 0 && index < arrayPanels.Length)
         {
@@ -244,6 +258,13 @@ public class ShortCutPanelMinimal : MonoBehaviour
         }
         return null;
     }
+
+    public int GetLastPosition(int index)
+    {
+       return  arrayPanels.Length - 2;
+    }
+
+  
 
     public int Count()
     {
@@ -318,6 +339,11 @@ public class ShortCutPanelMinimal : MonoBehaviour
             activeElement.transform.position = tempVector;
             yield return new WaitForSeconds(0.01f);
         }
+    }
+
+    public ShortCutChildrenModel[] GetArrayRowsPanels()
+    {
+        return arrayRowsPanels;
     }
     private void OnDestroy()
     {

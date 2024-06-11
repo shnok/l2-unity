@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using static UnityEditor.Rendering.FilterWindow;
 using static UnityEngine.Rendering.DebugUI;
 
 
@@ -16,21 +17,19 @@ using static UnityEngine.Rendering.DebugUI;
 public class ShortCutPanel : MonoBehaviour
 {
     private VisualTreeAsset _shortCutWindowsTemplate;
-    private VisualElement ve;
-    private List<ShortCutPanelMinimal> _minmalPanels;
-    private VisualElement shortCutPanel;
+    private VisualElement shortCutPanelElements;
     private VisualTreeAsset _shortCutWIndowsMinimalTemplate;
     private VisualElement statusWindowDragArea;
     private DragManipulatorsChildren drag;
     private int sizeCell = 11;
     public ShortCutChildrenModel arrayRowsPanels;
-    private string[] arrImgNextButton = { "Data/UI/ShortCut/button/numbers/shortcut_f01" , 
-        "Data/UI/ShortCut/button/numbers/shortcut_f02" , 
-        "Data/UI/ShortCut/button/numbers/shortcut_f03" , 
-        "Data/UI/ShortCut/button/numbers/shortcut_f04" , 
-        "Data/UI/ShortCut/button/numbers/shortcut_f05" , 
-        "Data/UI/ShortCut/button/numbers/shortcut_f06", 
-        "Data/UI/ShortCut/button/numbers/shortcut_f07" };
+    private ShortCutButton shortCutButton;
+    private VisualElement rootGroupBox;
+    private VisualElement buttonSlider;
+
+
+
+    private string[] arrImgNextButton = new string[6]; 
     //-1 current panel
     private int showPanelIndex = 0;
 
@@ -49,11 +48,29 @@ public class ShortCutPanel : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+            shortCutButton = new ShortCutButton(this);
+            InitArrImgNumbers();
         }
         else
         {
             Destroy(this);
         }
+    }
+
+    private void InitArrImgNumbers()
+    {
+        arrImgNextButton[0] = "Data/UI/ShortCut/button/numbers/shortcut_f01";
+        arrImgNextButton[1] = "Data/UI/ShortCut/button/numbers/shortcut_f02";
+        arrImgNextButton[2] = "Data/UI/ShortCut/button/numbers/shortcut_f03";
+        arrImgNextButton[3] = "Data/UI/ShortCut/button/numbers/shortcut_f04";
+        arrImgNextButton[4] = "Data/UI/ShortCut/button/numbers/shortcut_f05";
+        arrImgNextButton[5] = "Data/UI/ShortCut/button/numbers/shortcut_f06";
+       // arrImgNextButton[6] = "Data/UI/ShortCut/button/numbers/shortcut_f07";
+    }
+
+    public string[] GetArrImgNextButton()
+    {
+        return arrImgNextButton; 
     }
 
     public int GetShowPanelIndex()
@@ -105,31 +122,34 @@ public class ShortCutPanel : MonoBehaviour
     {
         drag.setChildren(children);
     }
+
+    public VisualElement GetShortCutPanelElements()
+    {
+        return shortCutPanelElements;
+    }
     public IEnumerator BuildWindow(VisualElement root)
     {
-        shortCutPanel = _shortCutWindowsTemplate.Instantiate()[0];
+        shortCutPanelElements = _shortCutWindowsTemplate.Instantiate()[0];
 
 
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(shortCutPanel);
-        shortCutPanel.AddManipulator(mouseOverDetection);
+        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(shortCutPanelElements);
+        shortCutPanelElements.AddManipulator(mouseOverDetection);
 
-        statusWindowDragArea = shortCutPanel.Q<VisualElement>(null, "drag-area-shortcut");
-        drag = new DragManipulatorsChildren(statusWindowDragArea, shortCutPanel);
+        statusWindowDragArea = shortCutPanelElements.Q<VisualElement>(null, "drag-area-shortcut");
+        drag = new DragManipulatorsChildren(statusWindowDragArea, shortCutPanelElements);
         statusWindowDragArea.AddManipulator(drag);
 
 
-        var rootGroupBox = shortCutPanel.Q<VisualElement>(null, "short-cut");
+        rootGroupBox = shortCutPanelElements.Q<VisualElement>(null, "short-cut");
 
-        var imageIndex = shortCutPanel.Q<VisualElement>(null, "ImageIndex");
+        var imageIndex = shortCutPanelElements.Q<VisualElement>(null, "ImageIndex");
         
 
         //Working code for overlay
-        var shortcutImage1 = shortCutPanel.Q<VisualElement>(null, "row0");
+        var shortcutImage1 = shortCutPanelElements.Q<VisualElement>(null, "row0");
 
-        var buttonSlider = shortCutPanel.Q<VisualElement>(null, "button-slider");
-      
-       // var buttonNext = shortCutPanel.Q<UnityEngine.UIElements.Button>("button_next");
-        //var buttonNext = shortCutPanel.Q<UnityEngine.UIElements.Button>("button_preview");
+        buttonSlider = shortCutPanelElements.Q<VisualElement>(null, "button-slider");
+
 
 
         ClickPanelManipulation panel = new ClickPanelManipulation(shortcutImage1, IconOverlay.Instance);
@@ -141,13 +161,13 @@ public class ShortCutPanel : MonoBehaviour
         buttonSlider.AddManipulator(slider);
 
 
-        SetImageNumber(imageIndex, showPanelIndex);
-        SetImage(shortCutPanel);
-        RegisterButtonCallBackNext(imageIndex , "button_next");
-        RegisterButtonCallBackPreview(imageIndex , "button_preview");
-        // float x_root = root.worldBound.max.x;
-        //float y_root = root.worldBound.max.y;
-        //InitPosition(x_root, y_root, rootGroupBox);
+        shortCutButton.SetImageNumber(imageIndex, showPanelIndex);
+        //set root cell
+        SetImage(shortCutPanelElements);
+
+        shortCutButton.RegisterButtonCallBackNext(imageIndex , "button_next");
+        shortCutButton.RegisterButtonCallBackPreview(imageIndex , "button_preview");
+
 
         root.Add(rootGroupBox);
 
@@ -157,59 +177,33 @@ public class ShortCutPanel : MonoBehaviour
 
     }
 
-    private void RegisterButtonCallBackNext( VisualElement imageIndex , string buttonId)
+    public void ReplaceLeftSliderToRightSlider()
     {
-        var btn = shortCutPanel.Q<UnityEngine.UIElements.Button>(buttonId);
-        if (btn == null)
-        {
-            Debug.LogError(buttonId + " can't be found.");
-            return;
-        }
-
-        btn.RegisterCallback<MouseDownEvent>(evt => {
-
-            ++showPanelIndex;
-
-            if (showPanelIndex >= arrImgNextButton.Length)
-            {
-                showPanelIndex = 0;
-                SetImageNumber(imageIndex, showPanelIndex);
-            }
-            else
-            {
-                SetImageNumber(imageIndex, showPanelIndex);
-            }
-            
-            
-
-        }, TrickleDown.TrickleDown);
+        buttonSlider.RemoveFromClassList("button-slider");
+        buttonSlider.AddToClassList("button-slider-right");
     }
 
-    private void RegisterButtonCallBackPreview(VisualElement imageIndex, string buttonId)
+    public void ReplaceRightSliderToLeftSlider()
     {
-        var btn = shortCutPanel.Q<UnityEngine.UIElements.Button>(buttonId);
-        if (btn == null)
-        {
-            Debug.LogError(buttonId + " can't be found.");
-            return;
-        }
-
-        btn.RegisterCallback<MouseDownEvent>(evt => {
-
-            --showPanelIndex;
-            if (showPanelIndex < 0)
-            {
-                showPanelIndex = arrImgNextButton.Length - 1;
-                SetImageNumber(imageIndex, showPanelIndex);
-            }
-            else
-            {
-                SetImageNumber(imageIndex, showPanelIndex);
-            }
-            
-            
-        }, TrickleDown.TrickleDown);
+        buttonSlider.RemoveFromClassList("button-slider-right");
+        buttonSlider.AddToClassList("button-slider");
     }
+    
+    public void NextPanelToRootPanel()
+    {
+        SetImageNext(rootGroupBox , showPanelIndex);
+    }
+
+    private void SetImageNext(VisualElement rootGroupBox , int activePanel)
+    {
+        for (int cell = 0; cell <= sizeCell; cell++)
+        {
+            var row = rootGroupBox.Q(className: "row" + cell);
+            var border = GetBorderRow(rootGroupBox, cell);
+            SetImageNext(border, row, cell , activePanel);
+        }
+    }
+
 
     private void SetImage(VisualElement rootGroupBox)
     {
@@ -248,11 +242,40 @@ public class ShortCutPanel : MonoBehaviour
         }
     }
 
-
-    public Texture2D GetImage(string path)
+    private void SetImageNext(VisualElement border, VisualElement row, int id_path , int activePanel)
     {
-        return  Resources.Load<Texture2D>(path);
+        // 0 root panel
+        if(activePanel == 0)
+        {
+            SetImage(shortCutPanelElements);
+        }
+        else
+        {
+            //children minimal panels
+            ShortCutChildrenModel[] childrenArrayPanels = ShortCutPanelMinimal.Instance.GetArrayRowsPanels();
+            activePanel = activePanel - 1;
+            if (activePanel <= childrenArrayPanels.Length - 1)
+            {
+                string path = childrenArrayPanels[activePanel].GetRowImgPath(id_path);
+                Texture2D imgSource1 = Resources.Load<Texture2D>(path);
+                if (imgSource1 != null)
+                {
+                    VisibleBorder(border, true);
+                    row.style.backgroundImage = new StyleBackground(imgSource1);
+                }
+                else
+                {
+                    VisibleBorder(border, false);
+                    row.style.backgroundImage = new StyleBackground();
+                }
+            }
+
+        }
+       
     }
+
+
+
     private void CretaeDemoInfo()
     {
         for (int i = 0; i < sizeCell; i++)
@@ -275,27 +298,5 @@ public class ShortCutPanel : MonoBehaviour
         }
     }
 
-
-    public void SetImageNumber(VisualElement imageElement , int index)
-    {
-            if(index >= arrImgNextButton.Length)
-            {
-                SetImage(imageElement, GetImage(arrImgNextButton[0]));
-            }
-            else
-            {
-                SetImage(imageElement, GetImage(arrImgNextButton[index]));
-            }
-    }
-
-    private void SetImage(VisualElement imageElement , Texture2D imgSource1)
-    {
-        if (imgSource1) imageElement.style.backgroundImage = new StyleBackground(imgSource1);
-    }
-
-    private void InitPosition(float x_root, float y_root, VisualElement rootGroupBox)
-    {
-        rootGroupBox.transform.position = new Vector2(x_root - 44, 25);
-    }
 
 }

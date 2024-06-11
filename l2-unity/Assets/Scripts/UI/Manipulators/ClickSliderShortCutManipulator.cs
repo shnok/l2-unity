@@ -38,6 +38,7 @@ public class ClickSliderShortCutManipulator : PointerManipulator
         }
         else
         {
+            ShortCutPanel.Instance.ReplaceRightSliderToLeftSlider();
             ResetPositionPanel();
         }
     }
@@ -79,11 +80,22 @@ public class ClickSliderShortCutManipulator : PointerManipulator
         if (activeIndex >= 1)
         {
             int minus1 = activeIndex - 1;
-            return shortcutminimal.getLastElement(minus1);
+            int end = shortcutminimal.GetLastPosition(minus1);
+            ReplaceSliderLeft(end, minus1);
+            return shortcutminimal.GetLastElement(minus1);
         }
 
         return null;
         
+    }
+
+    private void ReplaceSliderLeft(int end, int minus1)
+    {
+        if (end == minus1)
+        {
+            ShortCutPanel.Instance.ReplaceLeftSliderToRightSlider();
+        }
+
     }
 
     private Vector2 GetPositionWorld(VisualElement rootElement , int index)
