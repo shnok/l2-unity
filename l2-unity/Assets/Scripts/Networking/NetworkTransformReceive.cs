@@ -8,14 +8,14 @@ public class NetworkTransformReceive : MonoBehaviour {
     private float _newRotation;
     private float _posLerpValue;
     [SerializeField] private bool _positionSyncProtection = true;
-    [SerializeField] private float _positionSyncNodesThreshold = 2f;
+    private float _positionSyncNodesThreshold = 3f;
     [SerializeField] private bool _positionSynced = false;
     [SerializeField] private bool _positionSyncPaused = false;
-    [SerializeField] private float _lerpDuration = 0.3f;
+    private float _lerpDuration = 0.1f;
     [SerializeField] private float _positionDelta;
     [SerializeField] private long _lastDesyncTime = 0;
     [SerializeField] private long _lastDesyncDuration = 0;
-    [SerializeField] private long _maximumAllowedDesyncTimeMs = 300;
+    private long _maximumAllowedDesyncTimeMs = 0;
 
     void Start() {
         if(World.Instance.OfflineMode) {
@@ -52,8 +52,8 @@ public class NetworkTransformReceive : MonoBehaviour {
 
     public void UpdatePosition() {
         /* Check if client transform position is synced with server's */
-        _positionDelta = Vector3.Distance(transform.position, _serverPosition);
-        if(_positionDelta > Geodata.Instance.NodeSize * _positionSyncNodesThreshold) {
+        _positionDelta = VectorUtils.Distance2D(transform.position, _serverPosition);
+        if(_positionDelta > Geodata.Instance.NodeSize * _positionSyncNodesThreshold && _positionSynced) {
             _lastDesyncTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             _positionSynced = false;
         }
@@ -85,19 +85,12 @@ public class NetworkTransformReceive : MonoBehaviour {
 
     public void LookAt(Transform target) {
         if (target != null) {
-            _newRotation = CalculateAngleToLookAt(target.position);
+            _newRotation = VectorUtils.CalculateMoveDirectionAngle(transform.position, target.position);
         }
     }
 
     public void LookAt(Vector3 position) {
-        _newRotation = CalculateAngleToLookAt(position);
-    }
-
-    private float CalculateAngleToLookAt(Vector3 position) { 
-        float angle = Mathf.Atan2(position.x - transform.position.x, position.z - transform.position.z) * Mathf.Rad2Deg;
-        angle = Mathf.Round(angle / 45f);
-        angle *= 45f;
-        return angle;
+        _newRotation = VectorUtils.CalculateMoveDirectionAngle(transform.position, position);
     }
 
     public bool IsPositionSynced() {

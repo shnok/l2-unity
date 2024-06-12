@@ -13,7 +13,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private Vector3 _destination;
     [SerializeField] private float _gravity = 28f;
-    [SerializeField] private float _moveSpeedMultiplier = 1f;
+    private float _moveSpeedMultiplier = 1f;
 
     public Vector3 MoveDirection { get { return _direction; } set { _direction = value; } }
     public NetworkAnimationController NetworkAnimationController { get { return _animationReceive; } }
@@ -27,36 +27,47 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         _animationReceive = GetComponent<NetworkAnimationController>();
         _characterController = GetComponent<CharacterController>();
 
+        //adjust movespeed for player entities
+        //TODO: Should not need this for players to be synced...
+        if (_entity.Identity.EntityType == EntityType.User) {
+            _moveSpeedMultiplier = 1.1f;
+        }
+
         if(_characterController == null || World.Instance.OfflineMode || _animationReceive == null) {
             this.enabled = false;
         }
+
         _direction = Vector3.zero;
         _destination = Vector3.zero;
     }
 
-    public void UpdateMoveDirection(Vector3 direction) {
-        _speed = _entity.Stats.ScaledSpeed;
-        _direction = direction;
-    }
-
-    public void SetDestination(Vector3 destination) {
-        _speed = _entity.Stats.ScaledSpeed;
-        _destination = destination;
-    }
-
     private void FixedUpdate() {
 
-        if(!_networkTransformReceive.IsPositionSynced()) {
+        if (!_networkTransformReceive.IsPositionSynced()) {
             /* pause script during position sync */
-            //return;
+            return;
         }
 
-        if(_destination != null && _destination != Vector3.zero) {
+        if (_destination != null && _destination != Vector3.zero) {
             SetMoveDirectionToDestination();
         }
 
         Vector3 ajustedDirection = _direction * _speed * _moveSpeedMultiplier + Vector3.down * _gravity;
         _characterController.Move(ajustedDirection * Time.deltaTime);
+    }
+
+    public void UpdateMoveDirection(Vector3 direction) {
+        _speed = _entity.Stats.ScaledSpeed;
+        _direction = direction;
+
+        if (direction.x != 0 || direction.z != 0) {
+            _networkTransformReceive.SetFinalRotation(VectorUtils.CalculateMoveDirectionAngle(direction.x, direction.z));
+        }
+    }
+
+    public void SetDestination(Vector3 destination) {
+        _speed = _entity.Stats.ScaledSpeed;
+        _destination = destination;
     }
 
     public void SetMoveDirectionToDestination() {

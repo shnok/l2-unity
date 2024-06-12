@@ -8,6 +8,7 @@ public class NetworkTransformShare : MonoBehaviour {
 
     [SerializeField] public Vector3 _serverPosition;
     [SerializeField] public bool _shouldShareRotation;
+    public bool _rotationShareEnabled;
 
     public bool ShouldShareRotation { get { return _shouldShareRotation; } set { _shouldShareRotation = value; } }
 
@@ -21,6 +22,7 @@ public class NetworkTransformShare : MonoBehaviour {
         _lastPos = transform.position;
         _lastRot = transform.forward;
         _lastSharedPosTime = Time.time;
+        _rotationShareEnabled = false; //rotation is now calculated based on movedirection
     }
 
     void Update() {
@@ -28,7 +30,7 @@ public class NetworkTransformShare : MonoBehaviour {
             SharePosition();
         }
 
-        if(ShouldShareRotation) {
+        if(ShouldShareRotation && _rotationShareEnabled) {
             ShareRotation();
         }
     }
@@ -47,7 +49,7 @@ public class NetworkTransformShare : MonoBehaviour {
         _lastSharedPosTime = Time.time;
         _lastPos = transform.position;
 
-        ClientPacketHandler.Instance.UpdateRotation(transform.eulerAngles.y);
+        //ClientPacketHandler.Instance.UpdateRotation(transform.eulerAngles.y);
     }
 
     public void ShareRotation() {

@@ -31,7 +31,6 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
             _lastDirection = newDirection;
 
             if (VectorUtils.IsVectorZero2D(newDirection)) {
-                Debug.Log("Player stopped, share pos");
                 _networkTransformShare.SharePosition();
                 _networkTransformShare.ShouldShareRotation = false;
             } else {

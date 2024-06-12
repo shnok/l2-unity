@@ -18,6 +18,8 @@ public class PlayerEntity : Entity {
         }
 
         EquipAllArmors();
+
+        EntityLoaded = true;
     }
 
     void OnDestroy() {

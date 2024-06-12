@@ -16,6 +16,8 @@ public class MonsterEntity : Entity {
     public override void Initialize() {
         base.Initialize();
         _monsterAnimationAudioHandler = GetComponent<MonsterAnimationAudioHandler>();
+
+        EntityLoaded = true;
     }
 
     protected override void OnDeath() {
