@@ -14,7 +14,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 
 
-public class ShortCutPanel : MonoBehaviour
+public class ShortCutPanel : MonoBehaviour , IShortCutButton
 {
     private VisualTreeAsset _shortCutWindowsTemplate;
     private VisualElement shortCutPanelElements;
@@ -26,11 +26,12 @@ public class ShortCutPanel : MonoBehaviour
     private ShortCutButton shortCutButton;
     private VisualElement rootGroupBox;
     private VisualElement buttonSlider;
+    private ShortCutReplacePanel replacePanel;
 
 
 
     private string[] arrImgNextButton = new string[6]; 
-    //-1 current panel
+ 
     private int showPanelIndex = 0;
 
     // [SerializeField] private float _statusWindowMinWidth = 700.0f;
@@ -48,7 +49,9 @@ public class ShortCutPanel : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+            CretaeDemoInfo();
             shortCutButton = new ShortCutButton(this);
+            replacePanel = new ShortCutReplacePanel(sizeCell , arrayRowsPanels);
             InitArrImgNumbers();
         }
         else
@@ -93,7 +96,7 @@ public class ShortCutPanel : MonoBehaviour
         if (_shortCutWindowsTemplate == null)
         {
             _shortCutWindowsTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ShortCutPanel");
-            CretaeDemoInfo();
+           
         }
         if (_shortCutWindowsTemplate == null)
         {
@@ -130,7 +133,7 @@ public class ShortCutPanel : MonoBehaviour
     public IEnumerator BuildWindow(VisualElement root)
     {
         shortCutPanelElements = _shortCutWindowsTemplate.Instantiate()[0];
-
+        replacePanel.SetRootPanel(shortCutPanelElements);
 
         MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(shortCutPanelElements);
         shortCutPanelElements.AddManipulator(mouseOverDetection);
@@ -161,9 +164,9 @@ public class ShortCutPanel : MonoBehaviour
         buttonSlider.AddManipulator(slider);
 
 
-        shortCutButton.SetImageNumber(imageIndex, showPanelIndex);
+        shortCutButton.SetImageNumber(this , imageIndex, showPanelIndex);
         //set root cell
-        SetImage(shortCutPanelElements);
+        replacePanel.SetImage(shortCutPanelElements);
 
         shortCutButton.RegisterButtonCallBackNext(imageIndex , "button_next");
         shortCutButton.RegisterButtonCallBackPreview(imageIndex , "button_preview");
@@ -188,90 +191,19 @@ public class ShortCutPanel : MonoBehaviour
         buttonSlider.RemoveFromClassList("button-slider-right");
         buttonSlider.AddToClassList("button-slider");
     }
-    
-    public void NextPanelToRootPanel()
-    {
-        SetImageNext(rootGroupBox , showPanelIndex);
-    }
 
-    private void SetImageNext(VisualElement rootGroupBox , int activePanel)
+    //rootGroupBox - use this class not use argumets
+    public void NextPanelToRootPanel(VisualElement disable, int disablepanel)
     {
-        for (int cell = 0; cell <= sizeCell; cell++)
-        {
-            var row = rootGroupBox.Q(className: "row" + cell);
-            var border = GetBorderRow(rootGroupBox, cell);
-            SetImageNext(border, row, cell , activePanel);
-        }
+        replacePanel.SetImageNext(sizeCell, rootGroupBox, showPanelIndex);
     }
 
 
-    private void SetImage(VisualElement rootGroupBox)
+
+  
+    public ShortCutChildrenModel GetShortCutChildrenModel()
     {
-        for (int cell = 0; cell <= sizeCell; cell++)
-        {
-            var row = rootGroupBox.Q(className: "row" + cell);
-            var border = GetBorderRow(rootGroupBox, cell);
-            SetRows(border, row, cell);
-        }
-    }
-
-
-    private void SetRows(VisualElement border, VisualElement row, int id_path)
-    {
-        SetImage(border, row, id_path);
-    }
-
-    private void VisibleBorder(VisualElement border, bool show)
-    {
-        if (border != null) border.visible = show;
-    }
-
-    private VisualElement GetBorderRow(VisualElement shortCutMinimal, int index)
-    {
-        return shortCutMinimal.Q(className: "border_row" + index);
-    }
-
-    private void SetImage(VisualElement border, VisualElement row, int id_path)
-    {
-        string path = arrayRowsPanels.GetRowImgPath(id_path);
-        Texture2D imgSource1 = Resources.Load<Texture2D>(path);
-        if (imgSource1 != null)
-        {
-            VisibleBorder(border, true);
-            row.style.backgroundImage = new StyleBackground(imgSource1);
-        }
-    }
-
-    private void SetImageNext(VisualElement border, VisualElement row, int id_path , int activePanel)
-    {
-        // 0 root panel
-        if(activePanel == 0)
-        {
-            SetImage(shortCutPanelElements);
-        }
-        else
-        {
-            //children minimal panels
-            ShortCutChildrenModel[] childrenArrayPanels = ShortCutPanelMinimal.Instance.GetArrayRowsPanels();
-            activePanel = activePanel - 1;
-            if (activePanel <= childrenArrayPanels.Length - 1)
-            {
-                string path = childrenArrayPanels[activePanel].GetRowImgPath(id_path);
-                Texture2D imgSource1 = Resources.Load<Texture2D>(path);
-                if (imgSource1 != null)
-                {
-                    VisibleBorder(border, true);
-                    row.style.backgroundImage = new StyleBackground(imgSource1);
-                }
-                else
-                {
-                    VisibleBorder(border, false);
-                    row.style.backgroundImage = new StyleBackground();
-                }
-            }
-
-        }
-       
+        return arrayRowsPanels;
     }
 
 

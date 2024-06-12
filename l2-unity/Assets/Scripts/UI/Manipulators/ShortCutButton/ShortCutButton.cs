@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ShortCutButton
+public class ShortCutButton : AbstracetShortCutButton
 {
     private ShortCutPanel shortCutPanel;
     public ShortCutButton(ShortCutPanel shortCutPanel) {
@@ -28,11 +28,11 @@ public class ShortCutButton
             if (shortCutPanel.GetShowPanelIndex() >= shortCutPanel.GetArrImgNextButton().Length)
             {
                 shortCutPanel.SetPanelIndex(0);
-                SetImageNumber(imageIndex, shortCutPanel.GetShowPanelIndex());
+                SetImageNumber(shortCutPanel , imageIndex, shortCutPanel.GetShowPanelIndex());
             }
             else
             {
-                SetImageNumber(imageIndex, shortCutPanel.GetShowPanelIndex());
+                SetImageNumber(shortCutPanel , imageIndex, shortCutPanel.GetShowPanelIndex());
             }
 
 
@@ -56,42 +56,22 @@ public class ShortCutButton
             if (showPanelIndex < 0)
             {
                 shortCutPanel.SetPanelIndex(shortCutPanel.GetArrImgNextButton().Length - 1);
-                SetImageNumber(imageIndex, shortCutPanel.GetShowPanelIndex());
-                shortCutPanel.NextPanelToRootPanel();
+                SetImageNumber(shortCutPanel , imageIndex, shortCutPanel.GetShowPanelIndex());
+                shortCutPanel.NextPanelToRootPanel(null,0);
             }
             else
             {
                 int currentIndex = shortCutPanel.GetShowPanelIndex();
-                SetImageNumber(imageIndex, currentIndex);
-                shortCutPanel.NextPanelToRootPanel();
+                SetImageNumber(shortCutPanel , imageIndex, currentIndex);
+                shortCutPanel.NextPanelToRootPanel(null, 0);
             }
 
 
         }, TrickleDown.TrickleDown);
     }
 
-    public void SetImageNumber(VisualElement imageElement, int index)
-    {
-        if (index >= shortCutPanel.GetArrImgNextButton().Length)
-        {
-            SetImage(imageElement, GetImage(shortCutPanel.GetArrImgNextButton()[0]));
-            shortCutPanel.NextPanelToRootPanel();
-        }
-        else
-        {
-            SetImage(imageElement, GetImage(shortCutPanel.GetArrImgNextButton()[index]));
-            shortCutPanel.NextPanelToRootPanel();
-        }
-    }
 
-    private void SetImage(VisualElement imageElement, Texture2D imgSource1)
-    {
-        if (imgSource1) imageElement.style.backgroundImage = new StyleBackground(imgSource1);
-    }
 
-    public Texture2D GetImage(string path)
-    {
-        return Resources.Load<Texture2D>(path);
-    }
+
 
 }

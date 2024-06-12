@@ -14,18 +14,23 @@ using static UnityEngine.Rendering.DebugUI.MessageBox;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 
-public class ShortCutPanelMinimal : MonoBehaviour
+public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
 {
     private VisualTreeAsset[] arrayTemplate = new VisualTreeAsset[5];
     public VisualElement[] arrayPanels = new VisualElement[5];
     public ShortCutChildrenModel[] arrayRowsPanels = new ShortCutChildrenModel[5];
     private int sizeCell = 11;
     private bool initPosition = false;
+    private string[] arrImgNextButton = new string[6];
+    private ShortCutReplacePanelMinimal replacePanel;
+
 
     public void Start()
     {
         CretaeDemoInfo();
+        InitArrImgNumbers();
         arrayTemplate = CreateObject(arrayTemplate);
+        replacePanel = new ShortCutReplacePanelMinimal(sizeCell , arrayRowsPanels);
     }
 
     void Update()
@@ -48,9 +53,25 @@ public class ShortCutPanelMinimal : MonoBehaviour
         }
 
     }
+
+    private void InitArrImgNumbers()
+    {
+        arrImgNextButton[0] = "Data/UI/ShortCut/button/numbers/shortcut_f01";
+        arrImgNextButton[1] = "Data/UI/ShortCut/button/numbers/shortcut_f02";
+        arrImgNextButton[2] = "Data/UI/ShortCut/button/numbers/shortcut_f03";
+        arrImgNextButton[3] = "Data/UI/ShortCut/button/numbers/shortcut_f04";
+        arrImgNextButton[4] = "Data/UI/ShortCut/button/numbers/shortcut_f05";
+        arrImgNextButton[5] = "Data/UI/ShortCut/button/numbers/shortcut_f06";
+        // arrImgNextButton[6] = "Data/UI/ShortCut/button/numbers/shortcut_f07";
+    }
     public void SetResetPosition()
     {
         this.initPosition = false;
+    }
+
+    public string[] GetArrImgNextButton()
+    {
+        return arrImgNextButton;
     }
 
     public void SetHidePanels()
@@ -136,9 +157,8 @@ public class ShortCutPanelMinimal : MonoBehaviour
 
 
         arrayPanels = CreatePanels(arrayTemplate, arrayPanels);
-        //setRows(arrayTemplate);
+        replacePanel.SetArrayPanels(arrayPanels);
         HideElements(true, arrayPanels);
-        //InitPosition(x_root, y_root, arrayPanels);
         AddPanelsToRoot(root, arrayPanels);
     }
 
@@ -155,8 +175,19 @@ public class ShortCutPanelMinimal : MonoBehaviour
         //6 panels
         for (int panel = 0; panel < arrayTemplate.Length; panel++)
         {
+            
             var shortCutMinimal = arrayTemplate[panel].Instantiate()[0];
+            
+            var imageNumberSlider = shortCutMinimal.Q<VisualElement>(null, "ImageIndexMinimal");
+
+
+            ShortCutButtonMinimal button = new ShortCutButtonMinimal(shortCutMinimal , this , Plus1Panel(panel));
+            button.RegisterButtonCallBackNext(imageNumberSlider, "button_next");
+            button.RegisterButtonCallBackPreview(imageNumberSlider, "button_preview");
             var minimal_panel = shortCutMinimal.Q(className: "minimal-panel");
+            var number_image = shortCutMinimal.Q(className: "ImageIndexMinimal");
+
+
             //12 cells
             // panel number panels | b number cell
             for (int cell =0; cell <= sizeCell; cell++)
@@ -166,10 +197,39 @@ public class ShortCutPanelMinimal : MonoBehaviour
                 SetRows(border, row, panel, cell);
             }
 
+
+
+            SetAddImageNumber(panel, number_image);
             arrayPanels[panel] = minimal_panel;
         }
 
         return arrayPanels;
+    }
+
+    private int Plus1Panel(int panel)
+    {
+        int panelPlus1 = 0;
+        if (panel == 0)
+        {
+            return panelPlus1 = 1;
+        }
+        else
+        {
+            return panelPlus1 = panel + 1;
+        }
+    }
+
+    private void SetAddImageNumber(int panel , VisualElement number_image)
+    {
+        if (panel == 0)
+        {
+            SetImageNumber(number_image, arrImgNextButton[1]);
+        }
+        else
+        {
+
+            SetImageNumber(number_image, arrImgNextButton[panel + 1]);
+        }
     }
 
     private void SetRows(VisualElement border  , VisualElement row, int i , int id_path)
@@ -194,6 +254,15 @@ public class ShortCutPanelMinimal : MonoBehaviour
         {
             VisibleBorder(border, true);
             row.style.backgroundImage = new StyleBackground(imgSource1);
+        }
+    }
+
+    private void SetImageNumber(VisualElement number_image, string path)
+    {
+        Texture2D imgSource1 = Resources.Load<Texture2D>(path);
+        if(imgSource1 != null)
+        {
+            number_image.style.backgroundImage = new StyleBackground(imgSource1);
         }
     }
 
@@ -345,6 +414,17 @@ public class ShortCutPanelMinimal : MonoBehaviour
     {
         return arrayRowsPanels;
     }
+
+    public void NextPanelToRootPanel(VisualElement rootGroupBox , int showPanelIndex)
+    {
+        replacePanel.SetImageNext(sizeCell , rootGroupBox, showPanelIndex);
+    }
+
+    //public void NextPanelShortCut(VisualElement rootGroupBox, int showPanelIndex)
+    //{
+    //    replacePanel.SetImageNext(sizeCell, rootGroupBox, showPanelIndex);
+    //}
+
     private void OnDestroy()
     {
         _instance = null;
