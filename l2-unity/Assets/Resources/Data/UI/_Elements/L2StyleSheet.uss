@@ -769,8 +769,7 @@
 .unity-group-box {
 }
 
-
-    .menu-btn {
+.menu-btn {
     flex-direction: column;
     margin-top: 3px;
     margin-right: 2px;
@@ -948,4 +947,95 @@
     position: absolute;
     right: -8px;
     bottom: 0;
+}
+
+.login-window .unity-base-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.login-window .unity-base-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.login-window .unity-text-field {
+    --unity-cursor-color: rgb(255, 255, 255);
+    color: rgb(220, 220, 220);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.login-window .transparent-cursor {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
+}
+
+.l2-button {
+    flex-grow: 0;
+    width: 92px;
+    height: 22px;
+    background-image: resource('Data/UI/Button/Button_DF');
+    -unity-slice-right: 15;
+    -unity-slice-left: 15;
+    -unity-slice-top: 15;
+    -unity-slice-bottom: 15;
+    -unity-slice-scale: 1px;
+    font-size: 12px;
+}
+
+.l2-button-bg {
+    flex-grow: 1;
+    background-image: resource('Data/UI/Button/Button_DF');
+    height: 22px;
+    min-height: 32px;
+    position: absolute;
+    -unity-slice-left: 15;
+    -unity-slice-top: 15;
+    -unity-slice-right: 15;
+    -unity-slice-bottom: 15;
+    width: 100%;
+}
+
+.l2-button-ele {
+    margin-top: auto;
+    margin-right: 5px;
+    margin-bottom: auto;
+    margin-left: auto;
+    padding-top: 10px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 0;
+    background-image: none;
+    -unity-slice-left: 0;
+    -unity-slice-right: 0;
+    -unity-slice-scale: 0;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-slice-top: 0;
+    -unity-slice-bottom: 0;
+    background-color: rgba(127, 127, 127, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    width: 100%;
+    height: 100%;
+    -unity-font: resource('Data/UI/Font/tahoma');
+    color: rgb(255, 255, 255);
+}
+
+.l2-button-ele {
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.l2-button-bg {
+    width: 105%;
+}
+
+.l2-button {
 }
