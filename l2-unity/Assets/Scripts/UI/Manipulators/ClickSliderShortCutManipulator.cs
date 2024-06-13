@@ -8,7 +8,6 @@ using UnityEngine.UIElements;
 
 public class ClickSliderShortCutManipulator : PointerManipulator
 {
-    private VisualElement target_buttonSlider;
     private ShortCutPanelMinimal shortcutminimal;
     private int numberClick = 0;
     private DragManipulatorsChildren drag;

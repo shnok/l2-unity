@@ -6,8 +6,11 @@ using UnityEngine.UIElements;
 public class ShortCutButton : AbstracetShortCutButton
 {
     private ShortCutPanel shortCutPanel;
-    public ShortCutButton(ShortCutPanel shortCutPanel) {
+    private int sizeCell;
+    public ShortCutButton(ShortCutPanel shortCutPanel, int sizeCell)
+    {
         this.shortCutPanel = shortCutPanel;
+        this.sizeCell = sizeCell;
     }
 
     public void RegisterButtonCallBackNext(VisualElement imageIndex, string buttonId)
@@ -66,6 +69,28 @@ public class ShortCutButton : AbstracetShortCutButton
                 shortCutPanel.NextPanelToRootPanel(null, 0);
             }
 
+
+        }, TrickleDown.TrickleDown);
+    }
+
+    public void RegisterButtonCallBackRotate(VisualElement rootGroupBox ,  string buttonId)
+    {
+        var btn = shortCutPanel.GetShortCutPanelElements().Q<VisualElement>(buttonId);
+        if (btn == null)
+        {
+            Debug.LogError(buttonId + " can't be found.");
+            return;
+        }
+
+        btn.RegisterCallback<MouseDownEvent>(evt => {
+
+            // Quaternion rotateOriginal =  rootGroupBox.transform.rotation;
+            ShortCutHorizontalPosition position = new ShortCutHorizontalPosition(shortCutPanel , rootGroupBox , sizeCell);
+            position.Start();
+
+            ShortCutHorizontalPositionMinimal positionChildren = new ShortCutHorizontalPositionMinimal(ShortCutPanelMinimal.Instance.GetArrayPanels() , shortCutPanel , sizeCell);
+            positionChildren.Start();
+            Debug.Log("Rotate Event ");
 
         }, TrickleDown.TrickleDown);
     }

@@ -44,7 +44,7 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
 
                 if (arrayPanels != null)
                 {
-                    ShortCutPanel.Instance.setDrugChildren(arrayPanels);
+                    ShortCutPanel.Instance.SetDrugChildren(arrayPanels);
                 }
 
                 initPosition = true;
@@ -76,7 +76,7 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
 
     public void SetHidePanels()
     {
-        HideElements(true, arrayPanels);
+        //HideElements(true, arrayPanels);
     }
 
     private void CretaeDemoInfo()
@@ -334,7 +334,10 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
     }
 
   
-
+    public VisualElement[] GetArrayPanels()
+    {
+        return arrayPanels;
+    }
     public int Count()
     {
         return arrayPanels.Length;

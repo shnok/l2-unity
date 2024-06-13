@@ -27,16 +27,13 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
     private VisualElement rootGroupBox;
     private VisualElement buttonSlider;
     private ShortCutReplacePanel replacePanel;
+    private bool isVertical;
 
 
 
     private string[] arrImgNextButton = new string[6]; 
  
     private int showPanelIndex = 0;
-
-    // [SerializeField] private float _statusWindowMinWidth = 700.0f;
-    //[SerializeField] private float _statusWindowMaxWidth = 800.0f;
-
 
     private static ShortCutPanel _instance;
     public static ShortCutPanel Instance
@@ -50,9 +47,10 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
         {
             _instance = this;
             CretaeDemoInfo();
-            shortCutButton = new ShortCutButton(this);
+            shortCutButton = new ShortCutButton(this , sizeCell);
             replacePanel = new ShortCutReplacePanel(sizeCell , arrayRowsPanels);
             InitArrImgNumbers();
+            isVertical = true;
         }
         else
         {
@@ -71,6 +69,15 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
        // arrImgNextButton[6] = "Data/UI/ShortCut/button/numbers/shortcut_f07";
     }
 
+    public void  SetPositionVerical(bool vertical)
+    {
+        this.isVertical = vertical;
+    }
+
+    public bool IsVertical()
+    {
+        return this.isVertical;
+    }
     public string[] GetArrImgNextButton()
     {
         return arrImgNextButton; 
@@ -121,7 +128,7 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
         return statusWindowDragArea.worldBound.position;
     }
 
-    public void setDrugChildren(VisualElement[] children)
+    public void SetDrugChildren(VisualElement[] children)
     {
         drag.setChildren(children);
     }
@@ -155,6 +162,7 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
 
 
 
+
         ClickPanelManipulation panel = new ClickPanelManipulation(shortcutImage1, IconOverlay.Instance);
         shortcutImage1.AddManipulator(panel);
 
@@ -164,12 +172,15 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
         buttonSlider.AddManipulator(slider);
 
 
+
+
         shortCutButton.SetImageNumber(this , imageIndex, showPanelIndex);
         //set root cell
         replacePanel.SetImage(shortCutPanelElements);
 
         shortCutButton.RegisterButtonCallBackNext(imageIndex , "button_next");
         shortCutButton.RegisterButtonCallBackPreview(imageIndex , "button_preview");
+        shortCutButton.RegisterButtonCallBackRotate(rootGroupBox , "visualRotate");
 
 
         root.Add(rootGroupBox);
