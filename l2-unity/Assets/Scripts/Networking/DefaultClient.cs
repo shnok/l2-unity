@@ -34,7 +34,7 @@ public class DefaultClient : MonoBehaviour {
 
 
     private void Start() {
-        if(World.Instance.OfflineMode) {
+        if(World.Instance != null && World.Instance.OfflineMode) {
             this.enabled = false;
         }
     }
@@ -53,7 +53,7 @@ public class DefaultClient : MonoBehaviour {
 
     public void OnConnectionAllowed() {
         Debug.Log("Connected");
-        SceneLoader.Instance.SwitchScene(SceneLoader.Instance.GameScene);
+        SceneLoader.Instance.LoadGame();
     }
 
     public void OnWorldSceneLoaded() {
@@ -63,25 +63,22 @@ public class DefaultClient : MonoBehaviour {
     public int GetPing() {
         return _client.Ping;
     }
- 
+
     public void Disconnect() {
+        if (_client != null) {
+            _client.Disconnect();
+        }
+    }
+
+    public void OnDisconnect() {
         Debug.Log("Disconnected");
-        SceneLoader.Instance.SwitchScene("Menu");
+        _client = null;
+        SceneLoader.Instance.LoadMenu();
     }
 
     void OnApplicationQuit() {
         if(_client != null) {
             _client.Disconnect();
         }   
-    }
-
-    public void OnDisconnectReady() {
-        if(_client != null) {
-            _client.Disconnect();
-            _client = null;
-        }
-
-        World.Instance.ClearEntities();
-        ChatWindow.Instance.ClearChat();     
     }
 }

@@ -115,7 +115,7 @@ public class ServerPacketHandler
                     long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     if(now2 - _timestamp >= DefaultClient.Instance.ConnectionTimeoutMs) {
                         Debug.Log("Connection timed out");
-                        DefaultClient.Instance.Disconnect();
+                        _client.Disconnect();
                     }
                 }
             }, _tokenSource.Token);

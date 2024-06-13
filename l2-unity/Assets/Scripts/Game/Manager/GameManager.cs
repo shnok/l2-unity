@@ -6,7 +6,16 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameState _gameState;
 
+    private static GameManager _instance;
+    public static GameManager Instance { get { return _instance; } }
+
     void Awake() {
+        if (_instance == null) {
+            _instance = this;
+        } else {
+            Destroy(this);
+        }
+
         ItemTable.Instance.Initialize();
         ItemNameTable.Instance.Initialize();
         ItemStatDataTable.Instance.Initialize();
@@ -20,10 +29,14 @@ public class GameManager : MonoBehaviour
     }
 
     void Start() {
-        SceneLoader.Instance.LoadDefaultScene();
+        Debug.LogWarning("START");
     }
 
-    void Update() {
-        
+    public void LogIn() {
+        DefaultClient.Instance.Connect(StringUtils.GenerateRandomString());
+    }
+
+    public void LogOut() {
+        DefaultClient.Instance.Disconnect();
     }
 }

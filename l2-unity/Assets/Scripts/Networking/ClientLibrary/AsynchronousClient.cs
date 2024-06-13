@@ -48,7 +48,9 @@ public class AsynchronousClient {
             ServerPacketHandler.Instance.CancelTokens();
             _connected = false;         
             _client.Close();
-            _client.Dispose();           
+            _client.Dispose();
+
+            EventProcessor.Instance.QueueEvent(() => DefaultClient.Instance.OnDisconnect());       
         } catch (Exception e) {
             Debug.LogError(e);
         }

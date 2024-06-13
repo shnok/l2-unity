@@ -22,7 +22,7 @@ public class EventProcessor : MonoBehaviour {
 
 
     private void Start() {
-        if(World.Instance.OfflineMode) {
+        if(World.Instance != null && World.Instance.OfflineMode) {
             this.enabled = false;
             return;
         }
