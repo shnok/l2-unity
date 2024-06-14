@@ -97,16 +97,12 @@ public class ChatWindow : MonoBehaviour {
         _chatInput.maxLength = _chatInputCharacterLimit;
 
         var enlargeTextBtn = _chatWindowEle.Q<Button>("EnlargeTextBtn");
-        enlargeTextBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-        }, TrickleDown.TrickleDown);
+        BaseUI.RegisterButtonClickSoundCallback(enlargeTextBtn);
 
         var chatOptionsBtn = _chatWindowEle.Q<Button>("ChatOptionsBtn");
-        chatOptionsBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-        }, TrickleDown.TrickleDown);
+        BaseUI.RegisterButtonClickSoundCallback(chatOptionsBtn);
 
-        L2GameUI.BlinkingCursor(_chatInput);
+        BaseUI.BlinkingCursor(_chatInput);
 
         _chatInputContainer = _chatWindowEle.Q<VisualElement>("InnerBar");
 

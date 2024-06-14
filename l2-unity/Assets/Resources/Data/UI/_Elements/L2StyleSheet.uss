@@ -895,7 +895,7 @@
     background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Clan_Over.png?fileID=2800000&guid=ab21e3807f80ab84ea6331626b91c922&type=3#Icon_DF_MenuWnd_Clan_Over');
 }
 
-#MapButton .menu-button-bg {
+/*#MapButton .menu-button-bg {
     background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Map.png?fileID=2800000&guid=fb5e94707cd91db48af8dacc2e9ba4e6&type=3#Icon_DF_MenuWnd_Map');
 }
 
@@ -925,6 +925,135 @@
 
 #SystemMenuButton:hover .menu-button-bg {
     background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Over.png?fileID=2800000&guid=ab979858ba4fd3c4dafa85940995a204&type=3#Icon_DF_MenuWnd_SystemMenu_Over');
+}*/
+
+/*
+#CharacterButton .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character');
+}
+
+#CharacterButton:active .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character_Down');
+}
+
+#CharacterButton:active:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character_Down');
+}
+
+#CharacterButton:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character_Over');
+}
+
+#InventoryButton .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory');
+}
+
+#InventoryButton:active .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Down');
+}
+
+#InventoryButton:active:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Down');
+}
+
+#InventoryButton:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Over');
+}
+
+#ActionButton .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action');
+}
+
+#ActionButton:active .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action_Down');
+}
+
+#ActionButton:active:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action_Down');
+}
+
+#ActionButton:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action_Over');
+}
+
+#SkillButton .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill');
+}
+
+#SkillButton:active .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill_Down');
+}
+
+#SkillButton:active:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill_Down');
+
+
+#SkillButton:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill_Over');
+}
+
+#QuestButton .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest');
+}
+
+#QuestButton:active .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest_Down');
+}
+
+#QuestButton:active:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest_Down');
+}
+
+#QuestButton:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest_Over');
+}
+
+#ClanButton .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan');
+}
+
+#ClanButton:active .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan_Down');
+}
+
+#ClanButton:active:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan_Down');
+}
+
+#ClanButton:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan_Over');
+}*/
+
+#MapButton .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map');
+}
+
+#MapButton:active .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map_Down');
+}
+
+#MapButton:active:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map_Down');
+}
+
+#MapButton:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map_Over');
+}
+
+#SystemMenuButton .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu');
+}
+
+#SystemMenuButton:active .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Down');
+}
+
+#SystemMenuButton:active:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Down');
+}
+
+#SystemMenuButton:hover .menu-button-bg {
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Over');
 }
 
 .menu-window {
@@ -979,13 +1108,25 @@
     flex-grow: 0;
     width: 92px;
     height: 22px;
-    background-image: resource('Data/UI/Button/Button_DF');
+    background-image: none;
     -unity-slice-right: 15;
     -unity-slice-left: 15;
     -unity-slice-top: 15;
     -unity-slice-bottom: 15;
     -unity-slice-scale: 1px;
     font-size: 12px;
+}
+
+.l2-button:active .l2-button-bg {
+    background-image: resource('Data/UI/Button/Button_DF_Down');
+}
+
+.l2-button:active:hover .l2-button-bg {
+    background-image: resource('Data/UI/Button/Button_DF_Down');
+}
+
+.l2-button:hover .l2-button-bg {
+    background-image: resource('Data/UI/Button/Button_DF_Over');
 }
 
 .l2-button-bg {
@@ -1037,5 +1178,39 @@
     width: 105%;
 }
 
+.l2-button-bg {
+    left: -2px;
+    top: -3px;
+    right: 0;
+    bottom: 0;
+    width: 108%;
+}
+
 .l2-button {
+    -unity-font-definition: resource('Data/UI/Font/tahoma Light');
+    letter-spacing: 2px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    overflow: visible;
+    background-color: rgba(188, 188, 188, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.button-label {
+    -unity-font: resource('Data/UI/Font/tahoma');
+    -unity-font-definition: resource('Data/UI/Font/tahoma Light');
+}
+
+.button-label {
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-center;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
 }

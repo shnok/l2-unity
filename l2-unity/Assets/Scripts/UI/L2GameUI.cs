@@ -102,13 +102,4 @@ public class L2GameUI : MonoBehaviour {
             UnityEngine.Cursor.lockState = CursorLockMode.Confined;
         }
     }
-
-    public static void BlinkingCursor(VisualElement tf) {
-        tf.schedule.Execute(() => {
-            if(tf.ClassListContains("transparent-cursor"))
-                tf.RemoveFromClassList("transparent-cursor");
-            else
-                tf.AddToClassList("transparent-cursor");
-        }).Every(500);
-    }
 }
