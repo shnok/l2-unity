@@ -56,18 +56,22 @@ public class LoginWindow : MonoBehaviour
         exitButton.AddManipulator(new ButtonClickSoundManipulator(exitButton));
         exitButton.RegisterCallback<ClickEvent>(evt => ExitButtonPressed());
 
+        VisualElement userInputBg = _windowEle.Q<VisualElement>("UserInputBg");
         _userInput = _windowEle.Q<TextField>("UserInputField");
         _userInput.RegisterCallback<FocusEvent>((evt) => OnInputFocus(evt, _userInput));
         _userInput.RegisterCallback<BlurEvent>((evt) => OnInputBlur(evt, _userInput));
         _userInput.maxLength = 16;
 
+        _userInput.AddManipulator(new HighlightedInputFieldManipulator(_userInput, userInputBg, 20));
         _userInput.AddManipulator(new BlinkingCursorManipulator(_userInput));
 
+        VisualElement passwordInputBg = _windowEle.Q<VisualElement>("PasswordInputBg");
         _passwordInput = _windowEle.Q<TextField>("PasswordInputField");
         _passwordInput.RegisterCallback<FocusEvent>((evt) => OnInputFocus(evt, _passwordInput));
         _passwordInput.RegisterCallback<BlurEvent>((evt) => OnInputBlur(evt, _passwordInput));
         _passwordInput.maxLength = 16;
 
+        _passwordInput.AddManipulator(new HighlightedInputFieldManipulator(_passwordInput, passwordInputBg, 20));
         _passwordInput.AddManipulator(new BlinkingCursorManipulator(_passwordInput));
 
         root.Add(_windowEle);
