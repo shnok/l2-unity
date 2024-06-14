@@ -9,7 +9,6 @@ public class DragManipulatorsChildren : PointerManipulator
     private Vector2 _startMousePosition;
     private Vector2 _startPosition;
     private Vector2 _childreStartPosition;
-    private VisualElement target;
     private VisualElement[] children;
 
     public DragManipulatorsChildren(VisualElement target, VisualElement root)

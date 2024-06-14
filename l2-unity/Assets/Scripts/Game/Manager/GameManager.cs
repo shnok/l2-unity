@@ -28,10 +28,6 @@ public class GameManager : MonoBehaviour
         ModelTable.Instance.Initialize();
     }
 
-    void Start() {
-        Debug.LogWarning("START");
-    }
-
     public void LogIn() {
         DefaultClient.Instance.Connect(StringUtils.GenerateRandomString());
     }

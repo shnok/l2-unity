@@ -5,7 +5,6 @@ public class DragManipulator : PointerManipulator {
     private VisualElement _root;
     private Vector2 _startMousePosition;
     private Vector2 _startPosition;
-    private VisualElement target;
 
     private bool _rightAnchor = true;
     private bool _bottomAnchor = true;

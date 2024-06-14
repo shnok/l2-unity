@@ -97,12 +97,12 @@ public class ChatWindow : MonoBehaviour {
         _chatInput.maxLength = _chatInputCharacterLimit;
 
         var enlargeTextBtn = _chatWindowEle.Q<Button>("EnlargeTextBtn");
-        BaseUI.RegisterButtonClickSoundCallback(enlargeTextBtn);
+        enlargeTextBtn.AddManipulator(new ButtonClickSoundManipulator(_chatInput));
 
         var chatOptionsBtn = _chatWindowEle.Q<Button>("ChatOptionsBtn");
-        BaseUI.RegisterButtonClickSoundCallback(chatOptionsBtn);
+        chatOptionsBtn.AddManipulator(new ButtonClickSoundManipulator(_chatInput));
 
-        BaseUI.BlinkingCursor(_chatInput);
+        _chatInput.AddManipulator(new BlinkingCursorManipulator(_chatInput));
 
         _chatInputContainer = _chatWindowEle.Q<VisualElement>("InnerBar");
 

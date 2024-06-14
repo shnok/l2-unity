@@ -9,7 +9,6 @@ namespace Assets.Scripts.UI.Manipulators
     public class ClickPanelManipulation : PointerManipulator
     {
         private IconOverlay iconOverlay;
-        private VisualElement target;
         private Vector2 target_vector;
         private Vector2 _startMousePosition;
         private Vector2 _startPosition;

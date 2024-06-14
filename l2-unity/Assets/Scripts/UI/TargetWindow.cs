@@ -63,9 +63,7 @@ public class TargetWindow : MonoBehaviour {
         horizontalResizeHandle.AddManipulator(horizontalResize);
 
         var closeBtnHandle = _targetWindowEle.Q<Button>("CloseBtn");
-        closeBtnHandle.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-        }, TrickleDown.TrickleDown);
+        closeBtnHandle.AddManipulator(new ButtonClickSoundManipulator(closeBtnHandle));
         closeBtnHandle.RegisterCallback<MouseUpEvent>(evt => {
             TargetManager.Instance.ClearTarget();
         });

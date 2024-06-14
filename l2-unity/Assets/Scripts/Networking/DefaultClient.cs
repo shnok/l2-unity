@@ -12,6 +12,9 @@ public class DefaultClient : MonoBehaviour {
     [SerializeField] private int _serverPort = 11000;
     [SerializeField] private bool _logReceivedPackets = true;
     [SerializeField] private bool _logSentPackets = true;
+
+    private bool _connecting = false;
+
     public string Username { get { return _username; } }
     public bool LogReceivedPackets { get { return _logReceivedPackets; } }
     public bool LogSentPackets { get { return _logSentPackets; } }
@@ -40,15 +43,26 @@ public class DefaultClient : MonoBehaviour {
     }
 
     public async void Connect(string user) {
+        if(_connecting) {
+            return;
+        }
+
+        _connecting = true;
         _username = user; 
         _client = new AsynchronousClient(_serverIp, _serverPort);
         bool connected = await Task.Run(_client.Connect);
         if(connected) {  
+            _connecting = false;
+
             ServerPacketHandler.Instance.SetClient(_client);
             ClientPacketHandler.Instance.SetClient(_client);         
             ClientPacketHandler.Instance.SendPing();
             ClientPacketHandler.Instance.SendAuth(user);                                   
         }
+    }
+
+    public void OnConnectionFailed() {
+        _connecting = false;
     }
 
     public void OnConnectionAllowed() {

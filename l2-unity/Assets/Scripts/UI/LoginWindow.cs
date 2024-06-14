@@ -48,27 +48,27 @@ public class LoginWindow : MonoBehaviour
     IEnumerator BuildWindow(VisualElement root) {
         _windowEle = _windowTemplate.Instantiate()[0];
 
-        Debug.Log(1);
         Button loginButton = GetButtonById("LoginButton");
-        BaseUI.RegisterButtonClickSoundCallback(loginButton);
+        loginButton.AddManipulator(new ButtonClickSoundManipulator(loginButton));
         loginButton.RegisterCallback<ClickEvent>(evt => LoginButtonPressed());
-        Debug.Log(2);
 
         Button exitButton = GetButtonById("ExitButton");
-        BaseUI.RegisterButtonClickSoundCallback(exitButton);
+        exitButton.AddManipulator(new ButtonClickSoundManipulator(exitButton));
         exitButton.RegisterCallback<ClickEvent>(evt => ExitButtonPressed());
-        Debug.Log(3);
 
         _userInput = _windowEle.Q<TextField>("UserInputField");
         _userInput.RegisterCallback<FocusEvent>((evt) => OnInputFocus(evt, _userInput));
         _userInput.RegisterCallback<BlurEvent>((evt) => OnInputBlur(evt, _userInput));
         _userInput.maxLength = 16;
-        Debug.Log(4);
+
+        _userInput.AddManipulator(new BlinkingCursorManipulator(_userInput));
 
         _passwordInput = _windowEle.Q<TextField>("PasswordInputField");
         _passwordInput.RegisterCallback<FocusEvent>((evt) => OnInputFocus(evt, _passwordInput));
         _passwordInput.RegisterCallback<BlurEvent>((evt) => OnInputBlur(evt, _passwordInput));
         _passwordInput.maxLength = 16;
+
+        _passwordInput.AddManipulator(new BlinkingCursorManipulator(_passwordInput));
 
         root.Add(_windowEle);
 
@@ -98,7 +98,6 @@ public class LoginWindow : MonoBehaviour
     }
 
     private void LoginButtonPressed() {
-        Debug.Log("Loginbuttonpressed");
         DefaultClient.Instance.Connect(StringUtils.GenerateRandomString());
     }
 

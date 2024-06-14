@@ -38,6 +38,7 @@ public class AsynchronousClient {
             return true;
         } else {
             Debug.Log("Connection failed.");
+            EventProcessor.Instance.QueueEvent(() => DefaultClient.Instance.OnConnectionFailed());
             _client.Close();
             return false;
         }

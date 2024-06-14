@@ -49,14 +49,29 @@ public class MenuWindow : MonoBehaviour {
         MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(_windowEle);
         _windowEle.AddManipulator(mouseOverDetection);
 
-        RegisterButtonCallBack("CharacterButton");
-        RegisterButtonCallBack("InventoryButton");
-        RegisterButtonCallBack("ActionButton");
-        RegisterButtonCallBack("SkillButton");
-        RegisterButtonCallBack("QuestButton");
-        RegisterButtonCallBack("ClanButton");
-        RegisterButtonCallBack("MapButton");
-        RegisterButtonCallBack("SystemMenuButton");
+        var charBtn = _windowEle.Q<Button>("CharacterButton");
+        charBtn.AddManipulator(new ButtonClickSoundManipulator(charBtn));
+
+        var inventoryBtn = _windowEle.Q<Button>("InventoryButton");
+        inventoryBtn.AddManipulator(new ButtonClickSoundManipulator(inventoryBtn));
+
+        var actionBtn = _windowEle.Q<Button>("ActionButton");
+        actionBtn.AddManipulator(new ButtonClickSoundManipulator(actionBtn));
+
+        var skillBtn = _windowEle.Q<Button>("SkillButton");
+        skillBtn.AddManipulator(new ButtonClickSoundManipulator(skillBtn));
+
+        var questBtn = _windowEle.Q<Button>("QuestButton");
+        questBtn.AddManipulator(new ButtonClickSoundManipulator(questBtn));
+
+        var clanBtn = _windowEle.Q<Button>("ClanButton");
+        clanBtn.AddManipulator(new ButtonClickSoundManipulator(clanBtn));
+
+        var mapBtn = _windowEle.Q<Button>("MapButton");
+        mapBtn.AddManipulator(new ButtonClickSoundManipulator(mapBtn));
+
+        var sysBtn = _windowEle.Q<Button>("SystemMenuButton");
+        sysBtn.AddManipulator(new ButtonClickSoundManipulator(sysBtn));
 
         root.Add(_windowEle);
 
@@ -65,18 +80,5 @@ public class MenuWindow : MonoBehaviour {
         var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
         DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle);
         dragAreaEle.AddManipulator(drag);
-    }
-
-    private void RegisterButtonCallBack(string buttonId) {
-        var btn = _windowEle.Q<Button>(buttonId);
-        if (btn == null) {
-            Debug.LogError(buttonId + " can't be found.");
-            return;
-        }
-
-        btn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-            //TODO: open window
-        }, TrickleDown.TrickleDown);
     }
 }
