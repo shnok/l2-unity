@@ -28,6 +28,7 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
     private VisualElement buttonSlider;
     private ShortCutReplacePanel replacePanel;
     private bool isVertical;
+    private ClickSliderShortCutManipulator slider;
 
 
 
@@ -133,6 +134,11 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
         drag.setChildren(children);
     }
 
+    public DragManipulatorsChildren GetDrag()
+    {
+        return drag;
+    }
+
     public VisualElement GetShortCutPanelElements()
     {
         return shortCutPanelElements;
@@ -150,7 +156,7 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
         statusWindowDragArea.AddManipulator(drag);
 
 
-        rootGroupBox = shortCutPanelElements.Q<VisualElement>(null, "short-cut");
+        rootGroupBox = shortCutPanelElements.Q(className:"short-cut");
 
         var imageIndex = shortCutPanelElements.Q<VisualElement>(null, "ImageIndex");
         
@@ -168,7 +174,7 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
 
 
 
-        ClickSliderShortCutManipulator slider = new ClickSliderShortCutManipulator(ShortCutPanelMinimal.Instance, drag);
+        slider = new ClickSliderShortCutManipulator(ShortCutPanelMinimal.Instance, drag , isVertical);
         buttonSlider.AddManipulator(slider);
 
 
@@ -181,14 +187,19 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
         shortCutButton.RegisterButtonCallBackNext(imageIndex , "button_next");
         shortCutButton.RegisterButtonCallBackPreview(imageIndex , "button_preview");
         shortCutButton.RegisterButtonCallBackRotate(rootGroupBox , "visualRotate");
-
-
         root.Add(rootGroupBox);
-
-
-
         yield return new WaitForEndOfFrame();
 
+    }
+
+    public ClickSliderShortCutManipulator GetActiveManipulatorSlider()
+    {
+        return slider;
+    }
+
+    public VisualElement GetSliderVisualElement()
+    {
+        return buttonSlider;
     }
 
     public void ReplaceLeftSliderToRightSlider()

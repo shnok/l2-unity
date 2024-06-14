@@ -89,8 +89,8 @@ public class ShortCutButton : AbstracetShortCutButton
             position.Start();
 
             ShortCutHorizontalPositionMinimal positionChildren = new ShortCutHorizontalPositionMinimal(ShortCutPanelMinimal.Instance.GetArrayPanels() , shortCutPanel , sizeCell);
-            positionChildren.Start();
-            Debug.Log("Rotate Event ");
+            positionChildren.Start(rootGroupBox);
+
 
         }, TrickleDown.TrickleDown);
     }

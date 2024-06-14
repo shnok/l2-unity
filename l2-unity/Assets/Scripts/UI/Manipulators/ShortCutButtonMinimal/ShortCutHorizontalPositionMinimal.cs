@@ -16,15 +16,17 @@ public class ShortCutHorizontalPositionMinimal
         this.shortCutPanel  = shortcut;
     }
 
-    public void Start()
+    public void Start(VisualElement rootGroupBox)
     {
         if (shortCutPanel.IsVertical())
         {
             for(int i =0; i < arrayPanels.Length; i++)
             {
                 ChangePositionHorizontalRootGroupBox(arrayPanels[i]);
+                RotateCellHorizontal(arrayPanels[i]);
             }
             shortCutPanel.SetPositionVerical(false);
+            test(rootGroupBox);
         }
         else
         {
@@ -37,12 +39,17 @@ public class ShortCutHorizontalPositionMinimal
 
     }
 
+    private void test(VisualElement rootGroupBox)
+    {
+        var buttonSliderHorizontal = rootGroupBox.Q<VisualElement>(null, "slide-hor-arrow");
+        ClickSliderShortCutManipulator slider_horizontal = new ClickSliderShortCutManipulator(ShortCutPanelMinimal.Instance, shortCutPanel.GetDrag(), shortCutPanel.IsVertical());
+        buttonSliderHorizontal.AddManipulator(slider_horizontal);
+    }
     private void ChangePositionHorizontalRootGroupBox(VisualElement rootPanel)
     {
         if (rootPanel != null)
         {
             rootPanel.transform.rotation = Quaternion.Euler(0, 0, -90);
-            rootPanel.transform.position = new Vector2(-23, 55);
         }
        
     }
@@ -53,5 +60,14 @@ public class ShortCutHorizontalPositionMinimal
         {
             rootPanel.transform.rotation = Quaternion.Euler(0, 0, 0);
         } 
+    }
+
+    private void RotateCellHorizontal(VisualElement rootGroupBox)
+    {
+        for (int cell = 0; cell <= sizeCell; cell++)
+        {
+            var row = rootGroupBox.Q(className: "row" + cell);
+            row.transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
     }
 }

@@ -11,10 +11,12 @@ public class ClickSliderShortCutManipulator : PointerManipulator
     private ShortCutPanelMinimal shortcutminimal;
     private int numberClick = 0;
     private DragManipulatorsChildren drag;
-    public ClickSliderShortCutManipulator(ShortCutPanelMinimal shortcutminimal , DragManipulatorsChildren drag)
+    private bool isVertical;
+    public ClickSliderShortCutManipulator(ShortCutPanelMinimal shortcutminimal , DragManipulatorsChildren drag , bool isVertical)
     {
         this.shortcutminimal = shortcutminimal;
         this.drag = drag;
+        this.isVertical = isVertical;
     }
     protected override void RegisterCallbacksOnTarget()
     {
@@ -50,10 +52,19 @@ public class ClickSliderShortCutManipulator : PointerManipulator
 
         if (numberClick <= shortcutminimal.Count())
         {
-            float sdvig = 23;
-            var newPosition = new Vector2(rootVector2.x - sdvig, rootVector2.y);
-            shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2);
-
+            if (isVertical)
+            {
+                float sdvig = 23;
+                var newPosition = new Vector2(rootVector2.x - sdvig, rootVector2.y);
+                shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2 , isVertical);
+            }
+            else
+            {
+                float sdvig = 23;
+                var newPosition = new Vector2(rootVector2.x, rootVector2.y - sdvig);
+                shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2 , isVertical);
+            }
+      
         }
     
 

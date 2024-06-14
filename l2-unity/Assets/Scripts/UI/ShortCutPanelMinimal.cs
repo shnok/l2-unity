@@ -276,27 +276,48 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
         }
 
     }
-    public void NewPosition(Vector2 vector, int activePanels , Vector2 originalRootVector )
+    public void NewPosition(Vector2 vector, int activePanels , Vector2 originalRootVector , bool isVertical)
     {
         VisualElement active = GetActivePanel(activePanels);
 
 
         if (active != null)
         {
-            VisualElement activePanel = active;
-            Vector2 newVector = GetVector(activePanels, vector);
+            if (isVertical)
+            {
+                VisualElement activePanel = active;
+                Vector2 newVector = GetVector(activePanels, vector, isVertical);
 
-            ResetDiff(activePanel);
-            SyncRootPosition(activePanel, originalRootVector);
+                ResetDiff(activePanel);
+                SyncRootPosition(activePanel, originalRootVector);
 
-            HideElement(false, arrayPanels, activePanels);
-            AddAnim(newVector, active);
+                HideElement(false, arrayPanels, activePanels);
+                AddAnim(newVector, active);
+            }
+            else
+            {
+                var horizontalOriginalVector = new Vector2(originalRootVector.x + 235, originalRootVector.y - 235);
+                VisualElement activePanel = active;
+                Vector2 vectorHorizontal = new Vector2(vector.x + 235, vector.y - 235);
+                Vector2 newVector = GetVectorHorizontal(activePanels, vectorHorizontal);
+                ResetDiff(activePanel);
+                SyncRootHorizontalPosition(active, horizontalOriginalVector);
+                AddAnim(newVector, activePanel);
+
+            }
+       
         }
     }
 
     public void SyncRootPosition(VisualElement activePanel , Vector2 originalRootVector)
     {
         activePanel.transform.position = originalRootVector;
+    }
+
+    public void SyncRootHorizontalPosition(VisualElement activePanel, Vector2 originalRootVector)
+    {
+        activePanel.transform.position = originalRootVector;
+        activePanel.style.display = DisplayStyle.Flex;
     }
     private void ResetDiff(VisualElement activePanel)
     {
@@ -306,17 +327,29 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
 
     // 0 - panels sync to shortcutpanel
     // else - panels sync to last shortcutminpanels
-    private Vector2 GetVector(int activePanels , Vector2 vector)
+    private Vector2 GetVector(int activePanels , Vector2 vector , bool isVertical)
     {
-        if(activePanels == 0)
-        {
-            return new Vector2(vector.x - 30, vector.y);
-        }
-        else
-        {
-            return new Vector2(vector.x - 22, vector.y);
-        }
+            if (activePanels == 0)
+            {
+                return new Vector2(vector.x - 30, vector.y);
+            }
+            else
+            {
+                return new Vector2(vector.x - 22, vector.y);
+            }
+    }
 
+    private Vector2 GetVectorHorizontal(int activePanels, Vector2 vector)
+    {
+            if (activePanels == 0)
+            {
+                return new Vector2(vector.x - 8, vector.y - 23);
+            }
+            else
+            {
+                return new Vector2(vector.x - 8, vector.y - 14);
+            }
+        
     }
 
     public VisualElement GetLastElement(int index)
