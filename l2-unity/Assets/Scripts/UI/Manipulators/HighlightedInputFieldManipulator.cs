@@ -13,8 +13,6 @@ public class HighlightedInputFieldManipulator : PointerManipulator {
         this.target = target;
         _animationFrameCount = frames;
         _backgroundElement = backgroundElement;
-
-        Debug.Log(backgroundElement);
     }
 
     protected override void RegisterCallbacksOnTarget() {

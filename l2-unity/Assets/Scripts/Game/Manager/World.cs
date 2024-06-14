@@ -39,7 +39,7 @@ public class World : MonoBehaviour {
     private void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if (_instance != this) {
             Destroy(this);
         }
 

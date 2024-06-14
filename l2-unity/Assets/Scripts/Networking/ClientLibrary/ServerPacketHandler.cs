@@ -157,7 +157,10 @@ public class ServerPacketHandler
 
     private void OnPlayerInfoReceive(byte[] data) {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.SpawnPlayer(packet.Identity, packet.Status, packet.Stats, packet.Appearance));
+        _eventProcessor.QueueEvent(() => {
+            World.Instance.SpawnPlayer(packet.Identity, packet.Status, packet.Stats, packet.Appearance);
+            GameManager.Instance.OnPlayerInfoReceived();
+        });
     }
 
     private void OnUserInfoReceive(byte[] data) {

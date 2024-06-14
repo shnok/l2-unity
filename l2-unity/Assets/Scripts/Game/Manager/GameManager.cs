@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if (_instance != this) {
             Destroy(this);
         }
 
@@ -34,5 +34,22 @@ public class GameManager : MonoBehaviour
 
     public void LogOut() {
         DefaultClient.Instance.Disconnect();
+    }
+
+    public void OnWorldSceneLoaded() {
+        ClientPacketHandler.Instance.SendLoadWorld();
+    }
+
+    public void OnPlayerInfoReceived() {
+        L2GameUI.Instance.StopLoading();
+    }
+
+    public void OnConnectionAllowed() {
+        SceneLoader.Instance.LoadGame();
+    }
+
+    public void OnDisconnect() {
+        MusicManager.Instance.Clear();
+        SceneLoader.Instance.LoadMenu();
     }
 }

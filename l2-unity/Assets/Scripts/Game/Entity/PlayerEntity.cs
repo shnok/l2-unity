@@ -8,6 +8,14 @@ public class PlayerEntity : Entity {
     private static PlayerEntity _instance;
     public static PlayerEntity Instance { get => _instance; }
 
+    private void Awake() {
+        if (_instance == null) {
+            _instance = this;
+        } else {
+            Destroy(this);
+        }
+    }
+
     public override void Initialize() {
         base.Initialize();
 

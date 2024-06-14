@@ -72,6 +72,7 @@ public class MenuWindow : MonoBehaviour {
 
         var sysBtn = _windowEle.Q<Button>("SystemMenuButton");
         sysBtn.AddManipulator(new ButtonClickSoundManipulator(sysBtn));
+        sysBtn.RegisterCallback<ClickEvent>((evt) => DefaultClient.Instance.Disconnect());
 
         root.Add(_windowEle);
 

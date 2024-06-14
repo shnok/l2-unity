@@ -26,15 +26,10 @@ public class DefaultClient : MonoBehaviour {
     private void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if (_instance != this) {
             Destroy(this);
         }
     }
-
-    void OnDestroy() {
-        _instance = null;
-    }
-
 
     private void Start() {
         if(World.Instance != null && World.Instance.OfflineMode) {
@@ -67,11 +62,7 @@ public class DefaultClient : MonoBehaviour {
 
     public void OnConnectionAllowed() {
         Debug.Log("Connected");
-        SceneLoader.Instance.LoadGame();
-    }
-
-    public void OnWorldSceneLoaded() {
-        ClientPacketHandler.Instance.SendLoadWorld();
+        GameManager.Instance.OnConnectionAllowed();
     }
 
     public int GetPing() {
@@ -87,7 +78,7 @@ public class DefaultClient : MonoBehaviour {
     public void OnDisconnect() {
         Debug.Log("Disconnected");
         _client = null;
-        SceneLoader.Instance.LoadMenu();
+        GameManager.Instance.OnDisconnect();
     }
 
     void OnApplicationQuit() {

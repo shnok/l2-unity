@@ -36,10 +36,6 @@ public class AudioManager : MonoBehaviour
         SetBuses();
     }
 
-    void OnDestroy() {
-        _instance = null;
-    }
-
     private void SetBuses() {
         _masterBus = RuntimeManager.GetBus("bus:/");
         _musicBus = RuntimeManager.GetBus("bus:/Music");

@@ -19,7 +19,7 @@ public class SceneLoader : MonoBehaviour
     private void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if (_instance != this) {
             Destroy(this);
         }
     }
@@ -33,6 +33,7 @@ public class SceneLoader : MonoBehaviour
     }
 
     public void LoadGame() {
+        _totalLoadedScenes = 0;
         SwitchScene(_gameScene, ((AsyncOperation operation) => {
             for (int i = 0; i < _mapList.Count; i++) {
                 LoadScene(_mapList[i], true);
@@ -96,12 +97,12 @@ public class SceneLoader : MonoBehaviour
     }
 
     IEnumerator StartGame() {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(.3f); //TODO: wait for everything to be loaded instead of waitforseconds
 
         Debug.LogWarning("All scenes loaded, sending LoadWorld packet.");
 
         if (World.Instance != null && !World.Instance.OfflineMode) {
-            DefaultClient.Instance.OnWorldSceneLoaded();
+            GameManager.Instance.OnWorldSceneLoaded();
         } else {
             Debug.Log("Spawn player");
             World.Instance.SpawnPlayerOfflineMode();
