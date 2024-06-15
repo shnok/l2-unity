@@ -46,7 +46,7 @@ public class TerrainConverter : MonoBehaviour {
             return;
         }
 
-        L2TerrainInfo terrainInfo = L2TerrainInfoParser.GetL2TerrainInfo(mapToConvert);
+        L2TerrainInfo terrainInfo = L2TerrainInfoParser.ParseTerrainInfo0(mapToConvert);
 
         if(convertTerrain) {
             Material terrainMat = GenerateMaterial(saveFolder, terrainInfo);

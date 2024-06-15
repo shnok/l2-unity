@@ -14,12 +14,16 @@ public class StaticMeshUtils {
     }
 
     public static string GetMeshPath(string value) {
-        string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);
+        string[] folderTexture = L2MetaDataUtils.GetFolderAndFileFromInfo(value);
         return Path.Combine("Assets/Resources/Data/StaticMeshes", folderTexture[0], folderTexture[1] + ".fbx");
     }
 
     public static string GetJsonPath(string mapName) {
-        return Path.Combine("Assets/Resources/Data/Maps/Meta/", mapName, "StaticMeshActor.json");
+        return Path.Combine("Assets/Resources/Data/Maps/", mapName, "Meta", "StaticMeshActor.json");
+    }
+
+    public static string GetT3DPath(string mapName) {
+        return Path.Combine("Assets/Resources/Data/Maps/", mapName, "Meta", mapName + ".t3d");
     }
 }
 #endif

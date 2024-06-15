@@ -17,13 +17,8 @@ public class MapLoader : MonoBehaviour {
     public float uvTileSize = 5f;
     public float mapScale = 1f;
 
-    //public bool generateMap = false;
 
-    //public static List<L2TerrainInfo> terrainInfos;
-    //public List<L2StaticMeshActor> meshActors;
-    //public static List<Terrain> terrains;
-    //public static Dictionary<string, Terrain> terrainsDict;
-    //public List<MapGenerationData> maps;
+
 
     //private void InitializeVariables() {
     //    UV_TEXTURE_SIZE = uvTextureSize;
@@ -33,108 +28,120 @@ public class MapLoader : MonoBehaviour {
     //    MAP_SCALE = mapScale;
     //}
 
-    //void Start() {
-    //    InitializeVariables();
+    public bool generateMap = true;
+    public static List<L2TerrainInfo> terrainInfos;
+    public List<L2StaticMeshActor> meshActors;
+    public static List<Terrain> terrains;
+    public static Dictionary<string, Terrain> terrainsDict;
+    public List<MapGenerationData> maps;
 
-    //    if (generateMap) {
-    //        if (maps == null) {
-    //            maps = new List<MapGenerationData>();
-    //        }
+    void Start() {
+        // InitializeVariables();
 
-    //        GenerateMap(maps);
-    //    }
-    //}
+        if (generateMap) {
+            if (maps == null) {
+                maps = new List<MapGenerationData>();
+            }
 
-    //[MenuItem("Shnok/[Terrain] Generate")]
-    //static void SetupMaterials() {
-    //    List<MapGenerationData> mapsToGenerate = new List<MapGenerationData>();
-    //    MapGenerationData data = new MapGenerationData();
-    //    data.mapName = "17_25";
-    //    mapsToGenerate.Add(data);
-    //    data = new MapGenerationData();
-    //    data.mapName = "16_25";
-    //    mapsToGenerate.Add(data);
-    //    data = new MapGenerationData();
-    //    data.mapName = "17_24";
-    //    mapsToGenerate.Add(data);
-    //    data = new MapGenerationData();
-    //    data.mapName = "16_24";
-    //    mapsToGenerate.Add(data);
-    //    GenerateMap(mapsToGenerate);
-    //}
+            GenerateMap(maps);
+        }
+    }
 
-    //private static void GenerateMap(List<MapGenerationData> mapsToGenerate) {
-    //    L2StaticMeshActorImporter meshActorParser = new L2StaticMeshActorImporter();
-    //    L2TerrainGenerator generator = new L2TerrainGenerator();
-    //    terrainInfos = new List<L2TerrainInfo>();
-    //    terrains = new List<Terrain>();
-    //    terrainsDict = new Dictionary<string, Terrain>();
+    [MenuItem("Shnok/[Terrain] Generate")]
+    static void SetupMaterials() {
+        List<MapGenerationData> mapsToGenerate = new List<MapGenerationData>();
+        MapGenerationData data = new MapGenerationData();
+        //data.mapName = "17_25";
+        //mapsToGenerate.Add(data);
+        //data = new MapGenerationData();
+        //data.mapName = "16_25";
+        //mapsToGenerate.Add(data);
+        //data = new MapGenerationData();
+        //data.mapName = "17_24";
+        //mapsToGenerate.Add(data);
+        //data = new MapGenerationData();
+        //data.mapName = "16_24";
+        //mapsToGenerate.Add(data);
+        //GenerateMap(mapsToGenerate);
 
-    //    for (int i = 0; i < mapsToGenerate.Count; i++) {
+        data.mapName = "l2_lobby";
+        data.generateDecoLayers = false;
+        data.generateUVLayers = false;
+        data.generateHeightmaps = false;
+        data.generateStaticMeshes = true;
+        data.generationMode = GenerationMode.Generate;
+        mapsToGenerate.Add(data);
 
-    //        if (!mapsToGenerate[i].enabled) {
-    //            continue;
-    //        }
+        GenerateMap(mapsToGenerate);
 
-    //        if (mapsToGenerate[i].generationMode == GenerationMode.Generate) {
-    //            ClearGeneratedAssets(mapsToGenerate[i].mapName);
+    }
 
-    //            L2TerrainInfo terrainInfo = L2TerrainInfoParser.GetL2TerrainInfo(mapsToGenerate[i].mapName);
-    //            terrainInfos.Add(terrainInfo);
+    private static void GenerateMap(List<MapGenerationData> mapsToGenerate) {
+        L2TerrainGenerator generator = new L2TerrainGenerator();
+        terrainInfos = new List<L2TerrainInfo>();
+        terrains = new List<Terrain>();
+        terrainsDict = new Dictionary<string, Terrain>();
 
-    //            L2StaticMeshActor staticMeshActor = null;
-    //            if (mapsToGenerate[i].generateStaticMeshes) {
-    //                staticMeshActor = meshActorParser.GetL2StaticMeshActor(mapsToGenerate[i].mapName);
-    //            }
+        for (int i = 0; i < mapsToGenerate.Count; i++) {
 
-    //            Terrain terrain = generator.InstantiateTerrain(mapsToGenerate[i], terrainInfo, staticMeshActor);
+            if (!mapsToGenerate[i].enabled) {
+                continue;
+            }
 
-    //            terrains.Add(terrain);
+            if (mapsToGenerate[i].generationMode == GenerationMode.Generate) {
+                ClearGeneratedAssets(mapsToGenerate[i].mapName);
 
-    //            terrainsDict.Add(mapsToGenerate[i].mapName, terrain);
-    //        } else {
-    //            //TODO: UPDATE TO SCENE LOAD
-    //            string mapFolder = Path.Combine("Assets", "Data", "Maps", mapsToGenerate[i].mapName);
-    //            GameObject map = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, mapsToGenerate[i].mapName + ".prefab"));
-    //            if (map != null) {
-    //                map = GameObject.Instantiate(map);
-    //            } else {
-    //                Debug.LogWarning("Could not find map " + mapsToGenerate[i].mapName + " prefab.");
-    //            }
-    //            if (mapsToGenerate[i].generateStaticMeshes) {
-    //                GameObject staticmeshes = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, "StaticMeshes.prefab"));
-    //                if (staticmeshes != null) {
-    //                    staticmeshes = GameObject.Instantiate(staticmeshes);
-    //                    staticmeshes.transform.parent = map.transform;
-    //                    staticmeshes.transform.position = Vector3.zero;
-    //                } else {
-    //                    Debug.LogWarning("Could not find staticmeshes for map " + mapsToGenerate[i].mapName + ".");
-    //                }
-    //            }
-    //            if (mapsToGenerate[i].generateBrushes) {
-    //                GameObject brushes = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, "Brushes.prefab"));
-    //                if (brushes != null) {
-    //                    brushes = GameObject.Instantiate(brushes);
-    //                    brushes.transform.parent = map.transform;
-    //                    brushes.transform.position = Vector3.zero;
-    //                } else {
-    //                    Debug.LogWarning("Could not find brushes for map " + mapsToGenerate[i].mapName + ".");
-    //                }
-    //            }
-    //        }
-    //    }
+                L2TerrainInfo terrainInfo = L2T3DInfoParser.LoadMetadata(mapsToGenerate[i].mapName);
+                terrainInfos.Add(terrainInfo);
 
-    //    generator.StitchTerrainSeams(terrainsDict);
-    //    generator.StitchTerrainSeams(terrainsDict);
-    //}
+                Terrain terrain = generator.InstantiateTerrain(mapsToGenerate[i], terrainInfo);
 
-    //public static void ClearGeneratedAssets(string mapName) {
-    //    string folderPath = Path.Combine("Assets", "Data", "Maps", mapName, "TerrainData");
-    //    if (AssetDatabase.IsValidFolder(folderPath)) {
-    //        AssetDatabase.DeleteAsset(folderPath);
-    //        AssetDatabase.Refresh();
-    //    } else {
-    //        Debug.LogWarning("Folder does not exist: " + folderPath);
-    //    }
-    //}
+                terrains.Add(terrain);
+
+                terrainsDict.Add(mapsToGenerate[i].mapName, terrain);
+            } else {
+                //TODO: UPDATE TO SCENE LOAD
+                //string mapFolder = Path.Combine("Assets", "Data", "Maps", mapsToGenerate[i].mapName);
+                //GameObject map = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, mapsToGenerate[i].mapName + ".prefab"));
+                //if (map != null) {
+                //    map = GameObject.Instantiate(map);
+                //} else {
+                //    Debug.LogWarning("Could not find map " + mapsToGenerate[i].mapName + " prefab.");
+                //}
+                //if (mapsToGenerate[i].generateStaticMeshes) {
+                //    GameObject staticmeshes = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, "StaticMeshes.prefab"));
+                //    if (staticmeshes != null) {
+                //        staticmeshes = GameObject.Instantiate(staticmeshes);
+                //        staticmeshes.transform.parent = map.transform;
+                //        staticmeshes.transform.position = Vector3.zero;
+                //    } else {
+                //        Debug.LogWarning("Could not find staticmeshes for map " + mapsToGenerate[i].mapName + ".");
+                //    }
+                //}
+                //if (mapsToGenerate[i].generateBrushes) {
+                //    GameObject brushes = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, "Brushes.prefab"));
+                //    if (brushes != null) {
+                //        brushes = GameObject.Instantiate(brushes);
+                //        brushes.transform.parent = map.transform;
+                //        brushes.transform.position = Vector3.zero;
+                //    } else {
+                //        Debug.LogWarning("Could not find brushes for map " + mapsToGenerate[i].mapName + ".");
+                //    }
+                //}
+            }
+        }
+
+       // generator.StitchTerrainSeams(terrainsDict);
+     //   generator.StitchTerrainSeams(terrainsDict);
+    }
+
+    public static void ClearGeneratedAssets(string mapName) {
+        string folderPath = Path.Combine("Assets", "Resources", "Data", "Maps", mapName, "TerrainData");
+        if (AssetDatabase.IsValidFolder(folderPath)) {
+            AssetDatabase.DeleteAsset(folderPath);
+            AssetDatabase.Refresh();
+        } else {
+            Debug.LogWarning("Folder does not exist: " + folderPath);
+        }
+    }
 }

@@ -12,8 +12,8 @@ public class TextureUtils {
         Color[] originalPixels = originalTexture.GetPixels();
         Color[] flippedPixels = new Color[originalPixels.Length];
 
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 int sourceIndex = x + (height - y - 1) * width;
                 int targetIndex = x + y * width;
                 flippedPixels[targetIndex] = originalPixels[sourceIndex];
@@ -33,8 +33,8 @@ public class TextureUtils {
         Color[] pixels = original.GetPixels();
         Color[] rotatedPixels = new Color[width * height];
 
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 // Calculate the new coordinates for the rotated pixel
                 int newX = height - y - 1;
                 int newY = x;
@@ -61,9 +61,12 @@ public class TextureUtils {
 
 		Texture2D texture = new Texture2D(size, size);
 		texture.LoadImage(texBytes);*/
-        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(GetTexturePath(info));
+        string path = GetTexturePath(info);
+        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
 
-        Debug.Log(texture);
+        if (texture == null) {
+            Debug.LogWarning("Can't load textue at path " + path);
+        }
 
         return texture;
     }
@@ -76,28 +79,28 @@ public class TextureUtils {
 
 
     public static string GetTexturePath(string value) {
-        if(string.IsNullOrEmpty(value)) {
+        if (string.IsNullOrEmpty(value)) {
             return null;
         }
-        string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);
-        return Path.Combine("Assets/Data/Textures", folderTexture[0], folderTexture[1] + ".png");
+        string[] folderTexture = L2MetaDataUtils.GetFolderAndFileFromInfo(value);
+        return Path.Combine("Assets/Resources/Data/Textures", folderTexture[0], folderTexture[1] + ".png");
     }
 
     public static string GetMaterialPath(string value) {
-        if(string.IsNullOrEmpty(value)) {
+        if (string.IsNullOrEmpty(value)) {
             return null;
         }
         Debug.Log(value);
-        string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);
-        return Path.Combine("Assets/Data/Textures", folderTexture[0], "Materials", folderTexture[1] + ".mat");
+        string[] folderTexture = L2MetaDataUtils.GetFolderAndFileFromInfo(value);
+        return Path.Combine("Assets/Resources/Data/Textures", folderTexture[0], "Materials", folderTexture[1] + ".mat");
     }
 
     public static string GetHeightMapPath(string value) {
-        if(string.IsNullOrEmpty(value)) {
+        if (string.IsNullOrEmpty(value)) {
             return null;
         }
-        string[] folderTexture = L2TerrainInfoParser.GetFolderAndFileFromInfo(value);
-        return Path.Combine("Assets/Data/Textures", folderTexture[0], "Height." + folderTexture[1] + ".bmp");
+        string[] folderTexture = L2MetaDataUtils.GetFolderAndFileFromInfo(value);
+        return Path.Combine("Assets/Resources/Data/Textures", folderTexture[0], "Height." + folderTexture[1] + ".bmp");
     }
 }
 #endif
