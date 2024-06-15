@@ -17,6 +17,14 @@ public class L2TerrainGenerator {
             AssetDatabase.Refresh();
         }
 
+        if (generationData.generateStaticMeshes) {
+            GenerateStaticMeshes(terrainInfo);
+        }
+
+        if (!generationData.generateDecoLayers && !generationData.generateUVLayers && !generationData.generateHeightmaps) {
+            return null;
+        }
+
         // Create the terrain object
         GameObject terrainObj = Terrain.CreateTerrainGameObject(new TerrainData());
         terrainObj.name = terrainContainerName + terrainInfo.mapName;
@@ -81,10 +89,6 @@ public class L2TerrainGenerator {
 
         terrain.transform.position = unityPos;
         terrain.transform.name = terrainInfo.mapName;
-
-        if (generationData.generateStaticMeshes) {
-            GenerateStaticMeshes(terrain.transform, terrainInfo);
-        }
 
         return terrain;
     }
@@ -253,12 +257,11 @@ public class L2TerrainGenerator {
         AssetDatabase.Refresh();
     }
 
-    public void GenerateStaticMeshes(Transform terrain, L2TerrainInfo terrainInfo) {
+    public void GenerateStaticMeshes(L2TerrainInfo terrainInfo) {
         //TODO: Check at the bas position
         // Vector3 basePosition = new Vector3(staticMeshActor.y, staticMeshActor.z, staticMeshActor.x) * ueToUnityUnitScale * MapLoader.MAP_SCALE;
         Vector3 basePosition = Vector3.zero;
         GameObject staticMeshesGo = new GameObject("StaticMeshes");
-        staticMeshesGo.transform.parent = terrain;
 
         foreach (var staticMesh in terrainInfo.staticMeshes) {
             if (staticMesh.staticMesh == null || staticMesh.staticMesh.Length == 0) continue;

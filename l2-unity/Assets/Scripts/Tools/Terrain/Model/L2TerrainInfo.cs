@@ -12,5 +12,6 @@ public class L2TerrainInfo {
     public List<L2TerrainLayer> uvLayers { get; set; }
     public List<L2DecoLayer> decoLayers { get; set; }
     public List<L2StaticMesh> staticMeshes { get; set; }
+    public List<Brush> brushes { get; set; }
 }
 #endif
