@@ -90,7 +90,7 @@ public class TextureUtils {
         if (string.IsNullOrEmpty(value)) {
             return null;
         }
-        Debug.Log(value);
+
         string[] folderTexture = L2MetaDataUtils.GetFolderAndFileFromInfo(value);
         return Path.Combine("Assets/Resources/Data/Textures", folderTexture[0], "Materials", folderTexture[1] + ".mat");
     }

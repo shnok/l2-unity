@@ -58,6 +58,17 @@ public class L2MetaDataUtils {
         return new Vector3(x, y, z);
     }
 
+    public static Vector3 ParseVector3Poly(string line) {
+        string[] valueParts = line.Split(',');
+
+        float x = 0, y = 0, z = 0;
+        x = float.Parse(valueParts[0]);
+        y = float.Parse(valueParts[1]);
+        z = float.Parse(valueParts[2]);
+
+        return new Vector3(x, y, z);
+    }
+
     public static string[] ParsePolyFlags(int value) {
         if (value == 0) {
             return new string[] { "PF_Default" };
@@ -113,7 +124,7 @@ public class L2MetaDataUtils {
         }
 
         foreach (string flag in setFlags) {
-            Debug.Log(flag);
+           // Debug.Log(flag);
         }
 
         return setFlags.ToArray();

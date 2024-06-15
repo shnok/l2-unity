@@ -129,7 +129,7 @@ public class L2T3DInfoParser {
         Debug.Log($"Loaded {terrainInfo.decoLayers.Count} deco layers data.");
     }
 
-    public static void ParseBrushInfo(string t3dPath) {
+    public static List<Brush> ParseBrushInfo(string t3dPath) {
         if (terrainInfo == null) {
             terrainInfo = new L2TerrainInfo();
         }
@@ -146,6 +146,7 @@ public class L2T3DInfoParser {
                     brush.name = line.Replace("Begin Actor Class=Brush Name=", "");
                     brush.model.poly = new Poly();
                     brush.model.poly.name = "Poly";
+                    brush.polyFlags = L2MetaDataUtils.ParsePolyFlags(0);
 
                     List<PolyData> polydatas = new List<PolyData>();
                     Debug.Log("New Brush " + brush.name);
@@ -158,13 +159,14 @@ public class L2T3DInfoParser {
                             brush.csgOper = line.Replace("CsgOper=", "");
                         } else if (line.StartsWith("Location=")) {
                             brush.position = L2MetaDataUtils.ParseVector3(line);
+                        } else if (line.StartsWith("PrePivot=")) {
+                            brush.prePivot = L2MetaDataUtils.ParseVector3(line);
                         } else if (line.StartsWith("Begin Polygon")) {
                             PolyData polydata = new PolyData();
                             polydata.polyIndex = polyIndex++;
 
                             
                             string[] polyInfos = line.Replace("Begin Polygon", "").Trim().Split(" ");
-
 
                             foreach (var polyInfo in polyInfos) {
                                 if (polyInfo.Contains("Texture=")) {
@@ -179,23 +181,30 @@ public class L2T3DInfoParser {
                             List<Vector3> vertices = new List<Vector3>();
                             while ((line = reader.ReadLine()) != null && !line.Contains("End Polygon")) {
                                 line = line.Trim();
-                                if (line.StartsWith("Origin")) {
-                                    polydata.origin = L2MetaDataUtils.ParseVector3(line.Replace("Origin", "").Trim());
+                                if (line.Contains("Origin")) {
+                                    polydata.origin = L2MetaDataUtils.ParseVector3Poly(line.Replace("Origin", "").Trim());
                                 }
-                                if (line.StartsWith("TextureU")) {
-                                    polydata.origin = L2MetaDataUtils.ParseVector3(line.Replace("TextureU", "").Trim());
+                                if (line.Contains("TextureU")) {
+                                    polydata.origin = L2MetaDataUtils.ParseVector3Poly(line.Replace("TextureU", "").Trim());
                                 }
-                                if (line.StartsWith("TextureV")) {
-                                    polydata.origin = L2MetaDataUtils.ParseVector3(line.Replace("TextureV", "").Trim());
+                                if (line.Contains("TextureV")) {
+                                    polydata.origin = L2MetaDataUtils.ParseVector3Poly(line.Replace("TextureV", "").Trim());
                                 }
-                                if (line.StartsWith("Vertex")) {
-                                    vertices.Add(L2MetaDataUtils.ParseVector3(line.Replace("Vertex", "").Trim()));
+                                if (line.Contains("Normal")) {
+                                    polydata.origin = L2MetaDataUtils.ParseVector3Poly(line.Replace("Normal", "").Trim());
+                                }
+                                if (line.Contains("Vertex")) {
+                                    vertices.Add(L2MetaDataUtils.ParseVector3Poly(line.Replace("Vertex", "").Trim()));
                                 }
                             }
 
                             Debug.Log("Poly Verticle count " + vertices.Count);
 
                             polydata.vertices = vertices.ToArray();
+
+                            if (polydata.polyFlags == null || polydata.polyFlags.Length == 0) {
+                                polydata.polyFlags = L2MetaDataUtils.ParsePolyFlags(0);
+                            }
 
                             polydatas.Add(polydata);
 
@@ -204,6 +213,8 @@ public class L2T3DInfoParser {
                         }
                     }
 
+                    Debug.Log(brush);
+                    Debug.Log(brush.model.poly);
                     Debug.Log("Brush poly count " + brush.model.poly.polyCount);
                     terrainInfo.brushes.Add(brush);
                 }
@@ -211,6 +222,8 @@ public class L2T3DInfoParser {
         }
 
         Debug.Log($"Loaded {terrainInfo.brushes.Count} brushe(s).");
+
+        return terrainInfo.brushes;
     }
 }
 

@@ -16,7 +16,10 @@ public class L2BrushBuilder {
 
         if(!string.IsNullOrEmpty(fileToProcess)) {
             Debug.Log("Selected file: " + fileToProcess);
-            Build(fileToProcess);
+
+            Brush[] brushes = L2JSONBrushImporter.ParseBrushFile(fileToProcess);
+
+            Build(brushes);
         }
     }
 
@@ -30,14 +33,12 @@ public class L2BrushBuilder {
 
         if (!string.IsNullOrEmpty(fileToProcess)) {
             Debug.Log("Selected file: " + fileToProcess);
-            L2T3DInfoParser.ParseBrushInfo(fileToProcess);
+            Brush[] brushes = L2T3DInfoParser.ParseBrushInfo(fileToProcess).ToArray();
+            Build(brushes);
         }
     }
 
-    static void Build(string path) {
-        GameObject.DestroyImmediate(GameObject.Find("Brushes"));
-        Brush[] brushes = L2JSONBrushImporter.ParseBrushFile(path);
-
+    static void Build(Brush[] brushes) {
         GameObject brushContainer = new GameObject("Brushes");
 
         foreach(Brush b in brushes) {
@@ -45,12 +46,14 @@ public class L2BrushBuilder {
                 Debug.LogWarning(b.name + " position is null");
                 continue;
             }
-            List<string> polyFlags = new List<string>(b.polyFlags);
-            if(polyFlags.Contains("PF_Invisible")) {
-                continue;
-            }
-            if(polyFlags.Contains("PF_NotSolid")) {
-                continue;
+            if(b.polyFlags != null) {
+                List<string> polyFlags = new List<string>(b.polyFlags);
+                if (polyFlags.Contains("PF_Invisible")) {
+                    continue;
+                }
+                if (polyFlags.Contains("PF_NotSolid")) {
+                    continue;
+                }
             }
 
             GameObject brush = new GameObject(b.name);
@@ -75,9 +78,12 @@ public class L2BrushBuilder {
                 if(pPolyFlags.Contains("PF_Unlit") || pPolyFlags.Contains("PF_Invisible") || pPolyFlags.Contains("PF_NotSolid")) {
                     continue;
                 }
-                // Only draw bottom face
-                if(b.csgOper == "CSG_Subtract" && i < poly.polyData.Length - 1) {
-                    // continue;
+                
+                if(b.csgOper == "CSG_Subtract") {
+                    // Only draw bottom face
+                    // if (i != poly.polyData.Length - 1) {
+                    //continue;
+                    //}
                 }
 
                 //GameObject mesh = createMesh(b.csgOper, polyData);
