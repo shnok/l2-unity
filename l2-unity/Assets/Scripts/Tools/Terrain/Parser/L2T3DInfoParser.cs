@@ -73,6 +73,13 @@ public class L2T3DInfoParser {
                             mesh.y = pos.y;
                             mesh.z = pos.z;
                         }
+
+                        if (line.StartsWith("DrawScale=")) {
+                            string[] parts = line.Split("=");
+                            mesh.scaleX = float.Parse(parts[1]);
+                            mesh.scaleY = float.Parse(parts[1]);
+                            mesh.scaleZ = float.Parse(parts[1]);
+                        }
                     }
                     terrainInfo.staticMeshes.Add(mesh);
                 }
