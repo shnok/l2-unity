@@ -136,6 +136,9 @@ def processDirectory(folder_path, bootModelDel):
         output_path = os.path.splitext(model_file)[0] + ".fbx"
         output_path = output_path.replace("StaticMesh\\", "")
         
+        if os.path.exists(output_path):
+            continue
+        
         bpy.ops.export_scene.fbx(
             filepath=output_path,
             use_selection=False,

@@ -261,6 +261,7 @@ public class L2TerrainGenerator {
         staticMeshesGo.transform.parent = terrain;
 
         foreach (var staticMesh in terrainInfo.staticMeshes) {
+            if (staticMesh.staticMesh == null || staticMesh.staticMesh.Length == 0) continue;
             string meshPath = StaticMeshUtils.GetMeshPath(staticMesh.staticMesh);
             GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(meshPath);
             if (go != null) {
@@ -281,7 +282,7 @@ public class L2TerrainGenerator {
                 instantiated.name = staticMesh.staticMesh;
                 instantiated.transform.localScale = Vector3.Scale(instantiated.transform.localScale, meshDataScale) *
                     meshDataScaleMultiplier *
-                    ueToUnityUnitScale *
+                    //ueToUnityUnitScale *
                     MapLoader.MAP_SCALE;
 
                 instantiated.transform.parent = staticMeshesGo.transform;

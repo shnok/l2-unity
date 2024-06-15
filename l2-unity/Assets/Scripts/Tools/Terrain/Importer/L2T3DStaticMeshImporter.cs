@@ -69,11 +69,12 @@ public class L2T3DStaticMeshImporter : AssetImporter {
 
         //files.ForEach((f) => Debug.Log(f)); 
 
+        Debug.Log($"{staticMeshCount} staticmesh(es) FBX will be imported.");
+        Debug.Log($"{missingMeshCount} missing staticmesh(es) FBX.");
+        Debug.Log($"{textureInfoCount} texture(s) will be imported.");
+        Debug.Log($"{missingTextureInfoCount} missing staticmesh(es) textureinfo.");
+
         Debug.LogWarning($"{files.Count} distinct files(s) will be imported.");
-        Debug.LogWarning($"{staticMeshCount} staticmesh(es) FBX will be imported.");
-        Debug.LogWarning($"{missingMeshCount} missing staticmesh(es) FBX.");
-        Debug.LogWarning($"{textureInfoCount} texture(s) will be imported.");
-        Debug.LogWarning($"{missingTextureInfoCount} missing staticmesh(es) textureinfo.");
 
         return files;
     }
@@ -177,7 +178,7 @@ public class L2T3DStaticMeshImporter : AssetImporter {
                             string[] texRefEntries = texRef.Split('.');
                             string textureToImport = texRefEntries[texRefEntries.Length - 1];
 
-                            string texturePath = Path.Combine(GetParentFolder(materialInfoProps), "Texture", textureToImport + ".png");
+                            string texturePath = Path.Combine(GetParentFolder(materialInfoProps), textureToImport + ".png");
                             if (File.Exists(texturePath)) {
                                 filesToExport.Add(texturePath);
                             } else {

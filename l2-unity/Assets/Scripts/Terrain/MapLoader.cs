@@ -47,34 +47,34 @@ public class MapLoader : MonoBehaviour {
         }
     }
 
-    [MenuItem("Shnok/[Terrain] Generate")]
-    static void SetupMaterials() {
-        List<MapGenerationData> mapsToGenerate = new List<MapGenerationData>();
-        MapGenerationData data = new MapGenerationData();
-        //data.mapName = "17_25";
-        //mapsToGenerate.Add(data);
-        //data = new MapGenerationData();
-        //data.mapName = "16_25";
-        //mapsToGenerate.Add(data);
-        //data = new MapGenerationData();
-        //data.mapName = "17_24";
-        //mapsToGenerate.Add(data);
-        //data = new MapGenerationData();
-        //data.mapName = "16_24";
-        //mapsToGenerate.Add(data);
-        //GenerateMap(mapsToGenerate);
+    //[MenuItem("Shnok/[Terrain] Generate")]
+    //static void SetupMaterials() {
+    //    List<MapGenerationData> mapsToGenerate = new List<MapGenerationData>();
+    //    MapGenerationData data = new MapGenerationData();
+    //    //data.mapName = "17_25";
+    //    //mapsToGenerate.Add(data);
+    //    //data = new MapGenerationData();
+    //    //data.mapName = "16_25";
+    //    //mapsToGenerate.Add(data);
+    //    //data = new MapGenerationData();
+    //    //data.mapName = "17_24";
+    //    //mapsToGenerate.Add(data);
+    //    //data = new MapGenerationData();
+    //    //data.mapName = "16_24";
+    //    //mapsToGenerate.Add(data);
+    //    //GenerateMap(mapsToGenerate);
 
-        data.mapName = "l2_lobby";
-        data.generateDecoLayers = false;
-        data.generateUVLayers = false;
-        data.generateHeightmaps = false;
-        data.generateStaticMeshes = true;
-        data.generationMode = GenerationMode.Generate;
-        mapsToGenerate.Add(data);
+    //    data.mapName = "l2_lobby";
+    //    data.generateDecoLayers = false;
+    //    data.generateUVLayers = false;
+    //    data.generateHeightmaps = false;
+    //    data.generateStaticMeshes = true;
+    //    data.generationMode = GenerationMode.Generate;
+    //    mapsToGenerate.Add(data);
 
-        GenerateMap(mapsToGenerate);
+    //    GenerateMap(mapsToGenerate);
 
-    }
+    //}
 
     private static void GenerateMap(List<MapGenerationData> mapsToGenerate) {
         L2TerrainGenerator generator = new L2TerrainGenerator();
