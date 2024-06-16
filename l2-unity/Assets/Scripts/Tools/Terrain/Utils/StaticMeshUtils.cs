@@ -10,6 +10,13 @@ public class StaticMeshUtils {
 
         string meshPath = GetMeshPath(info);
 
+        // try checking if prefab exists first
+        string prefabPath = Path.Combine(Path.GetDirectoryName(meshPath), "Prefab", Path.GetFileNameWithoutExtension(meshPath) + ".prefab");
+
+        if (File.Exists(prefabPath)) {
+            return AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        }
+            
         return AssetDatabase.LoadAssetAtPath<GameObject>(meshPath);
     }
 

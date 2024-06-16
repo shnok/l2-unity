@@ -11,7 +11,7 @@ public class TerrainConverter : MonoBehaviour {
     private static bool saveAssets = true;
     private static bool optimizeMesh = true;
     private static bool convertTerrain = true;
-    private static bool convertDecoLayer = false;
+    private static bool convertDecoLayer = true;
     private static bool createMapSafenet = true;
 
     private static TerrainToMesh terrainToMesh;
@@ -34,14 +34,39 @@ public class TerrainConverter : MonoBehaviour {
 
             mapToConvert = mapName;
 
-            terrainToMesh = new TerrainToMesh();
-            texture2DArrayGenerator = new Texture2DArrayGenerator();
+            ConvertTerrainToMesh(terrainInfo);
+        }
+    }
+
+    [MenuItem("Shnok/7. [Terrain] Generate deco layer mesh")]
+    static void DecoLayers() {
+        string title = "Select terrain t3d";
+        string directory = Path.Combine(Application.dataPath, "Data/Maps");
+        string extension = "t3d";
+
+        string fileToProcess = EditorUtility.OpenFilePanel(title, directory, extension);
+
+        if (!string.IsNullOrEmpty(fileToProcess)) {
+            Debug.Log("Selected file: " + fileToProcess);
+            string mapName = Path.GetFileNameWithoutExtension(fileToProcess);
+            L2TerrainInfo terrainInfo = L2T3DInfoParser.LoadMetadata(mapName);
+
+            mapToConvert = mapName;
+
+            optimizeMesh = false;
+            convertTerrain = false;
+            convertDecoLayer = false;
+            createMapSafenet = false;
+            convertDecoLayer = true;
 
             ConvertTerrainToMesh(terrainInfo);
         }
     }
 
     static void ConvertTerrainToMesh(L2TerrainInfo terrainInfo) {
+        terrainToMesh = new TerrainToMesh();
+        texture2DArrayGenerator = new Texture2DArrayGenerator();
+
         string saveFolder = Path.Combine("Assets", "Resources", "Data", "Maps", mapToConvert);
         if(saveAssets) {
             if(!Directory.Exists(saveFolder)) {
@@ -77,11 +102,11 @@ public class TerrainConverter : MonoBehaviour {
         }
 
         // Generate decolayer
-        if(convertDecoLayer) {
+        if (convertDecoLayer) {
             List<L2DecoLayer> decoLayers = terrainInfo.decoLayers;
             GameObject decoLayer = DecoToMesh.ConvertDecoLayers(decoLayers, terrainToConvert);
 
-            if(saveAssets) {
+            if (saveAssets) {
                 string decoLayerPrefabPath = Path.Combine(saveFolder, mapToConvert + "_DecoLayer.prefab");
                 PrefabUtility.SaveAsPrefabAsset(decoLayer, decoLayerPrefabPath);
             }

@@ -16,6 +16,8 @@ public class DecoToMesh {
 
             int decoGroupSize = 25;
 
+            int decoCount = 0;
+
             Color32[] pixels = decoAlphamap.GetPixels32();
             for(int y = 0; y < decoAlphamap.height; y++) {
                 for(int x = 0; x < decoAlphamap.width; x++) {
@@ -44,17 +46,20 @@ public class DecoToMesh {
                     float densityNoise = Mathf.PerlinNoise(noiseDensityCoord.x, noiseDensityCoord.y);
 
                     // Scatter noise
-                    float scatterNoiseMultiplier = 5.25f;
+                    float scatterNoiseMultiplier = 12.25f;
                     float scatterRadius = 3f;
                     float scatterStep = .5f;
+
+                    
                     for(float scatterX = -scatterRadius / 2f; scatterX < scatterRadius / 2f; scatterX += scatterStep) {
                         for(float scatterY = -scatterRadius / 2f; scatterY < scatterRadius / 2f; scatterY += scatterStep) {
                             Vector2 scatterNoiseCoord = new Vector2(basePosition.x + scatterX, basePosition.z + scatterY) * scatterNoiseMultiplier;
                             float scatterNoise = Mathf.PerlinNoise(scatterNoiseCoord.x, scatterNoiseCoord.y);
 
-                            if(Mathf.Abs(scatterNoise - densityNoise) <= 0.012f * (i * 0.9f)) {
+                            //bool shouldSpawnDeco = Mathf.Abs(scatterNoise - densityNoise) <= 0.012f * (i * 0.9f);
+                            bool shouldSpawnDeco = Mathf.Abs(scatterNoise - densityNoise) <= 0.00003;
+                            if (shouldSpawnDeco) {
                                 //GameObject dummy = GameObject.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefab/Dummy.prefab"));
-                                GameObject dummy = GameObject.Instantiate(decoLayers[i].staticMesh);
 
                                 Vector3 detailPos = basePosition + new Vector3(scatterX, 0, scatterY);
 
@@ -74,27 +79,29 @@ public class DecoToMesh {
                                 float rotationNoise = Mathf.PerlinNoise(noiseRotationCoord.x, noiseRotationCoord.y);
                                 float rotation = Mathf.Lerp(0f, 325f, rotationNoise);
 
-                                dummy.transform.eulerAngles = new Vector3(dummy.transform.eulerAngles.x, rotation, dummy.transform.eulerAngles.z);
-                                dummy.transform.localScale = decorScale * decorScaleMultiplier;
-                                dummy.transform.position = new Vector3(detailPos.x, terrain.SampleHeight(detailPos) + detailPos.y, detailPos.z);
-
-                                // Generate GRID Object if missing
+                                decoCount++;
+                                //Generate GRID Object if missing
                                 GameObject gridBaseObject = GameObject.Find(terrain.name + "_" + gridIndexX + "_" + gridIndexZ);
-                                if(gridBaseObject == null) {
+                                if (gridBaseObject == null) {
                                     gridBaseObject = new GameObject(terrain.name + "_" + gridIndexX + "_" + gridIndexZ);
                                     gridBaseObject.transform.parent = decoLayerBase.transform;
                                     gridBaseObject.transform.position = new Vector3(gridX + decoGroupSize / 2f, 0, gridZ + decoGroupSize / 2f);
                                     gridBaseObject.isStatic = true;
                                 }
 
+                                GameObject dummy = GameObject.Instantiate(decoLayers[i].staticMesh);
+                                dummy.transform.eulerAngles = new Vector3(dummy.transform.eulerAngles.x, rotation, dummy.transform.eulerAngles.z);
+                                dummy.transform.localScale = decorScale * decorScaleMultiplier;
+                                dummy.transform.position = new Vector3(detailPos.x, terrain.SampleHeight(detailPos) + detailPos.y, detailPos.z);
                                 dummy.transform.parent = gridBaseObject.transform;
-
                                 dummy.isStatic = true;
                             }
                         }
                     }
-                }
+                }           
             }
+
+            Debug.Log($"Deco count for layer {i} : {decoCount}");
         }
 
         return decoLayerBase;
