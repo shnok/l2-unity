@@ -37,9 +37,9 @@ public class L2MapStaticMeshBuilder : MonoBehaviour
             if (go != null) {
                 Vector3 position = new Vector3(staticMesh.y, staticMesh.z, staticMesh.x) * ueToUnityUnitScale;
                 Vector3 eulerAngles = new Vector3(
-                    360.00f * staticMesh.pitch / 65536 + go.transform.eulerAngles.x,
+                    - 360.00f * staticMesh.pitch / 65536 + go.transform.eulerAngles.x,
                     360.00f * staticMesh.yaw / 65536 + go.transform.eulerAngles.y + 90,
-                    360.00f * staticMesh.roll / 65536 + go.transform.eulerAngles.z
+                    - 360.00f * staticMesh.roll / 65536 + go.transform.eulerAngles.z
                 );
 
                 float meshDataScaleMultiplier = staticMesh.scale != 0 ? staticMesh.scale : 1f;
