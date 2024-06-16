@@ -45,6 +45,10 @@
 .hor-resize-handle {
 }
 
+.hor-position {
+    rotate: 180deg;
+}
+
 .status-window .level-container {
     margin: 0;
     padding: 0;
@@ -349,6 +353,9 @@
     background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/joypad_unlock_over.png?fileID=2800000&guid=b5ddae93ea8dbdb4faade865a8c0e18c&type=3#joypad_unlock_over');
 }
 
+
+
+
 .short-cut .button-slider {
     background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter.png?fileID=2800000&guid=0e6a63a51cecdce4a9ca025f1d751440&type=3#HorizontalSliderBarCenter');
 }
@@ -364,6 +371,72 @@
 .short-cut .button-slider:hover {
     background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_over.png?fileID=2800000&guid=959d0ec92e06ce04ab85a1e96ffe58a9&type=3#HorizontalSliderBarCenter_over');
 }
+
+
+
+
+.short-cut .button-slider-right {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight.png?fileID=2800000&guid=b965c67c252105a4cbff34f73702e4f3&type=3#HorizontalSliderBarCenterRight');
+}
+
+.short-cut .button-slider-right:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
+}
+
+.short-cut .button-slider-right:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
+}
+
+.short-cut .button-slider-right:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_over.png?fileID=2800000&guid=546cd8ddae3f5984ba02ca04bc7f8d96&type=3#HorizontalSliderBarCenterRight_over');
+}
+
+
+
+
+
+.short-cut .button-slider-empty {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png');
+}
+
+
+.short-cut .button-slider-empty :active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png');
+}
+
+.short-cut .button-slider-empty :active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png');
+}
+
+.short-cut .button-slider-empty :hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png');
+}
+
+
+.short-cut .slide-hor{
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png');
+}
+
+
+.short-cut .slide-hor-arrow {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight.png?');
+}
+
+.short-cut .slide-hor-arrow:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_down.png?');
+}
+
+.short-cut .slide-hor-arrow:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_down.png?');
+}
+
+.short-cut .slide-hor-arrow:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_over.png?');
+}
+
+
+
+
 
 .short-cut {
     position: absolute;
@@ -769,8 +842,7 @@
 .unity-group-box {
 }
 
-
-    .menu-btn {
+.menu-btn {
     flex-direction: column;
     margin-top: 3px;
     margin-right: 2px;
@@ -948,4 +1020,16 @@
     position: absolute;
     right: -8px;
     bottom: 0;
+}
+
+.rotate_img90{
+    rotate: -90deg;
+}
+
+.rotate_imgPlus90{
+    rotate: 90deg;
+}
+
+.rotate_img180{
+    rotate: 180deg;
 }
