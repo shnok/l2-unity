@@ -38,6 +38,7 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
         if (this.initPosition == false)
         {
             Vector2 shortCutPosition = ShortCutPanel.Instance.GetPositionRoot();
+
             if (shortCutPosition.x != 0 & shortCutPosition.y != 0)
             {
                 InitPosition(shortCutPosition.x, shortCutPosition.y, arrayPanels);
@@ -76,7 +77,7 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
 
     public void SetHidePanels()
     {
-        //HideElements(true, arrayPanels);
+        HideElements(true, arrayPanels);
     }
 
     private void CretaeDemoInfo()
@@ -208,14 +209,13 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
 
     private int Plus1Panel(int panel)
     {
-        int panelPlus1 = 0;
         if (panel == 0)
         {
-            return panelPlus1 = 1;
+            return  1;
         }
         else
         {
-            return panelPlus1 = panel + 1;
+            return  panel + 1;
         }
     }
 

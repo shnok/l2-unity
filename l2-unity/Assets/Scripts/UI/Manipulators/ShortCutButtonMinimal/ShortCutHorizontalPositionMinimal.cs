@@ -26,7 +26,7 @@ public class ShortCutHorizontalPositionMinimal
                 RotateCellHorizontal(arrayPanels[i]);
             }
             shortCutPanel.SetPositionVerical(false);
-            test(rootGroupBox);
+            ClickButton(rootGroupBox);
         }
         else
         {
@@ -39,7 +39,7 @@ public class ShortCutHorizontalPositionMinimal
 
     }
 
-    private void test(VisualElement rootGroupBox)
+    private void ClickButton(VisualElement rootGroupBox)
     {
         var buttonSliderHorizontal = rootGroupBox.Q<VisualElement>(null, "slide-hor-arrow");
         ClickSliderShortCutManipulator slider_horizontal = new ClickSliderShortCutManipulator(ShortCutPanelMinimal.Instance, shortCutPanel.GetDrag(), shortCutPanel.IsVertical());

@@ -68,8 +68,8 @@ public class L2GameUI : MonoBehaviour {
 
         // TestUI.Instance.AddWindow(rootVisualContainer);
         MenuWindow.Instance.AddWindow(rootVisualContainer);
-        //ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
-        //ShortCutPanel.Instance.AddWindow(rootVisualContainer);
+        ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
+        ShortCutPanel.Instance.AddWindow(rootVisualContainer);
         IconOverlay.Instance.AddWindow(rootVisualContainer);
         StatusWindow.Instance.AddWindow(rootVisualContainer);
         ChatWindow.Instance.AddWindow(rootVisualContainer);

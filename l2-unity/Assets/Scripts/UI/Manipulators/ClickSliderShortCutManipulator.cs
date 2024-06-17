@@ -48,11 +48,10 @@ public class ClickSliderShortCutManipulator : PointerManipulator
     {
         var rootVector2 = GetPositionWorld(visualElement, numberClick);
 
-        //if (numberClick > shortcutminimal.Count()) numberClick = 0;
 
         if (numberClick <= shortcutminimal.Count())
         {
-            if (isVertical)
+            if (ShortCutPanel.Instance.IsVertical())
             {
                 float sdvig = 23;
                 var newPosition = new Vector2(rootVector2.x - sdvig, rootVector2.y);
@@ -72,10 +71,19 @@ public class ClickSliderShortCutManipulator : PointerManipulator
 
     private void ResetPositionPanel()
     {
-        
-        shortcutminimal.SetResetPosition();
-        shortcutminimal.SetHidePanels();
-        this.numberClick = 0;
+        if (isVertical)
+        {
+            shortcutminimal.SetResetPosition();
+            shortcutminimal.SetHidePanels();
+            this.numberClick = 0;
+        }
+        else
+        {
+            shortcutminimal.SetResetPosition();
+            shortcutminimal.SetHidePanels();
+            this.numberClick = 0;
+        }
+      
     }
 
     private VisualElement GetRootElement(PointerDownEvent evt , int activeIndex)

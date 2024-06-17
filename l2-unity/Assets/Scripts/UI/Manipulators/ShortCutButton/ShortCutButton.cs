@@ -84,7 +84,6 @@ public class ShortCutButton : AbstracetShortCutButton
 
         btn.RegisterCallback<MouseDownEvent>(evt => {
 
-            // Quaternion rotateOriginal =  rootGroupBox.transform.rotation;
             ShortCutHorizontalPosition position = new ShortCutHorizontalPosition(shortCutPanel , rootGroupBox , sizeCell);
             position.Start();
 

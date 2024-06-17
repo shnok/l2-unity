@@ -29,15 +29,12 @@ public class ShortCutHorizontalPosition : MonoBehaviour
             ChangePositionHorizontalRootGroupBox();
             RotateHorizontalSlider();
             RotateCellHorizontal();
-         
-            //shortCutPanel.SetPositionVerical(false);
         }
         else
         {
             ChangePositionVerticalRootGroupBox();
             RotateVertiacalSlider();
             RotateCellVertical();
-            //shortCutPanel.SetPositionVerical(true);
         }
 
     }
@@ -46,14 +43,12 @@ public class ShortCutHorizontalPosition : MonoBehaviour
 
     private void ChangePositionHorizontalRootGroupBox()
     {
-        //rootGroupBox.transform.rotation = Quaternion.Euler(0, 0, -90);
         rootGroupBox.AddToClassList("rotate_img90");
     }
 
     private void ChangePositionVerticalRootGroupBox()
     {
         rootGroupBox.RemoveFromClassList("rotate_img90");
-        //rootGroupBox.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
 
@@ -63,28 +58,39 @@ public class ShortCutHorizontalPosition : MonoBehaviour
     {
         var buttonSliderHorizontal = rootGroupBox.Q<VisualElement>(null, "slide-hor");
         var indexImage = rootGroupBox.Q<VisualElement>(null, "ImageIndex");
-        
 
-        if (buttonSliderHorizontal != null)
-        {
-            buttonSliderHorizontal.RemoveFromClassList("slide-hor");
-            buttonSliderHorizontal.AddToClassList("slide-hor-arrow");
-        }
-        
+        SetHorizontalSlider(buttonSliderHorizontal);
 
-        if(indexImage != null) indexImage.transform.rotation = Quaternion.Euler(0, 0, 90);
+        if (indexImage != null) indexImage.transform.rotation = Quaternion.Euler(0, 0, 90);
 
 
         VisualElement buttonSlider =  shortCutPanel.GetSliderVisualElement();
-        buttonSlider.RemoveManipulator(shortCutPanel.GetActiveManipulatorSlider());
+        SetEmptyTextureHeadSlider(buttonSlider);
 
+
+    }
+
+    private void SetHorizontalSlider(VisualElement buttonSliderHorizontal)
+    {
+        if (buttonSliderHorizontal != null)
+        {
+            if (buttonSliderHorizontal.ClassListContains("slide-hor"))
+            {
+                buttonSliderHorizontal.RemoveFromClassList("slide-hor");
+                buttonSliderHorizontal.AddToClassList("slide-hor-arrow");
+            }
+  
+        }
+    }
+
+    private void SetEmptyTextureHeadSlider(VisualElement buttonSlider)
+    {
         if (buttonSlider != null)
         {
-           
+
             buttonSlider.RemoveFromClassList("button-slider");
             buttonSlider.AddToClassList("button-slider-empty");
         }
-
     }
 
     public void RotateVertiacalSlider()
@@ -116,8 +122,6 @@ public class ShortCutHorizontalPosition : MonoBehaviour
         for (int cell = 0; cell <= sizeCell; cell++)
         {
             var row = rootGroupBox.Q(className: "row" + cell);
-            //row.transform.rotation = 180;
-            //target.RemoveFromClassList("transparent-cursor");
             row.AddToClassList("rotate_imgPlus90");
 
         }
