@@ -41,8 +41,6 @@ public class L2LoginUI : MonoBehaviour
 
         _loadingElement = _rootElement.Q<VisualElement>("Loading");
 
-        StartLoading();
-
         LoginWindow.Instance.AddWindow(rootVisualContainer);
         CharSelectWindow.Instance.AddWindow(rootVisualContainer);
         CharSelectWindow.Instance.HideWindow();

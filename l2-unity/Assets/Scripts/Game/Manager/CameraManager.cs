@@ -18,14 +18,6 @@ public class CameraManager : MonoBehaviour
     }
 
     private void Start() {
-        Debug.Log(GameObject.Find("Login").GetComponent<Camera>());
-        Debug.Log(GameObject.Find("CharSelect").GetComponent<Camera>());
-        Debug.Log(GameObject.Find("DarkElf").GetComponent<Camera>());
-        Debug.Log(GameObject.Find("Orc").GetComponent<Camera>());
-        Debug.Log(GameObject.Find("Dwarf").GetComponent<Camera>());
-        Debug.Log(GameObject.Find("Elf").GetComponent<Camera>());
-
-        Debug.Log(GameObject.Find("Human"));
         cameras.Add("Login", GameObject.Find("Login").GetComponent<Camera>());
         cameras.Add("CharSelect", GameObject.Find("CharSelect").GetComponent<Camera>());
         cameras.Add("DarkElf", GameObject.Find("DarkElf").GetComponent<Camera>());
@@ -42,7 +34,7 @@ public class CameraManager : MonoBehaviour
         DisableMainCamera();
 
         if (cameras.TryGetValue(camera, out Camera obj)) {
-            Debug.Log(camera + " enbaled.");
+            Debug.Log(camera + " camera enabled.");
             obj.enabled = true;
         }
     }

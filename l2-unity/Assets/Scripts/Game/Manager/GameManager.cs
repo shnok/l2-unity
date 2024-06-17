@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnWorldSceneLoaded() {
+        GameObject.Destroy(L2LoginUI.Instance.gameObject);
         ClientPacketHandler.Instance.SendLoadWorld();
     }
 
@@ -55,7 +56,12 @@ public class GameManager : MonoBehaviour
     public void OnCharacterSelect() {
         _gameState = GameState.IN_GAME;
 
+        L2LoginUI.Instance.StartLoading();
         SceneLoader.Instance.LoadGame();
+    }
+
+    public void OnWorldLoading() {
+        L2GameUI.Instance.StartLoading();
     }
 
     public void OnRelogin() {
@@ -71,7 +77,13 @@ public class GameManager : MonoBehaviour
         SceneLoader.Instance.LoadMenu();
     }
 
+    public void OnStartingGame() {
+        Debug.Log("On Starting game");
+        L2LoginUI.Instance.StartLoading();
+    }
+
     public void OnGameLaunched() {
+        Debug.Log("On game launched");
         L2LoginUI.Instance.StopLoading();
     }
 }

@@ -30,8 +30,8 @@ public class SceneLoader : MonoBehaviour
     }
 
     public void LoadMenu() {
+        GameManager.Instance.OnStartingGame();
         SwitchScene(_menuScene, ((AsyncOperation o) => {
-            L2LoginUI.Instance.StartLoading();
             LoadScene(_lobbyScene, (AsyncOperation operation) => {
                 OnSceneLoad(operation, _lobbyScene);
             });
@@ -41,6 +41,7 @@ public class SceneLoader : MonoBehaviour
     public void LoadGame() {
         _totalLoadedScenes = 0;
         SwitchScene(_gameScene, ((AsyncOperation o) => {
+            GameManager.Instance.OnWorldLoading();
             for (int i = 0; i < _mapList.Count; i++) {
                 var map = _mapList[i];
                 LoadScene(map, (AsyncOperation operation) => {
@@ -109,7 +110,7 @@ public class SceneLoader : MonoBehaviour
 
     private void OnSceneLoad(AsyncOperation operation, string sceneName) {
         if(sceneName == _lobbyScene) {
-            L2LoginUI.Instance.StopLoading();
+            GameManager.Instance.OnGameLaunched();
         }
     }
 }

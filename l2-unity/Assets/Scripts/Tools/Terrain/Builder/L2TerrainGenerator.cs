@@ -37,8 +37,8 @@ public class L2TerrainGenerator {
         terrain.detailObjectDistance = 150;
 
         TerrainData terrainData = terrain.terrainData;
-        terrainData.baseMapResolution = MapLoader.UV_LAYER_ALPHAMAP_SIZE;
-        terrainData.alphamapResolution = MapLoader.UV_LAYER_ALPHAMAP_SIZE;
+        terrainData.baseMapResolution = L2TerrainGeneratorTool.UV_LAYER_ALPHAMAP_SIZE;
+        terrainData.alphamapResolution = L2TerrainGeneratorTool.UV_LAYER_ALPHAMAP_SIZE;
 
         terrainData.SetDetailResolution(512, 32);
 
@@ -72,7 +72,7 @@ public class L2TerrainGenerator {
         float tx = terrainInfo.generatedSectorCounter * terrainInfo.terrainScale.y;
         float ty = terrainInfo.generatedSectorCounter * terrainInfo.terrainScale.z;
         float tz = terrainInfo.generatedSectorCounter * terrainInfo.terrainScale.x;
-        terrainData.size = new Vector3(tx, ty, tz) * ueToUnityUnitScale * MapLoader.MAP_SCALE;
+        terrainData.size = new Vector3(tx, ty, tz) * ueToUnityUnitScale * L2TerrainGeneratorTool.MAP_SCALE;
 
         Debug.Log("TerrainData Size:" + terrainData.size);
 
@@ -85,7 +85,7 @@ public class L2TerrainGenerator {
             terrainInfo.location.y - uxHalfTerrainWidthAdjustment - terrainInfo.terrainScale.y,
             terrainInfo.location.z - uyHalfTerrainWidthAdjustment,
             terrainInfo.location.x - uzHalfTerrainWidthAdjustment - terrainInfo.terrainScale.x
-        ) * ueToUnityUnitScale * MapLoader.MAP_SCALE * worldPositionOffset;
+        ) * ueToUnityUnitScale * L2TerrainGeneratorTool.MAP_SCALE * worldPositionOffset;
 
         terrain.transform.position = unityPos;
         terrain.transform.name = terrainInfo.mapName;
@@ -143,7 +143,7 @@ public class L2TerrainGenerator {
             terrainLayer.smoothness = 0;
             //terrainLayer.smoothnessSource = TerrainLayerSmoothnessSource.Constant;
             terrainLayer.tileOffset = Vector2.zero;
-            terrainLayer.tileSize = new Vector2(terrainInfo.uvLayers[i].uScale, terrainInfo.uvLayers[i].vScale) * MapLoader.MAP_SCALE * MapLoader.UV_TILE_SIZE;
+            terrainLayer.tileSize = new Vector2(terrainInfo.uvLayers[i].uScale, terrainInfo.uvLayers[i].vScale) * L2TerrainGeneratorTool.MAP_SCALE * L2TerrainGeneratorTool.UV_TILE_SIZE;
 
             string savePath = Path.Combine("Assets", "Resources", "Data", "Maps", mapID, "TerrainData", mapID + "_layer_" + i + "_" + terrainInfo.uvLayers[i].texture.name + ".asset");
             AssetDatabase.CreateAsset(terrainLayer, savePath);
@@ -268,7 +268,7 @@ public class L2TerrainGenerator {
             string meshPath = StaticMeshUtils.GetMeshPath(staticMesh.staticMesh);
             GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(meshPath);
             if (go != null) {
-                Vector3 position = new Vector3(staticMesh.y, staticMesh.z, staticMesh.x) * ueToUnityUnitScale * MapLoader.MAP_SCALE;
+                Vector3 position = new Vector3(staticMesh.y, staticMesh.z, staticMesh.x) * ueToUnityUnitScale * L2TerrainGeneratorTool.MAP_SCALE;
                 Vector3 eulerAngles = new Vector3(
                     360.00f * staticMesh.pitch / 65536 + go.transform.eulerAngles.x,
                     360.00f * staticMesh.yaw / 65536 + go.transform.eulerAngles.y + 90,
@@ -286,7 +286,7 @@ public class L2TerrainGenerator {
                 instantiated.transform.localScale = Vector3.Scale(instantiated.transform.localScale, meshDataScale) *
                     meshDataScaleMultiplier *
                     //ueToUnityUnitScale *
-                    MapLoader.MAP_SCALE;
+                    L2TerrainGeneratorTool.MAP_SCALE;
 
                 instantiated.transform.parent = staticMeshesGo.transform;
             } else {

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -106,3 +107,4 @@ public class L2TerrainGeneratorTool : MonoBehaviour {
         //   generator.StitchTerrainSeams(terrainsDict);
     }
 }
+#endif
