@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     [SerializeField] private string _menuScene = "Menu";
+    [SerializeField] private string _lobbyScene = "l2_lobby";
     [SerializeField] private string _gameScene = "Game";
     [SerializeField] private List<string> _mapList = new List<string>();
     private int _totalLoadedScenes = 0;
@@ -26,9 +27,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadMenu() {
         SwitchScene(_menuScene, ((AsyncOperation operation) => {
-            for (int i = 0; i < _mapList.Count; i++) {
-                UnloaScene(_mapList[i]);
-            }
+            LoadScene(_lobbyScene, false);
         }));
     }
 
