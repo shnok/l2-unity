@@ -9,6 +9,7 @@ public class L2LoginUI : MonoBehaviour
 
     [SerializeField] private bool _uiLoaded = false;
     [SerializeField] private Focusable _focusedElement;
+    [SerializeField] private VisualElement _loadingElement;
 
     public bool UILoaded { get { return _uiLoaded; } set { _uiLoaded = value; } }
 
@@ -37,7 +38,41 @@ public class L2LoginUI : MonoBehaviour
 
     private void LoadUI() {
         VisualElement rootVisualContainer = _rootElement.Q<VisualElement>("UIContainer");
-        
+
+        _loadingElement = _rootElement.Q<VisualElement>("Loading");
+
+        StartLoading();
+
         LoginWindow.Instance.AddWindow(rootVisualContainer);
+        CharSelectWindow.Instance.AddWindow(rootVisualContainer);
+        CharSelectWindow.Instance.HideWindow();
+    }
+
+    public void OnLogin() {
+        LoginWindow.Instance.HideWindow();
+        CharSelectWindow.Instance.ShowWindow();
+
+    }
+
+    public void OnCharSelect() {
+        CharSelectWindow.Instance.HideWindow();
+
+    }
+
+    public void OnRelogin() {
+        CharSelectWindow.Instance.HideWindow();
+        LoginWindow.Instance.ShowWindow();
+    }
+
+    public void StartLoading() {
+        if (_loadingElement != null) {
+            _loadingElement.style.display = DisplayStyle.Flex;
+        }
+    }
+
+    public void StopLoading() {
+        if (_loadingElement != null) {
+            _loadingElement.style.display = DisplayStyle.None;
+        }
     }
 }

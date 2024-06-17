@@ -7,6 +7,7 @@ public class LoginWindow : MonoBehaviour
 {
     private VisualTreeAsset _windowTemplate;
     private VisualElement _windowEle;
+    private VisualElement _logo;
     private TextField _userInput;
     private TextField _passwordInput;
 
@@ -31,7 +32,7 @@ public class LoginWindow : MonoBehaviour
 
     private void LoadAssets() {
         if (_windowTemplate == null) {
-            _windowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/LoginWindow");
+            _windowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Login/LoginWindow");
         }
         if (_windowTemplate == null) {
             Debug.LogError("Could not load login window template.");
@@ -74,6 +75,8 @@ public class LoginWindow : MonoBehaviour
         _passwordInput.AddManipulator(new HighlightedInputFieldManipulator(_passwordInput, passwordInputBg, 20));
         _passwordInput.AddManipulator(new BlinkingCursorManipulator(_passwordInput));
 
+        _logo = root.Q<VisualElement>("L2Logo");
+
         root.Add(_windowEle);
 
         yield return new WaitForEndOfFrame();
@@ -107,5 +110,15 @@ public class LoginWindow : MonoBehaviour
 
     private void ExitButtonPressed() {
         Application.Quit();
+    }
+
+    public void HideWindow() {
+        _windowEle.style.display = DisplayStyle.None;
+        _logo.style.display = DisplayStyle.None;
+    }
+
+    public void ShowWindow() {
+        _windowEle.style.display = DisplayStyle.Flex;
+        _logo.style.display = DisplayStyle.Flex;
     }
 }

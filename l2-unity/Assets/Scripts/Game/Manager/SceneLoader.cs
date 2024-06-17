@@ -25,19 +25,29 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+    private void Start() {
+        LoadMenu();
+    }
+
     public void LoadMenu() {
-        SwitchScene(_menuScene, ((AsyncOperation operation) => {
-            LoadScene(_lobbyScene, false);
+        SwitchScene(_menuScene, ((AsyncOperation o) => {
+            L2LoginUI.Instance.StartLoading();
+            LoadScene(_lobbyScene, (AsyncOperation operation) => {
+                OnSceneLoad(operation, _lobbyScene);
+            });
         }));
     }
 
     public void LoadGame() {
         _totalLoadedScenes = 0;
-        SwitchScene(_gameScene, ((AsyncOperation operation) => {
+        SwitchScene(_gameScene, ((AsyncOperation o) => {
             for (int i = 0; i < _mapList.Count; i++) {
-                LoadScene(_mapList[i], true);
+                var map = _mapList[i];
+                LoadScene(map, (AsyncOperation operation) => {
+                    OnInitialWorldload(operation, map);
+                });
             }
-        }));
+        })); 
     }
 
     public void SwitchScene(string sceneName, Action<AsyncOperation> p) {
@@ -46,38 +56,27 @@ public class SceneLoader : MonoBehaviour
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
             asyncLoad.completed += p;
         } else {
+            Debug.Log("Skipping scene switch " + sceneName);
+            AsyncOperation dummyOperation = new AsyncOperation();
+            p.Invoke(dummyOperation);
+        }
+    }
+
+    private void LoadScene(string sceneName, Action<AsyncOperation> p) {
+        Debug.Log("Loading scene " + sceneName);
+
+        // Does the scene need to be loaded ?
+        if (!SceneManager.GetSceneByName(sceneName).IsValid()) {
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            asyncLoad.completed += p;
+        } else {
             Debug.Log("Skipping scene load " + sceneName);
             AsyncOperation dummyOperation = new AsyncOperation();
             p.Invoke(dummyOperation);
         }
     }
 
-    private void LoadScene(string sceneName, bool initialLoad) {
-        Debug.Log("Loading scene " + sceneName);
-
-        // Does the scene need to be loaded ?
-        if (!SceneManager.GetSceneByName(sceneName).IsValid()) {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            if(initialLoad) {
-                // Load world at startup
-                asyncLoad.completed += (AsyncOperation operation) => OnInitialWorldload(operation, sceneName);
-            } else {
-                // Loading l2 maps at runtime
-                asyncLoad.completed += (AsyncOperation operation) => OnSceneLoad(operation, sceneName);
-            }
-        } else {
-            // Scene already loaded
-            if(initialLoad) {
-                // Load world at startup
-                OnInitialWorldload(null, sceneName);
-            } else {
-                // Loading l2 maps at runtime
-                OnSceneLoad(null, sceneName);
-            }
-        }
-    }
-
-    private void UnloaScene(string sceneName) {
+    private void UnloadScene(string sceneName) {
         Debug.Log("Unoading scene " + sceneName);
 
         if (!SceneManager.GetSceneByName(sceneName).IsValid()) {
@@ -109,10 +108,8 @@ public class SceneLoader : MonoBehaviour
     }
 
     private void OnSceneLoad(AsyncOperation operation, string sceneName) {
-        Debug.Log("Scene " + sceneName + " loaded. " + "Load count: " + ++_totalLoadedScenes);
-    }
-
-    public void LoadMap(string mapToLoad) {
-        LoadScene(mapToLoad, false);
+        if(sceneName == _lobbyScene) {
+            L2LoginUI.Instance.StopLoading();
+        }
     }
 }
