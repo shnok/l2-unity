@@ -80,6 +80,11 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
         HideElements(true, arrayPanels);
     }
 
+    public void SetHidePanels(bool is_hide)
+    {
+        HideElements(is_hide, arrayPanels);
+    }
+
     private void CretaeDemoInfo()
     {
         for (int i = 0; i < arrayRowsPanels.Length; i++)
@@ -388,6 +393,18 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
             return arrayPanels[arrayPanels.Length - 1];
         }
       
+    }
+
+    public VisualElement[] GetActiveAllPanels(int indexEndPanel)
+    {
+        VisualElement[] arr = new VisualElement[arrayPanels.Length];
+
+        for(int i = 0; i < indexEndPanel; i++)
+        {
+            arr[i] = arrayPanels[i];
+        }
+
+        return arr;
     }
     public void AddAnim( Vector2 target_postion , VisualElement activeElement)
     {

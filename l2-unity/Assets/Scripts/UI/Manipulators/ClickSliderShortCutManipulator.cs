@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
+using static UnityEditor.Rendering.FilterWindow;
 
 public class ClickSliderShortCutManipulator : PointerManipulator
 {
@@ -16,7 +17,7 @@ public class ClickSliderShortCutManipulator : PointerManipulator
     {
         this.shortcutminimal = shortcutminimal;
         this.drag = drag;
-        this.isVertical = isVertical;
+        //this.isVertical = isVertical;
     }
     protected override void RegisterCallbacksOnTarget()
     {
@@ -30,8 +31,31 @@ public class ClickSliderShortCutManipulator : PointerManipulator
 
     private void PointerDownHandler(PointerDownEvent evt)
     {
-        var visualElement = GetRootElement(evt, numberClick);
+        VisualElement element = (VisualElement)evt.currentTarget;
+        if (!ShortCutPanel.Instance.IsVertical())
+        {
+            //vertical panel name
+            //disable click 
+            if (!element.name.Equals("head-slider"))
+            {
+                var visualElement = GetRootElement(evt, numberClick);
+                Next(visualElement);
+            }
 
+        }
+        else
+        {
+            if (element.name.Equals("head-slider"))
+            {
+                var visualElement = GetRootElement(evt, numberClick);
+                Next(visualElement);
+            }
+        }
+       
+    }
+
+    private void Next(VisualElement visualElement)
+    {
         if (visualElement != null)
         {
             drag.SetActivePanel(numberClick);
@@ -55,18 +79,23 @@ public class ClickSliderShortCutManipulator : PointerManipulator
             {
                 float sdvig = 23;
                 var newPosition = new Vector2(rootVector2.x - sdvig, rootVector2.y);
-                shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2 , isVertical);
+                shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2 , ShortCutPanel.Instance.IsVertical());
             }
             else
             {
                 float sdvig = 23;
                 var newPosition = new Vector2(rootVector2.x, rootVector2.y - sdvig);
-                shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2 , isVertical);
+                shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2 , ShortCutPanel.Instance.IsVertical());
             }
       
         }
     
 
+    }
+
+    public int GetShowPanels()
+    {
+        return numberClick;
     }
 
     private void ResetPositionPanel()
@@ -89,22 +118,21 @@ public class ClickSliderShortCutManipulator : PointerManipulator
     private VisualElement GetRootElement(PointerDownEvent evt , int activeIndex)
     {
         if (activeIndex >= shortcutminimal.Count()) return null;
-
-
-        if (activeIndex == 0) {
-            return (VisualElement) evt.currentTarget;
-        } 
-
-        if (activeIndex >= 1)
+        if (activeIndex == 0)
         {
-            int minus1 = activeIndex - 1;
-            int end = shortcutminimal.GetLastPosition(minus1);
-            ReplaceSliderLeft(end, minus1);
-            return shortcutminimal.GetLastElement(minus1);
+            return (VisualElement)evt.currentTarget;
         }
 
-        return null;
+        if (activeIndex >= 1)
+         {
+            int minus1 = activeIndex - 1;
+            int end = shortcutminimal.GetLastPosition(minus1);
+             ReplaceSliderLeft(end, minus1);
+            return shortcutminimal.GetLastElement(minus1);
+        }
+            
         
+        return null;
     }
 
     private void ReplaceSliderLeft(int end, int minus1)

@@ -73,7 +73,7 @@ public class ShortCutButton : AbstracetShortCutButton
         }, TrickleDown.TrickleDown);
     }
 
-    public void RegisterButtonCallBackRotate(VisualElement rootGroupBox ,  string buttonId)
+    public void RegisterButtonCallBackRotate(VisualElement rootGroupBox , ClickSliderShortCutManipulator clickArrow , string buttonId)
     {
         var btn = shortCutPanel.GetShortCutPanelElements().Q<VisualElement>(buttonId);
         if (btn == null)
@@ -84,11 +84,14 @@ public class ShortCutButton : AbstracetShortCutButton
 
         btn.RegisterCallback<MouseDownEvent>(evt => {
 
-            ShortCutHorizontalPosition position = new ShortCutHorizontalPosition(shortCutPanel , rootGroupBox , sizeCell);
-            position.Start();
 
-            ShortCutHorizontalPositionMinimal positionChildren = new ShortCutHorizontalPositionMinimal(ShortCutPanelMinimal.Instance.GetArrayPanels() , shortCutPanel , sizeCell);
-            positionChildren.Start(rootGroupBox);
+          ShortCutHorizontalPosition position = new ShortCutHorizontalPosition(shortCutPanel, rootGroupBox, sizeCell);
+          position.Start();
+
+          ShortCutHorizontalPositionMinimal positionChildren = new ShortCutHorizontalPositionMinimal(ShortCutPanelMinimal.Instance.GetArrayPanels(), shortCutPanel, sizeCell);
+          positionChildren.Start(rootGroupBox, clickArrow);
+
+          ShortCutReDrawActivePanels reDraw = new ShortCutReDrawActivePanels(shortCutPanel, ShortCutPanelMinimal.Instance, clickArrow);
 
 
         }, TrickleDown.TrickleDown);

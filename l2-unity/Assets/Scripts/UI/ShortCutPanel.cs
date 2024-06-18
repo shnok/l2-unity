@@ -193,7 +193,7 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
 
         shortCutButton.RegisterButtonCallBackNext(imageIndex , "button_next");
         shortCutButton.RegisterButtonCallBackPreview(imageIndex , "button_preview");
-        shortCutButton.RegisterButtonCallBackRotate(rootGroupBox , "visualRotate");
+        shortCutButton.RegisterButtonCallBackRotate(rootGroupBox , slider , "visualRotate");
         root.Add(shortCutPanelElements);
         yield return new WaitForEndOfFrame();
 
