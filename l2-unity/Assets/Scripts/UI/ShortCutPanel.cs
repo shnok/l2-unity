@@ -135,6 +135,11 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
         return new Vector2(0, 0);
     }
 
+    public VisualElement GetRootVisiaulElement()
+    {
+        return statusWindowDragArea;
+    }
+
     public void SetDrugChildren(VisualElement[] children)
     {
         drag.SetChildren(children);

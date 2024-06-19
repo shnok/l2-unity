@@ -127,7 +127,7 @@ public class ClickSliderShortCutManipulator : PointerManipulator
          {
             int minus1 = activeIndex - 1;
             int end = shortcutminimal.GetLastPosition(minus1);
-             ReplaceSliderLeft(end, minus1);
+            ReplaceSliderLeft(end, minus1);
             return shortcutminimal.GetLastElement(minus1);
         }
             
