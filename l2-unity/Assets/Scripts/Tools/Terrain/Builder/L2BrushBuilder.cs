@@ -58,7 +58,7 @@ public class L2BrushBuilder {
 
             GameObject brush = new GameObject(b.name);
             brush.transform.parent = brushContainer.transform;
-            brush.transform.position = VectorUtils.ConvertToUnity(b.position) - VectorUtils.ConvertToUnity(b.prePivot);
+            brush.transform.position = VectorUtils.ConvertPosToUnity(b.position) - VectorUtils.ConvertPosToUnity(b.prePivot);
 
             Debug.Log(b.name);
             Model model = b.model;
@@ -69,7 +69,7 @@ public class L2BrushBuilder {
 
                 // Adjust verticles
                 for(int p = 0; p < polyData.vertices.Length; p++) {
-                    polyData.vertices[p] = VectorUtils.ConvertToUnity(polyData.vertices[p]);
+                    polyData.vertices[p] = VectorUtils.ConvertPosToUnity(polyData.vertices[p]);
                 }
 
                 List<string> pPolyFlags = new List<string>(polyData.polyFlags);

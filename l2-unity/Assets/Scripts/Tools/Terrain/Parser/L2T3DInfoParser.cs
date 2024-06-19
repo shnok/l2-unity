@@ -54,17 +54,7 @@ public class L2T3DInfoParser {
                         }
 
                         if (line.StartsWith("SwayRotationOrig=")) {
-                            string rot = line.Replace("SwayRotationOrig=(", "").Replace(")", "");
-                            string[] axis = rot.Split(",");
-                            foreach (string s in axis) {
-                                if (s.Contains("Yaw")) {
-                                    mesh.yaw = int.Parse(s.Split("=")[1]);
-                                } else if (s.Contains("Roll")) {
-                                    mesh.roll = int.Parse(s.Split("=")[1]);
-                                } else if (s.Contains("Pitch")) {
-                                    mesh.pitch = int.Parse(s.Split("=")[1]);
-                                }
-                            }
+                            mesh.eulerAngles = L2MetaDataUtils.ParseRotation(line);
                         }
 
                         if (line.StartsWith("Location=")) {
@@ -225,6 +215,42 @@ public class L2T3DInfoParser {
 
         return terrainInfo.brushes;
     }
+
+    public static List<L2InterpolationPoint> ParseCameraInfo(string t3dPath) {
+        if (terrainInfo == null) {
+            terrainInfo = new L2TerrainInfo();
+        }
+
+        terrainInfo.interpolationPoints = new List<L2InterpolationPoint>();
+
+        using (StreamReader reader = new StreamReader(t3dPath)) {
+            string line;
+            while ((line = reader.ReadLine()) != null) {
+                line = line.Trim();
+                if (line.StartsWith("Begin Actor Class=InterpolationPoint Name=")) {
+                    L2InterpolationPoint interpolationPoint = new L2InterpolationPoint();
+                    interpolationPoint.name = line.Replace("Begin Actor Class=InterpolationPoint Name=", "");
+                    while ((line = reader.ReadLine()) != null && !line.Contains("End Actor")) {
+                        line = line.Trim();
+                        
+                        if (line.StartsWith("Location=")) {
+                            interpolationPoint.position = L2MetaDataUtils.ParseVector3(line);
+                        } else if (line.StartsWith("Rotation=")) {
+                            interpolationPoint.eulerAngles = L2MetaDataUtils.ParseRotation(line);
+                        }
+                    }
+
+                    terrainInfo.interpolationPoints.Add(interpolationPoint);
+
+                }
+            }
+        }
+
+        Debug.Log($"Loaded {terrainInfo.interpolationPoints.Count} interpolation points.");
+
+        return terrainInfo.interpolationPoints;
+    }
+
 }
 
 #endif

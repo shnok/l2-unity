@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,17 +18,6 @@ public class L2TerrainGeneratorTool : MonoBehaviour {
     public float uvTileSize = 5f;
     public float mapScale = 1f;
 
-
-
-
-    //private void InitializeVariables() {
-    //    UV_TEXTURE_SIZE = uvTextureSize;
-    //    UV_LAYER_ALPHAMAP_SIZE = uvLayerAlphaMapSize;
-    //    DECO_LAYER_ALPHAMAP_SIZE = decoLayerAlphaMapSize;
-    //    UV_TILE_SIZE = uvTileSize;
-    //    MAP_SCALE = mapScale;
-    //}
-
     public bool generateMap = true;
     public static List<L2TerrainInfo> terrainInfos;
     public List<L2StaticMeshActor> meshActors;
@@ -39,18 +29,6 @@ public class L2TerrainGeneratorTool : MonoBehaviour {
     static void GenerateTerrain() {
         List<MapGenerationData> mapsToGenerate = new List<MapGenerationData>();
         MapGenerationData data = new MapGenerationData();
-        //data.mapName = "17_25";
-        //mapsToGenerate.Add(data);
-        //data = new MapGenerationData();
-        //data.mapName = "16_25";
-        //mapsToGenerate.Add(data);
-        //data = new MapGenerationData();
-        //data.mapName = "17_24";
-        //mapsToGenerate.Add(data);
-        //data = new MapGenerationData();
-        //data.mapName = "16_24";
-        //mapsToGenerate.Add(data);
-        //GenerateMap(mapsToGenerate);
 
         data.mapName = "l2_lobby";
         data.generateDecoLayers = true;

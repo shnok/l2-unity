@@ -258,40 +258,10 @@ public class L2TerrainGenerator {
     }
 
     public void GenerateStaticMeshes(L2TerrainInfo terrainInfo) {
-        //TODO: Check at the bas position
-        // Vector3 basePosition = new Vector3(staticMeshActor.y, staticMeshActor.z, staticMeshActor.x) * ueToUnityUnitScale * MapLoader.MAP_SCALE;
-        Vector3 basePosition = Vector3.zero;
         GameObject staticMeshesGo = new GameObject("StaticMeshes");
 
         foreach (var staticMesh in terrainInfo.staticMeshes) {
-            if (staticMesh.staticMesh == null || staticMesh.staticMesh.Length == 0) continue;
-            string meshPath = StaticMeshUtils.GetMeshPath(staticMesh.staticMesh);
-            GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(meshPath);
-            if (go != null) {
-                Vector3 position = new Vector3(staticMesh.y, staticMesh.z, staticMesh.x) * ueToUnityUnitScale * L2TerrainGeneratorTool.MAP_SCALE;
-                Vector3 eulerAngles = new Vector3(
-                    360.00f * staticMesh.pitch / 65536 + go.transform.eulerAngles.x,
-                    360.00f * staticMesh.yaw / 65536 + go.transform.eulerAngles.y + 90,
-                    360.00f * staticMesh.roll / 65536 + go.transform.eulerAngles.z
-                );
-
-                float meshDataScaleMultiplier = staticMesh.scale != 0 ? staticMesh.scale : 1f;
-                float meshDataScaleX = staticMesh.scaleX != 0 ? staticMesh.scaleX : 1f;
-                float meshDataScaleY = staticMesh.scaleY != 0 ? staticMesh.scaleY : 1f;
-                float meshDataScaleZ = staticMesh.scaleZ != 0 ? staticMesh.scaleZ : 1f;
-                Vector3 meshDataScale = new Vector3(meshDataScaleX, meshDataScaleY, meshDataScaleZ);
-
-                GameObject instantiated = GameObject.Instantiate(go, position + basePosition, Quaternion.Euler(eulerAngles));
-                instantiated.name = staticMesh.staticMesh;
-                instantiated.transform.localScale = Vector3.Scale(instantiated.transform.localScale, meshDataScale) *
-                    meshDataScaleMultiplier *
-                    //ueToUnityUnitScale *
-                    L2TerrainGeneratorTool.MAP_SCALE;
-
-                instantiated.transform.parent = staticMeshesGo.transform;
-            } else {
-                Debug.LogError("Can't find StaticMesh FBX " + staticMesh.staticMesh + " at path " + meshPath);
-            }
+            L2MapStaticMeshBuilder.BuildSingleStaticMesh(staticMesh, staticMeshesGo);
         }
     }
 

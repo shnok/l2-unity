@@ -72,7 +72,7 @@ public class L2JSONAmbientSoundImporter : AssetImporter {
         collider.radius = soundRadius;
         collider.isTrigger = true;
 
-        go.transform.position = VectorUtils.ConvertToUnity(ambientSound.position);
+        go.transform.position = VectorUtils.ConvertPosToUnity(ambientSound.position);
         go.layer = LayerMask.NameToLayer("AmbientSound");
 
         // event

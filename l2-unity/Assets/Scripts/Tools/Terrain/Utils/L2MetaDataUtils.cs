@@ -58,6 +58,25 @@ public class L2MetaDataUtils {
         return new Vector3(x, y, z);
     }
 
+    public static Vector3 ParseRotation(string line) {
+        int equalsIndex = line.IndexOf('=');
+        string valueString = line.Substring(equalsIndex + 1, line.Length - equalsIndex - 2);
+        string[] valueParts = valueString.Split(',');
+
+        float x = 0, y = 0, z = 0;
+        foreach (string s in valueParts) {
+            if (s.Contains("Pitch")) {
+                x = int.Parse(s.Split("=")[1]);
+            } else if (s.Contains("Yaw")) {
+                y = int.Parse(s.Split("=")[1]);
+            } else if (s.Contains("Roll")) {
+                z = int.Parse(s.Split("=")[1]);
+            }
+        }
+
+        return new Vector3(x, y, z);
+    }
+
     public static Vector3 ParseVector3Poly(string line) {
         string[] valueParts = line.Split(',');
 
