@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
         CameraManager.Instance.SwitchCamera("CharSelect");
 
-        L2LoginUI.Instance.OnLogin();
+        L2LoginUI.Instance.ShowCharSelectWindow();
     }
 
     public void OnCharacterSelect() {
@@ -58,6 +58,14 @@ public class GameManager : MonoBehaviour
 
         L2LoginUI.Instance.StartLoading();
         SceneLoader.Instance.LoadGame();
+    }
+
+    public void OnCreateUser() {
+        _gameState = GameState.CHAR_CREATION;
+
+        CameraManager.Instance.SwitchCamera("Login");
+
+        L2LoginUI.Instance.ShowCharCreationWindow();
     }
 
     public void OnWorldLoading() {
@@ -69,7 +77,7 @@ public class GameManager : MonoBehaviour
 
         CameraManager.Instance.SwitchCamera("Login");
 
-        L2LoginUI.Instance.OnRelogin();
+        L2LoginUI.Instance.ShowLoginWindow();
     }
 
     public void OnDisconnect() {

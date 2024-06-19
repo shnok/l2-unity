@@ -86,7 +86,7 @@ public class CharSelectWindow : MonoBehaviour {
     }
 
     private void CreatePressed() {
-
+        GameManager.Instance.OnCreateUser();
     }
 
     private void DeletePressed() {

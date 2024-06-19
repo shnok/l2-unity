@@ -44,22 +44,24 @@ public class L2LoginUI : MonoBehaviour
         LoginWindow.Instance.AddWindow(rootVisualContainer);
         CharSelectWindow.Instance.AddWindow(rootVisualContainer);
         CharSelectWindow.Instance.HideWindow();
+        CharCreationWindow.Instance.AddWindow(rootVisualContainer);
+        CharCreationWindow.Instance.HideWindow();
     }
 
-    public void OnLogin() {
+    public void ShowCharSelectWindow() {
         LoginWindow.Instance.HideWindow();
+        CharCreationWindow.Instance.HideWindow();
         CharSelectWindow.Instance.ShowWindow();
-
     }
 
-    public void OnCharSelect() {
-        CharSelectWindow.Instance.HideWindow();
-
-    }
-
-    public void OnRelogin() {
+    public void ShowLoginWindow() {
         CharSelectWindow.Instance.HideWindow();
         LoginWindow.Instance.ShowWindow();
+    }
+
+    public void ShowCharCreationWindow() {
+        CharSelectWindow.Instance.HideWindow();
+        CharCreationWindow.Instance.ShowWindow();
     }
 
     public void StartLoading() {

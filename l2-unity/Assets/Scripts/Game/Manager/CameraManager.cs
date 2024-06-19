@@ -20,7 +20,7 @@ public class CameraManager : MonoBehaviour
     private void Start() {
         cameras.Add("Login", GameObject.Find("Login").GetComponent<Camera>());
         cameras.Add("CharSelect", GameObject.Find("CharSelect").GetComponent<Camera>());
-        cameras.Add("DarkElf", GameObject.Find("DarkElf").GetComponent<Camera>());
+        cameras.Add("Dark Elf", GameObject.Find("DarkElf").GetComponent<Camera>());
         cameras.Add("Orc", GameObject.Find("Orc").GetComponent<Camera>());
         cameras.Add("Dwarf", GameObject.Find("Dwarf").GetComponent<Camera>());
         cameras.Add("Elf", GameObject.Find("Elf").GetComponent<Camera>());

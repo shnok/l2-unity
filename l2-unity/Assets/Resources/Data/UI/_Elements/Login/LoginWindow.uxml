@@ -5,9 +5,9 @@
             <ui:VisualElement name="IDLabel" tabindex="-1" style="flex-grow: 0; width: 64px; margin-right: 0; padding-right: 8px;">
                 <ui:Label tabindex="-1" text="ID" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font: initial; color: rgb(220, 220, 220); -unity-text-align: middle-right; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; font-size: 14px; -unity-font-definition: resource(&apos;Data/UI/Font/tahoma Light&apos;); letter-spacing: 0;" />
             </ui:VisualElement>
-            <ui:VisualElement name="IDInput" tabindex="-1" style="flex-grow: 1; height: 18px;">
+            <ui:VisualElement name="IDInput" tabindex="-1" class="login-input-container">
                 <ui:VisualElement name="UserInputBg" tabindex="-1" class="login-input-bg" style="flex-grow: 1; position: absolute; width: 100%; height: 28px;" />
-                <ui:TextField picking-mode="Ignore" max-length="16" name="UserInputField" class="login-input" style="-unity-font: resource(&apos;Data/UI/Font/tahoma&apos;); background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(12, 12, 12); background-image: none; -unity-font-definition: initial; font-size: 12px; margin-left: 6px; letter-spacing: 0; -unity-text-align: lower-left; padding-top: 0; margin-bottom: 2px; margin-top: 2px; overflow: hidden;" />
+                <ui:TextField picking-mode="Ignore" max-length="16" name="UserInputField" class="login-input" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Password" tabindex="-1" style="flex-grow: 1; flex-direction: row; margin-top: 6px; flex-shrink: 0;">

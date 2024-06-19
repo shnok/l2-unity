@@ -1101,57 +1101,244 @@
 .bg-highlight-1 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus01');
 }
+
 .bg-highlight-2 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus02');
 }
+
 .bg-highlight-3 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus03');
 }
+
 .bg-highlight-4 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus04');
 }
+
 .bg-highlight-5 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus05');
 }
+
 .bg-highlight-6 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus06');
 }
+
 .bg-highlight-7 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus07');
 }
+
 .bg-highlight-8 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus08');
 }
+
 .bg-highlight-9 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus09');
 }
+
 .bg-highlight-10 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus10');
 }
+
 .bg-highlight-11 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus11');
 }
+
 .bg-highlight-12 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus12');
 }
+
 .bg-highlight-13 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus13');
 }
+
 .bg-highlight-14 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus14');
 }
+
 .bg-highlight-15 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus15');
 }
+
 .bg-highlight-16 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus16');
 }
+
 .bg-highlight-17 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus17');
 }
+
 .bg-highlight-18 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus18');
 }
+
 .bg-highlight-19 {
     background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus19');
+}
+
+.char-creation-window .unity-base-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.arrow-input .unity-base-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.char-creation-window .unity-base-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.arrow-input .unity-base-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.char-creation-window .unity-text-field {
+    --unity-cursor-color: rgb(255, 255, 255);
+    color: rgb(220, 220, 220);
+}
+
+.arrow-input .unity-text-field {
+    --unity-cursor-color: rgb(255, 255, 255);
+    color: rgb(220, 220, 220);
+}
+
+.char-creation-window .transparent-cursor {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
+}
+
+.arrow {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 18px;
+    height: 18px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-image: resource('Data/UI/Scrollbar/ScrollBarLeftBtn');
+    background-color: rgba(188, 188, 188, 0);
+}
+
+.arrow-input {
+    flex-grow: 1;
+    flex-direction: row;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.arrow-input-field {
+    flex-grow: 1;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.arrow-label {
+    flex-grow: 0;
+    width: 50px;
+    margin-right: 0;
+    padding-right: 8px;
+    flex-shrink: 0;
+}
+
+.arrows-container {
+    flex-grow: 0;
+    height: 18px;
+    white-space: normal;
+    flex-direction: row;
+}
+
+.arrow-input {
+    margin-top: 5px;
+}
+
+.login-input {
+    -unity-font: resource('Data/UI/Font/tahoma');
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(12, 12, 12);
+    background-image: none;
+    -unity-font-definition: initial;
+    font-size: 12px;
+    margin-left: 6px;
+    letter-spacing: 0;
+    -unity-text-align: lower-left;
+    padding-top: 0;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+
+.login-input-container {
+    flex-grow: 1;
+    height: 18px;
+}
+
+.arrow {
+    background-image: none;
+    width: 20px;
+    height: 20px;
+    overflow: visible;
+}
+
+.arrow-bg {
+    flex-grow: 1;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+}
+
+.arrow-right .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next');
+}
+
+.arrow-right:active .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next_Down');
+}
+
+.arrow-right:active:hover .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next_Down');
+}
+
+.arrow-righ:hover .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next_Over');
+}
+
+.arrow-left .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre');
+}
+
+.arrow-left:active .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
+}
+
+.arrow-left:active:hover .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
+}
+
+.arrow-left:hover .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre_Over');
+}
+
+.arrow-bg {
+    height: 20px;
+    width: 20px;
 }

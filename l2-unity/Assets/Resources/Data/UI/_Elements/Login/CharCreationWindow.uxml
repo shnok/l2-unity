@@ -1,0 +1,30 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <ui:VisualElement name="CharCreationWindow" class="char-creation-window" style="flex-grow: 1; width: 100%; height: 100%; justify-content: flex-end; flex-direction: row;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: auto; justify-content: flex-start; align-items: flex-end; flex-shrink: 0;">
+            <ui:VisualElement tabindex="-1" name="CharCreationDetailWindow" style="flex-grow: 0; width: 250px; height: auto; flex-shrink: 0; background-image: resource(&apos;Data/UI/Windows/Windows_DF_Drawer_Bg_Darker&apos;); -unity-slice-bottom: 10; -unity-slice-left: 27; -unity-slice-top: 10; -unity-slice-right: 20; margin-right: 0; margin-left: 10px; padding-top: 16px; padding-right: 20px; padding-bottom: 16px; padding-left: 20px; margin-top: 10px; margin-bottom: 0; align-self: flex-start;">
+                <ui:VisualElement name="ID" tabindex="-1" style="flex-grow: 1; flex-direction: row; height: 19px; flex-shrink: 0; margin-bottom: 20px;">
+                    <ui:VisualElement name="IDLabel" tabindex="-1" style="flex-grow: 0; width: 41px; margin-right: 0; padding-right: 8px;">
+                        <ui:Label tabindex="-1" text="Name" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font: initial; color: rgb(220, 220, 220); -unity-text-align: middle-left; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; font-size: 12px; -unity-font-definition: resource(&apos;Data/UI/Font/tahoma Light&apos;); letter-spacing: 0;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IDInput" tabindex="-1" class="login-input-container">
+                        <ui:VisualElement name="UserInputBg" tabindex="-1" class="login-input-bg" style="flex-grow: 1; position: absolute; width: 106%; height: 28px;" />
+                        <ui:TextField picking-mode="Ignore" max-length="16" name="UserInputField" class="login-input" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row-reverse; align-self: auto; align-items: flex-end; justify-content: space-between; flex-wrap: nowrap; width: 33.3%; max-width: 33.3%; min-width: 33.3%;">
+            <ui:VisualElement name="MenuWindow" tabindex="-1" style="flex-grow: 0; width: 109px; height: auto; flex-shrink: 0; background-image: resource(&apos;Data/UI/Windows/Windows_DF_Drawer_Bg_Darker&apos;); -unity-slice-bottom: 10; -unity-slice-left: 27; -unity-slice-top: 10; -unity-slice-right: 20; margin-right: 20px; margin-left: 0; padding-top: 10px; padding-right: 5px; padding-bottom: 50px; padding-left: 5px; margin-top: 0; margin-bottom: 30px; align-self: flex-end;">
+                <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreateButton" tabindex="-1" focusable="false" class="l2-button" style="height: 20px; width: auto;">
+                    <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg" />
+                    <ui:Label tabindex="-1" text="Create" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" class="button-label" style="letter-spacing: 0;" />
+                </ui:Button>
+                <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PreviousButton" tabindex="-1" focusable="false" class="l2-button" style="height: 20px; width: auto; margin-top: 4px;">
+                    <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg" />
+                    <ui:Label tabindex="-1" text="Previous" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" class="button-label" style="letter-spacing: 0;" />
+                </ui:Button>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
