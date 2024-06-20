@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameState _gameState = GameState.LOGIN;
+    private bool _gameReady = false;
+
+    public bool GameReady { get { return _gameReady; } set { _gameReady = value; } }
 
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
@@ -15,7 +18,14 @@ public class GameManager : MonoBehaviour
         } else if (_instance != this) {
             Destroy(this);
         }
+    }
 
+    private void Start() {
+        LoadTables();
+        SceneLoader.Instance.LoadMenu(); 
+    }
+
+    private void LoadTables() {
         ItemTable.Instance.Initialize();
         ItemNameTable.Instance.Initialize();
         ItemStatDataTable.Instance.Initialize();
@@ -26,6 +36,7 @@ public class GameManager : MonoBehaviour
         NpcgrpTable.Instance.Initialize();
         NpcNameTable.Instance.Initialize();
         ModelTable.Instance.Initialize();
+        LogongrpTable.Instance.Initialize();
     }
 
     public void LogIn() {
@@ -93,5 +104,7 @@ public class GameManager : MonoBehaviour
     public void OnGameLaunched() {
         Debug.Log("On game launched");
         L2LoginUI.Instance.StopLoading();
+
+        CharacterCreator.Instance.SpawnDefaultPawns();
     }
 }

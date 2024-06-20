@@ -25,10 +25,6 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
-    private void Start() {
-        LoadMenu();
-    }
-
     public void LoadMenu() {
         GameManager.Instance.OnStartingGame();
         SwitchScene(_menuScene, ((AsyncOperation o) => {

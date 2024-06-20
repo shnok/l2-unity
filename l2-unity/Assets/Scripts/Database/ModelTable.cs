@@ -23,6 +23,7 @@ public class ModelTable
 
     private GameObject[] _playerContainers;
     private GameObject[] _userContainers;
+    private GameObject[] _pawnContainers;
     private GameObject[,] _faces;
     private GameObject[,] _hair;
     private Dictionary<string, GameObject> _weapons;
@@ -69,7 +70,8 @@ public class ModelTable
     private void CachePlayerContainers() {
         _playerContainers = new GameObject[RACE_COUNT];
         _userContainers = new GameObject[RACE_COUNT];
-       
+        _pawnContainers = new GameObject[RACE_COUNT];
+
         // Player Containers
         for (int r = 0; r < RACE_COUNT; r++) {
             CharacterRaceAnimation raceId = (CharacterRaceAnimation)r;
@@ -88,6 +90,16 @@ public class ModelTable
             string path = $"Data/Animations/{race}/{raceId}/User_{raceId}";
             _userContainers[r] = Resources.Load<GameObject>(path);
           //  Debug.Log($"Loading user container {r} [{path}]");
+        }
+
+        // Pawn Containers
+        for (int r = 0; r < RACE_COUNT; r++) {
+            CharacterRaceAnimation raceId = (CharacterRaceAnimation)r;
+            CharacterRace race = CharacterRaceParser.ParseRace(raceId);
+
+            string path = $"Data/Animations/{race}/{raceId}/Pawn_{raceId}";
+            _pawnContainers[r] = Resources.Load<GameObject>(path);
+            //  Debug.Log($"Loading user container {r} [{path}]");
         }
     }
 
@@ -348,10 +360,23 @@ public class ModelTable
         return go;
     }
 
-    public GameObject GetContainer(CharacterRaceAnimation raceId, bool isPlayer) {
-        GameObject go = isPlayer ? _playerContainers[(byte)raceId] : _userContainers[(byte)raceId];
+    public GameObject GetContainer(CharacterRaceAnimation raceId, EntityType entityType) {
+        GameObject go = null;
+
+        switch (entityType) {
+            case EntityType.User:
+                go = _userContainers[(byte)raceId];
+                break;
+            case EntityType.Player:
+                go = _playerContainers[(byte)raceId];
+                break;
+            case EntityType.Pawn:
+                go = _pawnContainers[(byte)raceId];
+                break;
+        }
+
         if (go == null) {
-            Debug.LogError($"Can't find container for race {raceId} isPlayer? {isPlayer}");
+            Debug.LogError($"Can't find container for race {raceId} and entity type {entityType}");
         }
 
         return go;

@@ -8,7 +8,8 @@ public enum EntityType
     User,
     NPC,
     Monster,
-    Item
+    Item,
+    Pawn
 
 }
 

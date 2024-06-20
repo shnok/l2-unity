@@ -20,8 +20,8 @@ public class UserGear : Gear
     [SerializeField] private GameObject _gloves;
     [SerializeField] private GameObject _boots;
 
-    public override void Initialize() {
-        base.Initialize();
+    public override void Initialize(int ownderId, CharacterRaceAnimation raceId) {
+        base.Initialize(ownderId, raceId);
 
         if(this is PlayerGear) {
             _container = this.gameObject;
@@ -60,9 +60,9 @@ public class UserGear : Gear
             return;
         }
 
-        ModelTable.L2ArmorPiece armorPiece = ModelTable.Instance.GetArmorPiece(armor, _entity.RaceId);
+        ModelTable.L2ArmorPiece armorPiece = ModelTable.Instance.GetArmorPiece(armor, _raceId);
         if (armorPiece == null) {
-            Debug.LogWarning($"Can't find armor {itemId} for race {_entity.RaceId} in slot {slot} in ModelTable");
+            Debug.LogWarning($"Can't find armor {itemId} for race {_raceId} in slot {slot} in ModelTable");
             return;
         }
 

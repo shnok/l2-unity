@@ -100,7 +100,7 @@ public class World : MonoBehaviour {
         CharacterRace race = (CharacterRace) appearance.Race;
         CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
 
-        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, true);
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, identity.EntityType);
         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
         go.transform.position = identity.Position;
         go.transform.name = "Player";
@@ -126,7 +126,7 @@ public class World : MonoBehaviour {
 
         go.SetActive(true);
         go.GetComponentInChildren<PlayerAnimationController>().Initialize();
-        go.GetComponent<Gear>().Initialize();
+        go.GetComponent<Gear>().Initialize(player.Identity.Id, player.RaceId);
 
         player.Initialize();
 
@@ -147,7 +147,7 @@ public class World : MonoBehaviour {
         CharacterRace race = (CharacterRace)appearance.Race;
         CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
 
-        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, false);
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, identity.EntityType);
         go.transform.position = identity.Position;
         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
 
@@ -170,7 +170,7 @@ public class World : MonoBehaviour {
         go.SetActive(true);
 
         user.GetComponent<NetworkAnimationController>().Initialize();
-        go.GetComponent<Gear>().Initialize();
+        go.GetComponent<Gear>().Initialize(user.Identity.Id, user.RaceId);
         user.Initialize();
 
         go.transform.SetParent(_usersContainer.transform);
@@ -241,7 +241,7 @@ public class World : MonoBehaviour {
         npcGo.SetActive(true);
 
         npc.GetComponent<NetworkAnimationController>().Initialize();
-        npcGo.GetComponent<Gear>().Initialize();
+        npcGo.GetComponent<Gear>().Initialize(npc.Identity.Id, npc.RaceId);
         npc.Initialize();
 
 
