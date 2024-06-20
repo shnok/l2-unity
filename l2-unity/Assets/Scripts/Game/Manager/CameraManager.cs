@@ -6,6 +6,8 @@ public class CameraManager : MonoBehaviour
 {
     private Dictionary<string, Camera> cameras = new Dictionary<string, Camera>();
 
+    private Camera _activeCamera;
+
     private static CameraManager _instance;
     public static CameraManager Instance { get { return _instance; } }
 
@@ -36,6 +38,7 @@ public class CameraManager : MonoBehaviour
         if (cameras.TryGetValue(camera, out Camera obj)) {
             Debug.Log(camera + " camera enabled.");
             obj.enabled = true;
+            _activeCamera = obj;
         }
     }
 
@@ -47,7 +50,10 @@ public class CameraManager : MonoBehaviour
 
     public void DisableMainCamera() {
         if (Camera.main != null) {
+            Debug.Log("Disabling camera " + Camera.main.transform);
             Camera.main.enabled = false;
+        } else if(_activeCamera != null) {
+            _activeCamera.enabled = false;
         }
     }
 }
