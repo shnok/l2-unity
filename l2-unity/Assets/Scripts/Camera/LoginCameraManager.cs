@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+public class LoginCameraManager : MonoBehaviour
 {
     private Dictionary<string, Camera> cameras = new Dictionary<string, Camera>();
 
     private Camera _activeCamera;
 
-    private static CameraManager _instance;
-    public static CameraManager Instance { get { return _instance; } }
+    private static LoginCameraManager _instance;
+    public static LoginCameraManager Instance { get { return _instance; } }
 
     void Awake() {
         if (_instance == null) {
@@ -30,6 +30,48 @@ public class CameraManager : MonoBehaviour
 
         DisableCameras();
         SwitchCamera("Login");
+    }
+
+    public Camera SelectClassCamera(string race, string charClass) {
+        if(cameras.TryGetValue(race, out Camera camera)) {
+            if(charClass == "Fighter") {
+                return camera.transform.GetChild(0).GetComponent<Camera>();
+            }
+
+            return camera.transform.GetChild(1).GetComponent<Camera>();
+        }
+
+
+        return null;
+    }
+
+    public Camera SelectGenderCamera(string race, string charClass, string gender) {
+        Camera classCamera = SelectClassCamera(race, charClass);
+        if (classCamera != null) {
+            if (gender == "Male") {
+                return classCamera.transform.GetChild(0).GetComponent<Camera>();
+            }
+
+            return classCamera.transform.GetChild(1).GetComponent<Camera>();
+        }
+
+        return null;
+    }
+
+    public Camera SelectHeadCamera(string race, string charClass, string gender) {
+        Camera genderCamera = SelectGenderCamera(race, charClass, gender);
+        if (genderCamera != null) {
+            return genderCamera.transform.GetChild(0).GetComponent<Camera>();
+        }
+
+        return null;
+    }
+
+    public void SwitchCamera(Camera camera) {
+        DisableMainCamera();
+
+        camera.enabled = true;
+        _activeCamera = camera;
     }
 
     public void SwitchCamera(string camera) {
@@ -55,5 +97,13 @@ public class CameraManager : MonoBehaviour
         } else if(_activeCamera != null) {
             _activeCamera.enabled = false;
         }
+    }
+
+    public void ZoomIn() {
+        SwitchCamera(_activeCamera.transform.GetChild(0).GetComponent<Camera>());
+    }
+
+    public void ZoomOut() {
+        SwitchCamera(_activeCamera.transform.parent.GetComponent<Camera>());
     }
 }

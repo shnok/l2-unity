@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     public void OnConnectionAllowed() {
         _gameState = GameState.CHAR_SELECT;
 
-        CameraManager.Instance.SwitchCamera("CharSelect");
+        LoginCameraManager.Instance.SwitchCamera("CharSelect");
 
         L2LoginUI.Instance.ShowCharSelectWindow();
     }
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     public void OnCreateUser() {
         _gameState = GameState.CHAR_CREATION;
 
-        CameraManager.Instance.SwitchCamera("Login");
+        LoginCameraManager.Instance.SwitchCamera("Login");
 
         L2LoginUI.Instance.ShowCharCreationWindow();
     }
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     public void OnRelogin() {
         _gameState = GameState.LOGIN;
 
-        CameraManager.Instance.SwitchCamera("Login");
+        LoginCameraManager.Instance.SwitchCamera("Login");
 
         L2LoginUI.Instance.ShowLoginWindow();
     }
@@ -105,6 +105,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("On game launched");
         L2LoginUI.Instance.StopLoading();
 
-        CharacterCreator.Instance.SpawnDefaultPawns();
+        CharacterCreator.Instance.SpawnAllPawns();
     }
 }

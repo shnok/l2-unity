@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
     <ui:VisualElement name="CharCreationWindow" class="char-creation-window" style="flex-grow: 1; width: 100%; height: 100%; justify-content: flex-end; flex-direction: row;">
-        <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: auto; justify-content: flex-start; align-items: flex-end; flex-shrink: 0;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: 33.3%; justify-content: flex-start; align-items: flex-end; flex-shrink: 0; max-width: 33.3%; min-width: 33.3%;">
             <ui:VisualElement tabindex="-1" name="CharCreationDetailWindow" style="flex-grow: 0; width: 250px; height: auto; flex-shrink: 0; background-image: resource(&apos;Data/UI/Windows/Windows_DF_Drawer_Bg_Darker&apos;); -unity-slice-bottom: 10; -unity-slice-left: 27; -unity-slice-top: 10; -unity-slice-right: 20; margin-right: 0; margin-left: 10px; padding-top: 16px; padding-right: 20px; padding-bottom: 16px; padding-left: 20px; margin-top: 10px; margin-bottom: 0; align-self: flex-start;">
                 <ui:VisualElement name="ID" tabindex="-1" style="flex-grow: 1; flex-direction: row; height: 19px; flex-shrink: 0; margin-bottom: 20px;">
                     <ui:VisualElement name="IDLabel" tabindex="-1" style="flex-grow: 0; width: 41px; margin-right: 0; padding-right: 8px;">
@@ -12,6 +12,19 @@
                         <ui:TextField picking-mode="Ignore" max-length="16" name="UserInputField" class="login-input" />
                     </ui:VisualElement>
                 </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; justify-content: flex-end; width: 33.3%; max-width: 33.3%; min-width: 33.3%; align-items: center;">
+            <ui:VisualElement name="CharacterRotateWindow" style="flex-grow: 0; height: 50px; min-height: auto; min-width: auto; flex-shrink: 0; flex-direction: row; margin-bottom: 100px;">
+                <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TurnLeftButton" tabindex="-1" focusable="false" class="l2-button" style="height: 45px; width: 50px;">
+                    <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg" style="width: 64px; height: 64px;" />
+                </ui:Button>
+                <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ZoomButton" tabindex="-1" focusable="false" class="l2-button" style="height: 45px; width: 50px; margin-right: 14px; margin-left: 14px;">
+                    <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg" style="width: 64px; height: 64px;" />
+                </ui:Button>
+                <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TurnRightButton" tabindex="-1" focusable="false" class="l2-button" style="height: 45px; width: 50px;">
+                    <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg" style="width: 64px; height: 64px;" />
+                </ui:Button>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row-reverse; align-self: auto; align-items: flex-end; justify-content: space-between; flex-wrap: nowrap; width: 33.3%; max-width: 33.3%; min-width: 33.3%;">

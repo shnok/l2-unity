@@ -14,6 +14,8 @@ public class CharCreationWindow : MonoBehaviour {
     private ArrowInputManipulator classManipulator;
     private ArrowInputManipulator raceManipulator;
     private TextField userInputField;
+    private VisualElement pawnRotateWindow;
+    private Button pawnZoominButton;
     private static CharCreationWindow _instance;
     public static CharCreationWindow Instance { get { return _instance; } }
 
@@ -72,6 +74,37 @@ public class CharCreationWindow : MonoBehaviour {
 
         VisualElement charDetailWindow = _windowEle.Q<VisualElement>("CharCreationDetailWindow");
 
+        pawnRotateWindow = _windowEle.Q<VisualElement>("CharacterRotateWindow");
+        HideRotatePawnWindow();
+
+        Button pawnRotateLeftButton = pawnRotateWindow.Q<Button>("TurnLeftButton");
+        Button pawnRotateRightButton = pawnRotateWindow.Q<Button>("TurnRightButton");
+        pawnZoominButton = pawnRotateWindow.Q<Button>("ZoomButton");
+
+        pawnRotateLeftButton.AddManipulator(new ButtonClickSoundManipulator(pawnRotateLeftButton));
+        pawnRotateRightButton.AddManipulator(new ButtonClickSoundManipulator(pawnRotateRightButton));
+        pawnZoominButton.AddManipulator(new ButtonClickSoundManipulator(pawnZoominButton));
+
+        pawnRotateLeftButton.RegisterCallback<PointerDownEvent>((evt) => {
+            CharacterCreator.Instance.RotatePawn(true);
+        }, TrickleDown.TrickleDown);
+
+        pawnRotateRightButton.RegisterCallback<PointerDownEvent>((evt) => {
+            CharacterCreator.Instance.RotatePawn(false);
+        }, TrickleDown.TrickleDown);
+
+        pawnRotateLeftButton.RegisterCallback<PointerUpEvent>((evt) => {
+            CharacterCreator.Instance.StopRotatingPawn();
+        });
+
+        pawnRotateRightButton.RegisterCallback<PointerUpEvent>((evt) => {
+            CharacterCreator.Instance.StopRotatingPawn();
+        });
+
+        pawnZoominButton.RegisterCallback<ClickEvent>((evt) => {
+            ToggleZoomin(false);
+        });
+
         VisualElement raceInput = _arrowInputTemplate.Instantiate()[0];
         VisualElement classInput = _arrowInputTemplate.Instantiate()[0];
         VisualElement genderInput = _arrowInputTemplate.Instantiate()[0];
@@ -83,43 +116,77 @@ public class CharCreationWindow : MonoBehaviour {
 
         yield return new WaitForEndOfFrame();
 
-        hairstyleManipulator = new ArrowInputManipulator(hairstyleInput, "Hairstyle", new string[] { "Type A", "Type B", "Type C", "Type D", "Type E" }, -1, (value) => {
-
+        hairstyleManipulator = new ArrowInputManipulator(hairstyleInput, "Hairstyle", new string[] { "Type A", "Type B", "Type C", "Type D", "Type E" }, -1, (index, value) => {
+            if (CharacterCreator.Instance.PawnIndex == -1) {
+                hairstyleManipulator.ClearInput();
+                return;
+            }
         });
         hairstyleInput.AddManipulator(hairstyleManipulator);
 
-        hairColorManipulator = new ArrowInputManipulator(hairColorInput, "Hair Color", new string[] { "Type A", "Type B", "Type C", "Type D" }, -1, (value) => {
-
+        hairColorManipulator = new ArrowInputManipulator(hairColorInput, "Hair Color", new string[] { "Type A", "Type B", "Type C", "Type D" }, -1, (index, value) => {
+            if (CharacterCreator.Instance.PawnIndex == -1) {
+                hairColorManipulator.ClearInput();
+                return;
+            }
         });
         hairColorInput.AddManipulator(hairColorManipulator);
 
-        faceManipulator = new ArrowInputManipulator(faceInput, "Face", new string[] { "Type A", "Type B", "Type C" }, -1, (value) => {
-
+        faceManipulator = new ArrowInputManipulator(faceInput, "Face", new string[] { "Type A", "Type B", "Type C" }, -1, (index, value) => {
+            if(CharacterCreator.Instance.PawnIndex == -1) {
+                faceManipulator.ClearInput();
+                return;
+            }
         });
         faceInput.AddManipulator(faceManipulator);
 
-        genderManipulator = new ArrowInputManipulator(genderInput, "Gender", new string[] { "Male", "Female" }, -1, (value) => {
+        genderManipulator = new ArrowInputManipulator(genderInput, "Gender", new string[] { "Male", "Female" }, -1, (index, value) => {
+            Camera cam = LoginCameraManager.Instance.SelectGenderCamera(raceManipulator.Value, classManipulator.Value, value);
+            if (cam != null) {
+                LoginCameraManager.Instance.SwitchCamera(cam);
+            }
+
             hairstyleManipulator.ResetInput();
             hairColorManipulator.ResetInput();
             faceManipulator.ResetInput();
+
+            ShowRotatePawnWindow();
+            CharacterCreator.Instance.ResetPawnSelection();
+            CharacterCreator.Instance.SelectPawn(raceManipulator.Value, classManipulator.Value, value);
         });
         genderInput.AddManipulator(genderManipulator);
 
-        classManipulator = new ArrowInputManipulator(classInput, "Class", new string[] { "Fighter", "Mystic" }, -1, (value) => {
+        classManipulator = new ArrowInputManipulator(classInput, "Class", new string[] { "Fighter", "Mystic" }, -1, (index, value) => {
+            if(raceManipulator.Value == "Dwarf" && value == "Mystic") {
+                classManipulator.ResetInput();
+                return;
+            }
+
+            Camera cam = LoginCameraManager.Instance.SelectClassCamera(raceManipulator.Value, value);
+            if (cam != null) {
+                LoginCameraManager.Instance.SwitchCamera(cam);
+            }
+
             genderManipulator.ClearInput();
             hairstyleManipulator.ClearInput();
             hairColorManipulator.ClearInput();
             faceManipulator.ClearInput();
+
+            HideRotatePawnWindow();
+            CharacterCreator.Instance.ResetPawnSelection();
         });
         classInput.AddManipulator(classManipulator);
 
-        raceManipulator = new ArrowInputManipulator(raceInput, "Race", new string[] { "Human", "Elf", "Dark Elf", "Orc", "Dwarf" }, -1, (value) => {
-            CameraManager.Instance.SwitchCamera(value);
+        raceManipulator = new ArrowInputManipulator(raceInput, "Race", new string[] { "Human", "Elf", "Dark Elf", "Orc", "Dwarf" }, -1, (index, value) => {
+            LoginCameraManager.Instance.SwitchCamera(value);
             classManipulator.ClearInput();
             genderManipulator.ClearInput();
             hairstyleManipulator.ClearInput();
             hairColorManipulator.ClearInput();
             faceManipulator.ClearInput();
+
+            HideRotatePawnWindow();
+            CharacterCreator.Instance.ResetPawnSelection();
         });
         raceInput.AddManipulator(raceManipulator);
 
@@ -163,5 +230,30 @@ public class CharCreationWindow : MonoBehaviour {
 
     public void ShowWindow() {
         _windowEle.style.display = DisplayStyle.Flex;
+    }
+
+    private void ShowRotatePawnWindow() {
+        pawnRotateWindow.style.display = DisplayStyle.Flex;
+
+        if (pawnZoominButton.ClassListContains("toggle")) {
+            pawnZoominButton.RemoveFromClassList("toggle");
+        }
+    }
+
+    private void HideRotatePawnWindow() {
+        pawnRotateWindow.style.display = DisplayStyle.None;
+    }
+
+    private void ToggleZoomin(bool removeOnly) {
+        if(pawnZoominButton.ClassListContains("toggle")) {
+            LoginCameraManager.Instance.ZoomOut();
+
+            pawnZoominButton.RemoveFromClassList("toggle");
+        } else {
+
+            LoginCameraManager.Instance.ZoomIn();
+
+            pawnZoominButton.AddToClassList("toggle");
+        }
     }
 }

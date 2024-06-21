@@ -10,10 +10,12 @@ public class ArrowInputManipulator : PointerManipulator {
     private TextField _textField;
     private Button _leftArrow;
     private Button _rightArrow;
-    private Action<string> _onArrowClick;
+    private Action<int, string> _onArrowClick;
     private int _index;
 
-    public ArrowInputManipulator(VisualElement target, string label, string[] values, int defaultIndex, Action<string> onArrowClick) {
+    public String Value { get { return _textField.value; } }
+
+    public ArrowInputManipulator(VisualElement target, string label, string[] values, int defaultIndex, Action<int, string> onArrowClick) {
         this.target = target;
         _label.text = label;
         _values = values;
@@ -50,7 +52,7 @@ public class ArrowInputManipulator : PointerManipulator {
 
         _textField.value = _values[_index];
 
-        _onArrowClick(_textField.value);
+        _onArrowClick(_index, _textField.value);
     }
 
     private void OnRightArrowClick(ClickEvent e) {
@@ -60,7 +62,7 @@ public class ArrowInputManipulator : PointerManipulator {
 
         _textField.value = _values[_index];
 
-        _onArrowClick(_textField.value);
+        _onArrowClick(_index, _textField.value);
     }
 
     public void ClearInput() {
