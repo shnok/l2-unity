@@ -30,8 +30,9 @@ public class ChatTab
         _content = tabContainer.Q<Label>("Content");
         _content.text = "";
 
+        tabHeader.AddManipulator(new ButtonClickSoundManipulator(tabHeader));
+
         tabHeader.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
             if(ChatWindow.Instance.SwitchTab(this)) {
                 AudioManager.Instance.PlayUISound("window_open");
             }
@@ -60,14 +61,8 @@ public class ChatTab
         lowBtn.RegisterCallback<MouseUpEvent>(evt => {
             VerifyScrollValue();
         });
-        highBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-           // Debug.Log("EEEEEEEE");
-        }, TrickleDown.TrickleDown);
-        lowBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-           // Debug.Log("EEEEEEEE");
-        }, TrickleDown.TrickleDown);
+        highBtn.AddManipulator(new ButtonClickSoundManipulator(highBtn));
+        lowBtn.AddManipulator(new ButtonClickSoundManipulator(lowBtn));
         dragger.RegisterCallback<MouseUpEvent>(evt => {
             VerifyScrollValue();
         });

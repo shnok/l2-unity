@@ -18,7 +18,7 @@ public class MusicManager : MonoBehaviour
     private void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if(_instance != this){
             Destroy(this);
         }
 
@@ -26,8 +26,12 @@ public class MusicManager : MonoBehaviour
     }
 
     void OnDestroy() {
+        Clear();
+    }
+
+    public void Clear() {
+        StopMusic(CurrentMusicEvent);
         _musicInstances.Clear();
-        _instance = null;
     }
 
     public void PlayMusic(EventReference musicEvent, int priority) {   

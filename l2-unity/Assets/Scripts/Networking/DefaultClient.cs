@@ -12,6 +12,9 @@ public class DefaultClient : MonoBehaviour {
     [SerializeField] private int _serverPort = 11000;
     [SerializeField] private bool _logReceivedPackets = true;
     [SerializeField] private bool _logSentPackets = true;
+
+    private bool _connecting = false;
+
     public string Username { get { return _username; } }
     public bool LogReceivedPackets { get { return _logReceivedPackets; } }
     public bool LogSentPackets { get { return _logSentPackets; } }
@@ -23,27 +26,29 @@ public class DefaultClient : MonoBehaviour {
     private void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if (_instance != this) {
             Destroy(this);
         }
     }
 
-    void OnDestroy() {
-        _instance = null;
-    }
-
-
     private void Start() {
-        if(World.Instance.OfflineMode) {
+        if(World.Instance != null && World.Instance.OfflineMode) {
             this.enabled = false;
         }
     }
 
     public async void Connect(string user) {
+        if(_connecting) {
+            return;
+        }
+
+        _connecting = true;
         _username = user; 
         _client = new AsynchronousClient(_serverIp, _serverPort);
         bool connected = await Task.Run(_client.Connect);
         if(connected) {  
+            _connecting = false;
+
             ServerPacketHandler.Instance.SetClient(_client);
             ClientPacketHandler.Instance.SetClient(_client);         
             ClientPacketHandler.Instance.SendPing();
@@ -51,37 +56,34 @@ public class DefaultClient : MonoBehaviour {
         }
     }
 
-    public void OnConnectionAllowed() {
-        Debug.Log("Connected");
-        SceneLoader.Instance.SwitchScene(SceneLoader.Instance.GameScene);
+    public void OnConnectionFailed() {
+        _connecting = false;
     }
 
-    public void OnWorldSceneLoaded() {
-        ClientPacketHandler.Instance.SendLoadWorld();
+    public void OnConnectionAllowed() {
+        Debug.Log("Connected");
+        GameManager.Instance.OnConnectionAllowed();
     }
 
     public int GetPing() {
         return _client.Ping;
     }
- 
+
     public void Disconnect() {
+        if (_client != null) {
+            _client.Disconnect();
+        }
+    }
+
+    public void OnDisconnect() {
         Debug.Log("Disconnected");
-        SceneLoader.Instance.SwitchScene("Menu");
+        _client = null;
+        GameManager.Instance.OnDisconnect();
     }
 
     void OnApplicationQuit() {
         if(_client != null) {
             _client.Disconnect();
         }   
-    }
-
-    public void OnDisconnectReady() {
-        if(_client != null) {
-            _client.Disconnect();
-            _client = null;
-        }
-
-        World.Instance.ClearEntities();
-        ChatWindow.Instance.ClearChat();     
     }
 }

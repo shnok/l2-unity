@@ -14,7 +14,7 @@ public class Brush {
     public Model model;
 
     public override string ToString() {
-        return $"Name: {name}, csgOper: {csgOper}, group: {group}, string: {polyFlags}, mainScale: {mainScale}";
+        return $"Name: {name}, csgOper: {csgOper}, group: {group}, mainScale: {mainScale}";
     }
 }
 #endif

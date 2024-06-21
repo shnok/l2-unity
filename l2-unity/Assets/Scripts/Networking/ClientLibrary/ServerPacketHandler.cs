@@ -115,7 +115,7 @@ public class ServerPacketHandler
                     long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     if(now2 - _timestamp >= DefaultClient.Instance.ConnectionTimeoutMs) {
                         Debug.Log("Connection timed out");
-                        DefaultClient.Instance.Disconnect();
+                        _client.Disconnect();
                     }
                 }
             }, _tokenSource.Token);
@@ -157,7 +157,10 @@ public class ServerPacketHandler
 
     private void OnPlayerInfoReceive(byte[] data) {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.SpawnPlayer(packet.Identity, packet.Status, packet.Stats, packet.Appearance));
+        _eventProcessor.QueueEvent(() => {
+            World.Instance.SpawnPlayer(packet.Identity, packet.Status, packet.Stats, packet.Appearance);
+            GameManager.Instance.OnPlayerInfoReceived();
+        });
     }
 
     private void OnUserInfoReceive(byte[] data) {

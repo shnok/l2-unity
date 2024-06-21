@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Gear : MonoBehaviour {
     protected NetworkAnimationController _networkAnimationReceive;
-    protected Entity _entity;
+    protected int _ownerId;
+    protected CharacterRaceAnimation _raceId;
 
     [Header("Weapons")]
     [Header("Meta")]
@@ -24,10 +25,13 @@ public class Gear : MonoBehaviour {
 
     public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
     public string WeaponAnim { get { return _weaponAnim; } }
+    public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
+    public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
 
-    public virtual void Initialize() {
-        _entity = GetComponent<Entity>();
+    public virtual void Initialize(int ownderId, CharacterRaceAnimation raceId) {
         TryGetComponent(out _networkAnimationReceive);
+        _ownerId = ownderId;
+        _raceId = raceId;
     }
 
     public virtual void EquipWeapon(int weaponId, bool leftSlot) {
@@ -41,13 +45,13 @@ public class Gear : MonoBehaviour {
         // Loading from database
         Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
         if (weapon == null) {
-            Debug.LogWarning($"Could find weapon {weaponId} in DB for entity {_entity.Identity.Id}.");
+            Debug.LogWarning($"Could find weapon {weaponId} in DB for entity {_ownerId}.");
             return;
         }
 
         GameObject weaponPrefab = ModelTable.Instance.GetWeaponById(weaponId);
         if (weaponPrefab == null) {
-            Debug.LogWarning($"Could load prefab for {weaponId} in DB for entity {_entity.Identity.Id}.");
+            Debug.LogWarning($"Could load prefab for {weaponId} in DB for entity {_ownerId}.");
             return;
         }
 
@@ -93,21 +97,21 @@ public class Gear : MonoBehaviour {
 
     protected virtual Transform GetLeftHandBone() {
         if (_leftHandBone == null) {
-            _leftHandBone = _networkAnimationReceive.transform.FindRecursive("Bow Bone");
+            _leftHandBone = transform.FindRecursive("Bow Bone");
         }
         return _leftHandBone;
     }
 
     protected virtual Transform GetRightHandBone() {
         if (_rightHandBone == null) {
-            _rightHandBone = _networkAnimationReceive.transform.FindRecursive("Sword Bone");
+            _rightHandBone = transform.FindRecursive("Sword Bone");
         }
         return _rightHandBone;
     }
 
     protected virtual Transform GetShieldBone() {
         if (_shieldBone == null) {
-            _shieldBone = _networkAnimationReceive.transform.FindRecursive("Shield Bone");
+            _shieldBone = transform.FindRecursive("Shield Bone");
         }
         return _shieldBone;
     }

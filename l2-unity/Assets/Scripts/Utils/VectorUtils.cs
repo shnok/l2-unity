@@ -1,8 +1,16 @@
 using UnityEngine;
 
 public class VectorUtils : MonoBehaviour {
-    public static Vector3 ConvertToUnity(Vector3 ueVector) {
+    public static Vector3 ConvertPosToUnity(Vector3 ueVector) {
         return new Vector3(ueVector.y, ueVector.z, ueVector.x) * (1f / 52.5f);
+    }
+
+    public static Vector3 ConvertRotToUnity(Vector3 ueRot) {
+        return new Vector3(
+                            -360.00f * ueRot.x / 65536,
+                            360.00f * ueRot.y / 65536,
+                            -360.00f * ueRot.z / 65536
+                        );
     }
 
     public static Vector3 ConvertToUnityUnscaled(Vector3 ueVector) {
