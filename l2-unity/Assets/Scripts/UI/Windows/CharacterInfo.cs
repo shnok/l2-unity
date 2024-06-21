@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class TestUI : MonoBehaviour
+public class CharacterInfo : MonoBehaviour
 {
+
     private VisualTreeAsset _testUITemplate;
     public VisualElement minimal_panel;
 
@@ -22,8 +23,8 @@ public class TestUI : MonoBehaviour
         }
     }
 
-    private static TestUI _instance;
-    public static TestUI Instance
+    private static CharacterInfo _instance;
+    public static CharacterInfo Instance
     {
         get { return _instance; }
     }
@@ -47,17 +48,31 @@ public class TestUI : MonoBehaviour
             return;
         }
 
-        var testUI = _testUITemplate.Instantiate()[0];
-        minimal_panel = testUI.Q(className: "testui-panel");
 
-        root.Add(testUI);
-
+        StartCoroutine(BuildWindow(root));
     }
 
- 
- 
+
+    public IEnumerator BuildWindow(VisualElement root)
+    {
+        var testUI = _testUITemplate.Instantiate()[0];
+        var windowsFrame = testUI.Q<VisualElement>(null, "drag-area");
+
+        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(testUI);
+        testUI.AddManipulator(mouseOverDetection);
+
+        DragManipulator drag = new DragManipulator(windowsFrame, testUI);
+        windowsFrame.AddManipulator(drag);
+
+        root.Add(testUI);
+        yield return new WaitForEndOfFrame();
+    }
+
+
     private void OnDestroy()
     {
         _instance = null;
     }
+
+
 }
