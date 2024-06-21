@@ -3,24 +3,38 @@ using Assets.Scripts.UI.Manipulators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using static UnityEditor.Rendering.FilterWindow;
+using static UnityEngine.Rendering.DebugUI;
 
 
 
-public class ShortCutPanel : MonoBehaviour
+
+public class ShortCutPanel : MonoBehaviour , IShortCutButton
 {
     private VisualTreeAsset _shortCutWindowsTemplate;
-    private VisualElement ve;
-    private List<ShortCutPanelMinimal> _minmalPanels;
+    private VisualElement shortCutPanelElements;
     private VisualTreeAsset _shortCutWIndowsMinimalTemplate;
     private VisualElement statusWindowDragArea;
     private DragManipulatorsChildren drag;
+    private int sizeCell = 11;
+    public ShortCutChildrenModel arrayRowsPanels;
+    private ShortCutButton shortCutButton;
+    private VisualElement rootGroupBox;
+    private VisualElement buttonSlider;
+    private ShortCutReplacePanel replacePanel;
+    private bool isVertical;
+    private ClickSliderShortCutManipulator slider;
 
-    // [SerializeField] private float _statusWindowMinWidth = 700.0f;
-    //[SerializeField] private float _statusWindowMaxWidth = 800.0f;
 
+
+    private string[] arrImgNextButton = new string[6]; 
+ 
+    private int showPanelIndex = 0;
 
     private static ShortCutPanel _instance;
     public static ShortCutPanel Instance
@@ -33,11 +47,51 @@ public class ShortCutPanel : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+            CretaeDemoInfo();
+            shortCutButton = new ShortCutButton(this , sizeCell);
+            replacePanel = new ShortCutReplacePanel(sizeCell , arrayRowsPanels);
+            InitArrImgNumbers();
+            isVertical = true;
         }
         else
         {
             Destroy(this);
         }
+    }
+
+    private void InitArrImgNumbers()
+    {
+        arrImgNextButton[0] = "Data/UI/ShortCut/button/numbers/shortcut_f01";
+        arrImgNextButton[1] = "Data/UI/ShortCut/button/numbers/shortcut_f02";
+        arrImgNextButton[2] = "Data/UI/ShortCut/button/numbers/shortcut_f03";
+        arrImgNextButton[3] = "Data/UI/ShortCut/button/numbers/shortcut_f04";
+        arrImgNextButton[4] = "Data/UI/ShortCut/button/numbers/shortcut_f05";
+        arrImgNextButton[5] = "Data/UI/ShortCut/button/numbers/shortcut_f06";
+       // arrImgNextButton[6] = "Data/UI/ShortCut/button/numbers/shortcut_f07";
+    }
+
+    public void  SetPositionVerical(bool vertical)
+    {
+        this.isVertical = vertical;
+    }
+
+    public bool IsVertical()
+    {
+        return this.isVertical;
+    }
+    public string[] GetArrImgNextButton()
+    {
+        return arrImgNextButton; 
+    }
+
+    public int GetShowPanelIndex()
+    {
+        return showPanelIndex;
+    }
+
+    public void SetPanelIndex(int index)
+    {
+        showPanelIndex = index;
     }
 
     private void OnDestroy()
@@ -50,6 +104,7 @@ public class ShortCutPanel : MonoBehaviour
         if (_shortCutWindowsTemplate == null)
         {
             _shortCutWindowsTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ShortCutPanel");
+           
         }
         if (_shortCutWindowsTemplate == null)
         {
@@ -74,52 +129,128 @@ public class ShortCutPanel : MonoBehaviour
         return statusWindowDragArea.worldBound.position;
     }
 
-    public void setDrugChildren(VisualElement[] children)
+    public void SetDrugChildren(VisualElement[] children)
     {
         drag.setChildren(children);
     }
+
+    public DragManipulatorsChildren GetDrag()
+    {
+        return drag;
+    }
+
+    public VisualElement GetShortCutPanelElements()
+    {
+        return shortCutPanelElements;
+    }
     public IEnumerator BuildWindow(VisualElement root)
     {
-        var shortCutPanel = _shortCutWindowsTemplate.Instantiate()[0];
+        shortCutPanelElements = _shortCutWindowsTemplate.Instantiate()[0];
+        replacePanel.SetRootPanel(shortCutPanelElements);
 
+        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(shortCutPanelElements);
+        shortCutPanelElements.AddManipulator(mouseOverDetection);
 
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(shortCutPanel);
-        shortCutPanel.AddManipulator(mouseOverDetection);
-        
-        statusWindowDragArea = shortCutPanel.Q<VisualElement>(null, "drag-area-shortcut");
-        drag = new DragManipulatorsChildren(statusWindowDragArea, shortCutPanel);
+        statusWindowDragArea = shortCutPanelElements.Q<VisualElement>(null, "drag-area-shortcut");
+        drag = new DragManipulatorsChildren(statusWindowDragArea, shortCutPanelElements);
         statusWindowDragArea.AddManipulator(drag);
 
 
-        var rootGroupBox = shortCutPanel.Q<VisualElement>(null, "short-cut");
-        var shortcutImage1 = shortCutPanel.Q<VisualElement>(null, "shortcutimage");
+        rootGroupBox = shortCutPanelElements.Q(className:"short-cut");
 
-        var buttonSlider = shortCutPanel.Q<VisualElement>(null, "button-slider");
+        var imageIndex = shortCutPanelElements.Q<VisualElement>(null, "ImageIndex");
         
+
+        //Working code for overlay
+        var shortcutImage1 = shortCutPanelElements.Q<VisualElement>(null, "row0");
+
+        buttonSlider = shortCutPanelElements.Q<VisualElement>(null, "button-slider");
+
+
+
 
         ClickPanelManipulation panel = new ClickPanelManipulation(shortcutImage1, IconOverlay.Instance);
         shortcutImage1.AddManipulator(panel);
 
 
 
-        ClickSliderShortCutManipulator slider = new ClickSliderShortCutManipulator(shortcutImage1, ShortCutPanelMinimal.Instance);
+        slider = new ClickSliderShortCutManipulator(ShortCutPanelMinimal.Instance, drag , isVertical);
         buttonSlider.AddManipulator(slider);
 
-       // float x_root = root.worldBound.max.x;
-        //float y_root = root.worldBound.max.y;
-        //InitPosition(x_root, y_root, rootGroupBox);
 
-        root.Add(shortCutPanel);
 
-       
 
+        shortCutButton.SetImageNumber(this , imageIndex, showPanelIndex);
+        //set root cell
+        replacePanel.SetImage(shortCutPanelElements);
+
+        shortCutButton.RegisterButtonCallBackNext(imageIndex , "button_next");
+        shortCutButton.RegisterButtonCallBackPreview(imageIndex , "button_preview");
+        shortCutButton.RegisterButtonCallBackRotate(rootGroupBox , "visualRotate");
+        root.Add(rootGroupBox);
         yield return new WaitForEndOfFrame();
 
     }
 
-    private void InitPosition(float x_root, float y_root, VisualElement rootGroupBox)
+    public ClickSliderShortCutManipulator GetActiveManipulatorSlider()
     {
-        rootGroupBox.transform.position = new Vector2(x_root - 44, 25);
+        return slider;
     }
+
+    public VisualElement GetSliderVisualElement()
+    {
+        return buttonSlider;
+    }
+
+    public void ReplaceLeftSliderToRightSlider()
+    {
+        buttonSlider.RemoveFromClassList("button-slider");
+        buttonSlider.AddToClassList("button-slider-right");
+    }
+
+    public void ReplaceRightSliderToLeftSlider()
+    {
+        buttonSlider.RemoveFromClassList("button-slider-right");
+        buttonSlider.AddToClassList("button-slider");
+    }
+
+    //rootGroupBox - use this class not use argumets
+    public void NextPanelToRootPanel(VisualElement disable, int disablepanel)
+    {
+        replacePanel.SetImageNext(sizeCell, rootGroupBox, showPanelIndex);
+    }
+
+
+
+  
+    public ShortCutChildrenModel GetShortCutChildrenModel()
+    {
+        return arrayRowsPanels;
+    }
+
+
+
+    private void CretaeDemoInfo()
+    {
+        for (int i = 0; i < sizeCell; i++)
+        {
+
+            int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+            string[] img = { "Data/UI/ShortCut/demo_skills/skill0915",
+                "Data/UI/ShortCut/demo_skills/skill0914",
+                "Data/UI/ShortCut/demo_skills/skill0914",
+                "Data/UI/ShortCut/demo_skills/skill0914",
+                "Data/UI/ShortCut/demo_skills/skill0914",
+                "Data/UI/ShortCut/demo_skills/skill0914",
+                "Data/UI/ShortCut/demo_skills/skill0915",
+                "Data/UI/ShortCut/demo_skills/skill0915",
+                "Data/UI/ShortCut/demo_skills/skill0914",
+                "Data/UI/ShortCut/demo_skills/skill0914",
+                "Data/UI/ShortCut/demo_skills/skill0914",
+                "Data/UI/ShortCut/demo_skills/skill0914" };
+            arrayRowsPanels = new ShortCutChildrenModel(row, img);
+        }
+    }
+
 
 }

@@ -3,22 +3,34 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.Rendering.DebugUI.MessageBox;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 
-public class ShortCutPanelMinimal : MonoBehaviour
+public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
 {
-    private VisualTreeAsset[] arrayTemplate = new VisualTreeAsset[2];
-    public VisualElement[] arrayPanels = new VisualElement[2];
+    private VisualTreeAsset[] arrayTemplate = new VisualTreeAsset[5];
+    public VisualElement[] arrayPanels = new VisualElement[5];
+    public ShortCutChildrenModel[] arrayRowsPanels = new ShortCutChildrenModel[5];
+    private int sizeCell = 11;
     private bool initPosition = false;
+    private string[] arrImgNextButton = new string[6];
+    private ShortCutReplacePanelMinimal replacePanel;
+
 
     public void Start()
     {
-        arrayTemplate = createObject(arrayTemplate);
+        CretaeDemoInfo();
+        InitArrImgNumbers();
+        arrayTemplate = CreateObject(arrayTemplate);
+        replacePanel = new ShortCutReplacePanelMinimal(sizeCell , arrayRowsPanels);
     }
 
     void Update()
@@ -29,11 +41,12 @@ public class ShortCutPanelMinimal : MonoBehaviour
             if (shortCutPosition.x != 0 & shortCutPosition.y != 0)
             {
                 InitPosition(shortCutPosition.x, shortCutPosition.y, arrayPanels);
-                if(arrayPanels != null)
+
+                if (arrayPanels != null)
                 {
-                    ShortCutPanel.Instance.setDrugChildren(arrayPanels);
+                    ShortCutPanel.Instance.SetDrugChildren(arrayPanels);
                 }
-                
+
                 initPosition = true;
             }
 
@@ -41,9 +54,73 @@ public class ShortCutPanelMinimal : MonoBehaviour
 
     }
 
-    private VisualTreeAsset[] createObject(VisualTreeAsset[] arrayTemplate)
+    private void InitArrImgNumbers()
     {
-        for (int i = 0; i < 2; i++)
+        arrImgNextButton[0] = "Data/UI/ShortCut/button/numbers/shortcut_f01";
+        arrImgNextButton[1] = "Data/UI/ShortCut/button/numbers/shortcut_f02";
+        arrImgNextButton[2] = "Data/UI/ShortCut/button/numbers/shortcut_f03";
+        arrImgNextButton[3] = "Data/UI/ShortCut/button/numbers/shortcut_f04";
+        arrImgNextButton[4] = "Data/UI/ShortCut/button/numbers/shortcut_f05";
+        arrImgNextButton[5] = "Data/UI/ShortCut/button/numbers/shortcut_f06";
+        // arrImgNextButton[6] = "Data/UI/ShortCut/button/numbers/shortcut_f07";
+    }
+    public void SetResetPosition()
+    {
+        this.initPosition = false;
+    }
+
+    public string[] GetArrImgNextButton()
+    {
+        return arrImgNextButton;
+    }
+
+    public void SetHidePanels()
+    {
+        //HideElements(true, arrayPanels);
+    }
+
+    private void CretaeDemoInfo()
+    {
+        for (int i = 0; i < arrayRowsPanels.Length; i++)
+        {
+            if(i == 0)
+            {
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0914", "", "", "", "", "", "", "", "", "", "" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+            if(i == 1)
+            {
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill0009", "Data/UI/ShortCut/demo_skills/skill5760", "", "", "", "", "", "", "", "", "", "" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+
+            if(i == 2) { 
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+
+            if (i == 3)
+            {
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+
+            if (i == 4)
+            {
+                int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
+                string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "", "", "", "", "", "", "", "", "" };
+                arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
+            }
+
+        }
+    }
+    private VisualTreeAsset[] CreateObject(VisualTreeAsset[] arrayTemplate)
+    {
+        for (int i = 0; i < arrayTemplate.Length; i++)
         {
             if (arrayTemplate[i] == null)
             {
@@ -80,8 +157,8 @@ public class ShortCutPanelMinimal : MonoBehaviour
 
 
         arrayPanels = CreatePanels(arrayTemplate, arrayPanels);
+        replacePanel.SetArrayPanels(arrayPanels);
         HideElements(true, arrayPanels);
-        //InitPosition(x_root, y_root, arrayPanels);
         AddPanelsToRoot(root, arrayPanels);
     }
 
@@ -95,14 +172,98 @@ public class ShortCutPanelMinimal : MonoBehaviour
     }
     private VisualElement[] CreatePanels(VisualTreeAsset[] arrayTemplate, VisualElement[] arrayPanels)
     {
-        for (int i = 0; i < arrayTemplate.Length; i++)
+        //6 panels
+        for (int panel = 0; panel < arrayTemplate.Length; panel++)
         {
-            var shortCutMinimal = arrayTemplate[i].Instantiate()[0];
+            
+            var shortCutMinimal = arrayTemplate[panel].Instantiate()[0];
+            
+            var imageNumberSlider = shortCutMinimal.Q<VisualElement>(null, "ImageIndexMinimal");
+
+
+            ShortCutButtonMinimal button = new ShortCutButtonMinimal(shortCutMinimal , this , Plus1Panel(panel));
+            button.RegisterButtonCallBackNext(imageNumberSlider, "button_next");
+            button.RegisterButtonCallBackPreview(imageNumberSlider, "button_preview");
             var minimal_panel = shortCutMinimal.Q(className: "minimal-panel");
-            arrayPanels[i] = minimal_panel;
+            var number_image = shortCutMinimal.Q(className: "ImageIndexMinimal");
+
+
+            //12 cells
+            // panel number panels | b number cell
+            for (int cell =0; cell <= sizeCell; cell++)
+            {
+                var row = shortCutMinimal.Q(className: "row" + cell);
+                var border = GetBorderRow(shortCutMinimal, cell);
+                SetRows(border, row, panel, cell);
+            }
+
+
+
+            SetAddImageNumber(panel, number_image);
+            arrayPanels[panel] = minimal_panel;
         }
 
         return arrayPanels;
+    }
+
+    private int Plus1Panel(int panel)
+    {
+        int panelPlus1 = 0;
+        if (panel == 0)
+        {
+            return panelPlus1 = 1;
+        }
+        else
+        {
+            return panelPlus1 = panel + 1;
+        }
+    }
+
+    private void SetAddImageNumber(int panel , VisualElement number_image)
+    {
+        if (panel == 0)
+        {
+            SetImageNumber(number_image, arrImgNextButton[1]);
+        }
+        else
+        {
+
+            SetImageNumber(number_image, arrImgNextButton[panel + 1]);
+        }
+    }
+
+    private void SetRows(VisualElement border  , VisualElement row, int i , int id_path)
+    {
+       SetImage(border , row, i, id_path);
+    }
+
+    private void VisibleBorder(VisualElement border, bool show)
+    {
+        if(border != null) border.visible = show;
+    }
+
+    private VisualElement GetBorderRow(VisualElement shortCutMinimal , int index)
+    {
+        return shortCutMinimal.Q(className: "border_row" + index);
+    }
+    private void SetImage(VisualElement border , VisualElement row , int i , int id_path)
+    {
+        string path = arrayRowsPanels[i].GetRowImgPath(id_path);
+        Texture2D imgSource1 = Resources.Load<Texture2D>(path);
+        if(imgSource1 != null)
+        {
+            VisibleBorder(border, true);
+            row.style.backgroundImage = new StyleBackground(imgSource1);
+        }
+    }
+
+    private void SetImageNumber(VisualElement number_image, string path)
+    {
+        Texture2D imgSource1 = Resources.Load<Texture2D>(path);
+        if(imgSource1 != null)
+        {
+            number_image.style.backgroundImage = new StyleBackground(imgSource1);
+        }
     }
 
     private void InitPosition(float x_root, float y_root, VisualElement[] arrayPanels)
@@ -115,35 +276,83 @@ public class ShortCutPanelMinimal : MonoBehaviour
         }
 
     }
-    public void newPosition(Vector2 vector, int activePanels)
+    public void NewPosition(Vector2 vector, int activePanels , Vector2 originalRootVector , bool isVertical)
     {
-        if (getActivePanel(activePanels) != null)
+        VisualElement active = GetActivePanel(activePanels);
+
+
+        if (active != null)
         {
-            //каждую итерацию вычисляет шаг для движения
-            //Vector2 test = Vector2.MoveTowards(result.transform.position, vector, Time.deltaTime * 10);
-            // minimal_panel.transform.position = vector;
-            Vector2 newVector = GetVector(activePanels, vector);
-            HideElement(false, arrayPanels, activePanels);
-            AddAnim(newVector, getActivePanel(activePanels));
+            if (isVertical)
+            {
+                VisualElement activePanel = active;
+                Vector2 newVector = GetVector(activePanels, vector, isVertical);
+
+                ResetDiff(activePanel);
+                SyncRootPosition(activePanel, originalRootVector);
+
+                HideElement(false, arrayPanels, activePanels);
+                AddAnim(newVector, active);
+            }
+            else
+            {
+                var horizontalOriginalVector = new Vector2(originalRootVector.x + 235, originalRootVector.y - 235);
+                VisualElement activePanel = active;
+                Vector2 vectorHorizontal = new Vector2(vector.x + 235, vector.y - 235);
+                Vector2 newVector = GetVectorHorizontal(activePanels, vectorHorizontal);
+                ResetDiff(activePanel);
+                SyncRootHorizontalPosition(active, horizontalOriginalVector);
+                AddAnim(newVector, activePanel);
+
+            }
+       
         }
+    }
+
+    public void SyncRootPosition(VisualElement activePanel , Vector2 originalRootVector)
+    {
+        activePanel.transform.position = originalRootVector;
+    }
+
+    public void SyncRootHorizontalPosition(VisualElement activePanel, Vector2 originalRootVector)
+    {
+        activePanel.transform.position = originalRootVector;
+        activePanel.style.display = DisplayStyle.Flex;
+    }
+    private void ResetDiff(VisualElement activePanel)
+    {
+        activePanel.style.left = 0;
+        activePanel.style.top = 0;
     }
 
     // 0 - panels sync to shortcutpanel
     // else - panels sync to last shortcutminpanels
-    private Vector2 GetVector(int activePanels , Vector2 vector)
+    private Vector2 GetVector(int activePanels , Vector2 vector , bool isVertical)
     {
-        if(activePanels == 0)
-        {
-            return new Vector2(vector.x - 30, vector.y);
-        }
-        else
-        {
-            return new Vector2(vector.x - 22, vector.y);
-        }
-
+            if (activePanels == 0)
+            {
+                return new Vector2(vector.x - 30, vector.y);
+            }
+            else
+            {
+                return new Vector2(vector.x - 22, vector.y);
+            }
     }
 
-    public VisualElement getLastElement(int index)
+    private Vector2 GetVectorHorizontal(int activePanels, Vector2 vector)
+    {
+            if (activePanels == 0)
+            {
+                return new Vector2(vector.x - 8, vector.y - 23);
+            }
+            else
+            {
+                return new Vector2(vector.x - 8, vector.y - 14);
+            }
+        
+    }
+
+    public VisualElement GetLastElement(int index)
     {
         if (index >= 0 && index < arrayPanels.Length)
         {
@@ -152,18 +361,33 @@ public class ShortCutPanelMinimal : MonoBehaviour
         return null;
     }
 
+    public int GetLastPosition(int index)
+    {
+       return  arrayPanels.Length - 2;
+    }
+
+  
+    public VisualElement[] GetArrayPanels()
+    {
+        return arrayPanels;
+    }
     public int Count()
     {
         return arrayPanels.Length;
     }
 
-    private VisualElement getActivePanel(int indexPanel)
+    private VisualElement GetActivePanel(int indexPanel)
     {
+ 
         if (indexPanel >= 0 && indexPanel < arrayPanels.Length)
         {
             return arrayPanels[indexPanel];
         }
-        return null;
+        else
+        {
+            return arrayPanels[arrayPanels.Length - 1];
+        }
+      
     }
     public void AddAnim( Vector2 target_postion , VisualElement activeElement)
     {
@@ -187,6 +411,10 @@ public class ShortCutPanelMinimal : MonoBehaviour
 
     private void HideElement(bool is_hide, VisualElement[] arrayPanels , int index)
     {
+        if(index >= arrayPanels.Length)
+        {
+            index = arrayPanels.Length - 1;
+        }
 
         if(arrayPanels[index] != null)
         {
@@ -208,7 +436,7 @@ public class ShortCutPanelMinimal : MonoBehaviour
         {
             Vector2 source = activeElement.transform.position;
             Vector2 tempVector = Vector2.MoveTowards(source, target_postion, Time.deltaTime * 500);
-           if (source.Equals(target_postion))
+            if (source.Equals(target_postion))
             {
                 break;
             }
@@ -217,6 +445,22 @@ public class ShortCutPanelMinimal : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
     }
+
+    public ShortCutChildrenModel[] GetArrayRowsPanels()
+    {
+        return arrayRowsPanels;
+    }
+
+    public void NextPanelToRootPanel(VisualElement rootGroupBox , int showPanelIndex)
+    {
+        replacePanel.SetImageNext(sizeCell , rootGroupBox, showPanelIndex);
+    }
+
+    //public void NextPanelShortCut(VisualElement rootGroupBox, int showPanelIndex)
+    //{
+    //    replacePanel.SetImageNext(sizeCell, rootGroupBox, showPanelIndex);
+    //}
+
     private void OnDestroy()
     {
         _instance = null;

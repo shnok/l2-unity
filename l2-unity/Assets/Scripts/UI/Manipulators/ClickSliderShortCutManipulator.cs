@@ -8,13 +8,15 @@ using UnityEngine.UIElements;
 
 public class ClickSliderShortCutManipulator : PointerManipulator
 {
-    private VisualElement target_buttonSlider;
     private ShortCutPanelMinimal shortcutminimal;
     private int numberClick = 0;
-    public ClickSliderShortCutManipulator(VisualElement target_buttonSlider, ShortCutPanelMinimal shortcutminimal)
+    private DragManipulatorsChildren drag;
+    private bool isVertical;
+    public ClickSliderShortCutManipulator(ShortCutPanelMinimal shortcutminimal , DragManipulatorsChildren drag , bool isVertical)
     {
-        this.target_buttonSlider = target_buttonSlider;
         this.shortcutminimal = shortcutminimal;
+        this.drag = drag;
+        this.isVertical = isVertical;
     }
     protected override void RegisterCallbacksOnTarget()
     {
@@ -28,32 +30,59 @@ public class ClickSliderShortCutManipulator : PointerManipulator
 
     private void PointerDownHandler(PointerDownEvent evt)
     {
-        var visualelement = GetRootElement(evt, numberClick);
+        var visualElement = GetRootElement(evt, numberClick);
 
-        if(visualelement != null)
+        if (visualElement != null)
         {
-            var rootVector2 = GetPositionWorld(visualelement, numberClick);
-
-            if (numberClick > shortcutminimal.Count()) numberClick = 0;
-
-            if (numberClick <= shortcutminimal.Count())
-            {
-                int clickCount = numberClick + 1;
-                float sdvig = 23;
-
-                var newPosition = new Vector2(rootVector2.x - sdvig, rootVector2.y);
-
-                shortcutminimal.newPosition(newPosition, numberClick++);
-                //transform.position = Vector3.MoveTowards(transform.position, _endPos, Time.deltaTime * _velocity);
-                //iconOverlay.AddAnim(SkillTimeArray.GetArrayImage(), 0.0001f);
-            }
+            drag.SetActivePanel(numberClick);
+            NextPanel(visualElement);
         }
-      
+        else
+        {
+            ShortCutPanel.Instance.ReplaceRightSliderToLeftSlider();
+            ResetPositionPanel();
+        }
+    }
 
+    private void NextPanel(VisualElement visualElement)
+    {
+        var rootVector2 = GetPositionWorld(visualElement, numberClick);
+
+        //if (numberClick > shortcutminimal.Count()) numberClick = 0;
+
+        if (numberClick <= shortcutminimal.Count())
+        {
+            if (isVertical)
+            {
+                float sdvig = 23;
+                var newPosition = new Vector2(rootVector2.x - sdvig, rootVector2.y);
+                shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2 , isVertical);
+            }
+            else
+            {
+                float sdvig = 23;
+                var newPosition = new Vector2(rootVector2.x, rootVector2.y - sdvig);
+                shortcutminimal.NewPosition(newPosition, numberClick++, rootVector2 , isVertical);
+            }
+      
+        }
+    
+
+    }
+
+    private void ResetPositionPanel()
+    {
+        
+        shortcutminimal.SetResetPosition();
+        shortcutminimal.SetHidePanels();
+        this.numberClick = 0;
     }
 
     private VisualElement GetRootElement(PointerDownEvent evt , int activeIndex)
     {
+        if (activeIndex >= shortcutminimal.Count()) return null;
+
+
         if (activeIndex == 0) {
             return (VisualElement) evt.currentTarget;
         } 
@@ -61,11 +90,22 @@ public class ClickSliderShortCutManipulator : PointerManipulator
         if (activeIndex >= 1)
         {
             int minus1 = activeIndex - 1;
-            return shortcutminimal.getLastElement(minus1);
+            int end = shortcutminimal.GetLastPosition(minus1);
+            ReplaceSliderLeft(end, minus1);
+            return shortcutminimal.GetLastElement(minus1);
         }
 
         return null;
         
+    }
+
+    private void ReplaceSliderLeft(int end, int minus1)
+    {
+        if (end == minus1)
+        {
+            ShortCutPanel.Instance.ReplaceLeftSliderToRightSlider();
+        }
+
     }
 
     private Vector2 GetPositionWorld(VisualElement rootElement , int index)

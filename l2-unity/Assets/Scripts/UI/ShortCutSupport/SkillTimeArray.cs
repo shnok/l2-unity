@@ -24,8 +24,7 @@ public static class SkillTimeArray
            
         }
 
-       
-
+ 
         return list.ToArray();
     }
 }
