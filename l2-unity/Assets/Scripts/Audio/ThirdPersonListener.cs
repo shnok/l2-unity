@@ -7,6 +7,9 @@ public class ThirdPersonListener : MonoBehaviour
     [SerializeField] private GameObject _player, _cam;
     [SerializeField] private int _listener;
 
+    public GameObject Player { get { return _player; } }
+    public GameObject Cam { get { return _cam; } set { _cam = value; } }
+
     private FMOD.ATTRIBUTES_3D _attributes = new FMOD.ATTRIBUTES_3D();
 
     private static ThirdPersonListener _instance;
@@ -19,7 +22,9 @@ public class ThirdPersonListener : MonoBehaviour
             Destroy(this);
         }
 
-        _cam = Camera.main.gameObject;
+        if(_cam == null) {
+            _cam = Camera.main.gameObject;
+        }
     }
 
     void OnDestroy() {

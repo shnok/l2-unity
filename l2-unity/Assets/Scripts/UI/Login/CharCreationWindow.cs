@@ -200,6 +200,8 @@ public class CharCreationWindow : MonoBehaviour {
         });
         raceInput.AddManipulator(raceManipulator);
 
+        raceManipulator.ClearInput();
+
         charDetailWindow.Add(raceInput);
         charDetailWindow.Add(classInput);
         charDetailWindow.Add(genderInput);

@@ -175,6 +175,19 @@ public class L2TerrainInfoParser {
     }
 
 
+    public static AmbientSound[] ParseAmbientSoundFile(string path) {
+        try {
+            string json = File.ReadAllText(path);
+            AmbientDataContainer sounds = JsonUtility.FromJson<AmbientDataContainer>(json);
+            return sounds.data;
+
+        } catch (IOException e) {
+            Debug.LogError("An error occurred: " + e.Message);
+        }
+
+        return null;
+    }
+
 
 }
 #endif

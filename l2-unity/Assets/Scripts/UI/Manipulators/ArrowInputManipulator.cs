@@ -56,11 +56,15 @@ public class ArrowInputManipulator : PointerManipulator {
     }
 
     private void OnRightArrowClick(ClickEvent e) {
+
+        Debug.Log(_index);
         if (++_index > _values.Length - 1) {
             _index = 0;
         }
+        Debug.Log(_index);
 
         _textField.value = _values[_index];
+        Debug.Log(_textField.value);
 
         _onArrowClick(_index, _textField.value);
     }

@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnWorldLoading() {
+        MusicManager.Instance.Clear();
         L2GameUI.Instance.StartLoading();
     }
 

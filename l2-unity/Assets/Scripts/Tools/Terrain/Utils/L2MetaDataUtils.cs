@@ -6,7 +6,7 @@ using UnityEngine;
 public class L2MetaDataUtils {
     public static float ParseFloatFromInfo(string info) {
         int equalsIndex = info.IndexOf('=');
-        string valueString = info.Substring(equalsIndex + 1, info.Length - equalsIndex - 2);
+        string valueString = info.Substring(equalsIndex + 1, info.Length - equalsIndex - 1);
         return float.Parse(valueString);
     }
 
@@ -14,6 +14,12 @@ public class L2MetaDataUtils {
         int equalsIndex = info.IndexOf('=');
         string valueString = info.Substring(equalsIndex + 1, info.Length - equalsIndex - 1);
         return valueString.Equals("1");
+    }
+
+    public static int ParseIntFromInfo(string info) {
+        int equalsIndex = info.IndexOf('=');
+        string valueString = info.Substring(equalsIndex + 1, info.Length - equalsIndex - 1);
+        return int.Parse(valueString);
     }
 
     public static string[] GetFolderAndFileFromInfo(string value) {

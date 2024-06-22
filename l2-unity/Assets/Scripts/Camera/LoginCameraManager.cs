@@ -72,6 +72,8 @@ public class LoginCameraManager : MonoBehaviour
 
         camera.enabled = true;
         _activeCamera = camera;
+
+        UpdateListenerPosition();
     }
 
     public void SwitchCamera(string camera) {
@@ -81,6 +83,8 @@ public class LoginCameraManager : MonoBehaviour
             Debug.Log(camera + " camera enabled.");
             obj.enabled = true;
             _activeCamera = obj;
+
+            UpdateListenerPosition();
         }
     }
 
@@ -97,6 +101,11 @@ public class LoginCameraManager : MonoBehaviour
         } else if(_activeCamera != null) {
             _activeCamera.enabled = false;
         }
+    }
+
+    private void UpdateListenerPosition() {
+        ThirdPersonListener.Instance.transform.position = _activeCamera.transform.position;
+        ThirdPersonListener.Instance.Cam = _activeCamera.gameObject;
     }
 
     public void ZoomIn() {
