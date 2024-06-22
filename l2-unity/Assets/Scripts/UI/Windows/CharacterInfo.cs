@@ -56,13 +56,13 @@ public class CharacterInfo : MonoBehaviour
     public IEnumerator BuildWindow(VisualElement root)
     {
         var testUI = _testUITemplate.Instantiate()[0];
-        var windowsFrame = testUI.Q<VisualElement>(null, "drag-area");
+        //var windowsFrame = testUI.Q<VisualElement>(null, "drag-area");
 
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(testUI);
-        testUI.AddManipulator(mouseOverDetection);
+       // MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(testUI);
+        //testUI.AddManipulator(mouseOverDetection);
 
-        DragManipulator drag = new DragManipulator(windowsFrame, testUI);
-        windowsFrame.AddManipulator(drag);
+        //DragManipulator drag = new DragManipulator(windowsFrame, testUI);
+       // windowsFrame.AddManipulator(drag);
 
         root.Add(testUI);
         yield return new WaitForEndOfFrame();
