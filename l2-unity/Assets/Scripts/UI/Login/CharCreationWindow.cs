@@ -141,6 +141,11 @@ public class CharCreationWindow : MonoBehaviour {
         faceInput.AddManipulator(faceManipulator);
 
         genderManipulator = new ArrowInputManipulator(genderInput, "Gender", new string[] { "Male", "Female" }, -1, (index, value) => {
+            if (classManipulator.Value == "") {
+                genderManipulator.ClearInput();
+                return;
+            }
+
             Camera cam = LoginCameraManager.Instance.SelectGenderCamera(raceManipulator.Value, classManipulator.Value, value);
             if (cam != null) {
                 LoginCameraManager.Instance.SwitchCamera(cam);
@@ -159,6 +164,11 @@ public class CharCreationWindow : MonoBehaviour {
         classManipulator = new ArrowInputManipulator(classInput, "Class", new string[] { "Fighter", "Mystic" }, -1, (index, value) => {
             if(raceManipulator.Value == "Dwarf" && value == "Mystic") {
                 classManipulator.ResetInput();
+                return;
+            }
+
+            if (raceManipulator.Value == "") {
+                classManipulator.ClearInput();
                 return;
             }
 

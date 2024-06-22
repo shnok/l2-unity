@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.Table;
 
-public class ShortCutChildrenModel : MonoBehaviour
+public class ShortCutChildrenModel
 {
     private int[] id_skill;
     private string[] img_path;
