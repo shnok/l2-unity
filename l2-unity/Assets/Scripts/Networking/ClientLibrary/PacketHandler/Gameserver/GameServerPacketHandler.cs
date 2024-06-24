@@ -3,99 +3,72 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class ServerPacketHandler
+public class GameServerPacketHandler : ServerPacketHandler
 {
-    private AsynchronousClient _client;
-    private long _timestamp;
-    private CancellationTokenSource _tokenSource;
-    private EventProcessor _eventProcessor;
-
-    private static ServerPacketHandler _instance;
-    public static ServerPacketHandler Instance { 
-        get { 
-            if (_instance == null) {
-                _instance = new ServerPacketHandler();
-            }
-            return _instance; 
-        } 
-    }
-
-    public void SetClient(AsynchronousClient client) {
-        _client = client;
-        _tokenSource = new CancellationTokenSource();
-        _eventProcessor = EventProcessor.Instance;
-    }
-
-    public async Task HandlePacketAsync(byte[] data) {
-        await Task.Run(() => {
-            ServerPacketType packetType = (ServerPacketType)data[0];
-            if(DefaultClient.Instance.LogReceivedPackets && packetType != ServerPacketType.Ping) {
-                Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] Received packet:" + packetType);
-            }
-            switch(packetType) {
-                case ServerPacketType.Ping:
-                    OnPingReceive();
-                    break;
-                case ServerPacketType.AuthResponse:
-                    OnAuthReceive(data);
-                    break;
-                case ServerPacketType.MessagePacket:
-                    OnMessageReceive(data);
-                    break;
-                case ServerPacketType.SystemMessage:
-                    OnSystemMessageReceive(data);
-                    break;
-                case ServerPacketType.PlayerInfo:
-                    OnPlayerInfoReceive(data);
-                    break;
-                case ServerPacketType.ObjectPosition:
-                    OnUpdatePosition(data);
-                    break;
-                case ServerPacketType.RemoveObject:
-                    OnRemoveObject(data);
-                    break;
-                case ServerPacketType.ObjectRotation:
-                    OnUpdateRotation(data);
-                    break;
-                case ServerPacketType.ObjectAnimation:
-                    OnUpdateAnimation(data);
-                    break;
-                case ServerPacketType.ApplyDamage:
-                    OnInflictDamage(data);
-                    break;
-                case ServerPacketType.NpcInfo:
-                    OnNpcInfoReceive(data);
-                    break;
-                case ServerPacketType.ObjectMoveTo:
-                    OnObjectMoveTo(data);
-                    break;
-                case ServerPacketType.UserInfo:
-                    OnUserInfoReceive(data);
-                    break;
-                case ServerPacketType.ObjectMoveDirection:
-                    OnUpdateMoveDirection(data);
-                    break;
-                case ServerPacketType.GameTime:
-                    OnUpdateGameTime(data);
-                    break;
-                case ServerPacketType.EntitySetTarget:
-                    OnEntitySetTarget(data);
-                    break;
-                case ServerPacketType.AutoAttackStart:
-                    OnEntityAutoAttackStart(data);
-                    break;
-                case ServerPacketType.AutoAttackStop:
-                    OnEntityAutoAttackStop(data);
-                    break;
-                case ServerPacketType.ActionFailed:
-                    OnActionFailed(data);
-                    break;
-            }
-        });
-    }
-
-    public void CancelTokens() {
-        _tokenSource.Cancel();
+    public override void HandlePacket(byte[] data) {
+        GameServerPacketType packetType = (GameServerPacketType)data[0];
+        if (DefaultClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping) {
+            Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [GameServer] Received packet:" + packetType);
+        }
+        switch (packetType) {
+            case GameServerPacketType.Ping:
+                OnPingReceive();
+                break;
+            case GameServerPacketType.AuthResponse:
+                OnAuthReceive(data);
+                break;
+            case GameServerPacketType.MessagePacket:
+                OnMessageReceive(data);
+                break;
+            case GameServerPacketType.SystemMessage:
+                OnSystemMessageReceive(data);
+                break;
+            case GameServerPacketType.PlayerInfo:
+                OnPlayerInfoReceive(data);
+                break;
+            case GameServerPacketType.ObjectPosition:
+                OnUpdatePosition(data);
+                break;
+            case GameServerPacketType.RemoveObject:
+                OnRemoveObject(data);
+                break;
+            case GameServerPacketType.ObjectRotation:
+                OnUpdateRotation(data);
+                break;
+            case GameServerPacketType.ObjectAnimation:
+                OnUpdateAnimation(data);
+                break;
+            case GameServerPacketType.ApplyDamage:
+                OnInflictDamage(data);
+                break;
+            case GameServerPacketType.NpcInfo:
+                OnNpcInfoReceive(data);
+                break;
+            case GameServerPacketType.ObjectMoveTo:
+                OnObjectMoveTo(data);
+                break;
+            case GameServerPacketType.UserInfo:
+                OnUserInfoReceive(data);
+                break;
+            case GameServerPacketType.ObjectMoveDirection:
+                OnUpdateMoveDirection(data);
+                break;
+            case GameServerPacketType.GameTime:
+                OnUpdateGameTime(data);
+                break;
+            case GameServerPacketType.EntitySetTarget:
+                OnEntitySetTarget(data);
+                break;
+            case GameServerPacketType.AutoAttackStart:
+                OnEntityAutoAttackStart(data);
+                break;
+            case GameServerPacketType.AutoAttackStop:
+                OnEntityAutoAttackStop(data);
+                break;
+            case GameServerPacketType.ActionFailed:
+                OnActionFailed(data);
+                break;
+        }
     }
 
     private void OnPingReceive() {
@@ -106,7 +79,7 @@ public class ServerPacketHandler
 
         Task.Delay(1000).ContinueWith(t => {
             if(!_tokenSource.IsCancellationRequested) {
-                ClientPacketHandler.Instance.SendPing();
+                ((GameClientPacketHandler) _clientPacketHandler).SendPing();
                 _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             }
 

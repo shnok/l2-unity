@@ -1,7 +1,7 @@
 using System.Text;
 
 public class AuthRequestPacket : ClientPacket {
-    public AuthRequestPacket(string username) : base((byte)ClientPacketType.AuthRequest) {
+    public AuthRequestPacket(string username) : base((byte)GameClientPacketType.AuthRequest) {
         WriteS(username);
         BuildPacket();
     }

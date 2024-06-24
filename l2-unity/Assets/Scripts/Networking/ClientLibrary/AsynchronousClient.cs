@@ -12,12 +12,18 @@ public class AsynchronousClient {
     private string _username;
     private int _port;
     private bool _connected;
+    private ClientPacketHandler _clientPacketHandler;
+    private ServerPacketHandler _serverPacketHandler;
+
     public int Ping { get; set; }
 
-    public AsynchronousClient(string ip, int port) {
+    public AsynchronousClient(string ip, int port, ClientPacketHandler clientPacketHandler, ServerPacketHandler serverPacketHandler) {
         _ipAddress = ip;
         _port = port;
+        _clientPacketHandler = clientPacketHandler;
+        _serverPacketHandler = serverPacketHandler;
     }
+
     public bool Connect() {
         IPHostEntry ipHostInfo = Dns.GetHostEntry(_ipAddress);
         IPAddress ipAddress = ipHostInfo.AddressList[0];
@@ -46,7 +52,7 @@ public class AsynchronousClient {
 
     public void Disconnect() {
         try {
-            ServerPacketHandler.Instance.CancelTokens();
+            _serverPacketHandler.CancelTokens();
             _connected = false;         
             _client.Close();
             _client.Dispose();
@@ -58,12 +64,6 @@ public class AsynchronousClient {
     }
 
     public void SendPacket(ClientPacket packet) {
-        if(DefaultClient.Instance.LogSentPackets) {
-            ClientPacketType packetType = (ClientPacketType)packet.GetPacketType();
-            if(packetType != ClientPacketType.Ping && packetType != ClientPacketType.RequestRotate) {
-                Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] Sending packet:" + packetType);
-            }
-        }
         try {
             using (NetworkStream stream = new NetworkStream(_client)) {
                 stream.Write(packet.GetData(), 0, (int)packet.GetLength());
@@ -101,8 +101,11 @@ public class AsynchronousClient {
                     received += readCount;
                 }
 
-                Task.Run(() => ServerPacketHandler.Instance.HandlePacketAsync(packet));        
+                Task.Run(() => GameServerPacketHandler.Instance.HandlePacketAsync(packet));        
             }
         }
+    }
+
+    protected void HandlePacket(Packet packet) {
     }
 }

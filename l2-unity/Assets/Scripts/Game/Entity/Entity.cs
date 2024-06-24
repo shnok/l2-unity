@@ -92,7 +92,7 @@ public class Entity : MonoBehaviour {
 
     /* Notify server that entity got attacked */
     public void InflictAttack(AttackType attackType) {
-        ClientPacketHandler.Instance.InflictAttack(_identity.Id, attackType);
+        GameClientPacketHandler.Instance.InflictAttack(_identity.Id, attackType);
     }
 
     protected virtual void OnDeath() {

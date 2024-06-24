@@ -45,7 +45,7 @@ public class NetworkTransformShare : MonoBehaviour {
     }
 
     public void SharePosition() {
-        ClientPacketHandler.Instance.UpdatePosition(transform.position);
+        GameClientPacketHandler.Instance.UpdatePosition(transform.position);
         _lastSharedPosTime = Time.time;
         _lastPos = transform.position;
 
@@ -55,11 +55,11 @@ public class NetworkTransformShare : MonoBehaviour {
     public void ShareRotation() {
         if (Vector3.Angle(_lastRot, transform.forward) >= 10.0f) {
             _lastRot = transform.forward;
-            ClientPacketHandler.Instance.UpdateRotation(transform.eulerAngles.y);
+            GameClientPacketHandler.Instance.UpdateRotation(transform.eulerAngles.y);
         }
     }
 
     public void ShareAnimation(byte id, float value) {
-        ClientPacketHandler.Instance.UpdateAnimation(id, value);
+        GameClientPacketHandler.Instance.UpdateAnimation(id, value);
     } 
 }

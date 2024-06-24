@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     public void OnWorldSceneLoaded() {
         GameObject.Destroy(L2LoginUI.Instance.gameObject);
-        ClientPacketHandler.Instance.SendLoadWorld();
+        GameClientPacketHandler.Instance.SendLoadWorld();
     }
 
     public void OnPlayerInfoReceived() {

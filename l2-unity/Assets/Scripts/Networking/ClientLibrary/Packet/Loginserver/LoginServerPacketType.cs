@@ -1,4 +1,8 @@
-public enum ServerPacketType : byte
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum LoginServerPacketType : byte
 {
     Ping = 0,
     AuthResponse = 1,
@@ -20,3 +24,4 @@ public enum ServerPacketType : byte
     AutoAttackStop = 0x11,
     ActionFailed = 0x12
 }
+

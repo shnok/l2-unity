@@ -1,4 +1,4 @@
-public enum ClientPacketType : byte
+public enum GameClientPacketType : byte
 {
     Ping = 0x00,
     AuthRequest = 0x01,

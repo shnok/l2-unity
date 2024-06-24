@@ -1,5 +1,5 @@
 public class RequestSetTargetPacket : ClientPacket {
-    public RequestSetTargetPacket(int targetId) : base((byte)ClientPacketType.RequestSetTarget) {
+    public RequestSetTargetPacket(int targetId) : base((byte)GameClientPacketType.RequestSetTarget) {
         WriteI(targetId);
         BuildPacket();
     }

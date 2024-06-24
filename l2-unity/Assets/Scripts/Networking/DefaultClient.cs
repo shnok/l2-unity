@@ -49,10 +49,11 @@ public class DefaultClient : MonoBehaviour {
         if(connected) {  
             _connecting = false;
 
-            ServerPacketHandler.Instance.SetClient(_client);
-            ClientPacketHandler.Instance.SetClient(_client);         
-            ClientPacketHandler.Instance.SendPing();
-            ClientPacketHandler.Instance.SendAuth(user);                                   
+            LoginServerPacketHandler.Instance.SetClient(_client);
+            LoginClientPacketHandler.Instance.SetClient(_client);     
+            
+            LoginClientPacketHandler.Instance.SendPing();
+            LoginClientPacketHandler.Instance.SendAuth(user);                                   
         }
     }
 
