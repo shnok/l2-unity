@@ -9,7 +9,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
 {
     public override void HandlePacket(byte[] data) {
         LoginServerPacketType packetType = (LoginServerPacketType)data[0];
-        if (DefaultClient.Instance.LogReceivedPackets && packetType != LoginServerPacketType.Ping) {
+        if (LoginClient.Instance.LogReceivedPackets && packetType != LoginServerPacketType.Ping) {
             Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [LoginServer] Received packet:" + packetType);
         }
         switch (packetType) {
@@ -34,10 +34,10 @@ public class LoginServerPacketHandler : ServerPacketHandler
                 _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             }
 
-            Task.Delay(DefaultClient.Instance.ConnectionTimeoutMs).ContinueWith(t => {
+            Task.Delay(LoginClient.Instance.ConnectionTimeoutMs).ContinueWith(t => {
                 if (!_tokenSource.IsCancellationRequested) {
                     long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    if (now2 - _timestamp >= DefaultClient.Instance.ConnectionTimeoutMs) {
+                    if (now2 - _timestamp >= LoginClient.Instance.ConnectionTimeoutMs) {
                         Debug.Log("Connection timed out");
                         _client.Disconnect();
                     }
@@ -52,7 +52,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
 
         switch (response) {
             case AuthResponse.ALLOW:
-                _eventProcessor.QueueEvent(() => DefaultClient.Instance.OnConnectionAllowed());
+                _eventProcessor.QueueEvent(() => LoginClient.Instance.OnAuthAllowed());
                 break;
             case AuthResponse.ALREADY_CONNECTED:
                 Debug.Log("User already connected.");

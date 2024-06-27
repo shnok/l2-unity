@@ -241,7 +241,7 @@ public class ChatWindow : MonoBehaviour {
             Message message = new ChatMessage(PlayerEntity.Instance.Identity.Name, text);
             ReceiveChatMessage(message);
         } else {
-            GameClientPacketHandler.Instance.SendMessage(text);
+            GameClient.Instance.SendMessage(text);
         }
     }
 

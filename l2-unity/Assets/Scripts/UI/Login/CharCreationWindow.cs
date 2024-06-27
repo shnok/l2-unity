@@ -233,7 +233,7 @@ public class CharCreationWindow : MonoBehaviour {
         raceManipulator.ClearInput();
         userInputField.value = "";
 
-        GameManager.Instance.OnConnectionAllowed();
+        GameManager.Instance.OnAuthAllowed();
     }
 
     public void HideWindow() {

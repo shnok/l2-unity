@@ -7,7 +7,7 @@ public class GameServerPacketHandler : ServerPacketHandler
 {
     public override void HandlePacket(byte[] data) {
         GameServerPacketType packetType = (GameServerPacketType)data[0];
-        if (DefaultClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping) {
+        if (GameClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping) {
             Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [GameServer] Received packet:" + packetType);
         }
         switch (packetType) {
@@ -83,10 +83,10 @@ public class GameServerPacketHandler : ServerPacketHandler
                 _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             }
 
-            Task.Delay(DefaultClient.Instance.ConnectionTimeoutMs).ContinueWith(t => {
+            Task.Delay(GameClient.Instance.ConnectionTimeoutMs).ContinueWith(t => {
                 if(!_tokenSource.IsCancellationRequested) {
                     long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    if(now2 - _timestamp >= DefaultClient.Instance.ConnectionTimeoutMs) {
+                    if(now2 - _timestamp >= GameClient.Instance.ConnectionTimeoutMs) {
                         Debug.Log("Connection timed out");
                         _client.Disconnect();
                     }
@@ -101,7 +101,7 @@ public class GameServerPacketHandler : ServerPacketHandler
 
         switch(response) {
             case AuthResponse.ALLOW:
-                _eventProcessor.QueueEvent(() => DefaultClient.Instance.OnConnectionAllowed());
+                _eventProcessor.QueueEvent(() => GameClient.Instance.OnAuthAllowed());
                 break;
             case AuthResponse.ALREADY_CONNECTED:
                 Debug.Log("User already connected.");

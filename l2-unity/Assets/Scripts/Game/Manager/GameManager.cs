@@ -40,23 +40,23 @@ public class GameManager : MonoBehaviour
     }
 
     public void LogIn() {
-        DefaultClient.Instance.Connect(StringUtils.GenerateRandomString());
+        LoginClient.Instance.Connect(StringUtils.GenerateRandomString());
     }
 
     public void LogOut() {
-        DefaultClient.Instance.Disconnect();
+        LoginClient.Instance.Disconnect();
     }
 
     public void OnWorldSceneLoaded() {
         GameObject.Destroy(L2LoginUI.Instance.gameObject);
-        GameClientPacketHandler.Instance.SendLoadWorld();
+        GameClient.Instance.ClientPacketHandler.SendLoadWorld();
     }
 
     public void OnPlayerInfoReceived() {
         L2GameUI.Instance.StopLoading();
     }
 
-    public void OnConnectionAllowed() {
+    public void OnAuthAllowed() {
         _gameState = GameState.CHAR_SELECT;
 
         LoginCameraManager.Instance.SwitchCamera("CharSelect");

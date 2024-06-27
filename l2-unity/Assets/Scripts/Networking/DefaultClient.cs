@@ -3,15 +3,13 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections;
 
-public class DefaultClient : MonoBehaviour {
-    [SerializeField] private static AsynchronousClient _client;
-    [SerializeField] private Entity _currentPlayer;
-    [SerializeField] private string _username;
-    [SerializeField] private int _connectionTimeoutMs = 10000;
-    [SerializeField] private string _serverIp = "127.0.0.1";
-    [SerializeField] private int _serverPort = 11000;
-    [SerializeField] private bool _logReceivedPackets = true;
-    [SerializeField] private bool _logSentPackets = true;
+public abstract class DefaultClient : MonoBehaviour {
+    [SerializeField] protected AsynchronousClient _client;
+    [SerializeField] protected Entity _currentPlayer;
+    [SerializeField] protected string _username;
+    [SerializeField] protected int _connectionTimeoutMs = 10000;
+    [SerializeField] protected bool _logReceivedPackets = true;
+    [SerializeField] protected bool _logSentPackets = true;
 
     private bool _connecting = false;
 
@@ -19,17 +17,6 @@ public class DefaultClient : MonoBehaviour {
     public bool LogReceivedPackets { get { return _logReceivedPackets; } }
     public bool LogSentPackets { get { return _logSentPackets; } }
     public int ConnectionTimeoutMs { get { return _connectionTimeoutMs; } }
-
-    private static DefaultClient _instance;
-    public static DefaultClient Instance { get { return _instance; } }
-
-    private void Awake() {
-        if (_instance == null) {
-            _instance = this;
-        } else if (_instance != this) {
-            Destroy(this);
-        }
-    }
 
     private void Start() {
         if(World.Instance != null && World.Instance.OfflineMode) {
@@ -43,27 +30,30 @@ public class DefaultClient : MonoBehaviour {
         }
 
         _connecting = true;
-        _username = user; 
-        _client = new AsynchronousClient(_serverIp, _serverPort);
+        _username = user;
+
+
+        CreateAsyncClient();
+
         bool connected = await Task.Run(_client.Connect);
         if(connected) {  
             _connecting = false;
 
-            LoginServerPacketHandler.Instance.SetClient(_client);
-            LoginClientPacketHandler.Instance.SetClient(_client);     
-            
-            LoginClientPacketHandler.Instance.SendPing();
-            LoginClientPacketHandler.Instance.SendAuth(user);                                   
+            OnConnectionSuccess();   
         }
     }
 
-    public void OnConnectionFailed() {
+    protected abstract void CreateAsyncClient();
+
+    protected abstract void OnConnectionSuccess();
+
+    public virtual void OnConnectionFailed() {
         _connecting = false;
     }
 
-    public void OnConnectionAllowed() {
+    public virtual void OnAuthAllowed() {
         Debug.Log("Connected");
-        GameManager.Instance.OnConnectionAllowed();
+        GameManager.Instance.OnAuthAllowed();
     }
 
     public int GetPing() {
@@ -76,7 +66,7 @@ public class DefaultClient : MonoBehaviour {
         }
     }
 
-    public void OnDisconnect() {
+    public virtual void OnDisconnect() {
         Debug.Log("Disconnected");
         _client = null;
         GameManager.Instance.OnDisconnect();

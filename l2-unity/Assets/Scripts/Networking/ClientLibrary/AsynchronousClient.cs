@@ -7,45 +7,49 @@ using System.Threading;
 using System.Threading.Tasks;
 
 public class AsynchronousClient {
-    private Socket _client;
+    private Socket _socket;
     private string _ipAddress;
     private string _username;
     private int _port;
     private bool _connected;
     private ClientPacketHandler _clientPacketHandler;
     private ServerPacketHandler _serverPacketHandler;
+    private DefaultClient _client;
 
     public int Ping { get; set; }
 
-    public AsynchronousClient(string ip, int port, ClientPacketHandler clientPacketHandler, ServerPacketHandler serverPacketHandler) {
+    public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, ServerPacketHandler serverPacketHandler) {
         _ipAddress = ip;
         _port = port;
         _clientPacketHandler = clientPacketHandler;
         _serverPacketHandler = serverPacketHandler;
+        _clientPacketHandler.SetClient(this);
+        _serverPacketHandler.SetClient(this, _clientPacketHandler);
+        _client = client;
     }
 
     public bool Connect() {
         IPHostEntry ipHostInfo = Dns.GetHostEntry(_ipAddress);
         IPAddress ipAddress = ipHostInfo.AddressList[0];
-        _client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
         Debug.Log("Connecting...");
 
-        IAsyncResult result = _client.BeginConnect(ipAddress, _port, null, null);
+        IAsyncResult result = _socket.BeginConnect(ipAddress, _port, null, null);
 
         bool success = result.AsyncWaitHandle.WaitOne(5000, true);
 
-        if (_client.Connected) {
+        if (_socket.Connected) {
             Debug.Log("Connection success.");
-            _client.EndConnect( result );
+            _socket.EndConnect( result );
             _connected = true;
 
             Task.Run(StartReceiving);
             return true;
         } else {
             Debug.Log("Connection failed.");
-            EventProcessor.Instance.QueueEvent(() => DefaultClient.Instance.OnConnectionFailed());
-            _client.Close();
+            EventProcessor.Instance.QueueEvent(() => _client.OnConnectionFailed());
+            _socket.Close();
             return false;
         }
     }
@@ -54,10 +58,10 @@ public class AsynchronousClient {
         try {
             _serverPacketHandler.CancelTokens();
             _connected = false;         
-            _client.Close();
-            _client.Dispose();
+            _socket.Close();
+            _socket.Dispose();
 
-            EventProcessor.Instance.QueueEvent(() => DefaultClient.Instance.OnDisconnect());       
+            EventProcessor.Instance.QueueEvent(() => _client.OnDisconnect());       
         } catch (Exception e) {
             Debug.LogError(e);
         }
@@ -65,7 +69,7 @@ public class AsynchronousClient {
 
     public void SendPacket(ClientPacket packet) {
         try {
-            using (NetworkStream stream = new NetworkStream(_client)) {
+            using (NetworkStream stream = new NetworkStream(_socket)) {
                 stream.Write(packet.GetData(), 0, (int)packet.GetLength());
                 stream.Flush();
             }
@@ -75,7 +79,7 @@ public class AsynchronousClient {
     }
 
     public void StartReceiving() {
-        using (NetworkStream stream = new NetworkStream(_client)) {
+        using (NetworkStream stream = new NetworkStream(_socket)) {
             for(;;) {
                 if(!_connected) {
                     Debug.LogWarning("Disconnected.");
@@ -101,11 +105,8 @@ public class AsynchronousClient {
                     received += readCount;
                 }
 
-                Task.Run(() => GameServerPacketHandler.Instance.HandlePacketAsync(packet));        
+                Task.Run(() => _serverPacketHandler.HandlePacketAsync(packet));        
             }
         }
-    }
-
-    protected void HandlePacket(Packet packet) {
     }
 }

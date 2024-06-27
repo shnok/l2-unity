@@ -62,6 +62,6 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
 
     public void ShareMoveDirection(Vector3 moveDirection) {
         _lastDirection = moveDirection;
-        GameClientPacketHandler.Instance.UpdateMoveDirection(moveDirection); 
+        GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(moveDirection); 
     }
 }

@@ -82,7 +82,7 @@ public class CharSelectWindow : MonoBehaviour {
 
     private void ReLoginPressed() {
         GameManager.Instance.OnRelogin();
-        DefaultClient.Instance.Disconnect();
+        GameClient.Instance.Disconnect();
     }
 
     private void CreatePressed() {

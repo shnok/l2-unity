@@ -96,7 +96,7 @@ public class PlayerCombatController : MonoBehaviour {
                // _networkCharacterControllerShare.ShareMoveDirection(Vector3.zero);
             }
 
-            GameClientPacketHandler.Instance.SendRequestAutoAttack();
+            GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack();
         }
     }
 
