@@ -2,6 +2,7 @@
     <ui:Template name="DefaultWindowLarge" src="project://database/Assets/Resources/Data/UI/_Elements/DefaultWindowLarge.uxml?fileID=9197481963319205126&amp;guid=f6eb1d0700ac0be4882d477f4f079d3a&amp;type=3#DefaultWindowLarge" />
     <ui:Instance name="defaultWindowsLarge" template="DefaultWindowLarge" style="width: 600px; height: 400px;">
         <AttributeOverrides element-name="windows-name-label" text="Inventory1" />
+        <ui:VisualElement style="flex-grow: 1; min-width: auto; min-height: auto; justify-content: flex-start; align-items: flex-start; position: absolute; background-image: resource(&apos;Data/UI/Window/Frame_DF_Large_Bg_Darker_Center_Alpha&apos;); height: 369px; top: 38px; width: 582px; left: 9px;" />
         <ui:GroupBox name="BoxHeader" class="drag-area" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; position: absolute; top: 15px; align-self: stretch; height: auto; width: 88%;">
             <ui:GroupBox name="InfoSize" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0;">
                 <ui:GroupBox name="InfoSizeText" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: flex-end;">
@@ -11,6 +12,159 @@
                     <ui:Label tabindex="-1" text="80" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Text4" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(165, 143, 113); -unity-text-outline-width: 0.5px; -unity-text-outline-color: rgba(0, 0, 0, 0.6);" />
                     <ui:Label tabindex="-1" text=")" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Text5" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(165, 143, 113); -unity-text-outline-width: 0.5px; -unity-text-outline-color: rgba(0, 0, 0, 0.6);" />
                 </ui:GroupBox>
+            </ui:GroupBox>
+        </ui:GroupBox>
+        <ui:GroupBox name="BoxCenter" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; position: absolute; width: 190px; height: 360px; left: 3%; top: 47px; background-image: none;">
+            <ui:GroupBox name="TopBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; background-image: none;">
+                <ui:GroupBox name="LeftBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Left&apos;); width: 1px; height: 8px; opacity: 1;" />
+                <ui:GroupBox name="CenterBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Top_Center&apos;); width: auto; height: 1px; align-self: stretch; justify-content: flex-end; max-width: 100%; min-height: auto; padding-left: 0; opacity: 1; align-items: auto; flex-wrap: nowrap; min-width: 99%;" />
+                <ui:GroupBox name="RightBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Right_Rotaite&apos;); width: 1px; height: 8px; padding-left: 0; opacity: 1; max-height: none; max-width: none; align-self: flex-end; justify-content: space-around; min-height: auto;" />
+            </ui:GroupBox>
+            <ui:GroupBox name="CenterBg" style="margin-top: -2px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; min-width: auto; align-self: stretch; justify-content: space-around; align-items: stretch; max-width: none; max-height: none; min-height: 93%; background-image: none; height: 93%;">
+                <ui:GroupBox name="LeftBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 1px; padding-top: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Left_Center&apos;); width: 1px; height: 100%; opacity: 1; padding-left: 0; align-self: flex-start;" />
+                <ui:GroupBox name="CenterBg" style="margin-top: -5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-left: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Window/Frame_DF_Large_Bg_Darker_Center_Alpha&apos;); align-self: stretch; align-items: flex-end; justify-content: flex-end; width: 100%; max-height: none; max-width: 100%; height: 98%; opacity: 0.6; background-color: rgba(255, 255, 255, 0); min-height: 98%; flex-direction: column-reverse;">
+                    <ui:GroupBox name="FooterBg" style="margin-top: 11%; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-left: 0; padding-bottom: 0; align-self: flex-end; justify-content: flex-start; align-items: stretch; flex-wrap: nowrap; flex-direction: row; background-image: none; height: 32px; width: 100%;">
+                        <ui:VisualElement name="LeftVisualElement" style="flex-grow: 1; width: 32px; height: 32px; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/windowpattern_medium_Down_Leftt&apos;);" />
+                        <ui:GroupBox name="CenterBox" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 70%; min-width: 50%; max-width: 70%;" />
+                        <ui:VisualElement name="RightVisualElement" style="flex-grow: 1; width: 32px; height: 32px; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/windowpattern_medium_Down_Right&apos;);" />
+                    </ui:GroupBox>
+                    <ui:GroupBox name="CenterBg" style="margin-top: -9%; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: stretch; height: 84%; background-image: none;">
+                        <ui:GroupBox name="ImageGroupBox" style="margin-top: -12%; margin-right: 0; margin-bottom: 0; margin-left: -5%; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 256px; height: 512px; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/inventory_df_equipslot_classic&apos;); align-self: flex-start;">
+                            <ui:GroupBox name="RowsCell" style="margin-top: 25.5px; margin-right: 0; margin-bottom: 0; margin-left: 28px; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:GroupBox name="Rows1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: 33px; flex-direction: row; align-self: stretch; min-width: 33px; min-height: 33px;">
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;);">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/armor_helmet_i00&apos;); width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                </ui:GroupBox>
+                            </ui:GroupBox>
+                            <ui:GroupBox name="RowsCell" style="margin-top: 7px; margin-right: 0; margin-bottom: 0; margin-left: 28px; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:GroupBox name="Rows1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: 33px; flex-direction: row; align-self: stretch; min-width: 33px; min-height: 33px;">
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;);">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/armor_blast_plate_i00&apos;); width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;);">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/armor_blue_buckskin_boots_i00&apos;); width: 31px;" />
+                                    </ui:GroupBox>
+                                </ui:GroupBox>
+                            </ui:GroupBox>
+                            <ui:GroupBox name="RowsCell" style="margin-top: 8px; margin-right: 0; margin-bottom: 0; margin-left: 28px; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:GroupBox name="Rows1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: 33px; flex-direction: row; align-self: stretch; min-width: 33px; min-height: 33px;">
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;);">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/armor_apprentices_hose_i00&apos;); width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                </ui:GroupBox>
+                            </ui:GroupBox>
+                            <ui:GroupBox name="RowsCell" style="margin-top: 12px; margin-right: 0; margin-bottom: 0; margin-left: 28px; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:GroupBox name="Rows1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: 33px; flex-direction: row; align-self: stretch; min-width: 33px; min-height: 33px;">
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;);">
+                                        <ui:GroupBox name="GroupBox" style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/weapon_carnium_bow_i00&apos;); width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;);">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/shield_another_worlds_shield_i00&apos;); width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                </ui:GroupBox>
+                            </ui:GroupBox>
+                            <ui:GroupBox name="SmallRowsCell" style="margin-top: 10.3px; margin-right: 0; margin-bottom: 0; margin-left: 57px; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:GroupBox name="Rows1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: 18px; flex-direction: row; align-self: stretch; min-width: 18px; min-height: 18px;">
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 18px; height: 18px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;);">
+                                        <ui:GroupBox name="GroupBox" style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 16px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/etc_con_symbol_i00&apos;); width: 16px;" />
+                                    </ui:GroupBox>
+                                </ui:GroupBox>
+                            </ui:GroupBox>
+                            <ui:GroupBox name="RowsCell" style="margin-top: 10px; margin-right: 0; margin-bottom: 0; margin-left: 28px; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:GroupBox name="Rows1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: 33px; flex-direction: row; align-self: stretch; min-width: 33px; min-height: 33px;">
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;);">
+                                        <ui:GroupBox name="GroupBox" style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/high_agathion_bracelet_i00&apos;); width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                </ui:GroupBox>
+                            </ui:GroupBox>
+                            <ui:GroupBox name="RowsCell" style="margin-top: 10px; margin-right: 0; margin-bottom: 0; margin-left: 28px; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:GroupBox name="Rows1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: 33px; flex-direction: row; align-self: stretch; min-width: 33px; min-height: 33px;">
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;);">
+                                        <ui:GroupBox name="GroupBox" style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/accessary_ring_of_holy_spirit_i00&apos;); width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 26px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: none;">
+                                        <ui:GroupBox style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 31px; background-image: none; width: 31px;" />
+                                    </ui:GroupBox>
+                                </ui:GroupBox>
+                            </ui:GroupBox>
+                            <ui:GroupBox name="RowsCell" style="margin-top: 11px; margin-right: 0; margin-bottom: 0; margin-left: 36px; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:GroupBox name="Rows1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: 33px; flex-direction: row; align-self: stretch; min-width: 33px; min-height: 33px;">
+                                    <ui:GroupBox name="GRow1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 33px; height: 33px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;); flex-direction: row;">
+                                        <ui:GroupBox name="SinglBox1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 32px; background-image: none; width: 32px; min-width: 33px; min-height: 32px; align-items: center;">
+                                            <ui:GroupBox style="margin-top: 0; margin-right: 0; margin-bottom: 0.5px; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 31px; height: 31px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/etc_capture_stone_i00&apos;); align-items: center;" />
+                                        </ui:GroupBox>
+                                        <ui:GroupBox name="GroupSmallx6" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 6.5px; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                            <ui:GroupBox name="RowsSmall1" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row;">
+                                                <ui:GroupBox name="GRowSmall" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;); flex-direction: row;">
+                                                    <ui:GroupBox name="GroupBox" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 15px; height: 15px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/etc_con_symbol_i00&apos;);" />
+                                                </ui:GroupBox>
+                                                <ui:GroupBox name="GRowSmall" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 1px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 16px; height: 16px; background-image: none; flex-direction: row;">
+                                                    <ui:GroupBox name="GroupBox" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 15px; height: 15px;" />
+                                                </ui:GroupBox>
+                                                <ui:GroupBox name="GRowSmall" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;); flex-direction: row; align-self: center; justify-content: center;">
+                                                    <ui:GroupBox name="GroupBox" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 14px; height: 14px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/etc_capture_stone_i00&apos;); align-items: center; align-self: center;" />
+                                                </ui:GroupBox>
+                                            </ui:GroupBox>
+                                            <ui:GroupBox name="RowsSmall1" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row;">
+                                                <ui:GroupBox name="GRowSmall" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/ShortCut/demo_skills/fill_black&apos;); flex-direction: row;">
+                                                    <ui:GroupBox name="GroupBox" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 15px; height: 15px; background-image: resource(&apos;Data/UI/Window/Inventory/demo_image_row/etc_con_symbol_i00&apos;);" />
+                                                </ui:GroupBox>
+                                                <ui:GroupBox name="GRowSmall" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 1px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 16px; height: 16px; background-image: none; flex-direction: row;">
+                                                    <ui:GroupBox name="GroupBox" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 15px; height: 15px;" />
+                                                </ui:GroupBox>
+                                                <ui:GroupBox name="GRowSmall" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 1px; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 16px; height: 16px; background-image: none; flex-direction: row;">
+                                                    <ui:GroupBox name="GroupBox" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 15px; height: 15px;" />
+                                                </ui:GroupBox>
+                                            </ui:GroupBox>
+                                        </ui:GroupBox>
+                                        <ui:GroupBox name="SinglBox2" style="margin-top: 0.5px; margin-right: 0; margin-bottom: 0; margin-left: 9.5px; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; justify-content: flex-end; height: 32px; background-image: none; width: 32px;">
+                                            <ui:GroupBox style="width: 31px; height: 31px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0;" />
+                                        </ui:GroupBox>
+                                    </ui:GroupBox>
+                                </ui:GroupBox>
+                            </ui:GroupBox>
+                        </ui:GroupBox>
+                    </ui:GroupBox>
+                    <ui:GroupBox name="TopBg" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-left: 0; padding-bottom: 0; align-self: center; justify-content: flex-start; align-items: stretch; flex-wrap: nowrap; flex-direction: row; background-image: none; height: 32px; width: 100%;">
+                        <ui:VisualElement name="LeftVisualElement" style="flex-grow: 1; width: 32px; height: 32px; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/windowpattern_medium_Left (1)&apos;); margin-top: 3px;" />
+                        <ui:GroupBox name="CenterBox" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 70%; min-width: 50%; max-width: 70%;" />
+                        <ui:VisualElement name="RightVisualElement" style="flex-grow: 1; width: 32px; height: 32px; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/windowpattern_medium_Right&apos;); margin-top: 3px;" />
+                    </ui:GroupBox>
+                </ui:GroupBox>
+                <ui:GroupBox name="RightBg" style="margin-top: 0; margin-right: 1px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Left_Rotaite&apos;); align-self: flex-end; justify-content: flex-start; width: 1px; max-width: none; height: 100%; align-items: auto; opacity: 0.1;" />
+            </ui:GroupBox>
+            <ui:GroupBox name="FooterBg" style="margin-top: -4px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: stretch; justify-content: space-around; align-items: flex-start; height: auto; width: auto;">
+                <ui:GroupBox name="LeftBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Center_Down_Left&apos;); width: 1px; height: 8px;" />
+                <ui:GroupBox name="CenterBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Top_Center&apos;); width: auto; height: 1px; align-self: flex-end; justify-content: space-around; max-width: 100%; min-height: auto; padding-left: 0; opacity: 1; align-items: stretch; flex-wrap: nowrap; min-width: 99%;" />
+                <ui:GroupBox name="RightBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Center_Down_Rotate&apos;); width: 1px; height: 8px;" />
             </ui:GroupBox>
         </ui:GroupBox>
     </ui:Instance>
