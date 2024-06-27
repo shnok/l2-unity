@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class StringUtils
@@ -32,5 +33,25 @@ public class StringUtils
         float bf = b / 255f;
 
         return new Color(rf, gf, bf);
+    }
+
+
+    public static string ByteArrayToString(byte[] array) {
+        if (array == null || array.Length == 0)
+            return "[]";
+
+        StringBuilder sb = new StringBuilder();
+        sb.Append("[");
+        for (int i = 0; i < array.Length; i++) {
+            if (i > 0)
+                sb.Append(", ");
+
+            // Convert byte value to string representation
+            sbyte value = (sbyte)array[i];
+            sb.Append(value.ToString());
+        }
+        sb.Append("]");
+
+        return sb.ToString();
     }
 }

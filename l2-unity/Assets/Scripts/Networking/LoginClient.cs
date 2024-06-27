@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class LoginClient : DefaultClient {
-    [SerializeField] private string _serverIp = "127.0.0.1";
-    [SerializeField] private int _serverPort = 11000;
-
     private LoginClientPacketHandler clientPacketHandler;
     private LoginServerPacketHandler serverPacketHandler;
 
@@ -33,7 +30,7 @@ public class LoginClient : DefaultClient {
     }
 
     protected override void OnConnectionSuccess() {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnConnectionFailed() {

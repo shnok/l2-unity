@@ -18,6 +18,14 @@ public abstract class ServerPacket : Packet
         return _packetData[_iterator++];
     }
 
+    protected byte[] ReadB(int length) {
+        byte[] data = new byte[length];
+        Array.Copy(_packetData, _iterator, data, 0, length);
+        _iterator += length;
+
+        return data;
+    }
+
     protected int ReadI() {
         byte[] data = new byte[4];     
         Array.Copy(_packetData, _iterator, data, 0, 4);

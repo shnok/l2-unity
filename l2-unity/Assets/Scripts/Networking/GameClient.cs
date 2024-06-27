@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class GameClient : DefaultClient {
-    [SerializeField] private string _serverIp = "127.0.0.1";
-    [SerializeField] private int _serverPort = 11000;
+    [SerializeField] protected Entity _currentPlayer;
 
     private GameClientPacketHandler clientPacketHandler;
     private GameServerPacketHandler serverPacketHandler;

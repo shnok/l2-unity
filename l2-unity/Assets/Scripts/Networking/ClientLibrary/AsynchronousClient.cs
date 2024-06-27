@@ -3,10 +3,30 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
+using L2_login;
 
 public class AsynchronousClient {
+    public static byte[] STATIC_BLOWFISH_KEY = {
+        (byte) 0x6b,
+        (byte) 0x60,
+        (byte) 0xcb,
+        (byte) 0x5b,
+        (byte) 0x82,
+        (byte) 0xce,
+        (byte) 0x90,
+        (byte) 0xb1,
+        (byte) 0xcc,
+        (byte) 0x2b,
+        (byte) 0x6c,
+        (byte) 0x55,
+        (byte) 0x6c,
+        (byte) 0x6c,
+        (byte) 0x6c,
+        (byte) 0x6c
+    };
+
+    private BlowfishEngine _blowfish;
     private Socket _socket;
     private string _ipAddress;
     private string _username;
@@ -15,10 +35,15 @@ public class AsynchronousClient {
     private ClientPacketHandler _clientPacketHandler;
     private ServerPacketHandler _serverPacketHandler;
     private DefaultClient _client;
+    private bool _initPacket = true;
+
+    private byte[] _blowfishKey;
+    public byte[] BlowfishKey { get { return _blowfishKey; } set { _blowfishKey = value; } }
 
     public int Ping { get; set; }
 
     public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, ServerPacketHandler serverPacketHandler) {
+        SetBlowFishKey(STATIC_BLOWFISH_KEY);
         _ipAddress = ip;
         _port = port;
         _clientPacketHandler = clientPacketHandler;
@@ -26,6 +51,13 @@ public class AsynchronousClient {
         _clientPacketHandler.SetClient(this);
         _serverPacketHandler.SetClient(this, _clientPacketHandler);
         _client = client;
+
+    }
+
+    public void SetBlowFishKey(byte[] blowfishKey) {
+        _blowfishKey = blowfishKey;
+        _blowfish = new BlowfishEngine();
+        _blowfish.init(false, AsynchronousClient.STATIC_BLOWFISH_KEY);
     }
 
     public bool Connect() {
@@ -79,33 +111,44 @@ public class AsynchronousClient {
     }
 
     public void StartReceiving() {
+        Debug.Log("Start receiving");
+
         using (NetworkStream stream = new NetworkStream(_socket)) {
-            for(;;) {
+            int lengthHi;
+            int lengthLo;
+            int length;
+
+            for (;;) {
                 if(!_connected) {
                     Debug.LogWarning("Disconnected.");
                     break;
                 }
-                int packetType = stream.ReadByte();
-                if (packetType == -1 || !_connected) {
+
+                lengthLo = stream.ReadByte();
+                lengthHi = stream.ReadByte();
+                length = (lengthHi * 256) + lengthLo;
+
+                if (lengthHi == -1 || !_connected) {
                     Debug.Log("Server terminated the connection.");
                     Disconnect();
                     break;
                 }
 
-                int packetLength = stream.ReadByte();
-                byte[] packet = new byte[packetLength];
-                packet[0] = (byte)packetType;
-                packet[1] = (byte)packetLength;
-               
-                int received = 0;
-                int readCount = 0;
-               
-                while ((readCount != -1) && (received < packet.Length - 2)) {
-                    readCount = stream.Read(packet, 2, packet.Length - 2);
-                    received += readCount;
+                Debug.Log("lengthLo: " + lengthLo);
+                Debug.Log("lengthHi: " + lengthHi);
+                Debug.Log("Packet length: " + length);
+
+                byte[] data = new byte[length];
+
+                int receivedBytes = 0;
+                int newBytes = 0;
+                while ((newBytes != -1) && (receivedBytes < (length))) {
+                    newBytes = stream.Read(data, 0, length);
+                    receivedBytes = receivedBytes + newBytes;
                 }
 
-                Task.Run(() => _serverPacketHandler.HandlePacketAsync(packet));        
+                
+                Task.Run(() => _serverPacketHandler.HandlePacketAsync(data, _blowfish, _initPacket));        
             }
         }
     }

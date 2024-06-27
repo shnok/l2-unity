@@ -12,12 +12,13 @@ public class LoginServerPacketHandler : ServerPacketHandler
         if (LoginClient.Instance.LogReceivedPackets && packetType != LoginServerPacketType.Ping) {
             Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [LoginServer] Received packet:" + packetType);
         }
+
         switch (packetType) {
             case LoginServerPacketType.Ping:
                 OnPingReceive();
                 break;
-            case LoginServerPacketType.AuthResponse:
-                OnAuthReceive(data);
+            case LoginServerPacketType.Init:
+                OnInitReceive(data);
                 break;        
         }
     }
@@ -46,23 +47,12 @@ public class LoginServerPacketHandler : ServerPacketHandler
         }, _tokenSource.Token);
     }
 
-    private void OnAuthReceive(byte[] data) {
-        AuthResponsePacket packet = new AuthResponsePacket(data);
-        AuthResponse response = packet.Response;
+    private void OnInitReceive(byte[] data) {
+        InitPacket packet = new InitPacket(data);
+        
 
-        switch (response) {
-            case AuthResponse.ALLOW:
-                _eventProcessor.QueueEvent(() => LoginClient.Instance.OnAuthAllowed());
-                break;
-            case AuthResponse.ALREADY_CONNECTED:
-                Debug.Log("User already connected.");
-                _client.Disconnect();
-                break;
-            case AuthResponse.INVALID_USERNAME:
-                Debug.Log("Incorrect user name.");
-                _client.Disconnect();
-                break;
-        }
+
+
     }
 
 }

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Collections;
 
 public abstract class DefaultClient : MonoBehaviour {
+    [SerializeField] protected string _serverIp = "127.0.0.1";
+    [SerializeField] protected int _serverPort = 11000;
     [SerializeField] protected AsynchronousClient _client;
-    [SerializeField] protected Entity _currentPlayer;
     [SerializeField] protected string _username;
     [SerializeField] protected int _connectionTimeoutMs = 10000;
     [SerializeField] protected bool _logReceivedPackets = true;
