@@ -67,6 +67,8 @@ public class LoginServerPacketHandler : ServerPacketHandler
         _client.SetRSAKey(rsaKey);
         _client.SetBlowFishKey(blowfishKey);
 
+        _client.InitPacket = false;
+
         ((LoginClientPacketHandler)_clientPacketHandler).SendAuth();
     }
 
@@ -92,6 +94,12 @@ public class LoginServerPacketHandler : ServerPacketHandler
 
     private void OnLoginOk(byte[] data) {
         LoginOkPacket packet = new LoginOkPacket(data);
+
+        _client.SessionKey1 = packet.SessionKey1;
+        _client.SessionKey2 = packet.SessionKey2;
+
+        Debug.Log("SessionKey1: " + _client.SessionKey1); 
+        Debug.Log("SessionKey2: " + _client.SessionKey2);
 
         EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.OnAuthAllowed());
     }

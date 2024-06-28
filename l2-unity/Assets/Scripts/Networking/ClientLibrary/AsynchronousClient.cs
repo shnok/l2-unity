@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 using L2_login;
 
 public class AsynchronousClient {
+    private Socket _socket;
+    private string _ipAddress;
+    private int _port;
+    private bool _connected;
+    private ClientPacketHandler _clientPacketHandler;
+    private ServerPacketHandler _serverPacketHandler;
+    private DefaultClient _client;
+
+    // Crypt
     public static byte[] STATIC_BLOWFISH_KEY = {
         (byte) 0x6b,
         (byte) 0x60,
@@ -26,25 +35,22 @@ public class AsynchronousClient {
         (byte) 0x6c
     };
 
-    
-    private Socket _socket;
-    private string _ipAddress;
-    private int _port;
-    private bool _connected;
-    private ClientPacketHandler _clientPacketHandler;
-    private ServerPacketHandler _serverPacketHandler;
-    private DefaultClient _client;
-
-    // Crypt
     private bool _initPacket = true;
     private RSACrypt _rsa;
     private byte[] _blowfishKey;
     private BlowfishEngine _decryptBlowfish;
     private BlowfishEngine _encryptBlowfish;
+    private int _sessionKey1;
+    private int _sessionKey2;
+
+    public bool InitPacket { get { return _initPacket; } set { _initPacket = value; } }
 
     public RSACrypt RSACrypt { get { return _rsa; } }
     public BlowfishEngine DecryptBlowFish { get { return _decryptBlowfish; } }
     public BlowfishEngine EncryptBlowFish { get { return _encryptBlowfish; } }
+    public int SessionKey1 { get { return _sessionKey1; } set { _sessionKey1 = value; } }
+    public int SessionKey2 { get { return _sessionKey2; } set { _sessionKey2 = value; } }
+
     public string Account { get { return _client.Account; } }
     public string Password { get { return _client.Password; } }
 
@@ -83,6 +89,8 @@ public class AsynchronousClient {
         IPHostEntry ipHostInfo = Dns.GetHostEntry(_ipAddress);
         IPAddress ipAddress = ipHostInfo.AddressList[0];
         _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+        _initPacket = true;
 
         Debug.Log("Connecting...");
 

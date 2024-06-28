@@ -68,7 +68,7 @@ public class LicenseWindow : MonoBehaviour
     }
 
     private void AgreeButtonPressed() {
-        
+        LoginClient.Instance.ClientPacketHandler.SendRequestServerList();
     }
 
     private void DisagreeButtonPressed() {

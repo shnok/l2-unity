@@ -8,7 +8,7 @@ public enum LoginServerPacketType : byte
     Init = 1,
     LoginOk = 2,
     LoginFail = 3,
-    ReceivableList = 4,
+    ServerList = 4,
     AccountKicked = 5
 }
 

@@ -55,6 +55,12 @@ public class LoginClientPacketHandler : ClientPacketHandler {
         SendPacket(packet);
     }
 
+    public void SendRequestServerList() {
+        RequestServerListPacket packet = new RequestServerListPacket(_client.SessionKey1, _client.SessionKey2);
+
+        SendPacket(packet);
+    }
+
     public override void SendPacket(ClientPacket packet) {
         if (LoginClient.Instance.LogSentPackets) {
             LoginClientPacketType packetType = (LoginClientPacketType)packet.GetPacketType();
