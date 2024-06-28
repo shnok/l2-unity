@@ -12,4 +12,15 @@ public abstract class ClientPacketHandler
     }
 
     public abstract void SendPacket(ClientPacket packet);
+
+    protected void EncryptPacket(ClientPacket packet) {
+        byte[] data = packet.GetData();
+        Debug.Log("CLEAR: " + StringUtils.ByteArrayToString(data));
+
+        _client.EncryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
+
+        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+
+        packet.SetData(data);
+    }
 }

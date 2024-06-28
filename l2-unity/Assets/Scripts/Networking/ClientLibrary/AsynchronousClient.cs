@@ -26,7 +26,7 @@ public class AsynchronousClient {
         (byte) 0x6c
     };
 
-    private BlowfishEngine _blowfish;
+    
     private Socket _socket;
     private string _ipAddress;
     private int _port;
@@ -34,15 +34,20 @@ public class AsynchronousClient {
     private ClientPacketHandler _clientPacketHandler;
     private ServerPacketHandler _serverPacketHandler;
     private DefaultClient _client;
+
+    // Crypt
     private bool _initPacket = true;
-
     private RSACrypt _rsa;
-    public RSACrypt RSACrypt { get { return _rsa; } }
-
     private byte[] _blowfishKey;
-    public byte[] BlowfishKey { get { return _blowfishKey; } set { SetBlowFishKey(value); } }
+    private BlowfishEngine _decryptBlowfish;
+    private BlowfishEngine _encryptBlowfish;
+
+    public RSACrypt RSACrypt { get { return _rsa; } }
+    public BlowfishEngine DecryptBlowFish { get { return _decryptBlowfish; } }
+    public BlowfishEngine EncryptBlowFish { get { return _encryptBlowfish; } }
     public string Account { get { return _client.Account; } }
     public string Password { get { return _client.Password; } }
+
     public int Ping { get; set; }
 
     public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, ServerPacketHandler serverPacketHandler) {
@@ -59,8 +64,12 @@ public class AsynchronousClient {
 
     public void SetBlowFishKey(byte[] blowfishKey) {
         _blowfishKey = blowfishKey;
-        _blowfish = new BlowfishEngine();
-        _blowfish.init(false, blowfishKey);
+
+        _decryptBlowfish = new BlowfishEngine();
+        _decryptBlowfish.init(false, blowfishKey);
+
+        _encryptBlowfish = new BlowfishEngine();
+        _encryptBlowfish.init(true, blowfishKey);
 
         Debug.Log("Blowfish key set.");
     }
@@ -112,7 +121,13 @@ public class AsynchronousClient {
     public void SendPacket(ClientPacket packet) {
         try {
             using (NetworkStream stream = new NetworkStream(_socket)) {
-                stream.Write(packet.GetData(), 0, (int)packet.GetLength());
+                stream.WriteByte((byte)(packet.GetData().Length & 0xff));
+
+                // Write the higher 8 bits
+                stream.WriteByte((byte)((packet.GetData().Length >> 8) & 0xff));
+
+
+                stream.Write(packet.GetData(), 0, (int)packet.GetData().Length);
                 stream.Flush();
             }
         } catch (IOException e) {
@@ -158,7 +173,7 @@ public class AsynchronousClient {
                 }
 
                 
-                Task.Run(() => _serverPacketHandler.HandlePacketAsync(data, _blowfish, _initPacket));        
+                Task.Run(() => _serverPacketHandler.HandlePacketAsync(data, _initPacket));        
             }
         }
     }

@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class RSACrypt
 {
+    private RSACryptoServiceProvider _rsaProvider;
+    private RSA _rsa;
     private RSAParameters _rsaParams;
     // hardcoded modulus
-    private byte[] _modulus = new byte[] { 1, 0, 1 };
+    private byte[] _exponent = new byte[] { 1, 0, 1 };
 
 
     public RSACrypt(byte[] exponent, bool needUnscramble) {
@@ -18,25 +20,53 @@ public class RSACrypt
         InitRSACrypt(exponent);
     }
 
-    private void InitRSACrypt(byte[] exponent) {
+    private void InitRSACrypt(byte[] modulus) {
         _rsaParams = new RSAParameters {
-            Modulus = _modulus,
-            D = exponent
+            Modulus = modulus,
+            Exponent = _exponent
         };
+
+        _rsaProvider = new RSACryptoServiceProvider();
+        _rsaProvider.ImportParameters(_rsaParams);
+        _rsa = RSA.Create();
+        _rsa.ImportParameters(_rsaParams);
     }
 
-    public void DecryptRSABlock(byte[] encryptedData) {
-        // Initialize RSA with the parameters
-        using (RSA rsa = RSA.Create()) {
-            rsa.ImportParameters(_rsaParams);
-
-            // Decrypt the data
-            byte[] decryptedData = rsa.Decrypt(encryptedData, RSAEncryptionPadding.Pkcs1);
-
-            // Convert decrypted data to string
-            string decryptedMessage = System.Text.Encoding.UTF8.GetString(decryptedData);
-            Console.WriteLine("Decrypted Message: " + decryptedMessage);
+    public byte[] DecryptRSABlock(byte[] encryptedData) {
+        try {
+            // Encrypt without padding
+            return _rsaProvider.Decrypt(encryptedData, false);
+        } catch (Exception ex) {
+            // Handle other unexpected errors
+            Debug.LogError($"Unexpected error during RSA encryption: {ex.Message}");
+            return null;
         }
+    }
+
+    public byte[] EncryptRSANoPadding(byte[] block) {
+        try {
+            // Encrypt without padding
+            return _rsaProvider.Encrypt(block, false);
+        } catch (Exception ex) {
+            // Handle other unexpected errors
+            Debug.LogError($"Unexpected error during RSA encryption: {ex.Message}");
+            return null;
+        }
+    }
+
+    public byte[] EncryptRSAPskc1(byte[] block) {
+        try {
+            byte[] encryptedBlock = _rsa.Encrypt(block, RSAEncryptionPadding.Pkcs1);
+            return encryptedBlock;        
+        } catch (CryptographicException ex) {
+            // Handle cryptographic errors
+            Debug.LogError($"RSA encryption error: {ex.Message}");
+        } catch (Exception ex) {
+            // Handle other unexpected errors
+            Debug.LogError($"Unexpected error during RSA encryption: {ex.Message}");
+        }
+
+        return null;
     }
 
     public void UnscrambledRSAKey(byte[] rsaKey) {
@@ -61,6 +91,6 @@ public class RSACrypt
             rsaKey[0x4d + i] = temp;
         }
 
-        Debug.Log($"Unscrambled RSA: {StringUtils.ByteArrayToString(rsaKey)}");
+        Debug.Log($"Unscrambled RSA {rsaKey.Length} : {StringUtils.ByteArrayToString(rsaKey)}");
     }
 }

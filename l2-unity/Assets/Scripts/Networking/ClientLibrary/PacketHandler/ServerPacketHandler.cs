@@ -18,9 +18,9 @@ public abstract class ServerPacketHandler
         _clientPacketHandler = clientPacketHandler;
     }
 
-    public async Task HandlePacketAsync(byte[] data, BlowfishEngine blowfish, bool init) {
+    public async Task HandlePacketAsync(byte[] data, bool init) {
         await Task.Run(() => {
-            data = DecryptPacket(data, blowfish);
+            data = DecryptPacket(data);
 
             if (init) {
                 if(!DecodeXOR(data)) {
@@ -39,10 +39,10 @@ public abstract class ServerPacketHandler
 
     public abstract void HandlePacket(byte[] data);
 
-    private byte[] DecryptPacket(byte[] data, BlowfishEngine blowfish) {
+    private byte[] DecryptPacket(byte[] data) {
         Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
 
-        blowfish.processBigBlock(data, 0, data, 0, data.Length);
+        _client.DecryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
 
         Debug.Log("XORED: " + StringUtils.ByteArrayToString(data));
 

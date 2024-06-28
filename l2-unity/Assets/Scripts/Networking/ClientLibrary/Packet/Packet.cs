@@ -6,7 +6,6 @@ using UnityEngine;
 
 public abstract class Packet {
     protected byte[] _packetData;
-    protected byte _packetLength;
     protected byte _packetType;
 
     public Packet(byte type) {
@@ -21,7 +20,6 @@ public abstract class Packet {
 
     public void SetData(byte[] data) {
         _packetType = data[0];
-        _packetLength = data[1];
         _packetData = data;
 
        // Debug.Log("Sent: [" + string.Join(",", _packetData) + "]");
@@ -33,9 +31,5 @@ public abstract class Packet {
  
     public byte GetPacketType() {
         return _packetType;
-    }
-
-    public byte GetLength() {
-        return _packetLength;
     }
 }

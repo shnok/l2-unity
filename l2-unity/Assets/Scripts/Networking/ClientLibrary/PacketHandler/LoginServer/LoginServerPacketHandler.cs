@@ -56,23 +56,8 @@ public class LoginServerPacketHandler : ServerPacketHandler
         byte[] blowfishKey = packet.BlowfishKey;
 
         _client.SetRSAKey(rsaKey);
-        _client.SetBlowFishKey(blowfishKey);
-        
-        string account = _client.Account;
-        string password = _client.Password;
+        _client.SetBlowFishKey(blowfishKey);    
 
-        account = account.ToLower();
-        
-        byte[] accountBytes = Encoding.UTF8.GetBytes(account);
-
-        Debug.Log(accountBytes.Length);
-        Debug.Log(StringUtils.ByteArrayToString(accountBytes));
-
-        byte[] shaPass = SHACrypt.ComputeSha256HashToBytes(password);
-        Debug.Log(shaPass.Length);
-        Debug.Log(StringUtils.ByteArrayToString(shaPass));
-
-
+        ((LoginClientPacketHandler)_clientPacketHandler).SendAuth();
     }
-
 }

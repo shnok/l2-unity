@@ -9,8 +9,8 @@ public class GameClientPacketHandler : ClientPacketHandler
     }
 
     public void SendAuth(string username) {
-       AuthRequestPacket packet = new AuthRequestPacket(username);
-       SendPacket(packet);
+       //AuthRequestPacket packet = new AuthRequestPacket(username);
+       //SendPacket(packet);
     }
 
     public void SendMessage(string message) {
