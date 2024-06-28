@@ -29,7 +29,6 @@ public class AsynchronousClient {
     private BlowfishEngine _blowfish;
     private Socket _socket;
     private string _ipAddress;
-    private string _username;
     private int _port;
     private bool _connected;
     private ClientPacketHandler _clientPacketHandler;
@@ -37,9 +36,13 @@ public class AsynchronousClient {
     private DefaultClient _client;
     private bool _initPacket = true;
 
-    private byte[] _blowfishKey;
-    public byte[] BlowfishKey { get { return _blowfishKey; } set { _blowfishKey = value; } }
+    private RSACrypt _rsa;
+    public RSACrypt RSACrypt { get { return _rsa; } }
 
+    private byte[] _blowfishKey;
+    public byte[] BlowfishKey { get { return _blowfishKey; } set { SetBlowFishKey(value); } }
+    public string Account { get { return _client.Account; } }
+    public string Password { get { return _client.Password; } }
     public int Ping { get; set; }
 
     public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, ServerPacketHandler serverPacketHandler) {
@@ -57,7 +60,14 @@ public class AsynchronousClient {
     public void SetBlowFishKey(byte[] blowfishKey) {
         _blowfishKey = blowfishKey;
         _blowfish = new BlowfishEngine();
-        _blowfish.init(false, AsynchronousClient.STATIC_BLOWFISH_KEY);
+        _blowfish.init(false, blowfishKey);
+
+        Debug.Log("Blowfish key set.");
+    }
+
+    public void SetRSAKey(byte[] rsaKey) {
+        _rsa = new RSACrypt(rsaKey, true);
+        Debug.Log("RSA Key set.");
     }
 
     public bool Connect() {

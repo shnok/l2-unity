@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -48,9 +49,28 @@ public class LoginServerPacketHandler : ServerPacketHandler
     }
 
     private void OnInitReceive(byte[] data) {
+        Debug.Log("On init receive");
         InitPacket packet = new InitPacket(data);
-        
 
+        byte[] rsaKey = packet.PublicKey;
+        byte[] blowfishKey = packet.BlowfishKey;
+
+        _client.SetRSAKey(rsaKey);
+        _client.SetBlowFishKey(blowfishKey);
+        
+        string account = _client.Account;
+        string password = _client.Password;
+
+        account = account.ToLower();
+        
+        byte[] accountBytes = Encoding.UTF8.GetBytes(account);
+
+        Debug.Log(accountBytes.Length);
+        Debug.Log(StringUtils.ByteArrayToString(accountBytes));
+
+        byte[] shaPass = SHACrypt.ComputeSha256HashToBytes(password);
+        Debug.Log(shaPass.Length);
+        Debug.Log(StringUtils.ByteArrayToString(shaPass));
 
 
     }

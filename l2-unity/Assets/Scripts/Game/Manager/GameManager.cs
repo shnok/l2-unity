@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
     }
 
     public void LogIn() {
-        LoginClient.Instance.Connect(StringUtils.GenerateRandomString());
     }
 
     public void LogOut() {

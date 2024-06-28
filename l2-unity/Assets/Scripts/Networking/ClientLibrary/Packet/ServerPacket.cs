@@ -11,7 +11,6 @@ public abstract class ServerPacket : Packet
 
     public ServerPacket(byte[] d) : base(d) {
         ReadB();
-        ReadB();
     }
 
     protected byte ReadB() {

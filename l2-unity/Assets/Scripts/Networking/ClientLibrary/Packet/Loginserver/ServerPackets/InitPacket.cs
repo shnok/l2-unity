@@ -1,4 +1,6 @@
-﻿class InitPacket : ServerPacket {
+﻿using UnityEngine;
+
+class InitPacket : ServerPacket {
     private int sessionId;
     private int rsaKeyLength;
     private byte[] publicKey;

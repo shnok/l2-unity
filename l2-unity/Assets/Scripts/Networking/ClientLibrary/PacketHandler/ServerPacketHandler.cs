@@ -23,7 +23,10 @@ public abstract class ServerPacketHandler
             data = DecryptPacket(data, blowfish);
 
             if (init) {
-                DecodeXOR(data);
+                if(!DecodeXOR(data)) {
+                    Debug.LogError("Packet XOR could not be decoded.");
+                    return;
+                }
             }
 
             HandlePacket(data);
@@ -47,44 +50,11 @@ public abstract class ServerPacketHandler
     }
 
     public bool DecodeXOR(byte[] packet) {
-        int blen = packet.Length;
-
-        if (blen < 1 || packet == null)
-            return false; // TODO: Handle error or throw exception
-
-        // Get XOR key
-        int xorOffset = 8;
-        uint xorKey = 0;
-        xorKey |= packet[blen - xorOffset];
-        xorKey |= (uint)(packet[blen - xorOffset + 1] << 8);
-        xorKey |= (uint)(packet[blen - xorOffset + 2] << 16);
-        xorKey |= (uint)(packet[blen - xorOffset + 3] << 24);
-
-        // Decrypt XOR encrypted portion
-        int offset = blen - xorOffset - 4;
-        uint ecx = xorKey;
-        uint edx = 0;
-
-        while (offset > 2) // Adjust this condition if needed
-        {
-            edx = (uint)(packet[offset + 0] & 0xFF);
-            edx |= (uint)(packet[offset + 1] & 0xFF) << 8;
-            edx |= (uint)(packet[offset + 2] & 0xFF) << 16;
-            edx |= (uint)(packet[offset + 3] & 0xFF) << 24;
-
-            edx ^= ecx;
-            ecx -= edx;
-
-            packet[offset + 0] = (byte)((edx) & 0xFF);
-            packet[offset + 1] = (byte)((edx >> 8) & 0xFF);
-            packet[offset + 2] = (byte)((edx >> 16) & 0xFF);
-            packet[offset + 3] = (byte)((edx >> 24) & 0xFF);
-
-            offset -= 4;
+        if(NewCrypt.decXORPass(packet)) {
+            Debug.Log("CLEAR: " + StringUtils.ByteArrayToString(packet));
+            return true;
         }
 
-        Debug.Log("CLEAR: " + StringUtils.ByteArrayToString(packet));
-
-        return true;
+        return false;
     }
 }
