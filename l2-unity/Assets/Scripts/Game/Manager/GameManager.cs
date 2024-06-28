@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameState _gameState = GameState.LOGIN;
+    [SerializeField] private GameState _gameState = GameState.LOGIN_SCREEN;
     private bool _gameReady = false;
 
+    public GameState GameState { 
+        get { return _gameState; } 
+        set {
+            _gameState = value;
+            Debug.Log($"Game state is now {_gameState}.");
+        }
+    }
     public bool GameReady { get { return _gameReady; } set { _gameReady = value; } }
 
     private static GameManager _instance;
@@ -39,6 +46,7 @@ public class GameManager : MonoBehaviour
         LogongrpTable.Instance.Initialize();
     }
 
+
     public void LogIn() {
     }
 
@@ -55,8 +63,23 @@ public class GameManager : MonoBehaviour
         L2GameUI.Instance.StopLoading();
     }
 
+    public void OnLoginServerConnected() {
+        GameState = GameState.LOGIN_CONNECTED;
+    }
+
+    public void OnLoginServerAuthAllowed() {
+        GameState = GameState.READING_LICENSE;
+
+        L2LoginUI.Instance.ShowLicenseWindow();
+    }
+
+    public void OnReceivedServerList() {
+        GameState = GameState.LOGIN_SCREEN;
+
+    }
+
     public void OnAuthAllowed() {
-        _gameState = GameState.CHAR_SELECT;
+        GameState = GameState.CHAR_SELECT;
 
         LoginCameraManager.Instance.SwitchCamera("CharSelect");
 
@@ -64,14 +87,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnCharacterSelect() {
-        _gameState = GameState.IN_GAME;
+        GameState = GameState.IN_GAME;
 
         L2LoginUI.Instance.StartLoading();
         SceneLoader.Instance.LoadGame();
     }
 
     public void OnCreateUser() {
-        _gameState = GameState.CHAR_CREATION;
+        GameState = GameState.CHAR_CREATION;
 
         LoginCameraManager.Instance.SwitchCamera("Login");
 
@@ -84,7 +107,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnRelogin() {
-        _gameState = GameState.LOGIN;
+        GameState = GameState.LOGIN_SCREEN;
 
         LoginCameraManager.Instance.SwitchCamera("Login");
 
@@ -92,8 +115,12 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnDisconnect() {
-        MusicManager.Instance.Clear();
-        SceneLoader.Instance.LoadMenu();
+        if(GameState > GameState.CHAR_CREATION) {
+            MusicManager.Instance.Clear();
+            SceneLoader.Instance.LoadMenu();
+        } else if(GameState > GameState.LOGIN_SCREEN) {
+            OnRelogin();
+        }
     }
 
     public void OnStartingGame() {

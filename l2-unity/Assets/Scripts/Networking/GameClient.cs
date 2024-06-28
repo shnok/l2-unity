@@ -41,7 +41,8 @@ public class GameClient : DefaultClient {
     }
 
     public override void OnAuthAllowed() {
-        base.OnAuthAllowed();
+        Debug.Log("Connected");
+        GameManager.Instance.OnAuthAllowed();
     }
 
     public override void OnDisconnect() {

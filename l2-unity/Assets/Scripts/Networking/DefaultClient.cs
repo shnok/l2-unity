@@ -42,7 +42,7 @@ public abstract class DefaultClient : MonoBehaviour {
         if(connected) {  
             _connecting = false;
 
-            OnConnectionSuccess();   
+            EventProcessor.Instance.QueueEvent(() => OnConnectionSuccess());
         }
     }
 
@@ -54,10 +54,7 @@ public abstract class DefaultClient : MonoBehaviour {
         _connecting = false;
     }
 
-    public virtual void OnAuthAllowed() {
-        Debug.Log("Connected");
-        GameManager.Instance.OnAuthAllowed();
-    }
+    public abstract void OnAuthAllowed();
 
     public int GetPing() {
         return _client.Ping;

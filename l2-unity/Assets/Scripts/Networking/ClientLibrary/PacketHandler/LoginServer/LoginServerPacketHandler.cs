@@ -65,7 +65,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
         byte[] blowfishKey = packet.BlowfishKey;
 
         _client.SetRSAKey(rsaKey);
-        _client.SetBlowFishKey(blowfishKey);    
+        _client.SetBlowFishKey(blowfishKey);
 
         ((LoginClientPacketHandler)_clientPacketHandler).SendAuth();
     }
@@ -92,5 +92,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
 
     private void OnLoginOk(byte[] data) {
         LoginOkPacket packet = new LoginOkPacket(data);
+
+        EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.OnAuthAllowed());
     }
 }

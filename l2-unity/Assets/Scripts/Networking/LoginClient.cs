@@ -30,7 +30,7 @@ public class LoginClient : DefaultClient {
     }
 
     protected override void OnConnectionSuccess() {
-        
+        GameManager.Instance.OnLoginServerConnected();
     }
 
     public override void OnConnectionFailed() {
@@ -38,7 +38,7 @@ public class LoginClient : DefaultClient {
     }
 
     public override void OnAuthAllowed() {
-        base.OnAuthAllowed();
+        GameManager.Instance.OnLoginServerAuthAllowed();
     }
 
     public override void OnDisconnect() {
