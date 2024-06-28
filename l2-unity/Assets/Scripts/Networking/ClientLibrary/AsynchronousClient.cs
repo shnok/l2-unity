@@ -106,16 +106,21 @@ public class AsynchronousClient {
     }
 
     public void Disconnect() {
+        if(!_connected) {
+            return;
+        }
+
         try {
             _serverPacketHandler.CancelTokens();
             _connected = false;         
             _socket.Close();
             _socket.Dispose();
-
-            EventProcessor.Instance.QueueEvent(() => _client.OnDisconnect());       
         } catch (Exception e) {
             Debug.LogError(e);
         }
+
+
+        EventProcessor.Instance.QueueEvent(() => _client.OnDisconnect());
     }
 
     public void SendPacket(ClientPacket packet) {

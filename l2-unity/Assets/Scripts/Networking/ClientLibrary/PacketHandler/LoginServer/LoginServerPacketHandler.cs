@@ -20,7 +20,16 @@ public class LoginServerPacketHandler : ServerPacketHandler
                 break;
             case LoginServerPacketType.Init:
                 OnInitReceive(data);
-                break;        
+                break;
+            case LoginServerPacketType.LoginFail:
+                OnLoginFail(data);
+                break;
+            case LoginServerPacketType.AccountKicked:
+                OnAccountKicked(data);
+                break;
+            case LoginServerPacketType.LoginOk:
+                OnLoginOk(data);
+                break;
         }
     }
 
@@ -59,5 +68,29 @@ public class LoginServerPacketHandler : ServerPacketHandler
         _client.SetBlowFishKey(blowfishKey);    
 
         ((LoginClientPacketHandler)_clientPacketHandler).SendAuth();
+    }
+
+    private void OnLoginFail(byte[] data) {
+        LoginFailPacket packet = new LoginFailPacket(data);
+
+        LoginFailPacket.LoginFailedReason failedReason = packet.FailedReason;
+
+        Debug.LogWarning($"Login failed reason: {Enum.GetName(typeof(LoginFailPacket.LoginFailedReason), failedReason)}");
+
+        _client.Disconnect();
+    }
+
+    private void OnAccountKicked(byte[] data) {
+        AccountKickedPacket packet = new AccountKickedPacket(data);
+
+        AccountKickedPacket.AccountKickedReason kickedReason = packet.KickedReason;
+
+        Debug.LogWarning($"Account kicked reason: {Enum.GetName(typeof(AccountKickedPacket.AccountKickedReason), kickedReason)}");
+
+        _client.Disconnect();
+    }
+
+    private void OnLoginOk(byte[] data) {
+        LoginOkPacket packet = new LoginOkPacket(data);
     }
 }
