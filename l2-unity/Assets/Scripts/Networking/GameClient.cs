@@ -6,6 +6,10 @@ using System.Collections;
 public class GameClient : DefaultClient {
     [SerializeField] protected Entity _currentPlayer;
 
+    public string CurrentPlayer { get { return _currentPlayer.Identity.Name; } }
+    public int SessionKey1 { get { return _client.SessionKey1; } set { _client.SessionKey1 = value; } }
+    public int SessionKey2 { get { return _client.SessionKey2; } set { _client.SessionKey2 = value; } }
+
     private GameClientPacketHandler clientPacketHandler;
     private GameServerPacketHandler serverPacketHandler;
 

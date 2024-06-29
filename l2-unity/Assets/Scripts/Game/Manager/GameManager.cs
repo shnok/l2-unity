@@ -127,6 +127,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void OnGameserverSelected() {
+        Debug.Log("Gameserver selected, connecting...");
+
+        //GameClient.Instance.Connect();
+    }
+
     public void OnStartingGame() {
         Debug.Log("On Starting game");
         L2LoginUI.Instance.StartLoading();

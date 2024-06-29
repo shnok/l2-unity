@@ -33,6 +33,12 @@ public class LoginServerPacketHandler : ServerPacketHandler
             case LoginServerPacketType.ServerList:
                 OnServerListReceived(data);
                 break;
+            case LoginServerPacketType.PlayFail:
+                OnPlayFail(data);
+                break;
+            case LoginServerPacketType.PlayOk:
+                OnPlayOk(data);
+                break;
         }
     }
 
@@ -109,5 +115,24 @@ public class LoginServerPacketHandler : ServerPacketHandler
 
         EventProcessor.Instance.QueueEvent(
             () => LoginClient.Instance.OnServerListReceived(packet.LastServer, packet.ServersData, packet.CharsOnServers));
+    }
+
+    private void OnPlayFail(byte[] data) {
+        PlayFailPacket packet = new PlayFailPacket(data);
+
+        PlayFailPacket.PlayFailReason failedReason = packet.FailedReason;
+
+        Debug.LogWarning($"Play failed reason: {Enum.GetName(typeof(PlayFailPacket.PlayFailReason), failedReason)}");
+    }
+
+
+    private void OnPlayOk(byte[] data) {
+        LoginOkPacket packet = new LoginOkPacket(data);
+
+        GameClient.Instance.SessionKey1 = packet.SessionKey1;
+        GameClient.Instance.SessionKey2 = packet.SessionKey2;
+
+        Debug.Log("Server select allowed.");
+       // EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.OnAuthAllowed());
     }
 }

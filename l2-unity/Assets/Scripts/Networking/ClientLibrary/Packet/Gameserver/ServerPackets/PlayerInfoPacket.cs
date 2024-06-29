@@ -25,7 +25,7 @@ public class PlayerInfoPacket : ServerPacket {
             Identity.SetPosX(ReadF());
             Identity.SetPosY(ReadF());
             Identity.SetPosZ(ReadF());
-            Identity.Owned = Identity.Name == GameClient.Instance.Account;
+            Identity.Owned = Identity.Name == GameClient.Instance.CurrentPlayer;
             // Status
             Status.Level = ReadI();
             Status.Hp = ReadI();

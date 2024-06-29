@@ -13,10 +13,8 @@ public class LoginClientPacketHandler : ClientPacketHandler {
     }
 
     public void SendAuth() {
-        string account = _client.Account;
-        string password = _client.Password;
-
-        account = account.ToLower();
+        string account = LoginClient.Instance.Account;
+        string password = LoginClient.Instance.Password;
 
         byte[] accountBytes = Encoding.UTF8.GetBytes(account);
 
@@ -57,6 +55,12 @@ public class LoginClientPacketHandler : ClientPacketHandler {
 
     public void SendRequestServerList() {
         RequestServerListPacket packet = new RequestServerListPacket(_client.SessionKey1, _client.SessionKey2);
+
+        SendPacket(packet);
+    }
+
+    public void SendRequestServerLogin(int serverId) {
+        RequestServerLoginPacket packet = new RequestServerLoginPacket(serverId, _client.SessionKey1, _client.SessionKey2);
 
         SendPacket(packet);
     }

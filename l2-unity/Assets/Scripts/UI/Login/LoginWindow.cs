@@ -107,7 +107,9 @@ public class LoginWindow : MonoBehaviour
     private void LoginButtonPressed() {
         _userInput.value = "Shnok";
         _passwordInput.value = "1234";
-        LoginClient.Instance.Connect(_userInput.value, _passwordInput.value);
+        LoginClient.Instance.Account = _userInput.value.ToLower().Trim();
+        LoginClient.Instance.Password = _passwordInput.value.Trim();
+        LoginClient.Instance.Connect();
     }
 
     private void ExitButtonPressed() {

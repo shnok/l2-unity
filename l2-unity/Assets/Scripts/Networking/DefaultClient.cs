@@ -10,15 +10,13 @@ public abstract class DefaultClient : MonoBehaviour {
     [SerializeField] protected int _connectionTimeoutMs = 10000;
     [SerializeField] protected bool _logReceivedPackets = true;
     [SerializeField] protected bool _logSentPackets = true;
-    [SerializeField] protected string _account;
-    [SerializeField] protected string _password;
 
     private bool _connecting = false;
-    public string Account { get { return _account; } set { _account = value; } }
-    public string Password { get { return _password; } set { _password = value; } }
     public bool LogReceivedPackets { get { return _logReceivedPackets; } }
     public bool LogSentPackets { get { return _logSentPackets; } }
     public int ConnectionTimeoutMs { get { return _connectionTimeoutMs; } }
+    public string ServerIp { get { return _serverIp; } set { _serverIp = value; } }
+    public int ServerPort { get { return _serverPort; } set { _serverPort = value; } }
 
     private void Start() {
         if(World.Instance != null && World.Instance.OfflineMode) {
@@ -26,14 +24,12 @@ public abstract class DefaultClient : MonoBehaviour {
         }
     }
 
-    public async void Connect(string account, string password) {
+    public async void Connect() {
         if(_connecting) {
             return;
         }
 
         _connecting = true;
-        _account = account;
-        _password = password;
 
 
         CreateAsyncClient();

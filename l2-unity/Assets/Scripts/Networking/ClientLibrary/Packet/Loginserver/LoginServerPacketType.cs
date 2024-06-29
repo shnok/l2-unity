@@ -9,6 +9,8 @@ public enum LoginServerPacketType : byte
     LoginOk = 2,
     LoginFail = 3,
     ServerList = 4,
-    AccountKicked = 5
+    AccountKicked = 5,
+    PlayFail = 6,
+    PlayOk = 7
 }
 

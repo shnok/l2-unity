@@ -12,7 +12,7 @@ public class ServerSelectWindow : MonoBehaviour
     private VisualElement _listContentContainer;
     private List<VisualElement> _serverElements;
     private List<ServerData> _serverData;
-    private int _selectedServerId = 0;
+    private int _selectedServerId = -1;
 
     private static ServerSelectWindow _instance;
     public static ServerSelectWindow Instance { get { return _instance; } }
@@ -99,7 +99,7 @@ public class ServerSelectWindow : MonoBehaviour
             AddServerRow(i, "", "", -1);
         }
 
-        if(lastServer == 0) {
+        if(lastServer == 0 && _serverData != null && _serverData.Count > 0) {
             SelectServer(0);
         }
     }
@@ -109,11 +109,23 @@ public class ServerSelectWindow : MonoBehaviour
             _serverElements[i].RemoveFromClassList("selected");
         }
 
+        if(_serverElements.Count - 1 < rowId) {
+            return;
+        }
+
         _serverElements[rowId].AddToClassList("selected");
+
+        if(_serverData == null || _serverData.Count == 0 
+            || _serverData.Count - 1 < rowId || _serverData[rowId].ip == null) {
+            return;
+        }
 
         _selectedServerId = _serverData[rowId].serverId;
 
         Debug.Log("Server selected: " + _selectedServerId);
+
+        GameClient.Instance.ServerIp = StringUtils.ByteArrayToIpAddress(_serverData[rowId].ip);
+        GameClient.Instance.ServerPort = _serverData[rowId].port;
     }
 
     private string ParseServerName(int serverId) {
@@ -177,7 +189,20 @@ public class ServerSelectWindow : MonoBehaviour
         _serverElements.Add(row);
     }
 
+    private void ResetWindow() {
+        _serverElements.ForEach((x) => {
+            x.RemoveFromHierarchy();
+        });
+        _serverElements.Clear();
+        if(_serverData != null) {
+            _serverData.Clear();
+            _serverData = null;
+        }
+        _selectedServerId = -1;
+    }
+
     private void ConfirmButtonPressed() {
+        LoginClient.Instance.OnServerSelected(_selectedServerId);
     }
 
     private void CancelButtonPressed() {
@@ -185,6 +210,7 @@ public class ServerSelectWindow : MonoBehaviour
     }
 
     public void HideWindow() {
+        ResetWindow();
         _windowEle.style.display = DisplayStyle.None;
     }
 

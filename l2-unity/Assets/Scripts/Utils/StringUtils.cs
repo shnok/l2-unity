@@ -54,4 +54,15 @@ public class StringUtils
 
         return sb.ToString();
     }
+
+    public static string ByteArrayToIpAddress(byte[] ipArray) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ipArray.Length; i++) {
+            sb.Append(ipArray[i]);
+            if(i < ipArray.Length - 1) {
+                sb.Append(".");
+            }
+        }
+        return sb.ToString();
+    }
 }

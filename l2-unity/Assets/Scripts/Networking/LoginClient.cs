@@ -5,6 +5,14 @@ using System.Collections;
 using static ServerListPacket;
 
 public class LoginClient : DefaultClient {
+
+    [SerializeField] protected string _account;
+    [SerializeField] protected string _password;
+
+    public string Account { get { return _account; } set { _account = value; } }
+    public string Password { get { return _password; } set { _password = value; } }
+
+
     private LoginClientPacketHandler clientPacketHandler;
     private LoginServerPacketHandler serverPacketHandler;
 
@@ -44,6 +52,10 @@ public class LoginClient : DefaultClient {
 
     public void OnServerListReceived(byte lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers) {
         GameManager.Instance.OnReceivedServerList(lastServer, serverData, charsOnServers);
+    }
+
+    public void OnServerSelected(int serverId) {
+        clientPacketHandler.SendRequestServerLogin(serverId);
     }
 
     public override void OnDisconnect() {

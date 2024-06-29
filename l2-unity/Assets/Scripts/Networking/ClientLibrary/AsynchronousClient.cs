@@ -51,9 +51,6 @@ public class AsynchronousClient {
     public int SessionKey1 { get { return _sessionKey1; } set { _sessionKey1 = value; } }
     public int SessionKey2 { get { return _sessionKey2; } set { _sessionKey2 = value; } }
 
-    public string Account { get { return _client.Account; } }
-    public string Password { get { return _client.Password; } }
-
     public int Ping { get; set; }
 
     public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, ServerPacketHandler serverPacketHandler) {
