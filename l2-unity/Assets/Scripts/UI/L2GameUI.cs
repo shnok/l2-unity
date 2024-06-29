@@ -74,8 +74,7 @@ public class L2GameUI : MonoBehaviour {
         IconOverlay.Instance.AddWindow(rootVisualContainer);
         StatusWindow.Instance.AddWindow(rootVisualContainer);
         CharacterInventory.Instance.AddWindow(rootVisualContainer);
-        //disable
-        //CharacterInfo.Instance.AddWindow(rootVisualContainer);
+        CharacterInfo.Instance.AddWindow(rootVisualContainer);
         ChatWindow.Instance.AddWindow(rootVisualContainer);
         TargetWindow.Instance.AddWindow(rootVisualContainer);
        

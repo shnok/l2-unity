@@ -49,8 +49,8 @@ public class MenuWindow : MonoBehaviour {
         MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(_windowEle);
         _windowEle.AddManipulator(mouseOverDetection);
 
-        RegisterButtonCallBack("CharacterButton");
-        RegisterButtonCallBack("InventoryButton");
+        RegisterButtonCharacterCallBack("CharacterButton");
+        RegisterButtonInventoryCallBack("InventoryButton");
         RegisterButtonCallBack("ActionButton");
         RegisterButtonCallBack("SkillButton");
         RegisterButtonCallBack("QuestButton");
@@ -76,7 +76,62 @@ public class MenuWindow : MonoBehaviour {
 
         btn.RegisterCallback<MouseDownEvent>(evt => {
             AudioManager.Instance.PlayUISound("click_01");
-            //TODO: open window
+           // HideInventory();
         }, TrickleDown.TrickleDown);
+    }
+
+    private void RegisterButtonInventoryCallBack(string buttonId)
+    {
+        var btn = _windowEle.Q<Button>(buttonId);
+        if (btn == null)
+        {
+            Debug.LogError(buttonId + " can't be found.");
+            return;
+        }
+
+        btn.RegisterCallback<MouseDownEvent>(evt => {
+            AudioManager.Instance.PlayUISound("click_01");
+            HideInventory();
+        }, TrickleDown.TrickleDown);
+    }
+
+    private void RegisterButtonCharacterCallBack(string buttonId)
+    {
+        var btn = _windowEle.Q<Button>(buttonId);
+        if (btn == null)
+        {
+            Debug.LogError(buttonId + " can't be found.");
+            return;
+        }
+
+        btn.RegisterCallback<MouseDownEvent>(evt => {
+            AudioManager.Instance.PlayUISound("click_01");
+            HideCharacter();
+        }, TrickleDown.TrickleDown);
+    }
+
+    private void HideInventory()
+    {
+        if (CharacterInventory.Instance.isHideWindow())
+        {
+            CharacterInventory.Instance.HideElements(false);
+        }
+        else
+        {
+            CharacterInventory.Instance.HideElements(true);
+        }
+    }
+
+    private void HideCharacter()
+    {
+        bool hide = CharacterInfo.Instance.isHideWindow();
+        if (hide)
+        {
+            CharacterInfo.Instance.HideElements(false);
+        }
+        else
+        {
+            CharacterInfo.Instance.HideElements(true);
+        }
     }
 }

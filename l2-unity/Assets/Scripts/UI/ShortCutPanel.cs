@@ -8,8 +8,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static UnityEditor.Rendering.FilterWindow;
-using static UnityEngine.Rendering.DebugUI;
+
 
 
 
