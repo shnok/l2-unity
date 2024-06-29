@@ -165,7 +165,6 @@
     border-width: 0;
 }
 
-
 .chat-window .chatting-option {
     background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_option1.png?fileID=2800000&guid=9a6ea293fa56d5a4083e09b9c4684f3b&type=3#chatting_option1');
 }
@@ -526,7 +525,6 @@
     -unity-slice-scale: 0;
     border-width: 0;
 }
-
 
 .l2-scroll-view .unity-scroller__high-button {
     background-color: transparent;
@@ -1479,4 +1477,42 @@
 
 .license-window .l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
     flex-direction: row;
+}
+
+.server-element {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 100%;
+    height: 18px;
+    position: relative;
+    flex-direction: row;
+    background-color: rgba(0, 0, 0, 0.48);
+}
+
+.server-element.odd {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.server-element.selected, .server-element.odd.selected {
+    background-color: rgba(138, 120, 88, 0.18);
+}
+
+.server-element .unity-label {
+    color: rgb(255, 255, 255);
+}
+
+.server-element .unity-label.light {
+    color: rgb(71, 138, 200);
+}
+
+.server-element .unity-label.normal {
+    color: rgb(219, 207, 110);
+}
+
+.server-element .unity-label.heavy {
+    color: rgb(210, 106, 98);
+}
+
+.server-element .unity-label.down, .server-element .unity-label.full, .server-element .unity-label.gm-only {
+    color: rgb(255, 0, 0);
 }

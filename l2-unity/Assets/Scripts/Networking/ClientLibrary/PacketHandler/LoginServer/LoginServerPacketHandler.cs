@@ -30,6 +30,9 @@ public class LoginServerPacketHandler : ServerPacketHandler
             case LoginServerPacketType.LoginOk:
                 OnLoginOk(data);
                 break;
+            case LoginServerPacketType.ServerList:
+                OnServerListReceived(data);
+                break;
         }
     }
 
@@ -98,9 +101,13 @@ public class LoginServerPacketHandler : ServerPacketHandler
         _client.SessionKey1 = packet.SessionKey1;
         _client.SessionKey2 = packet.SessionKey2;
 
-        Debug.Log("SessionKey1: " + _client.SessionKey1); 
-        Debug.Log("SessionKey2: " + _client.SessionKey2);
-
         EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.OnAuthAllowed());
+    }
+
+    private void OnServerListReceived(byte[] data) {
+        ServerListPacket packet = new ServerListPacket(data);
+
+        EventProcessor.Instance.QueueEvent(
+            () => LoginClient.Instance.OnServerListReceived(packet.LastServer, packet.ServersData, packet.CharsOnServers));
     }
 }

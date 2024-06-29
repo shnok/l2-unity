@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ServerListPacket;
 
 public class GameManager : MonoBehaviour
 {
@@ -73,9 +74,12 @@ public class GameManager : MonoBehaviour
         L2LoginUI.Instance.ShowLicenseWindow();
     }
 
-    public void OnReceivedServerList() {
-        GameState = GameState.LOGIN_SCREEN;
+    public void OnReceivedServerList(byte lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers) {
+        GameState = GameState.SERVER_LIST;
 
+        L2LoginUI.Instance.ShowServerSelectWindow();
+
+        ServerSelectWindow.Instance.UpdateServerList(lastServer, serverData, charsOnServers);
     }
 
     public void OnAuthAllowed() {

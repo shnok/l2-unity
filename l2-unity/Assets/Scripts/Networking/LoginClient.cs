@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections;
+using static ServerListPacket;
 
 public class LoginClient : DefaultClient {
     private LoginClientPacketHandler clientPacketHandler;
@@ -39,6 +40,10 @@ public class LoginClient : DefaultClient {
 
     public override void OnAuthAllowed() {
         GameManager.Instance.OnLoginServerAuthAllowed();
+    }
+
+    public void OnServerListReceived(byte lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers) {
+        GameManager.Instance.OnReceivedServerList(lastServer, serverData, charsOnServers);
     }
 
     public override void OnDisconnect() {
