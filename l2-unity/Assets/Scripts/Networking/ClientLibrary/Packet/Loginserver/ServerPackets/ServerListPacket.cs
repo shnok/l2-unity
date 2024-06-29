@@ -58,6 +58,7 @@ public class ServerListPacket : ServerPacket {
                 byte serverId = ReadB();
                 byte charCount = ReadB();
 
+                Debug.Log($"Account as {charCount} character(s) on server {serverId}");
                 _charsOnServers[serverId] = charCount;
             }
         }

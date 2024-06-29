@@ -86,7 +86,7 @@ public class ServerSelectWindow : MonoBehaviour
         _serverData = serverData;
 
         for (int i = 0; i < serverData.Count; i++) {
-            charsOnServers.TryGetValue(i, out int charCount);
+            charsOnServers.TryGetValue(serverData[i].serverId, out int charCount);
 
             AddServerRow(i, ParseServerName(serverData[i].serverId), ParseServerStatus(serverData[i].status), charCount);
 
