@@ -7,9 +7,9 @@ public class GameServerPacketHandler : ServerPacketHandler
 {
     public override void HandlePacket(byte[] data) {
         GameServerPacketType packetType = (GameServerPacketType)data[0];
-        if (GameClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping) {
+        //if (GameClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping) {
             Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [GameServer] Received packet:" + packetType);
-        }
+        //}
         switch (packetType) {
             case GameServerPacketType.Ping:
                 OnPingReceive();
@@ -80,7 +80,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     protected override byte[] DecryptPacket(byte[] data) {
         Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
 
-        GameClient.Instance.GameCrypt.decrypt(data);
+        GameClient.Instance.GameCrypt.Decrypt(data);
 
         Debug.Log("DECRYPTED: " + StringUtils.ByteArrayToString(data));
 

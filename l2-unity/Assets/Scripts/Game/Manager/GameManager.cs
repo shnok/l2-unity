@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour {
         if (GameState > GameState.CHAR_CREATION) {
             MusicManager.Instance.Clear();
             SceneLoader.Instance.LoadMenu();
-        } else if(GameState > GameState.LOGIN_SCREEN && GameState != GameState.READY_TO_CONNECT) {
+        } else if(GameState > GameState.LOGIN_SCREEN && !GameClient.Instance.IsConnected && !LoginClient.Instance.IsConnected) {
             OnRelogin();
         }
     }

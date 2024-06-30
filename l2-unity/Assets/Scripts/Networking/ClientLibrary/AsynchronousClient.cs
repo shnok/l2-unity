@@ -16,6 +16,7 @@ public class AsynchronousClient {
     private DefaultClient _client;
     private bool _cryptEnabled = false;
     private bool _initPacket = true;
+    private bool _initPacketEnabled;
 
     public bool InitPacket { get { return _initPacket; } set { _initPacket = value; } }
     public bool CryptEnabled { 
@@ -36,6 +37,7 @@ public class AsynchronousClient {
         _clientPacketHandler.SetClient(this);
         _serverPacketHandler.SetClient(this, _clientPacketHandler);
         _client = client;
+        _initPacketEnabled = enableInitPacket;
         _initPacket = enableInitPacket;
     }
 
@@ -43,7 +45,10 @@ public class AsynchronousClient {
         IPHostEntry ipHostInfo = Dns.GetHostEntry(_ipAddress);
         IPAddress ipAddress = ipHostInfo.AddressList[0];
         _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        _initPacket = true;
+
+        if(_initPacketEnabled) {
+            _initPacket = true;
+        }
 
         Debug.Log("Connecting...");
 
@@ -127,9 +132,7 @@ public class AsynchronousClient {
                     break;
                 }
 
-                Debug.Log("lengthLo: " + lengthLo);
-                Debug.Log("lengthHi: " + lengthHi);
-                Debug.Log("Packet length: " + length);
+                //Debug.Log("Packet length: " + length);
 
                 byte[] data = new byte[length];
 

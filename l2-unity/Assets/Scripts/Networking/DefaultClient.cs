@@ -22,6 +22,7 @@ public abstract class DefaultClient : MonoBehaviour {
     public int ServerPort { get { return _serverPort; } set { _serverPort = value; } }
     public int SessionKey1 { get { return _sessionKey1; } set { _sessionKey1 = value; } }
     public int SessionKey2 { get { return _sessionKey2; } set { _sessionKey2 = value; } }
+    public bool IsConnected { get { return _connected; } }
 
     private void Start() {
         if(World.Instance != null && World.Instance.OfflineMode) {

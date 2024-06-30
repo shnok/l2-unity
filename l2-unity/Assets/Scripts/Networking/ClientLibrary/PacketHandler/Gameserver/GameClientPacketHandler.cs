@@ -10,7 +10,7 @@ public class GameClientPacketHandler : ClientPacketHandler
 
         Debug.Log("CLEAR: " + StringUtils.ByteArrayToString(data));
 
-        GameClient.Instance.GameCrypt.encrypt(data);
+        GameClient.Instance.GameCrypt.Encrypt(data);
 
         Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
 
@@ -84,9 +84,9 @@ public class GameClientPacketHandler : ClientPacketHandler
     public override void SendPacket(ClientPacket packet) {
         if (GameClient.Instance.LogSentPackets) {
             GameClientPacketType packetType = (GameClientPacketType)packet.GetPacketType();
-            if (packetType != GameClientPacketType.Ping && packetType != GameClientPacketType.RequestRotate) {
+            //if (packetType != GameClientPacketType.Ping && packetType != GameClientPacketType.RequestRotate) {
                 Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [GameServer] Sending packet:" + packetType);
-            }
+            //}
         }
 
         if (_client.CryptEnabled) {

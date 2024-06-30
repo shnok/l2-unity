@@ -20,7 +20,6 @@ public abstract class ServerPacketHandler
 
     public async Task HandlePacketAsync(byte[] data, bool init) {
         await Task.Run(() => {
-            Debug.Log("New packet");
             if (_client.CryptEnabled) {
                 data = DecryptPacket(data);
 

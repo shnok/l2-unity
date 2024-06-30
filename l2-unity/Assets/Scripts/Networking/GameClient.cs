@@ -23,7 +23,6 @@ public class GameClient : DefaultClient {
     public GameClientPacketHandler ClientPacketHandler { get { return clientPacketHandler; } }
     public GameServerPacketHandler ServerPacketHandler { get { return serverPacketHandler; } }
 
-
     private static GameClient _instance;
     public static GameClient Instance { get { return _instance; } }
 
@@ -44,7 +43,7 @@ public class GameClient : DefaultClient {
 
     public void EnableCrypt(byte[] key) {
         _gameCrypt = new GameCrypt();
-        _gameCrypt.setKey(key);
+        _gameCrypt.SetKey(key);
         _client.CryptEnabled = true;
     }
 

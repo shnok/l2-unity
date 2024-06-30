@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace L2_login
 {
     class NewCrypt {
@@ -38,6 +40,7 @@ namespace L2_login
         }
 
         public static void appendChecksum(byte[] raw, int offset, int size) {
+            Debug.Log($"Packet size: {raw.Length}:{size}");
             ulong chksum = 0;
             int count = size - 4;
             ulong ecx;
