@@ -17,6 +17,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.Key:
                 OnKeyReceive(data);
                 break;
+            case GameServerPacketType.LoginFail:
+                OnLoginFail(data);
+                break;
             case GameServerPacketType.CharSelectionInfo:
                 OnCharSelectionInfoReceive(data);
                 break;
@@ -123,8 +126,19 @@ public class GameServerPacketHandler : ServerPacketHandler
         _eventProcessor.QueueEvent(() => ((GameClientPacketHandler)_clientPacketHandler).SendAuth());
     }
 
-    private void OnCharSelectionInfoReceive(byte[] data) {
+    private void OnLoginFail(byte[] data) {
+        PlayFailPacket packet = new PlayFailPacket(data);
+        EventProcessor.Instance.QueueEvent(() => GameClient.Instance.Disconnect());
+        EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
 
+        Debug.LogError($"Gameserver login failed reason: " +
+            $"{Enum.GetName(typeof(LoginFailPacket.LoginFailedReason), packet.FailedReason)}");
+    }
+
+    private void OnCharSelectionInfoReceive(byte[] data) {
+        EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
+
+        _eventProcessor.QueueEvent(() => GameClient.Instance.OnAuthAllowed());
     }
 
     private void OnMessageReceive(byte[] data) {
