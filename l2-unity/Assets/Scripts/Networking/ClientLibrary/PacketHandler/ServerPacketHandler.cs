@@ -20,7 +20,8 @@ public abstract class ServerPacketHandler
 
     public async Task HandlePacketAsync(byte[] data, bool init) {
         await Task.Run(() => {
-            if (_client.BlowfishKey != null) {
+            Debug.Log("New packet");
+            if (_client.CryptEnabled) {
                 data = DecryptPacket(data);
 
                 if (init) {
@@ -28,6 +29,8 @@ public abstract class ServerPacketHandler
                         Debug.LogError("Packet XOR could not be decoded.");
                         return;
                     }
+                } else if(!NewCrypt.verifyChecksum(data)) {
+                    Debug.LogError("Packet checksum is wrong.");
                 }
             }
 
@@ -41,15 +44,7 @@ public abstract class ServerPacketHandler
 
     public abstract void HandlePacket(byte[] data);
 
-    private byte[] DecryptPacket(byte[] data) {
-        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
-
-        _client.DecryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
-
-        Debug.Log("XORED: " + StringUtils.ByteArrayToString(data));
-
-        return data;
-    }
+    protected abstract byte[] DecryptPacket(byte[] data);
 
     public bool DecodeXOR(byte[] packet) {
         if(NewCrypt.decXORPass(packet)) {

@@ -7,6 +7,20 @@ using System.Threading;
 using UnityEngine;
 
 public class LoginClientPacketHandler : ClientPacketHandler {
+    protected override void EncryptPacket(ClientPacket packet) {
+        base.EncryptPacket(packet);
+
+        byte[] data = packet.GetData();
+
+        Debug.Log("CLEAR: " + StringUtils.ByteArrayToString(data));
+
+        LoginClient.Instance.EncryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
+
+        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+
+        packet.SetData(data);
+    }
+
     public void SendPing() {
         PingPacket packet = new PingPacket();
         _client.SendPacket(packet);
@@ -44,7 +58,7 @@ public class LoginClientPacketHandler : ClientPacketHandler {
         Debug.Log($"Combined byte array length: {rsaBlock.Length}");
         Debug.Log($"Clear RSA block: {StringUtils.ByteArrayToString(rsaBlock)}");
 
-        rsaBlock = _client.RSACrypt.EncryptRSANoPadding(rsaBlock);
+        rsaBlock = LoginClient.Instance.RSACrypt.EncryptRSANoPadding(rsaBlock);
 
         Debug.Log($"Encrypted RSA block: {StringUtils.ByteArrayToString(rsaBlock)}");
 

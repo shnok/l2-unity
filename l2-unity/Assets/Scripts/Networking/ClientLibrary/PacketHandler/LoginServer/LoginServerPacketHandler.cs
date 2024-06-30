@@ -42,6 +42,16 @@ public class LoginServerPacketHandler : ServerPacketHandler
         }
     }
 
+    protected override byte[] DecryptPacket(byte[] data) {
+        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+
+        LoginClient.Instance.DecryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
+
+        Debug.Log("XORED: " + StringUtils.ByteArrayToString(data));
+
+        return data;
+    }
+
     private void OnPingReceive() {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         int ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
@@ -73,13 +83,13 @@ public class LoginServerPacketHandler : ServerPacketHandler
         byte[] rsaKey = packet.PublicKey;
         byte[] blowfishKey = packet.BlowfishKey;
 
-        _client.SetRSAKey(rsaKey);
+        LoginClient.Instance.SetRSAKey(rsaKey);
 
         LoginClient.Instance.SetBlowFishKey(blowfishKey);
 
         _client.InitPacket = false;
 
-        ((LoginClientPacketHandler)_clientPacketHandler).SendAuth();
+        EventProcessor.Instance.QueueEvent(() => ((LoginClientPacketHandler)_clientPacketHandler).SendAuth());
     }
 
     private void OnLoginFail(byte[] data) {

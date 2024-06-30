@@ -1,3 +1,4 @@
+using L2_login;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -13,14 +14,9 @@ public abstract class ClientPacketHandler
 
     public abstract void SendPacket(ClientPacket packet);
 
-    protected void EncryptPacket(ClientPacket packet) {
+    protected virtual void EncryptPacket(ClientPacket packet) {
         byte[] data = packet.GetData();
-        Debug.Log("CLEAR: " + StringUtils.ByteArrayToString(data));
 
-        _client.EncryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
-
-        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
-
-        packet.SetData(data);
+        NewCrypt.appendChecksum(data); 
     }
 }

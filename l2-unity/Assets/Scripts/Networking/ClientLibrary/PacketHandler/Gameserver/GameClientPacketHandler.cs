@@ -3,6 +3,20 @@ using UnityEngine;
 
 public class GameClientPacketHandler : ClientPacketHandler
 {
+    protected override void EncryptPacket(ClientPacket packet) {
+        base.EncryptPacket(packet);
+
+        byte[] data = packet.GetData();
+
+        Debug.Log("CLEAR: " + StringUtils.ByteArrayToString(data));
+
+        GameClient.Instance.GameCrypt.encrypt(data);
+
+        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+
+        packet.SetData(data);
+    }
+
     public void SendPing() {
         PingPacket packet = new PingPacket();
         SendPacket(packet);
@@ -11,6 +25,15 @@ public class GameClientPacketHandler : ClientPacketHandler
     public void SendProtocolVersion() {
         ProtocolVersionPacket packet = new ProtocolVersionPacket(GameManager.Instance.ProtocolVersion);
         SendPacket(packet);
+    }
+
+    public void SendAuth() {
+        GameAuthRequestPacket authPacket =
+            new GameAuthRequestPacket(LoginClient.Instance.Account, GameClient.Instance.PlayKey1, GameClient.Instance.PlayKey2,
+            GameClient.Instance.SessionKey1, GameClient.Instance.SessionKey2);
+
+
+        SendPacket(authPacket);
     }
 
     public void SendMessage(string message) {
@@ -66,7 +89,7 @@ public class GameClientPacketHandler : ClientPacketHandler
             }
         }
 
-        if (_client.BlowfishKey != null) {
+        if (_client.CryptEnabled) {
             EncryptPacket(packet);
         }
 

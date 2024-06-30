@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections;
 using static ServerListPacket;
+using L2_login;
 
 public class LoginClient : DefaultClient {
     // Crypt
@@ -29,6 +30,16 @@ public class LoginClient : DefaultClient {
     [SerializeField] protected string _account;
     [SerializeField] protected string _password;
 
+    private RSACrypt _rsa;
+    private byte[] _blowfishKey;
+    private BlowfishEngine _decryptBlowfish;
+    private BlowfishEngine _encryptBlowfish;
+
+    public RSACrypt RSACrypt { get { return _rsa; } }
+    public BlowfishEngine DecryptBlowFish { get { return _decryptBlowfish; } }
+    public BlowfishEngine EncryptBlowFish { get { return _encryptBlowfish; } }
+    public byte[] BlowfishKey { get { return _blowfishKey; } }
+
     public string Account { get { return _account; } set { _account = value; } }
     public string Password { get { return _password; } set { _password = value; } }
 
@@ -48,6 +59,25 @@ public class LoginClient : DefaultClient {
         } else if (_instance != this) {
             Destroy(this);
         }
+    }
+
+    public void SetBlowFishKey(byte[] blowfishKey) {
+        _client.CryptEnabled = true;
+
+        _blowfishKey = blowfishKey;
+
+        _decryptBlowfish = new BlowfishEngine();
+        _decryptBlowfish.init(false, blowfishKey);
+
+        _encryptBlowfish = new BlowfishEngine();
+        _encryptBlowfish.init(true, blowfishKey);
+
+        Debug.Log("Blowfish key set.");
+    }
+
+    public void SetRSAKey(byte[] rsaKey) {
+        _rsa = new RSACrypt(rsaKey, true);
+        Debug.Log("RSA Key set.");
     }
 
     protected override void CreateAsyncClient() {
@@ -82,7 +112,9 @@ public class LoginClient : DefaultClient {
     public void OnPlayOk() {
         GameManager.Instance.OnLoginServerPlayOk();
 
-        Disconnect();
+        if (GameManager.Instance.GameState == GameState.READY_TO_CONNECT) {
+            GameClient.Instance.Connect();
+        }
     }
 
     public void OnServerListReceived(byte lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers) {
@@ -95,10 +127,6 @@ public class LoginClient : DefaultClient {
 
     public override void OnDisconnect() {
         base.OnDisconnect();
-
-        if (GameManager.Instance.GameState == GameState.READY_TO_CONNECT) {
-            GameClient.Instance.Connect();
-        }
 
         Debug.Log("Disconnected from LoginServer.");
     }

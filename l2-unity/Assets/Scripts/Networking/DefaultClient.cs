@@ -13,7 +13,6 @@ public abstract class DefaultClient : MonoBehaviour {
     [SerializeField] protected bool _logSentPackets = true;
     [SerializeField] protected int _sessionKey1;
     [SerializeField] protected int _sessionKey2;
-    [SerializeField] protected byte[] _blowfishKey;
 
     private bool _connecting = false;
     public bool LogReceivedPackets { get { return _logReceivedPackets; } }
@@ -23,7 +22,6 @@ public abstract class DefaultClient : MonoBehaviour {
     public int ServerPort { get { return _serverPort; } set { _serverPort = value; } }
     public int SessionKey1 { get { return _sessionKey1; } set { _sessionKey1 = value; } }
     public int SessionKey2 { get { return _sessionKey2; } set { _sessionKey2 = value; } }
-    public byte[] BlowFishKey { get { return _blowfishKey; } }
 
     private void Start() {
         if(World.Instance != null && World.Instance.OfflineMode) {
@@ -47,11 +45,6 @@ public abstract class DefaultClient : MonoBehaviour {
 
             EventProcessor.Instance.QueueEvent(() => OnConnectionSuccess());
         }
-    }
-
-    public void SetBlowFishKey(byte[] blowfishKey) {
-        _client.SetBlowFishKey(blowfishKey);
-        _blowfishKey = blowfishKey;
     }
 
     protected virtual void WhileConnecting() {

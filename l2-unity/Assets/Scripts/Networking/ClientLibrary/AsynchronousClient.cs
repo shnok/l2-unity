@@ -14,20 +14,17 @@ public class AsynchronousClient {
     private ClientPacketHandler _clientPacketHandler;
     private ServerPacketHandler _serverPacketHandler;
     private DefaultClient _client;
-
-
+    private bool _cryptEnabled = false;
     private bool _initPacket = true;
-    private RSACrypt _rsa;
-    private byte[] _blowfishKey;
-    private BlowfishEngine _decryptBlowfish;
-    private BlowfishEngine _encryptBlowfish;
+
     public bool InitPacket { get { return _initPacket; } set { _initPacket = value; } }
-
-    public RSACrypt RSACrypt { get { return _rsa; } }
-    public BlowfishEngine DecryptBlowFish { get { return _decryptBlowfish; } }
-    public BlowfishEngine EncryptBlowFish { get { return _encryptBlowfish; } }
-    public byte[] BlowfishKey { get { return _blowfishKey; } }
-
+    public bool CryptEnabled { 
+        get { return _cryptEnabled; } 
+        set {
+            Debug.Log("Crypt" + (value ? " enabled." : " disabled."));
+            _cryptEnabled = value; 
+        } 
+    }
     public int Ping { get; set; }
 
     public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, 
@@ -42,28 +39,10 @@ public class AsynchronousClient {
         _initPacket = enableInitPacket;
     }
 
-    public void SetBlowFishKey(byte[] blowfishKey) {
-        _blowfishKey = blowfishKey;
-
-        _decryptBlowfish = new BlowfishEngine();
-        _decryptBlowfish.init(false, blowfishKey);
-
-        _encryptBlowfish = new BlowfishEngine();
-        _encryptBlowfish.init(true, blowfishKey);
-
-        Debug.Log("Blowfish key set.");
-    }
-
-    public void SetRSAKey(byte[] rsaKey) {
-        _rsa = new RSACrypt(rsaKey, true);
-        Debug.Log("RSA Key set.");
-    }
-
     public bool Connect() {
         IPHostEntry ipHostInfo = Dns.GetHostEntry(_ipAddress);
         IPAddress ipAddress = ipHostInfo.AddressList[0];
         _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
         _initPacket = true;
 
         Debug.Log("Connecting...");
@@ -91,6 +70,8 @@ public class AsynchronousClient {
         if(!_connected) {
             return;
         }
+
+        Debug.Log("Disconnect");
 
         try {
             _serverPacketHandler.CancelTokens();

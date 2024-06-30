@@ -74,6 +74,16 @@ public class GameServerPacketHandler : ServerPacketHandler
         }
     }
 
+    protected override byte[] DecryptPacket(byte[] data) {
+        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+
+        GameClient.Instance.GameCrypt.decrypt(data);
+
+        Debug.Log("DECRYPTED: " + StringUtils.ByteArrayToString(data));
+
+        return data;
+    }
+
     private void OnPingReceive() {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         int ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
@@ -101,12 +111,16 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnKeyReceive(byte[] data) {
         KeyPacket packet = new KeyPacket(data);
 
-        if(packet.AuthAllowed) {
-            _client.Disconnect();
+        if (!packet.AuthAllowed) {
+            Debug.LogError("Gameserver connect not allowed.");
+            EventProcessor.Instance.QueueEvent(() => GameClient.Instance.Disconnect());
+            EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
             return;
         }
 
-        GameClient.Instance.SetBlowFishKey(packet.BlowFishKey);
+        GameClient.Instance.EnableCrypt(packet.BlowFishKey);
+
+        _eventProcessor.QueueEvent(() => ((GameClientPacketHandler)_clientPacketHandler).SendAuth());
     }
 
     private void OnCharSelectionInfoReceive(byte[] data) {

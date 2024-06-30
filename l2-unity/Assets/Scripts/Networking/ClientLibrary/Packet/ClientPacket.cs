@@ -45,6 +45,9 @@ public abstract class ClientPacket : Packet {
     protected void BuildPacket() {
         _buffer.Insert(0, _packetType);
 
+        // Padding for checksum
+        WriteI(0);
+
         PadBuffer();
 
         byte[] array = _buffer.ToArray();
