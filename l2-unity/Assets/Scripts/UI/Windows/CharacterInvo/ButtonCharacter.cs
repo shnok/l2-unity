@@ -29,4 +29,23 @@ public class ButtonCharacter
 
         }, TrickleDown.TrickleDown);
     }
+
+    public void RegisterClickWindow(VisualElement rootWindows, VisualElement contentId , VisualElement headerId)
+    {
+
+        if (contentId == null | headerId == null)
+        {
+            Debug.LogError(contentId + " can't be found.");
+            return;
+        }
+
+        contentId.RegisterCallback<MouseDownEvent>(evt => {
+            character.BringFront();
+
+        }, TrickleDown.TrickleDown);
+
+        headerId.RegisterCallback<MouseDownEvent>(evt => {
+            character.BringFront();
+        }, TrickleDown.TrickleDown);
+    }
 }
