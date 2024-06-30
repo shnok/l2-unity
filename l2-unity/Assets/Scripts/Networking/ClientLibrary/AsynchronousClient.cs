@@ -15,46 +15,23 @@ public class AsynchronousClient {
     private ServerPacketHandler _serverPacketHandler;
     private DefaultClient _client;
 
-    // Crypt
-    public static byte[] STATIC_BLOWFISH_KEY = {
-        (byte) 0x6b,
-        (byte) 0x60,
-        (byte) 0xcb,
-        (byte) 0x5b,
-        (byte) 0x82,
-        (byte) 0xce,
-        (byte) 0x90,
-        (byte) 0xb1,
-        (byte) 0xcc,
-        (byte) 0x2b,
-        (byte) 0x6c,
-        (byte) 0x55,
-        (byte) 0x6c,
-        (byte) 0x6c,
-        (byte) 0x6c,
-        (byte) 0x6c
-    };
 
     private bool _initPacket = true;
     private RSACrypt _rsa;
     private byte[] _blowfishKey;
     private BlowfishEngine _decryptBlowfish;
     private BlowfishEngine _encryptBlowfish;
-    private int _sessionKey1;
-    private int _sessionKey2;
-
     public bool InitPacket { get { return _initPacket; } set { _initPacket = value; } }
 
     public RSACrypt RSACrypt { get { return _rsa; } }
     public BlowfishEngine DecryptBlowFish { get { return _decryptBlowfish; } }
     public BlowfishEngine EncryptBlowFish { get { return _encryptBlowfish; } }
-    public int SessionKey1 { get { return _sessionKey1; } set { _sessionKey1 = value; } }
-    public int SessionKey2 { get { return _sessionKey2; } set { _sessionKey2 = value; } }
+    public byte[] BlowfishKey { get { return _blowfishKey; } }
 
     public int Ping { get; set; }
 
-    public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, ServerPacketHandler serverPacketHandler) {
-        SetBlowFishKey(STATIC_BLOWFISH_KEY);
+    public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, 
+        ServerPacketHandler serverPacketHandler, bool enableInitPacket) {
         _ipAddress = ip;
         _port = port;
         _clientPacketHandler = clientPacketHandler;
@@ -62,7 +39,7 @@ public class AsynchronousClient {
         _clientPacketHandler.SetClient(this);
         _serverPacketHandler.SetClient(this, _clientPacketHandler);
         _client = client;
-
+        _initPacket = enableInitPacket;
     }
 
     public void SetBlowFishKey(byte[] blowfishKey) {

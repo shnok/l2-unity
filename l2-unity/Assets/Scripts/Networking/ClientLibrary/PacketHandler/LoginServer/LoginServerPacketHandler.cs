@@ -74,7 +74,8 @@ public class LoginServerPacketHandler : ServerPacketHandler
         byte[] blowfishKey = packet.BlowfishKey;
 
         _client.SetRSAKey(rsaKey);
-        _client.SetBlowFishKey(blowfishKey);
+
+        LoginClient.Instance.SetBlowFishKey(blowfishKey);
 
         _client.InitPacket = false;
 
@@ -104,8 +105,11 @@ public class LoginServerPacketHandler : ServerPacketHandler
     private void OnLoginOk(byte[] data) {
         LoginOkPacket packet = new LoginOkPacket(data);
 
-        _client.SessionKey1 = packet.SessionKey1;
-        _client.SessionKey2 = packet.SessionKey2;
+        LoginClient.Instance.SessionKey1 = packet.SessionKey1;
+        LoginClient.Instance.SessionKey2 = packet.SessionKey2;
+
+        GameClient.Instance.SessionKey1 = packet.SessionKey1;
+        GameClient.Instance.SessionKey2 = packet.SessionKey2;
 
         EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.OnAuthAllowed());
     }
@@ -129,10 +133,11 @@ public class LoginServerPacketHandler : ServerPacketHandler
     private void OnPlayOk(byte[] data) {
         LoginOkPacket packet = new LoginOkPacket(data);
 
-        GameClient.Instance.SessionKey1 = packet.SessionKey1;
-        GameClient.Instance.SessionKey2 = packet.SessionKey2;
+        GameClient.Instance.PlayKey1 = packet.SessionKey1;
+        GameClient.Instance.PlayKey2 = packet.SessionKey2;
 
         Debug.Log("Server select allowed.");
-       // EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.OnAuthAllowed());
+
+        EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.OnPlayOk());
     }
 }

@@ -20,12 +20,14 @@ public abstract class ServerPacketHandler
 
     public async Task HandlePacketAsync(byte[] data, bool init) {
         await Task.Run(() => {
-            data = DecryptPacket(data);
+            if (_client.BlowfishKey != null) {
+                data = DecryptPacket(data);
 
-            if (init) {
-                if(!DecodeXOR(data)) {
-                    Debug.LogError("Packet XOR could not be decoded.");
-                    return;
+                if (init) {
+                    if (!DecodeXOR(data)) {
+                        Debug.LogError("Packet XOR could not be decoded.");
+                        return;
+                    }
                 }
             }
 

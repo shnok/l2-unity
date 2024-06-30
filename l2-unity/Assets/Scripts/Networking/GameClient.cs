@@ -5,10 +5,15 @@ using System.Collections;
 
 public class GameClient : DefaultClient {
     [SerializeField] protected Entity _currentPlayer;
+    [SerializeField] protected int _serverId;
+    [SerializeField] private int _playKey1;
+    [SerializeField] private int _playKey2;
 
     public string CurrentPlayer { get { return _currentPlayer.Identity.Name; } }
-    public int SessionKey1 { get { return _client.SessionKey1; } set { _client.SessionKey1 = value; } }
-    public int SessionKey2 { get { return _client.SessionKey2; } set { _client.SessionKey2 = value; } }
+    public int ServerId { get { return _serverId; } set { _serverId = value; } }
+    public int PlayKey1 { get { return _playKey1; } set { _playKey1 = value; } }
+    public int PlayKey2 { get { return _playKey2; } set { _playKey2 = value; } }
+
 
     private GameClientPacketHandler clientPacketHandler;
     private GameServerPacketHandler serverPacketHandler;
@@ -32,12 +37,21 @@ public class GameClient : DefaultClient {
         clientPacketHandler = new GameClientPacketHandler();
         serverPacketHandler = new GameServerPacketHandler();
 
-        _client = new AsynchronousClient(_serverIp, _serverPort, this, clientPacketHandler, serverPacketHandler);
+        _client = new AsynchronousClient(_serverIp, _serverPort, this, clientPacketHandler, serverPacketHandler, false);
+    }
+
+    protected override void WhileConnecting() {
+        base.WhileConnecting();
+
+        GameManager.Instance.OnConnectingToGameServer();
     }
 
     protected override void OnConnectionSuccess() {
-        clientPacketHandler.SendPing();
-        clientPacketHandler.SendAuth("1234");   
+        base.OnConnectionSuccess();
+
+        Debug.Log("Connected to GameServer");
+
+        clientPacketHandler.SendProtocolVersion();
     }
 
     public override void OnConnectionFailed() {
@@ -45,11 +59,14 @@ public class GameClient : DefaultClient {
     }
 
     public override void OnAuthAllowed() {
-        Debug.Log("Connected");
+        Debug.Log("Authed to GameServer");
+
         GameManager.Instance.OnAuthAllowed();
     }
 
     public override void OnDisconnect() {
         base.OnDisconnect();
+
+        Debug.Log("Disconnected from GameServer.");
     }
 }

@@ -14,8 +14,11 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.Ping:
                 OnPingReceive();
                 break;
-            case GameServerPacketType.AuthResponse:
-                OnAuthReceive(data);
+            case GameServerPacketType.Key:
+                OnKeyReceive(data);
+                break;
+            case GameServerPacketType.CharSelectionInfo:
+                OnCharSelectionInfoReceive(data);
                 break;
             case GameServerPacketType.MessagePacket:
                 OnMessageReceive(data);
@@ -95,23 +98,19 @@ public class GameServerPacketHandler : ServerPacketHandler
         }, _tokenSource.Token);
     }
 
-    private void OnAuthReceive(byte[] data) {
-        AuthResponsePacket packet = new AuthResponsePacket(data);
-        AuthResponse response = packet.Response;
+    private void OnKeyReceive(byte[] data) {
+        KeyPacket packet = new KeyPacket(data);
 
-        switch(response) {
-            case AuthResponse.ALLOW:
-                _eventProcessor.QueueEvent(() => GameClient.Instance.OnAuthAllowed());
-                break;
-            case AuthResponse.ALREADY_CONNECTED:
-                Debug.Log("User already connected.");
-                _client.Disconnect();
-                break;
-            case AuthResponse.INVALID_USERNAME:
-                Debug.Log("Incorrect user name.");
-                _client.Disconnect();
-                break;
+        if(packet.AuthAllowed) {
+            _client.Disconnect();
+            return;
         }
+
+        GameClient.Instance.SetBlowFishKey(packet.BlowFishKey);
+    }
+
+    private void OnCharSelectionInfoReceive(byte[] data) {
+
     }
 
     private void OnMessageReceive(byte[] data) {

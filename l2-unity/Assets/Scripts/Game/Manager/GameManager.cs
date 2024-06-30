@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using static ServerListPacket;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
+    [SerializeField] private int _protocolVersion = 1;
     [SerializeField] private GameState _gameState = GameState.LOGIN_SCREEN;
     private bool _gameReady = false;
 
-    public GameState GameState { 
-        get { return _gameState; } 
+    public GameState GameState {
+        get { return _gameState; }
         set {
             _gameState = value;
             Debug.Log($"Game state is now {_gameState}.");
         }
     }
     public bool GameReady { get { return _gameReady; } set { _gameReady = value; } }
+    public int ProtocolVersion { get { return _protocolVersion; } }
 
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
@@ -74,6 +75,14 @@ public class GameManager : MonoBehaviour
         L2LoginUI.Instance.ShowLicenseWindow();
     }
 
+    public void OnLoginServerPlayOk() {
+        GameState = GameState.READY_TO_CONNECT;
+    }
+
+    public void OnConnectingToGameServer() {
+        GameState = GameState.CONNECTING_TO_GAMESERVER;
+    }
+
     public void OnReceivedServerList(byte lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers) {
         GameState = GameState.SERVER_LIST;
 
@@ -119,10 +128,10 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnDisconnect() {
-        if(GameState > GameState.CHAR_CREATION) {
+        if (GameState > GameState.CHAR_CREATION) {
             MusicManager.Instance.Clear();
             SceneLoader.Instance.LoadMenu();
-        } else if(GameState > GameState.LOGIN_SCREEN) {
+        } else if(GameState > GameState.LOGIN_SCREEN && GameState != GameState.READY_TO_CONNECT) {
             OnRelogin();
         }
     }

@@ -8,9 +8,9 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
-    public void SendAuth(string username) {
-       //AuthRequestPacket packet = new AuthRequestPacket(username);
-       //SendPacket(packet);
+    public void SendProtocolVersion() {
+        ProtocolVersionPacket packet = new ProtocolVersionPacket(GameManager.Instance.ProtocolVersion);
+        SendPacket(packet);
     }
 
     public void SendMessage(string message) {
@@ -64,6 +64,10 @@ public class GameClientPacketHandler : ClientPacketHandler
             if (packetType != GameClientPacketType.Ping && packetType != GameClientPacketType.RequestRotate) {
                 Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [GameServer] Sending packet:" + packetType);
             }
+        }
+
+        if (_client.BlowfishKey != null) {
+            EncryptPacket(packet);
         }
 
         _client.SendPacket(packet);

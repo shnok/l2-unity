@@ -120,7 +120,7 @@ public class ServerSelectWindow : MonoBehaviour
             return;
         }
 
-        _selectedServerId = _serverData[rowId].serverId;
+        SetServerId(_serverData[rowId].serverId);
 
         Debug.Log("Server selected: " + _selectedServerId);
 
@@ -198,7 +198,13 @@ public class ServerSelectWindow : MonoBehaviour
             _serverData.Clear();
             _serverData = null;
         }
-        _selectedServerId = -1;
+
+        SetServerId(-1);
+    }
+
+    private void SetServerId(int id) {
+        _selectedServerId = id;
+        GameClient.Instance.ServerId = id;
     }
 
     private void ConfirmButtonPressed() {
