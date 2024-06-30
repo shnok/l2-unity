@@ -3,33 +3,30 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections;
 
-public class DefaultClient : MonoBehaviour {
-    [SerializeField] private static AsynchronousClient _client;
-    [SerializeField] private Entity _currentPlayer;
-    [SerializeField] private string _username;
-    [SerializeField] private int _connectionTimeoutMs = 10000;
-    [SerializeField] private string _serverIp = "127.0.0.1";
-    [SerializeField] private int _serverPort = 11000;
-    [SerializeField] private bool _logReceivedPackets = true;
-    [SerializeField] private bool _logSentPackets = true;
+public abstract class DefaultClient : MonoBehaviour {
+    [SerializeField] protected string _serverIp = "127.0.0.1";
+    [SerializeField] protected int _serverPort = 11000;
+    [SerializeField] protected AsynchronousClient _client;
+    [SerializeField] protected int _connectionTimeoutMs = 10000;
+    [SerializeField] protected bool _connected = false;
+    [SerializeField] protected bool _logReceivedPackets = true;
+    [SerializeField] protected bool _logSentPackets = true;
+    [SerializeField] protected bool _logCryptography = true;
+    [SerializeField] protected int _sessionKey1;
+    [SerializeField] protected int _sessionKey2;
+    [SerializeField] protected int _ping;
 
     private bool _connecting = false;
-
-    public string Username { get { return _username; } }
     public bool LogReceivedPackets { get { return _logReceivedPackets; } }
     public bool LogSentPackets { get { return _logSentPackets; } }
+    public bool LogCryptography { get { return _logCryptography; } }
     public int ConnectionTimeoutMs { get { return _connectionTimeoutMs; } }
-
-    private static DefaultClient _instance;
-    public static DefaultClient Instance { get { return _instance; } }
-
-    private void Awake() {
-        if (_instance == null) {
-            _instance = this;
-        } else if (_instance != this) {
-            Destroy(this);
-        }
-    }
+    public string ServerIp { get { return _serverIp; } set { _serverIp = value; } }
+    public int ServerPort { get { return _serverPort; } set { _serverPort = value; } }
+    public int SessionKey1 { get { return _sessionKey1; } set { _sessionKey1 = value; } }
+    public int SessionKey2 { get { return _sessionKey2; } set { _sessionKey2 = value; } }
+    public bool IsConnected { get { return _connected; } }
+    public int Ping { get { return _ping; } set { _ping = value; } }
 
     private void Start() {
         if(World.Instance != null && World.Instance.OfflineMode) {
@@ -37,46 +34,51 @@ public class DefaultClient : MonoBehaviour {
         }
     }
 
-    public async void Connect(string user) {
+    public async void Connect() {
+        _connected = false;
         if(_connecting) {
             return;
         }
 
-        _connecting = true;
-        _username = user; 
-        _client = new AsynchronousClient(_serverIp, _serverPort);
+        CreateAsyncClient();
+
+        WhileConnecting();
+
         bool connected = await Task.Run(_client.Connect);
         if(connected) {  
             _connecting = false;
 
-            ServerPacketHandler.Instance.SetClient(_client);
-            ClientPacketHandler.Instance.SetClient(_client);         
-            ClientPacketHandler.Instance.SendPing();
-            ClientPacketHandler.Instance.SendAuth(user);                                   
+            EventProcessor.Instance.QueueEvent(() => OnConnectionSuccess());
         }
     }
 
-    public void OnConnectionFailed() {
+    protected virtual void WhileConnecting() {
+        _connecting = true;
+    }
+
+    protected abstract void CreateAsyncClient();
+
+    protected virtual void OnConnectionSuccess() {
+        _connected = true;
+    }
+
+    public virtual void OnConnectionFailed() {
         _connecting = false;
+        _connected = false;
     }
 
-    public void OnConnectionAllowed() {
-        Debug.Log("Connected");
-        GameManager.Instance.OnConnectionAllowed();
-    }
-
-    public int GetPing() {
-        return _client.Ping;
-    }
+    public abstract void OnAuthAllowed();
 
     public void Disconnect() {
+        _connected = false;
+
         if (_client != null) {
             _client.Disconnect();
         }
     }
 
-    public void OnDisconnect() {
-        Debug.Log("Disconnected");
+    public virtual void OnDisconnect() {
+        _connected = false;
         _client = null;
         GameManager.Instance.OnDisconnect();
     }

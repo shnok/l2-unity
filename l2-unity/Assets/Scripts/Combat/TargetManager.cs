@@ -41,7 +41,7 @@ public class TargetManager : MonoBehaviour
 
         PlayerEntity.Instance.TargetId = _target.Identity.Id;
         PlayerEntity.Instance.Target = _target.Data.ObjectTransform;
-        ClientPacketHandler.Instance.SendRequestSetTarget(_target.Identity.Id);
+        GameClient.Instance.ClientPacketHandler.SendRequestSetTarget(_target.Identity.Id);
     }
 
     public void SetAttackTarget() {
@@ -63,7 +63,7 @@ public class TargetManager : MonoBehaviour
     public void ClearTarget() {
         if (HasTarget()) {
             if(PlayerEntity.Instance.TargetId != -1) {
-                ClientPacketHandler.Instance.SendRequestSetTarget(-1);
+                GameClient.Instance.ClientPacketHandler.SendRequestSetTarget(-1);
                 PlayerEntity.Instance.TargetId = -1;
                 PlayerEntity.Instance.Target = null;
             }

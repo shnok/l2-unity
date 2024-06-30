@@ -1,13 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ServerListPacket;
 
-public class GameManager : MonoBehaviour
-{
-    [SerializeField] private GameState _gameState = GameState.LOGIN;
+public class GameManager : MonoBehaviour {
+    [SerializeField] private int _protocolVersion = 1;
+    [SerializeField] private GameState _gameState = GameState.LOGIN_SCREEN;
     private bool _gameReady = false;
 
+    public GameState GameState {
+        get { return _gameState; }
+        set {
+            _gameState = value;
+            Debug.Log($"Game state is now {_gameState}.");
+        }
+    }
     public bool GameReady { get { return _gameReady; } set { _gameReady = value; } }
+    public int ProtocolVersion { get { return _protocolVersion; } }
 
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
@@ -39,25 +48,51 @@ public class GameManager : MonoBehaviour
         LogongrpTable.Instance.Initialize();
     }
 
+
     public void LogIn() {
-        DefaultClient.Instance.Connect(StringUtils.GenerateRandomString());
     }
 
     public void LogOut() {
-        DefaultClient.Instance.Disconnect();
+        LoginClient.Instance.Disconnect();
     }
 
     public void OnWorldSceneLoaded() {
         GameObject.Destroy(L2LoginUI.Instance.gameObject);
-        ClientPacketHandler.Instance.SendLoadWorld();
+        GameClient.Instance.ClientPacketHandler.SendLoadWorld();
     }
 
     public void OnPlayerInfoReceived() {
         L2GameUI.Instance.StopLoading();
     }
 
-    public void OnConnectionAllowed() {
-        _gameState = GameState.CHAR_SELECT;
+    public void OnLoginServerConnected() {
+        GameState = GameState.LOGIN_CONNECTED;
+    }
+
+    public void OnLoginServerAuthAllowed() {
+        GameState = GameState.READING_LICENSE;
+
+        L2LoginUI.Instance.ShowLicenseWindow();
+    }
+
+    public void OnLoginServerPlayOk() {
+        GameState = GameState.READY_TO_CONNECT;
+    }
+
+    public void OnConnectingToGameServer() {
+        GameState = GameState.CONNECTING_TO_GAMESERVER;
+    }
+
+    public void OnReceivedServerList(byte lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers) {
+        GameState = GameState.SERVER_LIST;
+
+        L2LoginUI.Instance.ShowServerSelectWindow();
+
+        ServerSelectWindow.Instance.UpdateServerList(lastServer, serverData, charsOnServers);
+    }
+
+    public void OnAuthAllowed() {
+        GameState = GameState.CHAR_SELECT;
 
         LoginCameraManager.Instance.SwitchCamera("CharSelect");
 
@@ -65,14 +100,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnCharacterSelect() {
-        _gameState = GameState.IN_GAME;
+        GameState = GameState.IN_GAME;
 
         L2LoginUI.Instance.StartLoading();
         SceneLoader.Instance.LoadGame();
     }
 
     public void OnCreateUser() {
-        _gameState = GameState.CHAR_CREATION;
+        GameState = GameState.CHAR_CREATION;
 
         LoginCameraManager.Instance.SwitchCamera("Login");
 
@@ -85,7 +120,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnRelogin() {
-        _gameState = GameState.LOGIN;
+        GameState = GameState.LOGIN_SCREEN;
 
         LoginCameraManager.Instance.SwitchCamera("Login");
 
@@ -93,8 +128,18 @@ public class GameManager : MonoBehaviour
     }
 
     public void OnDisconnect() {
-        MusicManager.Instance.Clear();
-        SceneLoader.Instance.LoadMenu();
+        if (GameState > GameState.CHAR_CREATION) {
+            MusicManager.Instance.Clear();
+            SceneLoader.Instance.LoadMenu();
+        } else if(GameState > GameState.LOGIN_SCREEN && !GameClient.Instance.IsConnected && !LoginClient.Instance.IsConnected) {
+            OnRelogin();
+        }
+    }
+
+    public void OnGameserverSelected() {
+        Debug.Log("Gameserver selected, connecting...");
+
+        //GameClient.Instance.Connect();
     }
 
     public void OnStartingGame() {

@@ -3,70 +3,103 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
+using L2_login;
 
 public class AsynchronousClient {
-    private Socket _client;
+    private Socket _socket;
     private string _ipAddress;
-    private string _username;
     private int _port;
     private bool _connected;
-    public int Ping { get; set; }
+    private ClientPacketHandler _clientPacketHandler;
+    private ServerPacketHandler _serverPacketHandler;
+    private DefaultClient _client;
+    private bool _cryptEnabled = false;
+    private bool _initPacket = true;
+    private bool _initPacketEnabled;
 
-    public AsynchronousClient(string ip, int port) {
+    public bool InitPacket { get { return _initPacket; } set { _initPacket = value; } }
+    public bool CryptEnabled { 
+        get { return _cryptEnabled; } 
+        set {
+            Debug.Log("Crypt" + (value ? " enabled." : " disabled."));
+            _cryptEnabled = value; 
+        } 
+    }
+
+    public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, 
+        ServerPacketHandler serverPacketHandler, bool enableInitPacket) {
         _ipAddress = ip;
         _port = port;
+        _clientPacketHandler = clientPacketHandler;
+        _serverPacketHandler = serverPacketHandler;
+        _clientPacketHandler.SetClient(this);
+        _serverPacketHandler.SetClient(this, _clientPacketHandler);
+        _client = client;
+        _initPacketEnabled = enableInitPacket;
+        _initPacket = enableInitPacket;
     }
+
     public bool Connect() {
         IPHostEntry ipHostInfo = Dns.GetHostEntry(_ipAddress);
         IPAddress ipAddress = ipHostInfo.AddressList[0];
-        _client = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+        if(_initPacketEnabled) {
+            _initPacket = true;
+        }
 
         Debug.Log("Connecting...");
 
-        IAsyncResult result = _client.BeginConnect(ipAddress, _port, null, null);
+        IAsyncResult result = _socket.BeginConnect(ipAddress, _port, null, null);
 
         bool success = result.AsyncWaitHandle.WaitOne(5000, true);
 
-        if (_client.Connected) {
+        if (_socket.Connected) {
             Debug.Log("Connection success.");
-            _client.EndConnect( result );
+            _socket.EndConnect( result );
             _connected = true;
 
             Task.Run(StartReceiving);
             return true;
         } else {
             Debug.Log("Connection failed.");
-            EventProcessor.Instance.QueueEvent(() => DefaultClient.Instance.OnConnectionFailed());
-            _client.Close();
+            EventProcessor.Instance.QueueEvent(() => _client.OnConnectionFailed());
+            _socket.Close();
             return false;
         }
     }
 
     public void Disconnect() {
-        try {
-            ServerPacketHandler.Instance.CancelTokens();
-            _connected = false;         
-            _client.Close();
-            _client.Dispose();
+        if(!_connected) {
+            return;
+        }
 
-            EventProcessor.Instance.QueueEvent(() => DefaultClient.Instance.OnDisconnect());       
+        Debug.Log("Disconnect");
+
+        try {
+            _serverPacketHandler.CancelTokens();
+            _connected = false;         
+            _socket.Close();
+            _socket.Dispose();
         } catch (Exception e) {
             Debug.LogError(e);
         }
+
+
+        EventProcessor.Instance.QueueEvent(() => _client.OnDisconnect());
     }
 
     public void SendPacket(ClientPacket packet) {
-        if(DefaultClient.Instance.LogSentPackets) {
-            ClientPacketType packetType = (ClientPacketType)packet.GetPacketType();
-            if(packetType != ClientPacketType.Ping && packetType != ClientPacketType.RequestRotate) {
-                Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] Sending packet:" + packetType);
-            }
-        }
         try {
-            using (NetworkStream stream = new NetworkStream(_client)) {
-                stream.Write(packet.GetData(), 0, (int)packet.GetLength());
+            using (NetworkStream stream = new NetworkStream(_socket)) {
+                stream.WriteByte((byte)(packet.GetData().Length & 0xff));
+
+                // Write the higher 8 bits
+                stream.WriteByte((byte)((packet.GetData().Length >> 8) & 0xff));
+
+
+                stream.Write(packet.GetData(), 0, (int)packet.GetData().Length);
                 stream.Flush();
             }
         } catch (IOException e) {
@@ -75,33 +108,42 @@ public class AsynchronousClient {
     }
 
     public void StartReceiving() {
-        using (NetworkStream stream = new NetworkStream(_client)) {
-            for(;;) {
+        Debug.Log("Start receiving");
+
+        using (NetworkStream stream = new NetworkStream(_socket)) {
+            int lengthHi;
+            int lengthLo;
+            int length;
+
+            for (;;) {
                 if(!_connected) {
                     Debug.LogWarning("Disconnected.");
                     break;
                 }
-                int packetType = stream.ReadByte();
-                if (packetType == -1 || !_connected) {
+
+                lengthLo = stream.ReadByte();
+                lengthHi = stream.ReadByte();
+                length = (lengthHi * 256) + lengthLo;
+
+                if (lengthHi == -1 || !_connected) {
                     Debug.Log("Server terminated the connection.");
                     Disconnect();
                     break;
                 }
 
-                int packetLength = stream.ReadByte();
-                byte[] packet = new byte[packetLength];
-                packet[0] = (byte)packetType;
-                packet[1] = (byte)packetLength;
-               
-                int received = 0;
-                int readCount = 0;
-               
-                while ((readCount != -1) && (received < packet.Length - 2)) {
-                    readCount = stream.Read(packet, 2, packet.Length - 2);
-                    received += readCount;
+                //Debug.Log("Packet length: " + length);
+
+                byte[] data = new byte[length];
+
+                int receivedBytes = 0;
+                int newBytes = 0;
+                while ((newBytes != -1) && (receivedBytes < (length))) {
+                    newBytes = stream.Read(data, 0, length);
+                    receivedBytes = receivedBytes + newBytes;
                 }
 
-                Task.Run(() => ServerPacketHandler.Instance.HandlePacketAsync(packet));        
+                
+                Task.Run(() => _serverPacketHandler.HandlePacketAsync(data, _initPacket));        
             }
         }
     }
