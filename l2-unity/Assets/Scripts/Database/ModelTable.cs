@@ -398,7 +398,7 @@ public class ModelTable
             index += 1;
         }
 
-        Debug.Log($"Loading hair[{index}] Race:{raceId} Model:{hairStyle}_{hairColor}_{(bh ? "bh" : "ah")}");
+        //Debug.Log($"Loading hair[{index}] Race:{raceId} Model:{hairStyle}_{hairColor}_{(bh ? "bh" : "ah")}");
 
         GameObject go = _hair[(byte)raceId, index];
         if (go == null) {

@@ -26,7 +26,6 @@ public class AsynchronousClient {
             _cryptEnabled = value; 
         } 
     }
-    public int Ping { get; set; }
 
     public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler, 
         ServerPacketHandler serverPacketHandler, bool enableInitPacket) {

@@ -18,18 +18,13 @@ public class PlayerInfoPacket : ServerPacket {
     public override void Parse() {    
         try {
             Identity.Id = ReadI();
-            Debug.Log(Identity.Id);
             Identity.Name = ReadS();
-            Debug.Log(Identity.Name);
             Identity.PlayerClass = ReadB();
-            Debug.Log(Identity.PlayerClass);
             Identity.IsMage = ReadB() == 1;
-            Debug.Log(Identity.IsMage);
             Identity.Heading = ReadF();
             Identity.SetPosX(ReadF());
             Identity.SetPosY(ReadF());
             Identity.SetPosZ(ReadF());
-            Debug.Log(Identity.Position);
             Identity.Owned = true;
             // Status
             Status.Level = ReadI();

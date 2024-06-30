@@ -61,7 +61,7 @@ public abstract class ClientPacket : Packet {
 
             paddingLength = (byte)(8 - paddingLength);
 
-            Debug.Log($"Packet needs a padding of {paddingLength} bytes.");
+            //Debug.Log($"Packet needs a padding of {paddingLength} bytes.");
 
             for (int i = 0; i < paddingLength; i++) {
                 _buffer.Add((byte)0);

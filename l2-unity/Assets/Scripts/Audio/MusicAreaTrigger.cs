@@ -42,7 +42,6 @@ public class MusicAreaTrigger : MonoBehaviour
     }
 
     private void PlayMusic() {
-        Debug.Log("PlayMusic");
         MusicManager.Instance.PlayMusic(_enterEvent, _areaPrority);
         if (_loopCoroutine != null) {
             StopCoroutine(_loopCoroutine);

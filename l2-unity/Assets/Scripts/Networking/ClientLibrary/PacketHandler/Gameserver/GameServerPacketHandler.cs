@@ -7,9 +7,10 @@ public class GameServerPacketHandler : ServerPacketHandler
 {
     public override void HandlePacket(byte[] data) {
         GameServerPacketType packetType = (GameServerPacketType)data[0];
-        //if (GameClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping) {
+        if (GameClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping) {
             Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [GameServer] Received packet:" + packetType);
-        //}
+        }
+
         switch (packetType) {
             case GameServerPacketType.Ping:
                 OnPingReceive();
@@ -78,11 +79,15 @@ public class GameServerPacketHandler : ServerPacketHandler
     }
 
     protected override byte[] DecryptPacket(byte[] data) {
-        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+        if(GameClient.Instance.LogCryptography) {
+            Debug.Log("<---- [GAME] ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+        }
 
         GameClient.Instance.GameCrypt.Decrypt(data);
 
-        Debug.Log("DECRYPTED: " + StringUtils.ByteArrayToString(data));
+        if (GameClient.Instance.LogCryptography) {
+            Debug.Log("<---- [GAME] DECRYPTED: " + StringUtils.ByteArrayToString(data));
+        }
 
         return data;
     }
@@ -90,20 +95,19 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnPingReceive() {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         int ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
-        //Debug.Log("Ping: " + ping + "ms");
-        _client.Ping = ping;
+        GameClient.Instance.Ping = ping;
 
         Task.Delay(1000).ContinueWith(t => {
-            if(!_tokenSource.IsCancellationRequested) {
-                ((GameClientPacketHandler) _clientPacketHandler).SendPing();
+            if (!_tokenSource.IsCancellationRequested) {
+                ((GameClientPacketHandler)_clientPacketHandler).SendPing();
                 _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             }
 
-            Task.Delay(GameClient.Instance.ConnectionTimeoutMs).ContinueWith(t => {
-                if(!_tokenSource.IsCancellationRequested) {
+            Task.Delay(GameClient.Instance.ConnectionTimeoutMs + 100).ContinueWith(t => {
+                if (!_tokenSource.IsCancellationRequested) {
                     long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    if(now2 - _timestamp >= GameClient.Instance.ConnectionTimeoutMs) {
-                        Debug.Log("Connection timed out");
+                    if (now2 - _timestamp >= GameClient.Instance.ConnectionTimeoutMs) {
+                        Debug.LogWarning("Connection timed out");
                         _client.Disconnect();
                     }
                 }
@@ -115,7 +119,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         KeyPacket packet = new KeyPacket(data);
 
         if (!packet.AuthAllowed) {
-            Debug.LogError("Gameserver connect not allowed.");
+            Debug.LogWarning("Gameserver connect not allowed.");
             EventProcessor.Instance.QueueEvent(() => GameClient.Instance.Disconnect());
             EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
             return;
@@ -124,6 +128,8 @@ public class GameServerPacketHandler : ServerPacketHandler
         GameClient.Instance.EnableCrypt(packet.BlowFishKey);
 
         _eventProcessor.QueueEvent(() => ((GameClientPacketHandler)_clientPacketHandler).SendAuth());
+
+        _eventProcessor.QueueEvent(() => ((GameClientPacketHandler)_clientPacketHandler).SendPing());
     }
 
     private void OnLoginFail(byte[] data) {
@@ -131,7 +137,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         EventProcessor.Instance.QueueEvent(() => GameClient.Instance.Disconnect());
         EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
 
-        Debug.LogError($"Gameserver login failed reason: " +
+        Debug.LogWarning($"Gameserver login failed reason: " +
             $"{Enum.GetName(typeof(LoginFailPacket.LoginFailedReason), packet.FailedReason)}");
     }
 

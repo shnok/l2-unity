@@ -12,18 +12,22 @@ public class LoginClientPacketHandler : ClientPacketHandler {
 
         byte[] data = packet.GetData();
 
-        Debug.Log("CLEAR: " + StringUtils.ByteArrayToString(data));
+        if(LoginClient.Instance.LogCryptography) {
+            Debug.Log("----> [LOGIN] CLEAR: " + StringUtils.ByteArrayToString(data));
+        }
 
         LoginClient.Instance.EncryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
 
-        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+        if (LoginClient.Instance.LogCryptography) {
+            Debug.Log("----> [LOGIN] ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+        }
 
         packet.SetData(data);
     }
 
     public void SendPing() {
         PingPacket packet = new PingPacket();
-        _client.SendPacket(packet);
+        SendPacket(packet);
     }
 
     public void SendAuth() {
@@ -32,12 +36,15 @@ public class LoginClientPacketHandler : ClientPacketHandler {
 
         byte[] accountBytes = Encoding.UTF8.GetBytes(account);
 
-        Debug.Log($"Account bytes length: {accountBytes.Length}");
-        Debug.Log($"Account bytes hex: {StringUtils.ByteArrayToString(accountBytes)}");
+        if (LoginClient.Instance.LogCryptography) {
+            Debug.Log($"Account bytes hex [{accountBytes.Length}]: {StringUtils.ByteArrayToString(accountBytes)}");
+        }
 
         byte[] shaPass = SHACrypt.ComputeSha256HashToBytes(password);
-        Debug.Log($"SHA-256 hash length: {shaPass.Length}");
-        Debug.Log($"SHA-256 hash hex: {StringUtils.ByteArrayToString(shaPass)}");
+
+        if (LoginClient.Instance.LogCryptography) {
+            Debug.Log($"SHA-256 hash hex [{shaPass.Length}]: {StringUtils.ByteArrayToString(shaPass)}");
+        }
 
         // Create combined byte array with length indicators and data
         byte[] rsaBlock = new byte[accountBytes.Length + shaPass.Length + 2];
@@ -54,13 +61,16 @@ public class LoginClientPacketHandler : ClientPacketHandler {
         // Copy shaPass into combined starting after the length indicator and accountBytes
         Array.Copy(shaPass, 0, rsaBlock, accountBytes.Length + 2, shaPass.Length);
 
-        // Debug output for combined byte array
-        Debug.Log($"Combined byte array length: {rsaBlock.Length}");
-        Debug.Log($"Clear RSA block: {StringUtils.ByteArrayToString(rsaBlock)}");
+        if (LoginClient.Instance.LogCryptography) {
+            // Debug output for combined byte array
+            Debug.Log($"Clear RSA block [{rsaBlock.Length}]: {StringUtils.ByteArrayToString(rsaBlock)}");
+        }
 
         rsaBlock = LoginClient.Instance.RSACrypt.EncryptRSANoPadding(rsaBlock);
 
-        Debug.Log($"Encrypted RSA block: {StringUtils.ByteArrayToString(rsaBlock)}");
+        if (LoginClient.Instance.LogCryptography) {
+            Debug.Log($"Encrypted RSA block: {StringUtils.ByteArrayToString(rsaBlock)}");
+        }
 
         AuthRequestPacket packet = new AuthRequestPacket(rsaBlock);
 
@@ -82,7 +92,9 @@ public class LoginClientPacketHandler : ClientPacketHandler {
     public override void SendPacket(ClientPacket packet) {
         if (LoginClient.Instance.LogSentPackets) {
             LoginClientPacketType packetType = (LoginClientPacketType)packet.GetPacketType();
-            Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [LoginServer] Sending packet:" + packetType);
+            if(packetType != LoginClientPacketType.Ping) {
+                Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [LoginServer] Sending packet:" + packetType);
+            }
         }
 
         EncryptPacket(packet);

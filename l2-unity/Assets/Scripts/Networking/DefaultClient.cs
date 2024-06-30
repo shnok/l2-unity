@@ -11,18 +11,22 @@ public abstract class DefaultClient : MonoBehaviour {
     [SerializeField] protected bool _connected = false;
     [SerializeField] protected bool _logReceivedPackets = true;
     [SerializeField] protected bool _logSentPackets = true;
+    [SerializeField] protected bool _logCryptography = true;
     [SerializeField] protected int _sessionKey1;
     [SerializeField] protected int _sessionKey2;
+    [SerializeField] protected int _ping;
 
     private bool _connecting = false;
     public bool LogReceivedPackets { get { return _logReceivedPackets; } }
     public bool LogSentPackets { get { return _logSentPackets; } }
+    public bool LogCryptography { get { return _logCryptography; } }
     public int ConnectionTimeoutMs { get { return _connectionTimeoutMs; } }
     public string ServerIp { get { return _serverIp; } set { _serverIp = value; } }
     public int ServerPort { get { return _serverPort; } set { _serverPort = value; } }
     public int SessionKey1 { get { return _sessionKey1; } set { _sessionKey1 = value; } }
     public int SessionKey2 { get { return _sessionKey2; } set { _sessionKey2 = value; } }
     public bool IsConnected { get { return _connected; } }
+    public int Ping { get { return _ping; } set { _ping = value; } }
 
     private void Start() {
         if(World.Instance != null && World.Instance.OfflineMode) {
@@ -65,10 +69,6 @@ public abstract class DefaultClient : MonoBehaviour {
 
     public abstract void OnAuthAllowed();
 
-    public int GetPing() {
-        return _client.Ping;
-    }
-
     public void Disconnect() {
         _connected = false;
 
@@ -78,6 +78,7 @@ public abstract class DefaultClient : MonoBehaviour {
     }
 
     public virtual void OnDisconnect() {
+        _connected = false;
         _client = null;
         GameManager.Instance.OnDisconnect();
     }

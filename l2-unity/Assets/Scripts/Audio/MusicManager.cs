@@ -30,11 +30,12 @@ public class MusicManager : MonoBehaviour
     }
 
     public void Clear() {
+        ResetPriority();
         StopMusic(CurrentMusicEvent);
         _musicInstances.Clear();
     }
 
-    public void PlayMusic(EventReference musicEvent, int priority) {   
+    public void PlayMusic(EventReference musicEvent, int priority) {
         if(priority < _currentEventPriority) {
             return;
         }
@@ -42,7 +43,7 @@ public class MusicManager : MonoBehaviour
         _currentEventPriority = priority;
         _currentMusicEvent = musicEvent;
 
-        if(_musicInstances.ContainsKey(musicEvent)) {
+        if (_musicInstances.ContainsKey(musicEvent)) {
             _musicInstances[musicEvent].start();
         } else {
             EventInstance musicInstance = RuntimeManager.CreateInstance(musicEvent);

@@ -43,11 +43,15 @@ public class LoginServerPacketHandler : ServerPacketHandler
     }
 
     protected override byte[] DecryptPacket(byte[] data) {
-        Debug.Log("ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+        if (LoginClient.Instance.LogCryptography) {
+            Debug.Log("<---- [LOGIN] ENCRYPTED: " + StringUtils.ByteArrayToString(data));
+        }
 
         LoginClient.Instance.DecryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
 
-        Debug.Log("XORED: " + StringUtils.ByteArrayToString(data));
+        if (LoginClient.Instance.LogCryptography) {
+            Debug.Log("<---- [LOGIN] DECRYPTED: " + StringUtils.ByteArrayToString(data));
+        }
 
         return data;
     }
@@ -56,7 +60,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         int ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
         //Debug.Log("Ping: " + ping + "ms");
-        _client.Ping = ping;
+        LoginClient.Instance.Ping = ping;
 
         Task.Delay(1000).ContinueWith(t => {
             if (!_tokenSource.IsCancellationRequested) {
@@ -64,7 +68,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
                 _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             }
 
-            Task.Delay(LoginClient.Instance.ConnectionTimeoutMs).ContinueWith(t => {
+            Task.Delay(LoginClient.Instance.ConnectionTimeoutMs + 100).ContinueWith(t => {
                 if (!_tokenSource.IsCancellationRequested) {
                     long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
                     if (now2 - _timestamp >= LoginClient.Instance.ConnectionTimeoutMs) {
@@ -88,6 +92,8 @@ public class LoginServerPacketHandler : ServerPacketHandler
         LoginClient.Instance.SetBlowFishKey(blowfishKey);
 
         _client.InitPacket = false;
+
+        EventProcessor.Instance.QueueEvent(() => ((LoginClientPacketHandler)_clientPacketHandler).SendPing());
 
         EventProcessor.Instance.QueueEvent(() => ((LoginClientPacketHandler)_clientPacketHandler).SendAuth());
     }

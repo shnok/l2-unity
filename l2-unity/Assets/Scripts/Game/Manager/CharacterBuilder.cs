@@ -17,7 +17,7 @@ public class CharacterBuilder : MonoBehaviour
 
     // Load player animations, face and hair
     public GameObject BuildCharacterBase(CharacterRaceAnimation raceId, PlayerAppearance appearance, EntityType entityType) {
-        Debug.Log($"Building character: {raceId} {appearance.Sex} {appearance.Face} {appearance.HairStyle} {appearance.HairColor}");
+        //Debug.Log($"Building character: {raceId} {appearance.Sex} {appearance.Face} {appearance.HairStyle} {appearance.HairColor}");
 
         GameObject entity = Instantiate(ModelTable.Instance.GetContainer(raceId, entityType));
         GameObject face = Instantiate(ModelTable.Instance.GetFace(raceId, appearance.Face));

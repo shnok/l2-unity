@@ -73,7 +73,6 @@ public class GameClient : DefaultClient {
 
     public override void OnDisconnect() {
         base.OnDisconnect();
-        _client.CryptEnabled = false;
         Debug.Log("Disconnected from GameServer.");
     }
 }
