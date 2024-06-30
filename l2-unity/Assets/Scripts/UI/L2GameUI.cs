@@ -66,21 +66,16 @@ public class L2GameUI : MonoBehaviour {
 
     private void LoadUI() {
         VisualElement rootVisualContainer = _rootElement.Q<VisualElement>("UIContainer");
-
-
         
         MenuWindow.Instance.AddWindow(rootVisualContainer);
         ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
         ShortCutPanel.Instance.AddWindow(rootVisualContainer);
         IconOverlay.Instance.AddWindow(rootVisualContainer);
         StatusWindow.Instance.AddWindow(rootVisualContainer);
-        CharacterInventory.Instance.AddWindow(rootVisualContainer);
+        //CharacterInventory.Instance.AddWindow(rootVisualContainer);
         CharacterInfo.Instance.AddWindow(rootVisualContainer);
         ChatWindow.Instance.AddWindow(rootVisualContainer);
         TargetWindow.Instance.AddWindow(rootVisualContainer);
-       
-
-
     }
 
     public void EnableMouse() {
