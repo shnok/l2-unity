@@ -82,4 +82,17 @@ public class MenuWindow : MonoBehaviour {
         DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle);
         dragAreaEle.AddManipulator(drag);
     }
+
+    private void RegisterButtonCallBack(string buttonId) {
+        var btn = _windowEle.Q<Button>(buttonId);
+        if (btn == null) {
+            Debug.LogError(buttonId + " can't be found.");
+            return;
+        }
+
+        btn.RegisterCallback<MouseDownEvent>(evt => {
+            AudioManager.Instance.PlayUISound("click_01");
+            //TODO: open window
+        }, TrickleDown.TrickleDown);
+    }
 }

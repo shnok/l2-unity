@@ -8,8 +8,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static UnityEditor.Rendering.FilterWindow;
-using static UnityEngine.Rendering.DebugUI;
+
 
 
 
@@ -126,12 +125,23 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
     public Vector2 GetPositionRoot()
     {
         if (statusWindowDragArea == null) return new Vector2(0, 0);
-        return statusWindowDragArea.worldBound.position;
+        if(isVertical) return statusWindowDragArea.worldBound.position;
+        if (!isVertical)
+        {
+            return new Vector2(statusWindowDragArea.worldBound.position.x + 235, statusWindowDragArea.worldBound.position.y - 235);
+        }
+
+        return new Vector2(0, 0);
+    }
+
+    public VisualElement GetRootVisiaulElement()
+    {
+        return statusWindowDragArea;
     }
 
     public void SetDrugChildren(VisualElement[] children)
     {
-        drag.setChildren(children);
+        drag.SetChildren(children);
     }
 
     public DragManipulatorsChildren GetDrag()
@@ -152,6 +162,7 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
         shortCutPanelElements.AddManipulator(mouseOverDetection);
 
         statusWindowDragArea = shortCutPanelElements.Q<VisualElement>(null, "drag-area-shortcut");
+
         drag = new DragManipulatorsChildren(statusWindowDragArea, shortCutPanelElements);
         statusWindowDragArea.AddManipulator(drag);
 
@@ -186,8 +197,8 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
 
         shortCutButton.RegisterButtonCallBackNext(imageIndex , "button_next");
         shortCutButton.RegisterButtonCallBackPreview(imageIndex , "button_preview");
-        shortCutButton.RegisterButtonCallBackRotate(rootGroupBox , "visualRotate");
-        root.Add(rootGroupBox);
+        shortCutButton.RegisterButtonCallBackRotate(rootGroupBox , slider , "visualRotate");
+        root.Add(shortCutPanelElements);
         yield return new WaitForEndOfFrame();
 
     }
@@ -204,14 +215,50 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
 
     public void ReplaceLeftSliderToRightSlider()
     {
-        buttonSlider.RemoveFromClassList("button-slider");
-        buttonSlider.AddToClassList("button-slider-right");
+        if (isVertical)
+        {
+            if (buttonSlider.ClassListContains("button-slider")){
+                buttonSlider.RemoveFromClassList("button-slider");
+                buttonSlider.AddToClassList("button-slider-right");
+            }
+        }
+        else
+        {
+            var buttonSliderHorizontal = rootGroupBox.Q<VisualElement>(className: "slide-hor-arrow");
+
+            if (buttonSliderHorizontal != null)
+            {
+                buttonSliderHorizontal.RemoveFromClassList("slide-hor-arrow");
+                buttonSliderHorizontal.AddToClassList("button-slider-left");
+            }
+        }
+    
+       
     }
 
     public void ReplaceRightSliderToLeftSlider()
     {
-        buttonSlider.RemoveFromClassList("button-slider-right");
-        buttonSlider.AddToClassList("button-slider");
+        if (isVertical)
+        {
+            if (buttonSlider.ClassListContains("button-slider-right"))
+            {
+                buttonSlider.RemoveFromClassList("button-slider-right");
+                buttonSlider.AddToClassList("button-slider");
+            }
+        }
+        else
+        {
+
+            var buttonSliderHorizontal = rootGroupBox.Q<VisualElement>(className: "button-slider-left");
+
+            if (buttonSliderHorizontal != null)
+            {
+                buttonSliderHorizontal.RemoveFromClassList("button-slider-left");
+                buttonSliderHorizontal.AddToClassList("slide-hor-arrow");
+            }
+        }
+     
+          
     }
 
     //rootGroupBox - use this class not use argumets

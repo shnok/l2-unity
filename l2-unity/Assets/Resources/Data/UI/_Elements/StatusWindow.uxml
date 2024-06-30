@@ -28,8 +28,8 @@
                         <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Status/Gauge/Gauge_DF_Large_CP/Gauge_DF_Large_CP_Center.png?fileID=2800000&amp;guid=9706336a5cf6cea4f960cdfa788efe4d&amp;type=3#Gauge_DF_Large_CP_Center&apos;);" />
                         <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Status/Gauge/Gauge_DF_Large_CP/Gauge_DF_Large_CP_Right.png?fileID=2800000&amp;guid=0a7077d7011e8ae4a9ed022a55ec5cac&amp;type=3#Gauge_DF_Large_CP_Right&apos;);" />
                     </ui:GroupBox>
-                    <ui:Label text="CP" name="BarLabel" class="bar-label bar-label-name" style="align-items: flex-start; flex-direction: column; flex-shrink: 0;" />
-                    <ui:Label text="1234/1234" name="CPText" select-word-by-double-click="true" class="bar-label bar-label-numbers" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; position: relative; left: auto;" />
+                    <ui:Label text="CP" name="BarLabel" class="bar-label bar-label-name" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; -unity-text-outline-width: 1px;" />
+                    <ui:Label text="1234/1234" name="CPText" select-word-by-double-click="true" enable-rich-text="true" class="bar-label bar-label-numbers" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; position: relative; left: auto; letter-spacing: 5px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="HPBarContainer" template="HpBar" class="bar-container" style="height: 14px;">
                     <ui:GroupBox name="HPBarBG" class="bar-inner" style="width: 100%;">
