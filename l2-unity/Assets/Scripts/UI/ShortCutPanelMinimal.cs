@@ -38,6 +38,7 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
         if (this.initPosition == false)
         {
             Vector2 shortCutPosition = ShortCutPanel.Instance.GetPositionRoot();
+
             if (shortCutPosition.x != 0 & shortCutPosition.y != 0)
             {
                 InitPosition(shortCutPosition.x, shortCutPosition.y, arrayPanels);
@@ -76,7 +77,12 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
 
     public void SetHidePanels()
     {
-        //HideElements(true, arrayPanels);
+        HideElements(true, arrayPanels);
+    }
+
+    public void SetHidePanels(bool is_hide)
+    {
+        HideElements(is_hide, arrayPanels);
     }
 
     private void CretaeDemoInfo()
@@ -208,14 +214,13 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
 
     private int Plus1Panel(int panel)
     {
-        int panelPlus1 = 0;
         if (panel == 0)
         {
-            return panelPlus1 = 1;
+            return  1;
         }
         else
         {
-            return panelPlus1 = panel + 1;
+            return  panel + 1;
         }
     }
 
@@ -388,6 +393,18 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
             return arrayPanels[arrayPanels.Length - 1];
         }
       
+    }
+
+    public VisualElement[] GetActiveAllPanels(int indexEndPanel)
+    {
+        VisualElement[] arr = new VisualElement[arrayPanels.Length];
+
+        for(int i = 0; i < indexEndPanel; i++)
+        {
+            arr[i] = arrayPanels[i];
+        }
+
+        return arr;
     }
     public void AddAnim( Vector2 target_postion , VisualElement activeElement)
     {

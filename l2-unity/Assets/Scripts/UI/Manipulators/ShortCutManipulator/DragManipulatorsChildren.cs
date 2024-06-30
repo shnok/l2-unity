@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class DragManipulatorsChildren : PointerManipulator
 {
@@ -21,7 +22,7 @@ public class DragManipulatorsChildren : PointerManipulator
         this.rootShortCutPanel = rootShortCutPanel;
     }
 
-    public void setChildren(VisualElement[] children)
+    public void SetChildren(VisualElement[] children)
     {
         if(children != null)
         {
@@ -56,7 +57,9 @@ public class DragManipulatorsChildren : PointerManipulator
         if (evt.button == 0)
         {
             _startMousePosition = evt.position;
-            _startPosition = rootShortCutPanel.layout.position + target.layout.position;
+
+
+            SetStartPosition();
             SetChildrenStartPosition();
             target.CapturePointer(evt.pointerId);
             SetPointerChildren(evt.pointerId);
@@ -64,11 +67,38 @@ public class DragManipulatorsChildren : PointerManipulator
         evt.StopPropagation();
     }
 
+    private void SetStartPosition()
+    {
+        if (ShortCutPanel.Instance.IsVertical())
+        {
+            _startPosition = rootShortCutPanel.layout.position + target.layout.position;
+        }
+        else
+        {
+            Vector2 diff5 = new Vector2(rootShortCutPanel.layout.position.x + 235, rootShortCutPanel.layout.position.y + 235);
+            _startPosition = diff5 + target.layout.position;
+        }
+    }
+
     private void SetChildrenStartPosition()
     {
         for(int i=0; i < _childreStartPosition.Length; i++)
         {
+            SetPosition(_childreStartPosition, i, ShortCutPanel.Instance.IsVertical());
+        }
+    }
+
+    private void SetPosition(Vector2[]  _childreStartPosition, int i ,  bool IsVertical)
+    {
+        if (IsVertical)
+        {
             _childreStartPosition[i] = children[i].layout.position + target.layout.position;
+        }
+        else
+        {
+             var diff3 =  target.layout.position;
+             var diff4 = new Vector2(diff3.x + 235, diff3.y + 235);
+            _childreStartPosition[i] = children[i].layout.position + diff4;
         }
     }
     private void SetPointerChildren(int pointerId)
@@ -88,15 +118,32 @@ public class DragManipulatorsChildren : PointerManipulator
     {
         if (target.HasPointerCapture(evt.pointerId))
         {
-            Vector2 diff = _startMousePosition - new Vector2(evt.position.x, evt.position.y);
+            if (ShortCutPanel.Instance.IsVertical())
+            {
+                Vector2 diff = _startMousePosition - new Vector2(evt.position.x, evt.position.y);
 
-            float endX = _startPosition.x - diff.x;
-            float endY = _startPosition.y - diff.y;
+                float endX = _startPosition.x - diff.x;
+                float endY = _startPosition.y - diff.y;
 
-            rootShortCutPanel.style.left = endX;
-            rootShortCutPanel.style.top = endY;
+                rootShortCutPanel.style.left = endX;
+                rootShortCutPanel.style.top = endY;
 
-            AddDiffChildren(diff);
+                AddDiffChildren(diff);
+            }
+            else
+            {
+                Vector2 diff = _startMousePosition - new Vector2(evt.position.x - 235, evt.position.y - 235);
+
+                float endX = _startPosition.x - diff.x;
+                float endY = _startPosition.y - diff.y;
+
+
+                rootShortCutPanel.style.left = endX;
+                rootShortCutPanel.style.top = endY;
+
+                AddDiffChildren(diff);
+            }
+
         }
         evt.StopPropagation();
     }
