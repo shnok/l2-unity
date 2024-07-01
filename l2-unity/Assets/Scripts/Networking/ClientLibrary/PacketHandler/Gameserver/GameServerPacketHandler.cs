@@ -75,6 +75,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.ActionFailed:
                 OnActionFailed(data);
                 break;
+            case GameServerPacketType.ServerClose:
+                OnServerClose();
+                break;
         }
     }
 
@@ -247,5 +250,10 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnActionFailed(byte[] data) {
         ActionFailedPacket packet = new ActionFailedPacket(data);
         _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
+    }
+
+    private void OnServerClose() {
+        Debug.Log("ServerClose received from Gameserver");
+        _client.Disconnect();
     }
 }
