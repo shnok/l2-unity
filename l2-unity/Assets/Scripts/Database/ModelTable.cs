@@ -392,13 +392,13 @@ public class ModelTable
     }
 
     public GameObject GetHair(CharacterRaceAnimation raceId, byte hairStyle, byte hairColor, bool bh) {
-        byte index = (byte)(hairStyle * hairColor + hairColor);
+        byte index = (byte)(hairStyle * 4 + hairColor);
 
         if (bh) {
             index += 1;
         }
 
-        //Debug.Log($"Loading hair[{index}] Race:{raceId} Model:{hairStyle}_{hairColor}_{(bh ? "bh" : "ah")}");
+        Debug.Log($"Loading hair[{index}] Race:{raceId} Model:{hairStyle}_{hairColor}_{(bh ? "bh" : "ah")}");
 
         GameObject go = _hair[(byte)raceId, index];
         if (go == null) {
