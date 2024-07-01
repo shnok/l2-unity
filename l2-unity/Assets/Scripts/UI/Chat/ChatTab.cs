@@ -14,7 +14,6 @@ public class ChatTab
     private VisualElement _tabContainer;
     private VisualElement _tabHeader;
     private VisualElement _chatWindowEle;
-
     public string TabName { get { return _tabName; } }
     public List<MessageType> FilteredMessages { get { return _filteredMessages; } }
     public Label Content { get { return _content; } }
@@ -31,13 +30,14 @@ public class ChatTab
         _content = tabContainer.Q<Label>("Content");
         _content.text = "";
 
+        tabHeader.AddManipulator(new ButtonClickSoundManipulator(tabHeader));
+
         tabHeader.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
             if(ChatWindow.Instance.SwitchTab(this)) {
                 AudioManager.Instance.PlayUISound("window_open");
             }
         }, TrickleDown.TrickleDown);
-
+      
         RegisterAutoScrollEvent();
         RegisterPlayerScrollEvent();
     }
@@ -61,12 +61,8 @@ public class ChatTab
         lowBtn.RegisterCallback<MouseUpEvent>(evt => {
             VerifyScrollValue();
         });
-        highBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-        }, TrickleDown.TrickleDown);
-        lowBtn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-        }, TrickleDown.TrickleDown);
+        highBtn.AddManipulator(new ButtonClickSoundManipulator(highBtn));
+        lowBtn.AddManipulator(new ButtonClickSoundManipulator(lowBtn));
         dragger.RegisterCallback<MouseUpEvent>(evt => {
             VerifyScrollValue();
         });

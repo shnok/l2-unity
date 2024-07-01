@@ -35,7 +35,18 @@
 .drag-area {
 }
 
+.image-opacity {
+    position: absolute;
+}
+
+.shortcutimage {
+}
+
 .hor-resize-handle {
+}
+
+.hor-position {
+    rotate: 180deg;
 }
 
 .status-window .level-container {
@@ -154,32 +165,6 @@
     border-width: 0;
 }
 
-.chat-window .unity-scroller__high-button {
-    background-color: transparent;
-    -unity-background-image-tint-color: rgb(255, 255, 255);
-    -unity-slice-top: 0;
-    -unity-slice-left: 0;
-    -unity-slice-bottom: 2;
-    -unity-slice-right: 2;
-    -unity-slice-scale: 0;
-    width: 14px;
-    height: 14px;
-    border-width: 0;
-}
-
-.chat-window .unity-scroller__low-button {
-    background-color: transparent;
-    -unity-background-image-tint-color: rgb(255, 255, 255);
-    -unity-slice-top: 0;
-    -unity-slice-left: 0;
-    -unity-slice-bottom: 2;
-    -unity-slice-right: 2;
-    -unity-slice-scale: 0;
-    width: 14px;
-    height: 14px;
-    border-width: 0;
-}
-
 .chat-window .chatting-option {
     background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_option1.png?fileID=2800000&guid=9a6ea293fa56d5a4083e09b9c4684f3b&type=3#chatting_option1');
 }
@@ -206,6 +191,225 @@
 
 .chat-window .chatting-fontsize:active:hover {
     background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_fontsize2.png?fileID=2800000&guid=5b93214152a50e841b300924c3373edb&type=3#chatting_fontsize2');
+}
+
+.short-cut .button-option_preview {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarLeftBtn.png?fileID=2800000&guid=b9f4ebaf401f9064ba2997be0181c324&type=3#ScrollBarLeftBtn');
+}
+
+.short-cut .button-option_preview:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarLeftOnBtn.png?fileID=2800000&guid=c5c1c395e4ef6eb488fc2b6b681f5e92&type=3#ScrollBarLeftOnBtn');
+}
+
+.short-cut .button-option_preview:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarLeftOnBtn.png?fileID=2800000&guid=c5c1c395e4ef6eb488fc2b6b681f5e92&type=3#ScrollBarLeftOnBtn');
+}
+
+.short-cut .button-option_preview:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarLeftBtn_Over.png?fileID=2800000&guid=cb1662ad213c8a047ac172c53453c411&type=3#ScrollBarLeftBtn_Over');
+}
+
+.minimal-panel .button-option_preview {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarLeftBtn.png?fileID=2800000&guid=b9f4ebaf401f9064ba2997be0181c324&type=3#ScrollBarLeftBtn');
+}
+
+.minimal-panel .button-option_preview:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarLeftOnBtn.png?fileID=2800000&guid=c5c1c395e4ef6eb488fc2b6b681f5e92&type=3#ScrollBarLeftOnBtn');
+}
+
+.minimal-panel .button-option_preview:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarLeftOnBtn.png?fileID=2800000&guid=c5c1c395e4ef6eb488fc2b6b681f5e92&type=3#ScrollBarLeftOnBtn');
+}
+
+.minimal-panel .button-option_preview:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarLeftBtn_Over.png?fileID=2800000&guid=cb1662ad213c8a047ac172c53453c411&type=3#ScrollBarLeftBtn_Over');
+}
+
+.short-cut {
+    position: absolute;
+    left: 80%;
+    bottom: 0;
+}
+
+.short-cut .button-option_next {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarRightBtn.png?fileID=2800000&guid=d48d4fff11741e24fa34b724f38376d6&type=3#ScrollBarRightBtn');
+}
+
+.short-cut .button-option_next:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarRightOnBtn.png?fileID=2800000&guid=b5ef2c17364a22b45aa11e81e3fe3e3d&type=3#ScrollBarRightOnBtn');
+}
+
+.short-cut .button-option_next:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarRightOnBtn.png?fileID=2800000&guid=b5ef2c17364a22b45aa11e81e3fe3e3d&type=3#ScrollBarRightOnBtn');
+}
+
+.short-cut .button-option_next:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarRightBtn_Over.png?fileID=2800000&guid=61bc3520c0e8a4d46b3eb0840d0947ff&type=3#ScrollBarRightBtn_Over');
+}
+
+.minimal-panel .button-option_next {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarRightBtn.png?fileID=2800000&guid=d48d4fff11741e24fa34b724f38376d6&type=3#ScrollBarRightBtn');
+}
+
+.minimal-panel .button-option_next:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarRightOnBtn.png?fileID=2800000&guid=b5ef2c17364a22b45aa11e81e3fe3e3d&type=3#ScrollBarRightOnBtn');
+}
+
+.minimal-panel .button-option_next:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarRightOnBtn.png?fileID=2800000&guid=b5ef2c17364a22b45aa11e81e3fe3e3d&type=3#ScrollBarRightOnBtn');
+}
+
+.minimal-panel .button-option_next:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/button/ScrollBarRightBtn_Over.png?fileID=2800000&guid=61bc3520c0e8a4d46b3eb0840d0947ff&type=3#ScrollBarRightBtn_Over');
+}
+
+.short-cut .button-tool-tip {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/ShortCut_TooltipMin.png?fileID=2800000&guid=1fbaa536add74ba47b7088b46cd7ab19&type=3#ShortCut_TooltipMin');
+}
+
+.short-cut .button-tool-tip:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/ShortCut_TooltipMin_Down.png?fileID=2800000&guid=e6f0961455310b441832394e474c169b&type=3#ShortCut_TooltipMin_Down');
+}
+
+.short-cut .button-tool-tip:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/ShortCut_TooltipMin_Down.png?fileID=2800000&guid=e6f0961455310b441832394e474c169b&type=3#ShortCut_TooltipMin_Down');
+}
+
+.short-cut .button-tool-tip:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/ShortCut_TooltipMin_Over.png?fileID=2800000&guid=cd6ac99620086744fb5179682f83451e&type=3#ShortCut_TooltipMin_Over');
+}
+
+.short-cut .button-rotate {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/shortcut_rotate.png?fileID=2800000&guid=4654f6a57acfbe64ebda974e46e28376&type=3#shortcut_rotate');
+}
+
+.short-cut .button-rotate:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/shortcut_rotate_down.png?fileID=2800000&guid=3da7e57ffed53d846b3a57036346899e&type=3#shortcut_rotate_down');
+}
+
+.short-cut .button-rotate:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/shortcut_rotate_down.png?fileID=2800000&guid=3da7e57ffed53d846b3a57036346899e&type=3#shortcut_rotate_down');
+}
+
+.short-cut .button-rotate:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/shortcut_rotate_over.png?fileID=2800000&guid=88f7ee3ecfbd1a64593e74e5164be887&type=3#shortcut_rotate_over');
+}
+
+.short-cut .button-rotate {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/shortcut_rotate.png?fileID=2800000&guid=4654f6a57acfbe64ebda974e46e28376&type=3#shortcut_rotate');
+}
+
+.short-cut .button-rotate:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/shortcut_rotate_down.png?fileID=2800000&guid=3da7e57ffed53d846b3a57036346899e&type=3#shortcut_rotate_down');
+}
+
+.short-cut .button-rotate:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/shortcut_rotate_down.png?fileID=2800000&guid=3da7e57ffed53d846b3a57036346899e&type=3#shortcut_rotate_down');
+}
+
+.short-cut .button-rotate:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/shortcut_rotate_over.png?fileID=2800000&guid=88f7ee3ecfbd1a64593e74e5164be887&type=3#shortcut_rotate_over');
+}
+
+.short-cut .button-lock {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/joypad_unlock.png?fileID=2800000&guid=2962e377df8efaa4db5d4c7163cbf944&type=3#joypad_unlock');
+}
+
+.short-cut .button-lock:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/joypad_unlock_down.png?fileID=2800000&guid=d19d3d49099cecb4bb30ad342938c51f&type=3#joypad_unlock_down');
+}
+
+.short-cut .button-lock:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/joypad_unlock_down.png?fileID=2800000&guid=d19d3d49099cecb4bb30ad342938c51f&type=3#joypad_unlock_down');
+}
+
+.short-cut .button-lock:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/footer/joypad_unlock_over.png?fileID=2800000&guid=b5ddae93ea8dbdb4faade865a8c0e18c&type=3#joypad_unlock_over');
+}
+
+.short-cut .button-slider {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter.png?fileID=2800000&guid=0e6a63a51cecdce4a9ca025f1d751440&type=3#HorizontalSliderBarCenter');
+}
+
+.short-cut .button-slider:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_down.png?fileID=2800000&guid=b5c29d247119d5945912aae976588c53&type=3#HorizontalSliderBarCenter_down');
+}
+
+.short-cut .button-slider:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_down.png?fileID=2800000&guid=b5c29d247119d5945912aae976588c53&type=3#HorizontalSliderBarCenter_down');
+}
+
+.short-cut .button-slider:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_over.png?fileID=2800000&guid=959d0ec92e06ce04ab85a1e96ffe58a9&type=3#HorizontalSliderBarCenter_over');
+}
+
+.short-cut .button-slider-right {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight.png?fileID=2800000&guid=b965c67c252105a4cbff34f73702e4f3&type=3#HorizontalSliderBarCenterRight');
+}
+
+.short-cut .button-slider-right:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
+}
+
+.short-cut .button-slider-right:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
+}
+
+.short-cut .button-slider-right:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_over.png?fileID=2800000&guid=546cd8ddae3f5984ba02ca04bc7f8d96&type=3#HorizontalSliderBarCenterRight_over');
+}
+
+.short-cut .button-slider-left:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_down.png?fileID=2800000&guid=b5c29d247119d5945912aae976588c53&type=3#HorizontalSliderBarCenter_down');
+}
+
+.short-cut .button-slider-left:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_over.png?fileID=2800000&guid=959d0ec92e06ce04ab85a1e96ffe58a9&type=3#HorizontalSliderBarCenter_over');
+}
+
+
+
+
+
+.short-cut .button-slider-empty {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png');
+}
+
+
+.short-cut .button-slider-empty :active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png');
+}
+
+.short-cut .button-slider-empty :active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png');
+}
+
+.short-cut .button-slider-empty :hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png');
+}
+
+.short-cut .slide-hor {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenter_empty.png?fileID=2800000&guid=b3aff0d3d72691f4b8c8329fb2110a97&type=3#HorizontalSliderBarCenter_empty');
+}
+
+.short-cut .slide-hor-arrow {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight.png?fileID=2800000&guid=b965c67c252105a4cbff34f73702e4f3&type=3#HorizontalSliderBarCenterRight');
+}
+
+.short-cut .slide-hor-arrow:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
+}
+
+.short-cut .slide-hor-arrow:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
+}
+
+.short-cut .slide-hor-arrow:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/ShortCut/head/HorizontalSliderBarCenterRight_over.png?fileID=2800000&guid=546cd8ddae3f5984ba02ca04bc7f8d96&type=3#HorizontalSliderBarCenterRight_over');
+}
+
+.short-cut {
+    position: absolute;
 }
 
 .chat-window .chatting-fontsize:hover {
@@ -272,17 +476,17 @@
     font-size: 12px;
 }
 
-.chat-window .unity-scroll-view__content-viewport {
+.l2-scroll-view .unity-scroll-view__content-viewport {
     margin-top: 6px;
     margin-bottom: 4px;
     overflow: hidden;
 }
 
-.chat-window .unity-scroll-view__content-and-vertical-scroll-container {
+.l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
     flex-direction: row-reverse;
 }
 
-.chat-window .unity-scroller {
+.l2-scroll-view .unity-scroller {
     width: 14px;
     margin-left: 4px;
     margin-right: 4px;
@@ -290,11 +494,11 @@
     margin-bottom: 0;
 }
 
-.chat-window .unity-slider {
+.l2-scroll-view .unity-slider {
     margin: 15px 0 15px 0;
 }
 
-.chat-window .unity-base-slider__drag-container {
+.l2-scroll-view .unity-base-slider__drag-container {
     background-color: transparent;
     min-width: 14px;
     width: 14px;
@@ -303,7 +507,7 @@
     border-radius: 0;
 }
 
-.chat-window .unity-slider {
+.l2-scroll-view .unity-slider {
     background-color: transparent;
     min-width: 14px;
     width: 14px;
@@ -312,7 +516,7 @@
     border-radius: 0;
 }
 
-.chat-window .unity-base-slider__tracker {
+.l2-scroll-view .unity-base-slider__tracker {
     background-color: transparent;
     min-width: 14px;
     width: 14px;
@@ -321,7 +525,7 @@
     border-radius: 0;
 }
 
-.chat-window .unity-base-slider__dragger {
+.l2-scroll-view .unity-base-slider__dragger {
     min-width: 14px;
     width: 14px;
     margin-left: -3px;
@@ -335,6 +539,43 @@
     border-width: 0;
 }
 
+.l2-scroll-view .unity-scroller__high-button {
+    background-color: transparent;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-slice-top: 0;
+    -unity-slice-left: 0;
+    -unity-slice-bottom: 2;
+    -unity-slice-right: 2;
+    -unity-slice-scale: 0;
+    width: 14px;
+    height: 14px;
+    border-width: 0;
+}
+
+.l2-scroll-view .unity-scroller__low-button {
+    background-color: transparent;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    -unity-slice-top: 0;
+    -unity-slice-left: 0;
+    -unity-slice-bottom: 2;
+    -unity-slice-right: 2;
+    -unity-slice-scale: 0;
+    width: 14px;
+    height: 14px;
+    border-width: 0;
+}
+
+.l2-scroll-view .unity-base-slider__tracker {
+}
+
+.l2-scroll-view .unity-scroller__high-button {
+    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarDownBtn.png?fileID=2800000&guid=80ca62d60b1f8ba4e8e1783db945a3df&type=3#ScrollBarDownBtn');
+}
+
+.l2-scroll-view .unity-scroller__low-button {
+    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarUpBtn.png?fileID=2800000&guid=1afd826ca3da2ec48bc50e97ea39d325&type=3#ScrollBarUpBtn');
+}
+
 .chat-window .unity-base-slider__dragger-border {
     border-width: 0;
     margin: 0;
@@ -343,17 +584,6 @@
 
 .chat-window .unity-disabled {
     opacity: 1;
-}
-
-.chat-window .unity-base-slider__tracker {
-}
-
-.chat-window .unity-scroller__high-button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarDownBtn.png?fileID=2800000&guid=80ca62d60b1f8ba4e8e1783db945a3df&type=3#ScrollBarDownBtn');
-}
-
-.chat-window .unity-scroller__low-button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarUpBtn.png?fileID=2800000&guid=1afd826ca3da2ec48bc50e97ea39d325&type=3#ScrollBarUpBtn');
 }
 
 .chat-window .unity-tab-view__header-container {
@@ -599,6 +829,15 @@
 .chat-tab {
 }
 
+.drag-area-shortcut {
+}
+
+.testui-panel {
+}
+
+.unity-group-box {
+}
+
 .menu-btn {
     flex-direction: column;
     margin-top: 3px;
@@ -629,132 +868,272 @@
     background-color: rgba(188, 188, 188, 0);
 }
 
+.windows-frame{
+   
+}
+
+
+
+.windows-right-top .btn-close-frame {
+    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close.png?fileID=2800000&guid=6e7037ea9d27a4e4886d39a91b3b289b&type=3#frames_df_btn_close');
+}
+
+
+.windows-right-top .btn-close-frame:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png?fileID=2800000&guid=40ee7601c8c45864e8419eb5c3b8112f&type=3#frames_df_btn_close_Down');
+}
+
+.windows-right-top .btn-close-frame:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png?fileID=2800000&guid=40ee7601c8c45864e8419eb5c3b8112f&type=3#frames_df_btn_close_Down');
+}
+
+.windows-right-top .btn-close-frame:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Over.png?fileID=2800000&guid=153013be4375b9842ae5bca3021a6343&type=3#frames_df_btn_close_Over');
+}
+
+
+
+
+
+
+
+
+
+
+.windows-right-top .btn-coll-frame {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_min.png');
+}
+
+
+.windows-right-top .btn-coll-frame:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_min_down.png');
+}
+
+.windows-right-top .btn-coll-frame:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_min_down.png');
+}
+
+.windows-right-top .btn-coll-frame:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_min_Over.png');
+}
+
+
+
+
+
+.windows-right-top .btn-exp-frame {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_Minimize.png');
+}
+
+
+.windows-right-top .btn-exp-frame:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_Minimize_down.png');
+}
+
+.windows-right-top .btn-exp-frame:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_Minimize_down.png');
+}
+
+.windows-right-top .btn-exp-frame:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_Minimize_over.png');
+}
+
+
+.adena_button{
+
+}
+
+
+
+.inventory_content .adena_button {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/adenacalculate_recipe.png');
+}
+
+
+.inventory_content .adena_button:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/adenacalculate_recipe_drag.png');
+}
+
+.inventory_content .adena_button:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/adenacalculate_recipe_drag.png');
+}
+
+.inventory_content .adena_button:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/adenacalculate_recipe_over.png');
+}
+
+
+
+
+
+.inventory_content .recipe_button {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_enchant.png');
+}
+
+
+.inventory_content .recipe_button:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_enchant_drag.png');
+}
+
+.inventory_content .recipe_button:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_enchant_drag.png');
+}
+
+.inventory_content .recipe_button:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_enchant_drag.png');
+}
+
+
+
+.inventory_content .basket_button {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_trash.png');
+}
+
+
+.inventory_content .basket_button:active {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_trash_drag.png');
+}
+
+.inventory_content .basket_button:active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_trash_drag.png');
+}
+
+.inventory_content .basket_button:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_trash_over.png');
+}
+
+
+
+
+
+
+
 #CharacterButton .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Character.png?fileID=2800000&guid=580ffbf29e9dcd74cae101a584b611f8&type=3#Icon_DF_MenuWnd_Character');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character');
 }
 
 #CharacterButton:active .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Character_Down.png?fileID=2800000&guid=3f658b696ccbcaf40b2e22c341684dcc&type=3#Icon_DF_MenuWnd_Character_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character_Down');
 }
 
 #CharacterButton:active:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Character_Down.png?fileID=2800000&guid=3f658b696ccbcaf40b2e22c341684dcc&type=3#Icon_DF_MenuWnd_Character_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character_Down');
 }
 
 #CharacterButton:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Character_Over.png?fileID=2800000&guid=2cdcda5886db44b4c8ff868b47105818&type=3#Icon_DF_MenuWnd_Character_Over');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character_Over');
 }
 
 #InventoryButton .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Inventory.png?fileID=2800000&guid=5d1ebb44067d3cd4abbe995b3a6efaa2&type=3#Icon_DF_MenuWnd_Inventory');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory');
 }
 
 #InventoryButton:active .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Down.png?fileID=2800000&guid=6bd35cda21af2e54ca44232b0b5900b5&type=3#Icon_DF_MenuWnd_Inventory_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Down');
 }
 
 #InventoryButton:active:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Down.png?fileID=2800000&guid=6bd35cda21af2e54ca44232b0b5900b5&type=3#Icon_DF_MenuWnd_Inventory_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Down');
 }
 
 #InventoryButton:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Over.png?fileID=2800000&guid=1b4e9e03645825d4a886671ea8803541&type=3#Icon_DF_MenuWnd_Inventory_Over');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Over');
 }
 
 #ActionButton .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Action.png?fileID=2800000&guid=73ffcda06ccc35c4d8c545dbdd9b2e13&type=3#Icon_DF_MenuWnd_Action');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action');
 }
 
 #ActionButton:active .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Action_Down.png?fileID=2800000&guid=b001304b87a5c1a44bcb8f110e37b3c7&type=3#Icon_DF_MenuWnd_Action_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action_Down');
 }
 
 #ActionButton:active:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Action_Down.png?fileID=2800000&guid=b001304b87a5c1a44bcb8f110e37b3c7&type=3#Icon_DF_MenuWnd_Action_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action_Down');
 }
 
 #ActionButton:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Action_Over.png?fileID=2800000&guid=6a6a6f4d07f91be4da3a4ef3ed89ea3f&type=3#Icon_DF_MenuWnd_Action_Over');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action_Over');
 }
 
 #SkillButton .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Skill.png?fileID=2800000&guid=f24100651a6557a43ae690859c4bebc5&type=3#Icon_DF_MenuWnd_Skill');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill');
 }
 
 #SkillButton:active .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Skill_Down.png?fileID=2800000&guid=7186f2a1a4ea98047bda25827193d5d0&type=3#Icon_DF_MenuWnd_Skill_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill_Down');
 }
 
 #SkillButton:active:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Skill_Down.png?fileID=2800000&guid=7186f2a1a4ea98047bda25827193d5d0&type=3#Icon_DF_MenuWnd_Skill_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill_Down');
 }
 
 #SkillButton:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Skill_Over.png?fileID=2800000&guid=7c592c56baa543146b1c368e44d62f20&type=3#Icon_DF_MenuWnd_Skill_Over');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill_Over');
 }
 
 #QuestButton .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Quest.png?fileID=2800000&guid=e4b9ea5fc3198454891c2cee2fd34189&type=3#Icon_DF_MenuWnd_Quest');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest');
 }
 
 #QuestButton:active .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Quest_Down.png?fileID=2800000&guid=44da8b85a6c4bb04a99c24b1cccf0637&type=3#Icon_DF_MenuWnd_Quest_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest_Down');
 }
 
 #QuestButton:active:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Quest_Down.png?fileID=2800000&guid=44da8b85a6c4bb04a99c24b1cccf0637&type=3#Icon_DF_MenuWnd_Quest_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest_Down');
 }
 
 #QuestButton:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Quest_Over.png?fileID=2800000&guid=b31d775fb18a1824888da2061b88f03c&type=3#Icon_DF_MenuWnd_Quest_Over');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest_Over');
 }
 
 #ClanButton .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Clan.png?fileID=2800000&guid=f65c1865ed4a208499fd4cacbeb097ac&type=3#Icon_DF_MenuWnd_Clan');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan');
 }
 
 #ClanButton:active .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Clan_Down.png?fileID=2800000&guid=59530143c99cb3b40ac745c0a7a8987f&type=3#Icon_DF_MenuWnd_Clan_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan_Down');
 }
 
 #ClanButton:active:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Clan_Down.png?fileID=2800000&guid=59530143c99cb3b40ac745c0a7a8987f&type=3#Icon_DF_MenuWnd_Clan_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan_Down');
 }
 
 #ClanButton:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Clan_Over.png?fileID=2800000&guid=ab21e3807f80ab84ea6331626b91c922&type=3#Icon_DF_MenuWnd_Clan_Over');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan_Over');
 }
 
 #MapButton .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Map.png?fileID=2800000&guid=fb5e94707cd91db48af8dacc2e9ba4e6&type=3#Icon_DF_MenuWnd_Map');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map');
 }
 
 #MapButton:active .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Map_Down.png?fileID=2800000&guid=85f9d2ad193931d48bf2cee0fdc2de92&type=3#Icon_DF_MenuWnd_Map_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map_Down');
 }
 
 #MapButton:active:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Map_Down.png?fileID=2800000&guid=85f9d2ad193931d48bf2cee0fdc2de92&type=3#Icon_DF_MenuWnd_Map_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map_Down');
 }
 
 #MapButton:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_Map_Over.png?fileID=2800000&guid=72d46564882978e4f8d40605d4236238&type=3#Icon_DF_MenuWnd_Map_Over');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map_Over');
 }
 
 #SystemMenuButton .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu.png?fileID=2800000&guid=ac6cc2fc0117af44a9d11b26e28b7f45&type=3#Icon_DF_MenuWnd_SystemMenu');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu');
 }
 
 #SystemMenuButton:active .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Down.png?fileID=2800000&guid=409fad7e289a90140a596227c781e0f5&type=3#Icon_DF_MenuWnd_SystemMenu_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Down');
 }
 
 #SystemMenuButton:active:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Down.png?fileID=2800000&guid=409fad7e289a90140a596227c781e0f5&type=3#Icon_DF_MenuWnd_SystemMenu_Down');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Down');
 }
 
 #SystemMenuButton:hover .menu-button-bg {
-    background-image: url('project://database/Assets/Resources/Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Over.png?fileID=2800000&guid=ab979858ba4fd3c4dafa85940995a204&type=3#Icon_DF_MenuWnd_SystemMenu_Over');
+    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Over');
 }
 
 .menu-window {
@@ -777,4 +1156,516 @@
     position: absolute;
     right: -8px;
     bottom: 0;
+}
+
+.login-window .unity-base-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.login-window .unity-base-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.login-window .unity-text-field {
+    --unity-cursor-color: rgb(255, 255, 255);
+    color: rgb(220, 220, 220);
+}
+
+.login-window .transparent-cursor {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
+}
+
+.l2-button {
+    flex-grow: 0;
+    width: 92px;
+    height: 22px;
+    background-image: none;
+    -unity-slice-right: 15;
+    -unity-slice-left: 15;
+    -unity-slice-top: 15;
+    -unity-slice-bottom: 15;
+    -unity-slice-scale: 1px;
+    font-size: 12px;
+}
+
+.l2-button:active .l2-button-bg {
+    background-image: resource('Data/UI/Button/Button_DF_Down');
+}
+
+.l2-button:active:hover .l2-button-bg {
+    background-image: resource('Data/UI/Button/Button_DF_Down');
+}
+
+.l2-button:hover .l2-button-bg {
+    background-image: resource('Data/UI/Button/Button_DF_Over');
+}
+
+.l2-button-bg {
+    flex-grow: 1;
+    background-image: resource('Data/UI/Button/Button_DF');
+    height: 22px;
+    min-height: 32px;
+    position: absolute;
+    -unity-slice-left: 15;
+    -unity-slice-top: 15;
+    -unity-slice-right: 15;
+    -unity-slice-bottom: 15;
+    width: 100%;
+}
+
+.l2-button-ele {
+    margin-top: auto;
+    margin-right: 5px;
+    margin-bottom: auto;
+    margin-left: auto;
+    padding-top: 10px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 0;
+    background-image: none;
+    -unity-slice-left: 0;
+    -unity-slice-right: 0;
+    -unity-slice-scale: 0;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-slice-top: 0;
+    -unity-slice-bottom: 0;
+    background-color: rgba(127, 127, 127, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    width: 100%;
+    height: 100%;
+    -unity-font: resource('Data/UI/Font/tahoma');
+    color: rgb(255, 255, 255);
+}
+
+.l2-button-ele {
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.l2-button-bg {
+    width: 105%;
+}
+
+.l2-button-bg {
+    left: -2px;
+    top: -3px;
+    right: 0;
+    bottom: 0;
+    width: 108%;
+}
+
+.l2-button {
+    -unity-font-definition: resource('Data/UI/Font/tahoma Light');
+    letter-spacing: 2px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    overflow: visible;
+    background-color: rgba(188, 188, 188, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+}
+
+.button-label {
+    -unity-font: resource('Data/UI/Font/tahoma');
+    -unity-font-definition: resource('Data/UI/Font/tahoma Light');
+}
+
+.button-label {
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-center;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.login-input-bg {
+    flex-grow: 1;
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBox');
+    flex-direction: column;
+}
+
+.bg-highlight-0 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus');
+}
+
+.bg-highlight-1 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus01');
+}
+
+.bg-highlight-2 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus02');
+}
+
+.bg-highlight-3 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus03');
+}
+
+.bg-highlight-4 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus04');
+}
+
+.bg-highlight-5 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus05');
+}
+
+.bg-highlight-6 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus06');
+}
+
+.bg-highlight-7 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus07');
+}
+
+.bg-highlight-8 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus08');
+}
+
+.bg-highlight-9 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus09');
+}
+
+.bg-highlight-10 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus10');
+}
+
+.bg-highlight-11 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus11');
+}
+
+.bg-highlight-12 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus12');
+}
+
+.bg-highlight-13 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus13');
+}
+
+.bg-highlight-14 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus14');
+}
+
+.bg-highlight-15 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus15');
+}
+
+.bg-highlight-16 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus16');
+}
+
+.bg-highlight-17 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus17');
+}
+
+.bg-highlight-18 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus18');
+}
+
+.bg-highlight-19 {
+    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus19');
+}
+
+.char-creation-window .unity-base-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.arrow-input .unity-base-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.char-creation-window .unity-base-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.arrow-input .unity-base-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.char-creation-window .unity-text-field {
+    --unity-cursor-color: rgb(255, 255, 255);
+    color: rgb(220, 220, 220);
+}
+
+.arrow-input .unity-text-field {
+    --unity-cursor-color: rgb(255, 255, 255);
+    color: rgb(220, 220, 220);
+}
+
+.char-creation-window .transparent-cursor {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
+}
+
+.arrow {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 18px;
+    height: 18px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-image: resource('Data/UI/Scrollbar/ScrollBarLeftBtn');
+    background-color: rgba(188, 188, 188, 0);
+}
+
+.arrow-input {
+    flex-grow: 1;
+    flex-direction: row;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.arrow-input-field {
+    flex-grow: 1;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.arrow-label {
+    flex-grow: 0;
+    width: 50px;
+    margin-right: 0;
+    padding-right: 8px;
+    flex-shrink: 0;
+}
+
+.arrows-container {
+    flex-grow: 0;
+    height: 18px;
+    white-space: normal;
+    flex-direction: row;
+}
+
+.arrow-input {
+    margin-top: 5px;
+}
+
+.login-input {
+    -unity-font: resource('Data/UI/Font/tahoma');
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(12, 12, 12);
+    background-image: none;
+    -unity-font-definition: initial;
+    font-size: 12px;
+    margin-left: 6px;
+    letter-spacing: 0;
+    -unity-text-align: lower-left;
+    padding-top: 0;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+
+.login-input-container {
+    flex-grow: 1;
+    height: 18px;
+}
+
+.arrow {
+    background-image: none;
+    width: 20px;
+    height: 20px;
+    overflow: visible;
+}
+
+.arrow-bg {
+    flex-grow: 1;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+}
+
+.arrow-right .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next');
+}
+
+.arrow-right:active .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next_Down');
+}
+
+.arrow-right:active:hover .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next_Down');
+}
+
+.arrow-righ:hover .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next_Over');
+}
+
+.arrow-left .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre');
+}
+
+.arrow-left:active .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
+}
+
+.arrow-left:active:hover .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
+}
+
+.arrow-left:hover .arrow-bg {
+    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre_Over');
+}
+
+.arrow-bg {
+    height: 20px;
+    width: 20px;
+}
+
+.char-creation-window #TurnLeftButton .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_LEFT');
+}
+
+.char-creation-window #TurnLeftButton:active .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_LEFT_Down');
+}
+
+.char-creation-window #TurnLeftButton:active:hover .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_LEFT_Down');
+}
+
+.char-creation-window #TurnLeftButton:hover .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_LEFT_Over');
+}
+
+.char-creation-window #TurnRightButton .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_RIGHT');
+}
+
+.char-creation-window #TurnRightButton:active .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_RIGHT_DOWN');
+}
+
+.char-creation-window #TurnRightButton:active:hover .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_RIGHT_DOWN');
+}
+
+.char-creation-window #TurnRightButton:hover .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_RIGHT_OVER');
+}
+
+.char-creation-window #ZoomButton .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMIN');
+}
+
+.char-creation-window #ZoomButton:active .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Down');
+}
+
+.char-creation-window #ZoomButton:active:hover .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Down');
+}
+
+.char-creation-window #ZoomButton:hover .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Over');
+}
+
+.char-creation-window #ZoomButton.toggle .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMOUT');
+}
+
+.char-creation-window #ZoomButton.toggle:active .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Down');
+}
+
+.char-creation-window #ZoomButton.toggle:active:hover .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Down');
+}
+
+.char-creation-window #ZoomButton.toggle:hover .l2-button-bg {
+    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Over');
+}
+
+.rotate_img90 {
+    rotate: -90deg;
+}
+
+.rotate_imgPlus90 {
+    rotate: 90deg;
+}
+
+.rotate_img180 {
+    rotate: 180deg;
+}
+
+.license-window .l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-direction: row;
+}
+
+.server-element {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 100%;
+    height: 18px;
+    position: relative;
+    flex-direction: row;
+    background-color: rgba(0, 0, 0, 0.48);
+}
+
+.server-element.odd {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.server-element.selected, .server-element.odd.selected {
+    background-color: rgba(138, 120, 88, 0.18);
+}
+
+.server-element .unity-label {
+    color: rgb(255, 255, 255);
+}
+
+.server-element .unity-label.light {
+    color: rgb(71, 138, 200);
+}
+
+.server-element .unity-label.normal {
+    color: rgb(219, 207, 110);
+}
+
+.server-element .unity-label.heavy {
+    color: rgb(210, 106, 98);
+}
+
+.server-element .unity-label.down, .server-element .unity-label.full, .server-element .unity-label.gm-only {
+    color: rgb(255, 0, 0);
 }

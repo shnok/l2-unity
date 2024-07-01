@@ -7,7 +7,7 @@ using UnityEngine;
 public class AddTrunks
 {
 
-    [MenuItem("Shnok/[Trunks] Add trunks to trees")]
+    [MenuItem("Shnok/[Debug] Add trunks to trees")]
     private static void AddTrunksToTrees()
     {
         string treeName = "speaking_tree_s";

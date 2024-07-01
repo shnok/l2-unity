@@ -11,18 +11,13 @@ public class EventProcessor : MonoBehaviour {
     private void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if (_instance != this) {
             Destroy(this);
         }
     }
 
-    void OnDestroy() {
-        _instance = null;
-    }
-
-
     private void Start() {
-        if(World.Instance.OfflineMode) {
+        if(World.Instance != null && World.Instance.OfflineMode) {
             this.enabled = false;
             return;
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UI;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static NativeFunctions;
@@ -11,6 +12,7 @@ public class L2GameUI : MonoBehaviour {
     [SerializeField] private Focusable _focusedElement;
     [SerializeField] private bool _mouseEnabled = true;
     [SerializeField] private bool _mouseOverUI = false;
+    [SerializeField] private VisualElement _loadingElement;
 
     public bool MouseOverUI { get { return _mouseOverUI; } set { _mouseOverUI = value; } }
     public bool UILoaded { get { return _uiLoaded; } set { _uiLoaded = value; } }
@@ -65,10 +67,20 @@ public class L2GameUI : MonoBehaviour {
     private void LoadUI() {
         VisualElement rootVisualContainer = _rootElement.Q<VisualElement>("UIContainer");
 
+        _loadingElement = _rootElement.Q<VisualElement>("Loading");
+
+        StartLoading();
+
+        MenuWindow.Instance.AddWindow(rootVisualContainer);
+        // SKillbar needs updates
+        //ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
+        //ShortCutPanel.Instance.AddWindow(rootVisualContainer);
+        IconOverlay.Instance.AddWindow(rootVisualContainer);
         StatusWindow.Instance.AddWindow(rootVisualContainer);
+        CharacterInventoryWindow.Instance.AddWindow(rootVisualContainer);
+        CharacterInfoWindow.Instance.AddWindow(rootVisualContainer);
         ChatWindow.Instance.AddWindow(rootVisualContainer);
         TargetWindow.Instance.AddWindow(rootVisualContainer);
-        MenuWindow.Instance.AddWindow(rootVisualContainer);
     }
 
     public void EnableMouse() {
@@ -95,12 +107,15 @@ public class L2GameUI : MonoBehaviour {
         }
     }
 
-    public static void BlinkingCursor(VisualElement tf) {
-        tf.schedule.Execute(() => {
-            if(tf.ClassListContains("transparent-cursor"))
-                tf.RemoveFromClassList("transparent-cursor");
-            else
-                tf.AddToClassList("transparent-cursor");
-        }).Every(500);
+    public void StartLoading() {
+        if (_loadingElement != null) {
+            _loadingElement.style.display = DisplayStyle.Flex;
+        }
+    }
+
+    public void StopLoading() {
+        if (_loadingElement != null) {
+            _loadingElement.style.display = DisplayStyle.None;
+        }
     }
 }

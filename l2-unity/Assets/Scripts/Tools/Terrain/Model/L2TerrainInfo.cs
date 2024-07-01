@@ -11,5 +11,9 @@ public class L2TerrainInfo {
     public Vector3 location { get; set; }
     public List<L2TerrainLayer> uvLayers { get; set; }
     public List<L2DecoLayer> decoLayers { get; set; }
+    public List<L2StaticMesh> staticMeshes { get; set; }
+    public List<Brush> brushes { get; set; }
+    public List<L2InterpolationPoint> interpolationPoints { get; set; }
+    public List<AmbientSound> ambientSounds { get; set; }
 }
 #endif

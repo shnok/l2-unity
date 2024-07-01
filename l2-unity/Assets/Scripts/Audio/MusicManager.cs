@@ -18,7 +18,7 @@ public class MusicManager : MonoBehaviour
     private void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if(_instance != this){
             Destroy(this);
         }
 
@@ -26,11 +26,16 @@ public class MusicManager : MonoBehaviour
     }
 
     void OnDestroy() {
-        _musicInstances.Clear();
-        _instance = null;
+        Clear();
     }
 
-    public void PlayMusic(EventReference musicEvent, int priority) {   
+    public void Clear() {
+        ResetPriority();
+        StopMusic(CurrentMusicEvent);
+        _musicInstances.Clear();
+    }
+
+    public void PlayMusic(EventReference musicEvent, int priority) {
         if(priority < _currentEventPriority) {
             return;
         }
@@ -38,7 +43,7 @@ public class MusicManager : MonoBehaviour
         _currentEventPriority = priority;
         _currentMusicEvent = musicEvent;
 
-        if(_musicInstances.ContainsKey(musicEvent)) {
+        if (_musicInstances.ContainsKey(musicEvent)) {
             _musicInstances[musicEvent].start();
         } else {
             EventInstance musicInstance = RuntimeManager.CreateInstance(musicEvent);

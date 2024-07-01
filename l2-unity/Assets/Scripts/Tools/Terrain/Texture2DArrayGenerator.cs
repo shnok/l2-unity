@@ -6,7 +6,7 @@ using UnityEngine;
 public class Texture2DArrayGenerator : MonoBehaviour {
     public Texture2D[] sourceTextures; // Assign your source textures in the Inspector
 
-    public bool generateMipmaps = false;
+    public bool generateMipmaps = true;
     public TextureFormat format = TextureFormat.RGBA32;
 
     // Start is called before the first frame update

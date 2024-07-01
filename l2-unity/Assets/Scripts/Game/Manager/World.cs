@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -37,7 +39,7 @@ public class World : MonoBehaviour {
     private void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if (_instance != this) {
             Destroy(this);
         }
 
@@ -98,21 +100,22 @@ public class World : MonoBehaviour {
         CharacterRace race = (CharacterRace) appearance.Race;
         CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
 
-        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, true);
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, identity.EntityType);
+        go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
         go.transform.position = identity.Position;
         go.transform.name = "Player";
 
         PlayerEntity player = go.GetComponent<PlayerEntity>();
+
+        _players.Add(identity.Id, player);
+        _objects.Add(identity.Id, player);
+
         player.Status = status;
         player.Identity = identity;
         player.Stats = stats;
         player.Appearance = appearance;
         player.Race = race;
         player.RaceId = raceId;
-
-        _players.Add(identity.Id, player);
-        _objects.Add(identity.Id, player);
-
 
         if(!_offlineMode) {
             go.GetComponent<NetworkTransformShare>().enabled = true;
@@ -123,7 +126,7 @@ public class World : MonoBehaviour {
 
         go.SetActive(true);
         go.GetComponentInChildren<PlayerAnimationController>().Initialize();
-        go.GetComponent<Gear>().Initialize();
+        go.GetComponent<Gear>().Initialize(player.Identity.Id, player.RaceId);
 
         player.Initialize();
 
@@ -132,6 +135,8 @@ public class World : MonoBehaviour {
         CameraController.Instance.enabled = true;
         CameraController.Instance.SetTarget(go);
         ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
+
+
     }
 
     public void SpawnUser(NetworkIdentity identity, Status status, Stats stats, PlayerAppearance appearance) {
@@ -142,19 +147,21 @@ public class World : MonoBehaviour {
         CharacterRace race = (CharacterRace)appearance.Race;
         CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
 
-        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, false);
+        GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, identity.EntityType);
         go.transform.position = identity.Position;
+        go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
 
         UserEntity user = go.GetComponent<UserEntity>();
+
+        _players.Add(identity.Id, user);
+        _objects.Add(identity.Id, user);
+
         user.Status = status;
         user.Identity = identity;
         user.Appearance = appearance;
         user.Stats = stats;
         user.Race = race;
         user.RaceId = raceId;
-
-        _players.Add(identity.Id, user);
-        _objects.Add(identity.Id, user);
 
         go.GetComponent<NetworkTransformReceive>().enabled = true;
 
@@ -163,13 +170,14 @@ public class World : MonoBehaviour {
         go.SetActive(true);
 
         user.GetComponent<NetworkAnimationController>().Initialize();
-        go.GetComponent<Gear>().Initialize();
+        go.GetComponent<Gear>().Initialize(user.Identity.Id, user.RaceId);
         user.Initialize();
 
         go.transform.SetParent(_usersContainer.transform);
     }
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status, Stats stats) {
+
 
         Npcgrp npcgrp = NpcgrpTable.Instance.GetNpcgrp(identity.NpcId);
         NpcName npcName = NpcNameTable.Instance.GetNpcName(identity.NpcId);
@@ -190,6 +198,7 @@ public class World : MonoBehaviour {
 
         identity.EntityType = EntityTypeParser.ParseEntityType(npcgrp.ClassName);
         Entity npc;
+
         if (identity.EntityType == EntityType.NPC) {
             npcGo.transform.SetParent(_npcsContainer.transform);
             npc = npcGo.GetComponent<NpcEntity>();
@@ -199,6 +208,9 @@ public class World : MonoBehaviour {
             npc = npcGo.GetComponent<MonsterEntity>();
             ((MonsterEntity)npc).NpcData = npcData;
         }
+
+        _npcs.Add(identity.Id, npc);
+        _objects.Add(identity.Id, npc);
 
         Appearance appearance = new Appearance();
         appearance.RHand = npcgrp.Rhand;
@@ -222,9 +234,6 @@ public class World : MonoBehaviour {
         npc.Stats = stats;
         npc.Appearance = appearance;
 
-        _npcs.Add(identity.Id, npc);
-        _objects.Add(identity.Id, npc);
-
         npcGo.transform.eulerAngles = new Vector3(npcGo.transform.eulerAngles.x, identity.Heading, npcGo.transform.eulerAngles.z);
 
         npcGo.transform.name = identity.Name;
@@ -232,8 +241,10 @@ public class World : MonoBehaviour {
         npcGo.SetActive(true);
 
         npc.GetComponent<NetworkAnimationController>().Initialize();
-        npcGo.GetComponent<Gear>().Initialize();
+        npcGo.GetComponent<Gear>().Initialize(npc.Identity.Id, npc.RaceId);
         npc.Initialize();
+
+
     }
 
     public float GetGroundHeight(Vector3 pos) {
@@ -245,134 +256,126 @@ public class World : MonoBehaviour {
         return pos.y;
     }
 
-    public void UpdateObjectPosition(int id, Vector3 position) {
-        Entity e;
-        if(_objects.TryGetValue(id, out e)) {
-            try {
-                e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
-            } catch(Exception ex) {
-                Debug.LogWarning($"UpdateObjectPosition fail - Target {id} - Error {ex.Message}");
-            }
-        }
+    public Task UpdateObjectPosition(int id, Vector3 position) {
+        return ExecuteWithEntityAsync(id, e => {
+            e.GetComponent<NetworkTransformReceive>().SetNewPosition(position);
+        });
     }
 
-    public void UpdateObjectRotation(int id, float angle) {
-        Entity e;
-        if(_objects.TryGetValue(id, out e)) {
-            try {
-                e.GetComponent<NetworkTransformReceive>().SetFinalRotation(angle);
-            } catch (Exception ex) {
-                Debug.LogWarning($"UpdateObjectRotation fail - Target {id} - Error {ex.Message}");
-            }
-        }
+    public Task UpdateObjectRotation(int id, float angle) {
+        return ExecuteWithEntityAsync(id, e => {
+            e.GetComponent<NetworkTransformReceive>().SetFinalRotation(angle);
+        });
     }
 
-    public void UpdateObjectDestination(int id, Vector3 position, int speed, bool walking) {
-        Entity e;
-        if (_objects.TryGetValue(id, out e)) {
+    public Task UpdateObjectDestination(int id, Vector3 position, int speed, bool walking) {
+        return ExecuteWithEntityAsync(id, e => {
+            if (speed != e.Stats.Speed) {
+                e.UpdateSpeed(speed);
+            }
+
+            e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position);
+            e.GetComponent<NetworkTransformReceive>().LookAt(position);
+            e.OnStartMoving(walking);
+        });
+    }
+
+    public Task UpdateObjectAnimation(int id, int animId, float value) {
+        return ExecuteWithEntityAsync(id, e => {
+            e.GetComponent<NetworkAnimationController>().SetAnimationProperty(animId, value);
+        });
+    }
+
+    public Task InflictDamageTo(int sender, int target, int damage, int newHp, bool criticalHit) {
+        return ExecuteWithEntitiesAsync(sender, target, (senderEntity, targetEntity) => {
+            if (senderEntity != null) {
+                WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, damage, newHp, criticalHit);
+            } else {
+                WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, newHp, criticalHit);
+            }
+        });
+    }
+
+    public Task UpdateObjectMoveDirection(int id, int speed, Vector3 direction) {
+        return ExecuteWithEntityAsync(id, e => {
+            if (speed != e.Stats.Speed) {
+                e.UpdateSpeed(speed);
+            }
+
+            e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(direction);
+        });
+    }
+
+    public Task UpdateEntityTarget(int id, int targetId) {
+        return ExecuteWithEntitiesAsync(id, targetId, (targeter, targeted) => {
+            targeter.TargetId = targetId;
+            targeter.Target = targeted.transform;
+        });
+    }
+
+    public Task EntityStartAutoAttacking(int id) {
+        return ExecuteWithEntityAsync(id, e => {
+            WorldCombat.Instance.EntityStartAutoAttacking(e);
+        });
+    }
+
+    public Task EntityStopAutoAttacking(int id) {
+        return ExecuteWithEntityAsync(id, e => {
+            WorldCombat.Instance.EntityStopAutoAttacking(e);
+        });
+    }
+
+    // Wait for entity to be fully loaded
+    private async Task<Entity> GetEntityAsync(int id) {
+        if (!_objects.TryGetValue(id, out Entity entity)) {
+            Debug.LogWarning($"GetEntityAsync - Entity {id} not found, retrying...");
+            await Task.Delay(150); // Wait for 150 ms retrying
+            if (!_objects.TryGetValue(id, out entity)) {
+                Debug.LogWarning($"GetEntityAsync - Entity {id} not found after retry");
+                return null;
+            }
+        }
+
+        using (var cts = new CancellationTokenSource(3000)) {
             try {
-                if (speed != e.Stats.Speed) {
-                    e.UpdateSpeed(speed);
+                while (!entity.EntityLoaded) {
+                    await Task.Delay(100, cts.Token);
                 }
-
-                e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position);
-                e.GetComponent<NetworkTransformReceive>().LookAt(position);
-                e.OnStartMoving(walking);
-
-            } catch (Exception ex) {
-                Debug.LogWarning($"UpdateObjectDestination fail - Target {id} - Error {ex.Message}");
+                return entity;
+            } catch (TaskCanceledException) {
+                Debug.LogWarning($"GetEntityAsync timeout - Target {id}");
+                return null;
             }
         }
     }
 
-    public void UpdateObjectAnimation(int id, int animId, float value) {
-        Entity e;
-        if(_objects.TryGetValue(id, out e)) {
+    // Execute action after entity is loaded
+    private async Task ExecuteWithEntityAsync(int id, Action<Entity> action) {
+        var entity = await GetEntityAsync(id);
+        if (entity != null) {
             try {
-                Debug.Log($"Setting {id} anim {animId} at {value}");
-                e.GetComponent<NetworkAnimationController>().SetAnimationProperty(animId, value);
+                action(entity);
             } catch (Exception ex) {
-                Debug.LogWarning($"UpdateObjectAnimation fail - Target {id} - Error {ex.Message}");
+                Debug.LogWarning($"Operation failed - Target {id} - Error {ex.Message}");
             }
         }
     }
 
-    public void InflictDamageTo(int sender, int target, int damage, int newHp, bool criticalHit) {
-        Entity senderEntity;
-        Entity targetEntity;
-        if (_objects.TryGetValue(target, out targetEntity)) {
-            _objects.TryGetValue(sender, out senderEntity);
-            //networkTransform.GetComponentInParent<Entity>().ApplyDamage(sender, attackId, value);
+    // Execute action after 2 entities are loaded
+    private async Task ExecuteWithEntitiesAsync(int id1, int id2, Action<Entity, Entity> action) {
+        var entity1Task = GetEntityAsync(id1);
+        var entity2Task = GetEntityAsync(id2);
 
-            //Debug.Log($"{sender} inflicts {damage} damages to {target}. HP: {newHp}");
-            //Debug.Log($"{senderEntity} inflicts {targetEntity}");
+        await Task.WhenAll(entity1Task, entity2Task);
 
+        var entity1 = await entity1Task;
+        var entity2 = await entity2Task;
+
+        if (entity1 != null && entity2 != null) {
             try {
-                if (senderEntity != null) {
-                    WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, damage, newHp, criticalHit);
-                } else {
-                    WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, newHp, criticalHit);
-                }
+                action(entity1, entity2);
             } catch (Exception ex) {
-                Debug.LogWarning($"InflictDamageTo fail - Sender {sender} Target {target} - Error {ex.Message}");
-            }
-        }
-    }
-
-    public void UpdateObjectMoveDirection(int id, int speed, Vector3 direction) {
-        Entity e;
-        if(_objects.TryGetValue(id, out e)) {
-            try {
-                if(speed != e.Stats.Speed) {
-                    e.UpdateSpeed(speed);
-                }
-
-                e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(direction);
-            } catch (Exception ex) {
-                Debug.LogWarning($"InflictDamageTo fail - Target {id} - Error {ex.Message}");
-            }
-        }
-    }
-
-    public void UpdateEntityTarget(int id, int targetId) {
-        Entity targeter;
-        Entity targeted;
-        if (_objects.TryGetValue(id, out targeter)) {
-            if (_objects.TryGetValue(targetId, out targeted)) {
-                try {
-                    targeter.TargetId = targetId;
-                    targeter.Target = targeted.transform;
-                } catch (Exception) {
-                    Debug.LogWarning("Trying to update a null object");
-                    if(targeter == null) {
-                        RemoveObject(id);
-                    }
-                    if (targeted == null) {
-                        RemoveObject(targetId);
-                    }
-                }
-            }
-        }
-    }
-
-    public void EntityStartAutoAttacking(int id) {
-        Entity e;
-        if (_objects.TryGetValue(id, out e)) {
-            try {
-                WorldCombat.Instance.EntityStartAutoAttacking(e);
-            } catch (Exception ex) {
-                Debug.LogWarning($"EntityStartAutoAttacking fail - Target {id} - Error {ex.Message}");
-            }
-        }
-    }
-
-    public void EntityStopAutoAttacking(int id) {
-        Entity e;
-        if (_objects.TryGetValue(id, out e)) {
-            try {
-                WorldCombat.Instance.EntityStopAutoAttacking(e);
-            } catch (Exception ex) {
-                Debug.LogWarning($"EntityStopAutoAttacking fail - Target {id} - Error {ex.Message}");
+                Debug.LogWarning($"Operation failed - Target {id1} or {id2} - Error {ex.Message}");
             }
         }
     }

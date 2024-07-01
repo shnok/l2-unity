@@ -93,16 +93,16 @@ public class AmbientSoundEmitter : EventHandler {
 
     IEnumerator StartPlayLoop() {
         while(true) {
-            yield return new WaitForSeconds(_clipLengthSeconds * 0.99f); // 1% for error margin
-            if (_loopDelaySeconds > 0) {
-                yield return new WaitForSeconds(_loopDelaySeconds);
-            }
             if (_isSound3D && ShouldStop()) {
                 Stop();
                 yield break;
             }
             if(ShouldPlayEvent()) {
                 PlayInstance();
+            }
+            yield return new WaitForSeconds(_clipLengthSeconds * 0.99f); // 1% for error margin
+            if (_loopDelaySeconds > 0) {
+                yield return new WaitForSeconds(_loopDelaySeconds);
             }
         }
     }
@@ -122,11 +122,12 @@ public class AmbientSoundEmitter : EventHandler {
     }
 
     private bool ShouldStop() {
-        return Vector3.Distance(transform.position, Camera.main.transform.position) > (MaxDistance);
+        float distance = Vector3.Distance(transform.position, ThirdPersonListener.Instance.Player.transform.position);
+        return distance > MaxDistance;
     }
 
     private void PlayInstance() {
-        if(!_instance.isValid()) {
+        if (!_instance.isValid()) {
             _instance.clearHandle();
         }
 
@@ -163,7 +164,6 @@ public class AmbientSoundEmitter : EventHandler {
     }
 
     private void StopInstance() {
-        StopCoroutine("StartPlayLoop");
         if(_instance.isValid()) {
             _instance.stop(_allowFadeout ? FMOD.Studio.STOP_MODE.ALLOWFADEOUT : FMOD.Studio.STOP_MODE.IMMEDIATE);
             _instance.release();

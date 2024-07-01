@@ -10,22 +10,23 @@ public class CharacterBuilder : MonoBehaviour
     void Awake() {
         if (_instance == null) {
             _instance = this;
-        } else {
+        } else if (_instance != this) {
             Destroy(this);
         }
     }
 
     // Load player animations, face and hair
-    public GameObject BuildCharacterBase(CharacterRaceAnimation raceId, PlayerAppearance appearance, bool isPlayer) {
-        Debug.Log($"Building character: {raceId} {appearance.Sex} {appearance.Face} {appearance.HairStyle} {appearance.HairColor}");
+    public GameObject BuildCharacterBase(CharacterRaceAnimation raceId, PlayerAppearance appearance, EntityType entityType) {
 
-        GameObject entity = Instantiate(ModelTable.Instance.GetContainer(raceId, isPlayer));
+        Debug.Log($"Building character: Race:{raceId} Sex:{appearance.Sex} Face:{appearance.Face} Hair:{appearance.HairStyle} HairC:{appearance.HairColor}");
+
+        GameObject entity = Instantiate(ModelTable.Instance.GetContainer(raceId, entityType));
         GameObject face = Instantiate(ModelTable.Instance.GetFace(raceId, appearance.Face));
         GameObject hair1 = Instantiate(ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, false));
         GameObject hair2 = Instantiate(ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, true));
 
         Transform container = entity.transform;
-        if (!isPlayer) {
+        if (entityType != EntityType.Player) {
             container = entity.transform.GetChild(0);
         }
 
