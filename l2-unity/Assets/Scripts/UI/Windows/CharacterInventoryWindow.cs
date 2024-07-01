@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
+using System.Linq;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using static UnityEditor.Timeline.Actions.MenuPriority;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 
 public class CharacterInventoryWindow : MonoBehaviour
@@ -134,7 +138,12 @@ public class CharacterInventoryWindow : MonoBehaviour
 
     private void AddActive(int grows_id , int imgbox_id)
     {
-        _activeRows[grows_id].gArr[imgbox_id] = 1;
+        _activeRows[grows_id].AddgArr(imgbox_id, 1);
+    }
+
+    private void AddInfo(int grows_id, int imgbox_id , Texture2D addtexture , int id_item, string nameItem)
+    {
+        _activeRows[grows_id].AddInfo(imgbox_id, addtexture, id_item, nameItem);
     }
 
     private void RemoveActive(int grows_id, int imgbox_id)
@@ -230,6 +239,11 @@ public class CharacterInventoryWindow : MonoBehaviour
         AddActive(0, 0);
         AddActive(0, 1);
         AddActive(0, 2);
+
+    
+        AddInfo(0, 0, imgSource1, 0, "Ring");
+        AddInfo(0, 1, imgSource2, 1, "Shield");
+        AddInfo(0, 2, imgSource3, 2, "Helmet");
     }
 
     private void SetBackground(Texture2D imgSource1 , VisualElement element)
@@ -275,6 +289,7 @@ public class CharacterInventoryWindow : MonoBehaviour
         }
        
     }
+
 
     private void UpdateBackGroundSelectElement(VisualElement grow)
     {
@@ -339,7 +354,7 @@ public class CharacterInventoryWindow : MonoBehaviour
             boxContent.style.display = DisplayStyle.None;
             background.style.display = DisplayStyle.None;
             rootWindows.style.display = DisplayStyle.None;
-            _mouseOverDetection.Disable();
+            if(_mouseOverDetection != null) _mouseOverDetection.Disable();
             SendToBack();
         } else {
             isHide = is_hide;
@@ -348,7 +363,7 @@ public class CharacterInventoryWindow : MonoBehaviour
             background.style.display = DisplayStyle.Flex;
             rootWindows.style.display = DisplayStyle.Flex;
             BringFront();
-            _mouseOverDetection.Enable();
+            if (_mouseOverDetection != null) _mouseOverDetection.Enable();
 
         }
     }
@@ -379,6 +394,53 @@ public class CharacterInventoryWindow : MonoBehaviour
         }
     }
 
+
+    public void EquipItem(VisualElement grow)
+    {
+        if(grow != null)
+        {
+            var rows = grow.parent;
+
+            var rows_id = rows.name.Replace("Rows", "");
+            var grow_id = grow.name.Replace("GRow", "");
+
+            int parce_int_grow = Int32.Parse(grow_id);
+            int parce_int_rows = Int32.Parse(rows_id);
+
+            VisualElement img = grow.Children().First();
+
+            img.style.backgroundImage = StyleKeyword.None;
+            grow.style.backgroundImage = StyleKeyword.None;
+
+            ModelItemDemo demo = _activeRows[parce_int_rows].GetInfo(parce_int_grow);
+            if(demo.item_id == 0)
+            {
+                VisualElement equip_img = boxContent.Q<VisualElement>(className: "l_ring");
+                Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
+                equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
+                equip_img.style.backgroundImage = demo.texture;
+
+            }
+            else if (demo.item_id == 1)
+            {
+                VisualElement equip_img = boxContent.Q<VisualElement>(className: "shield_armor");
+                Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
+                equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
+                equip_img.style.backgroundImage = demo.texture;
+            }
+            else if (demo.item_id == 2)
+            {
+                VisualElement equip_img = boxContent.Q<VisualElement>(className: "slot_head");
+                Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
+                equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
+                equip_img.style.backgroundImage = demo.texture;
+            }
+
+
+            Debug.Log("");
+        }
+
+    }
     private void HideTabLine(bool is_hide , VisualElement line)
     {
         if (is_hide)
