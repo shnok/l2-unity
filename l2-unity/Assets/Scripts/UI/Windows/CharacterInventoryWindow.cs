@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 
-public class CharacterInventory : MonoBehaviour
+public class CharacterInventoryWindow : MonoBehaviour
 {
 
     private VisualTreeAsset _testUITemplate;
@@ -20,7 +20,7 @@ public class CharacterInventory : MonoBehaviour
     private bool isHide;
     private ModelRows[] _activeRows;
     private ModelRows _lastSelectRow;
-
+    private MouseOverDetectionManipulator _mouseOverDetection;
 
     /// <summary>
     /// /TEST DATA
@@ -46,8 +46,8 @@ public class CharacterInventory : MonoBehaviour
         }
     }
 
-    private static CharacterInventory _instance;
-    public static CharacterInventory Instance
+    private static CharacterInventoryWindow _instance;
+    public static CharacterInventoryWindow Instance
     {
         get { return _instance; }
     }
@@ -110,8 +110,8 @@ public class CharacterInventory : MonoBehaviour
          InitTestData(_inventoryRows);
          ChangeMenuSelect(0);
 
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(rootWindow);
-        testUI.AddManipulator(mouseOverDetection);
+        _mouseOverDetection = new MouseOverDetectionManipulator(rootWindow);
+        testUI.AddManipulator(_mouseOverDetection);
 
         DragManipulator drag = new DragManipulator(boxHeader, testUI);
         boxHeader.AddManipulator(drag);
@@ -333,24 +333,23 @@ public class CharacterInventory : MonoBehaviour
  
     public void HideElements(bool is_hide, VisualElement rootWindows)
     {
-        if (is_hide)
-        {
-           isHide = is_hide;
-           boxHeader.style.display = DisplayStyle.None;
-           boxContent.style.display = DisplayStyle.None;
-           background.style.display = DisplayStyle.None;
-           rootWindows.style.display = DisplayStyle.None;
-           SendToBack();
-        }
-        else
-        {
-            
+        if (is_hide) {
+            isHide = is_hide;
+            boxHeader.style.display = DisplayStyle.None;
+            boxContent.style.display = DisplayStyle.None;
+            background.style.display = DisplayStyle.None;
+            rootWindows.style.display = DisplayStyle.None;
+            _mouseOverDetection.Disable();
+            SendToBack();
+        } else {
             isHide = is_hide;
             boxHeader.style.display = DisplayStyle.Flex;
             boxContent.style.display = DisplayStyle.Flex;
             background.style.display = DisplayStyle.Flex;
             rootWindows.style.display = DisplayStyle.Flex;
             BringFront();
+            _mouseOverDetection.Enable();
+
         }
     }
 
@@ -411,10 +410,13 @@ public class CharacterInventory : MonoBehaviour
     {
         return isHide;
     }
+
+    public void ToggleHideWindow() {
+        HideElements(!isHide);
+    }
+
     private void OnDestroy()
     {
         _instance = null;
     }
-
-
 }

@@ -5,9 +5,9 @@ using UnityEngine.UIElements;
 
 public class ButtonCharacter
 {
-    private CharacterInfo character;
+    private CharacterInfoWindow character;
 
-    public ButtonCharacter(CharacterInfo character)
+    public ButtonCharacter(CharacterInfoWindow character)
     {
         this.character = character;
     }
@@ -23,7 +23,7 @@ public class ButtonCharacter
             return;
         }
 
-        btn.RegisterCallback<MouseDownEvent>(evt => {
+        btn.RegisterCallback<MouseUpEvent>(evt => {
             Debug.Log("Click event");
             character.HideElements(true, rootWindows);
 

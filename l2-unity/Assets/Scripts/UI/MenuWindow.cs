@@ -51,9 +51,11 @@ public class MenuWindow : MonoBehaviour {
 
         var charBtn = _windowEle.Q<Button>("CharacterButton");
         charBtn.AddManipulator(new ButtonClickSoundManipulator(charBtn));
+        charBtn.RegisterCallback<ClickEvent>((evt) => CharacterInfoWindow.Instance.ToggleHideWindow());
 
         var inventoryBtn = _windowEle.Q<Button>("InventoryButton");
         inventoryBtn.AddManipulator(new ButtonClickSoundManipulator(inventoryBtn));
+        inventoryBtn.RegisterCallback<ClickEvent>((evt) => CharacterInventoryWindow.Instance.ToggleHideWindow());
 
         var actionBtn = _windowEle.Q<Button>("ActionButton");
         actionBtn.AddManipulator(new ButtonClickSoundManipulator(actionBtn));
@@ -81,18 +83,5 @@ public class MenuWindow : MonoBehaviour {
         var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
         DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle);
         dragAreaEle.AddManipulator(drag);
-    }
-
-    private void RegisterButtonCallBack(string buttonId) {
-        var btn = _windowEle.Q<Button>(buttonId);
-        if (btn == null) {
-            Debug.LogError(buttonId + " can't be found.");
-            return;
-        }
-
-        btn.RegisterCallback<MouseDownEvent>(evt => {
-            AudioManager.Instance.PlayUISound("click_01");
-            //TODO: open window
-        }, TrickleDown.TrickleDown);
     }
 }

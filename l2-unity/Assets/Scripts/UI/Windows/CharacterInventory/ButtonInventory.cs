@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 public class ButtonInventory
 {
 
-    private CharacterInventory inventory;
+    private CharacterInventoryWindow inventory;
 
-    public ButtonInventory(CharacterInventory inventory)
+    public ButtonInventory(CharacterInventoryWindow inventory)
     {
         this.inventory = inventory;
     }
@@ -25,7 +25,7 @@ public class ButtonInventory
             return;
         }
 
-        btn.RegisterCallback<MouseDownEvent>(evt => {
+        btn.RegisterCallback<MouseUpEvent>(evt => {
 
             inventory.HideElements(true, rootWindows);
             

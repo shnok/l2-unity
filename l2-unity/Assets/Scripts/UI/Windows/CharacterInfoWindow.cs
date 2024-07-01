@@ -4,7 +4,7 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CharacterInfo : MonoBehaviour
+public class CharacterInfoWindow : MonoBehaviour
 {
 
     private VisualTreeAsset _testUITemplate;
@@ -14,6 +14,7 @@ public class CharacterInfo : MonoBehaviour
     private VisualElement content;
     private ButtonCharacter _buttonCharacter;
     private VisualElement _templateDefaultWindows;
+    private MouseOverDetectionManipulator _mouseOverDetection;
 
 
     public void Start()
@@ -29,8 +30,8 @@ public class CharacterInfo : MonoBehaviour
         }
     }
 
-    private static CharacterInfo _instance;
-    public static CharacterInfo Instance
+    private static CharacterInfoWindow _instance;
+    public static CharacterInfoWindow Instance
     {
         get { return _instance; }
     }
@@ -73,8 +74,8 @@ public class CharacterInfo : MonoBehaviour
         _buttonCharacter.RegisterButtonCloseWindow(rootWindow, "btn-close-frame");
         _buttonCharacter.RegisterClickWindow(rootWindow, content, dragArea);
 
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(rootWindow);
-        testUI.AddManipulator(mouseOverDetection);
+        _mouseOverDetection = new MouseOverDetectionManipulator(rootWindow);
+        testUI.AddManipulator(_mouseOverDetection);
 
         DragManipulator drag = new DragManipulator(dragArea, testUI);
         dragArea.AddManipulator(drag);
@@ -101,17 +102,15 @@ public class CharacterInfo : MonoBehaviour
         HideElements(is_hide, rootWindow);
     }
 
-    public void HideElements(bool is_hide, VisualElement rootWindow)
-    {
-        if (is_hide)
-        {
+    public void HideElements(bool is_hide, VisualElement rootWindow) {
+        if (is_hide) {
+            _mouseOverDetection.Disable();
             isHide = is_hide;
             content.style.display = DisplayStyle.None;
             rootWindow.style.display = DisplayStyle.None;
             SendToBack();
-        }
-        else
-        {
+        } else {
+            _mouseOverDetection.Enable();
             isHide = is_hide;
             content.style.display = DisplayStyle.Flex;
             rootWindow.style.display = DisplayStyle.Flex;
@@ -124,14 +123,12 @@ public class CharacterInfo : MonoBehaviour
         return isHide;
     }
 
-
-
-
+    public void ToggleHideWindow() {
+        HideElements(!isHide);
+    }
 
     private void OnDestroy()
     {
         _instance = null;
     }
-
-
 }
