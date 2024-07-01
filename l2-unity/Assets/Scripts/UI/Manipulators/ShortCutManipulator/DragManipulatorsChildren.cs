@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class DragManipulatorsChildren : PointerManipulator
 {

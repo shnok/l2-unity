@@ -1,16 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Net.NetworkInformation;
-using System.Reflection.Emit;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI.MessageBox;
-using static UnityEngine.Rendering.DebugUI;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 
 public class CharacterInventory : MonoBehaviour
