@@ -130,7 +130,7 @@ public class ModelTable
                     int index = hs * HAIR_STYLE_COUNT + (hc * 2);
                     string path = $"Data/Animations/{race}/{raceId}/Hair/{raceId}_h_{hs}_{hc}_ah";
                     _hair[r, index] = Resources.Load<GameObject>(path);
-                   // Debug.Log($"Loading hair {hs} color {hc} at {index} for race {raceId} [{path}]");
+                    //Debug.Log($"Loading hair {hs} color {hc} at {index} for race {raceId} [{path}]");
 
                     path = $"Data/Animations/{race}/{raceId}/Hair/{raceId}_h_{hs}_{hc}_bh";
                     _hair[r, index + 1] = Resources.Load<GameObject>(path);
@@ -392,13 +392,13 @@ public class ModelTable
     }
 
     public GameObject GetHair(CharacterRaceAnimation raceId, byte hairStyle, byte hairColor, bool bh) {
-        byte index = (byte)(hairStyle * 4 + hairColor);
+        byte index = (byte)(hairStyle * 8 + hairColor * 2);
 
         if (bh) {
             index += 1;
         }
 
-        Debug.Log($"Loading hair[{index}] Race:{raceId} Model:{hairStyle}_{hairColor}_{(bh ? "bh" : "ah")}");
+        //Debug.Log($"Loading hair[{index}] Race:{raceId} Model:{hairStyle}_{hairColor}_{(bh ? "bh" : "ah")}");
 
         GameObject go = _hair[(byte)raceId, index];
         if (go == null) {
