@@ -149,11 +149,12 @@ public class GameServerPacketHandler : ServerPacketHandler
 
         Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
 
-        CharacterSelector.Instance.Characters = packet.Characters;
-
-        EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
-
-        _eventProcessor.QueueEvent(() => GameClient.Instance.OnAuthAllowed());
+        EventProcessor.Instance.QueueEvent(() => {
+            CharacterSelector.Instance.SetCharacterList(packet.Characters);
+            CharacterSelector.Instance.SelectCharacter(packet.SelectedSlotId);
+            LoginClient.Instance.Disconnect();
+            GameClient.Instance.OnAuthAllowed();
+        });
     }
 
     private void OnMessageReceive(byte[] data) {

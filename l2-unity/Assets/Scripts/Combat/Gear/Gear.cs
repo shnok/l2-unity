@@ -32,6 +32,7 @@ public class Gear : MonoBehaviour {
         TryGetComponent(out _networkAnimationReceive);
         _ownerId = ownderId;
         _raceId = raceId;
+        _weaponAnim = "hand";
     }
 
     public virtual void EquipWeapon(int weaponId, bool leftSlot) {

@@ -46,10 +46,12 @@ public class CharacterCreator : MonoBehaviour
 
         _pawnContainer = new GameObject("Pawns");
 
-        for (var i = 0; i < pawnData.Count; i++) {
+        for (var i = 8; i < pawnData.Count; i++) {
             GameObject pawnObject = CreatePawn(CharacterRaceAnimation.FDarkElf, new PlayerAppearance());
 
-            PlacePawn(pawnObject, pawnData[i], i);
+            pawns[i] = pawnObject;
+
+            PlacePawn(pawnObject, pawnData[i], "Pawn" + i, _pawnContainer);
         }
     }
 
@@ -58,7 +60,7 @@ public class CharacterCreator : MonoBehaviour
 
         GameObject pawnObject = CreatePawn(CharacterRaceAnimation.FDarkElf, new PlayerAppearance());
 
-        PlacePawn(pawnObject, pawnData[id], id);
+        PlacePawn(pawnObject, pawnData[id], "Pawn" + id, _pawnContainer);
     }
 
     public void SelectPawn(string race, string pawnClass, string gender) {
@@ -106,7 +108,7 @@ public class CharacterCreator : MonoBehaviour
     }
 
 
-    private GameObject CreatePawn(CharacterRaceAnimation raceId, PlayerAppearance appearance) {
+    public GameObject CreatePawn(CharacterRaceAnimation raceId, PlayerAppearance appearance) {
         GameObject pawnObject = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, EntityType.Pawn);
 
         UserGear gear = pawnObject.GetComponent<UserGear>();
@@ -137,22 +139,32 @@ public class CharacterCreator : MonoBehaviour
             gear.EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.feet);
         }
 
+        if (appearance.LHand != 0) {
+            gear.EquipWeapon(appearance.LHand, true);
+        }
+        if (appearance.RHand != 0) {
+            gear.EquipWeapon(appearance.RHand, false);
+        }
+
         return pawnObject;
     }
 
-    private void PlacePawn(GameObject pawnObject, Logongrp pawnData, int pawnIndex) {
+    public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container) {
 
         Vector3 pawnPosition = new Vector3(pawnData.X, pawnData.Y, pawnData.Z);
         pawnPosition = VectorUtils.ConvertPosToUnity(pawnPosition);
         pawnObject.transform.position = pawnPosition;
         pawnObject.transform.eulerAngles = new Vector3(0, 360.00f * pawnData.Yaw / 65536, 0);
-        pawnObject.transform.name = "Pawn" + pawnIndex;
+        pawnObject.transform.name = name;
 
-        pawnObject.transform.parent = _pawnContainer.transform;
+        pawnObject.transform.parent = container.transform;
 
         pawnObject.SetActive(true);
 
-        pawns[pawnIndex] = pawnObject;
+        UserGear gear = pawnObject.GetComponent<UserGear>();
+        BaseAnimationController animController = pawnObject.GetComponent<BaseAnimationController>();
+        animController.Initialize();
+        animController.SetBool("wait_" + gear.WeaponAnim, true);
     }
 
     public void RotatePawn(bool right) {
