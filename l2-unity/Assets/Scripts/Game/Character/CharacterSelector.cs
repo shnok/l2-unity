@@ -11,6 +11,8 @@ public class CharacterSelector : MonoBehaviour
     private List<Logongrp> _pawnData;
 
     public List<CharSelectionInfoPackage> Characters { get { return _characters; } set { _characters = value; } }
+    public CharSelectionInfoPackage SelectedCharacter { get { return _selectedCharacter; } }
+    public int SelectedSlot { get { return _selectedCharacterSlot; } }
 
 
     private static CharacterSelector _instance;
@@ -26,10 +28,11 @@ public class CharacterSelector : MonoBehaviour
 
     private void Start() {
         _pawnData = LogongrpTable.Instance.Logongrps;
-        _container = new GameObject("Characters");
+        _selectedCharacterSlot = -1;
     }
 
     public void SetCharacterList(List<CharSelectionInfoPackage> characters) {
+        _container = new GameObject("Characters");
         _characters = characters;
 
         for (int i = 0; i < characters.Count; i++) {
@@ -47,5 +50,15 @@ public class CharacterSelector : MonoBehaviour
             _selectedCharacterSlot = slot;
             _selectedCharacter = _characters[slot];
         }
+    }
+
+    public void ConfirmSelection() {
+        if (SelectedSlot == -1) {
+            Debug.LogWarning("Please select a character");
+            return;
+        }
+
+        GameClient.Instance.ClientPacketHandler.SendRequestSelectCharacter(SelectedSlot);
+
     }
 }
