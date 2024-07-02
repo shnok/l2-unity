@@ -29,6 +29,7 @@ public class CharSelectionInfoPacket : ServerPacket {
             PlayerAppearance appearance = new PlayerAppearance();
             PlayerStatus status = new PlayerStatus();
 
+            character.Slot = i;
             character.Name = ReadS();
             character.Id = ReadI();
             character.Account = ReadS();

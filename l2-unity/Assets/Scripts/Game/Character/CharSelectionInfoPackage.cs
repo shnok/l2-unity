@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public struct CharSelectionInfoPackage
 {
+    [SerializeField] private int _slot;
     [SerializeField] private string _name;
     [SerializeField] private string _account;
     [SerializeField] private int _id;
@@ -30,6 +31,7 @@ public struct CharSelectionInfoPackage
     public string Name { get => _name; set => _name = value; }
     public string Account { get => _account; set => _account = value; }
     public int Id { get => _id; set => _id = value; }
+    public int Slot { get => _slot; set => _slot = value; }
     public bool IsMage { get => _isMage; set => _isMage = value; }
     public byte ClassId { get => _classId; set => _classId = value; }
     public PlayerStatus PlayerStatus { get => _playerStatus; set => _playerStatus = value; }

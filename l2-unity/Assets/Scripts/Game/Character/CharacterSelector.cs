@@ -7,11 +7,12 @@ public class CharacterSelector : MonoBehaviour
     [SerializeField] private int _selectedCharacterSlot;
     [SerializeField] private CharSelectionInfoPackage _selectedCharacter;
     [SerializeField] private List<CharSelectionInfoPackage> _characters;
+    [SerializeField] private LayerMask _characterMask;
+    [SerializeField] private Camera _charSelectCamera;
     private GameObject _container;
     private List<Logongrp> _pawnData;
 
-    public List<CharSelectionInfoPackage> Characters { get { return _characters; } set { _characters = value; } }
-    public CharSelectionInfoPackage SelectedCharacter { get { return _selectedCharacter; } }
+    public Camera Camera { get { return _charSelectCamera; } set { _charSelectCamera = value; } }
     public int SelectedSlot { get { return _selectedCharacterSlot; } }
 
 
@@ -26,14 +27,11 @@ public class CharacterSelector : MonoBehaviour
         }
     }
 
-    private void Start() {
-        _pawnData = LogongrpTable.Instance.Logongrps;
-        _selectedCharacterSlot = -1;
-    }
-
     public void SetCharacterList(List<CharSelectionInfoPackage> characters) {
         _container = new GameObject("Characters");
-        _characters = characters;
+        _characters = characters; 
+        _pawnData = LogongrpTable.Instance.Logongrps;
+        _selectedCharacterSlot = -1;
 
         for (int i = 0; i < characters.Count; i++) {
             SpawnCharacterSlot(i);
@@ -42,6 +40,7 @@ public class CharacterSelector : MonoBehaviour
 
     public void SpawnCharacterSlot(int id) {
         GameObject pawnObject = CharacterCreator.Instance.CreatePawn(_characters[id].CharacterRaceAnimation, _characters[id].PlayerAppearance);
+        pawnObject.GetComponent<SelectableCharacterEntity>().CharacterInfo = _characters[id];
         CharacterCreator.Instance.PlacePawn(pawnObject, _pawnData[id], _characters[id].Name, _container);
     }
 
@@ -59,6 +58,25 @@ public class CharacterSelector : MonoBehaviour
         }
 
         GameClient.Instance.ClientPacketHandler.SendRequestSelectCharacter(SelectedSlot);
+    }
 
+
+    void Update() {
+        if(_charSelectCamera == null) {
+            return;
+        }
+
+
+        if(Input.GetMouseButtonDown(0)) {
+            Ray ray = _charSelectCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 1000f)) {
+                int hitLayer = hit.collider.gameObject.layer;
+                if (_characterMask == (_characterMask | (1 << hitLayer))) {
+                    CharSelectionInfoPackage hitInfo = hit.transform.parent.GetComponent<SelectableCharacterEntity>().CharacterInfo;
+                    SelectCharacter(hitInfo.Slot);
+                }
+            }
+        }
     }
 }
