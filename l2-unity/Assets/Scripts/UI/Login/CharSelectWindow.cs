@@ -77,7 +77,7 @@ public class CharSelectWindow : MonoBehaviour {
     }
 
     private void StartGamePressed() {
-        GameManager.Instance.OnCharacterSelect();
+        CharacterSelector.Instance.ConfirmSelection();
     }
 
     private void ReLoginPressed() {

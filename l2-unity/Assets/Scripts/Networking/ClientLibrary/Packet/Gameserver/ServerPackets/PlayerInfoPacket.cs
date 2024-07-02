@@ -2,64 +2,71 @@ using UnityEngine;
 using System;
 
 public class PlayerInfoPacket : ServerPacket {
-    public NetworkIdentity Identity { get; private set; }
-    public PlayerStatus Status { get; private set; }
-    public PlayerStats Stats { get; private set; }
-    public PlayerAppearance Appearance { get; private set; }
+    public struct PlayerInfo {
+        public NetworkIdentity Identity { get; set; }
+        public PlayerStatus Status { get; set; }
+        public PlayerStats Stats { get; set; }
+        public PlayerAppearance Appearance { get; set; }
+    }
+
+    private PlayerInfo _info;
+    public PlayerInfo PacketPlayerInfo { get { return _info; } }
+
 
     public PlayerInfoPacket(byte[] d) : base(d) {
-        Identity = new NetworkIdentity();
-        Status = new PlayerStatus();
-        Stats = new PlayerStats();
-        Appearance = new PlayerAppearance();
+        _info = new PlayerInfo();
+        _info.Identity = new NetworkIdentity();
+        _info.Status = new PlayerStatus();
+        _info.Stats = new PlayerStats();
+        _info.Appearance = new PlayerAppearance();
         Parse();
     }
 
     public override void Parse() {    
         try {
-            Identity.Id = ReadI();
-            Identity.Name = ReadS();
-            Identity.PlayerClass = ReadB();
-            Identity.IsMage = ReadB() == 1;
-            Identity.Heading = ReadF();
-            Identity.SetPosX(ReadF());
-            Identity.SetPosY(ReadF());
-            Identity.SetPosZ(ReadF());
-            Identity.Owned = true;
+            _info.Identity.Id = ReadI();
+            _info.Identity.Name = ReadS();
+            _info.Identity.PlayerClass = ReadB();
+            _info.Identity.IsMage = ReadB() == 1;
+            _info.Identity.Heading = ReadF();
+            _info.Identity.SetPosX(ReadF());
+            _info.Identity.SetPosY(ReadF());
+            _info.Identity.SetPosZ(ReadF());
+            _info.Identity.Owned = true;
             // Status
-            Status.Level = ReadI();
-            Status.Hp = ReadI();
-            Status.MaxHp = ReadI();
-            Status.Mp = ReadI(); 
-            Status.MaxMp = ReadI();
-            Status.Cp = ReadI();
-            Status.MaxCp = ReadI();
+            _info.Status.Level = ReadI();
+            _info.Status.Hp = ReadI();
+            _info.Status.MaxHp = ReadI();
+            _info.Status.Mp = ReadI(); 
+            _info.Status.MaxMp = ReadI();
+            _info.Status.Cp = ReadI();
+            _info.Status.MaxCp = ReadI();
             // Stats
-            Stats.Speed = ReadI();
-            Stats.PAtkSpd = ReadI();
-            Stats.MAtkSpd = ReadI();
-            Stats.AttackRange = ReadF();
-            Stats.Con = ReadB();
-            Stats.Dex = ReadB();
-            Stats.Str = ReadB();
-            Stats.Men = ReadB();
-            Stats.Wit = ReadB();
-            Stats.Int = ReadB();
+            _info.Stats.Speed = ReadI();
+            _info.Stats.PAtkSpd = ReadI();
+            _info.Stats.MAtkSpd = ReadI();
+            _info.Stats.AttackRange = ReadF();
+            _info.Stats.Con = ReadB();
+            _info.Stats.Dex = ReadB();
+            _info.Stats.Str = ReadB();
+            _info.Stats.Men = ReadB();
+            _info.Stats.Wit = ReadB();
+            _info.Stats.Int = ReadB();
             // Appearance
-            Appearance.CollisionHeight = ReadF();
-            Appearance.CollisionRadius = ReadF();
-            Appearance.Race = ReadB();
-            Appearance.Sex = ReadB();
-            Appearance.Face = ReadB();
-            Appearance.HairStyle = ReadB();
-            Appearance.HairColor = ReadB();
+            _info.Appearance.CollisionHeight = ReadF();
+            _info.Appearance.CollisionRadius = ReadF();
+            _info.Appearance.Race = ReadB();
+            _info.Appearance.Sex = ReadB();
+            _info.Appearance.Face = ReadB();
+            _info.Appearance.HairStyle = ReadB();
+            _info.Appearance.HairColor = ReadB();
             // Gear
-            Appearance.LHand = ReadI();
-            Appearance.RHand = ReadI();
-            Appearance.Chest = ReadI();
-            Appearance.Legs = ReadI();
-            Appearance.Gloves = ReadI();
-            Appearance.Feet = ReadI();
+            _info.Appearance.LHand = ReadI();
+            _info.Appearance.RHand = ReadI();
+            _info.Appearance.Chest = ReadI();
+            _info.Appearance.Legs = ReadI();
+            _info.Appearance.Gloves = ReadI();
+            _info.Appearance.Feet = ReadI();
         } catch(Exception e) {
             Debug.LogError(e);
         }

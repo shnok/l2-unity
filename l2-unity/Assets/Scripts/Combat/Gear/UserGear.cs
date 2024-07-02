@@ -34,21 +34,21 @@ public class UserGear : Gear
 
     protected override Transform GetLeftHandBone() {
         if (_leftHandBone == null) {
-            _leftHandBone = _networkAnimationReceive.transform.FindRecursive("Weapon_L_Bone");
+            _leftHandBone = transform.FindRecursive("Weapon_L_Bone");
         }
         return _leftHandBone;
     }
 
     protected override Transform GetRightHandBone() {
         if (_rightHandBone == null) {
-            _rightHandBone = _networkAnimationReceive.transform.FindRecursive("Weapon_R_Bone");
+            _rightHandBone = transform.FindRecursive("Weapon_R_Bone");
         }
         return _rightHandBone;
     }
 
     protected override Transform GetShieldBone() {
         if (_shieldBone == null) {
-            _shieldBone = _networkAnimationReceive.transform.FindRecursive("Shield_L_Bone");
+            _shieldBone = transform.FindRecursive("Shield_L_Bone");
         }
         return _shieldBone;
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -200,7 +201,9 @@ public class NameplatesManager : MonoBehaviour
             Vector2 nameplatePos = Camera.main.WorldToScreenPoint(nameplate.Target.position + Vector3.up * nameplate.NameplateOffsetHeight);
             nameplate.NameplateEle.style.left = nameplatePos.x - nameplate.NameplateEle.resolvedStyle.width / 2f;
             nameplate.NameplateEle.style.top = Screen.height - nameplatePos.y - nameplate.NameplateEle.resolvedStyle.height;
-        } catch(MissingReferenceException) { }
+        } 
+        catch (NullReferenceException) { } 
+        catch (MissingReferenceException) { }
     }
 
     private bool IsNameplateVisible(Transform target) {

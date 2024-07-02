@@ -117,10 +117,7 @@ public class World : MonoBehaviour {
         player.Race = race;
         player.RaceId = raceId;
 
-        if(!_offlineMode) {
-            go.GetComponent<NetworkTransformShare>().enabled = true;
-        }
-
+        go.GetComponent<NetworkTransformShare>().enabled = true;
         go.GetComponent<PlayerController>().enabled = true;
         go.GetComponent<PlayerController>().Initialize();
 

@@ -145,9 +145,16 @@ public class GameServerPacketHandler : ServerPacketHandler
     }
 
     private void OnCharSelectionInfoReceive(byte[] data) {
-        EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
+        CharSelectionInfoPacket packet = new CharSelectionInfoPacket(data);
 
-        _eventProcessor.QueueEvent(() => GameClient.Instance.OnAuthAllowed());
+        Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
+
+        EventProcessor.Instance.QueueEvent(() => {
+            CharacterSelector.Instance.SetCharacterList(packet.Characters);
+            CharacterSelector.Instance.SelectCharacter(packet.SelectedSlotId);
+            LoginClient.Instance.Disconnect();
+            GameClient.Instance.OnAuthAllowed();
+        });
     }
 
     private void OnMessageReceive(byte[] data) {
@@ -167,8 +174,9 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnPlayerInfoReceive(byte[] data) {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
         _eventProcessor.QueueEvent(() => {
-            World.Instance.SpawnPlayer(packet.Identity, packet.Status, packet.Stats, packet.Appearance);
-            GameManager.Instance.OnPlayerInfoReceived();
+            GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
+
+            GameManager.Instance.OnCharacterSelect();
         });
     }
 

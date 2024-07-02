@@ -85,6 +85,11 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
+    public void SendRequestSelectCharacter(int slot) {
+        RequestCharSelectPacket packet = new RequestCharSelectPacket(slot);
+        SendPacket(packet);
+    }
+
     public override void SendPacket(ClientPacket packet) {
         if (GameClient.Instance.LogSentPackets) {
             GameClientPacketType packetType = (GameClientPacketType)packet.GetPacketType();

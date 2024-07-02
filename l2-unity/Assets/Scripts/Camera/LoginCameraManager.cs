@@ -84,6 +84,14 @@ public class LoginCameraManager : MonoBehaviour
             obj.enabled = true;
             _activeCamera = obj;
 
+            if (camera == "CharSelect") {
+                LobbyNameplatesManager.Instance.Camera = obj;
+                CharacterSelector.Instance.Camera = obj;
+            } else {
+                LobbyNameplatesManager.Instance.Camera = null;
+                CharacterSelector.Instance.Camera = null;
+            }
+
             UpdateListenerPosition();
         }
     }
