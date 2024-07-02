@@ -88,7 +88,7 @@ public class LoginWindow : MonoBehaviour
 
         // Regex pattern: ^[a-zA-Z0-9]{1,16}$
         // This allows only alphanumeric characters, 1-16 characters long
-        Regex regex = new Regex(@"^[a-zA-Z0-9]{1,16}$");
+        Regex regex = new Regex(@"^[a-zA-Z0-9]{0,16}$");
 
         if (!regex.IsMatch(username)) {
             // If the input doesn't match the regex, revert to the previous value
