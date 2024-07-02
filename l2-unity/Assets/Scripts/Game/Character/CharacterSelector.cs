@@ -11,6 +11,7 @@ public class CharacterSelector : MonoBehaviour
     [SerializeField] private Camera _charSelectCamera;
     private GameObject _container;
     private List<Logongrp> _pawnData;
+    private List<GameObject> _characterGameObjects;
 
     public Camera Camera { get { return _charSelectCamera; } set { _charSelectCamera = value; } }
     public int SelectedSlot { get { return _selectedCharacterSlot; } }
@@ -28,9 +29,19 @@ public class CharacterSelector : MonoBehaviour
     }
 
     public void SetCharacterList(List<CharSelectionInfoPackage> characters) {
-        _container = new GameObject("Characters");
-        _characters = characters; 
+        if(_container == null) {
+            _container = new GameObject("Characters");
+        }
+
+        if (_characterGameObjects != null) {
+            _characterGameObjects.ForEach((go) => {
+                Destroy(go);
+            });
+        }
+
+        _characters = characters;
         _pawnData = LogongrpTable.Instance.Logongrps;
+        _characterGameObjects = new List<GameObject>();
         _selectedCharacterSlot = -1;
 
         for (int i = 0; i < characters.Count; i++) {
@@ -42,10 +53,21 @@ public class CharacterSelector : MonoBehaviour
         GameObject pawnObject = CharacterCreator.Instance.CreatePawn(_characters[id].CharacterRaceAnimation, _characters[id].PlayerAppearance);
         pawnObject.GetComponent<SelectableCharacterEntity>().CharacterInfo = _characters[id];
         CharacterCreator.Instance.PlacePawn(pawnObject, _pawnData[id], _characters[id].Name, _container);
+        _characterGameObjects.Add(pawnObject);
     }
 
     public void SelectCharacter(int slot) {
         if (slot >= 0 && slot < _characters.Count) {
+            if (_selectedCharacterSlot == slot) {
+                return;
+            }
+
+            if(_selectedCharacterSlot != -1) {
+                CharacterCreator.Instance.UpdatePawnPosAndRot(_characterGameObjects[_selectedCharacterSlot], _pawnData[_selectedCharacterSlot]);
+            }
+
+            CharacterCreator.Instance.UpdatePawnPosAndRot(_characterGameObjects[slot], _pawnData[7]);
+
             _selectedCharacterSlot = slot;
             _selectedCharacter = _characters[slot];
         }

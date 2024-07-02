@@ -151,10 +151,7 @@ public class CharacterCreator : MonoBehaviour
 
     public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container) {
 
-        Vector3 pawnPosition = new Vector3(pawnData.X, pawnData.Y, pawnData.Z);
-        pawnPosition = VectorUtils.ConvertPosToUnity(pawnPosition);
-        pawnObject.transform.position = pawnPosition;
-        pawnObject.transform.eulerAngles = new Vector3(0, 360.00f * pawnData.Yaw / 65536, 0);
+        UpdatePawnPosAndRot(pawnObject, pawnData);
         pawnObject.transform.name = name;
 
         pawnObject.transform.parent = container.transform;
@@ -165,6 +162,13 @@ public class CharacterCreator : MonoBehaviour
         BaseAnimationController animController = pawnObject.GetComponent<BaseAnimationController>();
         animController.Initialize();
         animController.SetBool("wait_" + gear.WeaponAnim, true);
+    }
+
+    public void UpdatePawnPosAndRot(GameObject pawnObject, Logongrp pawnData) {
+        Vector3 pawnPosition = new Vector3(pawnData.X, pawnData.Y, pawnData.Z);
+        pawnPosition = VectorUtils.ConvertPosToUnity(pawnPosition);
+        pawnObject.transform.position = pawnPosition;
+        pawnObject.transform.eulerAngles = new Vector3(0, 360.00f * pawnData.Yaw / 65536, 0);
     }
 
     public void RotatePawn(bool right) {
