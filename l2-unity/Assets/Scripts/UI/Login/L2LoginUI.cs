@@ -12,6 +12,7 @@ public class L2LoginUI : MonoBehaviour
     [SerializeField] private VisualElement _loadingElement;
 
     public bool UILoaded { get { return _uiLoaded; } set { _uiLoaded = value; } }
+    public VisualElement RootElement { get { return _rootElement; } }
 
     private static L2LoginUI _instance;
     public static L2LoginUI Instance { get { return _instance; } }

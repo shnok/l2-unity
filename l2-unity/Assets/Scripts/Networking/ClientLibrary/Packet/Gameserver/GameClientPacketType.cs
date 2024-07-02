@@ -11,5 +11,6 @@ public enum GameClientPacketType : byte
     RequestAttack = 0x08,
     RequestMoveDirection = 0x09,
     RequestSetTarget = 0x0A,
-    RequestAutoAttack = 0x0B
+    RequestAutoAttack = 0x0B,
+    RequestCharSelect = 0x0C
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerInfoPacket;
 using static ServerListPacket;
 
 public class GameManager : MonoBehaviour {
@@ -58,11 +59,14 @@ public class GameManager : MonoBehaviour {
 
     public void OnWorldSceneLoaded() {
         GameObject.Destroy(L2LoginUI.Instance.gameObject);
-        GameClient.Instance.ClientPacketHandler.SendLoadWorld();
-    }
 
-    public void OnPlayerInfoReceived() {
+        PlayerInfo playerInfo = GameClient.Instance.PlayerInfo;
+
+        World.Instance.SpawnPlayer(playerInfo.Identity, playerInfo.Status, playerInfo.Stats, playerInfo.Appearance);
+
         L2GameUI.Instance.StopLoading();
+
+        GameClient.Instance.ClientPacketHandler.SendLoadWorld();
     }
 
     public void OnLoginServerConnected() {
