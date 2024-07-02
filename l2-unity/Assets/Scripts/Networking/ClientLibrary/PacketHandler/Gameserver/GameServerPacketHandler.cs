@@ -145,6 +145,12 @@ public class GameServerPacketHandler : ServerPacketHandler
     }
 
     private void OnCharSelectionInfoReceive(byte[] data) {
+        CharSelectionInfoPacket packet = new CharSelectionInfoPacket(data);
+
+        Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
+
+        CharacterSelector.Instance.Characters = packet.Characters;
+
         EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
 
         _eventProcessor.QueueEvent(() => GameClient.Instance.OnAuthAllowed());
