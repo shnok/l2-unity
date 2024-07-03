@@ -52,6 +52,7 @@ public class CharacterSelector : MonoBehaviour
     public void SpawnCharacterSlot(int id) {
         GameObject pawnObject = CharacterCreator.Instance.CreatePawn(_characters[id].CharacterRaceAnimation, _characters[id].PlayerAppearance);
         pawnObject.GetComponent<SelectableCharacterEntity>().CharacterInfo = _characters[id];
+        pawnObject.GetComponent<SelectableCharacterEntity>().WeaponAnim = pawnObject.GetComponent<UserGear>().WeaponAnim;
         CharacterCreator.Instance.PlacePawn(pawnObject, _pawnData[id], _characters[id].Name, _container);
         _characterGameObjects.Add(pawnObject);
     }
@@ -63,10 +64,10 @@ public class CharacterSelector : MonoBehaviour
             }
 
             if(_selectedCharacterSlot != -1) {
-                CharacterCreator.Instance.UpdatePawnPosAndRot(_characterGameObjects[_selectedCharacterSlot], _pawnData[_selectedCharacterSlot]);
+                _characterGameObjects[_selectedCharacterSlot].GetComponent<SelectableCharacterEntity>().SetDestination(_pawnData[_selectedCharacterSlot]);
             }
 
-            CharacterCreator.Instance.UpdatePawnPosAndRot(_characterGameObjects[slot], _pawnData[7]);
+            _characterGameObjects[slot].GetComponent<SelectableCharacterEntity>().SetDestination(_pawnData[7]);
 
             _selectedCharacterSlot = slot;
             _selectedCharacter = _characters[slot];
