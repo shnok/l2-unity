@@ -107,7 +107,7 @@ public class LobbyNameplatesManager : MonoBehaviour {
             entity.transform,
             "",
             "9CE8A9FF",
-            1f, //height
+            0.92f, //height
             entity.CharacterInfo.Name,
             entity.CharacterInfo.Id,
             true
