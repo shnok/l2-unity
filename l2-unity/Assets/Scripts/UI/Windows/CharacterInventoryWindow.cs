@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using static UnityEditor.Rendering.FilterWindow;
 using static UnityEditor.Timeline.Actions.MenuPriority;
 using static UnityEngine.Rendering.DebugUI.Table;
 
@@ -25,6 +26,8 @@ public class CharacterInventoryWindow : MonoBehaviour
     private ModelRows[] _activeRows;
     private ModelRows _lastSelectRow;
     private MouseOverDetectionManipulator _mouseOverDetection;
+    private Texture2D _selectFrame;
+    private Texture2D _blackFrame;
 
     /// <summary>
     /// /TEST DATA
@@ -64,6 +67,8 @@ public class CharacterInventoryWindow : MonoBehaviour
             _buttonInventory = new ButtonInventory(this);
             _menuItems = new VisualElement[6];
             _inventoryRows = new VisualElement[8];
+             _selectFrame = Resources.Load<Texture2D>(fillBackground[1]);
+            _blackFrame  = Resources.Load<Texture2D>(fillBackground[0]);
             CreateAcive();
 
         }
@@ -140,6 +145,8 @@ public class CharacterInventoryWindow : MonoBehaviour
     {
         _activeRows[grows_id].AddgArr(imgbox_id, 1);
     }
+
+
 
     private void AddInfo(int grows_id, int imgbox_id , Texture2D addtexture , int id_item, string nameItem)
     {
@@ -266,7 +273,7 @@ public class CharacterInventoryWindow : MonoBehaviour
 
             int parce_int_grow = Int32.Parse(grow_id);
             int parce_int_rows = Int32.Parse(rows_id);
-
+            //if not empty
             if(IsActiveRow(parce_int_rows, parce_int_grow))
             {
 
@@ -281,10 +288,35 @@ public class CharacterInventoryWindow : MonoBehaviour
                     int last_row = _lastSelectRow.rows;
                     int last_grow = _lastSelectRow.lastActiveGRow;
 
-                    UpdateBackGroundLastElement(last_row, last_grow);
-                    UpdateLastPosition(parce_int_rows, parce_int_grow);
+                    if (IsActiveRow(last_row, last_grow))
+                    { 
+                        UpdateBackGroundLastElement(last_row, last_grow, _blackFrame);
+                    }
+                    else
+                    {
+                        UpdateBackGroundReset(last_row, last_grow);
+                    }
 
+                    UpdateLastPosition(parce_int_rows, parce_int_grow);
                 }
+            }
+            else
+            {
+                //if empty call
+                if (_lastSelectRow == null) {
+                    UpdateLastPosition(parce_int_rows, parce_int_grow);
+                    UpdateBackGroundSelectElement(grow);
+                }
+                else
+                {
+                    int last_row = _lastSelectRow.rows;
+                    int last_grow = _lastSelectRow.lastActiveGRow;
+
+                    UpdateBackGroundReset(last_row, last_grow);
+                    UpdateBackGroundLastElement(parce_int_rows, parce_int_grow, _selectFrame);
+                    UpdateLastPosition(parce_int_rows, parce_int_grow);
+                }
+                
             }
         }
        
@@ -296,13 +328,18 @@ public class CharacterInventoryWindow : MonoBehaviour
         Texture2D blueFrame = Resources.Load<Texture2D>(fillBackground[1]);
         SetBackground(blueFrame, grow);
     }
-    private void UpdateBackGroundLastElement(int last_row , int last_grow)
+    private void UpdateBackGroundLastElement(int last_row , int last_grow , Texture2D textuteRefresh)
     {
         VisualElement row = _inventoryRows[last_row];
         var grow_elem = row.Q<VisualElement>(className: "grow" + last_grow);
-        Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
-        SetBackground(blackFrame, grow_elem);
+        SetBackground(textuteRefresh, grow_elem);
+    }
 
+    private void UpdateBackGroundReset(int last_row, int last_grow)
+    {
+        VisualElement row = _inventoryRows[last_row];
+        var grow_elem = row.Q<VisualElement>(className: "grow" + last_grow);
+        grow_elem.style.backgroundImage = null;
     }
     private void UpdateLastPosition(int parce_int_rows , int parce_int_grow)
     {
@@ -316,6 +353,16 @@ public class CharacterInventoryWindow : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void DeactiveRow(int row, int grow)
+    {
+        _activeRows[row].gArr[grow] = 0;
+    }
+
+    public void ClearLastSelect()
+    {
+        _lastSelectRow = null;
     }
 
     private ModelRows GetRowActive(int row)
@@ -419,6 +466,22 @@ public class CharacterInventoryWindow : MonoBehaviour
                 Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
                 equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
                 equip_img.style.backgroundImage = demo.texture;
+                DeactiveRow(parce_int_rows, parce_int_grow);
+
+                int last_row = _lastSelectRow.rows;
+                int last_grow = _lastSelectRow.lastActiveGRow;
+
+                if(last_row == parce_int_rows & parce_int_rows == last_grow)
+                {
+                    ClearLastSelect();
+                }
+                else
+                {
+                    UpdateBackGroundReset(last_row, last_grow);
+                    ClearLastSelect();
+                }
+
+                
 
             }
             else if (demo.item_id == 1)
@@ -427,6 +490,19 @@ public class CharacterInventoryWindow : MonoBehaviour
                 Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
                 equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
                 equip_img.style.backgroundImage = demo.texture;
+                DeactiveRow(parce_int_rows, parce_int_grow);
+                int last_row = _lastSelectRow.rows;
+                int last_grow = _lastSelectRow.lastActiveGRow;
+
+                if (last_row == parce_int_rows & parce_int_rows == last_grow)
+                {
+                    ClearLastSelect();
+                }
+                else
+                {
+                    //UpdateBackGroundReset(last_row, last_grow);
+                    //ClearLastSelect();
+                }
             }
             else if (demo.item_id == 2)
             {
@@ -434,6 +510,19 @@ public class CharacterInventoryWindow : MonoBehaviour
                 Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
                 equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
                 equip_img.style.backgroundImage = demo.texture;
+                DeactiveRow(parce_int_rows, parce_int_grow);
+                int last_row = _lastSelectRow.rows;
+                int last_grow = _lastSelectRow.lastActiveGRow;
+
+                if (last_row == parce_int_rows & parce_int_rows == last_grow)
+                {
+                    ClearLastSelect();
+                }
+                else
+                {
+                    //UpdateBackGroundReset(last_row, last_grow);
+                   // ClearLastSelect();
+                }
             }
 
 
