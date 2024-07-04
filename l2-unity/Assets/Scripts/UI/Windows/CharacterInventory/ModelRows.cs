@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ModelRows
 {
-    private ModelItemDemo[] textures;
+    private ModelItemDemo[] modelItem;
     public ModelRows(int rows , int[] gArr)
     {
         this.rows = rows;
         this.gArr = gArr;
-        this.textures = new ModelItemDemo[gArr.Length];
+        this.modelItem = new ModelItemDemo[gArr.Length];
     }
 
     public int lastActiveGRow { get; set; }
@@ -21,15 +21,15 @@ public class ModelRows
         gArr[imgbox_id] = addId;
     }
 
-    public void AddInfo(int imgbox_id, Texture2D addTexture , int id_item , string nameItem)
+    public void AddInfo(int imgbox_id, DemoL2JItem demol2j)
     {
 
-        textures[imgbox_id] = new ModelItemDemo(id_item, addTexture, nameItem); 
+        modelItem[imgbox_id] = new ModelItemDemo(demol2j); 
     }
 
     public ModelItemDemo GetInfo(int imgbox_id)
     {
-        return textures[imgbox_id];
+        return modelItem[imgbox_id];
     }
 
  

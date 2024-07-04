@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using UnityEngine;
+using UnityEngine.tvOS;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static UnityEditor.Rendering.FilterWindow;
@@ -148,9 +150,9 @@ public class CharacterInventoryWindow : MonoBehaviour
 
 
 
-    private void AddInfo(int grows_id, int imgbox_id , Texture2D addtexture , int id_item, string nameItem)
+    private void AddInfo(int grows_id, int imgbox_id , DemoL2JItem demoL2j)
     {
-        _activeRows[grows_id].AddInfo(imgbox_id, addtexture, id_item, nameItem);
+        _activeRows[grows_id].AddInfo(imgbox_id, demoL2j);
     }
 
     private void RemoveActive(int grows_id, int imgbox_id)
@@ -231,26 +233,101 @@ public class CharacterInventoryWindow : MonoBehaviour
 
         Texture2D fill = Resources.Load<Texture2D>(fillBackground[0]);
 
-        Texture2D imgSource1 = Resources.Load<Texture2D>(data[0]);
-        Texture2D imgSource2 = Resources.Load<Texture2D>(data[1]);
-        Texture2D imgSource3 = Resources.Load<Texture2D>(data[2]);
+        //Texture2D imgSource1 = Resources.Load<Texture2D>(data[0]);
+        //Texture2D imgSource2 = Resources.Load<Texture2D>(data[1]);
+        //Texture2D imgSource3 = Resources.Load<Texture2D>(data[2]);
+
+        List<DemoL2JItem> demo = createL2jData();
 
         SetBackground(fill, grow0);
         SetBackground(fill, grow1);
         SetBackground(fill, grow2);
 
-        SetBackground(imgSource1, img0);
-        SetBackground(imgSource2, img1);
-        SetBackground(imgSource3, img2);
+      
 
         AddActive(0, 0);
         AddActive(0, 1);
         AddActive(0, 2);
 
     
-        AddInfo(0, 0, imgSource1, 0, "Ring");
-        AddInfo(0, 1, imgSource2, 1, "Shield");
-        AddInfo(0, 2, imgSource3, 2, "Helmet");
+        AddInfo(0, 0, demo[0]);
+        AddInfo(0, 1, demo[1]);
+        AddInfo(0, 2, demo[2]);
+
+        var demo1 = _activeRows[0].GetInfo(0);
+        var demo2 = _activeRows[0].GetInfo(1);
+        var demo3 = _activeRows[0].GetInfo(2);
+
+        SetBackground(demo1.Icon(), img0);
+        SetBackground(demo2.Icon(), img1);
+        SetBackground(demo3.Icon(), img2);
+    }
+
+
+    private List<DemoL2JItem> createL2jData()
+    {
+        //TYPE2_SHIELD_ARMOR 
+        DemoL2JItem demo2 = new DemoL2JItem();
+        demo2.ObjectId = 268465500;
+        demo2.ItemId = 45573;
+        demo2.T1 = 34;
+        demo2.Quantity = 1;
+        demo2.Type2 = 1;
+        demo2.Filler = 0;
+        demo2.Equipped = 0;
+        demo2.Slot = 64;
+        demo2.Enchant = 0;
+       // demo2.Pet = 0;
+        demo2.AugmentationBonus = 0;
+        demo2.Mana = -1;
+        demo2.Time = -9999;
+
+
+        DemoL2JItem demo = new DemoL2JItem();
+        //adena TYPE2_MONEY = 4;
+        demo.ObjectId = 268473060;
+        demo.ItemId = 57;
+        demo.T1 = 5;
+        demo.Quantity = 4;
+        demo.Type2 = 4;
+        demo.Filler = 0;
+        demo.Equipped = 0;
+        demo.Slot = 0;
+        demo.Enchant = 0;
+        //demo.Pet = 0;
+        demo.AugmentationBonus = 0;
+        demo.Mana = -1;
+        demo.Time = -9999;
+
+        DemoL2JItem demo1 = new DemoL2JItem();
+
+        //Dagger equip weapon  TYPE2_WEAPON = 0;
+        demo1.ObjectId = 268463170;
+        demo1.ItemId = 2369;
+        //location
+        demo1.T1 = 5;
+        demo1.Quantity = 0;
+        //// different lists for armor, weapon, etc
+        //0-weapon
+        //5 etc
+        demo1.Type2 = 0;
+        demo1.Filler = 0;
+        demo1.Equipped = 1;
+        demo1.Slot = 128;
+        demo1.Enchant = 0;
+        //demo.Pet = 0;
+        demo1.AugmentationBonus = 0;
+        demo1.Mana = -1;
+        demo1.Time = -9999;
+
+        List<DemoL2JItem> demoL2JItems = new List<DemoL2JItem>
+        {
+            demo1,
+            demo2,
+            demo
+        };
+        return demoL2JItems;
+
     }
 
     private void SetBackground(Texture2D imgSource1 , VisualElement element)
@@ -460,12 +537,12 @@ public class CharacterInventoryWindow : MonoBehaviour
             grow.style.backgroundImage = StyleKeyword.None;
 
             ModelItemDemo demo = _activeRows[parce_int_rows].GetInfo(parce_int_grow);
-            if(demo.item_id == 0)
+            if(demo.item_id() == 0)
             {
                 VisualElement equip_img = boxContent.Q<VisualElement>(className: "l_ring");
                 Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
                 equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
-                equip_img.style.backgroundImage = demo.texture;
+                equip_img.style.backgroundImage = demo.Icon();
                 DeactiveRow(parce_int_rows, parce_int_grow);
 
                 int last_row = _lastSelectRow.rows;
@@ -477,19 +554,19 @@ public class CharacterInventoryWindow : MonoBehaviour
                 }
                 else
                 {
-                    UpdateBackGroundReset(last_row, last_grow);
-                    ClearLastSelect();
+                   // UpdateBackGroundReset(last_row, last_grow);
+                    //ClearLastSelect();
                 }
 
                 
 
             }
-            else if (demo.item_id == 1)
+            else if (demo.item_id() == 1)
             {
                 VisualElement equip_img = boxContent.Q<VisualElement>(className: "shield_armor");
                 Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
                 equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
-                equip_img.style.backgroundImage = demo.texture;
+                equip_img.style.backgroundImage = demo.Icon();
                 DeactiveRow(parce_int_rows, parce_int_grow);
                 int last_row = _lastSelectRow.rows;
                 int last_grow = _lastSelectRow.lastActiveGRow;
@@ -504,12 +581,12 @@ public class CharacterInventoryWindow : MonoBehaviour
                     //ClearLastSelect();
                 }
             }
-            else if (demo.item_id == 2)
+            else if (demo.item_id() == 2)
             {
                 VisualElement equip_img = boxContent.Q<VisualElement>(className: "slot_head");
                 Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
                 equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
-                equip_img.style.backgroundImage = demo.texture;
+                equip_img.style.backgroundImage = demo.Icon();
                 DeactiveRow(parce_int_rows, parce_int_grow);
                 int last_row = _lastSelectRow.rows;
                 int last_grow = _lastSelectRow.lastActiveGRow;
