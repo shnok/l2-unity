@@ -82,4 +82,8 @@ public class ModelItemDemo
         return _demoL2JItem.Equipped;
     }
 
+    public int Location()
+    {
+        return _demoL2JItem.Location;
+    }
 }

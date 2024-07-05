@@ -35,6 +35,8 @@ using static UnityEditor.Progress;
 //Augmentation 0
 //Mana -1
 //Time -9999
+//location - number cell
+
 
 //Test Example 2  Soulshot: No Grade for Beginners
 //ObjectId 268473060
@@ -50,6 +52,8 @@ using static UnityEditor.Progress;
 //Augmentation 0
 //Mana -1
 //Time -9999
+//location - number cell
+
 
 //Dagger equip weapon 
 //ObjectId 268463170
@@ -65,6 +69,7 @@ using static UnityEditor.Progress;
 //Augmentation 0
 //Mana -1
 //Time -9999
+//location - number cell
 
 public class DemoL2JItem
 {
@@ -76,6 +81,7 @@ public class DemoL2JItem
     public int Filler { get; set; }
     public int Equipped { get; set; }
 
+    public int Location { get; set; }
     public int Slot { get; set; }
 
     public int Enchant { get; set; }

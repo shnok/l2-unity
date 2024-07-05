@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.tvOS;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using static UnityEditor.Progress;
 using static UnityEditor.Rendering.FilterWindow;
 using static UnityEditor.Timeline.Actions.MenuPriority;
 using static UnityEngine.Rendering.DebugUI.Table;
@@ -30,13 +31,9 @@ public class CharacterInventoryWindow : MonoBehaviour
     private MouseOverDetectionManipulator _mouseOverDetection;
     private Texture2D _selectFrame;
     private Texture2D _blackFrame;
+    
+    private EquipInventory _equipInventory;
 
-    /// <summary>
-    /// /TEST DATA
-    /// </summary>
-    string[] data = { "Data/UI/Window/Inventory/demo_image_row/accessary_ring_of_holy_spirit_i00",
-            "Data/UI/Window/Inventory/demo_image_row/shield_another_worlds_shield_i00",
-            "Data/UI/Window/Inventory/demo_image_row/armor_helmet_i00" };
 
     string[] fillBackground = { "Data/UI/ShortCut/demo_skills/fill_black", "Data/UI/Window/Inventory/bg_windows/blue_tab_v5" };
 
@@ -71,6 +68,7 @@ public class CharacterInventoryWindow : MonoBehaviour
             _inventoryRows = new VisualElement[8];
              _selectFrame = Resources.Load<Texture2D>(fillBackground[1]);
             _blackFrame  = Resources.Load<Texture2D>(fillBackground[0]);
+            _equipInventory = new EquipInventory();
             CreateAcive();
 
         }
@@ -137,6 +135,8 @@ public class CharacterInventoryWindow : MonoBehaviour
         _buttonInventory.RegisterClickMenuCrafting(_menuItems[3]);
         _buttonInventory.RegisterClickMenuMisc(_menuItems[4]);
         _buttonInventory.RegisterClickMenuQuest(_menuItems[5]);
+
+        _equipInventory.registerButtonEquip(boxContent);
 
         HideElements(true);
         root.Add(testUI);
@@ -220,53 +220,83 @@ public class CharacterInventoryWindow : MonoBehaviour
 
     public void InitTestData(VisualElement[] _inventoryRows)
     {
-   
-
         var rows0 = _inventoryRows[0];
-        var grow0 = rows0.Q<VisualElement>(className: "grow0");
-        var grow1 = rows0.Q<VisualElement>(className: "grow1");
-        var grow2 = rows0.Q<VisualElement>(className: "grow2");
-
-        var img0 = rows0.Q<VisualElement>(className: "imgbox0");
-        var img1 = rows0.Q<VisualElement>(className: "imgbox1");
-        var img2 = rows0.Q<VisualElement>(className: "imgbox2");
-
-        Texture2D fill = Resources.Load<Texture2D>(fillBackground[0]);
-
-        //Texture2D imgSource1 = Resources.Load<Texture2D>(data[0]);
-        //Texture2D imgSource2 = Resources.Load<Texture2D>(data[1]);
-        //Texture2D imgSource3 = Resources.Load<Texture2D>(data[2]);
-
         List<DemoL2JItem> demo = createL2jData();
-
-        SetBackground(fill, grow0);
-        SetBackground(fill, grow1);
-        SetBackground(fill, grow2);
-
-      
-
-        AddActive(0, 0);
-        AddActive(0, 1);
-        AddActive(0, 2);
-
-    
-        AddInfo(0, 0, demo[0]);
-        AddInfo(0, 1, demo[1]);
-        AddInfo(0, 2, demo[2]);
-
-        var demo1 = _activeRows[0].GetInfo(0);
-        var demo2 = _activeRows[0].GetInfo(1);
-        var demo3 = _activeRows[0].GetInfo(2);
-
-        SetBackground(demo1.Icon(), img0);
-        SetBackground(demo2.Icon(), img1);
-        SetBackground(demo3.Icon(), img2);
+        SetInventory(demo, rows0);
+        ElseEquip(demo);
     }
 
+    private void ElseEquip(List<DemoL2JItem> listDemo)
+    {
+        foreach (DemoL2JItem itemL2j in listDemo)
+        {
+            if (itemL2j.Equipped == 1)
+            {
+                //0 - type_weapon
+                if(itemL2j.Type2 == 0)
+                {
+                    ModelItemDemo model = new ModelItemDemo(itemL2j);
+                    _equipInventory.AddEquipList(0, model);
+                    _equipInventory.EquipItemNoInventory(model, "slot_weapon" , boxContent);
+                }
+                
+            }
+        }
+
+    }
+
+    public List<ModelItemDemo> filterEquip(List<ModelItemDemo> listDemo)
+    {
+        List<ModelItemDemo> filteritems = new List<ModelItemDemo>();
+
+        foreach(ModelItemDemo item in listDemo)
+        {
+            if(item.Equipped() == 0)
+            {
+                filteritems.Add(item);
+            }
+        }
+        return filteritems;
+    }
+
+    private void SetInventory(List<DemoL2JItem> demo, VisualElement rows0)
+    {
+        Texture2D fill = Resources.Load<Texture2D>(fillBackground[0]);
+
+        foreach (DemoL2JItem item in demo)
+        {
+            if(item.Equipped == 0)
+            {
+                AddInfo(0, item.Location, item);
+                var grow = rows0.Q<VisualElement>(className: "grow" + item.Location);
+                var img = rows0.Q<VisualElement>(className: "imgbox" + item.Location);
+                var model = _activeRows[0].GetInfo(item.Location);
+                SetBackground(fill, grow);
+                SetBackground(model.Icon(), img);
+
+                //0 - rows the first line
+                //depending on the cell number, you can calculate the row
+                AddActive(0, item.Location);
+
+            }
+
+        }
+        // SetBackground(demo1.Icon(), img0);
+        //SetBackground(demo2.Icon(), img1);
+        //SetBackground(demo3.Icon(), img2);
+
+        //var grow0 = rows0.Q<VisualElement>(className: "grow0");
+        //var grow1 = rows0.Q<VisualElement>(className: "grow1");
+        //var grow2 = rows0.Q<VisualElement>(className: "grow2");
+
+        //var img0 = rows0.Q<VisualElement>(className: "imgbox0");
+        //var img1 = rows0.Q<VisualElement>(className: "imgbox1");
+        //var img2 = rows0.Q<VisualElement>(className: "imgbox2");
+    }
 
     private List<DemoL2JItem> createL2jData()
     {
-        //TYPE2_SHIELD_ARMOR 
+     
         DemoL2JItem demo2 = new DemoL2JItem();
         demo2.ObjectId = 268465500;
         demo2.ItemId = 45573;
@@ -277,6 +307,7 @@ public class CharacterInventoryWindow : MonoBehaviour
         demo2.Equipped = 0;
         demo2.Slot = 64;
         demo2.Enchant = 0;
+        demo2.Location = 1;
        // demo2.Pet = 0;
         demo2.AugmentationBonus = 0;
         demo2.Mana = -1;
@@ -298,6 +329,7 @@ public class CharacterInventoryWindow : MonoBehaviour
         demo.AugmentationBonus = 0;
         demo.Mana = -1;
         demo.Time = -9999;
+        demo.Location = 0;
 
         DemoL2JItem demo1 = new DemoL2JItem();
 
@@ -319,6 +351,7 @@ public class CharacterInventoryWindow : MonoBehaviour
         demo1.AugmentationBonus = 0;
         demo1.Mana = -1;
         demo1.Time = -9999;
+        demo1.Location = 2;
 
         List<DemoL2JItem> demoL2JItems = new List<DemoL2JItem>
         {
@@ -533,80 +566,41 @@ public class CharacterInventoryWindow : MonoBehaviour
 
             VisualElement img = grow.Children().First();
 
-            img.style.backgroundImage = StyleKeyword.None;
-            grow.style.backgroundImage = StyleKeyword.None;
-
             ModelItemDemo demo = _activeRows[parce_int_rows].GetInfo(parce_int_grow);
-            if(demo.item_id() == 0)
+            if(demo.Type2() == 0)
             {
-                VisualElement equip_img = boxContent.Q<VisualElement>(className: "l_ring");
-                Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
-                equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
-                equip_img.style.backgroundImage = demo.Icon();
-                DeactiveRow(parce_int_rows, parce_int_grow);
-
-                int last_row = _lastSelectRow.rows;
-                int last_grow = _lastSelectRow.lastActiveGRow;
-
-                if(last_row == parce_int_rows & parce_int_rows == last_grow)
-                {
-                    ClearLastSelect();
-                }
-                else
-                {
-                   // UpdateBackGroundReset(last_row, last_grow);
-                    //ClearLastSelect();
-                }
-
-                
-
+                EquipToType(img, grow, demo, parce_int_rows, parce_int_grow, "slot_weapon");
             }
-            else if (demo.item_id() == 1)
+            else if (demo.Type2() == 1)
             {
-                VisualElement equip_img = boxContent.Q<VisualElement>(className: "shield_armor");
-                Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
-                equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
-                equip_img.style.backgroundImage = demo.Icon();
-                DeactiveRow(parce_int_rows, parce_int_grow);
-                int last_row = _lastSelectRow.rows;
-                int last_grow = _lastSelectRow.lastActiveGRow;
-
-                if (last_row == parce_int_rows & parce_int_rows == last_grow)
-                {
-                    ClearLastSelect();
-                }
-                else
-                {
-                    //UpdateBackGroundReset(last_row, last_grow);
-                    //ClearLastSelect();
-                }
+                EquipToType(img, grow, demo, parce_int_rows, parce_int_grow , "slot_head");
             }
-            else if (demo.item_id() == 2)
-            {
-                VisualElement equip_img = boxContent.Q<VisualElement>(className: "slot_head");
-                Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
-                equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
-                equip_img.style.backgroundImage = demo.Icon();
-                DeactiveRow(parce_int_rows, parce_int_grow);
-                int last_row = _lastSelectRow.rows;
-                int last_grow = _lastSelectRow.lastActiveGRow;
-
-                if (last_row == parce_int_rows & parce_int_rows == last_grow)
-                {
-                    ClearLastSelect();
-                }
-                else
-                {
-                    //UpdateBackGroundReset(last_row, last_grow);
-                   // ClearLastSelect();
-                }
-            }
-
-
-            Debug.Log("");
+          
         }
 
     }
+
+    private void EquipToType(VisualElement img , VisualElement grow , ModelItemDemo demo , int parce_int_rows , int parce_int_grow , string typeName)
+    {
+        img.style.backgroundImage = StyleKeyword.None;
+        grow.style.backgroundImage = StyleKeyword.None;
+
+        VisualElement equip_img = boxContent.Q<VisualElement>(className: typeName);
+        Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
+        equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
+        equip_img.style.backgroundImage = demo.Icon();
+        DeactiveRow(parce_int_rows, parce_int_grow);
+        int last_row = _lastSelectRow.rows;
+        int last_grow = _lastSelectRow.lastActiveGRow;
+
+        if (last_row == parce_int_rows & parce_int_rows == last_grow)
+        {
+            ClearLastSelect();
+        }
+    }
+
+
+
     private void HideTabLine(bool is_hide , VisualElement line)
     {
         if (is_hide)
