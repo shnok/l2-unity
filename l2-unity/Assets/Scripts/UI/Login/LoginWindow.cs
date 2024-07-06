@@ -105,4 +105,14 @@ public class LoginWindow : L2Window
     private void ExitButtonPressed() {
         Application.Quit();
     }
+
+    public override void HideWindow() {
+        base.HideWindow();
+        _logo.style.display = DisplayStyle.None;
+    }
+
+    public override void ShowWindow() {
+        base.ShowWindow();
+        _logo.style.display = DisplayStyle.Flex;
+    }
 }

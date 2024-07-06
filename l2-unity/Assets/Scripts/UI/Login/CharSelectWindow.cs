@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class CharSelectWindow : L2Window {
+    private VisualTreeAsset _arrowInputTemplate;
+    private ArrowInputManipulator _charNameManipulator;
     private static CharSelectWindow _instance;
     public static CharSelectWindow Instance { get { return _instance; } }
 
@@ -20,7 +22,8 @@ public class CharSelectWindow : L2Window {
     }
 
     protected override void LoadAssets() {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/CharSelectWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/CharSelectWindow"); 
+        _arrowInputTemplate = LoadAsset("Data/UI/_Elements/Template/ArrowInput");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root) {
@@ -43,6 +46,23 @@ public class CharSelectWindow : L2Window {
         Button reloginButton = (Button)GetElementById("ReloginButton");
         reloginButton.AddManipulator(new ButtonClickSoundManipulator(reloginButton));
         reloginButton.RegisterCallback<ClickEvent>(evt => ReLoginPressed());
+
+        VisualElement userNameInputContainer = GetElementById("UserSelectContainer");
+        VisualElement userNameInput = _arrowInputTemplate.Instantiate()[0];
+        _charNameManipulator = new ArrowInputManipulator(userNameInput, "Name", new string[] { "Type A", "Type B", "Type C", "Type D", "Type E" }, -1, (index, value) => {
+            
+        });
+        userNameInput.AddManipulator(_charNameManipulator);
+        userNameInputContainer.Add(userNameInput);
+
+    }
+
+    public void SetUserList() {
+
+    }
+
+    public void SelectSlot(int slot) {
+
     }
 
     private void StartGamePressed() {

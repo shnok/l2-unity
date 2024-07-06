@@ -47,13 +47,13 @@ public abstract class L2Window : MonoBehaviour {
 
     protected abstract IEnumerator BuildWindow(VisualElement root);
 
-    public void HideWindow() {
+    public virtual void HideWindow() {
         _isWindowHidden = true;
         _windowEle.style.display = DisplayStyle.None;
         _mouseOverDetection.Disable();
     }
 
-    public void ShowWindow() {
+    public virtual void ShowWindow() {
         _isWindowHidden = false;
         _windowEle.style.display = DisplayStyle.Flex;
         _mouseOverDetection.Enable();
