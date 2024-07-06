@@ -12,7 +12,6 @@ public class DragManipulatorsChildren : PointerManipulator
     private Vector2 _startPosition;
     private Vector2[] _childreStartPosition;
     private int activePanelIndex = 0;
-    private VisualElement target;
     private VisualElement[] children;
 
     public DragManipulatorsChildren(VisualElement target, VisualElement rootShortCutPanel)

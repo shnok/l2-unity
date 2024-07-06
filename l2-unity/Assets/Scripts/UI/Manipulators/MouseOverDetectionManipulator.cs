@@ -4,10 +4,16 @@ using UnityEngine;
 public class MouseOverDetectionManipulator : PointerManipulator {
     private bool _enabled;
     private bool _overThisManipulator = false;
+    private L2UI _ui;
 
     public MouseOverDetectionManipulator(VisualElement target) {
         _enabled = true;
         this.target = target;
+        if (L2GameUI.Instance != null) {
+            _ui = L2GameUI.Instance;
+        } else {
+            _ui = L2LoginUI.Instance;
+        }
     }
 
     public void Enable() {
@@ -17,7 +23,7 @@ public class MouseOverDetectionManipulator : PointerManipulator {
     public void Disable() {
         _enabled = false;
         if(_overThisManipulator) {
-            L2GameUI.Instance.MouseOverUI = false;
+            _ui.MouseOverUI = false;
         }
     }
 
@@ -35,21 +41,21 @@ public class MouseOverDetectionManipulator : PointerManipulator {
 
     private void PointerEnterHandler(PointerEnterEvent evt) {
         if (_enabled) {
-            L2GameUI.Instance.MouseOverUI = true;
+            _ui.MouseOverUI = true;
             _overThisManipulator = true;
         }
     }
 
     private void PointerOverHandler(PointerOverEvent evt) {
         if (_enabled) {
-            L2GameUI.Instance.MouseOverUI = true;
+            _ui.MouseOverUI = true;
             _overThisManipulator = true;
         }
     }
 
     private void PointerOutHandler(PointerOutEvent evt) {
         if (_enabled) {
-            L2GameUI.Instance.MouseOverUI = false;
+            _ui.MouseOverUI = false;
             _overThisManipulator = false;
         }
     }

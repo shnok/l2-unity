@@ -1,18 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class L2LoginUI : MonoBehaviour
+public class L2LoginUI : L2UI
 {
-    private VisualElement _rootElement;
-
-    [SerializeField] private bool _uiLoaded = false;
-    [SerializeField] private Focusable _focusedElement;
     [SerializeField] private VisualElement _loadingElement;
-
-    public bool UILoaded { get { return _uiLoaded; } set { _uiLoaded = value; } }
-    public VisualElement RootElement { get { return _rootElement; } }
 
     private static L2LoginUI _instance;
     public static L2LoginUI Instance { get { return _instance; } }
@@ -24,32 +15,26 @@ public class L2LoginUI : MonoBehaviour
             Destroy(this);
         }
     }
-    public void Update() {
-        if (_rootElement != null && !float.IsNaN(_rootElement.resolvedStyle.width) && _uiLoaded == false) {
-            LoadUI();
-            _uiLoaded = true;
-        } else {
-            _rootElement = GetComponent<UIDocument>().rootVisualElement;
-        }
 
-        if (_uiLoaded) {
-            _focusedElement = _rootElement.focusController.focusedElement;
-        }
+    protected override void Update() {
+        base.Update();
     }
 
-    private void LoadUI() {
-        VisualElement rootVisualContainer = _rootElement.Q<VisualElement>("UIContainer");
+    private void OnDestroy() {
+        _instance = null;
+    }
 
-        _loadingElement = _rootElement.Q<VisualElement>("Loading");
+    protected override void LoadUI() {
+        base.LoadUI();
 
-        LoginWindow.Instance.AddWindow(rootVisualContainer);
-        CharSelectWindow.Instance.AddWindow(rootVisualContainer);
+        LoginWindow.Instance.AddWindow(_rootVisualContainer);
+        CharSelectWindow.Instance.AddWindow(_rootVisualContainer);
         CharSelectWindow.Instance.HideWindow();
-        CharCreationWindow.Instance.AddWindow(rootVisualContainer);
+        CharCreationWindow.Instance.AddWindow(_rootVisualContainer);
         CharCreationWindow.Instance.HideWindow();
-        LicenseWindow.Instance.AddWindow(rootVisualContainer);
+        LicenseWindow.Instance.AddWindow(_rootVisualContainer);
         LicenseWindow.Instance.HideWindow();
-        ServerSelectWindow.Instance.AddWindow(rootVisualContainer);
+        ServerSelectWindow.Instance.AddWindow(_rootVisualContainer);
         ServerSelectWindow.Instance.HideWindow();
     }
 
@@ -84,17 +69,5 @@ public class L2LoginUI : MonoBehaviour
     public void ShowCharCreationWindow() {
         CharSelectWindow.Instance.HideWindow();
         CharCreationWindow.Instance.ShowWindow();
-    }
-
-    public void StartLoading() {
-        if (_loadingElement != null) {
-            _loadingElement.style.display = DisplayStyle.Flex;
-        }
-    }
-
-    public void StopLoading() {
-        if (_loadingElement != null) {
-            _loadingElement.style.display = DisplayStyle.None;
-        }
     }
 }

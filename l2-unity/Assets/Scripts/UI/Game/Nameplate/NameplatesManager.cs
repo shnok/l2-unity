@@ -72,7 +72,7 @@ public class NameplatesManager : MonoBehaviour
         }
 
         if(_rootElement == null) {
-            _rootElement = L2GameUI.Instance.GetRootElement().Q<VisualElement>("NameplatesContainer");
+            _rootElement = L2GameUI.Instance.RootElement.Q<VisualElement>("NameplatesContainer");
             return;
         }
 

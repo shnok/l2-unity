@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CharSelectWindow : MonoBehaviour {
-    private VisualTreeAsset _windowTemplate;
-    private VisualElement _windowEle;
-
+public class CharSelectWindow : L2Window {
     private static CharSelectWindow _instance;
     public static CharSelectWindow Instance { get { return _instance; } }
 
@@ -22,58 +19,30 @@ public class CharSelectWindow : MonoBehaviour {
         _instance = null;
     }
 
-    void Start() {
-        LoadAssets();
+    protected override void LoadAssets() {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/CharSelectWindow");
     }
 
-    private void LoadAssets() {
-        if (_windowTemplate == null) {
-            _windowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Login/CharSelectWindow");
-        }
-        if (_windowTemplate == null) {
-            Debug.LogError("Could not load char select window template.");
-        }
-    }
+    protected override IEnumerator BuildWindow(VisualElement root) {
+        InitWindow(root);
 
-    public void AddWindow(VisualElement root) {
-        if (_windowTemplate == null) {
-            return;
-        }
-        StartCoroutine(BuildWindow(root));
-    }
+        yield return new WaitForEndOfFrame();
 
-    IEnumerator BuildWindow(VisualElement root) {
-        _windowEle = _windowTemplate.Instantiate()[0];
-
-        Button loginButton = GetButtonById("StartButton");
+        Button loginButton = (Button) GetElementById("StartButton");
         loginButton.AddManipulator(new ButtonClickSoundManipulator(loginButton));
         loginButton.RegisterCallback<ClickEvent>(evt => StartGamePressed());
 
-        Button deleteButton = GetButtonById("DeleteButton");
+        Button deleteButton = (Button)GetElementById("DeleteButton");
         deleteButton.AddManipulator(new ButtonClickSoundManipulator(deleteButton));
         deleteButton.RegisterCallback<ClickEvent>(evt => DeletePressed());
 
-        Button createButton = GetButtonById("CreateButton");
+        Button createButton = (Button)GetElementById("CreateButton");
         createButton.AddManipulator(new ButtonClickSoundManipulator(createButton));
         createButton.RegisterCallback<ClickEvent>(evt => CreatePressed());
 
-        Button reloginButton = GetButtonById("ReloginButton");
+        Button reloginButton = (Button)GetElementById("ReloginButton");
         reloginButton.AddManipulator(new ButtonClickSoundManipulator(reloginButton));
         reloginButton.RegisterCallback<ClickEvent>(evt => ReLoginPressed());
-
-        root.Add(_windowEle);
-
-        yield return new WaitForEndOfFrame();
-    }
-
-    private Button GetButtonById(string id) {
-        var btn = _windowEle.Q<Button>(id);
-        if (btn == null) {
-            Debug.LogError(id + " can't be found.");
-            return null;
-        }
-
-        return btn;
     }
 
     private void StartGamePressed() {
@@ -91,13 +60,5 @@ public class CharSelectWindow : MonoBehaviour {
 
     private void DeletePressed() {
 
-    }
-
-    public void HideWindow() {
-        _windowEle.style.display = DisplayStyle.None;
-    }
-
-    public void ShowWindow() {
-        _windowEle.style.display = DisplayStyle.Flex;
     }
 }
