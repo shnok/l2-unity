@@ -28,8 +28,8 @@ public class ServerSelectWindow : L2Window
     }
 
     protected override void LoadAssets() {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/ServerListWindow");
-        _serverElementTemplate = LoadAsset("Data/UI/_Elements/Login/ServerElement");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/ServerList/ServerListWindow");
+        _serverElementTemplate = LoadAsset("Data/UI/_Elements/Login/ServerList/ServerElement");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root) {

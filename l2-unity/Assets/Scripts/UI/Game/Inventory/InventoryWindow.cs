@@ -37,7 +37,7 @@ public class CharacterInventoryWindow : MonoBehaviour
     {
         if (_testUITemplate == null)
         {
-            _testUITemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Windows/CharacterInventory");
+            _testUITemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Game/Inventory/InventoryWindow");
         }
 
         if (_testUITemplate == null)

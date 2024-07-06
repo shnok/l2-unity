@@ -22,7 +22,7 @@ public class MouseOverDetectionManipulator : PointerManipulator {
 
     public void Disable() {
         _enabled = false;
-        if(_overThisManipulator) {
+        if (_overThisManipulator) {
             _ui.MouseOverUI = false;
         }
     }

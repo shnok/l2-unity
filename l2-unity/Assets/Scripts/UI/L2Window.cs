@@ -6,8 +6,8 @@ using UnityEngine.UIElements;
 public abstract class L2Window : MonoBehaviour {
     protected VisualTreeAsset _windowTemplate;
     protected VisualElement _windowEle;
-    private bool _isWindowHidden = false;
-    private MouseOverDetectionManipulator _mouseOverDetection;
+    protected bool _isWindowHidden = false;
+    protected MouseOverDetectionManipulator _mouseOverDetection;
 
     void Start() {
         _isWindowHidden = false;
@@ -38,6 +38,7 @@ public abstract class L2Window : MonoBehaviour {
         _windowEle.AddManipulator(_mouseOverDetection);
 
         if (_isWindowHidden) {
+            Debug.LogWarning("Disable: " + _windowEle);
             _mouseOverDetection.Disable();
         }
 
@@ -74,5 +75,23 @@ public abstract class L2Window : MonoBehaviour {
         }
 
         return btn;
+    }
+
+    public VisualElement GetElementByClass(string className) {
+        var btn = _windowEle.Q<VisualElement>(null, className);
+        if (btn == null) {
+            Debug.LogError(className + " can't be found.");
+            return null;
+        }
+
+        return btn;
+    }
+
+    public void BringToFront() {
+        _windowEle.BringToFront();
+    }
+
+    public void SendToBack() {
+        _windowEle.SendToBack();
     }
 }

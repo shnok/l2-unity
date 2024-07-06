@@ -102,7 +102,7 @@ public class ShortCutPanel : MonoBehaviour , IShortCutButton
     {
         if (_shortCutWindowsTemplate == null)
         {
-            _shortCutWindowsTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ShortCutPanel");
+            _shortCutWindowsTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Game/Skillbar/SkillbarWindow");
            
         }
         if (_shortCutWindowsTemplate == null)

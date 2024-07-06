@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ChatWindow : MonoBehaviour {
-    private VisualTreeAsset _chatWindowTemplate;
+public class ChatWindow : L2Window {
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
     private TextField _chatInput;
     private VisualElement _chatInputContainer;
     private VisualElement _chatTabView;
-    private VisualElement _chatWindowEle;
     private ChatTab _activeTab;
 
     [SerializeField] private float _chatWindowMinWidth = 225.0f;
@@ -39,49 +37,22 @@ public class ChatWindow : MonoBehaviour {
         _instance = null;
     }
 
-    void Start() {
-        LoadAssets();
+    protected override void LoadAssets() {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatWindow");
+        _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatTab");
+        _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatTabHeader");
     }
 
-    private void LoadAssets() {
-        if(_chatWindowTemplate == null) {
-            _chatWindowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ChatWindow");
-        }
-        if(_chatWindowTemplate == null) {
-            Debug.LogError("Could not load chat window template.");
-        }
-        if(_tabTemplate == null) {
-            _tabTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ChatTab");
-        }
-        if(_tabTemplate == null) {
-            Debug.LogError("Could not load chat tab template.");
-        }
-        if (_tabHeaderTemplate == null) {
-            _tabHeaderTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ChatTabHeader");
-        }
-        if (_tabHeaderTemplate == null) {
-            Debug.LogError("Could not load chat tab header template.");
-        }
-    }
+    protected override IEnumerator BuildWindow(VisualElement root) {
+        InitWindow(root);
 
-    public void AddWindow(VisualElement root) {
-        if(_chatWindowTemplate == null) {
-            return;
-        }
-        StartCoroutine(BuildWindow(root));
-    }
+        yield return new WaitForEndOfFrame();
 
-    IEnumerator BuildWindow(VisualElement root) {
-
-        _chatWindowEle = _chatWindowTemplate.Instantiate()[0];
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(_chatWindowEle);
-        _chatWindowEle.AddManipulator(mouseOverDetection);
-
-        var diagonalResizeHandle = _chatWindowEle.Q<VisualElement>(null, "resize-diag");
+        var diagonalResizeHandle = GetElementByClass("resize-diag");
 
         DiagonalResizeManipulator diagonalResizeManipulator = new DiagonalResizeManipulator(
             diagonalResizeHandle,
-            _chatWindowEle,
+            _windowEle,
             _chatWindowMinWidth,
             _chatWindowMaxWidth,
             _chatWindowMinHeight,
@@ -91,24 +62,22 @@ public class ChatWindow : MonoBehaviour {
 
         diagonalResizeHandle.AddManipulator(diagonalResizeManipulator);
 
-        _chatInput = _chatWindowEle.Q<TextField>("ChatInputField");
+        _chatInput = (TextField) GetElementById("ChatInputField");
         _chatInput.RegisterCallback<FocusEvent>(OnChatInputFocus);
         _chatInput.RegisterCallback<BlurEvent>(OnChatInputBlur);
         _chatInput.maxLength = _chatInputCharacterLimit;
 
-        var enlargeTextBtn = _chatWindowEle.Q<Button>("EnlargeTextBtn");
+        var enlargeTextBtn = (Button) GetElementById("EnlargeTextBtn");
         enlargeTextBtn.AddManipulator(new ButtonClickSoundManipulator(enlargeTextBtn));
 
-        var chatOptionsBtn = _chatWindowEle.Q<Button>("ChatOptionsBtn");
+        var chatOptionsBtn = (Button)GetElementById("ChatOptionsBtn");
         chatOptionsBtn.AddManipulator(new ButtonClickSoundManipulator(chatOptionsBtn));
 
         _chatInput.AddManipulator(new BlinkingCursorManipulator(_chatInput));
 
-        _chatInputContainer = _chatWindowEle.Q<VisualElement>("InnerBar");
+        _chatInputContainer = GetElementById("InnerBar");
 
         CreateTabs();
-
-        root.Add(_chatWindowEle);
 
         yield return new WaitForEndOfFrame();
         diagonalResizeManipulator.SnapSize();
@@ -116,7 +85,7 @@ public class ChatWindow : MonoBehaviour {
 
 
     private void CreateTabs() {
-        _chatTabView = _chatWindowEle.Q<VisualElement>("ChatTabView");
+        _chatTabView = GetElementById("ChatTabView");
 
         VisualElement tabHeaderContainer = _chatTabView.Q<VisualElement>("tab-header-container");
         if(tabHeaderContainer == null) {
@@ -141,7 +110,7 @@ public class ChatWindow : MonoBehaviour {
             tabHeaderContainer.Add(tabHeaderElement);
             tabContainer.Add(tabElement);
 
-            _tabs[i].Initialize(_chatWindowEle, tabElement, tabHeaderElement);
+            _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement);
         }
 
         if (_tabs.Count > 0) {

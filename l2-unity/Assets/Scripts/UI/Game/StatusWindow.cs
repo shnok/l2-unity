@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class StatusWindow : MonoBehaviour
+public class StatusWindow : L2Window
 {
     private Label _nameLabel;
     private Label _levelLabel;
@@ -17,7 +17,6 @@ public class StatusWindow : MonoBehaviour
     private VisualElement _HPBarBG;
     private VisualElement _MPBar;
     private VisualElement _MPBarBG;
-    private VisualTreeAsset _statusWindowTemplate;
 
     [SerializeField] private float _statusWindowMinWidth = 175.0f;
     [SerializeField] private float _statusWindowMaxWidth = 400.0f;
@@ -37,95 +36,83 @@ public class StatusWindow : MonoBehaviour
         _instance = null;
     }
 
-    void Start() {
-        if(_statusWindowTemplate == null) {
-            _statusWindowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/StatusWindow");
-        }
-        if(_statusWindowTemplate == null) {
-            Debug.LogError("Could not load status window template.");
-        }
+    protected override void LoadAssets() {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/StatusWindow");
     }
 
-    public void AddWindow(VisualElement root) {
-        if(_statusWindowTemplate == null) {
-            return;
-        }
+    protected override IEnumerator BuildWindow(VisualElement root) {
+        InitWindow(root);
 
-        var statusWindowEle = _statusWindowTemplate.Instantiate()[0];
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(statusWindowEle);
-        statusWindowEle.AddManipulator(mouseOverDetection);
+        yield return new WaitForEndOfFrame();
 
-        var statusWindowDragArea = statusWindowEle.Q<VisualElement>(null, "drag-area");
-        DragManipulator drag = new DragManipulator(statusWindowDragArea, statusWindowEle);
+        var statusWindowDragArea = GetElementByClass("drag-area");
+        DragManipulator drag = new DragManipulator(statusWindowDragArea, _windowEle);
         statusWindowDragArea.AddManipulator(drag);
 
-        var horizontalResizeHandle = statusWindowEle.Q<VisualElement>(null, "hor-resize-handle");
+        var horizontalResizeHandle = GetElementByClass("hor-resize-handle");
         HorizontalResizeManipulator horizontalResize = new HorizontalResizeManipulator(
-            horizontalResizeHandle, statusWindowEle, _statusWindowMinWidth, _statusWindowMaxWidth);
+            horizontalResizeHandle, _windowEle, _statusWindowMinWidth, _statusWindowMaxWidth);
         horizontalResizeHandle.AddManipulator(horizontalResize);
 
-        _nameLabel = statusWindowEle.Q<Label>("PlayerNameText");
+        _nameLabel = (Label)GetElementById("PlayerNameText");
         if(_nameLabel == null) {
             Debug.LogError("Status window PlayerNameText is null.");
         }
 
-        _levelLabel = statusWindowEle.Q<Label>("LevelText");
+        _levelLabel = (Label)GetElementById("LevelText");
         if(_levelLabel == null) {
             Debug.LogError("Status window LevelText is null.");
         }
 
-        _CPTextLabel = statusWindowEle.Q<Label>("CPText");
+        _CPTextLabel = (Label)GetElementById("CPText");
         if(_CPTextLabel == null) {
             Debug.LogError("Status window CPText is null.");
         }
 
-        _HPTextLabel = statusWindowEle.Q<Label>("HPText");
+        _HPTextLabel = (Label)GetElementById("HPText");
         if(_HPTextLabel == null) {
             Debug.LogError("Status window Hp text is null.");
         }
 
-        _MPTextLabel = statusWindowEle.Q<Label>("MPText");
+        _MPTextLabel = (Label)GetElementById("MPText");
         if(_MPTextLabel == null) {
             Debug.LogError("Status window MPText is null.");
         }
 
-        _CPBarBG = statusWindowEle.Q<VisualElement>("CPBarBG");
+        _CPBarBG = GetElementById("CPBarBG");
         if(_CPBarBG == null) {
             Debug.LogError("Status window CPBarBG is null");
         }
 
-        _CPBar = statusWindowEle.Q<VisualElement>("CPBar");
+        _CPBar = GetElementById("CPBar");
         if(_CPBar == null) {
             Debug.LogError("Status window CPBar is null");
         }
 
-        _HPBar = statusWindowEle.Q<VisualElement>("HPBar");
+        _HPBar = GetElementById("HPBar");
         if(_HPBar == null) {
             Debug.LogError("Status window HPBar is null");
         }
 
-        _HPBarBG = statusWindowEle.Q<VisualElement>("HPBarBG");
+        _HPBarBG = GetElementById("HPBarBG");
         if(_HPBarBG == null) {
             Debug.LogError("Status window HPBarBG is null");
         }
 
-        _HPBar = statusWindowEle.Q<VisualElement>("HPBar");
+        _HPBar = GetElementById("HPBar");
         if(_HPBar == null) {
             Debug.LogError("Status window HPBar is null");
         }
 
-        _MPBarBG = statusWindowEle.Q<VisualElement>("MPBarBG");
+        _MPBarBG = GetElementById("MPBarBG");
         if(_MPBarBG == null) {
             Debug.LogError("Status window MPBarBG is null");
         }
 
-        _MPBar = statusWindowEle.Q<VisualElement>("MPBar");
+        _MPBar = GetElementById("MPBar");
         if(_MPBar == null) {
             Debug.LogError("Status windowar MPBar is null");
         }
-
-
-        root.Add(statusWindowEle);
     }
 
     void FixedUpdate()
@@ -181,5 +168,7 @@ public class StatusWindow : MonoBehaviour
             float barWidth = bgWidth * mpRatio;
             _MPBar.style.width = barWidth;
         }
+
+        BringToFront();
     }
 }

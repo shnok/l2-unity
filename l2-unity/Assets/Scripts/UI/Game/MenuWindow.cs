@@ -4,11 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-public class MenuWindow : MonoBehaviour {
-
-    private VisualTreeAsset _windowTemplate;
-    private VisualElement _windowEle;
-
+public class MenuWindow : L2Window {
     private static MenuWindow _instance;
     public static MenuWindow Instance { get { return _instance; } }
 
@@ -24,30 +20,14 @@ public class MenuWindow : MonoBehaviour {
         _instance = null;
     }
 
-    void Start() {
-        LoadAssets();
+    protected override void LoadAssets() {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/MenuWindow");
     }
 
-    private void LoadAssets() {
-        if (_windowTemplate == null) {
-            _windowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/MenuWindow");
-        }
-        if (_windowTemplate == null) {
-            Debug.LogError("Could not load menu window template.");
-        }
-    }
+    protected override IEnumerator BuildWindow(VisualElement root) {
+        InitWindow(root);
 
-    public void AddWindow(VisualElement root) {
-        if (_windowTemplate == null) {
-            return;
-        }
-        StartCoroutine(BuildWindow(root));
-    }
-
-    IEnumerator BuildWindow(VisualElement root) {
-        _windowEle = _windowTemplate.Instantiate()[0];
-        MouseOverDetectionManipulator mouseOverDetection = new MouseOverDetectionManipulator(_windowEle);
-        _windowEle.AddManipulator(mouseOverDetection);
+        yield return new WaitForEndOfFrame();
 
         var charBtn = _windowEle.Q<Button>("CharacterButton");
         charBtn.AddManipulator(new ButtonClickSoundManipulator(charBtn));

@@ -13,9 +13,9 @@ public class ButtonCharacter
     }
 
 
-    public void RegisterButtonCloseWindow(VisualElement rootWindows, string buttonId)
+    public void RegisterButtonCloseWindow(string buttonId)
     {
-        var btn = rootWindows.Q<Button>(className: buttonId);
+        var btn = (Button) character.GetElementByClass(buttonId);
 
         if (btn == null)
         {
@@ -25,7 +25,7 @@ public class ButtonCharacter
 
         btn.RegisterCallback<MouseUpEvent>(evt => {
             Debug.Log("Click event");
-            character.HideElements(true, rootWindows);
+            character.HideWindow();
 
         }, TrickleDown.TrickleDown);
     }
@@ -40,12 +40,12 @@ public class ButtonCharacter
         }
 
         contentId.RegisterCallback<MouseDownEvent>(evt => {
-            character.BringFront();
+            character.BringToFront();
 
         }, TrickleDown.TrickleDown);
 
         headerId.RegisterCallback<MouseDownEvent>(evt => {
-            character.BringFront();
+            character.BringToFront();
         }, TrickleDown.TrickleDown);
     }
 }

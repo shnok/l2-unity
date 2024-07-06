@@ -45,7 +45,7 @@ namespace Assets.Scripts.UI
         {
             if (_overlayTemplate == null)
             {
-                _overlayTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/IconOverlay");
+                _overlayTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Game/Inventory/IconOverlay");
             }
             if (_overlayTemplate == null)
             {

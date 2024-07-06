@@ -130,7 +130,7 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
         {
             if (arrayTemplate[i] == null)
             {
-                arrayTemplate[i] = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ShortCutPanelMinimal");
+                arrayTemplate[i] = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Game/Skillbar/SkillbarWindowMinimal");
             }
         }
         return arrayTemplate;

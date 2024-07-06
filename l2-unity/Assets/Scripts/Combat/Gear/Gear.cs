@@ -41,8 +41,6 @@ public class Gear : MonoBehaviour {
             return;
         }
 
-        Debug.LogWarning("Equip weapon: " + weaponId);
-
         // Loading from database
         Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
         if (weapon == null) {

@@ -34,7 +34,7 @@ public class LobbyNameplatesManager : MonoBehaviour {
 
     void Start() {
         if (_nameplateTemplate == null) {
-            _nameplateTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Nameplate");
+            _nameplateTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Game/Nameplate");
         }
         if (_nameplateTemplate == null) {
             Debug.LogError("Could not load chat window template.");

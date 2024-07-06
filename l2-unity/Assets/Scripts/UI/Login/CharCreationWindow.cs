@@ -32,7 +32,7 @@ public class CharCreationWindow : L2Window {
 
     protected override void LoadAssets() {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Login/CharCreationWindow");
-        _arrowInputTemplate = LoadAsset("Data/UI/_Elements/ArrowInput");
+        _arrowInputTemplate = LoadAsset("Data/UI/_Elements/Template/ArrowInput");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root) {
