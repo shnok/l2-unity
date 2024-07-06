@@ -99,11 +99,6 @@ public class StatusWindow : L2Window
             Debug.LogError("Status window HPBarBG is null");
         }
 
-        _HPBar = GetElementById("HPBar");
-        if(_HPBar == null) {
-            Debug.LogError("Status window HPBar is null");
-        }
-
         _MPBarBG = GetElementById("MPBarBG");
         if(_MPBarBG == null) {
             Debug.LogError("Status window MPBarBG is null");

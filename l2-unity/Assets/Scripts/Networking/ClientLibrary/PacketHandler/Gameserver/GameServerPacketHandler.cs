@@ -150,6 +150,8 @@ public class GameServerPacketHandler : ServerPacketHandler
         Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
 
         EventProcessor.Instance.QueueEvent(() => {
+            CharSelectWindow.Instance.SetCharacterList(packet.Characters);
+            CharSelectWindow.Instance.SelectSlot(packet.SelectedSlotId);
             CharacterSelector.Instance.SetCharacterList(packet.Characters);
             CharacterSelector.Instance.SelectCharacter(packet.SelectedSlotId);
             LoginClient.Instance.Disconnect();
