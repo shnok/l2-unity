@@ -158,8 +158,19 @@ public class ButtonInventory
         grows.RegisterCallback<MouseDownEvent>(evt => {
             if(evt.currentTarget != null)
             {
-                var ve = (VisualElement)evt.currentTarget;
-                inventory.SelectRows(ve);
+                int id_mouse_button = evt.button;
+                //leftClick - 0
+                //rightCLick - 1
+                if(id_mouse_button == 0)
+                {
+                    var ve = (VisualElement)evt.currentTarget;
+                    inventory.SelectRows(ve);
+                }else if (id_mouse_button == 1)
+                {
+                    var ve = (VisualElement)evt.currentTarget;
+                    inventory.EquipItem(ve);
+                }
+              
             }
         }, TrickleDown.TrickleDown);
 
