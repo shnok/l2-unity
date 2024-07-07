@@ -65,6 +65,8 @@ For now the aim is to create a basic demo, therefore only basic features will be
 <ol> 
 <li>Open the "Menu" scene and drag&drop the l2_lobby scenes into your scene<br><br>
 <img src="https://i.imgur.com/aEBM3eJ.png" alt="Preview4" style="max-width: 50%; height: auto;"><br><br></li>
+<li>Add all the scenes in the build settings (0. Menu 1. L2_lobby 2. Game then the remaining scenes)<br><br>
+<img src="https://i.imgur.com/qMyP1vi.png" alt="Preview4" style="max-width: 50%; height: auto;"><br><br></li>
 <li> Download and run the <a href="https://github.com/shnok/unity-mmo-loginserver">loginserver</a> project</li>
 <li> Download and run the <a href="https://github.com/shnok/unity-mmo-gameserver">gameserver</a> project</li>
 </ol>
