@@ -191,7 +191,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         UpdatePositionPacket packet = new UpdatePositionPacket(data);
         int id = packet.Id;
         Vector3 position = packet.Position;
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectPosition(id, position));
+        World.Instance.UpdateObjectPosition(id, position);
     }
 
     private void OnRemoveObject(byte[] data) {
@@ -203,7 +203,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         UpdateRotationPacket packet = new UpdateRotationPacket(data);
         int id = packet.Id;
         float angle = packet.Angle;
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectRotation(id, angle));
+        World.Instance.UpdateObjectRotation(id, angle);
     }
 
     private void OnUpdateAnimation(byte[] data) {
@@ -211,12 +211,13 @@ public class GameServerPacketHandler : ServerPacketHandler
         int id = packet.Id;
         int animId = packet.AnimId;
         float value = packet.Value;
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectAnimation(id, animId, value));
+
+        World.Instance.UpdateObjectAnimation(id, animId, value);
     }
 
     private void OnInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.Value, packet.NewHp, packet.CriticalHit)); 
+        World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.Value, packet.NewHp, packet.CriticalHit); 
     }
 
     private void OnNpcInfoReceive(byte[] data) {
@@ -226,35 +227,35 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnObjectMoveTo(byte[] data) {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectDestination(packet.Id, packet.Pos, packet.Speed, packet.Walking));
+        World.Instance.UpdateObjectDestination(packet.Id, packet.Pos, packet.Speed, packet.Walking);
 
     }
 
     private void OnUpdateMoveDirection(byte[] data) {
         UpdateMoveDirectionPacket packet = new UpdateMoveDirectionPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateObjectMoveDirection(packet.Id, packet.Speed, packet.Direction));
+        World.Instance.UpdateObjectMoveDirection(packet.Id, packet.Speed, packet.Direction);
     }
 
     private void OnUpdateGameTime(byte[] data) {
         GameTimePacket packet = new GameTimePacket(data);
-        _eventProcessor.QueueEvent(() => WorldClock.Instance.SynchronizeClock(packet.GameTicks, packet.TickDurationMs, packet.DayDurationMins));
+        WorldClock.Instance.SynchronizeClock(packet.GameTicks, packet.TickDurationMs, packet.DayDurationMins);
     }
 
     private void OnEntitySetTarget(byte[] data) {
         EntitySetTargetPacket packet = new EntitySetTargetPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.UpdateEntityTarget(packet.EntityId, packet.TargetId));
+        World.Instance.UpdateEntityTarget(packet.EntityId, packet.TargetId);
     }
 
     private void OnEntityAutoAttackStart(byte[] data) {
         Debug.Log("OnEntityAutoAttackStart");
         AutoAttackStartPacket packet = new AutoAttackStartPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.EntityStartAutoAttacking(packet.EntityId));
+        World.Instance.EntityStartAutoAttacking(packet.EntityId);
     }
 
     private void OnEntityAutoAttackStop(byte[] data) {
         Debug.Log("OnEntityAutoAttackStop");
         AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.EntityStopAutoAttacking(packet.EntityId));
+        World.Instance.EntityStopAutoAttacking(packet.EntityId);
     }
 
     private void OnActionFailed(byte[] data) {
