@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStateAtkWait : PlayerStateAction {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
+        SetBool("atkwait_" + _weaponAnim, false, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

@@ -132,9 +132,6 @@ public class CharSelectWindow : L2Window {
             float hpRatio = (float)_characters[slot].PlayerStatus.Hp / _characters[slot].PlayerStatus.MaxHp;
             float bgWidth = _HPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * hpRatio;
-            Debug.LogWarning(hpRatio);
-            Debug.LogWarning(bgWidth);
-            Debug.LogWarning(barWidth);
             _HPBar.style.width = barWidth;
         }
 

@@ -19,6 +19,7 @@ public class PlayerStateAtk : PlayerStateAction {
 
         PlayerAnimationController.Instance.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
+        SetBool("atkwait_" + _weaponAnim, false, false);
         SetBool("atk01_" + _weaponAnim, false, false);
 
         if(TargetManager.Instance.HasAttackTarget()) {
@@ -64,11 +65,18 @@ public class PlayerStateAtk : PlayerStateAction {
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if(!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack")) {
+        if (!_enabled) {
+            return;
+        }
+
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack")) {
             Debug.Log("Exiting atk state. Next tag: " + animator.GetCurrentAnimatorStateInfo(0).tagHash);
-            PlayerCombatController.Instance.AutoAttacking = false;
-            PlayerEntity.Instance.StopAutoAttacking();
-            PlayerController.Instance.SetCanMove(true);
+            if(PlayerCombatController.Instance.AutoAttacking) {
+                Debug.LogWarning("Exited attack animation but client is still attacking!");
+                //PlayerCombatController.Instance.AutoAttacking = false;
+                //PlayerEntity.Instance.StopAutoAttacking();
+                //PlayerController.Instance.SetCanMove(true);
+            }
         }
     }
 }

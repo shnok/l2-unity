@@ -10,7 +10,7 @@ public class UserStateAction : UserStateBase
     }
 
     public bool IsAttacking() {
-        return _animator.GetBool("atk01_" + _weaponAnim);
+        return _animator.GetBool("atk01_" + _weaponAnim) || _animator.GetNextAnimatorStateInfo(0).IsName("atk01_" + _weaponAnim);
     }
 
     protected bool ShouldAtkWait() {

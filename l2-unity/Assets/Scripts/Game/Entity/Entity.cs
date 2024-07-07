@@ -131,7 +131,6 @@ public class Entity : MonoBehaviour {
     public virtual bool StopAutoAttacking() {
         Debug.Log($"[{Identity.Name}] Stop autoattacking");
         if (_attackTarget == null) {
-            Debug.Log("AttackTarget was null");
             return false;
         }
 

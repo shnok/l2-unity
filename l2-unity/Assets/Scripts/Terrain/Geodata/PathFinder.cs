@@ -68,7 +68,7 @@ public class PathFinder
             // Current node is the destination node
             // Path was found
             if (node.nodeIndex.Equals(end.nodeIndex)) {
-                Debug.Log($"Found path - {start.center} to {end.center} after {i} iteration(s).");
+               // Debug.Log($"Found path - {start.center} to {end.center} after {i} iteration(s).");
                 return ConstructPathFull(node);
             }
 

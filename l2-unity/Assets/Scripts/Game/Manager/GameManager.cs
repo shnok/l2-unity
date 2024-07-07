@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour {
 
     public void OnStartingGame() {
         Debug.Log("On Starting game");
-        L2LoginUI.Instance.StartLoading();
+        //L2LoginUI.Instance.StartLoading();
     }
 
     public void OnGameLaunched() {

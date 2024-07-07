@@ -17,6 +17,8 @@ public class World : MonoBehaviour {
     [SerializeField] private GameObject _npcsContainer;
     [SerializeField] private GameObject _usersContainer;
 
+    private EventProcessor _eventProcessor;
+
     private Dictionary<int, Entity> _players = new Dictionary<int, Entity>();
     private Dictionary<int, Entity> _npcs = new Dictionary<int, Entity>();
     private Dictionary<int, Entity> _objects = new Dictionary<int, Entity>();
@@ -43,6 +45,7 @@ public class World : MonoBehaviour {
             Destroy(this);
         }
 
+        _eventProcessor = EventProcessor.Instance;
         _playerPlaceholder = Resources.Load<GameObject>("Prefab/Player_FDarkElf");
         _userPlaceholder = Resources.Load<GameObject>("Prefab/User_FDarkElf");
         _npcPlaceHolder = Resources.Load<GameObject>("Prefab/Npc");
@@ -107,9 +110,6 @@ public class World : MonoBehaviour {
 
         PlayerEntity player = go.GetComponent<PlayerEntity>();
 
-        _players.Add(identity.Id, player);
-        _objects.Add(identity.Id, player);
-
         player.Status = status;
         player.Identity = identity;
         player.Stats = stats;
@@ -134,6 +134,9 @@ public class World : MonoBehaviour {
         ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
 
 
+        _players.Add(identity.Id, player);
+        _objects.Add(identity.Id, player);
+
     }
 
     public void SpawnUser(NetworkIdentity identity, Status status, Stats stats, PlayerAppearance appearance) {
@@ -149,9 +152,6 @@ public class World : MonoBehaviour {
         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
 
         UserEntity user = go.GetComponent<UserEntity>();
-
-        _players.Add(identity.Id, user);
-        _objects.Add(identity.Id, user);
 
         user.Status = status;
         user.Identity = identity;
@@ -171,6 +171,9 @@ public class World : MonoBehaviour {
         user.Initialize();
 
         go.transform.SetParent(_usersContainer.transform);
+
+        _players.Add(identity.Id, user);
+        _objects.Add(identity.Id, user);
     }
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status, Stats stats) {
@@ -206,9 +209,6 @@ public class World : MonoBehaviour {
             ((MonsterEntity)npc).NpcData = npcData;
         }
 
-        _npcs.Add(identity.Id, npc);
-        _objects.Add(identity.Id, npc);
-
         Appearance appearance = new Appearance();
         appearance.RHand = npcgrp.Rhand;
         appearance.LHand = npcgrp.Lhand;
@@ -241,7 +241,8 @@ public class World : MonoBehaviour {
         npcGo.GetComponent<Gear>().Initialize(npc.Identity.Id, npc.RaceId);
         npc.Initialize();
 
-
+        _npcs.Add(identity.Id, npc);
+        _objects.Add(identity.Id, npc);
     }
 
     public float GetGroundHeight(Vector3 pos) {
@@ -324,26 +325,27 @@ public class World : MonoBehaviour {
 
     // Wait for entity to be fully loaded
     private async Task<Entity> GetEntityAsync(int id) {
-        if (!_objects.TryGetValue(id, out Entity entity)) {
-            Debug.LogWarning($"GetEntityAsync - Entity {id} not found, retrying...");
-            await Task.Delay(150); // Wait for 150 ms retrying
+        Entity entity;
+        lock (_objects) {
             if (!_objects.TryGetValue(id, out entity)) {
-                Debug.LogWarning($"GetEntityAsync - Entity {id} not found after retry");
-                return null;
+                //Debug.LogWarning($"GetEntityAsync - Entity {id} not found, retrying...");
             }
         }
 
-        using (var cts = new CancellationTokenSource(3000)) {
-            try {
-                while (!entity.EntityLoaded) {
-                    await Task.Delay(100, cts.Token);
+        if (entity == null) {
+            await Task.Delay(150); // Wait for 150 ms retrying
+
+            lock (_objects) {
+                if (!_objects.TryGetValue(id, out entity)) {
+                    Debug.LogWarning($"GetEntityAsync - Entity {id} not found after retry");
+                    return null;
+                } else {
+                   // Debug.LogWarning($"GetEntityAsync - Entity {id} found after retry");
                 }
-                return entity;
-            } catch (TaskCanceledException) {
-                Debug.LogWarning($"GetEntityAsync timeout - Target {id}");
-                return null;
             }
         }
+
+        return entity;
     }
 
     // Execute action after entity is loaded
@@ -351,7 +353,7 @@ public class World : MonoBehaviour {
         var entity = await GetEntityAsync(id);
         if (entity != null) {
             try {
-                action(entity);
+                _eventProcessor.QueueEvent(() => action(entity));
             } catch (Exception ex) {
                 Debug.LogWarning($"Operation failed - Target {id} - Error {ex.Message}");
             }
@@ -370,7 +372,7 @@ public class World : MonoBehaviour {
 
         if (entity1 != null && entity2 != null) {
             try {
-                action(entity1, entity2);
+                _eventProcessor.QueueEvent(() => action(entity1, entity2));
             } catch (Exception ex) {
                 Debug.LogWarning($"Operation failed - Target {id1} or {id2} - Error {ex.Message}");
             }
