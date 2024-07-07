@@ -76,20 +76,27 @@ public class PlayerEntity : Entity {
 
     public override bool StartAutoAttacking() {
         if (base.StartAutoAttacking()) {
+            if(TargetManager.Instance.AttackTarget == null) {
+                PlayerAnimationController.Instance.SetBool("wait_" + _gear.WeaponAnim, true, false);
+                return false;
+            }
+
             PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
-            PlayerAnimationController.Instance.SetBool("atk01_" + _gear.WeaponAnim, true);
+            PlayerAnimationController.Instance.SetBool("atk01_" + _gear.WeaponAnim, true, false);
         }
 
         return true;
     }
 
     public override bool StopAutoAttacking() {
-        if (base.StopAutoAttacking()) {
+        base.StopAutoAttacking();
+        //if (base.StopAutoAttacking()) {
+            PlayerController.Instance.SetCanMove(true);
             PlayerController.Instance.StopLookAt();
-            if(!PlayerController.Instance.IsMoving()) {
-                PlayerAnimationController.Instance.SetBool("atkwait_" + _gear.WeaponAnim, true);
+            if (!PlayerController.Instance.IsMoving()) {
+                PlayerAnimationController.Instance.SetBool("atkwait_" + _gear.WeaponAnim, true, false);
             }
-        }
+       // }
 
         return true;
     }

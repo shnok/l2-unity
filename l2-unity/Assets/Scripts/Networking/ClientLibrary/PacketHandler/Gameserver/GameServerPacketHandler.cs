@@ -247,19 +247,20 @@ public class GameServerPacketHandler : ServerPacketHandler
     }
 
     private void OnEntityAutoAttackStart(byte[] data) {
-        Debug.Log("OnEntityAutoAttackStart");
+        Debug.LogWarning("OnEntityAutoAttackStart");
         AutoAttackStartPacket packet = new AutoAttackStartPacket(data);
         World.Instance.EntityStartAutoAttacking(packet.EntityId);
     }
 
     private void OnEntityAutoAttackStop(byte[] data) {
-        Debug.Log("OnEntityAutoAttackStop");
+        Debug.LogWarning("OnEntityAutoAttackStop");
         AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
         World.Instance.EntityStopAutoAttacking(packet.EntityId);
     }
 
     private void OnActionFailed(byte[] data) {
         ActionFailedPacket packet = new ActionFailedPacket(data);
+        Debug.LogWarning($"Action failed");
         _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
     }
 

@@ -18,6 +18,7 @@ public class UserStateAtk : UserStateBase {
 
         _networkAnimationController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
+        SetBool("wait_" + _weaponAnim, false);
         SetBool("atkwait_" + _weaponAnim, false);
         SetBool("atk01_" + _weaponAnim, false);
 

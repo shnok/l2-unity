@@ -44,6 +44,9 @@ public class UserStateRun : UserStateAction {
         }
 
         if(!IsMoving() && (stateInfo.normalizedTime) >= 0.10f) {
+            if(IsAttacking()) {
+                return;
+            }
             if (ShouldAtkWait()) {
                 SetBool("atkwait_" + _weaponAnim, true);
                 return;

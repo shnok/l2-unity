@@ -11,6 +11,21 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
     [SerializeField] private Vector3 _lastDirection;
     [SerializeField] private long _lastSharingTimestamp = 0;
 
+    private static NetworkCharacterControllerShare _instance;
+    public static NetworkCharacterControllerShare Instance { get { return _instance; } }
+
+    public void Awake() {
+        if (_instance == null) {
+            _instance = this;
+        } else {
+            Destroy(this);
+        }
+    }
+
+    private void OnDestroy() {
+        _instance = null;
+    }
+
     void Start() {
         _characterController = GetComponent<CharacterController>();
         if(_characterController == null || World.Instance.OfflineMode) {
@@ -63,5 +78,9 @@ public class NetworkCharacterControllerShare : MonoBehaviour {
     public void ShareMoveDirection(Vector3 moveDirection) {
         _lastDirection = moveDirection;
         GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(moveDirection); 
+    }
+
+    public void ForceShareMoveDirection() {
+        ShareMoveDirection(PlayerController.Instance.MoveDirection.normalized);
     }
 }

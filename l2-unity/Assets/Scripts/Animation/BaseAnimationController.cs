@@ -48,6 +48,9 @@ public class BaseAnimationController : MonoBehaviour
     }
 
     public void SetBool(string name, bool value) {
+        //if (value != _animator.GetBool(name)) {
+        //    Debug.LogWarning($"Set bool {name}={value}");
+        //}
         _animator.SetBool(name, value);
     }
 
