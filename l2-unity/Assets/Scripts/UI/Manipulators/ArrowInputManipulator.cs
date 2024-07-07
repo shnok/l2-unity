@@ -12,17 +12,26 @@ public class ArrowInputManipulator : PointerManipulator {
     private Button _rightArrow;
     private Action<int, string> _onArrowClick;
     private int _index;
+    private int _defaultIndex;
 
     public String Value { get { return _textField.value; } }
+    public int Index { get { return _index; } }
 
     public ArrowInputManipulator(VisualElement target, string label, string[] values, int defaultIndex, Action<int, string> onArrowClick) {
         this.target = target;
         _label.text = label;
         _values = values;
+        _index = defaultIndex;
         if(defaultIndex != -1) {
             _textField.value = values[defaultIndex];
         }
         _onArrowClick = onArrowClick;
+    }
+
+    public void UpdateValues(string[] newVals) {
+        _values = newVals;
+        _index = -1;
+        _textField.value = "";
     }
 
     private void LoadElements() {
@@ -67,6 +76,16 @@ public class ArrowInputManipulator : PointerManipulator {
         Debug.Log(_textField.value);
 
         _onArrowClick(_index, _textField.value);
+    }
+
+    public void SelectIndex(int index) {
+        if (index < 0 || index >= _values.Length) {
+            Debug.LogWarning($"Trying to select wrong index [{index}] for arrow manipulator.");
+            return;
+        }
+
+        _index = index;
+        _textField.value = _values[_index];
     }
 
     public void ClearInput() {

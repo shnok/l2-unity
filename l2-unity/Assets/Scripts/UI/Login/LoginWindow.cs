@@ -4,10 +4,8 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LoginWindow : MonoBehaviour
+public class LoginWindow : L2Window
 {
-    private VisualTreeAsset _windowTemplate;
-    private VisualElement _windowEle;
     private VisualElement _logo;
     private TextField _userInput;
     private TextField _passwordInput;
@@ -27,39 +25,25 @@ public class LoginWindow : MonoBehaviour
         _instance = null;
     }
 
-    void Start() {
-        LoadAssets();
+    protected override void LoadAssets() {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/LoginWindow");
     }
 
-    private void LoadAssets() {
-        if (_windowTemplate == null) {
-            _windowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Login/LoginWindow");
-        }
-        if (_windowTemplate == null) {
-            Debug.LogError("Could not load login window template.");
-        }
-    }
+    protected override IEnumerator BuildWindow(VisualElement root) {
+        InitWindow(root);
 
-    public void AddWindow(VisualElement root) {
-        if (_windowTemplate == null) {
-            return;
-        }
-        StartCoroutine(BuildWindow(root));
-    }
+        yield return new WaitForEndOfFrame();
 
-    IEnumerator BuildWindow(VisualElement root) {
-        _windowEle = _windowTemplate.Instantiate()[0];
-
-        Button loginButton = GetButtonById("LoginButton");
+        Button loginButton = (Button) GetElementById("LoginButton");
         loginButton.AddManipulator(new ButtonClickSoundManipulator(loginButton));
         loginButton.RegisterCallback<ClickEvent>(evt => LoginButtonPressed());
 
-        Button exitButton = GetButtonById("ExitButton");
+        Button exitButton = (Button)GetElementById("ExitButton");
         exitButton.AddManipulator(new ButtonClickSoundManipulator(exitButton));
         exitButton.RegisterCallback<ClickEvent>(evt => ExitButtonPressed());
 
-        VisualElement userInputBg = _windowEle.Q<VisualElement>("UserInputBg");
-        _userInput = _windowEle.Q<TextField>("UserInputField");
+        VisualElement userInputBg = GetElementById("UserInputBg");
+        _userInput = (TextField) GetElementById("UserInputField");
         _userInput.RegisterCallback<FocusEvent>((evt) => OnInputFocus(evt, _userInput));
         _userInput.RegisterCallback<BlurEvent>((evt) => OnInputBlur(evt, _userInput));
         _userInput.maxLength = 16;
@@ -68,8 +52,8 @@ public class LoginWindow : MonoBehaviour
         _userInput.AddManipulator(new HighlightedInputFieldManipulator(_userInput, userInputBg, 20));
         _userInput.AddManipulator(new BlinkingCursorManipulator(_userInput));
 
-        VisualElement passwordInputBg = _windowEle.Q<VisualElement>("PasswordInputBg");
-        _passwordInput = _windowEle.Q<TextField>("PasswordInputField");
+        VisualElement passwordInputBg = GetElementById("PasswordInputBg");
+        _passwordInput = (TextField)GetElementById("PasswordInputField");
         _passwordInput.RegisterCallback<FocusEvent>((evt) => OnInputFocus(evt, _passwordInput));
         _passwordInput.RegisterCallback<BlurEvent>((evt) => OnInputBlur(evt, _passwordInput));
         _passwordInput.maxLength = 16;
@@ -78,11 +62,8 @@ public class LoginWindow : MonoBehaviour
         _passwordInput.AddManipulator(new BlinkingCursorManipulator(_passwordInput));
 
         _logo = root.Q<VisualElement>("L2Logo");
-
-        root.Add(_windowEle);
-
-        yield return new WaitForEndOfFrame();
     }
+
     private void OnLoginInputChanged(ChangeEvent<string> evt) {
         string username = evt.newValue;
 
@@ -108,16 +89,6 @@ public class LoginWindow : MonoBehaviour
         }
     }
 
-    private Button GetButtonById(string id) {
-        var btn = _windowEle.Q<Button>(id);
-        if (btn == null) {
-            Debug.LogError(id + " can't be found.");
-            return null;
-        }
-
-        return btn;
-    }
-
     private void LoginButtonPressed() {
         if (_userInput.text.Length == 0 && _passwordInput.text.Length == 0) {
             _userInput.value = "Shnok";
@@ -135,13 +106,13 @@ public class LoginWindow : MonoBehaviour
         Application.Quit();
     }
 
-    public void HideWindow() {
-        _windowEle.style.display = DisplayStyle.None;
+    public override void HideWindow() {
+        base.HideWindow();
         _logo.style.display = DisplayStyle.None;
     }
 
-    public void ShowWindow() {
-        _windowEle.style.display = DisplayStyle.Flex;
+    public override void ShowWindow() {
+        base.ShowWindow();
         _logo.style.display = DisplayStyle.Flex;
     }
 }

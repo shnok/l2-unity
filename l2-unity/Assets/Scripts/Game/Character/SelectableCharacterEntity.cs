@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectableCharacterEntity : MonoBehaviour
 {
-    [SerializeField] private float _walkSpeed = 1;
+    private float _walkSpeed = 1.5f;
     [SerializeField] private string _weaponAnim;
     [SerializeField] private Vector3 _destination;
     [SerializeField] private Vector3 _destEulerAngles;

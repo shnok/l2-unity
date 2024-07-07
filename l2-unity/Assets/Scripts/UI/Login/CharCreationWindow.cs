@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CharCreationWindow : MonoBehaviour {
-    private VisualTreeAsset _windowTemplate;
+public class CharCreationWindow : L2Window {
     private VisualTreeAsset _arrowInputTemplate;
-    private VisualElement _windowEle;
     private ArrowInputManipulator hairstyleManipulator;
     private ArrowInputManipulator hairColorManipulator;
     private ArrowInputManipulator faceManipulator;
@@ -16,6 +14,7 @@ public class CharCreationWindow : MonoBehaviour {
     private TextField userInputField;
     private VisualElement pawnRotateWindow;
     private Button pawnZoominButton;
+
     private static CharCreationWindow _instance;
     public static CharCreationWindow Instance { get { return _instance; } }
 
@@ -31,50 +30,30 @@ public class CharCreationWindow : MonoBehaviour {
         _instance = null;
     }
 
-    void Start() {
-        LoadAssets();
+    protected override void LoadAssets() {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/CharCreationWindow");
+        _arrowInputTemplate = LoadAsset("Data/UI/_Elements/Template/ArrowInput");
     }
 
-    private void LoadAssets() {
-        if (_windowTemplate == null) {
-            _windowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Login/CharCreationWindow");
-        }
-        if (_windowTemplate == null) {
-            Debug.LogError("Could not load char creation window template.");
-        }
+    protected override IEnumerator BuildWindow(VisualElement root) {
+        InitWindow(root);
 
-        if (_arrowInputTemplate == null) {
-            _arrowInputTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/ArrowInput");
-        }
-        if (_windowTemplate == null) {
-            Debug.LogError("Could not load arrow input template.");
-        }
-    }
+        yield return new WaitForEndOfFrame();
 
-    public void AddWindow(VisualElement root) {
-        if (_windowTemplate == null) {
-            return;
-        }
-        StartCoroutine(BuildWindow(root));
-    }
-
-    IEnumerator BuildWindow(VisualElement root) {
-        _windowEle = _windowTemplate.Instantiate()[0];
-
-        userInputField = _windowEle.Q<TextField>("UserInputField");
+        userInputField = (TextField) GetElementById("UserInputField");
         userInputField.AddManipulator(new BlinkingCursorManipulator(userInputField));
 
-        Button createButton = GetButtonById("CreateButton");
+        Button createButton = (Button) GetElementById("CreateButton");
         createButton.AddManipulator(new ButtonClickSoundManipulator(createButton));
         createButton.RegisterCallback<ClickEvent>(evt => CreateButtonPressed());
 
-        Button previousButton = GetButtonById("PreviousButton");
+        Button previousButton = (Button)GetElementById("PreviousButton");
         previousButton.AddManipulator(new ButtonClickSoundManipulator(previousButton));
         previousButton.RegisterCallback<ClickEvent>(evt => PreviousButtonPressed());
 
-        VisualElement charDetailWindow = _windowEle.Q<VisualElement>("CharCreationDetailWindow");
+        VisualElement charDetailWindow = GetElementById("CharCreationDetailWindow");
 
-        pawnRotateWindow = _windowEle.Q<VisualElement>("CharacterRotateWindow");
+        pawnRotateWindow = GetElementById("CharacterRotateWindow");
         HideRotatePawnWindow();
 
         Button pawnRotateLeftButton = pawnRotateWindow.Q<Button>("TurnLeftButton");
@@ -112,9 +91,6 @@ public class CharCreationWindow : MonoBehaviour {
         VisualElement hairColorInput = _arrowInputTemplate.Instantiate()[0];
         VisualElement faceInput = _arrowInputTemplate.Instantiate()[0];
 
-        root.Add(_windowEle);
-
-        yield return new WaitForEndOfFrame();
 
         hairstyleManipulator = new ArrowInputManipulator(hairstyleInput, "Hairstyle", new string[] { "Type A", "Type B", "Type C", "Type D", "Type E" }, -1, (index, value) => {
             if (CharacterCreator.Instance.PawnIndex == -1) {
@@ -211,16 +187,6 @@ public class CharCreationWindow : MonoBehaviour {
     }
 
 
-    private Button GetButtonById(string id) {
-        var btn = _windowEle.Q<Button>(id);
-        if (btn == null) {
-            Debug.LogError(id + " can't be found.");
-            return null;
-        }
-
-        return btn;
-    }
-
     private void CreateButtonPressed() {
     }
 
@@ -234,14 +200,6 @@ public class CharCreationWindow : MonoBehaviour {
         userInputField.value = "";
 
         GameManager.Instance.OnAuthAllowed();
-    }
-
-    public void HideWindow() {
-        _windowEle.style.display = DisplayStyle.None;
-    }
-
-    public void ShowWindow() {
-        _windowEle.style.display = DisplayStyle.Flex;
     }
 
     private void ShowRotatePawnWindow() {

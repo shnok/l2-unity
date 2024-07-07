@@ -71,6 +71,8 @@ public class CharacterSelector : MonoBehaviour
 
             _selectedCharacterSlot = slot;
             _selectedCharacter = _characters[slot];
+
+            CharSelectWindow.Instance.SelectSlot(slot);
         }
     }
 

@@ -1,21 +1,10 @@
 ﻿using Assets.Scripts.UI;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 using static NativeFunctions;
 
-public class L2GameUI : MonoBehaviour {
+public class L2GameUI : L2UI {
     private NativeCoords _lastMousePosition;
-    private VisualElement _rootElement;
-
-    [SerializeField] private bool _uiLoaded = false;
-    [SerializeField] private Focusable _focusedElement;
     [SerializeField] private bool _mouseEnabled = true;
-    [SerializeField] private bool _mouseOverUI = false;
-    [SerializeField] private VisualElement _loadingElement;
-
-    public bool MouseOverUI { get { return _mouseOverUI; } set { _mouseOverUI = value; } }
-    public bool UILoaded { get { return _uiLoaded; } set { _uiLoaded = value; } }
 
     private static L2GameUI _instance;
     public static L2GameUI Instance { get { return _instance; } }
@@ -32,55 +21,32 @@ public class L2GameUI : MonoBehaviour {
         _instance = null;
     }
 
-    public void Update() {
-        if(_rootElement != null && !float.IsNaN(_rootElement.resolvedStyle.width) && _uiLoaded == false) {
-            LoadUI();
-            _uiLoaded = true;
-        } else {
-            _rootElement = GetComponent<UIDocument>().rootVisualElement;
-        }
+    protected override void Update() {
+        base.Update();
 
-        if(_uiLoaded) {
-            _focusedElement = _rootElement.focusController.focusedElement;
-        }
-
-        if(InputManager.Instance.IsInputPressed(InputType.TurnCamera)) {
+        if (InputManager.Instance.IsInputPressed(InputType.TurnCamera)) {
             DisableMouse();
         } else {
             EnableMouse();
         }
     }
-
-    public VisualElement GetRootElement() {
-        if(_rootElement != null) {
-            return _rootElement;
-        }
-        return null;
-    }
-
-    public void BlurFocus() {
-        if(_focusedElement != null) {
-            _focusedElement.Blur();
-        }
-    }
-
-    private void LoadUI() {
-        VisualElement rootVisualContainer = _rootElement.Q<VisualElement>("UIContainer");
-
-        _loadingElement = _rootElement.Q<VisualElement>("Loading");
+  
+    protected override void LoadUI() {
+        base.LoadUI();
 
         StartLoading();
 
-        MenuWindow.Instance.AddWindow(rootVisualContainer);
+        MenuWindow.Instance.AddWindow(_rootVisualContainer);
         // SKillbar needs updates
         //ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
         //ShortCutPanel.Instance.AddWindow(rootVisualContainer);
-        IconOverlay.Instance.AddWindow(rootVisualContainer);
-        StatusWindow.Instance.AddWindow(rootVisualContainer);
-        CharacterInventoryWindow.Instance.AddWindow(rootVisualContainer);
-        CharacterInfoWindow.Instance.AddWindow(rootVisualContainer);
-        ChatWindow.Instance.AddWindow(rootVisualContainer);
-        TargetWindow.Instance.AddWindow(rootVisualContainer);
+        IconOverlay.Instance.AddWindow(_rootVisualContainer);
+        StatusWindow.Instance.AddWindow(_rootVisualContainer);
+        CharacterInventoryWindow.Instance.AddWindow(_rootVisualContainer);
+        CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
+        CharacterInfoWindow.Instance.HideWindow();
+        ChatWindow.Instance.AddWindow(_rootVisualContainer);
+        TargetWindow.Instance.AddWindow(_rootVisualContainer);
     }
 
     public void EnableMouse() {
@@ -104,18 +70,6 @@ public class L2GameUI : MonoBehaviour {
         } else {
             UnityEngine.Cursor.visible = false;
             UnityEngine.Cursor.lockState = CursorLockMode.Confined;
-        }
-    }
-
-    public void StartLoading() {
-        if (_loadingElement != null) {
-            _loadingElement.style.display = DisplayStyle.Flex;
-        }
-    }
-
-    public void StopLoading() {
-        if (_loadingElement != null) {
-            _loadingElement.style.display = DisplayStyle.None;
         }
     }
 }

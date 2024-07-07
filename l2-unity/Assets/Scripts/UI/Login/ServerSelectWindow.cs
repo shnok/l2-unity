@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static ServerListPacket;
 
-public class ServerSelectWindow : MonoBehaviour
+public class ServerSelectWindow : L2Window
 {
-    private VisualTreeAsset _windowTemplate;
     private VisualTreeAsset _serverElementTemplate;
-    private VisualElement _windowEle;
     private VisualElement _listContentContainer;
     private List<VisualElement> _serverElements;
     private List<ServerData> _serverData;
@@ -29,34 +27,15 @@ public class ServerSelectWindow : MonoBehaviour
         _instance = null;
     }
 
-    void Start() {
-        LoadAssets();
+    protected override void LoadAssets() {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/ServerList/ServerListWindow");
+        _serverElementTemplate = LoadAsset("Data/UI/_Elements/Login/ServerList/ServerElement");
     }
 
-    private void LoadAssets() {
-        if (_windowTemplate == null) {
-            _windowTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Login/ServerListWindow");
-        }
-        if (_windowTemplate == null) {
-            Debug.LogError("Could not load ServerListWindow template.");
-        }
-        if (_serverElementTemplate == null) {
-            _serverElementTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Login/ServerElement");
-        }
-        if (_serverElementTemplate == null) {
-            Debug.LogError("Could not load ServerElement template.");
-        }
-    }
+    protected override IEnumerator BuildWindow(VisualElement root) {
+        InitWindow(root);
 
-    public void AddWindow(VisualElement root) {
-        if (_windowTemplate == null) {
-            return;
-        }
-        StartCoroutine(BuildWindow(root));
-    }
-
-    IEnumerator BuildWindow(VisualElement root) {
-        _windowEle = _windowTemplate.Instantiate()[0];
+        yield return new WaitForEndOfFrame();
 
         Button confirmButton = _windowEle.Q<Button>("ConfirmButton");
         confirmButton.AddManipulator(new ButtonClickSoundManipulator(confirmButton));
@@ -213,14 +192,5 @@ public class ServerSelectWindow : MonoBehaviour
 
     private void CancelButtonPressed() {
         LoginClient.Instance.Disconnect();
-    }
-
-    public void HideWindow() {
-        ResetWindow();
-        _windowEle.style.display = DisplayStyle.None;
-    }
-
-    public void ShowWindow() {
-        _windowEle.style.display = DisplayStyle.Flex;
     }
 }

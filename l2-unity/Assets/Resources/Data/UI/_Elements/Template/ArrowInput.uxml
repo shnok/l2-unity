@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <ui:VisualElement name="ArrowInput" tabindex="-1" class="arrow-input">
+        <ui:VisualElement tabindex="-1" class="arrow-label">
+            <ui:Label tabindex="-1" text="Hair Color" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" style="-unity-font: initial; -unity-text-align: middle-left; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-font-definition: resource(&apos;Data/UI/Font/tahoma Light&apos;); letter-spacing: 0;" />
+        </ui:VisualElement>
+        <ui:VisualElement tabindex="-1" class="arrow-input-field">
+            <ui:VisualElement name="FieldBg" tabindex="-1" class="login-input-bg" style="flex-grow: 1; position: absolute; width: 105%; height: 28px;" />
+            <ui:TextField picking-mode="Ignore" max-length="16" name="DataField" readonly="true" class="login-input" style="-unity-font: resource(&apos;Data/UI/Font/tahoma&apos;); background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(12, 12, 12); background-image: none; -unity-font-definition: initial; font-size: 12px; margin-left: 6px; letter-spacing: 0; -unity-text-align: lower-left; padding-top: 0; margin-bottom: 2px; margin-top: 2px; overflow: hidden;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Arrows" tabindex="-1" class="arrows-container" style="margin-left: 8px;">
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="LeftArrow" class="arrow-left arrow" style="margin-right: 2px;">
+                <ui:VisualElement name="BG" class="arrow-bg" style="width: 20px; height: 20px;" />
+            </ui:Button>
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="RightArrow" class="arrow arrow-right" style="margin-right: 2px;">
+                <ui:VisualElement name="BG" class="arrow-bg" />
+            </ui:Button>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
