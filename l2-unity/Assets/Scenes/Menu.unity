@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.245
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1061591418}
-  m_IndirectSpecularColor: {r: 0.063133255, g: 0.093109384, b: 0.10891574, a: 0.245}
+  m_IndirectSpecularColor: {r: 0.017657889, g: 0.060028482, b: 0.08373818, a: 0.245}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -227,43 +227,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6810262815525540192, guid: 2bc6245aea0342f4f8c76719bfe12012, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 461980327}
   m_SourcePrefab: {fileID: 100100000, guid: 2bc6245aea0342f4f8c76719bfe12012, type: 3}
---- !u!21 &748640975
-Material:
-  serializedVersion: 8
+--- !u!1 &461980326 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6810262815525540192, guid: 2bc6245aea0342f4f8c76719bfe12012, type: 3}
+  m_PrefabInstance: {fileID: 461980325}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &461980327
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Height Fog Global
-  m_Shader: {fileID: 4800000, guid: 3a7ef1b66bafb7a448a880ef76d2e6e6, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _AdvancedCat: 1
-    - _Banner: 1
-    - _DirectionalCat: 1
-    - _FogCat: 1
-    - _HeightFogGlobal: 1
-    - _IsHeightFogShader: 1
-    - _NoiseCat: 1
-    - _SkyboxCat: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
+  m_GameObject: {fileID: 461980326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b104e9dd58e20d44b87ede94f2c04cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &803395386
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,7 +638,7 @@ PrefabInstance:
     - target: {fileID: 14083907825353274, guid: 8742fc349ac4f354d9cfb98ebb79a0e3, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1258101766}
+      objectReference: {fileID: 1418364431}
     - target: {fileID: 2134954596300280144, guid: 8742fc349ac4f354d9cfb98ebb79a0e3, type: 3}
       propertyPath: m_Name
       value: Height Fog Global
@@ -779,7 +764,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8742fc349ac4f354d9cfb98ebb79a0e3, type: 3}
---- !u!21 &1258101766
+--- !u!21 &1418364431
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -1015,7 +1000,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &2057020009
+--- !u!21 &1630943621
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0

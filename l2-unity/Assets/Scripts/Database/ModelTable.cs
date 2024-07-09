@@ -161,6 +161,8 @@ public class ModelTable
     private GameObject LoadWeaponModel(string model) {
         string[] folderFile = model.Split(".");
 
+        if (folderFile.Length < 2) return null;
+
         string modelPath = $"Data/Animations/{folderFile[0]}/{folderFile[1]}";
 
         GameObject weapon = (GameObject)Resources.Load(modelPath);
@@ -230,6 +232,8 @@ public class ModelTable
 
         string[] folderFile = model.Split(".");
 
+        if (folderFile.Length < 2) return null;
+
         string modelPath = $"Data/Animations/{folderFile[0]}/{folderFile[1]}";
 
         GameObject armorPiece = (GameObject)Resources.Load(modelPath);
@@ -244,6 +248,8 @@ public class ModelTable
 
     private Material LoadArmorMaterial(string texture) {
         string[] folderFile = texture.Split(".");
+
+        if (folderFile.Length < 2)  return null; 
 
         string materialPath = $"Data/SysTextures/{folderFile[0]}/Materials/{folderFile[1]}";
 

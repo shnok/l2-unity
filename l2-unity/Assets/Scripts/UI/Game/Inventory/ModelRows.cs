@@ -5,6 +5,7 @@ using UnityEngine;
 public class ModelRows
 {
     private ModelItemDemo[] modelItem;
+    
     public ModelRows(int rows , int[] gArr)
     {
         this.rows = rows;
