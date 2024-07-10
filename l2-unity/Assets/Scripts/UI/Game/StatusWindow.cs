@@ -122,9 +122,10 @@ public class StatusWindow : L2Window
         }
 
         PlayerStatus status = (PlayerStatus)PlayerEntity.Instance.Status;
+        PlayerStats stats = (PlayerStats)PlayerEntity.Instance.Stats;
 
-        if(_levelLabel != null) {
-            _levelLabel.text = PlayerEntity.Instance.Status.Level.ToString();
+        if (_levelLabel != null) {
+            _levelLabel.text = stats.Level.ToString();
         }
 
         if(_nameLabel != null) {
@@ -132,33 +133,33 @@ public class StatusWindow : L2Window
         }
 
         if(_CPTextLabel != null) {
-            _CPTextLabel.text = status.Cp + "/" + status.MaxCp;
+            _CPTextLabel.text = status.Cp + "/" + stats.MaxCp;
         }
 
         if(_HPTextLabel != null) {
-            _HPTextLabel.text = status.Hp + "/" + status.MaxHp;
+            _HPTextLabel.text = status.Hp + "/" + stats.MaxHp;
         }
 
         if(_MPTextLabel != null) {
-            _MPTextLabel.text = status.Mp + "/" + status.MaxMp;
+            _MPTextLabel.text = status.Mp + "/" + stats.MaxMp;
         }
 
         if(_CPBarBG != null && _CPBar != null) {
-            float cpRatio = (float)status.Cp / status.MaxCp;
+            float cpRatio = (float)status.Cp / stats.MaxCp;
             float bgWidth = _CPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * cpRatio;
             _CPBar.style.width = barWidth;
         }
 
         if(_HPBarBG != null && _HPBar != null) {
-            float hpRatio = (float)status.Hp / status.MaxHp;
+            float hpRatio = (float)status.Hp / stats.MaxHp;
             float bgWidth = _HPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * hpRatio;
             _HPBar.style.width = barWidth;
         }
 
         if(_MPBarBG != null && _MPBar != null) {
-            float mpRatio = (float)status.Mp / status.MaxMp;
+            float mpRatio = (float)status.Mp / stats.MaxMp;
             float bgWidth = _MPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * mpRatio;
             _MPBar.style.width = barWidth;

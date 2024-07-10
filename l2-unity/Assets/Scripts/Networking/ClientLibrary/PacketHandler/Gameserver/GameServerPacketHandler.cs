@@ -78,6 +78,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.ServerClose:
                 OnServerClose();
                 break;
+            case GameServerPacketType.StatusUpdate:
+                OnStatusUpdate(data);
+                break;
         }
     }
 
@@ -267,5 +270,10 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnServerClose() {
         Debug.Log("ServerClose received from Gameserver");
         _client.Disconnect();
+    }
+
+    private void OnStatusUpdate(byte[] data) {
+        StatusUpdatePacket packet = new StatusUpdatePacket(data);
+        World.Instance.StatusUpdate(packet.ObjectId, packet.Attributes);
     }
 }

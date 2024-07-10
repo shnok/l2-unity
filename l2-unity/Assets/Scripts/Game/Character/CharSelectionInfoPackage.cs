@@ -13,6 +13,7 @@ public struct CharSelectionInfoPackage
     [SerializeField] private PlayerAppearance _playerAppearance;
     [SerializeField] private CharacterRaceAnimation _characterRaceAnimation;
     [SerializeField] private PlayerStatus _playerStatus;
+    [SerializeField] private PlayerStats _playerStats;
     [SerializeField] private bool _isMage;
     [SerializeField] private byte _classId;
     [SerializeField] private int _exp;
@@ -35,6 +36,7 @@ public struct CharSelectionInfoPackage
     public bool IsMage { get => _isMage; set => _isMage = value; }
     public byte ClassId { get => _classId; set => _classId = value; }
     public PlayerStatus PlayerStatus { get => _playerStatus; set => _playerStatus = value; }
+    public PlayerStats PlayerStats { get => _playerStats; set => _playerStats = value; }
     public int Exp { get => _exp; set => _exp = value; }
     public int Sp { get => _sp; set => _sp = value; }
     public float ExpPercent { get => _expPercent; set => _expPercent = value; }

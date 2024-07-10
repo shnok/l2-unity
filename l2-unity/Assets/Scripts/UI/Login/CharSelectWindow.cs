@@ -111,10 +111,10 @@ public class CharSelectWindow : L2Window {
             _karmaLabel.text = "0";
             _charNameManipulator.ClearInput();
         } else if(slot < _characters.Count) {
-            _levelLabel.text = _characters[slot].PlayerStatus.Level.ToString();
+            _levelLabel.text = _characters[slot].PlayerStats.Level.ToString();
             _classLabel.text =  ((CharacterClass)(_characters[slot].ClassId)).ToString();
-            _hpLabel.text = $"{_characters[slot].PlayerStatus.Hp}/{_characters[slot].PlayerStatus.MaxHp}";
-            _mpLabel.text = $"{_characters[slot].PlayerStatus.Mp}/{_characters[slot].PlayerStatus.MaxMp}";
+            _hpLabel.text = $"{_characters[slot].PlayerStatus.Hp}/{_characters[slot].PlayerStats.MaxHp}";
+            _mpLabel.text = $"{_characters[slot].PlayerStatus.Mp}/{_characters[slot].PlayerStats.MaxMp}";
             _expLabel.text = _characters[slot].ExpPercent.ToString("0.00") + "%";
             _spLabel.text = _characters[slot].Sp.ToString();
             _karmaLabel.text = _characters[slot].Karma.ToString();
@@ -129,14 +129,14 @@ public class CharSelectWindow : L2Window {
 
         yield return new WaitForEndOfFrame();
         if (_HPBarBG != null && _HPBar != null) {
-            float hpRatio = (float)_characters[slot].PlayerStatus.Hp / _characters[slot].PlayerStatus.MaxHp;
+            float hpRatio = (float)_characters[slot].PlayerStatus.Hp / _characters[slot].PlayerStats.MaxHp;
             float bgWidth = _HPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * hpRatio;
             _HPBar.style.width = barWidth;
         }
 
         if (_MPBarBG != null && _MPBar != null) {
-            float mpRatio = (float)_characters[slot].PlayerStatus.Mp / _characters[slot].PlayerStatus.MaxMp;
+            float mpRatio = (float)_characters[slot].PlayerStatus.Mp / _characters[slot].PlayerStats.MaxMp;
             float bgWidth = _MPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * mpRatio;
             _MPBar.style.width = barWidth;

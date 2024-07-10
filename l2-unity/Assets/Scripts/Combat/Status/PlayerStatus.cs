@@ -5,14 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerStatus : Status {
     [SerializeField] private int _cp;
-    [SerializeField] private int _maxCp;
-    [SerializeField] private int _mp;
-    [SerializeField] private int _maxMp;
 
-    public int Mp { get => _mp; set => _mp = value; }
-    public int MaxMp { get => _maxMp; set => _maxMp = value; }
     public int Cp { get => _cp; set => _cp = value; }
-    public int MaxCp { get => _maxCp; set => _maxCp = value; }
 
     public PlayerStatus() {}
 }

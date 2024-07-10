@@ -34,13 +34,13 @@ public class PlayerInfoPacket : ServerPacket {
             _info.Identity.SetPosZ(ReadF());
             _info.Identity.Owned = true;
             // Status
-            _info.Status.Level = ReadI();
+            _info.Stats.Level = ReadI();
             _info.Status.Hp = ReadI();
-            _info.Status.MaxHp = ReadI();
+            _info.Stats.MaxHp = ReadI();
             _info.Status.Mp = ReadI(); 
-            _info.Status.MaxMp = ReadI();
+            _info.Stats.MaxMp = ReadI();
             _info.Status.Cp = ReadI();
-            _info.Status.MaxCp = ReadI();
+            _info.Stats.MaxCp = ReadI();
             // Stats
             _info.Stats.Speed = ReadI();
             _info.Stats.PAtkSpd = ReadI();

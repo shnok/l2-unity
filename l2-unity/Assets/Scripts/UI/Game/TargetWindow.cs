@@ -86,7 +86,7 @@ public class TargetWindow : L2Window {
                 _nameLabel.text = targetData.Identity.Name;
             }
             if(_HPBarBG != null && _HPBar != null) {
-                float hpRatio = (float)targetData.Status.Hp / targetData.Status.MaxHp;
+                float hpRatio = (float)targetData.Status.Hp / targetData.Stats.MaxHp;
                 float bgWidth = _HPBarBG.resolvedStyle.width;
                 float barWidth = bgWidth * hpRatio;
                 _HPBar.style.width = barWidth;

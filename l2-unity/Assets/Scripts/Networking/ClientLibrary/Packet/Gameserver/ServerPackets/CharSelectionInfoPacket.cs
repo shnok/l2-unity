@@ -28,6 +28,7 @@ public class CharSelectionInfoPacket : ServerPacket {
             CharSelectionInfoPackage character = new CharSelectionInfoPackage();
             PlayerAppearance appearance = new PlayerAppearance();
             PlayerStatus status = new PlayerStatus();
+            PlayerStats stats = new PlayerStats();
 
             character.Slot = i;
             character.Name = ReadS();
@@ -53,7 +54,7 @@ public class CharSelectionInfoPacket : ServerPacket {
             character.Exp = ReadI();
             character.ExpPercent = ReadF();
 
-            status.Level = ReadI();
+            stats.Level = ReadI();
             
             character.Karma = ReadI();
             character.PkKills = ReadI();
@@ -70,8 +71,8 @@ public class CharSelectionInfoPacket : ServerPacket {
             appearance.HairColor = ReadB();
             appearance.Face = ReadB();
 
-            status.MaxHp = ReadI();
-            status.MaxMp = ReadI();
+            stats.MaxHp = ReadI();
+            stats.MaxMp = ReadI();
 
             character.DeleteTimer = ReadI();
 
@@ -85,6 +86,7 @@ public class CharSelectionInfoPacket : ServerPacket {
 
             character.PlayerAppearance = appearance;
             character.PlayerStatus = status;
+            character.PlayerStats = stats;
 
             _characters.Add(character);
         }

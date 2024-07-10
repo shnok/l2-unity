@@ -223,7 +223,7 @@ public class World : MonoBehaviour {
         npc.Identity.Title = npcName.Title;
         if (npc.Identity.Title == null || npc.Identity.Title.Length == 0) {
             if(identity.EntityType == EntityType.Monster) {
-                npc.Identity.Title = " Lvl: " + npc.Status.Level;
+                npc.Identity.Title = " Lvl: " + npc.Stats.Level;
             }
         }
         npc.Identity.TitleColor = npcName.TitleColor;
@@ -320,6 +320,15 @@ public class World : MonoBehaviour {
     public Task EntityStopAutoAttacking(int id) {
         return ExecuteWithEntityAsync(id, e => {
             WorldCombat.Instance.EntityStopAutoAttacking(e);
+        });
+    }
+
+    public Task StatusUpdate(int id, List<StatusUpdatePacket.Attribute> attributes) {
+        Debug.Log("StatusUpdate");
+        Debug.Log(attributes.Count);
+
+        return ExecuteWithEntityAsync(id, e => {
+            WorldCombat.Instance.StatusUpdate(e, attributes);
         });
     }
 
