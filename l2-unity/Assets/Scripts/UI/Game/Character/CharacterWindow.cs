@@ -108,13 +108,13 @@ public class CharacterInfoWindow : L2Window
         _spLabel = GetLabelById("SpLabel");
         _expLabel = GetLabelById("ExpLabel");
         _weightLabel = GetLabelById("WeightLabel");
-        _cpLabel = GetLabelById("CpVal");
+        _cpLabel = GetLabelById("CpLabelB");
         _hpBar = GetElementById("HpGauge");
         _hpBarBg = GetElementById("HpBg");
         _mpBar = GetElementById("MpGauge");
         _mpBarBg = GetElementById("MpBg");
-        _cpBar = GetElementById("CpGauge");
-        _cpBarBg = GetElementById("CpBg");
+        _cpBar = GetElementById("CpGaugeB");
+        _cpBarBg = GetElementById("CpBgB");
         _weightBar = GetElementById("WeightGauge");
         _weightBarBg = GetElementById("WeightBg");
         _expBar = GetElementById("ExpGauge");
@@ -210,18 +210,18 @@ public class CharacterInfoWindow : L2Window
 
     private void UpdateBars(PlayerStatus status, PlayerStats stats) {
         _hpLabel.text = $"{status.Hp}/{stats.MaxHp}";
-        _mpLabel.text = $"{status.Hp}/{stats.MaxHp}";
+        _mpLabel.text = $"{status.Mp}/{stats.MaxMp}";
         _cpLabel.text = $"{status.Cp}/{stats.MaxCp}";
         _spLabel.text = stats.Sp.ToString();
 
         if (stats.MaxExp > 0) {
-            _expLabel.text = $"{(float)stats.Exp / stats.MaxExp}%";
+            _expLabel.text = $"{((float)stats.Exp / stats.MaxExp).ToString("0.00")}%";
         } else {
             _expLabel.text = $"00.00%";
         }
 
         if (stats.MaxWeight > 0) {
-            _weightLabel.text = $"{(float)stats.CurrWeight / stats.MaxWeight}%";
+            _weightLabel.text = $"{((float)stats.CurrWeight / stats.MaxWeight).ToString("0.00")}%";
         } else {
             _weightLabel.text = $"00.00%";
         }
