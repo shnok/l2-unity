@@ -67,15 +67,11 @@ public class StatusUpdatePacket : ServerPacket
 
     public override void Parse() {
         _objectId = ReadI();
-        Debug.Log(_objectId);
         _attributeCount = ReadB();
-        Debug.Log(_attributeCount);
 
         for (int i = 0; i < _attributeCount; i++) {
             byte attributeId = ReadB();
-        Debug.Log(attributeId);
             int attributeValue = ReadI();
-            Debug.Log(attributeValue);
 
             _attributes.Add (new Attribute (attributeId, attributeValue));
         }

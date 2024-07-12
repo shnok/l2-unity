@@ -67,6 +67,15 @@ public abstract class L2Window : MonoBehaviour {
         }
     }
 
+    protected Label GetLabelById(string id) {
+        VisualElement e = GetElementById(id);
+        if (e == null) {
+            return null;
+        }
+
+        return (Label) e;
+    }
+
     protected VisualElement GetElementById(string id) {
         var btn = _windowEle.Q<VisualElement>(id);
         if (btn == null) {

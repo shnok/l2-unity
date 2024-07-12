@@ -324,9 +324,6 @@ public class World : MonoBehaviour {
     }
 
     public Task StatusUpdate(int id, List<StatusUpdatePacket.Attribute> attributes) {
-        Debug.Log("StatusUpdate");
-        Debug.Log(attributes.Count);
-
         return ExecuteWithEntityAsync(id, e => {
             WorldCombat.Instance.StatusUpdate(e, attributes);
         });
