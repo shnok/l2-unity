@@ -111,40 +111,40 @@ public class WorldCombat : MonoBehaviour {
                     stats.MaxMp = attribute.value;
                     break;
                 case AttributeType.SP:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).Sp = attribute.value;
                     break;
                 case AttributeType.CUR_LOAD:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).CurrWeight = attribute.value;
                     break;
                 case AttributeType.MAX_LOAD:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).MaxWeight = attribute.value;
                     break;
                 case AttributeType.P_ATK:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).PAtk = attribute.value;
                     break;
                 case AttributeType.ATK_SPD:
                     stats.PAtkSpd = attribute.value;
                     break;
                 case AttributeType.P_DEF:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).PDef = attribute.value;
                     break;
                 case AttributeType.EVASION:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).PEvasion = attribute.value;
                     break;
                 case AttributeType.ACCURACY:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).PAccuracy = attribute.value;
                     break;
                 case AttributeType.CRITICAL:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).PCritical = attribute.value;
                     break;
                 case AttributeType.M_ATK:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).MAtk = attribute.value;
                     break;
                 case AttributeType.CAST_SPD:
                     stats.MAtkSpd = attribute.value;
                     break;
                 case AttributeType.M_DEF:
-                    ((PlayerStats) stats).Exp = attribute.value;
+                    ((PlayerStats) stats).MDef = attribute.value;
                     break;
                 case AttributeType.PVP_FLAG:
                     break;

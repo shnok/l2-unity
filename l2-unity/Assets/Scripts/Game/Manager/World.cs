@@ -133,10 +133,10 @@ public class World : MonoBehaviour {
         CameraController.Instance.SetTarget(go);
         ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
 
+        CharacterInfoWindow.Instance.UpdateValues();
 
         _players.Add(identity.Id, player);
         _objects.Add(identity.Id, player);
-
     }
 
     public void SpawnUser(NetworkIdentity identity, Status status, Stats stats, PlayerAppearance appearance) {
@@ -326,6 +326,7 @@ public class World : MonoBehaviour {
     public Task StatusUpdate(int id, List<StatusUpdatePacket.Attribute> attributes) {
         return ExecuteWithEntityAsync(id, e => {
             WorldCombat.Instance.StatusUpdate(e, attributes);
+            CharacterInfoWindow.Instance.UpdateValues();
         });
     }
 
