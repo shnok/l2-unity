@@ -159,13 +159,19 @@ public class CharacterInfoWindow : L2PopupWindow
             return;
         }
 
-        UpdatePlayer(player.Identity, (PlayerStats) player.Stats);
+        StartCoroutine(UpdateWithDelay(player));
+    }
 
-        UpdateStats((PlayerStats) player.Stats);
+    private IEnumerator UpdateWithDelay(PlayerEntity player) {
+        yield return new WaitForSeconds(0.2f);
+
+        UpdatePlayer(player.Identity, (PlayerStats)player.Stats);
+
+        UpdateStats((PlayerStats)player.Stats);
 
         UpdateCombatValues((PlayerStats)player.Stats);
 
-        UpdateBars((PlayerStatus) player.Status, (PlayerStats) player.Stats);
+        UpdateBars((PlayerStatus)player.Status, (PlayerStats)player.Stats);
 
         UpdateSocial((PlayerStats)player.Stats);
     }
@@ -216,13 +222,13 @@ public class CharacterInfoWindow : L2PopupWindow
         _spLabel.text = stats.Sp.ToString();
 
         if (stats.MaxExp > 0) {
-            _expLabel.text = $"{((float)stats.Exp / stats.MaxExp).ToString("0.00")}%";
+            _expLabel.text = $"{((float)stats.Exp / stats.MaxExp).ToString("00.00")}%";
         } else {
             _expLabel.text = $"00.00%";
         }
 
         if (stats.MaxWeight > 0) {
-            _weightLabel.text = $"{((float)stats.CurrWeight / stats.MaxWeight).ToString("0.00")}%";
+            _weightLabel.text = $"{((float)stats.CurrWeight / stats.MaxWeight).ToString("00.00")}%";
         } else {
             _weightLabel.text = $"00.00%";
         }

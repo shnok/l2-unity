@@ -4,14 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using UnityEngine;
-using UnityEngine.tvOS;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
-using static UnityEditor.Rendering.FilterWindow;
-using static UnityEditor.Timeline.Actions.MenuPriority;
-using static UnityEngine.Rendering.DebugUI.Table;
-
 
 public class InventoryWindow : MonoBehaviour
 {
