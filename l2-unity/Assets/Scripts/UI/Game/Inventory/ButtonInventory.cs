@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 public class ButtonInventory
 {
 
-    private CharacterInventoryWindow inventory;
+    private InventoryWindow inventory;
 
-    public ButtonInventory(CharacterInventoryWindow inventory)
+    public ButtonInventory(InventoryWindow inventory)
     {
         this.inventory = inventory;
     }

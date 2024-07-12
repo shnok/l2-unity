@@ -164,7 +164,5 @@ public class StatusWindow : L2Window
             float barWidth = bgWidth * mpRatio;
             _MPBar.style.width = barWidth;
         }
-
-        BringToFront();
     }
 }

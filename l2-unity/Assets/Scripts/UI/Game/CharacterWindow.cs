@@ -4,11 +4,10 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CharacterInfoWindow : L2Window
+public class CharacterInfoWindow : L2PopupWindow
 {
     public VisualElement minimal_panel;
     private VisualElement content;
-    private ButtonCharacter _buttonCharacter;
 
     // player
     private Label _nameLabel;
@@ -70,7 +69,6 @@ public class CharacterInfoWindow : L2Window
     private void Awake() {
         if (_instance == null) {
             _instance = this;
-            _buttonCharacter = new ButtonCharacter(this);
         } else {
             Destroy(this);
         }
@@ -84,18 +82,21 @@ public class CharacterInfoWindow : L2Window
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/CharacterInfoWindow");
     }
 
-    protected override IEnumerator BuildWindow(VisualElement root) {
-        InitWindow(root);
-
-        yield return new WaitForEndOfFrame();
+    protected override void InitWindow(VisualElement root) {
+        base.InitWindow(root);
 
         var dragArea = GetElementByClass("drag-area");
         DragManipulator drag = new DragManipulator(dragArea, _windowEle);
         dragArea.AddManipulator(drag);
 
-        content = GetElementByClass("content");
-        _buttonCharacter.RegisterButtonCloseWindow("btn-close-frame");
-        _buttonCharacter.RegisterClickWindow(_windowEle, content, dragArea);
+        RegisterCloseWindowEvent("btn-close-frame");
+        RegisterClickWindowEvent(_windowEle, dragArea);
+    }
+    protected override IEnumerator BuildWindow(VisualElement root) {
+        InitWindow(root);
+
+        yield return new WaitForEndOfFrame();
+        
 
         // player
         _nameLabel = GetLabelById("CharacterNameLabel");

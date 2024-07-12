@@ -13,7 +13,7 @@ using static UnityEditor.Timeline.Actions.MenuPriority;
 using static UnityEngine.Rendering.DebugUI.Table;
 
 
-public class CharacterInventoryWindow : MonoBehaviour
+public class InventoryWindow : MonoBehaviour
 {
 
     private VisualTreeAsset _testUITemplate;
@@ -52,8 +52,8 @@ public class CharacterInventoryWindow : MonoBehaviour
         }
     }
 
-    private static CharacterInventoryWindow _instance;
-    public static CharacterInventoryWindow Instance
+    private static InventoryWindow _instance;
+    public static InventoryWindow Instance
     {
         get { return _instance; }
     }
