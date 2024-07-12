@@ -128,14 +128,23 @@ public class WorldCombat : MonoBehaviour {
                 case AttributeType.P_DEF:
                     ((PlayerStats) stats).PDef = attribute.value;
                     break;
-                case AttributeType.EVASION:
-                    ((PlayerStats) stats).PEvasion = attribute.value;
+                case AttributeType.P_EVASION:
+                    ((PlayerStats)stats).PEvasion = attribute.value;
                     break;
-                case AttributeType.ACCURACY:
-                    ((PlayerStats) stats).PAccuracy = attribute.value;
+                case AttributeType.P_ACCURACY:
+                    ((PlayerStats)stats).PAccuracy = attribute.value;
                     break;
-                case AttributeType.CRITICAL:
-                    ((PlayerStats) stats).PCritical = attribute.value;
+                case AttributeType.P_CRITICAL:
+                    ((PlayerStats)stats).PCritical = attribute.value;
+                    break;
+                case AttributeType.M_EVASION:
+                    ((PlayerStats)stats).MEvasion = attribute.value;
+                    break;
+                case AttributeType.M_ACCURACY:
+                    ((PlayerStats)stats).MAccuracy = attribute.value;
+                    break;
+                case AttributeType.M_CRITICAL:
+                    ((PlayerStats)stats).MCritical = attribute.value;
                     break;
                 case AttributeType.M_ATK:
                     ((PlayerStats) stats).MAtk = attribute.value;

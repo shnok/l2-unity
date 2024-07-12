@@ -50,7 +50,10 @@ public class PlayerInfoPacket : ServerPacket {
             _info.Stats.PDef = ReadI();
             _info.Stats.PEvasion = ReadI();
             _info.Stats.PAccuracy = ReadI();
+            _info.Stats.MEvasion = ReadI();
+            _info.Stats.MAccuracy = ReadI();
             _info.Stats.PCritical = ReadI();
+            _info.Stats.MCritical = ReadI();
             _info.Stats.MAtk = ReadI();
             _info.Stats.MDef = ReadI();
             // Stats

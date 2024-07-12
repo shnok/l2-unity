@@ -6,9 +6,6 @@ using UnityEngine.UIElements;
 
 public class CharacterInfoWindow : L2PopupWindow
 {
-    public VisualElement minimal_panel;
-    private VisualElement content;
-
     // player
     private Label _nameLabel;
     private Label _levelLabel;
