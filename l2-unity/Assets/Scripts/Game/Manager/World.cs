@@ -131,7 +131,8 @@ public class World : MonoBehaviour {
 
         CameraController.Instance.enabled = true;
         CameraController.Instance.SetTarget(go);
-        ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
+
+        //ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
 
         CharacterInfoWindow.Instance.UpdateValues();
 

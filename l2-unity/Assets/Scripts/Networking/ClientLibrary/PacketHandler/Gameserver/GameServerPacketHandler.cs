@@ -172,8 +172,17 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnSystemMessageReceive(byte[] data) {
         SystemMessagePacket packet = new SystemMessagePacket(data);
-        SystemMessage message = packet.Message;
-        _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveChatMessage(message));
+        SMParam[] smParams = packet.Params;
+        int messageId = packet.Id;
+
+        SystemMessageDat messageData = SystemMessageTable.Instance.GetSystemMessage(messageId);
+        if(messageData != null) {
+            SystemMessage systemMessage = new SystemMessage(smParams, messageData);
+            _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(systemMessage));
+        } else {
+            _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(new UnhandledMessage()));
+        }
+
     }
 
     private void OnPlayerInfoReceive(byte[] data) {
