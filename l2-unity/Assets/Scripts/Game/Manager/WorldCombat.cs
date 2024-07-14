@@ -22,22 +22,22 @@ public class WorldCombat : MonoBehaviour {
     }
 
 
-    public void InflictAttack(Transform target, int damage, int newHp, bool criticalHit) {
-        ApplyDamage(target, damage, newHp, criticalHit);
+    public void InflictAttack(Transform target, int damage, bool criticalHit) {
+        ApplyDamage(target, damage, criticalHit);
     }
 
-    public void InflictAttack(Transform attacker, Transform target, int damage, int newHp, bool criticalHit) {
-        ApplyDamage(target, damage, newHp, criticalHit);
+    public void InflictAttack(Transform attacker, Transform target, int damage, bool criticalHit) {
+        ApplyDamage(target, damage, criticalHit);
 
         // Instantiate hit particle
         ParticleImpact(attacker, target);
     }
 
-    private void ApplyDamage(Transform target, int damage, int newHp, bool criticalHit) {
+    private void ApplyDamage(Transform target, int damage, bool criticalHit) {
         Entity entity = target.GetComponent<Entity>();
         if (entity != null) {
             // Apply damage to target
-            entity.ApplyDamage(damage, newHp, criticalHit);
+            entity.ApplyDamage(damage, criticalHit);
         }
     }
 
@@ -73,6 +73,9 @@ public class WorldCombat : MonoBehaviour {
         Stats stats = entity.Stats;
 
         foreach (Attribute attribute in attributes) {
+            if (entity != PlayerEntity.Instance) {
+                Debug.LogWarning($"{entity.Identity.Name} - {(AttributeType)attribute.id}");
+            }
             switch((AttributeType) attribute.id) {
                 case AttributeType.LEVEL:
                     stats.Level = attribute.value;

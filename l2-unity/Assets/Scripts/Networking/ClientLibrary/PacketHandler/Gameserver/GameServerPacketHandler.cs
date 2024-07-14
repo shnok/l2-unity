@@ -229,7 +229,11 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
-        World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.Value, packet.NewHp, packet.CriticalHit); 
+        Hit[] hits = packet.Hits;
+
+        for (int i = 0; i < hits.Length; i++) {
+            World.Instance.InflictDamageTo(packet.SenderId, hits[i].TargetId, hits[i].Damage, hits[i].isCrit());
+        }
     }
 
     private void OnNpcInfoReceive(byte[] data) {

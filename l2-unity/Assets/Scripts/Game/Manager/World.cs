@@ -218,6 +218,8 @@ public class World : MonoBehaviour {
 
         npc.Status = status;
 
+        npc.Stats = stats;
+
         npc.Identity = identity;
         npc.Identity.NpcClass = npcgrp.ClassName;
         npc.Identity.Name = npcName.Name; 
@@ -229,7 +231,6 @@ public class World : MonoBehaviour {
         }
         npc.Identity.TitleColor = npcName.TitleColor;
 
-        npc.Stats = stats;
         npc.Appearance = appearance;
 
         npcGo.transform.eulerAngles = new Vector3(npcGo.transform.eulerAngles.x, identity.Heading, npcGo.transform.eulerAngles.z);
@@ -285,12 +286,12 @@ public class World : MonoBehaviour {
         });
     }
 
-    public Task InflictDamageTo(int sender, int target, int damage, int newHp, bool criticalHit) {
+    public Task InflictDamageTo(int sender, int target, int damage, bool criticalHit) {
         return ExecuteWithEntitiesAsync(sender, target, (senderEntity, targetEntity) => {
             if (senderEntity != null) {
-                WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, damage, newHp, criticalHit);
+                WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, damage, criticalHit);
             } else {
-                WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, newHp, criticalHit);
+                WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, criticalHit);
             }
         });
     }
@@ -327,7 +328,9 @@ public class World : MonoBehaviour {
     public Task StatusUpdate(int id, List<StatusUpdatePacket.Attribute> attributes) {
         return ExecuteWithEntityAsync(id, e => {
             WorldCombat.Instance.StatusUpdate(e, attributes);
-            CharacterInfoWindow.Instance.UpdateValues();
+            if(e == PlayerEntity.Instance) { 
+                CharacterInfoWindow.Instance.UpdateValues();
+            }
         });
     }
 

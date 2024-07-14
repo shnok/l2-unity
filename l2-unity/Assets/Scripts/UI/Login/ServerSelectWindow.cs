@@ -62,6 +62,8 @@ public class ServerSelectWindow : L2Window
     }
 
     public void UpdateServerList(int lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers) {
+        ResetWindow();
+
         _serverData = serverData;
 
         for (int i = 0; i < serverData.Count; i++) {
