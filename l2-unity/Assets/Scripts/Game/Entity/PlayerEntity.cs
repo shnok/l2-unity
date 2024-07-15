@@ -66,7 +66,7 @@ public class PlayerEntity : Entity {
     protected override void OnDeath() {
         base.OnDeath();
         Debug.Log("Player on death _networkAnimationReceive:" + _networkAnimationReceive);
-        PlayerAnimationController.Instance.SetAnimationProperty((int)PlayerAnimationEvent.death, 1f, true);
+        PlayerStateMachine.Instance.notifyEvent(Event.DEAD);
     }
 
     protected override void OnHit(bool criticalHit) {
@@ -75,28 +75,13 @@ public class PlayerEntity : Entity {
     }
 
     public override bool StartAutoAttacking() {
-        if (base.StartAutoAttacking()) {
-            if(TargetManager.Instance.AttackTarget == null) {
-                PlayerAnimationController.Instance.SetBool("wait_" + _gear.WeaponAnim, true, false);
-                return false;
-            }
-
-            PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
-            PlayerAnimationController.Instance.SetBool("atk01_" + _gear.WeaponAnim, true, false);
-        }
+        base.StartAutoAttacking();
 
         return true;
     }
 
     public override bool StopAutoAttacking() {
         base.StopAutoAttacking();
-        //if (base.StopAutoAttacking()) {
-           // PlayerController.Instance.SetCanMove(true);
-            PlayerController.Instance.StopLookAt();
-            if (!PlayerController.Instance.IsMoving()) {
-                PlayerAnimationController.Instance.SetBool("atkwait_" + _gear.WeaponAnim, true, false);
-            }
-       // }
 
         return true;
     }

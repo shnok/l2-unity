@@ -72,7 +72,8 @@ public class Entity : MonoBehaviour {
 
         OnHit(criticalHit);
 
-        if(_status.Hp == 0) {
+        if(_status.Hp <= 0) {
+            Debug.LogWarning("ON DEATH !");
             OnDeath();
         }
     }

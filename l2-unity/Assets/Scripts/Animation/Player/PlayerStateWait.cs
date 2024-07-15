@@ -16,7 +16,12 @@ public class PlayerStateWait : PlayerStateAction {
             return;
         }
 
+        if (ShouldDie()) {
+            return;
+        }
+
         if (ShouldAttack()) {
+            SetBool("atk01_" + _gear.WeaponAnim, true, false);
             return;
         }
         if (ShouldRun()) {
@@ -29,9 +34,9 @@ public class PlayerStateWait : PlayerStateAction {
         //if(ShouldSit()) {
         //    return;
         //}
-        //if (ShouldAtkWait()) {
-        //    return;
-        //}
+        if (ShouldAtkWait()) {
+            return;
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

@@ -13,7 +13,12 @@ public class PlayerStateAtkWait : PlayerStateAction {
             return;
         }
 
+        if (ShouldDie()) {
+            return;
+        }
+
         if (ShouldAttack()) {
+            SetBool("atk01_" + _gear.WeaponAnim, true, false);
             return;
         }
 
@@ -21,17 +26,17 @@ public class PlayerStateAtkWait : PlayerStateAction {
             return;
         }
 
-        //if (ShouldJump(false)) {
-        //    return;
-        //}
+        if (ShouldJump(false)) {
+            return;
+        }
 
         //if (ShouldSit()) {
         //    return;
         //}
 
-        //if(ShouldAtkWait()) {
-        //    return;
-        //}
+        if (ShouldAtkWait()) {
+            return;
+        }
 
         if (ShouldIdle()) {
             return;

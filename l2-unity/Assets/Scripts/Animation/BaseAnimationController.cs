@@ -59,11 +59,13 @@ public class BaseAnimationController : MonoBehaviour
     }
 
     public void SetAnimationProperty(int animId, float value, bool forceReset) {
-        //Debug.Log("animId " + animId + "/" + _animator.parameters.Length);
+        Debug.Log("animId " + animId + "/" + _animator.parameters.Length);
         if (animId >= 0 && animId < _animator.parameters.Length) {
             if (_resetStateOnReceive || forceReset) {
                 ClearAnimParams();
             }
+
+            Debug.Log("Setting anim " + animId);
 
             AnimatorControllerParameter anim = _animator.parameters[animId];
 
@@ -72,9 +74,11 @@ public class BaseAnimationController : MonoBehaviour
                     _animator.SetFloat(anim.name, value);
                     break;
                 case AnimatorControllerParameterType.Int:
+                     Debug.Log("Setting anim0 " + animId);
                     _animator.SetInteger(anim.name, (int)value);
                     break;
                 case AnimatorControllerParameterType.Bool:
+                     Debug.Log("Setting anim1 " + animId + " " + value);
                     _animator.SetBool(anim.name, value == 1f);
                     break;
                 case AnimatorControllerParameterType.Trigger:

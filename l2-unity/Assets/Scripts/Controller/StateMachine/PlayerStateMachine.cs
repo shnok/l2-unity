@@ -8,20 +8,14 @@ public class PlayerStateMachine : MonoBehaviour {
 
     private NetworkTransformShare _networkTransformShare;
     private NetworkCharacterControllerShare _networkCharacterControllerShare;
-    //[SerializeField] private bool _isAutoAttacking = false;
-    //[SerializeField] private bool _isRunningToTarget = false;
-
-    //private PlayerState _currentState;
-    //public PlayerState currentState { get { return _currentState; } set { SetPlayerState(value); } }
 
     [SerializeField] private Intention _intention;
     [SerializeField] private PlayerState _state;
-    private bool _thinking;
+    [SerializeField] private Event _lastEvent;
     [SerializeField] private bool _waitingForServerReply;
+    private bool _thinking;
 
     public PlayerState State { get { return _state; } }
-    //public bool AutoAttacking { get { return _isAutoAttacking; } set { _isAutoAttacking = value; } }
-    //public bool RunningToTarget { get { return _isRunningToTarget; } set { _isRunningToTarget = value; } }
 
 
     private void Awake() {
@@ -43,26 +37,6 @@ public class PlayerStateMachine : MonoBehaviour {
 
     void Update() {
         notifyEvent(Event.THINK);
-
-
-        //if (PlayerController.Instance.CanMove && InputManager.Instance.IsInputPressed(InputType.Move)) {
-        //    _isRunningToTarget = false;
-        //    TargetManager.Instance.ClearAttackTarget();
-        //}
-
-        //if (InputManager.Instance.IsInputPressed(InputType.Escape)) {
-        //    TargetManager.Instance.ClearTarget();
-        //}
-
-        //// for debug purpose
-        //if (InputManager.Instance.IsInputPressed(InputType.DebugAttack)) {      
-        //    if(TargetManager.Instance.HasTarget()) {
-        //        Entity entity = TargetManager.Instance.Target.Data.ObjectTransform.GetComponent<Entity>();
-        //        if (entity != null) {
-        //            entity.InflictAttack(AttackType.AutoAttack);
-        //        }
-        //    }
-        //}
     }
 
     public void SetState(PlayerState state) {
@@ -82,6 +56,7 @@ public class PlayerStateMachine : MonoBehaviour {
      */
     public void notifyEvent(Event evt) {
         if (evt != Event.THINK) {
+            _lastEvent = evt;
             Debug.Log($"[AI] New event: {evt}");
         }
 
@@ -89,8 +64,6 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void notifyEvent(Event evt, Entity go) {
-        //        log.debug("[AI] New event: {}", evt);
-
         switch (evt) {
             case Event.THINK:
                 onEvtThink();
@@ -106,9 +79,6 @@ public class PlayerStateMachine : MonoBehaviour {
                 break;
             case Event.READY_TO_ACT:
                 onEvtReadyToAct();
-                break;
-            case Event.AUTO_ATTACK_START:
-                onEvtAutoAttackStarted();
                 break;
             case Event.CANCEL:
                 onEvtCancel();
@@ -139,12 +109,18 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     private void onEvtDead() {
-
+        SetState(PlayerState.DEAD);
     }
 
     private void onEvtArrived() {
         if(_intention != Intention.INTENTION_ATTACK) {
-            setIntention(Intention.INTENTION_IDLE);
+            if(TargetManager.Instance.HasAttackTarget()) {
+                // arrived to target position
+                setIntention(Intention.INTENTION_ATTACK);
+            } else {
+                // regular player movement
+                setIntention(Intention.INTENTION_IDLE);
+            }
         }
     }
 
@@ -172,11 +148,6 @@ public class PlayerStateMachine : MonoBehaviour {
         }
     }
 
-    private void onEvtAutoAttackStarted() {
-        // TODO: Lookat entity, set state to attack lock
-        
-    }
-
     private void onEvtCancel() {
         if (_intention == Intention.INTENTION_ATTACK) {
             setIntention(Intention.INTENTION_IDLE);
@@ -189,32 +160,42 @@ public class PlayerStateMachine : MonoBehaviour {
     =========================
      */
     void thinkIdle() {
-        // Listen to inputs ?
-        if(InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) {
+        // Does the player want to move ?
+        if (InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) {
             setIntention(Intention.INTENTION_MOVE_TO);
         }
 
+        // If has a target and attack key pressed
         if (InputManager.Instance.IsInputPressed(InputType.Attack) && TargetManager.Instance.HasTarget()) {
             setIntention(Intention.INTENTION_ATTACK);
         }
     }
 
     void thinkMoveTo() {
-        // Listen to inputs ?
+        // Arrived to destination
         if (!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToDestination && CanMove()) {
             notifyEvent(Event.ARRIVED);
         }
 
+        // If move input is pressed while running to target
+        if (TargetManager.Instance.HasAttackTarget() && InputManager.Instance.IsInputPressed(InputType.Move)) {
+            // Cancel follow target
+            TargetManager.Instance.ClearAttackTarget();
+        }
+
+        // If has a target and attack key pressed
         if (InputManager.Instance.IsInputPressed(InputType.Attack) && TargetManager.Instance.HasTarget()) {
             setIntention(Intention.INTENTION_ATTACK);
         }
 
+        // If the player wants to move but cant
         if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) && !CanMove()) {
             setIntention(Intention.INTENTION_MOVE_TO);
         }
     }
 
     void thinkAttack() {
+        // Does the player want to move ?
         if (InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) {
             setIntention(Intention.INTENTION_MOVE_TO);
         }
@@ -235,10 +216,6 @@ public class PlayerStateMachine : MonoBehaviour {
 
         _intention = intention;
 
-        if ((intention != Intention.INTENTION_FOLLOW) && (intention != Intention.INTENTION_ATTACK)) {
-            // stopFollow();
-        }
-
         switch (intention) {
             case Intention.INTENTION_IDLE:
                 onIntentionIdle();
@@ -257,13 +234,16 @@ public class PlayerStateMachine : MonoBehaviour {
 
     private void onIntentionAttack(Entity entity) {
         if (CanMove()) {
+
             Transform target = TargetManager.Instance.Target.Data.ObjectTransform;
 
-            if(target == null) {
+            if (target == null) {
                 Debug.Log("Target is null, CANCEL event sent");
                 notifyEvent(Event.CANCEL);
                 return;
             }
+
+            TargetManager.Instance.SetAttackTarget();
 
             float attackRange = ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange;
             float distance = Vector3.Distance(transform.position, target.position);
@@ -271,6 +251,8 @@ public class PlayerStateMachine : MonoBehaviour {
 
             if (distance <= attackRange && !_waitingForServerReply) {
                 notifyEvent(Event.READY_TO_ACT);
+            } else {
+                PathFinderController.Instance.MoveTo(target.position, ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange);
             }
         }
     }
@@ -280,8 +262,6 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     private void onIntentionMoveTo(object arg0) {
-        TargetManager.Instance.ClearAttackTarget();
-
         if (arg0 != null) {
             PathFinderController.Instance.MoveTo((Vector3)arg0);
         }
@@ -307,58 +287,8 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
 
-
-    public bool VerifyAttackInput() {
-        //if (InputManager.Instance.IsInputPressed(InputType.Attack)) {
-        //    if (TargetManager.Instance.HasTarget()) {
-        //        //Should follow target
-        //        //Should request for autoattack once reaching target
-        //        Transform target = TargetManager.Instance.Target.Data.ObjectTransform;
-        //        float attackRange = ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange;
-        //        float distance = Vector3.Distance(transform.position, target.position);
-        //        Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
-
-        //        if (distance <= attackRange) {
-        //            OnReachingTarget();
-        //        } else {
-        //            ClickManager.Instance.HideLocator();
-        //            _isRunningToTarget = true;
-        //            PathFinderController.Instance.MoveTo(target.position, ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange);
-        //        }
-
-        //        return true;
-        //    }
-        //}
-
-        return false;
-    }
-
-    // Send a request auto attack when close enough
     public void OnReachingTarget() {
-        //if (TargetManager.Instance.Target != null && (!_isAutoAttacking || TargetManager.Instance.AttackTarget != TargetManager.Instance.Target)) {
-        //    Debug.LogWarning("On Reaching Target");
-        //    TargetManager.Instance.SetAttackTarget();
-        //    PathFinderController.Instance.ClearPath();
-        //    PlayerController.Instance.ResetDestination();
-        //    PlayerController.Instance.SetCanMove(false);
-
-        //    //TODO set can move to true if action failed packet returned
-
-        //    if (_networkTransformShare != null) {
-        //        _networkTransformShare.SharePosition();
-        //    }
-
-        //    if (_networkCharacterControllerShare != null) {
-        //        // _networkCharacterControllerShare.ShareMoveDirection(Vector3.zero);
-        //    }
-
-        //    NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
-
-        //    GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack();
-        //}
-
         Debug.LogWarning("On Reaching Target");
-        TargetManager.Instance.SetAttackTarget();
         PathFinderController.Instance.ClearPath();
         PlayerController.Instance.ResetDestination();
 
@@ -377,13 +307,16 @@ public class PlayerStateMachine : MonoBehaviour {
 
     public void OnAutoAttackStart() {
         SetWaitingForServerReply(false);
-        PlayerEntity.Instance.StartAutoAttacking();
+        if(PlayerEntity.Instance.StartAutoAttacking()) {
+            PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
+        }
         notifyEvent(Event.READY_TO_ACT);
     }
 
     public void OnAutoAttackStop() {
         SetWaitingForServerReply(false);
         PlayerEntity.Instance.StopAutoAttacking();
+        PlayerController.Instance.StopLookAt();
         notifyEvent(Event.CANCEL);
     }
 
@@ -407,8 +340,5 @@ public class PlayerStateMachine : MonoBehaviour {
             Debug.LogWarning("Player move failed but can move !");
             SetState(PlayerState.ATTACKING);
         }
-
-
-        Debug.LogWarning("Move failed");
     }
 }

@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour {
     private float _finalAngle;
 
     /* Movement */
-    [SerializeField] private bool _canMove = true;
     [SerializeField] private Vector3 _moveDirection;
     [SerializeField] private float _currentSpeed;
     [SerializeField] private float _defaultSpeed = 4;
@@ -32,7 +31,6 @@ public class PlayerController : MonoBehaviour {
     public float CurrentSpeed { get { return _currentSpeed; } }
     public float DefaultSpeed { get { return _defaultSpeed; } set { _defaultSpeed = value; } }
     public bool RunningToDestination { get { return _runningToDestination; } }
-   // public bool CanMove { get { return _canMove; } }
     public Vector3 MoveDirection { get { return _moveDirection; } }
 
     private static PlayerController _instance;
@@ -253,11 +251,6 @@ public class PlayerController : MonoBehaviour {
         angle *= 45f;
         _finalAngle = angle;
     }
-
-    //public void SetCanMove(bool canMove) {
-    //    _moveDirection = new Vector3(0, _moveDirection.y, 0);
-    //    _canMove = canMove;
-    //}
 
     public bool IsMoving() {
         return !VectorUtils.IsVectorZero2D(_moveDirection) && PlayerStateMachine.Instance.CanMove();
