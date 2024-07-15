@@ -46,6 +46,7 @@ public class L2GameUI : L2UI {
         CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
         CharacterInfoWindow.Instance.HideWindow();
         ActionWindow.Instance.AddWindow(_rootVisualContainer);
+        SkillLearn.Instance.AddWindow(_rootVisualContainer);
         ChatWindow.Instance.AddWindow(_rootVisualContainer);
         TargetWindow.Instance.AddWindow(_rootVisualContainer);
     }
