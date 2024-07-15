@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateSitWait : PlayerStateBase {
+public class PlayerStateSitWait : PlayerStateAction {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
         if (!_enabled) {
@@ -16,11 +16,15 @@ public class PlayerStateSitWait : PlayerStateBase {
             return;
         }
 
-        if (InputManager.Instance.IsInputPressed(InputType.Sit) || InputManager.Instance.IsInputPressed(InputType.Move)) {
-            CameraController.Instance.StickToBone = true;
-            PlayerController.Instance.SetCanMove(false);
-            SetBool("stand", true);
+        if (ShouldDie()) {
+            return;
         }
+
+        //if (InputManager.Instance.IsInputPressed(InputType.Sit) || InputManager.Instance.IsInputPressed(InputType.Move)) {
+        //    CameraController.Instance.StickToBone = true;
+        //    PlayerController.Instance.SetCanMove(false);
+        //    SetBool("stand", true);
+        //}
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

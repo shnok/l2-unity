@@ -36,17 +36,19 @@ public class L2GameUI : L2UI {
 
         StartLoading();
 
-        MenuWindow.Instance.AddWindow(_rootVisualContainer);
         // SKillbar needs updates
         //ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
         //ShortCutPanel.Instance.AddWindow(rootVisualContainer);
-        IconOverlay.Instance.AddWindow(_rootVisualContainer);
-        StatusWindow.Instance.AddWindow(_rootVisualContainer);
-        CharacterInventoryWindow.Instance.AddWindow(_rootVisualContainer);
-        CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
-        CharacterInfoWindow.Instance.HideWindow();
         ChatWindow.Instance.AddWindow(_rootVisualContainer);
-        TargetWindow.Instance.AddWindow(_rootVisualContainer);
+        IconOverlay.Instance.AddWindow(_rootVisualContainer);
+        MenuWindow.Instance.AddWindow(_rootVisualContainer);
+        StatusWindow.Instance.AddWindow(_rootVisualContainer);
+        TargetWindow.Instance.AddWindow(_popupVisualContainer);
+
+        //InventoryWindow.Instance.AddWindow(_popupVisualContainer);
+
+        CharacterInfoWindow.Instance.AddWindow(_popupVisualContainer);
+        CharacterInfoWindow.Instance.HideWindow();
     }
 
     public void EnableMouse() {

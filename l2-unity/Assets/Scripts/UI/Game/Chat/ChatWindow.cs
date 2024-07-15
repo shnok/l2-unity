@@ -207,26 +207,41 @@ public class ChatWindow : L2Window {
  
     public void SendChatMessage(string text) {
         if(World.Instance.OfflineMode) {
-            Message message = new ChatMessage(PlayerEntity.Instance.Identity.Name, text);
+            ChatMessage message = new ChatMessage(PlayerEntity.Instance.Identity.Name, text);
             ReceiveChatMessage(message);
         } else {
-            GameClient.Instance.SendMessage(text);
+            GameClient.Instance.ClientPacketHandler.SendMessage(text);
         }
     }
 
-    public void ReceiveChatMessage(Message message) {
+    public void ReceiveChatMessage(ChatMessage message) {
         if(message == null) {
             return;
         }
 
         for(int i = 0; i < _tabs.Count; i++) {
-            if(_tabs[i].FilteredMessages.Count > 0) {
-                if(_tabs[i].FilteredMessages.Contains(message.MessageType)) {
-                    ConcatMessage(_tabs[i].Content, message.ToString());
-                }
-            }
+            //if(_tabs[i].FilteredMessages.Count > 0) {
+            //    if(_tabs[i].FilteredMessages.Contains(message.MessageType)) {
+            //        ConcatMessage(_tabs[i].Content, message.ToString());
+            //    }
+            //}
+            ConcatMessage(_tabs[i].Content, message.ToString());
         }
-        
+    }
+
+    public void ReceiveSystemMessage(SystemMessage message) {
+        if (message == null) {
+            return;
+        }
+
+        for (int i = 0; i < _tabs.Count; i++) {
+            //if(_tabs[i].FilteredMessages.Count > 0) {
+            //    if(_tabs[i].FilteredMessages.Contains(message.MessageType)) {
+            //        ConcatMessage(_tabs[i].Content, message.ToString());
+            //    }
+            //}
+            ConcatMessage(_tabs[i].Content, message.ToString());
+        }
     }
 
     private void ConcatMessage(Label chatContent, string message) {

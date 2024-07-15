@@ -6,18 +6,22 @@ using UnityEngine;
 public class TargetData
 {
     [SerializeField] private Status _status;
+    [SerializeField] private Stats _stats;
     [SerializeField] private NetworkIdentity _identity;
     [SerializeField] private ObjectData _data;
     [SerializeField] private float _distance;
 
     public Status Status { get { return _status; } }
+    public Stats Stats { get { return _stats; } }
     public NetworkIdentity Identity { get { return _identity; } }
     public ObjectData Data { get { return _data; }}
     public float Distance { get { return _distance; } set { _distance = value; } }
 
     public TargetData(ObjectData target) {
         _data = target;
-        _identity = _data.ObjectTransform.GetComponent<Entity>().Identity;
+        Entity e = _data.ObjectTransform.GetComponent<Entity>();
+
+        _identity = e.Identity;
 
         //switch (_identity.EntityType) {
         //    case EntityType.Player:
@@ -33,6 +37,7 @@ public class TargetData
         //        _status = _data.ObjectTransform.GetComponent<MonsterEntity>().Status;
         //        break;
         //}
-        _status = _data.ObjectTransform.GetComponent<Entity>().Status;
+        _status = e.Status;
+        _stats = e.Stats;
     }
 }

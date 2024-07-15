@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour {
         NpcNameTable.Instance.Initialize();
         ModelTable.Instance.Initialize();
         LogongrpTable.Instance.Initialize();
+        SystemMessageTable.Instance.Initialize();
     }
-
 
     public void LogIn() {
     }

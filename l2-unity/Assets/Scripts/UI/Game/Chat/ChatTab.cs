@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class ChatTab
 {
     [SerializeField] string _tabName = "Tab";
-    [SerializeField] private List<MessageType> _filteredMessages;
+    //[SerializeField] private List<MessageType> _filteredMessages;
     private bool _autoscroll = true;
     private ScrollView _scrollView;
     private Label _content;
@@ -15,7 +15,7 @@ public class ChatTab
     private VisualElement _tabHeader;
     private VisualElement _chatWindowEle;
     public string TabName { get { return _tabName; } }
-    public List<MessageType> FilteredMessages { get { return _filteredMessages; } }
+    //public List<MessageType> FilteredMessages { get { return _filteredMessages; } }
     public Label Content { get { return _content; } }
     public VisualElement TabContainer { get { return _tabContainer; } }
     public VisualElement TabHeader { get { return _tabHeader; } }

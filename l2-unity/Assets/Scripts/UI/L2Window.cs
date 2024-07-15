@@ -32,7 +32,7 @@ public abstract class L2Window : MonoBehaviour {
         StartCoroutine(BuildWindow(root));
     }
 
-    protected void InitWindow(VisualElement root) {
+    protected virtual void InitWindow(VisualElement root) {
         _windowEle = _windowTemplate.Instantiate()[0];
         _mouseOverDetection = new MouseOverDetectionManipulator(_windowEle);
         _windowEle.AddManipulator(_mouseOverDetection);
@@ -62,9 +62,19 @@ public abstract class L2Window : MonoBehaviour {
     public void ToggleHideWindow() {
         if(_isWindowHidden) {
             ShowWindow();
+            BringToFront();
         } else {
             HideWindow();
         }
+    }
+
+    protected Label GetLabelById(string id) {
+        VisualElement e = GetElementById(id);
+        if (e == null) {
+            return null;
+        }
+
+        return (Label) e;
     }
 
     protected VisualElement GetElementById(string id) {
@@ -87,11 +97,9 @@ public abstract class L2Window : MonoBehaviour {
         return btn;
     }
 
-    public void BringToFront() {
-        _windowEle.BringToFront();
+    public virtual void BringToFront() {
     }
 
-    public void SendToBack() {
-        _windowEle.SendToBack();
+    public virtual void SendToBack() {
     }
 }

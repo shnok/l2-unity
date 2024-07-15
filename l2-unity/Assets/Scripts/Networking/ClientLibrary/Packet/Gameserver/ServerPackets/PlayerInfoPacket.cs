@@ -34,24 +34,45 @@ public class PlayerInfoPacket : ServerPacket {
             _info.Identity.SetPosZ(ReadF());
             _info.Identity.Owned = true;
             // Status
-            _info.Status.Level = ReadI();
+            _info.Stats.Level = ReadI();
             _info.Status.Hp = ReadI();
-            _info.Status.MaxHp = ReadI();
+            _info.Stats.MaxHp = ReadI();
             _info.Status.Mp = ReadI(); 
-            _info.Status.MaxMp = ReadI();
+            _info.Stats.MaxMp = ReadI();
             _info.Status.Cp = ReadI();
-            _info.Status.MaxCp = ReadI();
-            // Stats
+            _info.Stats.MaxCp = ReadI();
+            // Combat
             _info.Stats.Speed = ReadI();
             _info.Stats.PAtkSpd = ReadI();
             _info.Stats.MAtkSpd = ReadI();
             _info.Stats.AttackRange = ReadF();
+            _info.Stats.PAtk = ReadI();
+            _info.Stats.PDef = ReadI();
+            _info.Stats.PEvasion = ReadI();
+            _info.Stats.PAccuracy = ReadI();
+            _info.Stats.MEvasion = ReadI();
+            _info.Stats.MAccuracy = ReadI();
+            _info.Stats.PCritical = ReadI();
+            _info.Stats.MCritical = ReadI();
+            _info.Stats.MAtk = ReadI();
+            _info.Stats.MDef = ReadI();
+            // Stats
             _info.Stats.Con = ReadB();
             _info.Stats.Dex = ReadB();
             _info.Stats.Str = ReadB();
             _info.Stats.Men = ReadB();
             _info.Stats.Wit = ReadB();
             _info.Stats.Int = ReadB();
+            _info.Stats.Sp = ReadI();
+            _info.Stats.Exp = ReadI();
+            _info.Stats.MaxExp = ReadI();
+            _info.Stats.CurrWeight = ReadI();
+            _info.Stats.MaxWeight = ReadI();
+            // Social
+            _info.Stats.PkKills = ReadI();
+            _info.Stats.PvpKills = ReadI();
+            _info.Status.PvpFlag = ReadL();
+            _info.Stats.Karma = ReadI();
             // Appearance
             _info.Appearance.CollisionHeight = ReadF();
             _info.Appearance.CollisionRadius = ReadF();

@@ -10,14 +10,14 @@ public class ButtonClickSoundManipulator : PointerManipulator {
     }
 
     protected override void RegisterCallbacksOnTarget() {
-        target.RegisterCallback<ClickEvent>(MouseDownHandler);
+        target.RegisterCallback<MouseDownEvent>(MouseDownHandler, TrickleDown.TrickleDown);
     }
 
     protected override void UnregisterCallbacksFromTarget() {
-        target.UnregisterCallback<ClickEvent>(MouseDownHandler);
+        target.UnregisterCallback<MouseDownEvent>(MouseDownHandler);
     }
 
-    private void MouseDownHandler(ClickEvent evt) {
+    private void MouseDownHandler(MouseDownEvent evt) {
         AudioManager.Instance.PlayUISound("click_01");
     }
 }

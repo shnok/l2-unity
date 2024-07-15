@@ -62,7 +62,7 @@ public class UserEntity : Entity {
     public override bool StopAutoAttacking() {
         if (base.StopAutoAttacking()) {
             _networkAnimationReceive.SetBool("atk01_" + _gear.WeaponAnim, false);
-            if(!_networkCharacterControllerReceive.IsMoving()) {
+            if(!_networkCharacterControllerReceive.IsMoving() && !IsDead()) {
                 _networkAnimationReceive.SetBool("atkwait_" + _gear.WeaponAnim, true);
             }
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerStateMachine;
 
 public class ClickManager : MonoBehaviour {
     [SerializeField] private GameObject _locator;
@@ -66,10 +67,12 @@ public class ClickManager : MonoBehaviour {
 
     public void OnClickToMove(RaycastHit hit) {
         _lastClickPosition = hit.point;
-        PlayerCombatController.Instance.RunningToTarget = false;
+        //  PlayerCombatController.Instance.RunningToTarget = false;
+
+        PlayerStateMachine.Instance.setIntention(Intention.INTENTION_MOVE_TO, _lastClickPosition);
 
         TargetManager.Instance.ClearAttackTarget();
-        PathFinderController.Instance.MoveTo(_lastClickPosition);
+      //  PathFinderController.Instance.MoveTo(_lastClickPosition);
         float angle = Vector3.Angle(hit.normal, Vector3.up);
         if (angle < 85f) {
             PlaceLocator(_lastClickPosition);

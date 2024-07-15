@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChatMessage : Message
+public class ChatMessage
 {
     private string _user;
     private string _message;
 
-    public ChatMessage(string user, string message) : base(MessageType.ChatMessage) {
+    public ChatMessage(string user, string message) {
         _user = user;
         _message = message;
     }

@@ -28,9 +28,9 @@ public class NpcInfoPacket : ServerPacket {
             Stats.PAtkSpd = ReadI();
             Stats.MAtkSpd = ReadI();
             // Status
-            Status.Level = ReadI();
+            Stats.Level = ReadI();
             Status.Hp = ReadI();
-            Status.MaxHp = ReadI();
+            Stats.MaxHp = ReadI();
         } catch(Exception e) {
             Debug.LogError(e);
         }

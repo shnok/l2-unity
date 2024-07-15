@@ -10,12 +10,12 @@ public class PlayerStateDead : PlayerStateBase {
         }
 
         SetBool("death", false, false);
-        PlayerController.Instance.SetCanMove(false);
+        //PlayerController.Instance.SetCanMove(false);
         PlaySoundAtRatio(CharacterSoundEvent.Death, _audioHandler.DeathRatio);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-
+        SetBool("death", false, false);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

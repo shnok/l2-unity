@@ -16,18 +16,24 @@ public class PlayerStateWait : PlayerStateAction {
             return;
         }
 
+        if (ShouldDie()) {
+            return;
+        }
+
         if (ShouldAttack()) {
+            SetBool("atk01_" + _gear.WeaponAnim, true, false);
             return;
         }
         if (ShouldRun()) {
             return;
         }
-        if(ShouldJump(false)) {
+
+        if (ShouldJump(false)) {
             return;
         }
-        if(ShouldSit()) {
-            return;
-        }
+        //if(ShouldSit()) {
+        //    return;
+        //}
         if (ShouldAtkWait()) {
             return;
         }
