@@ -40,12 +40,12 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void SetState(PlayerState state) {
-        Debug.Log($"[AI] New state: {state}");
+        Debug.Log($"[StateMachine] New state: {state}");
         _state = state;
     }
 
     public void SetWaitingForServerReply(bool value) {
-        Debug.LogWarning($"[AI] Waiting for server reply: {value}");
+        Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
         _waitingForServerReply = value;
     }
 
@@ -57,7 +57,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public void notifyEvent(Event evt) {
         if (evt != Event.THINK) {
             _lastEvent = evt;
-            Debug.Log($"[AI] New event: {evt}");
+            Debug.Log($"[StateMachine] New event: {evt}");
         }
 
         notifyEvent(evt, null);
@@ -212,7 +212,7 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void setIntention(Intention intention, object arg0) {
-        Debug.Log($"[AI] New intention: {intention}");
+        Debug.Log($"[StateMachine] New intention: {intention}");
 
         _intention = intention;
 
@@ -288,7 +288,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
 
     public void OnReachingTarget() {
-        Debug.LogWarning("On Reaching Target");
+        Debug.Log("On Reaching Target");
         PathFinderController.Instance.ClearPath();
         PlayerController.Instance.ResetDestination();
 
@@ -323,7 +323,6 @@ public class PlayerStateMachine : MonoBehaviour {
     // Autoattack failed (entity probably too far)
     public void OnAutoAttackFailed() {
         SetWaitingForServerReply(false);
-        Debug.LogWarning("AutoAttack failed");
         PlayerEntity.Instance.StopAutoAttacking(); 
         notifyEvent(Event.CANCEL);
         // PlayerController.Instance.SetCanMove(true);

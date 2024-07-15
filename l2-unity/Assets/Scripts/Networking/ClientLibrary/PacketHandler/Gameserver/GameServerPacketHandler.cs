@@ -235,7 +235,9 @@ public class GameServerPacketHandler : ServerPacketHandler
         Hit[] hits = packet.Hits;
 
         for (int i = 0; i < hits.Length; i++) {
-            World.Instance.InflictDamageTo(packet.SenderId, hits[i].TargetId, hits[i].Damage, hits[i].isCrit());
+            if (hits[i] != null && !hits[i].isMiss()) {
+                World.Instance.InflictDamageTo(packet.SenderId, hits[i].TargetId, hits[i].Damage, hits[i].isCrit());
+            }
         }
     }
 
@@ -266,20 +268,20 @@ public class GameServerPacketHandler : ServerPacketHandler
     }
 
     private void OnEntityAutoAttackStart(byte[] data) {
-        Debug.LogWarning("OnEntityAutoAttackStart");
+        Debug.Log("OnEntityAutoAttackStart");
         AutoAttackStartPacket packet = new AutoAttackStartPacket(data);
         World.Instance.EntityStartAutoAttacking(packet.EntityId);
     }
 
     private void OnEntityAutoAttackStop(byte[] data) {
-        Debug.LogWarning("OnEntityAutoAttackStop");
+        Debug.Log("OnEntityAutoAttackStop");
         AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
         World.Instance.EntityStopAutoAttacking(packet.EntityId);
     }
 
     private void OnActionFailed(byte[] data) {
         ActionFailedPacket packet = new ActionFailedPacket(data);
-        Debug.LogWarning($"Action failed");
+        Debug.LogWarning($"Action failed: " + packet.PlayerAction);
         _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
     }
 

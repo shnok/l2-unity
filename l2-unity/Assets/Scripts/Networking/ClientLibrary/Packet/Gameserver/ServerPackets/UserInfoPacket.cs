@@ -3,13 +3,13 @@ using System;
 
 public class UserInfoPacket : ServerPacket {
     public NetworkIdentity Identity { get; private set; }
-    public Status Status { get; private set; }
+    public PlayerStatus Status { get; private set; }
     public Stats Stats { get; private set; }
     public PlayerAppearance Appearance { get; private set; }
 
     public UserInfoPacket(byte[] d) : base(d) {
         Identity = new NetworkIdentity();
-        Status = new Status();
+        Status = new PlayerStatus();
         Stats = new Stats();
         Appearance = new PlayerAppearance();
         Parse();

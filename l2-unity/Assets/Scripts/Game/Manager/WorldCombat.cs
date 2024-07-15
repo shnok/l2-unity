@@ -81,9 +81,9 @@ public class WorldCombat : MonoBehaviour {
         Stats stats = entity.Stats;
 
         foreach (Attribute attribute in attributes) {
-            if (entity != PlayerEntity.Instance) {
-                Debug.LogWarning($"{entity.Identity.Name} - {(AttributeType)attribute.id}");
-            }
+            //if (entity != PlayerEntity.Instance) {
+            //    Debug.LogWarning($"{entity.Identity.Name} - {(AttributeType)attribute.id}");
+            //}
             switch((AttributeType) attribute.id) {
                 case AttributeType.LEVEL:
                     stats.Level = attribute.value;
