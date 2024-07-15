@@ -34,14 +34,6 @@ public class PlayerStateAtk : PlayerStateAction {
             return;
         }
 
-        if (!moved) {
-            if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
-                _lastNormalizedTime = stateInfo.normalizedTime;
-                PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
-                PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
-            }
-        }
-
         SetBool("atkwait_" + _weaponAnim, false, false);
         SetBool("atk01_" + _weaponAnim, false, false);
 

@@ -76,7 +76,7 @@ public class WorldCombat : MonoBehaviour {
     }
 
     public void StatusUpdate(Entity entity, List<Attribute> attributes) {
-        Debug.Log("Word combat: Status update");
+       // Debug.Log("Word combat: Status update");
         Status status = entity.Status;
         Stats stats = entity.Stats;
 

@@ -40,12 +40,12 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void SetState(PlayerState state) {
-        Debug.Log($"[StateMachine] New state: {state}");
+      //  Debug.Log($"[StateMachine] New state: {state}");
         _state = state;
     }
 
     public void SetWaitingForServerReply(bool value) {
-        Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
+       // Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
         _waitingForServerReply = value;
     }
 
@@ -57,7 +57,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public void notifyEvent(Event evt) {
         if (evt != Event.THINK) {
             _lastEvent = evt;
-            Debug.Log($"[StateMachine] New event: {evt}");
+        //    Debug.Log($"[StateMachine] New event: {evt}");
         }
 
         notifyEvent(evt, null);
@@ -212,7 +212,7 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     public void setIntention(Intention intention, object arg0) {
-        Debug.Log($"[StateMachine] New intention: {intention}");
+       // Debug.Log($"[StateMachine] New intention: {intention}");
 
         _intention = intention;
 
@@ -249,10 +249,12 @@ public class PlayerStateMachine : MonoBehaviour {
             float distance = Vector3.Distance(transform.position, target.position);
             Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
 
-            if (distance <= attackRange && !_waitingForServerReply) {
+            // Is close enough? Is player already waiting for server reply?
+            if (distance <= attackRange * 0.9f && !_waitingForServerReply) {
                 notifyEvent(Event.READY_TO_ACT);
             } else {
-                PathFinderController.Instance.MoveTo(target.position, ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange);
+                // Move to target with a 10% error margin
+                PathFinderController.Instance.MoveTo(target.position, ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange * 0.9f);
             }
         }
     }
@@ -288,7 +290,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
 
     public void OnReachingTarget() {
-        Debug.Log("On Reaching Target");
+      //  Debug.Log("On Reaching Target");
         PathFinderController.Instance.ClearPath();
         PlayerController.Instance.ResetDestination();
 
