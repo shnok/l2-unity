@@ -27,6 +27,18 @@ public class ServerSelectWindow : L2Window
         _instance = null;
     }
 
+    private void Update() {
+        if (!_isWindowHidden) {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                AudioManager.Instance.PlayUISound("click_01");
+                CancelButtonPressed();
+            } else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) {
+                AudioManager.Instance.PlayUISound("click_01");
+                ConfirmButtonPressed();
+            }
+        }
+    }
+
     protected override void LoadAssets() {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Login/ServerList/ServerListWindow");
         _serverElementTemplate = LoadAsset("Data/UI/_Elements/Login/ServerList/ServerElement");
