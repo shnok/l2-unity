@@ -22,12 +22,12 @@ public class PlayerStateAtk : PlayerStateAction {
         SetBool("atkwait_" + _weaponAnim, false, false);
         SetBool("atk01_" + _weaponAnim, false, false);
 
-        if(TargetManager.Instance.HasAttackTarget()) {
+        //if(TargetManager.Instance.HasAttackTarget()) {
             PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
             PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
-            PlayerController.Instance.SetCanMove(false);
-            PlayerCombatController.Instance.AutoAttacking = true;
-        }
+         //   PlayerController.Instance.SetCanMove(false);
+          //  PlayerCombatController.Instance.AutoAttacking = true;
+       // }
 
         _lastNormalizedTime = 0;
         moved = false;
@@ -46,22 +46,30 @@ public class PlayerStateAtk : PlayerStateAction {
             }
 
             if ((stateInfo.normalizedTime % 1) <= 0.50f) {
-                PlayerController.Instance.SetCanMove(false);
+               // PlayerController.Instance.SetCanMove(false);
             } else { 
-                if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination)) {
-                    PlayerController.Instance.SetCanMove(true);
-                }
-                moved = ShouldRun();
+                //if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination)) {
+                //    PlayerController.Instance.SetCanMove(true);
+                //}
+              //  moved = ShouldRun();
             }
 
             if ((stateInfo.normalizedTime % 1) >= 0.90f) {
-                if (!TargetManager.Instance.HasAttackTarget() || TargetManager.Instance.AttackTarget.Data.Entity.IsDead()) {
-                    PlayerEntity.Instance.StopAutoAttacking();
-                }
+                //if (!TargetManager.Instance.HasAttackTarget() || TargetManager.Instance.AttackTarget.Data.Entity.IsDead()) {
+                //    PlayerEntity.Instance.StopAutoAttacking();
+                //}
             }
         }
 
-        ShouldAttack();
+        if (ShouldAttack()) {
+            return;
+        }
+
+        if (ShouldIdle()) {
+            return;
+        }
+
+        // ShouldAttack();
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -71,12 +79,12 @@ public class PlayerStateAtk : PlayerStateAction {
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack")) {
             Debug.Log("Exiting atk state. Next tag: " + animator.GetCurrentAnimatorStateInfo(0).tagHash);
-            if(PlayerCombatController.Instance.AutoAttacking) {
-                Debug.LogWarning("Exited attack animation but client is still attacking!");
+           // if(PlayerCombatController.Instance.AutoAttacking) {
+           //     Debug.LogWarning("Exited attack animation but client is still attacking!");
                 //PlayerCombatController.Instance.AutoAttacking = false;
                 //PlayerEntity.Instance.StopAutoAttacking();
                 //PlayerController.Instance.SetCanMove(true);
-            }
+           // }
         }
     }
 }

@@ -16,6 +16,13 @@ public class UserStateBase : StateMachineBehaviour {
 
     public void LoadComponents(Animator animator) {
         if (_entity == null) {
+            if(animator.transform.parent == null) {
+                _enabled = false;
+                return;
+            } else if (animator.transform.parent.parent == null) {
+                _enabled = false;
+                return;
+            }
             _entity = animator.transform.parent.parent.GetComponent<Entity>();
         }
         if (_entity == null || _entity is PlayerEntity) {

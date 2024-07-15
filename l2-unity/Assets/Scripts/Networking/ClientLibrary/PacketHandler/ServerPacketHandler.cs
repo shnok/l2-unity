@@ -29,7 +29,8 @@ public abstract class ServerPacketHandler
                         return;
                     }
                 } else if(!NewCrypt.verifyChecksum(data)) {
-                    Debug.LogError("Packet checksum is wrong.");
+                    Debug.LogError("Packet checksum is wrong. Ignoring packet...");
+                    return;
                 }
             }
 

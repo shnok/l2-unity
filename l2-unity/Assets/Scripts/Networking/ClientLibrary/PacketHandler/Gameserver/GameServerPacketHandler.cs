@@ -81,6 +81,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.StatusUpdate:
                 OnStatusUpdate(data);
                 break;
+            case GameServerPacketType.ActionAllowed:
+                OnActionAllowed(data);
+                break;
         }
     }
 
@@ -278,6 +281,11 @@ public class GameServerPacketHandler : ServerPacketHandler
         ActionFailedPacket packet = new ActionFailedPacket(data);
         Debug.LogWarning($"Action failed");
         _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
+    }
+
+    private void OnActionAllowed(byte[] data) {
+        ActionAllowedPacket packet = new ActionAllowedPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionAllowed(packet.PlayerAction));
     }
 
     private void OnServerClose() {

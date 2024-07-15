@@ -48,12 +48,12 @@ public class PlayerStateRun : PlayerStateAction {
         if (ShouldJump(true)) {
             return;
         }
-        if (ShouldSit()) {
-            return;
-        }
-        if (ShouldAtkWait()) {
-            return;
-        }
+        //if (ShouldSit()) {
+        //    return;
+        //}
+        //if (ShouldAtkWait()) {
+        //    return;
+        //}
         if (ShouldIdle()) {
             return;
         }

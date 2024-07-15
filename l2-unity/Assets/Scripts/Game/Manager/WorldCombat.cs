@@ -42,11 +42,19 @@ public class WorldCombat : MonoBehaviour {
     }
 
     public void EntityStartAutoAttacking(Entity entity) {
-        entity.StartAutoAttacking();
+        if(entity == PlayerEntity.Instance) {
+            PlayerStateMachine.Instance.OnAutoAttackStart();
+        } else {
+            entity.StartAutoAttacking();
+        }
     }
 
     public void EntityStopAutoAttacking(Entity entity) {
-        entity.StopAutoAttacking();
+        if (entity == PlayerEntity.Instance) {
+            PlayerStateMachine.Instance.OnAutoAttackStop();
+        } else {
+            entity.StopAutoAttacking();
+        }
     }
 
     private void ParticleImpact(Transform attacker, Transform target) {

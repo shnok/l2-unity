@@ -25,7 +25,7 @@ public class PlayerStateJump : PlayerStateBase {
 
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) && PlayerController.Instance.CanMove) {
+            if (PlayerStateMachine.Instance.State == PlayerState.RUNNING) {
                 SetBool("run_" + _weaponAnim, true);
             } else {
                 SetBool("wait_" + _weaponAnim, true);

@@ -10,7 +10,7 @@ public class PlayerStateDead : PlayerStateBase {
         }
 
         SetBool("death", false, false);
-        PlayerController.Instance.SetCanMove(false);
+        //PlayerController.Instance.SetCanMove(false);
         PlaySoundAtRatio(CharacterSoundEvent.Death, _audioHandler.DeathRatio);
     }
 

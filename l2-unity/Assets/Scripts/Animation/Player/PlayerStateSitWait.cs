@@ -16,11 +16,11 @@ public class PlayerStateSitWait : PlayerStateBase {
             return;
         }
 
-        if (InputManager.Instance.IsInputPressed(InputType.Sit) || InputManager.Instance.IsInputPressed(InputType.Move)) {
-            CameraController.Instance.StickToBone = true;
-            PlayerController.Instance.SetCanMove(false);
-            SetBool("stand", true);
-        }
+        //if (InputManager.Instance.IsInputPressed(InputType.Sit) || InputManager.Instance.IsInputPressed(InputType.Move)) {
+        //    CameraController.Instance.StickToBone = true;
+        //    PlayerController.Instance.SetCanMove(false);
+        //    SetBool("stand", true);
+        //}
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

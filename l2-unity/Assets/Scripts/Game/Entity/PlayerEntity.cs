@@ -91,7 +91,7 @@ public class PlayerEntity : Entity {
     public override bool StopAutoAttacking() {
         base.StopAutoAttacking();
         //if (base.StopAutoAttacking()) {
-            PlayerController.Instance.SetCanMove(true);
+           // PlayerController.Instance.SetCanMove(true);
             PlayerController.Instance.StopLookAt();
             if (!PlayerController.Instance.IsMoving()) {
                 PlayerAnimationController.Instance.SetBool("atkwait_" + _gear.WeaponAnim, true, false);
@@ -129,7 +129,22 @@ public class PlayerEntity : Entity {
                 TargetManager.Instance.ClearTarget();
                 break;
             case PlayerAction.AutoAttack:
-                PlayerCombatController.Instance.OnAutoAttackFailed();
+                PlayerStateMachine.Instance.OnAutoAttackFailed();
+                break;
+            case PlayerAction.Move:
+                PlayerStateMachine.Instance.OnMoveFailed();
+                break;
+        }
+    }
+
+    public void OnActionAllowed(PlayerAction action) {
+        switch (action) {
+            case PlayerAction.SetTarget:
+                break;
+            case PlayerAction.AutoAttack:
+                break;
+            case PlayerAction.Move:
+                PlayerStateMachine.Instance.OnMoveAllowed();
                 break;
         }
     }

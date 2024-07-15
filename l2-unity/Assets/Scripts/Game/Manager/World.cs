@@ -106,7 +106,7 @@ public class World : MonoBehaviour {
         GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, identity.EntityType);
         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
         go.transform.position = identity.Position;
-        go.transform.name = "Player";
+        go.transform.name = "_Player";
 
         PlayerEntity player = go.GetComponent<PlayerEntity>();
 
@@ -127,7 +127,7 @@ public class World : MonoBehaviour {
 
         player.Initialize();
 
-        go.transform.SetParent(_usersContainer.transform);
+        //go.transform.SetParent(_usersContainer.transform);
 
         CameraController.Instance.enabled = true;
         CameraController.Instance.SetTarget(go);

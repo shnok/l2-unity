@@ -21,17 +21,17 @@ public class PlayerStateAtkWait : PlayerStateAction {
             return;
         }
 
-        if (ShouldJump(false)) {
-            return;
-        }
+        //if (ShouldJump(false)) {
+        //    return;
+        //}
 
-        if (ShouldSit()) {
-            return;
-        }
+        //if (ShouldSit()) {
+        //    return;
+        //}
 
-        if(ShouldAtkWait()) {
-            return;
-        }
+        //if(ShouldAtkWait()) {
+        //    return;
+        //}
 
         if (ShouldIdle()) {
             return;

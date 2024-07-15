@@ -22,15 +22,16 @@ public class PlayerStateWait : PlayerStateAction {
         if (ShouldRun()) {
             return;
         }
-        if(ShouldJump(false)) {
+
+        if (ShouldJump(false)) {
             return;
         }
-        if(ShouldSit()) {
-            return;
-        }
-        if (ShouldAtkWait()) {
-            return;
-        }
+        //if(ShouldSit()) {
+        //    return;
+        //}
+        //if (ShouldAtkWait()) {
+        //    return;
+        //}
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

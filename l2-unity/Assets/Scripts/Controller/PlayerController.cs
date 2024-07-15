@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
     public float CurrentSpeed { get { return _currentSpeed; } }
     public float DefaultSpeed { get { return _defaultSpeed; } set { _defaultSpeed = value; } }
     public bool RunningToDestination { get { return _runningToDestination; } }
-    public bool CanMove { get { return _canMove; } }
+   // public bool CanMove { get { return _canMove; } }
     public Vector3 MoveDirection { get { return _moveDirection; } }
 
     private static PlayerController _instance;
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour {
         ClickManager.Instance.HideLocator();
     }
 
-    private void ListenToInputs() {
+    public void ListenToInputs() {
         /* Update input axis */
         _axis = GetAxis();
 
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour {
     private void MoveToTargetPosition() {
         Vector3 relativeDirection = _targetPosition - _flatTransformPos;
 
-        if(_canMove) {         
+        if(PlayerStateMachine.Instance.CanMove()) {         
             Vector3 relativeAxis = new Vector2(relativeDirection.x, relativeDirection.z);
 
             // Use Atan2 to calculate the angle in radians
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour {
 
     public Vector2 GetAxis() {
         Vector2 localAxis;
-        if(InputManager.Instance.IsInputPressed(InputType.MoveForward) && _canMove) {
+        if(InputManager.Instance.IsInputPressed(InputType.MoveForward) && PlayerStateMachine.Instance.CanMove()) {
             LookForward(true);
             localAxis = Vector2.up;
         } else {
@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private float GetInputRotationValue(float angle) {
-        if(InputManager.Instance.IsInputPressed(InputType.InputAxis) && _canMove) {
+        if(InputManager.Instance.IsInputPressed(InputType.InputAxis) && PlayerStateMachine.Instance.CanMove()) {
             angle = Mathf.Atan2(_axis.x, _axis.y) * Mathf.Rad2Deg;
             angle = Mathf.Round(angle / 45f);
             angle *= 45f;
@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviour {
     private Vector3 GetInputDirection(float speed) {
         /* Handle input direction */
         Vector3 direction;
-        if(_controller.isGrounded && _canMove) {
+        if(_controller.isGrounded && PlayerStateMachine.Instance.CanMove()) {
             //Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
             Vector3 rotationAxis = Vector3.up; // Axis of rotation (e.g., upwards)
             // Create a Quaternion representing the rotation
@@ -218,7 +218,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void Jump() {
-        if(_controller.isGrounded && _canMove) {
+        if(_controller.isGrounded && PlayerStateMachine.Instance.CanMove()) {
             _verticalVelocity = _jumpForce;
         }
     }
@@ -254,12 +254,17 @@ public class PlayerController : MonoBehaviour {
         _finalAngle = angle;
     }
 
-    public void SetCanMove(bool canMove) {
-        _moveDirection = new Vector3(0, _moveDirection.y, 0);
-        _canMove = canMove;
-    }
+    //public void SetCanMove(bool canMove) {
+    //    _moveDirection = new Vector3(0, _moveDirection.y, 0);
+    //    _canMove = canMove;
+    //}
 
     public bool IsMoving() {
-        return !VectorUtils.IsVectorZero2D(_moveDirection) && _canMove;
+        return !VectorUtils.IsVectorZero2D(_moveDirection) && PlayerStateMachine.Instance.CanMove();
+    }
+
+    public void StopMoving() {
+        //ResetDestination();
+        _moveDirection = new Vector3(0, _moveDirection.y, 0);
     }
 }

@@ -33,6 +33,6 @@ public class PlayerStateStand : PlayerStateBase {
         }
 
         CameraController.Instance.StickToBone = false;
-        PlayerController.Instance.SetCanMove(true);
+      //  PlayerController.Instance.SetCanMove(true);
     }
 }
