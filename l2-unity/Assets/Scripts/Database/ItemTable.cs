@@ -28,6 +28,7 @@ public class ItemTable
     public static int NAKED_LEGS = 28;
     public static int NAKED_GLOVES = 48;
     public static int NAKED_BOOTS = 35;
+    private bool _loadedAll = true;
 
     public void Initialize() {
         FillDataToLoad();
@@ -51,6 +52,8 @@ public class ItemTable
     }
 
     public bool ShouldLoadItem(int id) {
+        if (_loadedAll) return true;
+
         FillDataToLoad(); //TODO: Remove
         if (weaponsToLoad.Count == 0 && armorsToLoad.Count == 0 && itemsToLoad.Count == 0) {
             return true;

@@ -57,6 +57,11 @@ public class EtcItemgrpTable {
                     }
                 }
 
+                if(etcItemgrp.ObjectId == 5789)
+                {
+                    Debug.Log("");
+                }
+
                 if (!ItemTable.Instance.ShouldLoadItem(etcItemgrp.ObjectId)) {
                     continue;
                 }

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ModelItemDemo
 {
-    private Texture2D _icon;
     private ItemName _itemName;
     private ItemStatData _statItem;
     private int _item_id;
@@ -17,7 +16,11 @@ public class ModelItemDemo
         this._demoL2JItem = demoL2j;
     }
 
-    
+    public DemoL2JItem GetDemoL2J()
+    {
+        return _demoL2JItem;
+    }
+
     public int item_id()
     {
         return _item_id;
@@ -34,34 +37,23 @@ public class ModelItemDemo
     {
         if(_demoL2JItem.Type2 == 1)
         {
-            return Resources.Load<Texture2D>("Data/UI/Window/Inventory/demo_image_row/armor_leather_helmet_i00");
+            Armor armor = ItemTable.Instance.GetArmor(_item_id);
+            if(armor != null) return IconManager.Instance.LoadTextureByName(armor.Armorgrp.Icon);
         }
         else if (_demoL2JItem.Type2 == 0)
         {
-            Dictionary<int, Weapongrp> weapon = WeapongrpTable.Instance.WeaponGrps;
-            if (weapon.ContainsKey(_item_id))
-            {
-                Weapongrp weapongrp = weapon[_item_id];
-                return Resources.Load<Texture2D>("Data/UI/Window/Inventory/demo_image_row/weapon_small_sword_i00");
-            }
-            else
-            {
-                Debug.Log("ModelItemDemo>> not found set default icon " + _demoL2JItem.ItemId);
-                return Resources.Load<Texture2D>("Data/UI/Window/Inventory/demo_image_row/NOIMAGE");
-            }
+            Weapon weapon = ItemTable.Instance.GetWeapon(_item_id);
+            if (weapon != null) return IconManager.Instance.LoadTextureByName(weapon.Weapongrp.Icon);
         }
         else if (_demoL2JItem.Type2 == 4)
         {
-            return Resources.Load<Texture2D>("Data/UI/Window/Inventory/demo_image_row/etc_soulshot_none_for_rookie_i00");
-        }
-        else
-        {
-            return Resources.Load<Texture2D>("Data/UI/Window/Inventory/demo_image_row/NOIMAGE");
+            var etcitem = EtcItemgrpTable.Instance.EtcItemGrps[_item_id];
+            if(etcitem != null) return IconManager.Instance.LoadTextureByName(etcitem.Icon);
         }
 
-        //return Resources.Load<Texture2D>("Data/UI/Window/Inventory/demo_image_row/NOIMAGE");
-
+        return IconManager.Instance.LoadTextureByName("NOIMAGE");
     }
+
     public string Name()
     {
         return _itemName.Name;

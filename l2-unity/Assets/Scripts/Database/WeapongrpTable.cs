@@ -115,7 +115,11 @@ public class WeapongrpTable {
                     continue;
                 }
 
-                _weaponGrps.Add(weaponGrp.ObjectId, weaponGrp);
+                if (!_weaponGrps.ContainsKey(weaponGrp.ObjectId))
+                {
+                    _weaponGrps.Add(weaponGrp.ObjectId, weaponGrp);
+                }
+                
             }
 
             Debug.Log($"Successfully imported {_weaponGrps.Count} weapongrps(s)");

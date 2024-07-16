@@ -37,6 +37,8 @@ public abstract class L2Window : MonoBehaviour {
         _mouseOverDetection = new MouseOverDetectionManipulator(_windowEle);
         _windowEle.AddManipulator(_mouseOverDetection);
 
+      
+
         if (_isWindowHidden) {
             Debug.LogWarning("Disable: " + _windowEle);
             _mouseOverDetection.Disable();
@@ -62,7 +64,6 @@ public abstract class L2Window : MonoBehaviour {
     public void ToggleHideWindow() {
         if(_isWindowHidden) {
             ShowWindow();
-            BringToFront();
         } else {
             HideWindow();
         }
@@ -74,7 +75,7 @@ public abstract class L2Window : MonoBehaviour {
             return null;
         }
 
-        return (Label) e;
+        return (Label)e;
     }
 
     protected VisualElement GetElementById(string id) {
@@ -96,6 +97,7 @@ public abstract class L2Window : MonoBehaviour {
 
         return btn;
     }
+
 
     public virtual void BringToFront() {
     }
