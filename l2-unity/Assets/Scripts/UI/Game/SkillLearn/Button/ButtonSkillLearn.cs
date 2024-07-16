@@ -73,8 +73,6 @@ public class ButtonSkillLearn
 
     public void RegisterClickLearn(VisualElement tabElement)
     {
-
-
         if (tabElement == null)
         {
             Debug.LogError(tabElement + " can't be found.");
@@ -85,5 +83,15 @@ public class ButtonSkillLearn
             _skill.ChangeMenuSelect(2);
             AudioManager.Instance.PlayUISound("click_01");
         }, TrickleDown.TrickleDown);
+    }
+
+    public void RegisterClickButtonPhysical(VisualElement rootEleent)
+    {
+
+        var btn = rootEleent.Q<Button>("DF_Button");
+        btn.RegisterCallback<ClickEvent>((evt) =>
+        {
+            _skill.clickDfPhysical(btn);
+        });
     }
 }

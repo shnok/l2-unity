@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
@@ -15,6 +18,8 @@ public class SkillLearn : L2Window
     private bool isHide;
     private VisualElement[] _menuItems;
     private VisualElement[] _rootTabs;
+    private int[] _arrDfSelect;
+    private string[] fillBackgroundDf = { "Data/UI/Window/Skills/QuestWndPlusBtn_v2", "Data/UI/Window/Skills/Button_DF_Skills_Down_v3" };
 
     private static SkillLearn _instance;
     public static SkillLearn Instance
@@ -29,6 +34,7 @@ public class SkillLearn : L2Window
             _button = new ButtonSkillLearn(this);
             _menuItems = new VisualElement[3];
             _rootTabs = new VisualElement[3];
+            _arrDfSelect = new int[3] { 0,0,0};
         }
         else
         {
@@ -55,10 +61,12 @@ public class SkillLearn : L2Window
 
         rootWindow = GetElementByClass("root-windows");
 
+        _rootTabs[0] = GetElementByClass("tab_active");
+        _rootTabs[1] = GetElementByClass("tab_passive");
 
-        _rootTabs[0] = GetElementByClass("actroot");
-        _rootTabs[1] = GetElementByClass("psvroot");
         boxHeader = GetElementByClass("drag-area");
+        //var test = GetElementByClass("df-button-active-skills");
+
         boxContent = GetElementByClass("skill_content");
 
         CreateTab(boxContent, _menuItems);
@@ -71,6 +79,8 @@ public class SkillLearn : L2Window
         _button.RegisterClickAction(_menuItems[0]);
         _button.RegisterClickPassive(_menuItems[1]);
         _button.RegisterClickLearn(_menuItems[2]);
+        _button.RegisterClickButtonPhysical(_rootTabs[0]);
+       // _button.RegisterClickButtonPhysical(_rootTabs[1], "df-line-active-skills");
 
         DragManipulator drag = new DragManipulator(boxHeader, _windowEle);
         boxHeader.AddManipulator(drag);
@@ -167,6 +177,38 @@ public class SkillLearn : L2Window
         btn.style.height = 18;
         btn.style.top = 0;
         label1.style.top = 0;
+    }
+
+    public void clickDfPhysical(UnityEngine.UIElements.Button btn)
+    {
+        if (_arrDfSelect[0] == 0)
+        {
+            Texture2D iconDfNoraml = LoadTextureDF(fillBackgroundDf[0]);
+            var children = btn.Children();
+            var e = children.FirstOrDefault();
+            e.style.display = DisplayStyle.None;
+            setBackgroundDf(btn , iconDfNoraml);
+            _arrDfSelect[0] = 1;
+        }
+        else
+        {
+            var children = btn.Children();
+            var e = children.FirstOrDefault();
+            e.style.display = DisplayStyle.Flex;
+            Texture2D iconDfNoraml = LoadTextureDF(fillBackgroundDf[1]);
+            setBackgroundDf(btn, iconDfNoraml);
+            _arrDfSelect[0] = 0;
+        }
+    }
+
+    private void setBackgroundDf(UnityEngine.UIElements.Button btn , Texture2D iconDfNoraml)
+    {
+        btn.style.backgroundImage = new StyleBackground(iconDfNoraml);
+    }
+
+    private Texture2D LoadTextureDF(string path)
+    {
+        return Resources.Load<Texture2D>(path);
     }
 
 
