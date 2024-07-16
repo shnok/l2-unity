@@ -62,7 +62,7 @@ public class InventoryWindow : MonoBehaviour
             _inventoryRows = new VisualElement[8];
              _selectFrame = Resources.Load<Texture2D>(fillBackground[1]);
             _blackFrame  = Resources.Load<Texture2D>(fillBackground[0]);
-            _equipInventory = new EquipInventory();
+            _equipInventory = new EquipInventory(this);
             CreateAcive();
 
         }
@@ -135,6 +135,10 @@ public class InventoryWindow : MonoBehaviour
         HideElements(true);
         root.Add(testUI);
         yield return new WaitForEndOfFrame();
+    }
+
+    internal void UnEquip(ModelItemDemo item) {
+        throw new NotImplementedException();
     }
 
     private void AddActive(int grows_id , int imgbox_id)
@@ -231,7 +235,7 @@ public class InventoryWindow : MonoBehaviour
                 {
                     ModelItemDemo model = new ModelItemDemo(itemL2j);
                     _equipInventory.AddEquipList(0, model);
-                    _equipInventory.EquipItemNoInventory(model, "slot_weapon" , boxContent);
+                    _equipInventory.EquipItemNoInventory(model, itemL2j.Type2 , boxContent);
                 }
                 
             }

@@ -5,6 +5,13 @@ using UnityEngine.UIElements;
 
 public class ButtonEquipInventory 
 {
+
+    EquipInventory equipInventory;
+
+    public ButtonEquipInventory(EquipInventory equipInventory)
+    {
+        this.equipInventory = equipInventory;
+    }
     public void RegisterClickEquipCell(VisualElement grows)
     {
         if (grows == null)
@@ -22,11 +29,13 @@ public class ButtonEquipInventory
                 if (id_mouse_button == 0)
                 {
                     var ve = (VisualElement)evt.currentTarget;
+                    equipInventory.SelectRows(ve);
                     Debug.Log("CLICK EQUIP INVT Left");
                 }
                 else if (id_mouse_button == 1)
                 {
                     var ve = (VisualElement)evt.currentTarget;
+                    equipInventory.UnEquip(ve);
                     Debug.Log("CLICK EQUIP INVT Right");
                 }
 
