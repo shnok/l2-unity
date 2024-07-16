@@ -25,12 +25,6 @@ public class DatUtils {
         switch (key) {
             case "object_id":
                 abstractgrp.ObjectId = int.Parse(value);
-
-                if (abstractgrp.ObjectId == 5789)
-                {
-                    var id = abstractgrp.ObjectId;
-                    Debug.Log("");
-                }
                 break;
             case "drop_texture": //{{[dropitems.drop_mfighter_m001_t02_u_m00];{[MFighter.MFighter_m001_t02_u]}}}
                 string[] modTex = DatUtils.ParseArray(value);
