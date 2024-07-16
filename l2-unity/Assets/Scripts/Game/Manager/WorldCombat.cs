@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using static StatusUpdatePacket;
 
 public class WorldCombat : MonoBehaviour {
     [SerializeField] private GameObject _impactParticle;
@@ -22,31 +22,39 @@ public class WorldCombat : MonoBehaviour {
     }
 
 
-    public void InflictAttack(Transform target, int damage, int newHp, bool criticalHit) {
-        ApplyDamage(target, damage, newHp, criticalHit);
+    public void InflictAttack(Transform target, int damage, bool criticalHit) {
+        ApplyDamage(target, damage, criticalHit);
     }
 
-    public void InflictAttack(Transform attacker, Transform target, int damage, int newHp, bool criticalHit) {
-        ApplyDamage(target, damage, newHp, criticalHit);
+    public void InflictAttack(Transform attacker, Transform target, int damage, bool criticalHit) {
+        ApplyDamage(target, damage, criticalHit);
 
         // Instantiate hit particle
         ParticleImpact(attacker, target);
     }
 
-    private void ApplyDamage(Transform target, int damage, int newHp, bool criticalHit) {
+    private void ApplyDamage(Transform target, int damage, bool criticalHit) {
         Entity entity = target.GetComponent<Entity>();
         if (entity != null) {
             // Apply damage to target
-            entity.ApplyDamage(damage, newHp, criticalHit);
+            entity.ApplyDamage(damage, criticalHit);
         }
     }
 
     public void EntityStartAutoAttacking(Entity entity) {
-        entity.StartAutoAttacking();
+        if(entity == PlayerEntity.Instance) {
+            PlayerStateMachine.Instance.OnAutoAttackStart();
+        } else {
+            entity.StartAutoAttacking();
+        }
     }
 
     public void EntityStopAutoAttacking(Entity entity) {
-        entity.StopAutoAttacking();
+        if (entity == PlayerEntity.Instance) {
+            PlayerStateMachine.Instance.OnAutoAttackStop();
+        } else {
+            entity.StopAutoAttacking();
+        }
     }
 
     private void ParticleImpact(Transform attacker, Transform target) {
@@ -65,5 +73,110 @@ public class WorldCombat : MonoBehaviour {
 
         go.transform.LookAt(attacker);
         go.transform.eulerAngles = new Vector3(0, go.transform.eulerAngles.y + 180f, 0);
+    }
+
+    public void StatusUpdate(Entity entity, List<Attribute> attributes) {
+       // Debug.Log("Word combat: Status update");
+        Status status = entity.Status;
+        Stats stats = entity.Stats;
+
+        foreach (Attribute attribute in attributes) {
+            //if (entity != PlayerEntity.Instance) {
+            //    Debug.LogWarning($"{entity.Identity.Name} - {(AttributeType)attribute.id}");
+            //}
+            switch((AttributeType) attribute.id) {
+                case AttributeType.LEVEL:
+                    stats.Level = attribute.value;
+                    break;
+                case AttributeType.EXP:
+                    ((PlayerStats) stats).Exp = attribute.value;
+                    break;
+                case AttributeType.STR:
+                    ((PlayerStats) stats).Str = (byte)attribute.value;
+                    break;
+                case AttributeType.DEX:
+                    ((PlayerStats) stats).Dex = (byte)attribute.value;
+                    break;
+                case AttributeType.CON:
+                    ((PlayerStats) stats).Con = (byte)attribute.value;
+                    break;
+                case AttributeType.INT:
+                    ((PlayerStats) stats).Int = (byte)attribute.value;
+                    break;
+                case AttributeType.WIT:
+                    ((PlayerStats) stats).Wit = (byte)attribute.value;
+                    break;
+                case AttributeType.MEN:
+                    ((PlayerStats) stats).Men = (byte)attribute.value;
+                    break;
+                case AttributeType.CUR_HP:
+                    status.Hp = attribute.value;
+                    break;
+                case AttributeType.MAX_HP:
+                    stats.MaxHp = attribute.value;
+                    break;
+                case AttributeType.CUR_MP:
+                    status.Mp = attribute.value;
+                    break;
+                case AttributeType.MAX_MP:
+                    stats.MaxMp = attribute.value;
+                    break;
+                case AttributeType.SP:
+                    ((PlayerStats) stats).Sp = attribute.value;
+                    break;
+                case AttributeType.CUR_LOAD:
+                    ((PlayerStats) stats).CurrWeight = attribute.value;
+                    break;
+                case AttributeType.MAX_LOAD:
+                    ((PlayerStats) stats).MaxWeight = attribute.value;
+                    break;
+                case AttributeType.P_ATK:
+                    ((PlayerStats) stats).PAtk = attribute.value;
+                    break;
+                case AttributeType.ATK_SPD:
+                    stats.PAtkSpd = attribute.value;
+                    break;
+                case AttributeType.P_DEF:
+                    ((PlayerStats) stats).PDef = attribute.value;
+                    break;
+                case AttributeType.P_EVASION:
+                    ((PlayerStats)stats).PEvasion = attribute.value;
+                    break;
+                case AttributeType.P_ACCURACY:
+                    ((PlayerStats)stats).PAccuracy = attribute.value;
+                    break;
+                case AttributeType.P_CRITICAL:
+                    ((PlayerStats)stats).PCritical = attribute.value;
+                    break;
+                case AttributeType.M_EVASION:
+                    ((PlayerStats)stats).MEvasion = attribute.value;
+                    break;
+                case AttributeType.M_ACCURACY:
+                    ((PlayerStats)stats).MAccuracy = attribute.value;
+                    break;
+                case AttributeType.M_CRITICAL:
+                    ((PlayerStats)stats).MCritical = attribute.value;
+                    break;
+                case AttributeType.M_ATK:
+                    ((PlayerStats) stats).MAtk = attribute.value;
+                    break;
+                case AttributeType.CAST_SPD:
+                    stats.MAtkSpd = attribute.value;
+                    break;
+                case AttributeType.M_DEF:
+                    ((PlayerStats) stats).MDef = attribute.value;
+                    break;
+                case AttributeType.PVP_FLAG:
+                    break;
+                case AttributeType.KARMA:
+                    break;
+                case AttributeType.CUR_CP:
+                    ((PlayerStatus) status).Cp = attribute.value;
+                    break;
+                case AttributeType.MAX_CP:
+                    stats.MaxCp = attribute.value;
+                    break;
+            }
+        }
     }
 }

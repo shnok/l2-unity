@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-
-public class CharacterInventoryWindow : MonoBehaviour
+public class InventoryWindow : MonoBehaviour
 {
 
     private VisualTreeAsset _testUITemplate;
@@ -21,13 +23,11 @@ public class CharacterInventoryWindow : MonoBehaviour
     private ModelRows[] _activeRows;
     private ModelRows _lastSelectRow;
     private MouseOverDetectionManipulator _mouseOverDetection;
+    private Texture2D _selectFrame;
+    private Texture2D _blackFrame;
+    
+    private EquipInventory _equipInventory;
 
-    /// <summary>
-    /// /TEST DATA
-    /// </summary>
-    string[] data = { "Data/UI/Window/Inventory/demo_image_row/accessary_ring_of_holy_spirit_i00",
-            "Data/UI/Window/Inventory/demo_image_row/shield_another_worlds_shield_i00",
-            "Data/UI/Window/Inventory/demo_image_row/armor_helmet_i00" };
 
     string[] fillBackground = { "Data/UI/ShortCut/demo_skills/fill_black", "Data/UI/Window/Inventory/bg_windows/blue_tab_v5" };
 
@@ -46,8 +46,8 @@ public class CharacterInventoryWindow : MonoBehaviour
         }
     }
 
-    private static CharacterInventoryWindow _instance;
-    public static CharacterInventoryWindow Instance
+    private static InventoryWindow _instance;
+    public static InventoryWindow Instance
     {
         get { return _instance; }
     }
@@ -60,6 +60,9 @@ public class CharacterInventoryWindow : MonoBehaviour
             _buttonInventory = new ButtonInventory(this);
             _menuItems = new VisualElement[6];
             _inventoryRows = new VisualElement[8];
+             _selectFrame = Resources.Load<Texture2D>(fillBackground[1]);
+            _blackFrame  = Resources.Load<Texture2D>(fillBackground[0]);
+            _equipInventory = new EquipInventory();
             CreateAcive();
 
         }
@@ -127,6 +130,8 @@ public class CharacterInventoryWindow : MonoBehaviour
         _buttonInventory.RegisterClickMenuMisc(_menuItems[4]);
         _buttonInventory.RegisterClickMenuQuest(_menuItems[5]);
 
+        _equipInventory.registerButtonEquip(boxContent);
+
         HideElements(true);
         root.Add(testUI);
         yield return new WaitForEndOfFrame();
@@ -134,7 +139,14 @@ public class CharacterInventoryWindow : MonoBehaviour
 
     private void AddActive(int grows_id , int imgbox_id)
     {
-        _activeRows[grows_id].gArr[imgbox_id] = 1;
+        _activeRows[grows_id].AddgArr(imgbox_id, 1);
+    }
+
+
+
+    private void AddInfo(int grows_id, int imgbox_id , DemoL2JItem demoL2j)
+    {
+        _activeRows[grows_id].AddInfo(imgbox_id, demoL2j);
     }
 
     private void RemoveActive(int grows_id, int imgbox_id)
@@ -202,34 +214,147 @@ public class CharacterInventoryWindow : MonoBehaviour
 
     public void InitTestData(VisualElement[] _inventoryRows)
     {
-   
-
         var rows0 = _inventoryRows[0];
-        var grow0 = rows0.Q<VisualElement>(className: "grow0");
-        var grow1 = rows0.Q<VisualElement>(className: "grow1");
-        var grow2 = rows0.Q<VisualElement>(className: "grow2");
+        List<DemoL2JItem> demo = createL2jData();
+        SetInventory(demo, rows0);
+        ElseEquip(demo);
+    }
 
-        var img0 = rows0.Q<VisualElement>(className: "imgbox0");
-        var img1 = rows0.Q<VisualElement>(className: "imgbox1");
-        var img2 = rows0.Q<VisualElement>(className: "imgbox2");
+    private void ElseEquip(List<DemoL2JItem> listDemo)
+    {
+        foreach (DemoL2JItem itemL2j in listDemo)
+        {
+            if (itemL2j.Equipped == 1)
+            {
+                //0 - type_weapon
+                if(itemL2j.Type2 == 0)
+                {
+                    ModelItemDemo model = new ModelItemDemo(itemL2j);
+                    _equipInventory.AddEquipList(0, model);
+                    _equipInventory.EquipItemNoInventory(model, "slot_weapon" , boxContent);
+                }
+                
+            }
+        }
 
+    }
+
+    public List<ModelItemDemo> filterEquip(List<ModelItemDemo> listDemo)
+    {
+        List<ModelItemDemo> filteritems = new List<ModelItemDemo>();
+
+        foreach(ModelItemDemo item in listDemo)
+        {
+            if(item.Equipped() == 0)
+            {
+                filteritems.Add(item);
+            }
+        }
+        return filteritems;
+    }
+
+    private void SetInventory(List<DemoL2JItem> demo, VisualElement rows0)
+    {
         Texture2D fill = Resources.Load<Texture2D>(fillBackground[0]);
 
-        Texture2D imgSource1 = Resources.Load<Texture2D>(data[0]);
-        Texture2D imgSource2 = Resources.Load<Texture2D>(data[1]);
-        Texture2D imgSource3 = Resources.Load<Texture2D>(data[2]);
+        foreach (DemoL2JItem item in demo)
+        {
+            if(item.Equipped == 0)
+            {
+                AddInfo(0, item.Location, item);
+                var grow = rows0.Q<VisualElement>(className: "grow" + item.Location);
+                var img = rows0.Q<VisualElement>(className: "imgbox" + item.Location);
+                var model = _activeRows[0].GetInfo(item.Location);
+                SetBackground(fill, grow);
+                SetBackground(model.Icon(), img);
 
-        SetBackground(fill, grow0);
-        SetBackground(fill, grow1);
-        SetBackground(fill, grow2);
+                //0 - rows the first line
+                //depending on the cell number, you can calculate the row
+                AddActive(0, item.Location);
 
-        SetBackground(imgSource1, img0);
-        SetBackground(imgSource2, img1);
-        SetBackground(imgSource3, img2);
+            }
 
-        AddActive(0, 0);
-        AddActive(0, 1);
-        AddActive(0, 2);
+        }
+        // SetBackground(demo1.Icon(), img0);
+        //SetBackground(demo2.Icon(), img1);
+        //SetBackground(demo3.Icon(), img2);
+
+        //var grow0 = rows0.Q<VisualElement>(className: "grow0");
+        //var grow1 = rows0.Q<VisualElement>(className: "grow1");
+        //var grow2 = rows0.Q<VisualElement>(className: "grow2");
+
+        //var img0 = rows0.Q<VisualElement>(className: "imgbox0");
+        //var img1 = rows0.Q<VisualElement>(className: "imgbox1");
+        //var img2 = rows0.Q<VisualElement>(className: "imgbox2");
+    }
+
+    private List<DemoL2JItem> createL2jData()
+    {
+     
+        DemoL2JItem demo2 = new DemoL2JItem();
+        demo2.ObjectId = 268465500;
+        demo2.ItemId = 45573;
+        demo2.T1 = 34;
+        demo2.Quantity = 1;
+        demo2.Type2 = 1;
+        demo2.Filler = 0;
+        demo2.Equipped = 0;
+        demo2.Slot = 64;
+        demo2.Enchant = 0;
+        demo2.Location = 1;
+       // demo2.Pet = 0;
+        demo2.AugmentationBonus = 0;
+        demo2.Mana = -1;
+        demo2.Time = -9999;
+
+
+        DemoL2JItem demo = new DemoL2JItem();
+        //adena TYPE2_MONEY = 4;
+        demo.ObjectId = 268473060;
+        demo.ItemId = 57;
+        demo.T1 = 5;
+        demo.Quantity = 4;
+        demo.Type2 = 4;
+        demo.Filler = 0;
+        demo.Equipped = 0;
+        demo.Slot = 0;
+        demo.Enchant = 0;
+        //demo.Pet = 0;
+        demo.AugmentationBonus = 0;
+        demo.Mana = -1;
+        demo.Time = -9999;
+        demo.Location = 0;
+
+        DemoL2JItem demo1 = new DemoL2JItem();
+
+        //Dagger equip weapon  TYPE2_WEAPON = 0;
+        demo1.ObjectId = 268463170;
+        demo1.ItemId = 2369;
+        //location
+        demo1.T1 = 5;
+        demo1.Quantity = 0;
+        //// different lists for armor, weapon, etc
+        //0-weapon
+        //5 etc
+        demo1.Type2 = 0;
+        demo1.Filler = 0;
+        demo1.Equipped = 1;
+        demo1.Slot = 128;
+        demo1.Enchant = 0;
+        //demo.Pet = 0;
+        demo1.AugmentationBonus = 0;
+        demo1.Mana = -1;
+        demo1.Time = -9999;
+        demo1.Location = 2;
+
+        List<DemoL2JItem> demoL2JItems = new List<DemoL2JItem>
+        {
+            demo1,
+            demo2,
+            demo
+        };
+        return demoL2JItems;
+
     }
 
     private void SetBackground(Texture2D imgSource1 , VisualElement element)
@@ -252,7 +377,7 @@ public class CharacterInventoryWindow : MonoBehaviour
 
             int parce_int_grow = Int32.Parse(grow_id);
             int parce_int_rows = Int32.Parse(rows_id);
-
+            //if not empty
             if(IsActiveRow(parce_int_rows, parce_int_grow))
             {
 
@@ -267,27 +392,58 @@ public class CharacterInventoryWindow : MonoBehaviour
                     int last_row = _lastSelectRow.rows;
                     int last_grow = _lastSelectRow.lastActiveGRow;
 
-                    UpdateBackGroundLastElement(last_row, last_grow);
-                    UpdateLastPosition(parce_int_rows, parce_int_grow);
+                    if (IsActiveRow(last_row, last_grow))
+                    { 
+                        UpdateBackGroundLastElement(last_row, last_grow, _blackFrame);
+                    }
+                    else
+                    {
+                        UpdateBackGroundReset(last_row, last_grow);
+                    }
 
+                    UpdateLastPosition(parce_int_rows, parce_int_grow);
                 }
+            }
+            else
+            {
+                //if empty call
+                if (_lastSelectRow == null) {
+                    UpdateLastPosition(parce_int_rows, parce_int_grow);
+                    UpdateBackGroundSelectElement(grow);
+                }
+                else
+                {
+                    int last_row = _lastSelectRow.rows;
+                    int last_grow = _lastSelectRow.lastActiveGRow;
+
+                    UpdateBackGroundReset(last_row, last_grow);
+                    UpdateBackGroundLastElement(parce_int_rows, parce_int_grow, _selectFrame);
+                    UpdateLastPosition(parce_int_rows, parce_int_grow);
+                }
+                
             }
         }
        
     }
+
 
     private void UpdateBackGroundSelectElement(VisualElement grow)
     {
         Texture2D blueFrame = Resources.Load<Texture2D>(fillBackground[1]);
         SetBackground(blueFrame, grow);
     }
-    private void UpdateBackGroundLastElement(int last_row , int last_grow)
+    private void UpdateBackGroundLastElement(int last_row , int last_grow , Texture2D textuteRefresh)
     {
         VisualElement row = _inventoryRows[last_row];
         var grow_elem = row.Q<VisualElement>(className: "grow" + last_grow);
-        Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
-        SetBackground(blackFrame, grow_elem);
+        SetBackground(textuteRefresh, grow_elem);
+    }
 
+    private void UpdateBackGroundReset(int last_row, int last_grow)
+    {
+        VisualElement row = _inventoryRows[last_row];
+        var grow_elem = row.Q<VisualElement>(className: "grow" + last_grow);
+        grow_elem.style.backgroundImage = null;
     }
     private void UpdateLastPosition(int parce_int_rows , int parce_int_grow)
     {
@@ -301,6 +457,16 @@ public class CharacterInventoryWindow : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void DeactiveRow(int row, int grow)
+    {
+        _activeRows[row].gArr[grow] = 0;
+    }
+
+    public void ClearLastSelect()
+    {
+        _lastSelectRow = null;
     }
 
     private ModelRows GetRowActive(int row)
@@ -339,7 +505,7 @@ public class CharacterInventoryWindow : MonoBehaviour
             boxContent.style.display = DisplayStyle.None;
             background.style.display = DisplayStyle.None;
             rootWindows.style.display = DisplayStyle.None;
-            _mouseOverDetection.Disable();
+            if(_mouseOverDetection != null) _mouseOverDetection.Disable();
             SendToBack();
         } else {
             isHide = is_hide;
@@ -348,7 +514,7 @@ public class CharacterInventoryWindow : MonoBehaviour
             background.style.display = DisplayStyle.Flex;
             rootWindows.style.display = DisplayStyle.Flex;
             BringFront();
-            _mouseOverDetection.Enable();
+            if (_mouseOverDetection != null) _mouseOverDetection.Enable();
 
         }
     }
@@ -378,6 +544,56 @@ public class CharacterInventoryWindow : MonoBehaviour
             }
         }
     }
+
+
+    public void EquipItem(VisualElement grow)
+    {
+        if(grow != null)
+        {
+            var rows = grow.parent;
+
+            var rows_id = rows.name.Replace("Rows", "");
+            var grow_id = grow.name.Replace("GRow", "");
+
+            int parce_int_grow = Int32.Parse(grow_id);
+            int parce_int_rows = Int32.Parse(rows_id);
+
+            VisualElement img = grow.Children().First();
+
+            ModelItemDemo demo = _activeRows[parce_int_rows].GetInfo(parce_int_grow);
+            if(demo.Type2() == 0)
+            {
+                EquipToType(img, grow, demo, parce_int_rows, parce_int_grow, "slot_weapon");
+            }
+            else if (demo.Type2() == 1)
+            {
+                EquipToType(img, grow, demo, parce_int_rows, parce_int_grow , "slot_head");
+            }
+          
+        }
+
+    }
+
+    private void EquipToType(VisualElement img , VisualElement grow , ModelItemDemo demo , int parce_int_rows , int parce_int_grow , string typeName)
+    {
+        img.style.backgroundImage = StyleKeyword.None;
+        grow.style.backgroundImage = StyleKeyword.None;
+
+        VisualElement equip_img = boxContent.Q<VisualElement>(className: typeName);
+        Texture2D blackFrame = Resources.Load<Texture2D>(fillBackground[0]);
+        equip_img.parent.style.backgroundImage = new StyleBackground(blackFrame);
+        equip_img.style.backgroundImage = demo.Icon();
+        DeactiveRow(parce_int_rows, parce_int_grow);
+        int last_row = _lastSelectRow.rows;
+        int last_grow = _lastSelectRow.lastActiveGRow;
+
+        if (last_row == parce_int_rows & parce_int_rows == last_grow)
+        {
+            ClearLastSelect();
+        }
+    }
+
+
 
     private void HideTabLine(bool is_hide , VisualElement line)
     {

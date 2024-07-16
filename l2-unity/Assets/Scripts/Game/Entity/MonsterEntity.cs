@@ -55,7 +55,9 @@ public class MonsterEntity : Entity {
 
     public override bool StopAutoAttacking() {
         if (base.StopAutoAttacking()) {
-            _networkAnimationReceive.SetAnimationProperty((int)MonsterAnimationEvent.AtkWait, 1f);
+            if(!IsDead()) {
+                _networkAnimationReceive.SetAnimationProperty((int)MonsterAnimationEvent.AtkWait, 1f);
+            }
         }
 
         return true;

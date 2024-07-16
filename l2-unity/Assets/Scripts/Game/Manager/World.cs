@@ -106,7 +106,7 @@ public class World : MonoBehaviour {
         GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, identity.EntityType);
         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
         go.transform.position = identity.Position;
-        go.transform.name = "Player";
+        go.transform.name = "_Player";
 
         PlayerEntity player = go.GetComponent<PlayerEntity>();
 
@@ -127,16 +127,17 @@ public class World : MonoBehaviour {
 
         player.Initialize();
 
-        go.transform.SetParent(_usersContainer.transform);
+        //go.transform.SetParent(_usersContainer.transform);
 
         CameraController.Instance.enabled = true;
         CameraController.Instance.SetTarget(go);
-        ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
 
+        //ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
+
+        CharacterInfoWindow.Instance.UpdateValues();
 
         _players.Add(identity.Id, player);
         _objects.Add(identity.Id, player);
-
     }
 
     public void SpawnUser(NetworkIdentity identity, Status status, Stats stats, PlayerAppearance appearance) {
@@ -217,18 +218,19 @@ public class World : MonoBehaviour {
 
         npc.Status = status;
 
+        npc.Stats = stats;
+
         npc.Identity = identity;
         npc.Identity.NpcClass = npcgrp.ClassName;
         npc.Identity.Name = npcName.Name; 
         npc.Identity.Title = npcName.Title;
         if (npc.Identity.Title == null || npc.Identity.Title.Length == 0) {
             if(identity.EntityType == EntityType.Monster) {
-                npc.Identity.Title = " Lvl: " + npc.Status.Level;
+                npc.Identity.Title = " Lvl: " + npc.Stats.Level;
             }
         }
         npc.Identity.TitleColor = npcName.TitleColor;
 
-        npc.Stats = stats;
         npc.Appearance = appearance;
 
         npcGo.transform.eulerAngles = new Vector3(npcGo.transform.eulerAngles.x, identity.Heading, npcGo.transform.eulerAngles.z);
@@ -284,12 +286,12 @@ public class World : MonoBehaviour {
         });
     }
 
-    public Task InflictDamageTo(int sender, int target, int damage, int newHp, bool criticalHit) {
+    public Task InflictDamageTo(int sender, int target, int damage, bool criticalHit) {
         return ExecuteWithEntitiesAsync(sender, target, (senderEntity, targetEntity) => {
             if (senderEntity != null) {
-                WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, damage, newHp, criticalHit);
+                WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, damage, criticalHit);
             } else {
-                WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, newHp, criticalHit);
+                WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, criticalHit);
             }
         });
     }
@@ -320,6 +322,15 @@ public class World : MonoBehaviour {
     public Task EntityStopAutoAttacking(int id) {
         return ExecuteWithEntityAsync(id, e => {
             WorldCombat.Instance.EntityStopAutoAttacking(e);
+        });
+    }
+
+    public Task StatusUpdate(int id, List<StatusUpdatePacket.Attribute> attributes) {
+        return ExecuteWithEntityAsync(id, e => {
+            WorldCombat.Instance.StatusUpdate(e, attributes);
+            if(e == PlayerEntity.Instance) { 
+                CharacterInfoWindow.Instance.UpdateValues();
+            }
         });
     }
 

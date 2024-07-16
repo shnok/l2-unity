@@ -9,7 +9,7 @@ public class PlayerStateDeadWait : PlayerStateBase {
             return;
         }
 
-        PlayerController.Instance.SetCanMove(false);
+        //PlayerController.Instance.SetCanMove(false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -21,6 +21,6 @@ public class PlayerStateDeadWait : PlayerStateBase {
             return;
         }
 
-        PlayerController.Instance.SetCanMove(true);
+       // PlayerController.Instance.SetCanMove(true);
     }
 }

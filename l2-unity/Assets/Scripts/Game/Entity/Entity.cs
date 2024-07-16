@@ -62,17 +62,17 @@ public class Entity : MonoBehaviour {
     }
 
     // Called when ApplyDamage packet is received 
-    public void ApplyDamage(int damage, int newHp, bool criticalHit) {
+    public void ApplyDamage(int damage, bool criticalHit) {
         if(_status.Hp <= 0) {
             Debug.LogWarning("Trying to apply damage to a dead entity");
             return;
         }
 
-        _status.Hp = Mathf.Max(newHp, 0);
+        _status.Hp = Mathf.Max(_status.Hp - damage, 0);
 
         OnHit(criticalHit);
 
-        if(_status.Hp == 0) {
+        if(_status.Hp <= 0) {
             OnDeath();
         }
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateStand : PlayerStateBase {
+public class PlayerStateStand : PlayerStateAction {
     private float _lastNormalizedTime = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -21,6 +21,10 @@ public class PlayerStateStand : PlayerStateBase {
             return;
         }
 
+        if (ShouldDie()) {
+            return;
+        }
+
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
             SetBool("wait_" + _weaponAnim, true);
@@ -33,6 +37,6 @@ public class PlayerStateStand : PlayerStateBase {
         }
 
         CameraController.Instance.StickToBone = false;
-        PlayerController.Instance.SetCanMove(true);
+      //  PlayerController.Instance.SetCanMove(true);
     }
 }

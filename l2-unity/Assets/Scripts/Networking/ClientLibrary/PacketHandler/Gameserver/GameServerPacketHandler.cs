@@ -78,6 +78,12 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.ServerClose:
                 OnServerClose();
                 break;
+            case GameServerPacketType.StatusUpdate:
+                OnStatusUpdate(data);
+                break;
+            case GameServerPacketType.ActionAllowed:
+                OnActionAllowed(data);
+                break;
         }
     }
 
@@ -169,8 +175,17 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnSystemMessageReceive(byte[] data) {
         SystemMessagePacket packet = new SystemMessagePacket(data);
-        SystemMessage message = packet.Message;
-        _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveChatMessage(message));
+        SMParam[] smParams = packet.Params;
+        int messageId = packet.Id;
+
+        SystemMessageDat messageData = SystemMessageTable.Instance.GetSystemMessage(messageId);
+        if(messageData != null) {
+            SystemMessage systemMessage = new SystemMessage(smParams, messageData);
+            _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(systemMessage));
+        } else {
+            _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(new UnhandledMessage()));
+        }
+
     }
 
     private void OnPlayerInfoReceive(byte[] data) {
@@ -217,7 +232,13 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnInflictDamage(byte[] data) {
         InflictDamagePacket packet = new InflictDamagePacket(data);
-        World.Instance.InflictDamageTo(packet.SenderId, packet.TargetId, packet.Value, packet.NewHp, packet.CriticalHit); 
+        Hit[] hits = packet.Hits;
+
+        for (int i = 0; i < hits.Length; i++) {
+            if (hits[i] != null && !hits[i].isMiss()) {
+                World.Instance.InflictDamageTo(packet.SenderId, hits[i].TargetId, hits[i].Damage, hits[i].isCrit());
+            }
+        }
     }
 
     private void OnNpcInfoReceive(byte[] data) {
@@ -247,25 +268,35 @@ public class GameServerPacketHandler : ServerPacketHandler
     }
 
     private void OnEntityAutoAttackStart(byte[] data) {
-        Debug.LogWarning("OnEntityAutoAttackStart");
+        Debug.Log("OnEntityAutoAttackStart");
         AutoAttackStartPacket packet = new AutoAttackStartPacket(data);
         World.Instance.EntityStartAutoAttacking(packet.EntityId);
     }
 
     private void OnEntityAutoAttackStop(byte[] data) {
-        Debug.LogWarning("OnEntityAutoAttackStop");
+        Debug.Log("OnEntityAutoAttackStop");
         AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
         World.Instance.EntityStopAutoAttacking(packet.EntityId);
     }
 
     private void OnActionFailed(byte[] data) {
         ActionFailedPacket packet = new ActionFailedPacket(data);
-        Debug.LogWarning($"Action failed");
+        Debug.LogWarning($"Action failed: " + packet.PlayerAction);
         _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
+    }
+
+    private void OnActionAllowed(byte[] data) {
+        ActionAllowedPacket packet = new ActionAllowedPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionAllowed(packet.PlayerAction));
     }
 
     private void OnServerClose() {
         Debug.Log("ServerClose received from Gameserver");
         _client.Disconnect();
+    }
+
+    private void OnStatusUpdate(byte[] data) {
+        StatusUpdatePacket packet = new StatusUpdatePacket(data);
+        World.Instance.StatusUpdate(packet.ObjectId, packet.Attributes);
     }
 }

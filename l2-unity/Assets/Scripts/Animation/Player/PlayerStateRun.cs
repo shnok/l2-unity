@@ -42,18 +42,26 @@ public class PlayerStateRun : PlayerStateAction {
             }
         }
 
-        if (ShouldAttack()) {
+        if (ShouldDie()) {
             return;
         }
+
+        if (ShouldAttack()) {
+            SetBool("atk01_" + _gear.WeaponAnim, true, false);
+            return;
+        }
+
         if (ShouldJump(true)) {
             return;
         }
-        if (ShouldSit()) {
-            return;
-        }
+        //if (ShouldSit()) {
+        //    return;
+        //}
+
         if (ShouldAtkWait()) {
             return;
         }
+
         if (ShouldIdle()) {
             return;
         }

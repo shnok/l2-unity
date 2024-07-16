@@ -32,8 +32,5 @@ public class UserStateStand : UserStateBase {
         if (!_enabled) {
             return;
         }
-
-        CameraController.Instance.StickToBone = false;
-        PlayerController.Instance.SetCanMove(true);
     }
 }

@@ -51,6 +51,7 @@ public class LoginWindow : L2Window
 
         _userInput.AddManipulator(new HighlightedInputFieldManipulator(_userInput, userInputBg, 20));
         _userInput.AddManipulator(new BlinkingCursorManipulator(_userInput));
+        _userInput.RegisterCallback<KeyDownEvent>((evt) => OnKeyPressed(evt, _userInput));
 
         VisualElement passwordInputBg = GetElementById("PasswordInputBg");
         _passwordInput = (TextField)GetElementById("PasswordInputField");
@@ -60,8 +61,29 @@ public class LoginWindow : L2Window
 
         _passwordInput.AddManipulator(new HighlightedInputFieldManipulator(_passwordInput, passwordInputBg, 20));
         _passwordInput.AddManipulator(new BlinkingCursorManipulator(_passwordInput));
+        _passwordInput.RegisterCallback<KeyDownEvent>((evt) => OnKeyPressed(evt, _passwordInput));
 
         _logo = root.Q<VisualElement>("L2Logo");
+
+        _userInput.Focus();
+    }
+
+    private void OnKeyPressed(KeyDownEvent evt, TextField input) {
+        KeyCode keyCode = evt.keyCode;
+        if (keyCode == KeyCode.Tab) {
+            if (input == _passwordInput) {
+                _userInput.Focus();
+            } else {
+                _passwordInput.Focus();
+            }
+
+            evt.PreventDefault();
+
+        } else if (keyCode == KeyCode.Return || keyCode == KeyCode.KeypadEnter) {
+            AudioManager.Instance.PlayUISound("click_01");
+            LoginButtonPressed();
+            evt.PreventDefault();
+        }
     }
 
     private void OnLoginInputChanged(ChangeEvent<string> evt) {
@@ -114,5 +136,6 @@ public class LoginWindow : L2Window
     public override void ShowWindow() {
         base.ShowWindow();
         _logo.style.display = DisplayStyle.Flex;
+        _userInput.Focus();
     }
 }

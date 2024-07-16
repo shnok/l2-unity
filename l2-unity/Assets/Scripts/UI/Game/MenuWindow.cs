@@ -35,7 +35,7 @@ public class MenuWindow : L2Window {
 
         var inventoryBtn = _windowEle.Q<Button>("InventoryButton");
         inventoryBtn.AddManipulator(new ButtonClickSoundManipulator(inventoryBtn));
-        inventoryBtn.RegisterCallback<ClickEvent>((evt) => CharacterInventoryWindow.Instance.ToggleHideWindow());
+        inventoryBtn.RegisterCallback<ClickEvent>((evt) => InventoryWindow.Instance.ToggleHideWindow());
 
         var actionBtn = _windowEle.Q<Button>("ActionButton");
         actionBtn.AddManipulator(new ButtonClickSoundManipulator(actionBtn));
