@@ -94,4 +94,44 @@ public class ButtonSkillLearn
             _skill.clickDfPhysical(btn);
         });
     }
+
+    public void RegisterClickButtonMagic(VisualElement rootEleent)
+    {
+
+        var btn = rootEleent.Q<Button>("DF_Button_Magic");
+        btn.RegisterCallback<ClickEvent>((evt) =>
+        {
+            _skill.clickDfMagic(btn);
+        });
+    }
+
+    public void RegisterClickButtonEnhancing(VisualElement rootEleent)
+    {
+
+        var btn = rootEleent.Q<Button>("DF_Button_Enhancing");
+        btn.RegisterCallback<ClickEvent>((evt) =>
+        {
+            _skill.clickDfEnhancing(btn);
+        });
+    }
+
+    public void RegisterClickButtonDebilitating(VisualElement rootEleent)
+    {
+
+        var btn = rootEleent.Q<Button>("DF_Button_Debilitating");
+        btn.RegisterCallback<ClickEvent>((evt) =>
+        {
+            _skill.clickDfDebilitating(btn);
+        });
+    }
+
+    public void RegisterClickButtonClan(VisualElement rootEleent)
+    {
+
+        var btn = rootEleent.Q<Button>("DF_Button_Clan");
+        btn.RegisterCallback<ClickEvent>((evt) =>
+        {
+            _skill.clickDfClan(btn);
+        });
+    }
 }

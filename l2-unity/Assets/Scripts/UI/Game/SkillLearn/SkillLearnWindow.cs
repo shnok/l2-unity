@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using static UnityEditor.Progress;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class SkillLearn : L2Window
@@ -19,7 +21,14 @@ public class SkillLearn : L2Window
     private VisualElement[] _menuItems;
     private VisualElement[] _rootTabs;
     private int[] _arrDfSelect;
-    private string[] fillBackgroundDf = { "Data/UI/Window/Skills/QuestWndPlusBtn_v2", "Data/UI/Window/Skills/Button_DF_Skills_Down_v3" };
+    
+    private VisualElement _activeTab_physicalContent;
+    private VisualElement _activeTab_magicContent;
+    private VisualElement _activeTab_enhancingContent;
+    private VisualElement _activeTab_debilitatingContent;
+    private VisualElement _activeTab_clanContent;
+    //Debilitating
+    private ActiveSkillsHide _supportActiveSkills;
 
     private static SkillLearn _instance;
     public static SkillLearn Instance
@@ -34,7 +43,8 @@ public class SkillLearn : L2Window
             _button = new ButtonSkillLearn(this);
             _menuItems = new VisualElement[3];
             _rootTabs = new VisualElement[3];
-            _arrDfSelect = new int[3] { 0,0,0};
+            _arrDfSelect = new int[5] { 0,0,0,0,0};
+            _supportActiveSkills = new ActiveSkillsHide(this);
         }
         else
         {
@@ -64,6 +74,13 @@ public class SkillLearn : L2Window
         _rootTabs[0] = GetElementByClass("tab_active");
         _rootTabs[1] = GetElementByClass("tab_passive");
 
+        _activeTab_physicalContent = GetElementByClass("row-physical-content");
+        _activeTab_magicContent = GetElementByClass("row-magic-content");
+        _activeTab_enhancingContent = GetElementByClass("row-enhancing-content");
+        _activeTab_debilitatingContent = GetElementByClass("row-debilitating-content");
+        _activeTab_clanContent = GetElementByClass("row-clan-content");
+
+
         boxHeader = GetElementByClass("drag-area");
         //var test = GetElementByClass("df-button-active-skills");
 
@@ -80,7 +97,11 @@ public class SkillLearn : L2Window
         _button.RegisterClickPassive(_menuItems[1]);
         _button.RegisterClickLearn(_menuItems[2]);
         _button.RegisterClickButtonPhysical(_rootTabs[0]);
-       // _button.RegisterClickButtonPhysical(_rootTabs[1], "df-line-active-skills");
+        _button.RegisterClickButtonMagic(_rootTabs[0]);
+        _button.RegisterClickButtonEnhancing(_rootTabs[0]);
+        _button.RegisterClickButtonDebilitating(_rootTabs[0]);
+        _button.RegisterClickButtonClan(_rootTabs[0]);
+
 
         DragManipulator drag = new DragManipulator(boxHeader, _windowEle);
         boxHeader.AddManipulator(drag);
@@ -152,7 +173,7 @@ public class SkillLearn : L2Window
             }
         }
     }
-    private void HideElement(bool is_hide, VisualElement line)
+    public void HideElement(bool is_hide, VisualElement line)
     {
         if (is_hide)
         {
@@ -170,6 +191,7 @@ public class SkillLearn : L2Window
         btn.style.height = 21;
         btn.style.top = -2;
         label1.style.top = 0;
+
     }
 
     private void normBtn(UnityEngine.UIElements.Button btn, UnityEngine.UIElements.Label label1)
@@ -181,35 +203,30 @@ public class SkillLearn : L2Window
 
     public void clickDfPhysical(UnityEngine.UIElements.Button btn)
     {
-        if (_arrDfSelect[0] == 0)
-        {
-            Texture2D iconDfNoraml = LoadTextureDF(fillBackgroundDf[0]);
-            var children = btn.Children();
-            var e = children.FirstOrDefault();
-            e.style.display = DisplayStyle.None;
-            setBackgroundDf(btn , iconDfNoraml);
-            _arrDfSelect[0] = 1;
-        }
-        else
-        {
-            var children = btn.Children();
-            var e = children.FirstOrDefault();
-            e.style.display = DisplayStyle.Flex;
-            Texture2D iconDfNoraml = LoadTextureDF(fillBackgroundDf[1]);
-            setBackgroundDf(btn, iconDfNoraml);
-            _arrDfSelect[0] = 0;
-        }
+        _supportActiveSkills.clickDfPhysical( btn,  _activeTab_physicalContent,  _arrDfSelect);
     }
 
-    private void setBackgroundDf(UnityEngine.UIElements.Button btn , Texture2D iconDfNoraml)
+    public void clickDfMagic(UnityEngine.UIElements.Button btn)
     {
-        btn.style.backgroundImage = new StyleBackground(iconDfNoraml);
+        _supportActiveSkills.clickDfMagic(btn, _activeTab_magicContent, _arrDfSelect);
     }
 
-    private Texture2D LoadTextureDF(string path)
+    public void clickDfEnhancing(UnityEngine.UIElements.Button btn)
     {
-        return Resources.Load<Texture2D>(path);
+        _supportActiveSkills.clickDfEnhancing(btn, _activeTab_enhancingContent, _arrDfSelect);
     }
+
+    public void clickDfDebilitating(UnityEngine.UIElements.Button btn)
+    {
+        _supportActiveSkills.clickDfDebilitating(btn, _activeTab_debilitatingContent, _arrDfSelect);
+    }
+
+    public void clickDfClan(UnityEngine.UIElements.Button btn)
+    {
+        _supportActiveSkills.clickDfClan(btn, _activeTab_clanContent, _arrDfSelect);
+    }
+
+
 
 
 
