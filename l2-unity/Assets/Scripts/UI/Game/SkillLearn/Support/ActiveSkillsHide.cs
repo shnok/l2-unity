@@ -4,10 +4,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ActiveSkillsHide
+public class ActiveSkillsHide : AbstractSkills
 {
 
-    private string[] fillBackgroundDf = { "Data/UI/Window/Skills/QuestWndPlusBtn_v2", "Data/UI/Window/Skills/Button_DF_Skills_Down_v3" };
+    
     private SkillLearn _skillLearn;
     public ActiveSkillsHide(SkillLearn _skillLearn)
     {
@@ -20,13 +20,13 @@ public class ActiveSkillsHide
         {
             ChangeDfBox(btn, fillBackgroundDf[0]);
             _arrDfSelect[0] = 1;
-            HideSkillbar(true, _activeTab_physicalContent);
+            HideSkillbar(true, _activeTab_physicalContent , _skillLearn);
         }
         else
         {
             ChangeDfBox(btn, fillBackgroundDf[1]);
             _arrDfSelect[0] = 0;
-            HideSkillbar(false, _activeTab_physicalContent);
+            HideSkillbar(false, _activeTab_physicalContent, _skillLearn);
         }
     }
 
@@ -37,13 +37,13 @@ public class ActiveSkillsHide
         {
             ChangeDfBox(btn, fillBackgroundDf[0]);
             _arrDfSelect[1] = 1;
-            HideSkillbar(true, _activeTab_magicContent);
+            HideSkillbar(true, _activeTab_magicContent, _skillLearn);
         }
         else
         {
             ChangeDfBox(btn, fillBackgroundDf[1]);
             _arrDfSelect[1] = 0;
-            HideSkillbar(false, _activeTab_magicContent);
+            HideSkillbar(false, _activeTab_magicContent, _skillLearn);
         }
     }
 
@@ -53,13 +53,13 @@ public class ActiveSkillsHide
         {
             ChangeDfBox(btn, fillBackgroundDf[0]);
             _arrDfSelect[2] = 1;
-            HideSkillbar(true, _activeTab_magicContent);
+            HideSkillbar(true, _activeTab_magicContent, _skillLearn);
         }
         else
         {
             ChangeDfBox(btn, fillBackgroundDf[1]);
             _arrDfSelect[2] = 0;
-            HideSkillbar(false, _activeTab_magicContent);
+            HideSkillbar(false, _activeTab_magicContent, _skillLearn);
         }
     }
 
@@ -69,16 +69,17 @@ public class ActiveSkillsHide
         {
             ChangeDfBox(btn, fillBackgroundDf[0]);
             _arrDfSelect[3] = 1;
-            HideSkillbar(true, _activeTab_debilitatingContent);
+            HideSkillbar(true, _activeTab_debilitatingContent, _skillLearn);
         }
         else
         {
             ChangeDfBox(btn, fillBackgroundDf[1]);
             _arrDfSelect[3] = 0;
-            HideSkillbar(false, _activeTab_debilitatingContent);
+            HideSkillbar(false, _activeTab_debilitatingContent, _skillLearn);
         }
     }
 
+   
     public void clickDfClan(UnityEngine.UIElements.Button btn, VisualElement _activeTab_ClanContent, int[] _arrDfSelect)
     {
         if (_arrDfSelect[4] == 0)
@@ -100,19 +101,7 @@ public class ActiveSkillsHide
 
 
 
-    private void ChangeDfBox(Button btn, string texture)
-    {
-        IEnumerable<VisualElement> children = btn.Children();
-        var e = children.First();
-        e.style.display = DisplayStyle.Flex;
-        Texture2D iconDfNoraml = LoadTextureDF(texture);
-        setBackgroundDf(btn, iconDfNoraml);
-    }
-    private void HideSkillbar(bool hide, VisualElement content)
-    {
-        var skillBar = GetSkillBar(content);
-        _skillLearn.HideElement(hide, skillBar);
-    }
+   
 
     private void HideSkillBarClan(bool hide, VisualElement content , string skillBarName)
     {
@@ -120,21 +109,7 @@ public class ActiveSkillsHide
         if(skillBar != null) _skillLearn.HideElement(hide, skillBar);
     }
 
-    private VisualElement GetSkillBar(VisualElement content)
-    {
-        var childreb = content.Children();
-        int i = 0;
-        foreach (VisualElement item in childreb)
-        {
-            if (i > 0)
-            {
-                return item;
-            }
-            i++;
-        }
-
-        return null;
-    }
+   
 
     private VisualElement GetSkillBarByName(VisualElement content , string skillBarName)
     {
@@ -153,13 +128,5 @@ public class ActiveSkillsHide
 
 
 
-    private void setBackgroundDf(UnityEngine.UIElements.Button btn, Texture2D iconDfNoraml)
-    {
-        btn.style.backgroundImage = new StyleBackground(iconDfNoraml);
-    }
-
-    private Texture2D LoadTextureDF(string path)
-    {
-        return Resources.Load<Texture2D>(path);
-    }
+   
 }

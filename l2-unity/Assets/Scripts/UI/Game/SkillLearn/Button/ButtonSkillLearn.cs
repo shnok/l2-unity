@@ -16,7 +16,23 @@ public class ButtonSkillLearn
     {
         var btn = rootWindows.Q<Button>(className: buttonId);
         if (btn == null) { Debug.LogError(buttonId + " can't be found."); return; }
-        btn.RegisterCallback<MouseUpEvent>(evt => _skill.HideElements(true), TrickleDown.TrickleDown);
+        btn.RegisterCallback<MouseUpEvent>(evt => _skill.HideWindow(), TrickleDown.TrickleDown);
+    }
+
+    public void RegisterClickCloseButton(Button button)
+    {
+
+
+        if (button == null)
+        {
+            Debug.LogError(button + " can't be found.");
+            return;
+        }
+
+        button.RegisterCallback<MouseDownEvent>(evt => {
+           // AudioManager.Instance.PlayUISound("click_01");
+            _skill.HideWindow();
+        }, TrickleDown.TrickleDown);
     }
 
     public void RegisterClickWindow(VisualElement contentId, VisualElement headerId)
@@ -132,6 +148,26 @@ public class ButtonSkillLearn
         btn.RegisterCallback<ClickEvent>((evt) =>
         {
             _skill.clickDfClan(btn);
+        });
+    }
+
+    public void RegisterClickButtonAbility(VisualElement rootEleent)
+    {
+
+        var btn = rootEleent.Q<Button>("DF_Button_Ability");
+        btn.RegisterCallback<ClickEvent>((evt) =>
+        {
+            _skill.clickDfAbility(btn);
+        });
+    }
+
+    public void RegisterClickButtonSubject(VisualElement rootEleent)
+    {
+
+        var btn = rootEleent.Q<Button>("DF_Button_Subject");
+        btn.RegisterCallback<ClickEvent>((evt) =>
+        {
+            _skill.clickDfSubject(btn);
         });
     }
 }
