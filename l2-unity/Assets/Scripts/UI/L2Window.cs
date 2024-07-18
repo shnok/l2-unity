@@ -37,8 +37,6 @@ public abstract class L2Window : MonoBehaviour {
         _mouseOverDetection = new MouseOverDetectionManipulator(_windowEle);
         _windowEle.AddManipulator(_mouseOverDetection);
 
-      
-
         if (_isWindowHidden) {
             Debug.LogWarning("Disable: " + _windowEle);
             _mouseOverDetection.Disable();

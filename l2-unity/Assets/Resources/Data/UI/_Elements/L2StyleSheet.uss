@@ -73,7 +73,7 @@
     -unity-text-align: middle-center;
 }
 
-.character-info-window .bar-label  {
+.character-info-window .bar-label {
     position: absolute;
     flex-grow: 1;
     width: 100%;
@@ -98,13 +98,12 @@
 }
 
 .character-info-window .bar-label-numbers {
-    padding-left: 0%;
+    padding-left: 0;
 }
 
 .character-info-window .unity-label {
     -unity-text-outline-width: 0.1px;
 }
-
 
 .status-window .level-container .unity-label {
     margin: 0;
@@ -460,70 +459,6 @@
     position: absolute;
 }
 
-.chat-window .chatting-fontsize:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_fontsize1_over.png?fileID=2800000&guid=df4d4dcf0ebb0894ba514a3d2be22628&type=3#chatting_fontsize1_over');
-}
-
-.chat-window .unity-base-text-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.chat-window .unity-base-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.chat-window .unity-text-field {
-    --unity-cursor-color: rgb(255, 255, 255);
-    color: rgb(220, 220, 220);
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.chat-window #InnerBar {
-    background-color: rgba(0, 0, 0, 0.35);
-    border-width: 1px;
-    border-color: rgba(84, 81, 75, 0.7);
-}
-
-#InnerBar.highlighted {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-color: rgb(106, 94, 71);
-}
-
-.chat-window .transparent-cursor {
-    --unity-cursor-color: rgba(0, 0, 0, 0);
-}
-
-.chat-window .unity-tab__header-label {
-    rotate: 180deg;
-    color: rgb(220, 220, 220);
-    font-size: 11px;
-    padding-bottom: 2px;
-    margin: 0;
-}
-
-.chat-window .unity-tab__content-container {
-    flex-grow: 1;
-}
-
-.chat-window .unity-tab {
-    flex-grow: 1;
-    height: 1px;
-    margin-bottom: -2px;
-}
-
-.chat-window .unity-scroll-view {
-    padding: 2px 0 4px 0;
-    font-size: 12px;
-}
-
 .l2-scroll-view .unity-scroll-view__content-viewport {
     margin-top: 6px;
     margin-bottom: 4px;
@@ -622,6 +557,75 @@
 
 .l2-scroll-view .unity-scroller__low-button {
     background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarUpBtn.png?fileID=2800000&guid=1afd826ca3da2ec48bc50e97ea39d325&type=3#ScrollBarUpBtn');
+}
+
+.chat-window .chatting-fontsize:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_fontsize1_over.png?fileID=2800000&guid=df4d4dcf0ebb0894ba514a3d2be22628&type=3#chatting_fontsize1_over');
+}
+
+
+/**********************
+    CHAT WINDOW
+***********************/
+
+.chat-window .unity-base-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.chat-window .unity-base-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.chat-window .unity-text-field {
+    --unity-cursor-color: rgb(255, 255, 255);
+    color: rgb(220, 220, 220);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.chat-window #InnerBar {
+    background-color: rgba(0, 0, 0, 0.35);
+    border-width: 1px;
+    border-color: rgba(84, 81, 75, 0.7);
+}
+
+#InnerBar.highlighted {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: rgb(106, 94, 71);
+}
+
+.chat-window .transparent-cursor {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
+}
+
+.chat-window .unity-tab__header-label {
+    rotate: 180deg;
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+}
+
+.chat-window .unity-tab__content-container {
+    flex-grow: 1;
+}
+
+.chat-window .unity-tab {
+    flex-grow: 1;
+    height: 1px;
+    margin-bottom: -2px;
+}
+
+.chat-window .unity-scroll-view {
+    padding: 2px 0 4px 0;
+    font-size: 12px;
 }
 
 .chat-window .unity-base-slider__dragger-border {
@@ -1754,4 +1758,172 @@
 }
 
 .bar-label {
+}
+
+.inventory-window .inv-tab-label {
+    margin-top: 11px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: center;
+    justify-content: flex-start;
+    align-items: auto;
+    -unity-font: resource('Data/UI/Font/tahoma');
+}
+
+.inventory-window .l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-direction: row;
+}
+
+.inventory-window .unity-tab__header-label {
+    rotate: 180deg;
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+}
+
+.inventory-window .unity-tab__content-container {
+    flex-grow: 1;
+}
+
+.inventory-window .unity-tab {
+    flex-grow: 1;
+    height: 1px;
+    margin-bottom: -2px;
+}
+
+.inventory-window .unity-scroll-view {
+    padding: 2px 0 4px 0;
+    font-size: 12px;
+}
+
+.inventory-window .unity-base-slider__dragger-border {
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.inventory-window .unity-disabled {
+    opacity: 1;
+}
+
+.inventory-window .unity-tab-view__header-container {
+    margin-left: 23px;
+}
+
+.inventory-window #tab-header-container {
+    margin-left: 23px;
+}
+
+.inventory-window .unity-tab-view__content-container {
+    flex-grow: 1;
+}
+
+.inventory-window #tab-content-container {
+    flex-grow: 1;
+}
+
+.inventory-window .unity-tab__header-underline {
+    width: 0;
+}
+
+.inventory-window .unity-tab__header {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-color: transparent;
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+    rotate: 180deg;
+    height: 25px;
+    padding: 0;
+    width: 64px;
+    justify-content: center;
+}
+
+.inventory-window .tab-header {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-color: transparent;
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+    rotate: 180deg;
+    height: 25px;
+    padding: 0;
+    width: 64px;
+    justify-content: center;
+}
+
+.inventory-window .unity-tab__header:checked {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.inventory-window .tab-header.active {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.inventory-window .unity-tab__header:checked:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.inventory-window .tab-header.active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.inventory-window .unity-tab__header:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+}
+
+.inventory-window .tab-header:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+}
+
+.inventory-windoww .unity-tab__header-label {
+    rotate: 180deg;
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+    -unity-text-align: middle-center;
+}
+
+.inventory-window .tab-header-label {
+    rotate: 180deg;
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+    -unity-text-align: middle-center;
+}
+
+.inventory-window .unselected-tab {
+    display: none;
 }

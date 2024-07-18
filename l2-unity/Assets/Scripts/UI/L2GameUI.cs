@@ -24,7 +24,7 @@ public class L2GameUI : L2UI {
     protected override void Update() {
         base.Update();
 
-        if (InputManager.Instance.IsInputPressed(InputType.TurnCamera)) {
+        if (InputManager.Instance != null && InputManager.Instance.IsInputPressed(InputType.TurnCamera)) {
             DisableMouse();
         } else {
             EnableMouse();
@@ -34,21 +34,41 @@ public class L2GameUI : L2UI {
     protected override void LoadUI() {
         base.LoadUI();
 
-        StartLoading();
+        if(L2LoginUI.Instance != null) {
+            StartLoading();
+        }
 
-        MenuWindow.Instance.AddWindow(_rootVisualContainer);
         // SKillbar needs updates
         //ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
         //ShortCutPanel.Instance.AddWindow(rootVisualContainer);
-        IconOverlay.Instance.AddWindow(_rootVisualContainer);
-        StatusWindow.Instance.AddWindow(_rootVisualContainer);
-        InventoryWindow.Instance.AddWindow(_rootVisualContainer);
-        CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
-        CharacterInfoWindow.Instance.HideWindow();
-        ActionWindow.Instance.AddWindow(_rootVisualContainer);
-        SkillLearn.Instance.AddWindow(_rootVisualContainer);
-        ChatWindow.Instance.AddWindow(_rootVisualContainer);
-        TargetWindow.Instance.AddWindow(_rootVisualContainer);
+        if (MenuWindow.Instance != null) {
+            MenuWindow.Instance.AddWindow(_rootVisualContainer);
+        }
+        //if (IconOverlay.Instance != null) {
+        //    IconOverlay.Instance.AddWindow(_rootVisualContainer);
+        //}
+        if (StatusWindow.Instance != null) {
+            StatusWindow.Instance.AddWindow(_rootVisualContainer);
+        }
+        if (InventoryWindow.Instance != null) {
+            InventoryWindow.Instance.AddWindow(_rootVisualContainer);
+        }
+        if (CharacterInfoWindow.Instance != null) {
+            CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
+            CharacterInfoWindow.Instance.HideWindow();
+        }
+        if (ActionWindow.Instance != null) {
+            ActionWindow.Instance.AddWindow(_rootVisualContainer);
+        }
+        if (SkillLearn.Instance != null) {
+            SkillLearn.Instance.AddWindow(_rootVisualContainer);
+        }
+        if (ChatWindow.Instance != null) {
+            ChatWindow.Instance.AddWindow(_rootVisualContainer);
+        }
+        if (TargetWindow.Instance != null) {
+            TargetWindow.Instance.AddWindow(_rootVisualContainer);
+        }
     }
 
     public void EnableMouse() {
