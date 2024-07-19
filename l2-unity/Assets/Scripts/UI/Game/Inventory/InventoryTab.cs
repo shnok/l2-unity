@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
-public class InventoryTab : L2Tab
-{
+public class InventoryTab : L2Tab {
+    private L2Slot[] _inventorySlots;
+
+    public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader) {
+        base.Initialize(chatWindowEle, tabContainer, tabHeader);
+    }
+
     protected override void OnGeometryChanged() {
-        throw new System.NotImplementedException();
     }
 
     protected override void OnSwitchTab() {
-        throw new System.NotImplementedException();
     }
 
     protected override void RegisterAutoScrollEvent() {
-        throw new System.NotImplementedException();
     }
 }

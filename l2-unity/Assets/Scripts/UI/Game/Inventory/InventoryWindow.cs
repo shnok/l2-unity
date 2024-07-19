@@ -37,7 +37,7 @@ public class InventoryWindow : L2PopupWindow
     private VisualElement _inventoryTabView;
 
     [SerializeField] private List<InventoryTab> _tabs;
-    [SerializeField] private InventoryTab _activeTab;
+    private InventoryTab _activeTab;
 
     private static InventoryWindow _instance;
     public static InventoryWindow Instance {
@@ -57,9 +57,8 @@ public class InventoryWindow : L2PopupWindow
 
     protected override void LoadAssets() {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryWindow");
-        Debug.Log(_windowTemplate);
-        _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatTab");
-        _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatTabHeader");
+        _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTab");
+        _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTabHeader");
     }
 
     protected override void InitWindow(VisualElement root) {
@@ -95,7 +94,7 @@ public class InventoryWindow : L2PopupWindow
             Debug.LogError("tab-content-container");
         }
 
-        for (int i = 0; i < _tabs.Count; i++) {
+        for (int i = _tabs.Count -1; i >= 0; i--) {
             VisualElement tabElement = _tabTemplate.CloneTree()[0];
             // tabElement.name = _tabs[i].TabName;
             tabElement.name = _tabs[i].TabName;
