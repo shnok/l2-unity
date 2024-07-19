@@ -33,6 +33,9 @@ public class InventoryWindow : L2PopupWindow
 
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
+    private VisualTreeAsset _inventorySlotTemplate;
+
+    public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
 
     private VisualElement _inventoryTabView;
 
@@ -59,6 +62,7 @@ public class InventoryWindow : L2PopupWindow
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryWindow");
         _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTab");
         _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTabHeader");
+        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/Slot");
     }
 
     protected override void InitWindow(VisualElement root) {

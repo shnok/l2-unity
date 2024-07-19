@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
     <ui:Template name="DefaultWindowLarge" src="project://database/Assets/Resources/Data/UI/_Elements/Template/DefaultWindowLarge.uxml?fileID=9197481963319205126&amp;guid=f6eb1d0700ac0be4882d477f4f079d3a&amp;type=3#DefaultWindowLarge" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
-    <ui:Instance name="defaultWindowsLarge" template="DefaultWindowLarge" class="inventory-window" style="flex-grow: 1; position: absolute; left: auto; bottom: auto; height: 405px; width: 570px;">
+    <ui:Instance name="defaultWindowsLarge" template="DefaultWindowLarge" class="inventory-window" style="flex-grow: 1; position: absolute; left: auto; bottom: auto; height: 405px; width: 574px;">
         <AttributeOverrides element-name="windows-name-label" text="Inventory" />
         <ui:GroupBox name="Header" class="drag-area" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; position: absolute; top: 6px; align-self: stretch; height: 32px; width: 500px; display: flex;">
             <ui:GroupBox name="InfoSize" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0;">
@@ -14,8 +14,8 @@
                 </ui:GroupBox>
             </ui:GroupBox>
         </ui:GroupBox>
-        <ui:VisualElement name="Content" class="background_over" style="flex-grow: 1; min-width: auto; min-height: auto; justify-content: flex-start; align-items: flex-start; position: absolute; background-image: none; top: 0; left: 0; display: flex; visibility: visible; overflow: visible; flex-shrink: 0; width: 100%; height: 100%; padding-top: 0; padding-left: 8px; padding-right: 8px; margin-top: 38px;">
-            <ui:VisualElement name="Container" style="flex-grow: 1; flex-shrink: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.67); padding-top: 0; padding-right: 0; padding-bottom: 5px; padding-left: 0;">
+        <ui:VisualElement name="Content" class="background_over" style="flex-grow: 0; min-width: auto; min-height: auto; justify-content: flex-start; align-items: flex-start; position: absolute; background-image: none; top: 0; left: 0; display: flex; visibility: visible; overflow: visible; flex-shrink: 0; width: 100%; padding-top: 0; padding-left: 8px; padding-right: 8px; margin-top: 38px; height: 360px;">
+            <ui:VisualElement name="Container" style="flex-grow: 1; flex-shrink: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0); padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
                 <ui:GroupBox name="BoxContent" class="inventory_content" style="position: relative; left: 0; top: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: stretch; flex-grow: 1; padding-right: 0;">
                     <ui:GroupBox name="EquippedInventory" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; position: relative; width: 190px; height: 360px; left: auto; top: auto; background-image: none; display: none;">
                         <ui:GroupBox name="TopBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; background-image: none;">
@@ -171,15 +171,15 @@
                             <ui:GroupBox name="RightBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Center_Down_Rotate&apos;); width: 1px; height: 8px;" />
                         </ui:GroupBox>
                     </ui:GroupBox>
-                    <ui:VisualElement name="Gear" style="flex-grow: 0; background-image: resource(&apos;Data/UI/Inventory/Inventory_DF_EquipBg_classic&apos;); padding-top: 28px; padding-right: 22px; padding-bottom: 28px; padding-left: 22px; width: 190px;">
+                    <ui:VisualElement name="Gear" style="flex-grow: 0; background-image: resource(&apos;Data/UI/Inventory/Inventory_DF_EquipBg_classic&apos;); padding-top: 28px; padding-right: 22px; padding-bottom: 28px; padding-left: 22px; width: 203px;">
                         <ui:VisualElement name="GearContent" style="flex-grow: 1; background-image: resource(&apos;Data/UI/Inventory/Inventory_DF_EquipSlot_Classic _clear_empty_test2&apos;);" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="InventoryContent" style="flex-grow: 1;">
-                        <ui:VisualElement name="InventoryTabView" focusable="true" style="flex-grow: 1; flex-shrink: 1; flex-direction: column; padding-left: 4px; padding-top: 4px; padding-right: 2px; padding-bottom: 0;">
+                    <ui:VisualElement name="InventoryContent" style="flex-grow: 1; padding-left: 2px;">
+                        <ui:VisualElement name="InventoryTabView" focusable="true" style="flex-grow: 1; flex-shrink: 1; flex-direction: column; padding-left: 0; padding-top: 4px; padding-right: 0; padding-bottom: 0;">
                             <ui:VisualElement name="tab-header-container" style="flex-direction: row-reverse; margin-left: 8px; margin-bottom: -4px;">
                                 <ui:VisualElement name="TabLine" style="flex-grow: 1; margin-right: 5px; background-image: resource(&apos;Data/UI/Tab/Tab_DF_Bg_line&apos;); margin-bottom: -7px;" />
                             </ui:VisualElement>
-                            <ui:VisualElement focusable="true" name="tab-content-container" style="flex-grow: 1; flex-shrink: 0; flex-direction: column-reverse; background-image: resource(&apos;Data/UI/Tab/Tab_DF_bg&apos;); -unity-slice-left: 10; -unity-slice-top: 10; -unity-slice-right: 10; -unity-slice-bottom: 10; padding-top: 4px; padding-right: 0; padding-bottom: 4px; padding-left: 4px; margin-bottom: 0;" />
+                            <ui:VisualElement focusable="true" name="tab-content-container" style="flex-grow: 1; flex-shrink: 0; flex-direction: column-reverse; background-image: resource(&apos;Data/UI/Tab/Tab_DF_bg&apos;); -unity-slice-left: 10; -unity-slice-top: 10; -unity-slice-right: 10; -unity-slice-bottom: 10; padding-top: 6px; padding-right: 3px; padding-bottom: 6px; padding-left: 5px; margin-bottom: 0;" />
                         </ui:VisualElement>
                         <ui:GroupBox name="Footer" style="margin-top: 4px; margin-right: 0; margin-bottom: 4px; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 5px; height: 36px; flex-direction: row; flex-grow: 0; padding-right: 3px;">
                             <ui:Button text="Button" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AdenaDistribBtn" class="l2-button" style="width: 36px; height: 36px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
