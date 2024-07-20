@@ -15,16 +15,42 @@ public class InventoryTab : L2Tab {
 
         _selectedSlot = -1;
         _contentContainer = tabContainer.Q<VisualElement>("Content");
+    }
 
-        int slotCount = 40;
+    public void UpdateItemList(List<ItemInstance> items) {
+        // Clear slots
+        _contentContainer.Clear();
+
+        // Create empty slots
+        int slotCount = 80;
         _inventorySlots = new InventorySlot[slotCount];
-        for(int i = 0; i < slotCount; i++) {
+        for (int i = 0; i < slotCount; i++) {
             VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
             _contentContainer.Add(slotElement);
 
-            InventorySlot slot = new InventorySlot(i, ItemTable.Instance.GetWeapon(16), slotElement, this);
+            InventorySlot slot = new InventorySlot(i, slotElement, this);
             _inventorySlots[i] = slot;
         }
+
+        // Add disabled slot to fill up the window
+        int padSlot = 0;
+        if (slotCount < 72) {
+            padSlot = 72 - slotCount;
+        } else if (slotCount % 9 != 0) {
+            padSlot = 9 - slotCount % 9;
+        }
+
+        for (int i = 0; i < padSlot; i++) {
+            VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
+            slotElement.AddToClassList("inventory-slot");
+            slotElement.AddToClassList("disabled");
+            _contentContainer.Add(slotElement);
+        }
+
+        // Assign items to slots
+        items.ForEach(item => {
+            _inventorySlots[item.Slot].AssignItem(item);
+        });
     }
 
     public void SelectSlot(int slotPosition) {

@@ -1862,6 +1862,7 @@
 .inventory-window .l2-scroll-view .unity-scroller {
     width: 14px;
     margin-right: 2px;
+    margin-left: 2px;
 }
 
 .minimize-btn {
@@ -1908,6 +1909,14 @@
 
 .expand-btn:hover {
     background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_over');
+}
+
+.l2-slot .slot-bg {
+    background-image: resource('Data/UI/Inventory/ItemWindow_DF_SlotBox_Default');
+}
+
+.inventory-slot.disabled .slot-bg {
+    background-image: resource('Data/UI/Inventory/ItemWindow_DF_SlotBox_Disable');
 }
 
 .inventory-slot .slot-frame {

@@ -7,45 +7,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class InventoryWindow : L2PopupWindow
-{
-
-    //private VisualTreeAsset _testUITemplate;
-    //public VisualElement minimal_panel;
-    //private ButtonInventory _buttonInventory;
-    //private VisualElement boxHeader;
-    //private VisualElement boxContent;
-    //private VisualElement background;
-    //private VisualElement rootWindow;
-    //private VisualElement[] _menuItems;
-    //private VisualElement[] _inventoryRows;
-    //private bool isHide;
-    //private ModelRows[] _activeRows;
-    //private ModelRows _lastSelectRow;
-    //private MouseOverDetectionManipulator _mouseOverDetection;
-    //private Texture2D _selectFrame;
-    //private Texture2D _blackFrame;
-
-    //private EquipInventory _equipInventory;
-
-
-    //string[] fillBackground = { "Data/UI/ShortCut/demo_skills/fill_black", "Data/UI/Window/Inventory/bg_windows/blue_tab_v5" };
-
+public class InventoryWindow : L2PopupWindow {
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
     private VisualTreeAsset _inventorySlotTemplate;
-
     public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
 
-    private VisualElement _inventoryTabView;
 
+    private VisualElement _inventoryTabView;
     [SerializeField] private List<InventoryTab> _tabs;
     private InventoryTab _activeTab;
+
+    public List<ItemInstance> _playerItems;
 
     private static InventoryWindow _instance;
     public static InventoryWindow Instance {
         get { return _instance; }
     }
+
     private void Awake() {
         if (_instance == null) {
             _instance = this;
@@ -61,6 +40,13 @@ public class InventoryWindow : L2PopupWindow
         EtcItemgrpTable.Instance.Initialize();
         WeapongrpTable.Instance.Initialize();
         ItemTable.Instance.CacheItems();
+        IconManager.Instance.Initialize();
+        IconManager.Instance.CacheIcons();
+
+        /* TO REMOVE FOR TESTING ONLY */
+        _playerItems = new List<ItemInstance> ();
+        _playerItems.Add(new ItemInstance(0, 1146, 2, 0, 1, 1, false, 0, 0));
+        _playerItems.Add(new ItemInstance(0, 57, 2, 14, 69420, 4, false, 0, 0));
     }
 
     private void OnDestroy() {
@@ -91,6 +77,11 @@ public class InventoryWindow : L2PopupWindow
         yield return new WaitForEndOfFrame();
 
         CreateTabs();
+
+        yield return new WaitForEndOfFrame();
+
+        /* TO REMOVE FOR TESTING ONLY */
+        UpdateItemList(_playerItems);
     }
 
 
@@ -144,6 +135,14 @@ public class InventoryWindow : L2PopupWindow
         }
 
         return false;
+    }
+
+    public void UpdateItemList(List<ItemInstance> items) {
+        _playerItems = items;
+
+        _tabs.ForEach((tab) => {
+            tab.UpdateItemList(items);
+        });
     }
 
     //private void Awake()

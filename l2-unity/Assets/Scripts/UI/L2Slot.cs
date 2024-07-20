@@ -10,6 +10,7 @@ public abstract class L2Slot {
     protected string _description;
     protected string _icon;
     protected VisualElement _slotElement;
+    protected VisualElement _slotBg;
 
     public int Id { get { return _id; } }
     public int Position { get { return _position; } }
@@ -24,6 +25,17 @@ public abstract class L2Slot {
         _name = name;
         _description = description;
         _icon = icon;
+
+        _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
+
+        RegisterCallbacks();
+    }
+
+    public L2Slot(VisualElement slotElement, int position) {
+        _slotElement = slotElement;
+        _position = position;
+
+        _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
 
         RegisterCallbacks();
     }
