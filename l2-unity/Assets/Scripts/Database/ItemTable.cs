@@ -50,8 +50,8 @@ public class ItemTable
     }
 
     private void FillDataToLoad() {
-        weaponsToLoad = new List<int> { 1, 2, 3, 4, 5, 6, 7, 10, 14, 20, 89, 102, 129, 177, 188, 156, 275, 2369, 2370, 5284 };
-        armorsToLoad = new List<int> { NAKED_CHEST, NAKED_LEGS, NAKED_GLOVES, NAKED_BOOTS, 425, 461, 1146, 1147 };
+        weaponsToLoad = new List<int> { 1, 2, 3, 4, 5, 6, 7, 10, 14, 89, 102, 129, 177, 188, 156, 275, 2369, 2370, 5284, 20 };
+        armorsToLoad = new List<int> { NAKED_CHEST, NAKED_LEGS, NAKED_GLOVES, NAKED_BOOTS, 425, 461, 1146, 1147, 45, 118, 112, 116 };
         itemsToLoad = new List<int>() { 1835, 3947, 2509, 57, 736 };
     }
 

@@ -17,8 +17,51 @@
         <ui:VisualElement name="Content" class="background_over" style="flex-grow: 0; min-width: auto; min-height: auto; justify-content: flex-start; align-items: flex-start; position: absolute; background-image: none; top: 0; left: 0; display: flex; visibility: visible; overflow: visible; flex-shrink: 0; width: 100%; padding-top: 0; padding-left: 8px; padding-right: 8px; margin-top: 38px; height: 372px;">
             <ui:VisualElement name="Container" style="flex-grow: 1; flex-shrink: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0); padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
                 <ui:GroupBox name="BoxContent" class="inventory_content" style="position: relative; left: 0; top: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: stretch; flex-grow: 1; padding-right: 0;">
-                    <ui:VisualElement name="Gear" style="flex-grow: 0; background-image: resource(&apos;Data/UI/Inventory/Inventory_DF_EquipBg_classic&apos;); padding-top: 28px; padding-right: 22px; padding-bottom: 28px; padding-left: 22px; width: 203px;">
-                        <ui:VisualElement name="GearContent" style="flex-grow: 1; background-image: resource(&apos;Data/UI/Inventory/Inventory_DF_EquipSlot_Classic _clear_empty_test2&apos;);" />
+                    <ui:VisualElement name="Gear" style="flex-grow: 0; background-image: resource(&apos;Data/UI/Inventory/Inventory_DF_EquipBg_classic&apos;); padding-top: 28px; padding-right: 24px; padding-bottom: 28px; padding-left: 24px; width: 203px;">
+                        <ui:VisualElement name="GearContent" style="flex-grow: 1; background-image: resource(&apos;Data/UI/Inventory/Inventory_DF_EquipSlot_Classic _clear_empty_test2&apos;);">
+                            <ui:VisualElement name="GearRow1" style="flex-grow: 0; height: 34px; flex-direction: row;">
+                                <ui:VisualElement name="Hat1" style="flex-grow: 0; width: 34px; margin-left: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Helmet" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Hat2" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="GearRow2" style="flex-grow: 0; height: 34px; flex-direction: row; margin-top: 6px;">
+                                <ui:VisualElement name="Gloves" style="flex-grow: 0; width: 34px; margin-left: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Torso" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Boots" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="GearRow3" style="flex-grow: 0; height: 34px; flex-direction: row; margin-top: 6px;">
+                                <ui:VisualElement name="Underwear" style="flex-grow: 0; width: 34px; margin-left: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Legs" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Belt" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="GearRow4" style="flex-grow: 0; height: 34px; flex-direction: row; margin-top: 10px;">
+                                <ui:VisualElement name="Rhand" style="flex-grow: 0; width: 34px; margin-left: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Lhand" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Agathion" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="GearRow5" style="flex-grow: 0; height: 34px; flex-direction: row; margin-top: 35px;">
+                                <ui:VisualElement name="Neck" style="flex-grow: 0; width: 34px; margin-left: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Rear" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Lear" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="GearRow6" style="flex-grow: 0; height: 34px; flex-direction: row; margin-top: 10px;">
+                                <ui:VisualElement name="Pendant" style="flex-grow: 0; width: 34px; margin-left: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Rring" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                                <ui:VisualElement name="Spacer" style="flex-grow: 1;" />
+                                <ui:VisualElement name="Lring" style="flex-grow: 0; width: 34px; margin-right: 1px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="InventoryContent" style="flex-grow: 1; padding-left: 2px;">
                         <ui:VisualElement name="InventoryTabView" focusable="true" style="flex-grow: 1; flex-shrink: 0; flex-direction: column; padding-left: 0; padding-top: 5px; padding-right: 0; padding-bottom: 0;">

@@ -6,9 +6,11 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class InventoryTab : L2Tab {
     private InventorySlot[] _inventorySlots;
-    private int _selectedSlot = -1;
+    [SerializeField] private int _selectedSlot = -1;
+    private int _itemCount = 0;
 
     private VisualElement _contentContainer;
+    public List<ItemCategory> _filteredCategories;
 
     public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader) {
         base.Initialize(chatWindowEle, tabContainer, tabHeader);
@@ -20,6 +22,7 @@ public class InventoryTab : L2Tab {
     public void UpdateItemList(List<ItemInstance> items) {
         // Clear slots
         _contentContainer.Clear();
+        _itemCount = 0;
 
         // Create empty slots
         int slotCount = 80;
@@ -49,11 +52,16 @@ public class InventoryTab : L2Tab {
 
         // Assign items to slots
         items.ForEach(item => {
-            _inventorySlots[item.Slot].AssignItem(item);
+            if (_filteredCategories == null || _filteredCategories.Count == 0) {
+                _inventorySlots[item.Slot].AssignItem(item);
+                _itemCount++;
+            } else if(_filteredCategories.Contains(item.Category)) {
+                _inventorySlots[_itemCount++].AssignItem(item);
+            }
         });
     }
 
-    public void SelectSlot(int slotPosition) {
+    public override void SelectSlot(int slotPosition) {
         if(_selectedSlot != slotPosition) {
             if(_selectedSlot != -1) {
                 _inventorySlots[_selectedSlot].UnSelect();
@@ -67,6 +75,9 @@ public class InventoryTab : L2Tab {
     }
 
     protected override void OnSwitchTab() {
+        if (InventoryWindow.Instance.SwitchTab(this)) {
+            AudioManager.Instance.PlayUISound("window_open");
+        }
     }
 
     protected override void RegisterAutoScrollEvent() {

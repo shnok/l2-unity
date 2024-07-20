@@ -46,6 +46,7 @@ public class IconManager {
         string icon = _iconFolder + "\\" + CleanIconName(name);
         var result = Resources.Load<Texture2D>(icon);
 
+        Debug.Log($"Loading icon {name}.");
         if (result != null) {
             return result;
         }

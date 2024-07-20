@@ -11,7 +11,7 @@ public abstract class L2Tab {
     protected Scroller _scroller;
     private VisualElement _tabContainer;
     private VisualElement _tabHeader;
-    private VisualElement _windowEle;
+    protected VisualElement _windowEle;
     public string TabName { get { return _tabName; } }
     public VisualElement TabContainer { get { return _tabContainer; } }
     public VisualElement TabHeader { get { return _tabHeader; } }
@@ -19,24 +19,27 @@ public abstract class L2Tab {
 
     public virtual void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader) {
         _windowEle = chatWindowEle;
-        _tabContainer = tabContainer;
-        _tabHeader = tabHeader;
-        _scrollView = tabContainer.Q<ScrollView>("ScrollView");
-        _scroller = _scrollView.verticalScroller;
 
-        tabHeader.AddManipulator(new ButtonClickSoundManipulator(tabHeader));
+        if (tabContainer != null) {
+            _tabContainer = tabContainer;
+            _tabHeader = tabHeader;
+            _scrollView = tabContainer.Q<ScrollView>("ScrollView");
+            _scroller = _scrollView.verticalScroller;
 
-        tabHeader.RegisterCallback<MouseDownEvent>(evt => {
-            OnSwitchTab();
-        }, TrickleDown.TrickleDown);
+            tabHeader.AddManipulator(new ButtonClickSoundManipulator(tabHeader));
 
-        RegisterAutoScrollEvent();
-        RegisterPlayerScrollEvent();
+            tabHeader.RegisterCallback<MouseDownEvent>(evt => {
+                OnSwitchTab();
+            }, TrickleDown.TrickleDown);
+
+            RegisterAutoScrollEvent();
+            RegisterPlayerScrollEvent();
+        }
     }
 
-    protected abstract void OnSwitchTab();
+    protected virtual void OnSwitchTab() { }
 
-    protected abstract void RegisterAutoScrollEvent();
+    protected virtual void RegisterAutoScrollEvent() { }
 
     private void RegisterPlayerScrollEvent() {
         var highBtn = _scroller.Q<RepeatButton>("unity-high-button");
@@ -63,7 +66,7 @@ public abstract class L2Tab {
         });
     }
 
-    protected abstract void OnGeometryChanged();
+    protected virtual void OnGeometryChanged() { }
 
     private void VerifyScrollValue() {
         if (_scroller.highValue > 0 && _scroller.value == _scroller.highValue || _scroller.highValue == 0 && _scroller.value == 0) {
@@ -72,4 +75,6 @@ public abstract class L2Tab {
             _autoscroll = false;
         }
     }
+
+    public virtual void SelectSlot(int slot) { }
 }
