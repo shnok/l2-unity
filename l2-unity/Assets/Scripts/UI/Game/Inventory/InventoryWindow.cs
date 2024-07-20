@@ -52,6 +52,15 @@ public class InventoryWindow : L2PopupWindow
         } else {
             Destroy(this);
         }
+
+        /* TO REMOVE FOR TESTING ONLY */
+        ItemTable.Instance.Initialize();
+        ItemNameTable.Instance.Initialize();
+        ItemStatDataTable.Instance.Initialize();
+        ArmorgrpTable.Instance.Initialize();
+        EtcItemgrpTable.Instance.Initialize();
+        WeapongrpTable.Instance.Initialize();
+        ItemTable.Instance.CacheItems();
     }
 
     private void OnDestroy() {

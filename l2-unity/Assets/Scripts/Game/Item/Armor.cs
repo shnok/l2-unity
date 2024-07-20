@@ -9,7 +9,7 @@ public class Armor : AbstractItem {
 
     public Armorgrp Armorgrp { get { return _armorgrp; } }
 
-    public Armor(int id, ItemName itemName, ItemStatData itemStatData, Armorgrp armorgrp) : base(id, itemName, itemStatData) {
+    public Armor(int id, ItemName itemName, ItemStatData itemStatData, Armorgrp armorgrp) : base(id, itemName, itemStatData, armorgrp.Icon) {
         _armorgrp = armorgrp;
     }
 }
