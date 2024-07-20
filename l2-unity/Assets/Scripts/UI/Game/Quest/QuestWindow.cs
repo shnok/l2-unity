@@ -1,20 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ActionWindow : L2PopupWindow
+public class QuestWindow : L2PopupWindow
 {
     public VisualElement minimal_panel;
     private VisualElement boxContent;
     private VisualElement background;
     private VisualElement boxHeader;
     private VisualElement rootWindow;
-    private ButtonActive _button;
-
-    private static ActionWindow _instance;
-    public static ActionWindow Instance
+    private ButtonQuest _button;
+    private static QuestWindow _instance;
+    public static QuestWindow Instance
     {
         get { return _instance; }
     }
@@ -23,7 +21,7 @@ public class ActionWindow : L2PopupWindow
         if (_instance == null)
         {
             _instance = this;
-            _button = new ButtonActive(this);
+            _button = new ButtonQuest(this);
         }
         else
         {
@@ -38,22 +36,22 @@ public class ActionWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Action/ActionWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Quest/QuestWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
     {
         InitWindow(root);
-        
+
 
         yield return new WaitForEndOfFrame();
 
-         rootWindow = GetElementByClass("root-windows");
-         boxHeader = GetElementByClass("drag-area");
-         boxContent = GetElementByClass("quest_content");
-         background = GetElementByClass("background_over");
+        rootWindow = GetElementByClass("root-windows");
+        boxHeader = GetElementByClass("drag-area");
+       // boxContent = GetElementByClass("action_content");
+        background = GetElementByClass("background_over");
         _button.RegisterButtonCloseWindow(rootWindow, "btn-close-frame");
-        _button.RegisterClickWindow(boxContent, boxHeader);
+       // _button.RegisterClickWindow(boxContent, boxHeader);
 
         DragManipulator drag = new DragManipulator(boxHeader, _windowEle);
         boxHeader.AddManipulator(drag);

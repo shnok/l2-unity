@@ -47,6 +47,7 @@ public class MenuWindow : L2Window {
 
         var questBtn = _windowEle.Q<Button>("QuestButton");
         questBtn.AddManipulator(new ButtonClickSoundManipulator(questBtn));
+        questBtn.RegisterCallback<ClickEvent>((evt) => QuestWindow.Instance.ToggleHideWindow());
 
         var clanBtn = _windowEle.Q<Button>("ClanButton");
         clanBtn.AddManipulator(new ButtonClickSoundManipulator(clanBtn));
