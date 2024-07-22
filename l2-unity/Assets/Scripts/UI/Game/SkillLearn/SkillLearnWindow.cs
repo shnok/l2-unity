@@ -91,10 +91,19 @@ public class SkillLearn : L2PopupWindow
 
         _passiveTab_abilityContent = GetElementByClass("row-ability-content");
         _passiveTab_subjectContent = GetElementByClass("row-subject-content");
+        var testToolTipRow0  = GetElementByClass("imgbox7");
+        var testToolTipRow1 = GetElementByClass("imgbox1");
+        var testToolTipRow2 = GetElementByClass("imgbox2");
+        var testToolTipRow3 = GetElementByClass("imgbox3");
+        List<VisualElement> list = new List<VisualElement>
+        {
+            testToolTipRow0,testToolTipRow1, testToolTipRow2,testToolTipRow3
+        };
+        ToolTipManager.Instance.RegisterCallback(list);
         Button closeButton = (Button)GetElementById("CloseButton");
 
         boxHeader = GetElementByClass("drag-area");
-        //var test = GetElementByClass("df-button-active-skills");
+
 
         boxContent = GetElementByClass("skill_content");
 
