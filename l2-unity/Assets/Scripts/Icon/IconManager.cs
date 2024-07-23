@@ -10,7 +10,9 @@ public class IconManager : MonoBehaviour
     private string[] fillBackground = { "Data/UI/ShortCut/demo_skills/fill_black", "Data/UI/Window/Inventory/bg_windows/blue_tab_v5" };
 
     private static IconManager _instance;
-    public static IconManager Instance { get { return _instance; } }
+    public static IconManager Instance { 
+        get { return _instance; } 
+    }
 
     private void Awake()
     {
