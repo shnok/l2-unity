@@ -13,6 +13,7 @@ public class ItemInstance
     [SerializeField] private ItemCategory _category;
     [SerializeField] private bool _equipped;
     [SerializeField] private ItemSlot _bodyPart;
+    [SerializeField] private int _enchantLevel;
     [SerializeField] private long _remainingTime;
 
     public AbstractItem ItemData { get { return _itemData; } }
@@ -24,9 +25,10 @@ public class ItemInstance
     public int Count { get { return _count; } }
     public ItemCategory Category { get { return _category; } }
     public ItemSlot BodyPart { get { return _bodyPart; } }
+    public int EnchantLevel { get { return _enchantLevel; } }
     public long RemainingTime { get { return _remainingTime; } }
 
-    public ItemInstance(int objectId, int itemId, ItemLocation location, int slot, int count, ItemCategory category, bool equipped, ItemSlot bodyPart, long remainingTime) {
+    public ItemInstance(int objectId, int itemId, ItemLocation location, int slot, int count, ItemCategory category, bool equipped, ItemSlot bodyPart, int enchantLevel, long remainingTime) {
         _objectId = objectId;
         _itemId = itemId;
         _location = location;
@@ -36,6 +38,7 @@ public class ItemInstance
         _equipped = equipped;
         _bodyPart = bodyPart;
         _remainingTime = remainingTime;
+        _enchantLevel = enchantLevel;
 
         if (_category == ItemCategory.Weapon) {
             _itemData = ItemTable.Instance.GetWeapon(_itemId);
@@ -48,6 +51,13 @@ public class ItemInstance
         } else {
             _itemData = ItemTable.Instance.GetEtcItem(_itemId);
         }
+
+        Debug.Log(this.ToString());
+    }
+
+    public override string ToString() {
+        return $"New item: ServerId:{_objectId} ItemId:{_itemId} Location:{_location} Slot:{_slot} Count:{_count} " +
+        $"Cat:{_category} Equipped:{_equipped} Bodypart:{_bodyPart}";
     }
 
     // Packet data

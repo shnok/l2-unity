@@ -23,5 +23,7 @@ public enum GameServerPacketType : byte
     ActionFailed = 0x14,
     ServerClose=0x15,
     StatusUpdate = 0x16,
-    ActionAllowed = 0x17
+    ActionAllowed = 0x17,
+    InventoryItemList = 0x18,
+    InventoryUpdate = 0x19
 }
