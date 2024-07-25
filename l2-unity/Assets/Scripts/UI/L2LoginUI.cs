@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections;
 
 public class L2LoginUI : L2UI
 {
@@ -36,6 +37,15 @@ public class L2LoginUI : L2UI
         LicenseWindow.Instance.HideWindow();
         ServerSelectWindow.Instance.AddWindow(_rootVisualContainer);
         ServerSelectWindow.Instance.HideWindow();
+
+        if(GameManager.Instance.AutoLogin) {
+            StartCoroutine(AutoLogin());
+        }
+    }
+
+    private IEnumerator AutoLogin() {
+        yield return new WaitForSeconds(1f);
+        LoginWindow.Instance.ShowWindow();
     }
 
     public void ShowServerSelectWindow() {

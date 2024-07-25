@@ -177,4 +177,12 @@ public class CharSelectWindow : L2Window {
     private void DeletePressed() {
 
     }
+
+    public override void ShowWindow() {
+        base.ShowWindow();
+
+        if(GameManager.Instance.AutoLogin) {
+            StartGamePressed();
+        }
+    }
 }

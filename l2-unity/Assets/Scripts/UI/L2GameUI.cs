@@ -57,12 +57,12 @@ public class L2GameUI : L2UI {
             CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
             CharacterInfoWindow.Instance.HideWindow();
         }
-        if (ActionWindow.Instance != null) {
-            ActionWindow.Instance.AddWindow(_rootVisualContainer);
-        }
-        if (SkillLearn.Instance != null) {
-            SkillLearn.Instance.AddWindow(_rootVisualContainer);
-        }
+        // if (ActionWindow.Instance != null) {
+        //     ActionWindow.Instance.AddWindow(_rootVisualContainer);
+        // }
+        // if (SkillLearn.Instance != null) {
+        //     SkillLearn.Instance.AddWindow(_rootVisualContainer);
+        // }
         if (ChatWindow.Instance != null) {
             ChatWindow.Instance.AddWindow(_rootVisualContainer);
         }

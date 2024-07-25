@@ -285,23 +285,27 @@ public class InventoryWindow : L2PopupWindow {
     }
 
     public void UpdateItemList(List<ItemInstance> items) {
-        _playerItems = items;
+        _adenaCount = 0;
+        _usedSlots = 0;
 
         if(items == null) {
-            _playerItems = new List<ItemInstance>();
+            items = new List<ItemInstance>();
+        } else {
+            _usedSlots = items.Where(o => o.Location == ItemLocation.Inventory).Count();
+
+            ItemInstance adenaItem = items.First(o => o.Category == ItemCategory.Adena);
+            if(adenaItem != null) {
+                _adenaCount = adenaItem.Count;
+            }
         }
+
+        _playerItems = items;
 
         // Slot count
         _slotCount = PLAYER_INVENTORY_SIZE;
-        _usedSlots = items.Where(o => o.Location == ItemLocation.Inventory).Count();
         _inventoryCountLabel.text = $"({_usedSlots}/{_slotCount})";
 
         //Adena
-        ItemInstance adenaItem = items.First(o => o.Category == ItemCategory.Adena);
-        _adenaCount = 0;
-        if(adenaItem != null) {
-            _adenaCount = adenaItem.Count;
-        }
         _adenaCountLabel.text = _adenaCount.ToString();
 
         _currentWeight = 0;

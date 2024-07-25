@@ -8,6 +8,7 @@ public class InventoryItemListPacket : AbstractItemPacket
     public ItemInstance[] Items { get { return _items; } }
     
     public InventoryItemListPacket(byte[] d) : base(d){
+        Parse();
     }
 
     public override void Parse() {
@@ -15,6 +16,9 @@ public class InventoryItemListPacket : AbstractItemPacket
         // writeI(items.size());
         bool openWindow = ReadB() == 1;
         int itemListSize = ReadI();
+
+        Debug.Log("OpenWindow? " + openWindow);
+        Debug.Log("itemListSize " + itemListSize);
 
         _items = new ItemInstance[itemListSize];
         for(int i = 0; i < itemListSize; i++) {
