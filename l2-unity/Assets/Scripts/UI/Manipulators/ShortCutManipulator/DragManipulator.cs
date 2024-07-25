@@ -8,6 +8,7 @@ public class DragManipulator : PointerManipulator {
 
     private bool _rightAnchor = true;
     private bool _bottomAnchor = true;
+    public bool dragged = false;
 
     public DragManipulator(VisualElement target, VisualElement root) {
         this.target = target;
@@ -16,7 +17,7 @@ public class DragManipulator : PointerManipulator {
     }
 
     protected override void RegisterCallbacksOnTarget() {
-        target.RegisterCallback<PointerDownEvent>(PointerDownHandler);
+        target.RegisterCallback<PointerDownEvent>(PointerDownHandler, TrickleDown.TrickleDown);
         target.RegisterCallback<PointerMoveEvent>(PointerMoveHandler);
         target.RegisterCallback<PointerUpEvent>(PointerUpHandler);
     }
@@ -27,10 +28,10 @@ public class DragManipulator : PointerManipulator {
         target.UnregisterCallback<PointerUpEvent>(PointerUpHandler);
     }
 
-    public void PointerDownHandler(PointerDownEvent evt)
-    {
+    public void PointerDownHandler(PointerDownEvent evt) {
         if (evt.button == 0)
         {
+            dragged = false;
             _startMousePosition = evt.position;
             _startPosition = _root.layout.position;// + target.layout.position;
             target.CapturePointer(evt.pointerId);
@@ -38,18 +39,17 @@ public class DragManipulator : PointerManipulator {
         evt.StopPropagation();
     }
 
-    public void PointerMoveHandler(PointerMoveEvent evt)
-    {
+    public void PointerMoveHandler(PointerMoveEvent evt) {
         if (target.HasPointerCapture(evt.pointerId))
         {
+            dragged = true;
             Vector2 diff = _startMousePosition - new Vector2(evt.position.x, evt.position.y);
             DragWindow(diff);
         }
         evt.StopPropagation();
     }
 
-    public void PointerUpHandler(PointerUpEvent evt)
-    {
+    public void PointerUpHandler(PointerUpEvent evt) {
         if (target.HasPointerCapture(evt.pointerId))
         {
             target.ReleasePointer(evt.pointerId);

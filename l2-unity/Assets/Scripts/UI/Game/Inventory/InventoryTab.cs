@@ -25,7 +25,7 @@ public class InventoryTab : L2Tab {
         _itemCount = 0;
 
         // Create empty slots
-        int slotCount = 80;
+        int slotCount = InventoryWindow.Instance.SlotCount;
         _inventorySlots = new InventorySlot[slotCount];
         for (int i = 0; i < slotCount; i++) {
             VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
@@ -36,11 +36,16 @@ public class InventoryTab : L2Tab {
         }
 
         // Add disabled slot to fill up the window
+        int rowLength = 9;
+        if(InventoryWindow.Instance.Expanded) {
+            rowLength = 12;
+        }
+
         int padSlot = 0;
-        if (slotCount < 72) {
-            padSlot = 72 - slotCount;
-        } else if (slotCount % 9 != 0) {
-            padSlot = 9 - slotCount % 9;
+        if (slotCount < 8 * rowLength) {
+            padSlot = 8 * rowLength - slotCount;
+        } else if (slotCount % rowLength != 0) {
+            padSlot = rowLength - slotCount % rowLength;
         }
 
         for (int i = 0; i < padSlot; i++) {
@@ -52,11 +57,13 @@ public class InventoryTab : L2Tab {
 
         // Assign items to slots
         items.ForEach(item => {
-            if (_filteredCategories == null || _filteredCategories.Count == 0) {
-                _inventorySlots[item.Slot].AssignItem(item);
-                _itemCount++;
-            } else if(_filteredCategories.Contains(item.Category)) {
-                _inventorySlots[_itemCount++].AssignItem(item);
+            if(item.Location == ItemLocation.Inventory) {
+                if (_filteredCategories == null || _filteredCategories.Count == 0) {
+                    _inventorySlots[item.Slot].AssignItem(item);
+                    _itemCount++;
+                } else if(_filteredCategories.Contains(item.Category)) {
+                    _inventorySlots[_itemCount++].AssignItem(item);
+                }
             }
         });
     }

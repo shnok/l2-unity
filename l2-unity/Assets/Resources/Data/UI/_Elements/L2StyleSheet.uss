@@ -1658,6 +1658,15 @@
 .bar-label {
 }
 
+.inventory-window {
+    width: 574px;
+    height: 416px;
+}
+
+.inventory-window.expanded {
+    width: 682px;
+}
+
 .inventory-window .l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
     flex-direction: row;
 }
@@ -1894,20 +1903,39 @@
     width: 10px;
     height: 10px;
     border-width: 0;
-    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize');
     margin: 0;
     padding: 0;
 }
 
-.expand-btn:active {
+.expand-btn #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Expand');
+}
+
+.expand-btn:active #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Expand_down');
+}
+
+.expand-btn:active:hover #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Expand_down');
+}
+
+.expand-btn:hover #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Expand_over');
+}
+
+.expand-btn.expanded #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize');
+}
+
+.expand-btn.expanded:active #ButtonBg {
     background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_down');
 }
 
-.expand-btn:active:hover {
+.expand-btn.expanded:active:hover #ButtonBg {
     background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_down');
 }
 
-.expand-btn:hover {
+.expand-btn.expanded:hover #ButtonBg {
     background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_over');
 }
 
@@ -1924,5 +1952,13 @@
 }
 
 .inventory-slot.selected .slot-frame {
+    display: flex;
+}
+
+.inventory-minimized {
+    display: none;
+}
+
+.inventory-minimized.minimized {
     display: flex;
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public abstract class L2Window : MonoBehaviour {
+    protected VisualElement _root;
     protected VisualTreeAsset _windowTemplate;
     protected VisualElement _windowEle;
     protected bool _isWindowHidden = false;
@@ -33,6 +34,7 @@ public abstract class L2Window : MonoBehaviour {
     }
 
     protected virtual void InitWindow(VisualElement root) {
+        _root = root;
         _windowEle = _windowTemplate.Instantiate()[0];
         _mouseOverDetection = new MouseOverDetectionManipulator(_windowEle);
         _windowEle.AddManipulator(_mouseOverDetection);
