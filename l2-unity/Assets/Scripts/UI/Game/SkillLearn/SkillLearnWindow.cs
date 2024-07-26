@@ -60,6 +60,11 @@ public class SkillLearn : L2PopupWindow
         }
     }
 
+    public bool isWindowContain(Vector2 vector2)
+    {
+        return  _windowEle.worldBound.Contains(vector2);
+    }
+
     private void OnDestroy()
     {
         _instance = null;
@@ -95,9 +100,13 @@ public class SkillLearn : L2PopupWindow
         var testToolTipRow1 = GetElementByClass("imgbox1");
         var testToolTipRow2 = GetElementByClass("imgbox2");
         var testToolTipRow3 = GetElementByClass("imgbox3");
+        var testToolTipRow16 = GetElementByClass("imgbox20");
+        var testToolTipRow15 = GetElementByClass("imgbox19");
+        var testToolTipRow91_passive = GetElementByClass("imgbox91");
+
         List<VisualElement> list = new List<VisualElement>
         {
-            testToolTipRow0,testToolTipRow1, testToolTipRow2,testToolTipRow3
+            testToolTipRow15 , testToolTipRow1 ,testToolTipRow2 ,testToolTipRow3  , testToolTipRow0 , testToolTipRow16 , testToolTipRow91_passive
         };
         ToolTipManager.Instance.RegisterCallback(list);
         Button closeButton = (Button)GetElementById("CloseButton");

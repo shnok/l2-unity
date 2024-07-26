@@ -144,11 +144,11 @@ public class ButtonSkillLearn
     public void RegisterClickButtonClan(VisualElement rootEleent)
     {
 
-        var btn = rootEleent.Q<Button>("DF_Button_Clan");
-        btn.RegisterCallback<ClickEvent>((evt) =>
-        {
-            _skill.clickDfClan(btn);
-        });
+        //var btn = rootEleent.Q<Button>("DF_Button_Clan");
+       // btn.RegisterCallback<ClickEvent>((evt) =>
+        //{
+        //    _skill.clickDfClan(btn);
+       // });
     }
 
     public void RegisterClickButtonAbility(VisualElement rootEleent)

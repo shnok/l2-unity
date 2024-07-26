@@ -17,7 +17,7 @@ public class ShowToolTip
         float original =  vector2.y;
         float dfig = original + ve.worldBound.width;
         var vector3 = new Vector2(vector2.x, dfig);
-        _toolTipManager.NewPosition(vector3);
+        _toolTipManager.NewPosition(vector3 , ve.worldBound.width);
     }
 
     public void Hide(VisualElement ve)
