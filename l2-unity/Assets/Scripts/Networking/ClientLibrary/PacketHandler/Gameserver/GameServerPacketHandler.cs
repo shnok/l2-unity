@@ -308,6 +308,7 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnInventoryItemList(byte[] data) {
         InventoryItemListPacket packet = new InventoryItemListPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerInventory.Instance.SetInventory(packet.Items, packet.OpenWindow));
     }
 
     private void OnInventoryUpdate(byte[] data) {
