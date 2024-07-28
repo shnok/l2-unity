@@ -8,6 +8,7 @@ public class InventorySlot : L2Slot
     protected L2Tab _currentTab;
     private int _count;
     private long _remainingTime;
+    private TooltipManipulator _tooltipManipulator;
 
     public int Count { get { return _count; } }
     public long RemainingTime { get { return _remainingTime; } }
@@ -42,6 +43,18 @@ public class InventorySlot : L2Slot
 
         StyleBackground background = new StyleBackground(IconManager.Instance.GetIcon(_id));
         _slotBg.style.backgroundImage = background;
+
+        string tooltipText =  $"{_name} ({_count})";
+        if(item.Category == ItemCategory.Weapon || item.Category == ItemCategory.Jewel || item.Category == ItemCategory.ShieldArmor) {
+            tooltipText = _name;
+        }
+
+        if(_tooltipManipulator == null) {
+            _tooltipManipulator = new TooltipManipulator(_slotElement, tooltipText);
+            _slotElement.AddManipulator(_tooltipManipulator);
+        } else {
+            _tooltipManipulator.SetText(tooltipText);
+        }
     }
 
     protected override void HandleLeftClick() {

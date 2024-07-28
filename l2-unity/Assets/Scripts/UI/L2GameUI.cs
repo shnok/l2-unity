@@ -69,6 +69,10 @@ public class L2GameUI : L2UI {
         if (TargetWindow.Instance != null) {
             TargetWindow.Instance.AddWindow(_rootVisualContainer);
         }
+        if (L2ToolTip.Instance != null) {
+            L2ToolTip.Instance.AddWindow(_rootVisualContainer);
+            L2ToolTip.Instance.HideWindow();
+        }
     }
 
     public void EnableMouse() {

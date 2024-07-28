@@ -552,11 +552,35 @@
 }
 
 .l2-scroll-view .unity-scroller__high-button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarDownBtn.png?fileID=2800000&guid=80ca62d60b1f8ba4e8e1783db945a3df&type=3#ScrollBarDownBtn');
+    background-image: resource('Data/UI/Scrollbar/ScrollBarDownBtn');
+}
+
+.l2-scroll-view .unity-scroller__high-button:active {
+    background-image: resource('Data/UI/Scrollbar/ScrollBarDownOnBtn');
+}
+
+.l2-scroll-view .unity-scroller__high-button:active:hover {
+    background-image: resource('Data/UI/Scrollbar/ScrollBarDownOnBtn');
+}
+
+.l2-scroll-view .unity-scroller__high-button:hover {
+    background-image: resource('Data/UI/Scrollbar/scrollbardownbtn_over');
 }
 
 .l2-scroll-view .unity-scroller__low-button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarUpBtn.png?fileID=2800000&guid=1afd826ca3da2ec48bc50e97ea39d325&type=3#ScrollBarUpBtn');
+    background-image: resource('Data/UI/Scrollbar/ScrollBarUpBtn');
+}
+
+.l2-scroll-view .unity-scroller__low-button:active {
+    background-image: resource('Data/UI/Scrollbar/ScrollBarUpOnBtn');
+}
+
+.l2-scroll-view .unity-scroller__low-button:active:hover {
+    background-image: resource('Data/UI/Scrollbar/ScrollBarUpOnBtn');
+}
+
+.l2-scroll-view .unity-scroller__low-button:hover {
+    background-image: resource('Data/UI/Scrollbar/scrollbarupbtn_over');
 }
 
 .chat-window .chatting-fontsize:hover {
