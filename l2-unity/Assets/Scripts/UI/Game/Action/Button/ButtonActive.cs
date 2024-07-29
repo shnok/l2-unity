@@ -29,13 +29,13 @@ public class ButtonActive
         }
 
         contentId.RegisterCallback<MouseDownEvent>(evt => {
-            Debug.Log("Evennt cliiikkk 1");
+            //Debug.Log("Evennt cliiikkk 1");
             _action.BringToFront();
 
         }, TrickleDown.TrickleDown);
 
         headerId.RegisterCallback<MouseDownEvent>(evt => {
-            Debug.Log("Evennt cliiikkk 2");
+            //Debug.Log("Evennt cliiikkk 2");
             _action.BringToFront();
         }, TrickleDown.TrickleDown);
     }

@@ -108,7 +108,7 @@ public class SkillLearn : L2PopupWindow
         {
             testToolTipRow15 , testToolTipRow1 ,testToolTipRow2 ,testToolTipRow3  , testToolTipRow0 , testToolTipRow16 , testToolTipRow91_passive
         };
-        ToolTipManager.Instance.RegisterCallback(list);
+        ToolTipManager.Instance.RegisterCallbackSkills(list);
         Button closeButton = (Button)GetElementById("CloseButton");
 
         boxHeader = GetElementByClass("drag-area");

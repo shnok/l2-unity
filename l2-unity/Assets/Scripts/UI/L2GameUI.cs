@@ -40,7 +40,8 @@ public class L2GameUI : L2UI {
         // SKillbar needs updates
         //ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
         //ShortCutPanel.Instance.AddWindow(rootVisualContainer);
-        ToolTipManager.Instance.AddWindow(_rootVisualContainer);
+        ToolTipSkill.Instance.AddWindow(_rootVisualContainer);
+        ToolTipAction.Instance.AddWindow(_rootVisualContainer);
         IconOverlay.Instance.AddWindow(_rootVisualContainer);
         StatusWindow.Instance.AddWindow(_rootVisualContainer);
         InventoryWindow.Instance.AddWindow(_rootVisualContainer);
