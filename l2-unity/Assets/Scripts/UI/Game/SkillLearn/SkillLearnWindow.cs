@@ -12,9 +12,9 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 public class SkillLearn : L2PopupWindow
 {
     public VisualElement minimal_panel;
-    private VisualElement boxContent;
-    private VisualElement background;
-    private VisualElement boxHeader;
+    private VisualElement _boxContent;
+    private VisualElement _background;
+    private VisualElement _boxHeader;
     private VisualElement _rootWindow;
     private ButtonSkillLearn _button;
     private bool isHide;
@@ -102,6 +102,7 @@ public class SkillLearn : L2PopupWindow
         var testToolTipRow3 = GetElementByClass("imgbox3");
         var testToolTipRow16 = GetElementByClass("imgbox20");
         var testToolTipRow15 = GetElementByClass("imgbox19");
+        var dropTest = GetElementByClass("imgbox99");
         var testToolTipRow91_passive = GetElementByClass("imgbox91");
 
         List<VisualElement> list = new List<VisualElement>
@@ -109,21 +110,18 @@ public class SkillLearn : L2PopupWindow
             testToolTipRow15 , testToolTipRow1 ,testToolTipRow2 ,testToolTipRow3  , testToolTipRow0 , testToolTipRow16 , testToolTipRow91_passive
         };
         ToolTipManager.Instance.RegisterCallbackSkills(list);
+
         Button closeButton = (Button)GetElementById("CloseButton");
 
-        boxHeader = GetElementByClass("drag-area");
-
-
-        boxContent = GetElementByClass("skill_content");
-
-        CreateTab(boxContent, _menuItems);
-
-         background = GetElementByClass("background_over");
+        _boxHeader = GetElementByClass("drag-area");
+        _boxContent = GetElementByClass("skill_content");
+        CreateTab(_boxContent, _menuItems);
+         _background = GetElementByClass("background_over");
 
        
         _button.RegisterButtonCloseWindow(_rootWindow, "btn-close-frame");
         _button.RegisterClickCloseButton(closeButton);
-        _button.RegisterClickWindow(boxContent, boxHeader);
+        _button.RegisterClickWindow(_boxContent, _boxHeader);
 
 
         _button.RegisterClickAction(_menuItems[0]);
@@ -139,8 +137,10 @@ public class SkillLearn : L2PopupWindow
         _button.RegisterClickButtonSubject(_rootTabs[1]);
 
 
-        DragManipulator drag = new DragManipulator(boxHeader, _windowEle);
-        boxHeader.AddManipulator(drag);
+
+        DragAndDropManipulator dad = new DragAndDropManipulator(dropTest , _rootWindow);
+        DragManipulator drag = new DragManipulator(_boxHeader, _windowEle);
+        _boxHeader.AddManipulator(drag);
         ChangeMenuSelect(0);
 
         _mouseOverDetection = new MouseOverDetectionManipulator(_rootWindow);
