@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
+using static UnityEditor.Rendering.FilterWindow;
 using static UnityEngine.GraphicsBuffer;
 
 public class DragAndDropManipulator : PointerManipulator
@@ -12,14 +14,13 @@ public class DragAndDropManipulator : PointerManipulator
 
     private Vector3 pointerStartPosition { get; set; }
 
+    private DragAndDropManager manager;
     private bool enabled { get; set; }
 
-    private VisualElement root { get; }
-
-    public DragAndDropManipulator(VisualElement target , VisualElement root)
+    public DragAndDropManipulator(VisualElement target , DragAndDropManager manager)
     {
         this.target = target;
-        this.root = root;
+        this.manager = manager;
     }
 
 
@@ -50,9 +51,16 @@ public class DragAndDropManipulator : PointerManipulator
         pointerStartPosition = evt.position;
         target.CapturePointer(evt.pointerId);
         var vector = new Vector2(target.worldBound.position.x , target.worldBound.position.y);
-        DragIcon.Instance.NewPosition(vector , target.style.backgroundImage.value);
-        DragIcon.Instance.BringToFront1();
+        SetActiveToManager((VisualElement)evt.currentTarget);
+        DragIcon.Instance.SetBackground(manager.GetActiveBackground());
+        DragIcon.Instance.NewPosition(vector);
+
         enabled = true;
+    }
+
+    private void SetActiveToManager(VisualElement active)
+    {
+        if(active != null) manager.SetActive(active.name);
     }
 
     // This method checks whether a drag is in progress and whether target has captured the pointer.
@@ -61,14 +69,15 @@ public class DragAndDropManipulator : PointerManipulator
     {
         if (enabled && target.HasPointerCapture(evt.pointerId))
         {
+            //UnityEngine.Cursor.visible = false;
             // Vector3 pointerDelta = evt.position - pointerStartPosition;
             Vector3 pointerDelta = evt.position;
-
             var position = new Vector2(
                 Mathf.Clamp(targetStartPosition.x + pointerDelta.x, 0, target.panel.visualTree.worldBound.width),
                 Mathf.Clamp(targetStartPosition.y + pointerDelta.y, 0, target.panel.visualTree.worldBound.height));
-            DragIcon.Instance.NewPosition(position , target.style.backgroundImage.value);
+            DragIcon.Instance.NewPosition(position);
             DragIcon.Instance.BringToFront1();
+
         }
     }
 
@@ -79,6 +88,9 @@ public class DragAndDropManipulator : PointerManipulator
         if (enabled && target.HasPointerCapture(evt.pointerId))
         {
             target.ReleasePointer(evt.pointerId);
+            VisualElement ve = (VisualElement)evt.currentTarget;
+            Debug.Log("UPPPPPPPPPPPPPPPP " + ve.name);
+            DragIcon.Instance.ResetPosition();
         }
     }
 
@@ -91,28 +103,28 @@ public class DragAndDropManipulator : PointerManipulator
     {
         if (enabled)
         {
-            Debug.Log("PointerCaptureOutHandler DRAGGGGANDDROPPPP");
-            VisualElement slotsContainer = root.Q<VisualElement>("AllPanel");
+            //Debug.Log("PointerCaptureOutHandler DRAGGGGANDDROPPPP");
+            //VisualElement slotsContainer = root.Q<VisualElement>("AllPanel");
 
-            UQueryBuilder<VisualElement> allSlots =
-                slotsContainer.Query<VisualElement>(className: "imgbox0");
+           // UQueryBuilder<VisualElement> allSlots =
+            //    slotsContainer.Query<VisualElement>(className: "imgbox0");
 
-            UQueryBuilder<VisualElement> overlappingSlots =
-                allSlots.Where(OverlapsTarget);
+           // UQueryBuilder<VisualElement> overlappingSlots =
+            //    allSlots.Where(OverlapsTarget);
 
-            VisualElement closestOverlappingSlot =
-                FindClosestSlot(overlappingSlots);
+            //VisualElement closestOverlappingSlot =
+             //   FindClosestSlot(overlappingSlots);
 
-            Vector3 closestPos = Vector3.zero;
-            if (closestOverlappingSlot != null)
-            {
-                closestPos = RootSpaceOfSlot(closestOverlappingSlot);
-                closestPos = new Vector2(closestPos.x - 5, closestPos.y - 5);
-            }
-            target.transform.position =
-                closestOverlappingSlot != null ?
-                closestPos :
-                targetStartPosition;
+           // Vector3 closestPos = Vector3.zero;
+           //// if (closestOverlappingSlot != null)
+           // {
+            //    closestPos = RootSpaceOfSlot(closestOverlappingSlot);
+           //     closestPos = new Vector2(closestPos.x - 5, closestPos.y - 5);
+          //  }
+           // target.transform.position =
+           //     closestOverlappingSlot != null ?
+            //    closestPos :
+            //    targetStartPosition;
 
             enabled = false;
         }
@@ -123,29 +135,5 @@ public class DragAndDropManipulator : PointerManipulator
         return target.worldBound.Overlaps(slot.worldBound);
     }
 
-    private VisualElement FindClosestSlot(UQueryBuilder<VisualElement> slots)
-    {
-        List<VisualElement> slotsList = slots.ToList();
-        float bestDistanceSq = float.MaxValue;
-        VisualElement closest = null;
-        foreach (VisualElement slot in slotsList)
-        {
-            Vector3 displacement =
-                RootSpaceOfSlot(slot) - target.transform.position;
-            float distanceSq = displacement.sqrMagnitude;
-            if (distanceSq < bestDistanceSq)
-            {
-                bestDistanceSq = distanceSq;
-                closest = slot;
-            }
-        }
-        return closest;
-    }
-
-    private Vector3 RootSpaceOfSlot(VisualElement slot)
-    {
-        Vector2 slotWorldSpace = slot.parent.LocalToWorld(slot.layout.position);
-        return root.WorldToLocal(slotWorldSpace);
-    }
-
+   
 }

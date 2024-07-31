@@ -102,7 +102,8 @@ public class SkillLearn : L2PopupWindow
         var testToolTipRow3 = GetElementByClass("imgbox3");
         var testToolTipRow16 = GetElementByClass("imgbox20");
         var testToolTipRow15 = GetElementByClass("imgbox19");
-        var dropTest = GetElementByClass("imgbox99");
+        var dropTest99 = GetElementByClass("imgbox99");
+        var dropTest100 = GetElementByClass("imgbox100");
         var testToolTipRow91_passive = GetElementByClass("imgbox91");
 
         List<VisualElement> list = new List<VisualElement>
@@ -136,9 +137,13 @@ public class SkillLearn : L2PopupWindow
         _button.RegisterClickButtonAbility(_rootTabs[1]);
         _button.RegisterClickButtonSubject(_rootTabs[1]);
 
+        List<VisualElement> list_Drop = new List<VisualElement>
+        {
+            dropTest99 , dropTest100
+        };
 
+        DragAndDropManager.getInstance().RegisterList(list_Drop);
 
-        DragAndDropManipulator dad = new DragAndDropManipulator(dropTest , _rootWindow);
         DragManipulator drag = new DragManipulator(_boxHeader, _windowEle);
         _boxHeader.AddManipulator(drag);
         ChangeMenuSelect(0);

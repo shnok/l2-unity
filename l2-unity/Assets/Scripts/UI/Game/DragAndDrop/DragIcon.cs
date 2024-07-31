@@ -10,6 +10,7 @@ public class DragIcon : L2PopupWindow
 
 
     private static DragIcon _instance;
+    private bool _isShow = false;
     public static DragIcon Instance
     {
         get { return _instance; }
@@ -47,21 +48,37 @@ public class DragIcon : L2PopupWindow
         var content = GetElementByClass("drag_content");
         icon.style.backgroundImage = IconManager.Instance.LoadTextureByName("noimage");
         RegisterClickWindow(content);
-       // HideWindow();
+        HideWindow();
     }
 
-    public void NewPosition(Vector2 position , Background targetBackground)
+
+    public void SetBackground(Background baackground)
+    {
+        icon.style.backgroundImage = baackground;
+    }
+    public void NewPosition(Vector2 position)
     {
         if(position != null)
         {
-            // if (!icon.visible)
-            // {
-            //     ShowWindow();
-            // }
-           // icon.style.backgroundImage = targetBackground;
-            Debug.Log("POSITIIIION");
+            if (!_isShow)
+            {
+                ShowWindow();
+                _isShow = true;
+            }
+            //icon.style.backgroundImage = IconManager.Instance.LoadTextureByName("skill0914");
             icon.transform.position = position;
         }
+    }
+
+    public void ResetPosition()
+    {
+        icon.transform.position = Vector2.zero;
+        if (_isShow)
+        {
+            _isShow = false;
+            HideWindow();
+        }
+        
     }
 
     public void BringToFront1()
