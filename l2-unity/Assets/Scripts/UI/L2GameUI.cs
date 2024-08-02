@@ -52,6 +52,7 @@ public class L2GameUI : L2UI {
         }
         if (InventoryWindow.Instance != null) {
             InventoryWindow.Instance.AddWindow(_rootVisualContainer);
+            InventoryWindow.Instance.HideWindow();
         }
         if (CharacterInfoWindow.Instance != null) {
             CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
@@ -71,7 +72,7 @@ public class L2GameUI : L2UI {
         }
         if (L2ToolTip.Instance != null) {
             L2ToolTip.Instance.AddWindow(_tooltipVisualContainer);
-          //  L2ToolTip.Instance.HideWindow();
+            L2ToolTip.Instance.HideWindow();
         }
     }
 

@@ -61,7 +61,7 @@ public class L2ToolTip : L2PopupWindow {
             _windowEle.style.left = target.worldBound.x;
             _windowEle.style.top = target.worldBound.y - _windowEle.resolvedStyle.height;
 
-            _windowEle.style.opacity = 100;
+            _windowEle.style.opacity = 1;
         }
     }
 

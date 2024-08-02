@@ -63,7 +63,7 @@ public abstract class L2Window : MonoBehaviour {
 
     public void ToggleHideWindow() {
         if(_isWindowHidden) {
-            ShowWindow();
+            GameClient.Instance.ClientPacketHandler.SendRequestOpenInventory();
         } else {
             HideWindow();
         }
