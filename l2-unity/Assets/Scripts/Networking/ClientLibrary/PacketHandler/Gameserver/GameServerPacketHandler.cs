@@ -84,6 +84,12 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.ActionAllowed:
                 OnActionAllowed(data);
                 break;
+            case GameServerPacketType.InventoryItemList:
+                OnInventoryItemList(data);
+                break;
+            case GameServerPacketType.InventoryUpdate:
+                OnInventoryUpdate(data);
+                break;
         }
     }
 
@@ -298,5 +304,14 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnStatusUpdate(byte[] data) {
         StatusUpdatePacket packet = new StatusUpdatePacket(data);
         World.Instance.StatusUpdate(packet.ObjectId, packet.Attributes);
+    }
+
+    private void OnInventoryItemList(byte[] data) {
+        InventoryItemListPacket packet = new InventoryItemListPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerInventory.Instance.SetInventory(packet.Items, packet.OpenWindow));
+    }
+
+    private void OnInventoryUpdate(byte[] data) {
+
     }
 }

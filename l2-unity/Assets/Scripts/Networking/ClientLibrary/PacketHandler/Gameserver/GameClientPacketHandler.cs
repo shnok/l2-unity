@@ -90,6 +90,11 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
+    public void SendRequestOpenInventory() {
+        RequestInventoryOpenPacket packet = new RequestInventoryOpenPacket();
+        SendPacket(packet);
+    }
+
     public override void SendPacket(ClientPacket packet) {
         if (GameClient.Instance.LogSentPackets) {
             GameClientPacketType packetType = (GameClientPacketType)packet.GetPacketType();

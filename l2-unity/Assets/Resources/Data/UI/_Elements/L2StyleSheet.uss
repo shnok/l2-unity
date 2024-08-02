@@ -73,7 +73,7 @@
     -unity-text-align: middle-center;
 }
 
-.character-info-window .bar-label  {
+.character-info-window .bar-label {
     position: absolute;
     flex-grow: 1;
     width: 100%;
@@ -98,13 +98,12 @@
 }
 
 .character-info-window .bar-label-numbers {
-    padding-left: 0%;
+    padding-left: 0;
 }
 
 .character-info-window .unity-label {
     -unity-text-outline-width: 0.1px;
 }
-
 
 .status-window .level-container .unity-label {
     margin: 0;
@@ -460,70 +459,6 @@
     position: absolute;
 }
 
-.chat-window .chatting-fontsize:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_fontsize1_over.png?fileID=2800000&guid=df4d4dcf0ebb0894ba514a3d2be22628&type=3#chatting_fontsize1_over');
-}
-
-.chat-window .unity-base-text-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.chat-window .unity-base-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.chat-window .unity-text-field {
-    --unity-cursor-color: rgb(255, 255, 255);
-    color: rgb(220, 220, 220);
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.chat-window #InnerBar {
-    background-color: rgba(0, 0, 0, 0.35);
-    border-width: 1px;
-    border-color: rgba(84, 81, 75, 0.7);
-}
-
-#InnerBar.highlighted {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-color: rgb(106, 94, 71);
-}
-
-.chat-window .transparent-cursor {
-    --unity-cursor-color: rgba(0, 0, 0, 0);
-}
-
-.chat-window .unity-tab__header-label {
-    rotate: 180deg;
-    color: rgb(220, 220, 220);
-    font-size: 11px;
-    padding-bottom: 2px;
-    margin: 0;
-}
-
-.chat-window .unity-tab__content-container {
-    flex-grow: 1;
-}
-
-.chat-window .unity-tab {
-    flex-grow: 1;
-    height: 1px;
-    margin-bottom: -2px;
-}
-
-.chat-window .unity-scroll-view {
-    padding: 2px 0 4px 0;
-    font-size: 12px;
-}
-
 .l2-scroll-view .unity-scroll-view__content-viewport {
     margin-top: 6px;
     margin-bottom: 4px;
@@ -617,11 +552,104 @@
 }
 
 .l2-scroll-view .unity-scroller__high-button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarDownBtn.png?fileID=2800000&guid=80ca62d60b1f8ba4e8e1783db945a3df&type=3#ScrollBarDownBtn');
+    background-image: resource('Data/UI/Scrollbar/ScrollBarDownBtn');
+}
+
+.l2-scroll-view .unity-scroller__high-button:active {
+    background-image: resource('Data/UI/Scrollbar/ScrollBarDownOnBtn');
+}
+
+.l2-scroll-view .unity-scroller__high-button:active:hover {
+    background-image: resource('Data/UI/Scrollbar/ScrollBarDownOnBtn');
+}
+
+.l2-scroll-view .unity-scroller__high-button:hover {
+    background-image: resource('Data/UI/Scrollbar/scrollbardownbtn_over');
 }
 
 .l2-scroll-view .unity-scroller__low-button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/ScrollBarUpBtn.png?fileID=2800000&guid=1afd826ca3da2ec48bc50e97ea39d325&type=3#ScrollBarUpBtn');
+    background-image: resource('Data/UI/Scrollbar/ScrollBarUpBtn');
+}
+
+.l2-scroll-view .unity-scroller__low-button:active {
+    background-image: resource('Data/UI/Scrollbar/ScrollBarUpOnBtn');
+}
+
+.l2-scroll-view .unity-scroller__low-button:active:hover {
+    background-image: resource('Data/UI/Scrollbar/ScrollBarUpOnBtn');
+}
+
+.l2-scroll-view .unity-scroller__low-button:hover {
+    background-image: resource('Data/UI/Scrollbar/scrollbarupbtn_over');
+}
+
+.chat-window .chatting-fontsize:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_fontsize1_over.png?fileID=2800000&guid=df4d4dcf0ebb0894ba514a3d2be22628&type=3#chatting_fontsize1_over');
+}
+
+
+/**********************
+    CHAT WINDOW
+***********************/
+
+.chat-window .unity-base-text-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.chat-window .unity-base-field__input {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+}
+
+.chat-window .unity-text-field {
+    --unity-cursor-color: rgb(255, 255, 255);
+    color: rgb(220, 220, 220);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.chat-window #InnerBar {
+    background-color: rgba(0, 0, 0, 0.35);
+    border-width: 1px;
+    border-color: rgba(84, 81, 75, 0.7);
+}
+
+#InnerBar.highlighted {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: rgb(106, 94, 71);
+}
+
+.chat-window .transparent-cursor {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
+}
+
+.chat-window .unity-tab__header-label {
+    rotate: 180deg;
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+}
+
+.chat-window .unity-tab__content-container {
+    flex-grow: 1;
+}
+
+.chat-window .unity-tab {
+    flex-grow: 1;
+    height: 1px;
+    margin-bottom: -2px;
+}
+
+.chat-window .unity-scroll-view {
+    padding: 2px 0 4px 0;
+    font-size: 12px;
 }
 
 .chat-window .unity-base-slider__dragger-border {
@@ -914,108 +942,6 @@
     -unity-slice-scale: 1px;
     -unity-background-scale-mode: scale-to-fit;
     background-color: rgba(188, 188, 188, 0);
-}
-
-.windows-frame {
-}
-
-.windows-right-top .btn-close-frame {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close.png?fileID=2800000&guid=6e7037ea9d27a4e4886d39a91b3b289b&type=3#frames_df_btn_close');
-}
-
-.windows-right-top .btn-close-frame:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png?fileID=2800000&guid=40ee7601c8c45864e8419eb5c3b8112f&type=3#frames_df_btn_close_Down');
-}
-
-.windows-right-top .btn-close-frame:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png?fileID=2800000&guid=40ee7601c8c45864e8419eb5c3b8112f&type=3#frames_df_btn_close_Down');
-}
-
-.windows-right-top .btn-close-frame:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Over.png?fileID=2800000&guid=153013be4375b9842ae5bca3021a6343&type=3#frames_df_btn_close_Over');
-}
-
-.windows-right-top .btn-coll-frame {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_min.png?fileID=2800000&guid=53c27aca8c4d5b84e9560db09943210b&type=3#frames_df_btn_min');
-}
-
-.windows-right-top .btn-coll-frame:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_min_down.png?fileID=2800000&guid=a6232343910cb574cb92ce6d467f3b03&type=3#frames_df_btn_min_down');
-}
-
-.windows-right-top .btn-coll-frame:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_min_down.png?fileID=2800000&guid=a6232343910cb574cb92ce6d467f3b03&type=3#frames_df_btn_min_down');
-}
-
-.windows-right-top .btn-coll-frame:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_min_Over.png?fileID=2800000&guid=4b34db434aa5adf408f0655bdd04f36d&type=3#frames_df_btn_min_Over');
-}
-
-.windows-right-top .btn-exp-frame {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_Minimize.png?fileID=2800000&guid=2dee3f2addf14df499a1d98afb1ac0c7&type=3#frames_df_btn_Minimize');
-}
-
-.windows-right-top .btn-exp-frame:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_Minimize_down.png?fileID=2800000&guid=e541af8670bbadc40b9770e37e3000d2&type=3#frames_df_btn_Minimize_down');
-}
-
-.windows-right-top .btn-exp-frame:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_Minimize_down.png?fileID=2800000&guid=e541af8670bbadc40b9770e37e3000d2&type=3#frames_df_btn_Minimize_down');
-}
-
-.windows-right-top .btn-exp-frame:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/frames_df_btn_Minimize_over.png?fileID=2800000&guid=f03952addc4741c478a7fc2d0273cf16&type=3#frames_df_btn_Minimize_over');
-}
-
-.adena_button {
-}
-
-.inventory_content .adena_button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/adenacalculate_recipe.png?fileID=2800000&guid=d1c20ffd85f85da44b2aaffbc0782727&type=3#adenacalculate_recipe');
-}
-
-.inventory_content .adena_button:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/adenacalculate_recipe_drag.png?fileID=2800000&guid=3b7f8a150db20754fb6eebd758c3be48&type=3#adenacalculate_recipe_drag');
-}
-
-.inventory_content .adena_button:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/adenacalculate_recipe_drag.png?fileID=2800000&guid=3b7f8a150db20754fb6eebd758c3be48&type=3#adenacalculate_recipe_drag');
-}
-
-.inventory_content .adena_button:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/adenacalculate_recipe_over.png?fileID=2800000&guid=b354a8cad31105e4c8c0a23483cd0494&type=3#adenacalculate_recipe_over');
-}
-
-.inventory_content .recipe_button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_enchant.png?fileID=2800000&guid=767d46bb7bcc7794b9f8cddc0a798893&type=3#inventory_enchant');
-}
-
-.inventory_content .recipe_button:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_enchant_drag.png?fileID=2800000&guid=af16e8928eea9ba4da7b5acdeeb94c00&type=3#inventory_enchant_drag');
-}
-
-.inventory_content .recipe_button:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_enchant_drag.png?fileID=2800000&guid=af16e8928eea9ba4da7b5acdeeb94c00&type=3#inventory_enchant_drag');
-}
-
-.inventory_content .recipe_button:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_enchant_drag.png?fileID=2800000&guid=af16e8928eea9ba4da7b5acdeeb94c00&type=3#inventory_enchant_drag');
-}
-
-.inventory_content .basket_button {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_trash.png?fileID=2800000&guid=9f1366d30d13f114c956bf365bddb878&type=3#inventory_trash');
-}
-
-.inventory_content .basket_button:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_trash_drag.png?fileID=2800000&guid=379441edf278c3e4691233ada01d1b45&type=3#inventory_trash_drag');
-}
-
-.inventory_content .basket_button:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_trash_drag.png?fileID=2800000&guid=379441edf278c3e4691233ada01d1b45&type=3#inventory_trash_drag');
-}
-
-.inventory_content .basket_button:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Window/Inventory/btn/inventory_trash_over.png?fileID=2800000&guid=4c3bb69633c836f4fa99417a019843a4&type=3#inventory_trash_over');
 }
 
 #CharacterButton .menu-button-bg {
@@ -1754,4 +1680,309 @@
 }
 
 .bar-label {
+}
+
+.inventory-window {
+    width: 574px;
+    height: 416px;
+}
+
+.inventory-window.expanded {
+    width: 682px;
+}
+
+.inventory-window .l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-direction: row;
+}
+
+.inventory-window .unity-tab__header-label {
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+}
+
+.inventory-window .unity-tab__content-container {
+    flex-grow: 1;
+}
+
+.inventory-window .unity-tab {
+    flex-grow: 1;
+    height: 1px;
+    margin-bottom: -2px;
+}
+
+.inventory-window .unity-scroll-view {
+    font-size: 12px;
+}
+
+.inventory-window .unity-base-slider__dragger-border {
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.inventory-window .unity-disabled {
+    opacity: 1;
+}
+
+.inventory-window .unity-tab-view__header-container {
+    margin-left: 23px;
+}
+
+.inventory-window #tab-header-container {
+    margin-left: 23px;
+}
+
+.inventory-window .unity-tab-view__content-container {
+    flex-grow: 1;
+}
+
+.inventory-window #tab-content-container {
+    flex-grow: 1;
+}
+
+.inventory-window .unity-tab__header-underline {
+    width: 0;
+}
+
+.inventory-window .unity-tab__header {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-color: transparent;
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+    rotate: 180deg;
+    height: 25px;
+    padding: 0;
+    width: 64px;
+    justify-content: center;
+}
+
+.inventory-window .tab-header {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-color: transparent;
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+    height: 25px;
+    padding: 0;
+    width: 64px;
+    justify-content: center;
+}
+
+.inventory-window .unity-tab__header:checked {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.inventory-window .tab-header.active {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.inventory-window .unity-tab__header:checked:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.inventory-window .tab-header.active:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+}
+
+.inventory-window .unity-tab__header:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+}
+
+.inventory-window .tab-header:hover {
+    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+}
+
+.inventory-windoww .unity-tab__header-label {
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+    -unity-text-align: middle-center;
+}
+
+.inventory-window #unity-content-viewport {
+     margin: 0;
+     padding: 0;
+ }
+
+.inventory-window .tab-header-label {
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+    -unity-text-align: middle-center;
+}
+
+.inventory-window .unselected-tab {
+    display: none;
+}
+
+.inventory-window #AdenaDistribBtn #ButtonBg {
+    background-image: resource('Data/UI/Inventory/adenacalculate_recipe');
+}
+
+.inventory-window #AdenaDistribBtn:active #ButtonBg {
+    background-image: resource('Data/UI/Inventory/adenacalculate_recipe');
+}
+
+.inventory-window #AdenaDistribBtn:active:hover #ButtonBg {
+    background-image: resource('Data/UI/Inventory/adenacalculate_recipe');
+}
+
+.inventory-window #AdenaDistribBtn:hover #ButtonBg {
+    background-image: resource('Data/UI/Inventory/adenacalculate_recipe_over');
+}
+
+.inventory-window #CompoundBtn #ButtonBg {
+    background-image: resource('Data/UI/Inventory/inventory_compound');
+}
+
+.inventory-window #CompoundBtn:active #ButtonBg {
+    background-image: resource('Data/UI/Inventory/inventory_compound');
+}
+
+.inventory-window #CompoundBtn:active:hover #ButtonBg {
+    background-image: resource('Data/UI/Inventory/inventory_compound');
+}
+
+.inventory-window #CompoundBtn:hover #ButtonBg {
+    background-image: resource('Data/UI/Inventory/inventory_compound_drag');
+}
+
+.inventory-window #TrashBtn #ButtonBg {
+    background-image: resource('Data/UI/Inventory/inventory_trash');
+}
+
+.inventory-window #TrashBtn:active #ButtonBg {
+    background-image: resource('Data/UI/Inventory/inventory_trash');
+}
+
+.inventory-window #TrashBtn:active:hover #ButtonBg {
+    background-image: resource('Data/UI/Inventory/inventory_trash');
+}
+
+.inventory-window #TrashBtn:hover #ButtonBg {
+    background-image: resource('Data/UI/Inventory/inventory_trash_over');
+}
+
+.inventory-window .l2-scroll-view .unity-scroller {
+    width: 14px;
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.minimize-btn {
+    background-color: transparent;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    width: 10px;
+    height: 10px;
+    border-width: 0;
+    background-image: resource('Data/UI/Frame/frames_df_btn_min');
+    margin: 0;
+    padding: 0;
+}
+
+.minimize-btn:active {
+    background-image: resource('Data/UI/Frame/frames_df_btn_min_down');
+}
+
+.minimize-btn:active:hover {
+    background-image: resource('Data/UI/Frame/frames_df_btn_min_down');
+}
+
+.minimize-btn:hover {
+    background-image: resource('Data/UI/Frame/frames_df_btn_min_Over');
+}
+
+.expand-btn {
+    background-color: transparent;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    width: 10px;
+    height: 10px;
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.expand-btn #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Expand');
+}
+
+.expand-btn:active #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Expand_down');
+}
+
+.expand-btn:active:hover #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Expand_down');
+}
+
+.expand-btn:hover #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Expand_over');
+}
+
+.expand-btn.expanded #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize');
+}
+
+.expand-btn.expanded:active #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_down');
+}
+
+.expand-btn.expanded:active:hover #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_down');
+}
+
+.expand-btn.expanded:hover #ButtonBg {
+    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_over');
+}
+
+.l2-slot .slot-bg {
+    background-image: resource('Data/UI/Inventory/ItemWindow_DF_SlotBox_Default');
+}
+
+.inventory-slot.disabled .slot-bg {
+    background-image: resource('Data/UI/Inventory/ItemWindow_DF_SlotBox_Disable');
+}
+
+.inventory-slot .slot-frame {
+    display: none;
+}
+
+.inventory-slot.selected .slot-frame {
+    display: flex;
+}
+
+.inventory-minimized {
+    display: none;
+}
+
+.inventory-minimized.minimized {
+    display: flex;
 }

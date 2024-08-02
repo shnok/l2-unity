@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private int _protocolVersion = 1;
     [SerializeField] private GameState _gameState = GameState.LOGIN_SCREEN;
     private bool _gameReady = false;
+    [SerializeField] private bool _autoLogin = false;
+
+    public bool AutoLogin { get { return _autoLogin; } }
 
     public GameState GameState {
         get { return _gameState; }
@@ -48,6 +51,8 @@ public class GameManager : MonoBehaviour {
         ModelTable.Instance.Initialize();
         LogongrpTable.Instance.Initialize();
         SystemMessageTable.Instance.Initialize();
+        IconManager.Instance.Initialize();
+        IconManager.Instance.CacheIcons();
     }
 
     public void LogIn() {
