@@ -39,6 +39,8 @@ public class L2ToolTip : L2PopupWindow {
 
     public void UpdateTooltip(string title, VisualElement target) {
         _windowEle.style.left = -1000;
+        _windowEle.style.opacity = 0;
+
         _tooltipTarget = target;
 
         ShowWindow();
@@ -54,12 +56,12 @@ public class L2ToolTip : L2PopupWindow {
         while(true) {
             _title.text = title;
 
-            BringToFront();
-
             yield return new WaitForEndOfFrame();
 
             _windowEle.style.left = target.worldBound.x;
             _windowEle.style.top = target.worldBound.y - _windowEle.resolvedStyle.height;
+
+            _windowEle.style.opacity = 100;
         }
     }
 

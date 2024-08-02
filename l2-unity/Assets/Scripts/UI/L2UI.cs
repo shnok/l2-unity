@@ -12,6 +12,7 @@ public abstract class L2UI : MonoBehaviour
 
     protected VisualElement _rootVisualContainer;
     protected VisualElement _popupVisualContainer;
+    protected VisualElement _tooltipVisualContainer;
 
     public bool MouseOverUI { get { return _mouseOverUI; } set { _mouseOverUI = value; } }
     public bool UILoaded { get { return _uiLoaded; } set { _uiLoaded = value; } }
@@ -40,6 +41,7 @@ public abstract class L2UI : MonoBehaviour
     protected virtual void LoadUI() {
         _rootVisualContainer = _rootElement.Q<VisualElement>("UIContainer");
         _popupVisualContainer = _rootElement.Q<VisualElement>("UIContainerPopup");
+        _tooltipVisualContainer = _rootElement.Q<VisualElement>("UIContainerTooltip");
         _loadingElement = _rootElement.Q<VisualElement>("Loading");
     }
 

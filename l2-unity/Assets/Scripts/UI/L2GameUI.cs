@@ -70,8 +70,8 @@ public class L2GameUI : L2UI {
             TargetWindow.Instance.AddWindow(_rootVisualContainer);
         }
         if (L2ToolTip.Instance != null) {
-            L2ToolTip.Instance.AddWindow(_rootVisualContainer);
-            L2ToolTip.Instance.HideWindow();
+            L2ToolTip.Instance.AddWindow(_tooltipVisualContainer);
+          //  L2ToolTip.Instance.HideWindow();
         }
     }
 
