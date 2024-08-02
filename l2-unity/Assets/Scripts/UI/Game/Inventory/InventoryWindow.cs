@@ -189,6 +189,8 @@ public class InventoryWindow : L2PopupWindow {
 
             UpdateItemList(_playerItems);
         }
+
+        evt.PreventDefault();
     }
 
     private void CreateMinimizedWindow() {
@@ -196,7 +198,7 @@ public class InventoryWindow : L2PopupWindow {
         // Header button
         Button minimizeWindowButton = (Button) GetElementByClass("minimize-btn");
         minimizeWindowButton.AddManipulator(new ButtonClickSoundManipulator(minimizeWindowButton));
-        minimizeWindowButton.RegisterCallback<MouseDownEvent>(OnMinimizeInventoryClick, TrickleDown.TrickleDown);
+        minimizeWindowButton.RegisterCallback<MouseUpEvent>(OnMinimizeInventoryClick, TrickleDown.TrickleDown);
         
         // Minized inventory button
         _minimizedInventoryBtn = _minimizedTemplate.Instantiate()[0];
@@ -214,10 +216,10 @@ public class InventoryWindow : L2PopupWindow {
         _root.Add(_minimizedInventoryBtn);
     }
 
-    private void OnMinimizeInventoryClick(MouseDownEvent evt) {
+    private void OnMinimizeInventoryClick(MouseUpEvent evt) {
         if(!_minimizedInventoryBtn.ClassListContains("minimized")) {
             _minimizedInventoryBtn.AddToClassList("minimized");
-            _minimizedInventoryMouseOverManipulator.Disable();
+            _minimizedInventoryMouseOverManipulator.Enable();
             HideWindow();
             _minimized = true;
         }
@@ -328,7 +330,6 @@ public class InventoryWindow : L2PopupWindow {
     public override void ShowWindow() {
         base.ShowWindow();
 
-        Debug.Log("Show window");
         AudioManager.Instance.PlayUISound("inventory_open_01");
     }
 
