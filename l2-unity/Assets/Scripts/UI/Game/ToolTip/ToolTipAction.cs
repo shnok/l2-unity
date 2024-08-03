@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -79,8 +80,9 @@ public class ToolTipAction : L2PopupWindow, IToolTips
                     VisualElement ve = (VisualElement)evt.currentTarget;
                     if (ve != null)
                     {
-                        
-                        SetTestData(ve.name);
+                        int actionId = ParseStr(ve.name);
+                        ActionData data = ActionNameTable.Instance.GetAciton(actionId);
+                        AddData(data);
                         _windowEle.style.display = DisplayStyle.Flex;
                         _selectShow = ve;
                     }
@@ -157,28 +159,27 @@ public class ToolTipAction : L2PopupWindow, IToolTips
         return new Vector2(newPoint.x, newPoint.y + element);
     }
 
-    private void SetTestData(string name)
+    private int ParseStr(string image_id)
     {
-        if (name.Equals("image0_2"))
-        {
-            SetDataTooTip("Attack" , "Attacks selected target(s), or takes a general action if the target cannot be attacked. Hold down the Cntrl key and click to attack by force");
-            _icon.style.backgroundImage = IconManager.Instance.LoadTextureByName("action003");
+        string str_id = image_id.Replace("image", "");
+        int numVal = Int32.Parse(str_id);
+        return numVal;
+    }
 
-        }
-        else if (name.Equals("image4_4"))
+    private void AddData(ActionData data)
+    {
+        if (data != null)
         {
-            //test data no hp label
-            SetDataTooTip("Charm" , "Charm Pose");
-            //SetDataTooTip("Attack", "Attacks selected target(s), or takes a general action if the target cannot be attacked. Hold down the Cntrl key and click to attack by force");
-            _icon.style.backgroundImage = IconManager.Instance.LoadTextureByName("action051");
-
+            SetTestData(data.Name, data.Descripion, data.Icon);
         }
-        else
         {
-            SetDataTooTip("Attack", "Attacks selected target(s), or takes a general action if the target cannot be attacked. Hold down the Cntrl key and click to attack by force");
-            _icon.style.backgroundImage = IconManager.Instance.LoadTextureByName("action003");
+            //SetTestData("", "", "noimage");
         }
-       
+    }
+    private void SetTestData(string name , string des , string icon)
+    {
+        SetDataTooTip(name, des);
+       _icon.style.backgroundImage = IconManager.Instance.LoadTextureByName(icon);  
     }
 
     private void SetDataTooTip(string name, string descripted)

@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour {
         ItemTable.Instance.CacheItems();
         NpcgrpTable.Instance.Initialize();
         NpcNameTable.Instance.Initialize();
+        ActionNameTable.Instance.Initialize();
         ModelTable.Instance.Initialize();
         LogongrpTable.Instance.Initialize();
         SystemMessageTable.Instance.Initialize();

@@ -38,16 +38,17 @@ public class IconManager : MonoBehaviour
 
     public Texture2D LoadTextureByName(string name)
     {
-        string icon = defaultIconSpace + "\\" + clearIcon(name);
-        var result = Resources.Load<Texture2D>(icon);
-        if (result != null)
+        if (!string.IsNullOrEmpty(name))
         {
-           return result;
+            string icon = defaultIconSpace + "\\" + clearIcon(name);
+            var result = Resources.Load<Texture2D>(icon);
+            if (result != null)
+            {
+                return result;
+            }
         }
-        else
-        {
-           return Resources.Load<Texture2D>(defaultIconSpace + "\\" + "NOIMAGE");
-        }
+        return Resources.Load<Texture2D>(defaultIconSpace + "\\" + "NOIMAGE");
+
     }
 
     private string clearIcon(string name)
