@@ -389,7 +389,7 @@ public class ActionWindow : L2PopupWindow
         HideWindow();
     }
 
-    public bool isWindowContain(Vector2 vector2)
+    public bool IsWindowContain(Vector2 vector2)
     {
         return _windowEle.worldBound.Contains(vector2);
     }

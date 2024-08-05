@@ -89,7 +89,6 @@ public class DragAndDropManipulator : PointerManipulator
         {
             target.ReleasePointer(evt.pointerId);
             VisualElement ve = (VisualElement)evt.currentTarget;
-            Debug.Log("UPPPPPPPPPPPPPPPP " + ve.name);
             DragIcon.Instance.ResetPosition();
         }
     }

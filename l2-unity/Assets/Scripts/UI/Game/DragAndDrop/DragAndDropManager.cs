@@ -10,16 +10,21 @@ public class DragAndDropManager
 {
     private string _activeCell;
     private bool _isDrag;
+    bool isTest = false;
     private Dictionary<string, Background> allElements = new Dictionary<string, Background>();
-    private static DragAndDropManager instance;
+    private static DragAndDropManager _instance;
     
     public static DragAndDropManager getInstance()
     {
-        if (instance == null)
-            instance = new DragAndDropManager();
-        return instance;
+        if (_instance == null)
+            _instance = new DragAndDropManager();
+        return _instance;
     }
-    bool isTest = false;
+    
+    public bool IsDrag()
+    {
+        return _isDrag;
+    }
     public void RegisterList(List<VisualElement> list)
     {
         list.ForEach(item =>

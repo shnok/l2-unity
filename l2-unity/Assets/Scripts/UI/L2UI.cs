@@ -43,6 +43,11 @@ public abstract class L2UI : MonoBehaviour
         _loadingElement = _rootElement.Q<VisualElement>("Loading");
     }
 
+    public bool IsWindowContain(Vector2 vector2)
+    {
+        return _rootVisualContainer.worldBound.Contains(vector2);
+    }
+
     public void StartLoading() {
         if (_loadingElement != null) {
             _loadingElement.style.display = DisplayStyle.Flex;

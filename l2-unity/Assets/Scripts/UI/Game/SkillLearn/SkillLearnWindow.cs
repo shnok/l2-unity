@@ -60,7 +60,7 @@ public class SkillLearn : L2PopupWindow
         }
     }
 
-    public bool isWindowContain(Vector2 vector2)
+    public bool IsWindowContain(Vector2 vector2)
     {
         return  _windowEle.worldBound.Contains(vector2);
     }
@@ -139,7 +139,7 @@ public class SkillLearn : L2PopupWindow
 
         List<VisualElement> list_Drop = new List<VisualElement>
         {
-            dropTest99 , dropTest100
+            dropTest99 , dropTest100 , testToolTipRow0
         };
 
         DragAndDropManager.getInstance().RegisterList(list_Drop);

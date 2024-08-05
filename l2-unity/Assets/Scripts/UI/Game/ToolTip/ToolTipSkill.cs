@@ -105,10 +105,14 @@ public class ToolTipSkill : L2PopupWindow, IToolTips
                     VisualElement ve = (VisualElement)evt.currentTarget;
                     if(ve != null)
                     {
-                        _windowEle.style.display = DisplayStyle.Flex;
-                        SetTestData(ve.name);
-                        _showToolTip.Show(ve);
-                       
+                        if (DragAndDropManager.getInstance().IsDrag())
+                        {
+                            ResetElement(ve);
+                        }
+                        else
+                        {
+                            CalcNewPosition(ve);
+                        }
                     }
                 }, TrickleDown.TrickleDown);
 
@@ -117,9 +121,7 @@ public class ToolTipSkill : L2PopupWindow, IToolTips
                     VisualElement ve = (VisualElement)evt.currentTarget;
                     if (ve != null)
                     {
-                            _heightContent = _windowEle.worldBound.height;
-                            _showToolTip.Hide(ve);
-                            _windowEle.style.display = DisplayStyle.None;
+                        ResetElement(ve);
                     }
                     evt.StopPropagation();
 
@@ -130,11 +132,24 @@ public class ToolTipSkill : L2PopupWindow, IToolTips
 
     }
 
+    private void CalcNewPosition(VisualElement ve)
+    {
+        _windowEle.style.display = DisplayStyle.Flex;
+        SetTestData(ve.name);
+        _showToolTip.Show(ve);
+    }
+    private void ResetElement(VisualElement ve)
+    {
+        _heightContent = _windowEle.worldBound.height;
+        _showToolTip.Hide(ve);
+        _windowEle.style.display = DisplayStyle.None;
+    }
+
     public void NewPosition(Vector2 newPoint , float sdfig)
     {
 
         var testPoint = checkBound(newPoint, _heightContent);
-        if (!SkillLearn.Instance.isWindowContain(testPoint))
+        if (!SkillLearn.Instance.IsWindowContain(testPoint))
         {
             float width = _heightContent;
             float newddfig = width;
