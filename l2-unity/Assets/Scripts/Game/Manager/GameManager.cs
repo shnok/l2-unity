@@ -46,6 +46,9 @@ public class GameManager : MonoBehaviour {
         NpcgrpTable.Instance.Initialize();
         NpcNameTable.Instance.Initialize();
         ActionNameTable.Instance.Initialize();
+        SysStringTable.Instance.Initialize();
+        SkillgrpTable.Instance.Initialize();
+        SkillNameTable.Instance.Initialize();
         ModelTable.Instance.Initialize();
         LogongrpTable.Instance.Initialize();
         SystemMessageTable.Instance.Initialize();
