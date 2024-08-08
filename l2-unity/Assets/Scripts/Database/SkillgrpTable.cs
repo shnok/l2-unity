@@ -25,20 +25,33 @@ public class SkillgrpTable
 
     private Dictionary<int, Dictionary<int, Skillgrp>> _skills;
 
-   // public Skillgrp GetSkill(int id)
-    //{
-    //    return (_skills.ContainsKey(id)) ? _skills[id] : null;
-    //}
-    public Dictionary<int, Dictionary<int, Skillgrp>> Actions { get { return _skills; } }
+    public Skillgrp GetSkill(int id , int level)
+    {
+       if(!_skills.ContainsKey(id)) return null;
+
+       Dictionary<int, Skillgrp> _skillLevel = _skills[id];
+       if (!_skillLevel.ContainsKey(level)) return null;
+
+       return _skillLevel[level];
+    }
+
+    public SkillNameData GetSkillName(int id, int level)
+    {
+        return SkillNameTable.Instance.GetName(id, level);
+    }
+
+  
+    public Dictionary<int, Dictionary<int, Skillgrp>> Skills { get { return _skills; } }
 
     public void Initialize()
     {
+        _skills = new Dictionary<int, Dictionary<int, Skillgrp>>();
         ReadActions();
     }
 
     private void ReadActions()
     {
-        _skills = new Dictionary<int, Dictionary<int, Skillgrp>>();
+        
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/Skillgrp_Classic.txt");
         if (!File.Exists(dataPath))
         {

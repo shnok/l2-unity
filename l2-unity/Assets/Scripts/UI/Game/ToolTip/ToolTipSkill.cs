@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using System.Xml;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -93,17 +95,18 @@ public class ToolTipSkill : L2PopupWindow, IToolTips
         _windowEle.style.display = DisplayStyle.None;
     }
 
-    public void RegisterCallback(List<VisualElement> list)
+    public void RegisterCallbackActive(Dictionary<int, VisualElement> dict, SkillLearn skillWindow)
     {
 
-        list.ForEach(item =>
+        foreach (var item in dict)
         {
-            if (item != null)
+            VisualElement element = item.Value;
+            if (element != null)
             {
-                item.RegisterCallback<MouseOverEvent>(evt =>
+                element.RegisterCallback<MouseOverEvent>(evt =>
                 {
                     VisualElement ve = (VisualElement)evt.currentTarget;
-                    if(ve != null)
+                    if (ve != null)
                     {
                         if (DragAndDropManager.getInstance().IsDrag())
                         {
@@ -111,12 +114,26 @@ public class ToolTipSkill : L2PopupWindow, IToolTips
                         }
                         else
                         {
-                            CalcNewPosition(ve);
+                            int cellId = ParceCellId(ve.name);
+                            Skillgrp skillGrp = skillWindow.GetSkillIdByCellId(1 , cellId);
+
+                            if (skillGrp != null)
+                            {
+                                SkillNameData nameData = SkillgrpTable.Instance.GetSkillName(skillGrp.Id, skillGrp.Level);
+                                if(nameData != null)
+                                {
+                                    SetData(skillGrp, nameData);
+                                    CalcNewPosition(ve);
+                                }
+                                
+                            }
+                            
+                            
                         }
                     }
                 }, TrickleDown.TrickleDown);
 
-                item.RegisterCallback<MouseOutEvent>(evt =>
+                element.RegisterCallback<MouseOutEvent>(evt =>
                 {
                     VisualElement ve = (VisualElement)evt.currentTarget;
                     if (ve != null)
@@ -128,16 +145,82 @@ public class ToolTipSkill : L2PopupWindow, IToolTips
                 }, TrickleDown.TrickleDown);
 
             }
-        });
-
+        }
     }
 
+
+    public void RegisterCallbackPassive(Dictionary<int, VisualElement> dict, SkillLearn skillWindow)
+    {
+
+        foreach (var item in dict)
+        {
+            VisualElement element = item.Value;
+            if (element != null)
+            {
+                element.RegisterCallback<MouseOverEvent>(evt =>
+                {
+                    VisualElement ve = (VisualElement)evt.currentTarget;
+                    if (ve != null)
+                    {
+                        if (DragAndDropManager.getInstance().IsDrag())
+                        {
+                            ResetElement(ve);
+                        }
+                        else
+                        {
+                            int cellId = ParcePassiveCellId(ve.name);
+                            Skillgrp skillGrp = skillWindow.GetSkillIdByCellId(2, cellId);
+
+                            if (skillGrp != null)
+                            {
+                                SkillNameData nameData = SkillgrpTable.Instance.GetSkillName(skillGrp.Id, skillGrp.Level);
+                                if (nameData != null)
+                                {
+                                    SetData(skillGrp, nameData);
+                                    CalcNewPosition(ve);
+                                }
+
+                            }
+
+
+                        }
+                    }
+                }, TrickleDown.TrickleDown);
+
+                element.RegisterCallback<MouseOutEvent>(evt =>
+                {
+                    VisualElement ve = (VisualElement)evt.currentTarget;
+                    if (ve != null)
+                    {
+                        ResetElement(ve);
+                    }
+                    evt.StopPropagation();
+
+                }, TrickleDown.TrickleDown);
+
+            }
+        }
+    }
+
+    private int ParceCellId(string name)
+    {
+        string strId = name.Replace("imgbox", "");
+        return Int32.Parse(strId);
+    }
+
+    private int ParcePassiveCellId(string name)
+    {
+        string strId = name.Replace("pasbox", "");
+        return Int32.Parse(strId);
+    }
+    
     private void CalcNewPosition(VisualElement ve)
     {
         _windowEle.style.display = DisplayStyle.Flex;
-        SetTestData(ve.name);
+        
         _showToolTip.Show(ve);
     }
+
     private void ResetElement(VisualElement ve)
     {
         _heightContent = _windowEle.worldBound.height;
@@ -181,57 +264,74 @@ public class ToolTipSkill : L2PopupWindow, IToolTips
         SendToBack();
     }
 
-    private void SetTestData(string name)
+    private void SetData(Skillgrp skillgrp, SkillNameData skillNameData)
     {
-        if (name.Equals("imgbox7"))
-        {
+        string hp = skillgrp.HpConsume.ToString();
+        string mp = skillgrp.MpConsume.ToString();
+        string radius = skillgrp._cast_range.ToString();
+        string desc = skillNameData.Desc;
+        string time = skillgrp.ReuseDelay.ToString();
+        string name = skillNameData.Name;
+        string level = skillgrp.Level.ToString();
+        string nameActiveSkill = GetActive(skillgrp.OperateType);
 
-            SetDataTooTip("", "9", "40", "Delivers a powerful blow that strikes the target with 30 Power added to P. Atk. Requires a sword or blunt weapon. Over-hit is possible.", "1.08 sec", "Active Skill", "Power Strike", "1");
-            _icon.style.backgroundImage = IconManager.Instance.LoadTextureByName("skill0003");
-            HideEmptyData("", "9", "40", "Delivers a powerful blow that strikes the target with 30 Power added to P. Atk. Requires a sword or blunt weapon. Over-hit is possible.", "1.08 sec", "Active Skill", "Power Strike", "1");
-            ShowHidenData("", "9", "40", "Delivers a powerful blow that strikes the target with 30 Power added to P. Atk. Requires a sword or blunt weapon. Over-hit is possible.", "1.08 sec", "Active Skill", "Power Strike", "1");
-        }
-        else if (name.Equals("imgbox1"))
-        {
-            //test data no hp label
-            SetDataTooTip("", "19", "40", "Supplements the user's P. Atk. with 36 Power to stun the enemy for 9 seconds. Requires a blunt weapon. Over-hit is possible.", "3 sec", "Active Skill", "Stun Attack", "1");
-            _icon.style.backgroundImage = IconManager.Instance.LoadTextureByName("skill0100");
-            HideEmptyData("", "19", "40", "Supplements the user's P. Atk. with 36 Power to stun the enemy for 9 seconds. Requires a blunt weapon. Over-hit is possible.", "3 sec", "Active Skill", "Stun Attack", "1");
-            ShowHidenData("", "19", "40", "Supplements the user's P. Atk. with 36 Power to stun the enemy for 9 seconds. Requires a blunt weapon. Over-hit is possible.", "3 sec", "Active Skill", "Stun Attack", "1");
-        }
-        else if (name.Equals("imgbox2"))
-        {
-            //test data no radius data
-            SetDataTooTip("200", "72", "40", "Transforms target into the 100 souls.", "2.5 sec", "Active Skill", "Final Flying Form", "3");
-            _icon.style.backgroundImage = IconManager.Instance.LoadTextureByName("skill0840");
-            HideEmptyData("200", "72", "40", "Transforms target into the 100 souls.", "2.5 sec", "Active Skill", "Final Flying Form", "3");
-            ShowHidenData("200", "72", "40", "Transforms target into the 100 souls.", "2.5 sec", "Active Skill", "Final Flying Form", "3");
-        }
-        else if (name.Equals("imgbox91"))
-        {
-            //test data no radius data
-            SetDataTooTip("", "", "", "Allows the user to manufacture level 10 items.", "2.5 sec", "Passive Skill", "Create Item", "10");
-            _icon.style.backgroundImage = IconManager.Instance.LoadTextureByName("skill0172");
-            HideEmptyData("", "", "", "Allows the user to manufacture level 10 items.", "2.5 sec", "Passive Skill", "Create Item", "10");
-            ShowHidenData("", "", "", "Allows the user to manufacture level 10 items.", "2.5 sec", "Passive Skill", "Create Item", "10");
-        }
+        if (desc.Equals("")) desc = SkillNameTable.Instance.GetName(skillgrp.Id, 1).Desc;
+
+
+        SetDataTooTip(DataEmpty(hp), DataEmpty(mp), DataEmpty(radius), desc, DataEmpty(time), nameActiveSkill , name, level);
+        _icon.style.backgroundImage = IconManager.Instance.LoadTextureByName(skillgrp.Icon);
+        HideEmptyData(DataEmpty(hp), DataEmpty(mp), DataEmpty(radius), desc, DataEmpty(time), nameActiveSkill, name, level);
+        ShowHidenData(DataEmpty(hp), DataEmpty(mp), DataEmpty(radius), desc, DataEmpty(time), nameActiveSkill, name, level);
     }
 
+    private string GetActive(int operate_type)
+    {
+        if(operate_type == 1)
+        {
+            return "Active Skill";
+        }
+        else if (operate_type == 2)
+        {
+            return "Passive Skill";
+        }
+        return "";
+    }
+
+    private string DataEmpty(string data)
+    {
+        if(data.Equals("0") | data.Equals("-1"))
+        {
+            return "";
+        }
+        return data;
+    }
     private void SetDataTooTip(string hp , string mp , string radius , string descripted , string cast , string type , string name , string lvl)
     {
         if (!string.IsNullOrEmpty(hp))
         {
-            _hpLabel.text = hp;
+            if (!hp.Equals("0"))
+            {
+                _hpLabel.text = hp;
+            }
+            
         }
 
         if (!string.IsNullOrEmpty(mp))
         {
-            _mpLabel.text = mp;
+            if (!mp.Equals("0"))
+            {
+                _mpLabel.text = mp;
+            }
+                
         }
 
         if (!string.IsNullOrEmpty(radius))
         {
-            _rangeLabel.text = radius;
+            if (!mp.Equals("-1"))
+            {
+                _rangeLabel.text = radius;
+            }
+               
         }
 
         if (!string.IsNullOrEmpty(descripted))
@@ -241,7 +341,7 @@ public class ToolTipSkill : L2PopupWindow, IToolTips
 
         if (!string.IsNullOrEmpty(cast))
         {
-            _castlabel.text = cast;
+            _castlabel.text = cast + " sec";
         }
 
         if (!string.IsNullOrEmpty(type))

@@ -22,9 +22,14 @@ public class ToolTipManager : MonoBehaviour
         }
     }
 
-    public void RegisterCallbackSkills(List<VisualElement> list)
+    public void RegisterCallbackActiveSkills(Dictionary<int, VisualElement> dict  , SkillLearn skillWindow)
     {
-        ToolTipSkill.Instance.RegisterCallback(list);
+        ToolTipSkill.Instance.RegisterCallbackActive(dict, skillWindow);
+    }
+
+    public void RegisterCallbackPassiveSkills(Dictionary<int, VisualElement> dict, SkillLearn skillWindow)
+    {
+        ToolTipSkill.Instance.RegisterCallbackPassive(dict, skillWindow);
     }
 
     public void RegisterCallbackActions(List<VisualElement> list)

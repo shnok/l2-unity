@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class SkillNameTable : MonoBehaviour
+public class SkillNameTable
 {
     private static SkillNameTable _instance;
-
+    private static Dictionary<int, Dictionary<int, SkillNameData>> _names;
+    public Dictionary<int, Dictionary<int, SkillNameData>> Names { get { return _names; } }
     public static SkillNameTable Instance
     {
         get
@@ -20,23 +21,30 @@ public class SkillNameTable : MonoBehaviour
         }
     }
 
-    private Dictionary<int, Dictionary<int, SkillNameData>> _names;
+    
 
-    //public SkillNameData GetName(int id)
-    //{
-    //    return (_names.ContainsKey(id)) ? _names[id] : null;
-    //}
-    public Dictionary<int, Dictionary<int, SkillNameData>> Names { get { return _names; } }
+    public SkillNameData GetName(int id , int level)
+    {
+        if (Names.ContainsKey(id) != true) return null;
+
+        Dictionary<int, SkillNameData> _skillNameLevel = Names[id];
+        if (!_skillNameLevel.ContainsKey(level)) return null;
+
+        return _skillNameLevel[level];
+    }
+    
 
     public void Initialize()
     {
+        _names = new Dictionary<int, Dictionary<int, SkillNameData>>();
         ReadActions();
     }
 
     private void ReadActions()
     {
-        _names = new Dictionary<int, Dictionary<int, SkillNameData>>();
+       
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/SkillName_Classic-eu.txt");
+
         if (!File.Exists(dataPath))
         {
             Debug.LogWarning("File not found: " + dataPath);
@@ -62,12 +70,16 @@ public class SkillNameTable : MonoBehaviour
                     string[] keyval = keyvals[i].Split("=");
                     string key = keyval[0];
                     string value = keyval[1];
-
+                    
                     switch (key)
                     {
                         case "skill_id":
                             nameData.Id = int.Parse(value);
-                            break;
+                            if (nameData.Id.Equals(410))
+                            {
+                                Debug.Log("");
+                            }
+                           break;
                         case "skill_level":
                             nameData.Level = int.Parse(value);
                             break;

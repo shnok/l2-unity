@@ -2,7 +2,7 @@
     <ui:Template name="DefaultWindowsSkillLearn" src="project://database/Assets/Resources/Data/UI/_Elements/Template/DefaultWindowsAction.uxml?fileID=9197481963319205126&amp;guid=2fdd4636702f00a4e98644cfa7468b14&amp;type=3#DefaultWindowsAction" />
     <ui:Template name="TabActive" src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearn/TabActive.uxml?fileID=9197481963319205126&amp;guid=fb336d4e1a57ccf44a40b8fd9b73e8d5&amp;type=3#TabActive" />
     <ui:Template name="TabPassive" src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearn/TabPassive.uxml?fileID=9197481963319205126&amp;guid=5b4611cbb111944469038d274dd22029&amp;type=3#TabPassive" />
-    <ui:Template name="TabLearn" src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearn/TabLearn.uxml" />
+    <ui:Template name="TabLearn" src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearn/TabLearn.uxml?fileID=9197481963319205126&amp;guid=b808ece27d7bdc14bb8d06a36789e2dc&amp;type=3#TabLearn" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
     <ui:Instance name="defaultWindowsSkillLearn" template="DefaultWindowsSkillLearn" style="width: 317px; height: 540px; position: absolute;">
         <AttributeOverrides element-name="windows-name-label" text="Skills" />
@@ -54,9 +54,9 @@
                 <ui:GroupBox name="RightBg" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; background-image: resource(&apos;Data/UI/Window/Inventory/bg_windows/Windows_DF_Drawer_Bg_Center_Down_Rotate&apos;); width: 1px; height: 8px;" />
             </ui:GroupBox>
             <ui:GroupBox name="FooterAll" style="margin-top: 4%; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; align-self: center; width: 92px; height: 20px;">
-                <ui:Button text="Log In"  parse-escape-sequences="true" display-tooltip-when-elided="true" name="CloseButton"  class="l2-button" style="height: 20px; background-color: rgba(188, 188, 188, 0);">
-                    <ui:VisualElement name="ButtonBg"  class="l2-button-bg" />
-                    <ui:Label text="Cansel" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" picking-mode="Ignore" class="button-label" style="letter-spacing: 0;" />
+                <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CloseButton" class="l2-button" style="height: 20px; background-color: rgba(188, 188, 188, 0);">
+                    <ui:VisualElement name="ButtonBg" class="l2-button-bg" />
+                    <ui:Label text="Cancel" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" picking-mode="Ignore" class="button-label" style="letter-spacing: 0;" />
                 </ui:Button>
             </ui:GroupBox>
         </ui:GroupBox>
