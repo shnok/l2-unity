@@ -37,6 +37,7 @@ public class L2GameUI : L2UI {
         StartLoading();
 
         MenuWindow.Instance.AddWindow(_rootVisualContainer);
+        SysMenu.Instance.AddWindow(_rootVisualContainer);
 
         // SKillbar needs updates
         //ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
