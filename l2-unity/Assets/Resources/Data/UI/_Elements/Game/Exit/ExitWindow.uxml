@@ -1,0 +1,48 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="DefaultExit" src="project://database/Assets/Resources/Data/UI/_Elements/Template/DefaultWindowExit.uxml?fileID=9197481963319205126&amp;guid=0063a997fc3a626438306ebf11614c61&amp;type=3#DefaultWindowExit" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <ui:Instance name="defaultExit" template="DefaultExit" style="width: 300px; height: 415px; position: absolute;">
+        <AttributeOverrides element-name="windows-name-label" text="Exit Game" />
+        <ui:VisualElement name="Background" class="background_over" style="flex-grow: 1; min-width: auto; min-height: auto; justify-content: flex-start; align-items: flex-start; position: absolute; background-image: resource(&apos;Data/UI/Window/Frame_DF_Large_Bg_Darker_Center_Alpha&apos;); height: 368px; top: 40px; width: 280px; left: 8px; display: flex; visibility: visible; overflow: visible; opacity: 0.5;" />
+        <ui:GroupBox name="BoxContent" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; position: absolute; left: 23px; top: 53px; width: 250px; height: 270px; background-image: resource(&apos;Data/UI/Window/Frame_DF_Large_Bg_Darker_Center&apos;);">
+            <ui:GroupBox name="Frame" style="margin-top: 5px; margin-right: 0; margin-bottom: 0; margin-left: 9px; padding-top: 0; padding-bottom: 0; padding-left: 0; background-image: resource(&apos;Data/UI/Window/Exit/refinewnd_back_Pattern&apos;); width: 370px; align-self: flex-start; height: 410px; -unity-slice-left: 7; -unity-slice-top: 7; -unity-slice-right: 7; -unity-slice-bottom: 7; -unity-slice-scale: 1px;">
+                <ui:GroupBox name="ContentInside" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                    <ui:Label tabindex="-1" text="Play Report" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-background-image-tint-color: rgb(56, 56, 56); color: rgb(223, 222, 222); font-size: 14px; -unity-text-outline-width: 0.3px; margin-top: 5%; margin-right: 0; margin-bottom: 0; margin-left: 20%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-font-style: normal; align-self: flex-start; justify-content: center; -unity-font: initial;" />
+                    <ui:GroupBox name="BoxMenu" style="margin-top: 5%; margin-right: 0; margin-bottom: 0; margin-left: 4%; padding-top: 0; padding-bottom: 0; padding-left: 0; width: 200px; height: 150px; background-image: resource(&apos;Data/UI/Window/Exit/ComboBox_DF_Dropmenu_Bg&apos;); -unity-slice-left: 2; -unity-slice-top: 2; -unity-slice-right: 2; -unity-slice-bottom: 2; -unity-slice-scale: 1px; opacity: 0.95;">
+                        <ui:GroupBox name="MenuInfo" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                            <ui:GroupBox name="FirstRow" style="margin-top: 10px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:Label tabindex="-1" text="EXP Acquired" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Acquired" style="color: rgb(149, 149, 149); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-left: 0; padding-bottom: 0; align-self: center; font-size: 13px; -unity-text-outline-width: 0.3px;" />
+                                <ui:Label tabindex="-1" text="0 Exp" parse-escape-sequences="true" display-tooltip-when-elided="true" name="EXP" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; color: rgb(165, 143, 113); align-self: center; font-size: 13px; -unity-text-outline-width: 0.3px; text-shadow: 0.5px 0.5px 3px rgb(0, 0, 0);" />
+                            </ui:GroupBox>
+                            <ui:GroupBox name="TwoRow" style="margin-top: 15px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:Label tabindex="-1" text="Adena Acquired" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Adena" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(149, 149, 149); align-self: center; -unity-text-outline-width: 0.3px;" />
+                                <ui:Label tabindex="-1" text="0 Adena" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CountAdena" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(165, 143, 113); align-items: auto; align-self: center; -unity-text-outline-width: 0.3px;" />
+                            </ui:GroupBox>
+                            <ui:GroupBox name="TreRow" style="margin-top: 15px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0;">
+                                <ui:Label tabindex="-1" text="Item Acquired" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Adena" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(149, 149, 149); align-self: center; -unity-text-outline-width: 0.3px;" />
+                                <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CountAdena" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(165, 143, 113); align-items: auto; align-self: center; -unity-text-outline-width: 0.3px;" />
+                            </ui:GroupBox>
+                        </ui:GroupBox>
+                    </ui:GroupBox>
+                </ui:GroupBox>
+                <ui:GroupBox name="InitButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 10px; padding-bottom: 0; padding-left: 19%;">
+                    <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="InitializeButton" class="l2-button" style="height: 25px; background-color: rgba(188, 188, 188, 0);">
+                        <ui:VisualElement name="ButtonBg" class="l2-button-bg" />
+                        <ui:Label text="Initialize" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" picking-mode="Ignore" class="button-label" style="letter-spacing: 0;" />
+                    </ui:Button>
+                </ui:GroupBox>
+                <ui:GroupBox name="Buttons" style="margin-top: 27px; margin-right: 0; margin-bottom: 0; margin-left: -13px; padding-top: 0; padding-bottom: 0; padding-left: 0; padding-right: 0;">
+                    <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CloseButton" class="l2-button" style="height: 35px; background-color: rgba(188, 188, 188, 0); width: 238px;">
+                        <ui:VisualElement name="ButtonBg" class="l2-button-bg" style="min-height: 35px; height: 38px;" />
+                        <ui:Label text="Exit Game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ExitGame" picking-mode="Ignore" class="button-label" style="letter-spacing: 0; padding-top: 5px;" />
+                        <ui:VisualElement name="Icon" style="flex-grow: 1; width: 16px; height: 17px; max-width: 16px; max-height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_power_menu&apos;); margin-top: -18px; margin-left: 15px;" />
+                    </ui:Button>
+                    <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CancelButton" class="l2-button" style="height: 35px; background-color: rgba(188, 188, 188, 0); width: 238px;">
+                        <ui:VisualElement name="ButtonBg" class="l2-button-bg" style="min-height: 35px; height: 38px;" />
+                        <ui:Label text="Cancel" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ExitGame" picking-mode="Ignore" class="button-label" style="letter-spacing: 0; padding-top: 5px;" />
+                    </ui:Button>
+                </ui:GroupBox>
+            </ui:GroupBox>
+        </ui:GroupBox>
+    </ui:Instance>
+</ui:UXML>
