@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.Progress;
 
-public class SysMenu : L2Window
+public class SysMenu : L2PopupWindow
 {
 
     private static SysMenu _instance;
@@ -45,22 +45,26 @@ public class SysMenu : L2Window
 
         yield return new WaitForEndOfFrame();
         _height = _windowEle.worldBound.height;
-        VisualElement exit_row = GetElementByClass("exit_row");
-       // OverTest(exit_row);
+        VisualElement exit_row = GetElementByClass("exit_button");
+        RegisterExitEvent(exit_row);
         //_mouseOverDetection = new MouseOverDetectionManipulator(_windowEle);
         //_windowEle.AddManipulator(_mouseOverDetection);
+        RegisterClickWindowEvent(_windowEle, null);
+
+        MouseOverDetectionManipulator  _mouseOverDetection = new MouseOverDetectionManipulator(_windowEle);
+        _windowEle.AddManipulator(_mouseOverDetection);
+
+
+
         HideWindow();
     }
 
-    private void OverTest(VisualElement exit_row)
+    private void RegisterExitEvent(VisualElement exit_row)
     {
-        exit_row.RegisterCallback<MouseOverEvent>(evt =>
-        {
-            VisualElement ve = (VisualElement)evt.currentTarget;
-            if (ve != null)
-            {
-                ve.style.backgroundColor = Color.red;
-            }
+        exit_row.RegisterCallback<MouseUpEvent>(evt => {
+            _isShow = false;
+            ExitWindow.Instance.ShowWindow();
+            HideWindow();
         }, TrickleDown.TrickleDown);
     }
 
