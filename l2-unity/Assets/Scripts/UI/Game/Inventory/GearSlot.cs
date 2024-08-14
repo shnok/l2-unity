@@ -7,11 +7,8 @@ public class GearSlot : InventorySlot
 {
     public GearSlot(int position, VisualElement slotElement, InventoryGearTab tab) : base(position, slotElement, tab) {
     }
-
-    public GearSlot(int position, AbstractItem item, VisualElement slotElement, InventoryGearTab tab) : base(position, item, slotElement, tab) {
-    }
     
     protected override void HandleRightClick() {
-
+        GameClient.Instance.ClientPacketHandler.UnEquipItem(_position);
     }
 }
