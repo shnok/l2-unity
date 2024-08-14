@@ -312,6 +312,8 @@ public class GameServerPacketHandler : ServerPacketHandler
     }
 
     private void OnInventoryUpdate(byte[] data) {
-
+        InventoryUpdatePacket packet = new InventoryUpdatePacket(data);
+        Debug.Log("Updated items: " + packet.Items.Length);
+        _eventProcessor.QueueEvent(() => PlayerInventory.Instance.UpdateInventory(packet.Items));
     }
 }

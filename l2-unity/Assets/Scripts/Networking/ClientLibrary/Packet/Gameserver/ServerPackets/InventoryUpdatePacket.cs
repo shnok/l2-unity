@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class InventoryUpdatePacket : MonoBehaviour
+public class InventoryUpdatePacket : AbstractItemPacket
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private ItemInstance[] _items;
+    public ItemInstance[] Items { get { return _items; } }
+
+    public InventoryUpdatePacket(byte[] d) : base(d){
+        Parse();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public override void Parse() {
+        int itemListSize = ReadI();
+
+        _items = new ItemInstance[itemListSize];
+        for(int i = 0; i < itemListSize; i++) {
+            int lastChange = ReadI();
+            _items[i] = ReadItem();
+            _items[i].LastChange = lastChange;
+        }
     }
 }

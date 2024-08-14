@@ -39,4 +39,10 @@ public class PlayerInventory : MonoBehaviour
             InventoryWindow.Instance.ShowWindow();
         }
     }
+
+    public void UpdateInventory(ItemInstance[] items) {
+        for(int i = 0; i < items.Length; i++) {
+            Debug.Log(items[i].ToString());
+        }
+    }
 }
