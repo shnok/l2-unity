@@ -9,6 +9,8 @@ public class GearSlot : InventorySlot
     }
     
     protected override void HandleRightClick() {
-        GameClient.Instance.ClientPacketHandler.UnEquipItem(_position);
+        if(!_empty) {
+            GameClient.Instance.ClientPacketHandler.UnEquipItem(_position);
+        }
     }
 }

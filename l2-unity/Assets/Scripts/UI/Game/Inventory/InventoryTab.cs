@@ -21,6 +21,12 @@ public class InventoryTab : L2Tab {
 
     public void UpdateItemList(List<ItemInstance> items) {
         // Clear slots
+        if(_inventorySlots != null) {
+            foreach(InventorySlot slot in _inventorySlots) {
+                slot.ClearSlot();
+            }
+        }
+        
         _contentContainer.Clear();
         _itemCount = 0;
 

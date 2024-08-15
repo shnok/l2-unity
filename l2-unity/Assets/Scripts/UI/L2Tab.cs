@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public abstract class L2Tab {
     [SerializeField] string _tabName = "Tab";
-    protected bool _autoscroll = true;
+    [SerializeField] protected bool _autoscroll = true;
     private ScrollView _scrollView;
     protected Scroller _scroller;
     private VisualElement _tabContainer;

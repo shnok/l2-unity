@@ -42,7 +42,20 @@ public class InventoryGearTab : L2Tab
 
     public void UpdateItemList(List<ItemInstance> items) {
         Debug.Log("Update gear slots");
+
+        // Clean up slot callbacks and manipulators
+        if(_gearSlots != null) {
+            foreach (KeyValuePair<ItemSlot, GearSlot> kvp in _gearSlots) {
+                if (kvp.Value != null) {
+                    kvp.Value.UnregisterCallbacks();
+                    kvp.Value.ClearSlot();
+                }
+            }
+            _gearSlots.Clear();
+        }
         _gearSlots = new Dictionary<ItemSlot, GearSlot>();
+
+        // Clean up gear anchors from any child visual element
         foreach (KeyValuePair<ItemSlot, VisualElement> kvp in _gearAnchors) {
             if (kvp.Value == null) {
                 Debug.LogWarning($"Inventory gear slot {kvp.Key} is null.");

@@ -10,6 +10,7 @@ public class InventorySlot : L2Slot
     private long _remainingTime;
     private TooltipManipulator _tooltipManipulator;
     private int _objectId;
+    protected bool _empty = true;
 
     public int Count { get { return _count; } }
     public long RemainingTime { get { return _remainingTime; } }
@@ -18,6 +19,7 @@ public class InventorySlot : L2Slot
     : base(slotElement, position) {
         _currentTab = tab;
         _slotElement.AddToClassList("inventory-slot");
+        _empty = true;
     }
 
     public void AssignItem(ItemInstance item) {
@@ -27,6 +29,7 @@ public class InventorySlot : L2Slot
             _description = item.ItemData.ItemName.Description;
             _icon = item.ItemData.Icon;
             _objectId = item.ObjectId;
+            _empty = false;
         } else {
             Debug.LogWarning($"Item data is null for item {item.ItemId}.");
             _id = 0;
@@ -35,22 +38,37 @@ public class InventorySlot : L2Slot
             _icon = "";
             _objectId = -1;
         }
+
         _count = item.Count;
         _remainingTime = item.RemainingTime;
 
         StyleBackground background = new StyleBackground(IconManager.Instance.GetIcon(_id));
         _slotBg.style.backgroundImage = background;
 
+        AddTooltip(item);
+    }
+
+    private void AddTooltip(ItemInstance item) { 
         string tooltipText =  $"{_name} ({_count})";
-        if(item.Category == ItemCategory.Weapon || item.Category == ItemCategory.Jewel || item.Category == ItemCategory.ShieldArmor) {
+        if(item.Category == ItemCategory.Weapon || 
+            item.Category == ItemCategory.Jewel || 
+            item.Category == ItemCategory.ShieldArmor) {
             tooltipText = _name;
         }
-
+        
         if(_tooltipManipulator == null) {
             _tooltipManipulator = new TooltipManipulator(_slotElement, tooltipText);
             _slotElement.AddManipulator(_tooltipManipulator);
         } else {
             _tooltipManipulator.SetText(tooltipText);
+        }
+    }
+
+    public void ClearSlot() {
+        if(_tooltipManipulator != null) {
+            _tooltipManipulator.Clear();
+            _slotElement.RemoveManipulator(_tooltipManipulator);
+            _tooltipManipulator = null;
         }
     }
 
@@ -60,7 +78,9 @@ public class InventorySlot : L2Slot
     }
 
     protected override void HandleRightClick() {
-        GameClient.Instance.ClientPacketHandler.UseItem(_objectId);
+        if(!_empty) {
+            GameClient.Instance.ClientPacketHandler.UseItem(_objectId);
+        }
     }
 
     public void SetSelected() {

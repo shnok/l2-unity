@@ -52,7 +52,7 @@ public abstract class L2Slot {
         _slotElement.RegisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
     }
 
-    protected void UnregisterCallbacks() {
+    public void UnregisterCallbacks() {
         _slotElement.UnregisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
     }
 

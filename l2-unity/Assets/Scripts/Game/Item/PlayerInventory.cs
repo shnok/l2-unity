@@ -23,8 +23,6 @@ public class PlayerInventory : MonoBehaviour
             Destroy(this);
         }
 
-        Debug.LogWarning("Init PlayerInventory");
-
         _playerInventory = new List<ItemInstance>();
     }
 
@@ -49,7 +47,6 @@ public class PlayerInventory : MonoBehaviour
     public void UpdateInventory(ItemInstance[] items) {
         for(int i = 0; i < items.Length; i++) {
             ItemInstance item = items[i];
-            Debug.Log(item.ToString());
             if(item.LastChange == (int) InventoryChange.ADDED) {
                 _playerInventory.Add(item);
             } else if (item.LastChange == (int) InventoryChange.MODIFIED) {

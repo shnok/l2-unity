@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class TooltipManipulator : PointerManipulator {
 
     private string _text;
+    private bool _pointerOver;
 
     public TooltipManipulator(VisualElement target, string text) {
         this.target = target;
@@ -29,13 +30,21 @@ public class TooltipManipulator : PointerManipulator {
     }
 
     private void PointerOverHandler(MouseOverEvent evt) {
+        _pointerOver = true;
     }
 
     private void PointerOutHandler(PointerOutEvent evt) {
+        _pointerOver = false;
         L2ToolTip.Instance.HideWindow(target);
     }
 
     public void SetText(string text) {
         _text = text;
+    }
+
+    public void Clear() {
+        if(_pointerOver) {
+            L2ToolTip.Instance.HideWindow(target);
+        }
     }
 }
