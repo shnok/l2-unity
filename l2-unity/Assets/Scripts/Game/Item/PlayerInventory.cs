@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
+    enum InventoryChange {
+        UNCHANGED = 0, ADDED = 1, REMOVED = 3, MODIFIED = 2
+    }
+
     private List<ItemInstance> _playerInventory;
 
     public List<ItemInstance> Items { get { return _playerInventory; } }
@@ -18,6 +22,8 @@ public class PlayerInventory : MonoBehaviour
         } else if (_instance != this) {
             Destroy(this);
         }
+
+        Debug.LogWarning("Init PlayerInventory");
 
         _playerInventory = new List<ItemInstance>();
     }
@@ -42,7 +48,33 @@ public class PlayerInventory : MonoBehaviour
 
     public void UpdateInventory(ItemInstance[] items) {
         for(int i = 0; i < items.Length; i++) {
-            Debug.Log(items[i].ToString());
+            ItemInstance item = items[i];
+            Debug.Log(item.ToString());
+            if(item.LastChange == (int) InventoryChange.ADDED) {
+                _playerInventory.Add(item);
+            } else if (item.LastChange == (int) InventoryChange.MODIFIED) {
+                ItemInstance oldItem = GetItemByObjectId(item.ObjectId);
+                if(oldItem == null) {
+                    _playerInventory.Add(item);
+                } else {
+                    oldItem.Update(item);
+                }
+            } else if(item.LastChange == (int) InventoryChange.REMOVED) {
+                ItemInstance oldItem = GetItemByObjectId(item.ObjectId);
+                _playerInventory.Remove(oldItem);
+            }
         }
+
+        InventoryWindow.Instance.UpdateItemList(_playerInventory);
+    }
+
+    public ItemInstance GetItemByObjectId(int objectId) {
+        foreach(ItemInstance item in _playerInventory) {
+            if(item.ObjectId == objectId) {
+                return item;
+            }
+        }
+
+        return null;
     }
 }

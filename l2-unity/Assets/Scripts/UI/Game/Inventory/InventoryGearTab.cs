@@ -41,6 +41,7 @@ public class InventoryGearTab : L2Tab
     }
 
     public void UpdateItemList(List<ItemInstance> items) {
+        Debug.Log("Update gear slots");
         _gearSlots = new Dictionary<ItemSlot, GearSlot>();
         foreach (KeyValuePair<ItemSlot, VisualElement> kvp in _gearAnchors) {
             if (kvp.Value == null) {
@@ -61,7 +62,16 @@ public class InventoryGearTab : L2Tab
 
         items.ForEach(item => {
             if (item.Equipped) {
-                _gearSlots[(ItemSlot)item.BodyPart].AssignItem(item);
+                Debug.Log("Equip item: " + item);
+                if(item.BodyPart == ItemSlot.lrhand) {
+                    _gearSlots[ItemSlot.lhand].AssignItem(item);
+                    _gearSlots[ItemSlot.rhand].AssignItem(item);
+                } else if(item.BodyPart == ItemSlot.fullarmor) {
+                    _gearSlots[ItemSlot.chest].AssignItem(item);
+                    _gearSlots[ItemSlot.legs].AssignItem(item);
+                } else {
+                    _gearSlots[(ItemSlot)item.Slot].AssignItem(item);
+                }
             }
         });
     }

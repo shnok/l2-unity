@@ -57,6 +57,17 @@ public class ItemInstance
         Debug.Log(this.ToString());
     }
 
+    public void Update(ItemInstance newItem) {
+        _location = newItem.Location;
+        _slot = newItem.Slot;
+        _count = newItem.Count;
+        _remainingTime = newItem.RemainingTime;
+        _enchantLevel = newItem.EnchantLevel;
+        _equipped = newItem.Equipped;
+        _objectId = newItem.ObjectId;
+        _bodyPart = newItem.BodyPart;
+    }
+
     public override string ToString() {
         return $"New item: ServerId:{_objectId} ItemId:{_itemId} Location:{_location} Slot:{_slot} Count:{_count} " +
         $"Cat:{_category} Equipped:{_equipped} Bodypart:{_bodyPart} Change:{_lastChange}";
