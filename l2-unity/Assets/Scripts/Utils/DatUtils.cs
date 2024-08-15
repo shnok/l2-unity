@@ -50,7 +50,8 @@ public class DatUtils {
                 abstractgrp.Crystallizable = value == "1";
                 break;
             case "equip_sound":
-                abstractgrp.EquipSound = DatUtils.CleanupString(value);
+                string[] soundTypeName = value.Split(".");
+                abstractgrp.EquipSound = DatUtils.CleanupString(soundTypeName.Length > 1 ? soundTypeName[1] : value);
                 break;
             case "inventory_type":
                 abstractgrp.InventoryType = value;

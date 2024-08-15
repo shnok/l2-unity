@@ -63,6 +63,12 @@ public class ItemInstance
         _count = newItem.Count;
         _remainingTime = newItem.RemainingTime;
         _enchantLevel = newItem.EnchantLevel;
+
+        if(_equipped == false && newItem.Equipped == true 
+        || _equipped == true && newItem.Equipped == false) {
+            AudioManager.Instance.PlayEquipSound(_itemData.Itemgrp.EquipSound);
+        } 
+
         _equipped = newItem.Equipped;
         _objectId = newItem.ObjectId;
         _bodyPart = newItem.BodyPart;
