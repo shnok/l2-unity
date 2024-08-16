@@ -1,10 +1,19 @@
-﻿using Assets.Scripts.UI;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UIElements;
 using static NativeFunctions;
 
 public class L2GameUI : L2UI {
     private NativeCoords _lastMousePosition;
     [SerializeField] private bool _mouseEnabled = true;
+    private L2Slot _draggedSlot;
+    private L2Slot _hoverSlot;
+    private L2Slot _selectedSlot;
+    private VisualElement flotatingDragSlotElement;
+    private L2Slot flotatingDragSlot;
+
+    public L2Slot DraggedSlot { get { return _draggedSlot; } set { _draggedSlot = value; } }
+    public L2Slot HoverSlot { get { return _hoverSlot; } set { _hoverSlot = value; } }
+    public L2Slot SelectedSlot { get { return _selectedSlot; } set { _selectedSlot = value; } }
 
     private static L2GameUI _instance;
     public static L2GameUI Instance { get { return _instance; } }
@@ -52,7 +61,7 @@ public class L2GameUI : L2UI {
         }
         if (InventoryWindow.Instance != null) {
             InventoryWindow.Instance.AddWindow(_rootVisualContainer);
-            InventoryWindow.Instance.HideWindow();
+          //  InventoryWindow.Instance.HideWindow();
         }
         if (CharacterInfoWindow.Instance != null) {
             CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
@@ -73,6 +82,9 @@ public class L2GameUI : L2UI {
         if (L2ToolTip.Instance != null) {
             L2ToolTip.Instance.AddWindow(_tooltipVisualContainer);
             L2ToolTip.Instance.HideWindow();
+        }
+        if (L2SlotManager.Instance != null) {
+            L2SlotManager.Instance.AddWindow(_tooltipVisualContainer);
         }
     }
 

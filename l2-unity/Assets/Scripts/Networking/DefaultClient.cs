@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Collections;
 
 public abstract class DefaultClient : MonoBehaviour {
     [SerializeField] protected string _serverIp = "127.0.0.1";

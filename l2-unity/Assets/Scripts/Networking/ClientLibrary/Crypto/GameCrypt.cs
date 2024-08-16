@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace L2_login {
+namespace L2_login
+{
 
     public class GameCrypt {
         private readonly byte[] _inkey = new byte[16];

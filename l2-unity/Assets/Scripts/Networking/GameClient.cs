@@ -1,7 +1,4 @@
 using UnityEngine;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Collections;
 using L2_login;
 using static PlayerInfoPacket;
 

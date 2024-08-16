@@ -1,5 +1,4 @@
 using UnityEngine.UIElements;
-using UnityEngine;
 
 public class MouseOverDetectionManipulator : PointerManipulator {
     private bool _enabled;

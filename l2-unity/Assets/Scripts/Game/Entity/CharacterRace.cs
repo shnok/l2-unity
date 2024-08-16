@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public enum CharacterRace : byte { 
     Human = 0,
     Elf = 1,

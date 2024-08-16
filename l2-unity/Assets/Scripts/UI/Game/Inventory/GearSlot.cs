@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 public class GearSlot : InventorySlot
@@ -9,6 +6,10 @@ public class GearSlot : InventorySlot
     }
     
     protected override void HandleRightClick() {
+        UseItem();
+    }
+
+    public override void UseItem() {
         if(!_empty) {
             GameClient.Instance.ClientPacketHandler.UnEquipItem(_position);
         }

@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements; 
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class ChatTab : L2Tab

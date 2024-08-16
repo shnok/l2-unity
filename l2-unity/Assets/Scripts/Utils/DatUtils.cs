@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class DatUtils {
+﻿public class DatUtils {
 
     public static string CleanupString(string name) {
         return name.Replace("[", string.Empty).Replace("]", string.Empty);

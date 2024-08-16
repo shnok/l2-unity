@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,11 +7,15 @@ public class InventorySlot : L2Slot
     private int _count;
     private long _remainingTime;
     private TooltipManipulator _tooltipManipulator;
+    private SlotDragManipulator _slotDragManipulator;
+    private SlotClickSoundManipulator _slotClickSoundManipulator;
     private int _objectId;
+    private ItemCategory _itemCategory;
     protected bool _empty = true;
 
     public int Count { get { return _count; } }
     public long RemainingTime { get { return _remainingTime; } }
+    public ItemCategory ItemCategory { get { return _itemCategory; } }
 
     public InventorySlot(int position, VisualElement slotElement, L2Tab tab)
     : base(slotElement, position) {
@@ -30,6 +32,7 @@ public class InventorySlot : L2Slot
             _icon = item.ItemData.Icon;
             _objectId = item.ObjectId;
             _empty = false;
+            _itemCategory = item.Category;
         } else {
             Debug.LogWarning($"Item data is null for item {item.ItemId}.");
             _id = 0;
@@ -37,6 +40,7 @@ public class InventorySlot : L2Slot
             _description = "Unkown item.";
             _icon = "";
             _objectId = -1;
+            _itemCategory = ItemCategory.Item;
         }
 
         _count = item.Count;
@@ -59,6 +63,10 @@ public class InventorySlot : L2Slot
         if(_tooltipManipulator == null) {
             _tooltipManipulator = new TooltipManipulator(_slotElement, tooltipText);
             _slotElement.AddManipulator(_tooltipManipulator);
+            _slotDragManipulator = new SlotDragManipulator(_slotElement, this);
+            _slotElement.AddManipulator(_slotDragManipulator);
+            _slotClickSoundManipulator = new SlotClickSoundManipulator(_slotElement);
+            _slotElement.AddManipulator(_slotClickSoundManipulator);
         } else {
             _tooltipManipulator.SetText(tooltipText);
         }
@@ -70,26 +78,30 @@ public class InventorySlot : L2Slot
             _slotElement.RemoveManipulator(_tooltipManipulator);
             _tooltipManipulator = null;
         }
+
+        if(_slotDragManipulator != null) {
+            _slotElement.RemoveManipulator(_slotDragManipulator);
+            _slotDragManipulator = null;
+        }
+
+        if(_slotClickSoundManipulator != null) {
+            _slotElement.RemoveManipulator(_slotClickSoundManipulator);
+            _slotClickSoundManipulator = null;
+        }
     }
 
     protected override void HandleLeftClick() {
-        AudioManager.Instance.PlayUISound("click_03");
+        //AudioManager.Instance.PlayUISound("click_03");
         _currentTab.SelectSlot(_position);
     }
 
     protected override void HandleRightClick() {
+        UseItem();
+    }
+
+    public virtual void UseItem() {
         if(!_empty) {
             GameClient.Instance.ClientPacketHandler.UseItem(_objectId);
         }
-    }
-
-    public void SetSelected() {
-        Debug.Log($"Slot {_position} selected.");
-        _slotElement.AddToClassList("selected");
-    }
-
-    public void UnSelect() {
-        Debug.Log($"Slot {_position} unselected.");
-        _slotElement.RemoveFromClassList("selected");
     }
 }

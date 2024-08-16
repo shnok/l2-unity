@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class LoginFailPacket : ServerPacket {
     public enum LoginFailedReason : byte {
         REASON_NO_MESSAGE = 0x00,

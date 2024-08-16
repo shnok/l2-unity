@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 public class SlotClickSoundManipulator : PointerManipulator {
@@ -10,14 +7,14 @@ public class SlotClickSoundManipulator : PointerManipulator {
     }
 
     protected override void RegisterCallbacksOnTarget() {
-        target.RegisterCallback<ClickEvent>(MouseDownHandler);
+        target.RegisterCallback<PointerDownEvent>(MouseDownHandler, TrickleDown.TrickleDown);
     }
 
     protected override void UnregisterCallbacksFromTarget() {
-        target.UnregisterCallback<ClickEvent>(MouseDownHandler);
+        target.UnregisterCallback<PointerDownEvent>(MouseDownHandler);
     }
 
-    private void MouseDownHandler(ClickEvent evt) {
+    private void MouseDownHandler(PointerDownEvent evt) {
         AudioManager.Instance.PlayUISound("click_03");
     }
 }

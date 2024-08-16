@@ -1,10 +1,5 @@
-using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.Rendering.DebugUI.MessageBox;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 
 public class ShortCutHorizontalPosition

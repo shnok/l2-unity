@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -88,8 +85,8 @@ public class ShortCutReDrawActivePanels
                 var minimalPanel = arrayPanels[i];
                 if (minimalPanel != null)
                 {
-                    //44 ширина short cut
-                    //25 отступ от верхней границы экрана
+                    //44 пїЅпїЅпїЅпїЅпїЅпїЅ short cut
+                    //25 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     if (i == 0)
                     {
                         minimalPanel.style.left = 0;

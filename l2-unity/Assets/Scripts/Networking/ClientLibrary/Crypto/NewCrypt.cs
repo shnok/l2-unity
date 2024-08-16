@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace L2_login
 {
     class NewCrypt {

@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class Windmill : MonoBehaviour {
     public float rotateSpeed = 1f;

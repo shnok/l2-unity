@@ -1,14 +1,7 @@
 ﻿
 using UnityEngine.UIElements;
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
-using UnityEditor;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Reflection.Emit;
-using System;
 using System.Collections;
-using System.Diagnostics;
 
 
 namespace Assets.Scripts.UI
