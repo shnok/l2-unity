@@ -9,8 +9,9 @@ public class SlotDragManipulator : PointerManipulator {
     public bool dragged = false;
 
     public SlotDragManipulator(VisualElement target, L2Slot slot) {
-        this.target = target;
         _slot = slot;
+        _root = target;
+        this.target = target;
     }
 
     protected override void RegisterCallbacksOnTarget() {
@@ -30,19 +31,19 @@ public class SlotDragManipulator : PointerManipulator {
             UpdateFlotatingSlotAppearance();
             dragged = false;
             _startMousePosition = evt.position;
-            _startPosition = target.worldBound.position // Element position on screen
-            - (target.worldBound.position - _startMousePosition); // Adjust start position to mouse position
-            target.CapturePointer(evt.pointerId);
+            _startPosition = _root.worldBound.position // Element position on screen
+            - (_root.worldBound.position - _startMousePosition); // Adjust start position to mouse position
+            _root.CapturePointer(evt.pointerId);
         }
         evt.StopPropagation();
     }
 
     public void PointerMoveHandler(PointerMoveEvent evt) {
-        if (target.HasPointerCapture(evt.pointerId)) {
+        if (_root.HasPointerCapture(evt.pointerId)) {
             dragged = true;
             Vector2 diff = _startMousePosition 
             - new Vector2(evt.position.x, evt.position.y) // Apply mouse movement delta
-            + new Vector2(target.layout.width / 2f, target.layout.height / 2f); // center the slot
+            + new Vector2(_root.layout.width / 2f, _root.layout.height / 2f); // center the slot
             DragFlotatingSlot(diff);
         }
         evt.StopPropagation();
@@ -53,14 +54,14 @@ public class SlotDragManipulator : PointerManipulator {
     }
 
     private void DragFlotatingSlot(Vector2 diff) {
-        float right = Screen.width - _startPosition.x - target.layout.width + diff.x;
-        float bottom = Screen.height - _startPosition.y - target.layout.height + diff.y;
+        float right = Screen.width - _startPosition.x - _root.layout.width + diff.x;
+        float bottom = Screen.height - _startPosition.y - _root.layout.height + diff.y;
         L2SlotManager.Instance.DragSlot(right, bottom);
     }
 
     public void PointerUpHandler(PointerUpEvent evt) {
-        if (target.HasPointerCapture(evt.pointerId)) {
-            target.ReleasePointer(evt.pointerId);
+        if (_root.HasPointerCapture(evt.pointerId)) {
+            _root.ReleasePointer(evt.pointerId);
             if(dragged) {
                 L2SlotManager.Instance.ReleaseDrag();
             }

@@ -86,15 +86,18 @@ public class InventorySlot : L2Slot
             _tooltipManipulator = null;
         }
 
-        // if(_slotDragManipulator != null) {
-        //     _slotElement.RemoveManipulator(_slotDragManipulator);
-        //     _slotDragManipulator = null;
-        // }
+        if(_slotDragManipulator != null) {
+            if(this is GearSlot) {
+                Debug.LogWarning("Remove drag manip " + _slotElement);
+            }
+            _slotElement.RemoveManipulator(_slotDragManipulator);
+            _slotDragManipulator = null;
+        }
 
-        // if(_slotClickSoundManipulator != null) {
-        //     _slotElement.RemoveManipulator(_slotClickSoundManipulator);
-        //     _slotClickSoundManipulator = null;
-        // }
+        if(_slotClickSoundManipulator != null) {
+            _slotElement.RemoveManipulator(_slotClickSoundManipulator);
+            _slotClickSoundManipulator = null;
+        }
     }
 
     protected override void HandleLeftClick() {

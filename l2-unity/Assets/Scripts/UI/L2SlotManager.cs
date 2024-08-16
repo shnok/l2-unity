@@ -87,7 +87,6 @@ public class L2SlotManager : L2PopupWindow {
 
     private bool IsValidDrag() {
         return _draggedSlot != null && (_hoverSlot != null || !L2GameUI.Instance.MouseOverUI); // Either dragging in the void or on another slot?
-        
     }
 
     private bool IsSameSlot() {
