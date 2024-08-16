@@ -141,8 +141,9 @@ public class AsynchronousClient {
                     receivedBytes = receivedBytes + newBytes;
                 }
 
-                
-                Task.Run(() => _serverPacketHandler.HandlePacketAsync(data, _initPacket));        
+                if(_serverPacketHandler.HandlePacketCrypto(data, _initPacket)) {
+                    Task.Run(() => _serverPacketHandler.HandlePacketAsync(data));        
+                }
             }
         }
     }
