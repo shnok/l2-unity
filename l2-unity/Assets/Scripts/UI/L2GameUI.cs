@@ -41,6 +41,9 @@ public class L2GameUI : L2UI {
         // SKillbar needs updates
         //ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
         //ShortCutPanel.Instance.AddWindow(rootVisualContainer);
+        if (ChatWindow.Instance != null) {
+            ChatWindow.Instance.AddWindow(_rootVisualContainer);
+        }
         if (MenuWindow.Instance != null) {
             MenuWindow.Instance.AddWindow(_rootVisualContainer);
         }
@@ -64,9 +67,6 @@ public class L2GameUI : L2UI {
         // if (SkillLearn.Instance != null) {
         //     SkillLearn.Instance.AddWindow(_rootVisualContainer);
         // }
-        if (ChatWindow.Instance != null) {
-            ChatWindow.Instance.AddWindow(_rootVisualContainer);
-        }
         if (TargetWindow.Instance != null) {
             TargetWindow.Instance.AddWindow(_rootVisualContainer);
         }

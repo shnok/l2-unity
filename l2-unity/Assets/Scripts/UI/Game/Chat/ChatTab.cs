@@ -10,6 +10,7 @@ public class ChatTab : L2Tab
         base.Initialize(chatWindowEle, tabContainer, tabHeader);
         _content = tabContainer.Q<Label>("Content");
         _content.text = "";
+        _scrollStepSize = 12f;
     }
 
     protected override void OnGeometryChanged() {

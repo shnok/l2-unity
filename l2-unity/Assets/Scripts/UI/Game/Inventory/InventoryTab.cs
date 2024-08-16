@@ -19,7 +19,7 @@ public class InventoryTab : L2Tab {
         _selectedSlot = -1;
         _contentContainer = tabContainer.Q<VisualElement>("Content");
     }
-
+    
     public IEnumerator UpdateItemList(List<ItemInstance> items) {
         // Clear slots
         if(_inventorySlots != null) {
