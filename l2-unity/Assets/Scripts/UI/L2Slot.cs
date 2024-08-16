@@ -28,17 +28,15 @@ public class L2Slot {
         _icon = icon;
 
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
-
-        RegisterCallbacks();
     }
 
-    public L2Slot(VisualElement slotElement, int position) {
+    public L2Slot(VisualElement slotElement, int position, bool handleMouseOver) {
         _slotElement = slotElement;
         _position = position;
 
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
 
-        RegisterCallbacks();
+        RegisterCallbacks(handleMouseOver);
     }
 
     protected void HandleSlotClick(MouseDownEvent evt) {
@@ -49,10 +47,12 @@ public class L2Slot {
         }
     }
 
-    protected void RegisterCallbacks() {
+    protected void RegisterCallbacks(bool handleMouseOver) {
         _slotElement.RegisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
-        _slotElement.RegisterCallback<PointerOverEvent>(PointerOverHandler);
-        _slotElement.RegisterCallback<PointerOutEvent>(PointerOutHandler);
+        if(handleMouseOver) {
+            _slotElement.RegisterCallback<PointerOverEvent>(PointerOverHandler);
+            _slotElement.RegisterCallback<PointerOutEvent>(PointerOutHandler);
+        }
     }
 
     public void UnregisterCallbacks() {

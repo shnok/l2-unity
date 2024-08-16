@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,6 +11,7 @@ public class InventoryTab : L2Tab {
 
     private VisualElement _contentContainer;
     public List<ItemCategory> _filteredCategories;
+    public bool MainTab { get; internal set; }
 
     public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader) {
         base.Initialize(chatWindowEle, tabContainer, tabHeader);
@@ -18,7 +20,7 @@ public class InventoryTab : L2Tab {
         _contentContainer = tabContainer.Q<VisualElement>("Content");
     }
 
-    public void UpdateItemList(List<ItemInstance> items) {
+    public IEnumerator UpdateItemList(List<ItemInstance> items) {
         // Clear slots
         if(_inventorySlots != null) {
             foreach(InventorySlot slot in _inventorySlots) {
@@ -36,7 +38,7 @@ public class InventoryTab : L2Tab {
             VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
             _contentContainer.Add(slotElement);
 
-            InventorySlot slot = new InventorySlot(i, slotElement, this);
+            InventorySlot slot = new InventorySlot(i, slotElement, this, MainTab);
             _inventorySlots[i] = slot;
         }
 
@@ -71,16 +73,20 @@ public class InventoryTab : L2Tab {
                 }
             }
         });
+
+        yield return new WaitForEndOfFrame();
+        
+        if(_selectedSlot != -1) {
+            SelectSlot(_selectedSlot);
+        }
     }
 
     public override void SelectSlot(int slotPosition) {
-        if(_selectedSlot != slotPosition) {
-            if(_selectedSlot != -1) {
-                _inventorySlots[_selectedSlot].UnSelect();
-            }
-            _inventorySlots[slotPosition].SetSelected();
-            _selectedSlot = slotPosition;
+        if(_selectedSlot != -1) {
+            _inventorySlots[_selectedSlot].UnSelect();
         }
+        _inventorySlots[slotPosition].SetSelected();
+        _selectedSlot = slotPosition;
     }
 
     protected override void OnGeometryChanged() {

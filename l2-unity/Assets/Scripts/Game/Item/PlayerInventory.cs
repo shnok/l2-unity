@@ -73,4 +73,35 @@ public class PlayerInventory : MonoBehaviour
 
         return null;
     }
+
+    public ItemInstance GetItemBySlot(int slot) {
+        foreach(ItemInstance item in _playerInventory) {
+            if(item.Slot == slot && !item.Equipped) {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    public void ChangeItemOrder(int fromSlot, int toSlot) {
+        ItemInstance fromItem = GetItemBySlot(fromSlot);
+        ItemInstance toItem = GetItemBySlot(toSlot);
+
+        if(fromItem == null) {
+            Debug.LogError($"Can't change item order, item not found at slot {fromSlot}.");
+            return;
+        }
+
+        List<InventoryOrder> orders = new List<InventoryOrder>();
+        orders.Add(new InventoryOrder(fromItem.ObjectId, toSlot));
+
+        if(toItem != null) {
+            orders.Add(new InventoryOrder(toItem.ObjectId, fromSlot));
+        }
+
+        InventoryWindow.Instance.SelectSlot(toSlot);
+
+        GameClient.Instance.ClientPacketHandler.UpdateInventoryOrder(orders);
+    }
 }

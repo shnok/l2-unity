@@ -3,18 +3,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class L2SlotManager : L2PopupWindow {
-    // Slots
     private L2Slot _draggedSlot;
     private L2Slot _hoverSlot;
-    private L2Slot _selectedSlot;
-
-    // Flotating slot (created at startup)
     private L2Slot _dragSlotData;
-
-    public L2Slot DraggedSlot { get { return _draggedSlot; } set { _draggedSlot = value; } }
-    public L2Slot HoverSlot { get { return _hoverSlot; } set { _hoverSlot = value; } }
-    public L2Slot SelectedSlot { get { return _selectedSlot; } set { _selectedSlot = value; } }
-    public VisualElement DraggableSlot { get { return _windowEle; } }
 
     private static L2SlotManager _instance;
     public static L2SlotManager Instance { get { return _instance; } }
@@ -68,7 +59,7 @@ public class L2SlotManager : L2PopupWindow {
     public void ReleaseDrag() {
         HideWindow();
         
-        if (!IsValidDrag()) {
+        if (!IsValidDrag() || IsSameSlot()) {
             ResetSlots();
             return;
         }
@@ -95,7 +86,12 @@ public class L2SlotManager : L2PopupWindow {
     }
 
     private bool IsValidDrag() {
-        return _draggedSlot != null && (_hoverSlot != null || !L2GameUI.Instance.MouseOverUI);
+        return _draggedSlot != null && (_hoverSlot != null || !L2GameUI.Instance.MouseOverUI); // Either dragging in the void or on another slot?
+        
+    }
+
+    private bool IsSameSlot() {
+        return _draggedSlot != null && _hoverSlot!=null && _draggedSlot.Position == _hoverSlot.Position; // Is it the same slot ?
     }
 
     private void ResetSlots() {
@@ -144,6 +140,8 @@ public class L2SlotManager : L2PopupWindow {
         int toSlot = _hoverSlot.Position;
 
         Debug.Log($"Moving item from slot {fromSlot} to slot {toSlot}.");
+        
+        PlayerInventory.Instance.ChangeItemOrder(fromSlot, toSlot);
     }
 
     public override void ShowWindow() {

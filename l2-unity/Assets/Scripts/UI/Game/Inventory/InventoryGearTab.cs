@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -33,7 +34,7 @@ public class InventoryGearTab : L2Tab
         };
     }
 
-    public void UpdateItemList(List<ItemInstance> items) {
+    public IEnumerator UpdateItemList(List<ItemInstance> items) {
         Debug.Log("Update gear slots");
 
         // Clean up slot callbacks and manipulators
@@ -85,15 +86,19 @@ public class InventoryGearTab : L2Tab
                 }
             }
         });
+
+        yield return new WaitForEndOfFrame();
+        
+        if(_selectedSlot != -1) {
+            SelectSlot(_selectedSlot);
+        }
     }
 
     public override void SelectSlot(int slotPosition) {
-        if (_selectedSlot != slotPosition) {
-            if (_selectedSlot != -1) {
-                _gearSlots[(ItemSlot) _selectedSlot].UnSelect();
-            }
-            _gearSlots[(ItemSlot) slotPosition].SetSelected();
-            _selectedSlot = slotPosition;
+        if (_selectedSlot != -1) {
+            _gearSlots[(ItemSlot) _selectedSlot].UnSelect();
         }
+        _gearSlots[(ItemSlot) slotPosition].SetSelected();
+        _selectedSlot = slotPosition;
     }
 }

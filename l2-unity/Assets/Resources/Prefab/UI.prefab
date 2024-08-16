@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 3810290499127463926}
   - component: {fileID: 5298660702279739426}
   - component: {fileID: 7106220370365892636}
+  - component: {fileID: 2541905227659803299}
+  - component: {fileID: 8919353532978621825}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -108,7 +110,9 @@ MonoBehaviour:
   _chatWindowMaxHeight: 600
   _tabs:
   - _tabName: All
+    _autoscroll: 1
   - _tabName: System
+    _autoscroll: 1
   _chatOpened: 0
   _chatInputCharacterLimit: 64
 --- !u!114 &5054604499374613714
@@ -241,18 +245,23 @@ MonoBehaviour:
   _expanded: 0
   _gearTab:
     _tabName: Tab
+    _autoscroll: 1
     _selectedSlot: -1
   _tabs:
   - _tabName: All
+    _autoscroll: 1
     _selectedSlot: -1
     _filteredCategories: 
   - _tabName: Equip
+    _autoscroll: 1
     _selectedSlot: -1
     _filteredCategories: 000102
   - _tabName: Supplies
+    _autoscroll: 1
     _selectedSlot: -1
     _filteredCategories: 0504
   - _tabName: Quest
+    _autoscroll: 1
     _selectedSlot: -1
     _filteredCategories: 03
   _usedSlots: 0
@@ -260,3 +269,27 @@ MonoBehaviour:
   _currentWeight: 0
   _maximumWeight: 0
   _adenaCount: 0
+--- !u!114 &2541905227659803299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a445822104691429936ae3227a03f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8919353532978621825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe0768350cff00408db1a575d04517b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

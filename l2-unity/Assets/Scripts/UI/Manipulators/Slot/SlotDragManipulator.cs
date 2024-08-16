@@ -30,7 +30,7 @@ public class SlotDragManipulator : PointerManipulator {
             UpdateFlotatingSlotAppearance();
             dragged = false;
             _startMousePosition = evt.position;
-            _startPosition =  target.worldBound.position // Element position on screen
+            _startPosition = target.worldBound.position // Element position on screen
             - (target.worldBound.position - _startMousePosition); // Adjust start position to mouse position
             target.CapturePointer(evt.pointerId);
         }
@@ -61,7 +61,9 @@ public class SlotDragManipulator : PointerManipulator {
     public void PointerUpHandler(PointerUpEvent evt) {
         if (target.HasPointerCapture(evt.pointerId)) {
             target.ReleasePointer(evt.pointerId);
-            L2SlotManager.Instance.ReleaseDrag();
+            if(dragged) {
+                L2SlotManager.Instance.ReleaseDrag();
+            }
         }
         evt.StopPropagation();
     }

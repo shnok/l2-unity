@@ -2,7 +2,7 @@ using UnityEngine.UIElements;
 
 public class GearSlot : InventorySlot
 {
-    public GearSlot(int position, VisualElement slotElement, InventoryGearTab tab) : base(position, slotElement, tab) {
+    public GearSlot(int position, VisualElement slotElement, InventoryGearTab tab) : base(position, slotElement, tab, true) {
     }
     
     protected override void HandleRightClick() {

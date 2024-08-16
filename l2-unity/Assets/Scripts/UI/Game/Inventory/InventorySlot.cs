@@ -12,13 +12,14 @@ public class InventorySlot : L2Slot
     private int _objectId;
     private ItemCategory _itemCategory;
     protected bool _empty = true;
+    private bool _mainTab = false;
 
     public int Count { get { return _count; } }
     public long RemainingTime { get { return _remainingTime; } }
     public ItemCategory ItemCategory { get { return _itemCategory; } }
 
-    public InventorySlot(int position, VisualElement slotElement, L2Tab tab)
-    : base(slotElement, position) {
+    public InventorySlot(int position, VisualElement slotElement, L2Tab tab, bool handleMouseOver)
+    : base(slotElement, position, handleMouseOver) {
         _currentTab = tab;
         _slotElement.AddToClassList("inventory-slot");
         _empty = true;
@@ -50,6 +51,16 @@ public class InventorySlot : L2Slot
         _slotBg.style.backgroundImage = background;
 
         AddTooltip(item);
+
+        if(_slotDragManipulator == null) {
+            _slotDragManipulator = new SlotDragManipulator(_slotElement, this);
+            _slotElement.AddManipulator(_slotDragManipulator);
+        }
+
+        if(_slotClickSoundManipulator == null) {
+            _slotClickSoundManipulator = new SlotClickSoundManipulator(_slotElement);
+            _slotElement.AddManipulator(_slotClickSoundManipulator);
+        }
     }
 
     private void AddTooltip(ItemInstance item) { 
@@ -63,10 +74,6 @@ public class InventorySlot : L2Slot
         if(_tooltipManipulator == null) {
             _tooltipManipulator = new TooltipManipulator(_slotElement, tooltipText);
             _slotElement.AddManipulator(_tooltipManipulator);
-            _slotDragManipulator = new SlotDragManipulator(_slotElement, this);
-            _slotElement.AddManipulator(_slotDragManipulator);
-            _slotClickSoundManipulator = new SlotClickSoundManipulator(_slotElement);
-            _slotElement.AddManipulator(_slotClickSoundManipulator);
         } else {
             _tooltipManipulator.SetText(tooltipText);
         }
