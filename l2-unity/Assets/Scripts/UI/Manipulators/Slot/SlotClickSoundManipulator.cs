@@ -16,6 +16,8 @@ public class SlotClickSoundManipulator : PointerManipulator {
     }
 
     private void MouseDownHandler(PointerDownEvent evt) {
-        AudioManager.Instance.PlayUISound("click_03");
+        if (evt.button == 0) {
+            AudioManager.Instance.PlayUISound("click_03");
+        }
     }
 }

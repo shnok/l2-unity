@@ -23,6 +23,11 @@ public class InventorySlot : L2Slot
         _currentTab = tab;
         _slotElement.AddToClassList("inventory-slot");
         _empty = true;
+        
+        if(_slotClickSoundManipulator == null) {
+            _slotClickSoundManipulator = new SlotClickSoundManipulator(_slotElement);
+            _slotElement.AddManipulator(_slotClickSoundManipulator);
+        }
     }
 
     public void AssignItem(ItemInstance item) {
@@ -56,11 +61,6 @@ public class InventorySlot : L2Slot
             _slotDragManipulator = new SlotDragManipulator(_slotElement, this);
             _slotElement.AddManipulator(_slotDragManipulator);
         }
-
-        if(_slotClickSoundManipulator == null) {
-            _slotClickSoundManipulator = new SlotClickSoundManipulator(_slotElement);
-            _slotElement.AddManipulator(_slotClickSoundManipulator);
-        }
     }
 
     private void AddTooltip(ItemInstance item) { 
@@ -87,9 +87,6 @@ public class InventorySlot : L2Slot
         }
 
         if(_slotDragManipulator != null) {
-            if(this is GearSlot) {
-                Debug.LogWarning("Remove drag manip " + _slotElement);
-            }
             _slotElement.RemoveManipulator(_slotDragManipulator);
             _slotDragManipulator = null;
         }
@@ -101,7 +98,6 @@ public class InventorySlot : L2Slot
     }
 
     protected override void HandleLeftClick() {
-        //AudioManager.Instance.PlayUISound("click_03");
         _currentTab.SelectSlot(_position);
     }
 
