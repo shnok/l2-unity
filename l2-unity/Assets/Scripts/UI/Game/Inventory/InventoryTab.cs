@@ -23,6 +23,7 @@ public class InventoryTab : L2Tab {
         // Clear slots
         if(_inventorySlots != null) {
             foreach(InventorySlot slot in _inventorySlots) {
+                slot.UnregisterCallbacks();
                 slot.ClearSlot();
             }
         }

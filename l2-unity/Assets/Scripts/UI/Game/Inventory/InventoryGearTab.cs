@@ -46,8 +46,8 @@ public class InventoryGearTab : L2Tab
             }
             _gearSlots.Clear();
         }
-        _gearSlots = new Dictionary<ItemSlot, GearSlot>();
 
+        _gearSlots = new Dictionary<ItemSlot, GearSlot>();
         // Clean up gear anchors from any child visual element
         foreach (KeyValuePair<ItemSlot, VisualElement> kvp in _gearAnchors) {
             if (kvp.Value == null) {
@@ -62,7 +62,7 @@ public class InventoryGearTab : L2Tab
             VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
             kvp.Value.Add(slotElement);
 
-            GearSlot slot = new GearSlot((int)kvp.Key, kvp.Value, this);
+            GearSlot slot = new GearSlot((int)kvp.Key, slotElement, this);
             _gearSlots.Add(kvp.Key, slot);
         }
 
