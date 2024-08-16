@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class SMParam {
     public enum SMParamType {
         TYPE_SYSTEM_STRING = 13,

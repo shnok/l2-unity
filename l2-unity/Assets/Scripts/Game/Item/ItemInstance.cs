@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemInstance
@@ -15,6 +13,7 @@ public class ItemInstance
     [SerializeField] private ItemSlot _bodyPart;
     [SerializeField] private int _enchantLevel;
     [SerializeField] private long _remainingTime;
+    [SerializeField] private int _lastChange;
 
     public AbstractItem ItemData { get { return _itemData; } }
     public int ObjectId { get { return _objectId; } }
@@ -27,6 +26,7 @@ public class ItemInstance
     public ItemSlot BodyPart { get { return _bodyPart; } }
     public int EnchantLevel { get { return _enchantLevel; } }
     public long RemainingTime { get { return _remainingTime; } }
+    public int LastChange { get { return _lastChange; } set { _lastChange = value; } }
 
     public ItemInstance(int objectId, int itemId, ItemLocation location, int slot, int count, ItemCategory category, bool equipped, ItemSlot bodyPart, int enchantLevel, long remainingTime) {
         _objectId = objectId;
@@ -55,9 +55,26 @@ public class ItemInstance
         Debug.Log(this.ToString());
     }
 
+    public void Update(ItemInstance newItem) {
+        _location = newItem.Location;
+        _slot = newItem.Slot;
+        _count = newItem.Count;
+        _remainingTime = newItem.RemainingTime;
+        _enchantLevel = newItem.EnchantLevel;
+
+        if(_equipped == false && newItem.Equipped == true 
+        || _equipped == true && newItem.Equipped == false) {
+            AudioManager.Instance.PlayEquipSound(_itemData.Itemgrp.EquipSound);
+        } 
+
+        _equipped = newItem.Equipped;
+        _objectId = newItem.ObjectId;
+        _bodyPart = newItem.BodyPart;
+    }
+
     public override string ToString() {
         return $"New item: ServerId:{_objectId} ItemId:{_itemId} Location:{_location} Slot:{_slot} Count:{_count} " +
-        $"Cat:{_category} Equipped:{_equipped} Bodypart:{_bodyPart}";
+        $"Cat:{_category} Equipped:{_equipped} Bodypart:{_bodyPart} Change:{_lastChange}";
     }
 
     // Packet data

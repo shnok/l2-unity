@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -55,56 +54,56 @@ public class InventoryWindow : L2PopupWindow {
             Destroy(this);
         }
 
-        ///* TO REMOVE FOR TESTING ONLY */
-        //ItemTable.Instance.Initialize();
-        //ItemNameTable.Instance.Initialize();
-        //ItemStatDataTable.Instance.Initialize();
-        //ArmorgrpTable.Instance.Initialize();
-        //EtcItemgrpTable.Instance.Initialize();
-        //WeapongrpTable.Instance.Initialize();
-        //ItemTable.Instance.CacheItems();
-        //IconManager.Instance.Initialize();
-        //IconManager.Instance.CacheIcons();
+        // /* TO REMOVE FOR TESTING ONLY */
+        // ItemTable.Instance.Initialize();
+        // ItemNameTable.Instance.Initialize();
+        // ItemStatDataTable.Instance.Initialize();
+        // ArmorgrpTable.Instance.Initialize();
+        // EtcItemgrpTable.Instance.Initialize();
+        // WeapongrpTable.Instance.Initialize();
+        // ItemTable.Instance.CacheItems();
+        // IconManager.Instance.Initialize();
+        // IconManager.Instance.CacheIcons();
 
-        ///* TO REMOVE FOR TESTING ONLY */
-        //_playerItems = new List<ItemInstance> ();
+        // /* TO REMOVE FOR TESTING ONLY */
+        // _playerItems = new List<ItemInstance> ();
 
-        //_playerItems.Add(new ItemInstance(0, 28, ItemLocation.Inventory, 1, 1, ItemCategory.ShieldArmor, false, ItemSlot.legs, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 48, ItemLocation.Inventory, 2, 1, ItemCategory.ShieldArmor, false, ItemSlot.gloves, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 45, ItemLocation.Inventory, 3, 1, ItemCategory.ShieldArmor, false, ItemSlot.head, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 35, ItemLocation.Inventory, 4, 1, ItemCategory.ShieldArmor, false, ItemSlot.feet, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 21, ItemLocation.Inventory, 5, 1, ItemCategory.ShieldArmor, false, ItemSlot.chest, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 2, ItemLocation.Inventory, 6, 1, ItemCategory.Weapon, false, ItemSlot.rhand, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 20, ItemLocation.Inventory, 7, 1, ItemCategory.ShieldArmor, false, ItemSlot.lhand, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 28, ItemLocation.Inventory, 1, 1, ItemCategory.ShieldArmor, false, ItemSlot.legs, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 48, ItemLocation.Inventory, 2, 1, ItemCategory.ShieldArmor, false, ItemSlot.gloves, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 45, ItemLocation.Inventory, 3, 1, ItemCategory.ShieldArmor, false, ItemSlot.head, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 35, ItemLocation.Inventory, 4, 1, ItemCategory.ShieldArmor, false, ItemSlot.feet, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 21, ItemLocation.Inventory, 5, 1, ItemCategory.ShieldArmor, false, ItemSlot.chest, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 2, ItemLocation.Inventory, 6, 1, ItemCategory.Weapon, false, ItemSlot.rhand, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 20, ItemLocation.Inventory, 7, 1, ItemCategory.ShieldArmor, false, ItemSlot.lhand, 0, 0));
 
-        //_playerItems.Add(new ItemInstance(0, 57, ItemLocation.Inventory, 14, 69420, ItemCategory.Adena, false, ItemSlot.none, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 1835, ItemLocation.Inventory, 15, 69420, ItemCategory.Item, false, ItemSlot.none, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 3947, ItemLocation.Inventory, 16, 69420, ItemCategory.Item, false, ItemSlot.none, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 2509, ItemLocation.Inventory, 17, 69420, ItemCategory.Item, false, ItemSlot.none, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 736, ItemLocation.Inventory, 18, 69420, ItemCategory.Item, false, ItemSlot.none, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 57, ItemLocation.Inventory, 14, 69420, ItemCategory.Adena, false, ItemSlot.none, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 1835, ItemLocation.Inventory, 15, 69420, ItemCategory.Item, false, ItemSlot.none, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 3947, ItemLocation.Inventory, 16, 69420, ItemCategory.Item, false, ItemSlot.none, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 2509, ItemLocation.Inventory, 17, 69420, ItemCategory.Item, false, ItemSlot.none, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 736, ItemLocation.Inventory, 18, 69420, ItemCategory.Item, false, ItemSlot.none, 0, 0));
 
-        //_playerItems.Add(new ItemInstance(0, 118, ItemLocation.Inventory, 45, 1, ItemCategory.ShieldArmor, false, ItemSlot.neck, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 112, ItemLocation.Inventory, 46, 1, ItemCategory.ShieldArmor, false, ItemSlot.lear, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 112, ItemLocation.Inventory, 47, 1, ItemCategory.ShieldArmor, false, ItemSlot.rear, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 116, ItemLocation.Inventory, 48, 1, ItemCategory.ShieldArmor, false, ItemSlot.rfinger, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 116, ItemLocation.Inventory, 49, 1, ItemCategory.ShieldArmor, false, ItemSlot.lfinger, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 118, ItemLocation.Inventory, 45, 1, ItemCategory.ShieldArmor, false, ItemSlot.neck, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 112, ItemLocation.Inventory, 46, 1, ItemCategory.ShieldArmor, false, ItemSlot.lear, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 112, ItemLocation.Inventory, 47, 1, ItemCategory.ShieldArmor, false, ItemSlot.rear, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 116, ItemLocation.Inventory, 48, 1, ItemCategory.ShieldArmor, false, ItemSlot.rfinger, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 116, ItemLocation.Inventory, 49, 1, ItemCategory.ShieldArmor, false, ItemSlot.lfinger, 0, 0));
 
 
 
-        //// gear
-        //_playerItems.Add(new ItemInstance(0, 28,  ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true,  ItemSlot.legs, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 48, ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true,  ItemSlot.gloves, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 45,  ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true,  ItemSlot.head, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 35,  ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true,  ItemSlot.feet, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 21,  ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true,  ItemSlot.chest, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 4,  ItemLocation.Equipped, 0, 1, ItemCategory.Weapon, true,  ItemSlot.rhand, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 20,  ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true,  ItemSlot.lhand, 0, 0));
+        // // gear
+        // _playerItems.Add(new ItemInstance(0, 28,  ItemLocation.Equipped, (int)ItemSlot.legs, 1, ItemCategory.ShieldArmor, true,  ItemSlot.legs, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 48, ItemLocation.Equipped, (int)ItemSlot.gloves, 1, ItemCategory.ShieldArmor, true,  ItemSlot.gloves, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 45,  ItemLocation.Equipped, (int)ItemSlot.head, 1, ItemCategory.ShieldArmor, true,  ItemSlot.head, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 35,  ItemLocation.Equipped, (int)ItemSlot.feet, 1, ItemCategory.ShieldArmor, true,  ItemSlot.feet, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 21,  ItemLocation.Equipped, (int)ItemSlot.chest, 1, ItemCategory.ShieldArmor, true,  ItemSlot.chest, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 4,  ItemLocation.Equipped, (int)ItemSlot.rhand, 1, ItemCategory.Weapon, true,  ItemSlot.rhand, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 20,  ItemLocation.Equipped, (int)ItemSlot.lhand, 1, ItemCategory.ShieldArmor, true,  ItemSlot.lhand, 0, 0));
 
-        //_playerItems.Add(new ItemInstance(0, 118, ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true, ItemSlot.neck, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 112, ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true, ItemSlot.lear, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 112, ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true, ItemSlot.rear, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 116, ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true, ItemSlot.rfinger, 0, 0));
-        //_playerItems.Add(new ItemInstance(0, 116, ItemLocation.Equipped, 0, 1, ItemCategory.ShieldArmor, true, ItemSlot.lfinger, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 118, ItemLocation.Equipped, (int)ItemSlot.neck, 1, ItemCategory.ShieldArmor, true, ItemSlot.neck, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 112, ItemLocation.Equipped, (int)ItemSlot.lear, 1, ItemCategory.ShieldArmor, true, ItemSlot.lear, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 112, ItemLocation.Equipped, (int)ItemSlot.rear, 1, ItemCategory.ShieldArmor, true, ItemSlot.rear, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 116, ItemLocation.Equipped, (int)ItemSlot.rfinger, 1, ItemCategory.ShieldArmor, true, ItemSlot.rfinger, 0, 0));
+        // _playerItems.Add(new ItemInstance(0, 116, ItemLocation.Equipped, (int)ItemSlot.lfinger, 1, ItemCategory.ShieldArmor, true, ItemSlot.lfinger, 0, 0));
     }
 
     private void OnDestroy() {
@@ -115,7 +114,7 @@ public class InventoryWindow : L2PopupWindow {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryWindow");
         _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTab");
         _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTabHeader");
-        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/Slot");
+        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Template/Slot");
         _minimizedTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryMin");
     }
 
@@ -269,6 +268,8 @@ public class InventoryWindow : L2PopupWindow {
             SwitchTab(_tabs[0]);
         }
 
+        _tabs[0].MainTab = true;
+
         _gearTab = new InventoryGearTab();
         _gearTab.Initialize(_windowEle, null, null);
     }
@@ -337,5 +338,9 @@ public class InventoryWindow : L2PopupWindow {
         base.HideWindow();
 
         AudioManager.Instance.PlayUISound("inventory_close_01");
+    }
+
+    public void SelectSlot(int slot) {
+        _tabs[0].SelectSlot(slot);
     }
 }

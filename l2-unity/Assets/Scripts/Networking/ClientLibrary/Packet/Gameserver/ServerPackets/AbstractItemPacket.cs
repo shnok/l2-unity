@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public abstract class AbstractItemPacket : ServerPacket
 {
     protected AbstractItemPacket(byte[] d) : base(d) {

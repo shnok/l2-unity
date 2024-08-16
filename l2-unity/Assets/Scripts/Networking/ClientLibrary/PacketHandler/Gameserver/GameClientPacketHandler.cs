@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class GameClientPacketHandler : ClientPacketHandler
@@ -109,5 +111,19 @@ public class GameClientPacketHandler : ClientPacketHandler
 
         _client.SendPacket(packet);
     }
-}
 
+    public void UseItem(int objectId) {
+        UseItemPacket packet = new UseItemPacket(objectId);
+        SendPacket(packet);
+    }
+
+    public void UnEquipItem(int position) {
+        RequestUnEquipPacket packet = new RequestUnEquipPacket(position);
+        SendPacket(packet);
+    }
+
+    public void UpdateInventoryOrder(List<InventoryOrder> orders) {
+        RequestInventoryUpdateOrderPacket packet = new RequestInventoryUpdateOrderPacket(orders);
+        SendPacket(packet);
+    }
+}

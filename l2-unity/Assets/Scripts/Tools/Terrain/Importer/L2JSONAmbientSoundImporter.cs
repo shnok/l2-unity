@@ -1,6 +1,4 @@
 #if (UNITY_EDITOR) 
-using FMODUnity;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

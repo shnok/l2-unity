@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -225,7 +224,7 @@ public class ChatWindow : L2Window {
             //        ConcatMessage(_tabs[i].Content, message.ToString());
             //    }
             //}
-            ConcatMessage(_tabs[i].Content, message.ToString());
+            _tabs[i].AddMessage(message.ToString());
         }
     }
 
@@ -240,15 +239,8 @@ public class ChatWindow : L2Window {
             //        ConcatMessage(_tabs[i].Content, message.ToString());
             //    }
             //}
-            ConcatMessage(_tabs[i].Content, message.ToString());
+            _tabs[i].AddMessage(message.ToString());
         }
-    }
-
-    private void ConcatMessage(Label chatContent, string message) {
-        if(chatContent.text.Length > 0) {
-            chatContent.text += "\r\n";
-        }
-        chatContent.text += message;
     }
 
     internal void ScrollDown(Scroller scroller) {

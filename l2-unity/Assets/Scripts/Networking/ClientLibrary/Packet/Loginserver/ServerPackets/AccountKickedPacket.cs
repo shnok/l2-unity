@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class AccountKickedPacket : ServerPacket {
     public enum AccountKickedReason : byte {
         REASON_DATA_STEALER = 0x01,

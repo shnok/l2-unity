@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class LoginOkPacket : ServerPacket {
     private int _sessionKey1;
     private int _sessionKey2;

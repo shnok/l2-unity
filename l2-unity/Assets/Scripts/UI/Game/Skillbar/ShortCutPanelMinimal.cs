@@ -1,17 +1,6 @@
-using FMOD.Studio;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Rendering;
 using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
-using static UnityEngine.Rendering.DebugUI.MessageBox;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 
 public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
@@ -275,8 +264,8 @@ public class ShortCutPanelMinimal : MonoBehaviour , IShortCutButton
     {
         for (int i = 0; i < arrayPanels.Length; i++)
         {
-            //44 ширина short cut
-            //25 отступ от верхней границы экрана
+            //44 пїЅпїЅпїЅпїЅпїЅпїЅ short cut
+            //25 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             arrayPanels[i].transform.position = new Vector2(x_root - 22, y_root);
         }
 

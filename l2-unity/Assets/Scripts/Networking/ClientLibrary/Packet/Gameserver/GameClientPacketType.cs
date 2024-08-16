@@ -14,5 +14,7 @@ public enum GameClientPacketType : byte
     RequestAutoAttack = 0x0B,
     RequestCharSelect = 0x0C,
     RequestInventoryOpen = 0x0D,
-    RequestInventoryUpdateOrder = 0x0E
+    RequestInventoryUpdateOrder = 0x0E,
+    UseItem = 0x0F,
+    RequestUnEquip = 0x10
 }

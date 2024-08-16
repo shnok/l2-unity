@@ -1,18 +1,21 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class RequestInventoryUpdateOrderPacket : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class RequestInventoryUpdateOrderPacket : ClientPacket {
+    public RequestInventoryUpdateOrderPacket(int objectId, int slot) : base((byte)GameClientPacketType.RequestInventoryUpdateOrder) {
+        WriteI(1);
+        WriteI(objectId);
+        WriteI(slot);
+
+        BuildPacket();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public RequestInventoryUpdateOrderPacket(List<InventoryOrder> orders) : base((byte)GameClientPacketType.RequestInventoryUpdateOrder) {
+        WriteI(orders.Count);
+        orders.ForEach((order) => {
+            WriteI(order.ObjectId);
+            WriteI(order.Slot);
+        });
+
+        BuildPacket();
     }
 }

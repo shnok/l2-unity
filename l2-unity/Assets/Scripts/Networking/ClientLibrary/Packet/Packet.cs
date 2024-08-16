@@ -1,9 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System;
-using UnityEngine;
-
 public abstract class Packet {
     protected byte[] _packetData;
     protected byte _packetType;

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Hit
 {
     private static int HITFLAG_USESS = 0x10;
