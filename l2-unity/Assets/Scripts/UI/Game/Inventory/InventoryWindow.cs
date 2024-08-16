@@ -321,10 +321,10 @@ public class InventoryWindow : L2PopupWindow {
         _weightLabel.text = "00.00%";
 
         // Tabs
-        StartCoroutine(_gearTab.UpdateItemList(items));
+        _gearTab.UpdateItemList(items);
 
         _tabs.ForEach((tab) => {
-            StartCoroutine(tab.UpdateItemList(items));
+            tab.UpdateItemList(items);
         });
     }
 

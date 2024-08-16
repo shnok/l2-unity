@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -34,7 +33,7 @@ public class InventoryGearTab : L2Tab
         };
     }
 
-    public IEnumerator UpdateItemList(List<ItemInstance> items) {
+    public void UpdateItemList(List<ItemInstance> items) {
         Debug.Log("Update gear slots");
 
         // Clean up slot callbacks and manipulators
@@ -87,8 +86,6 @@ public class InventoryGearTab : L2Tab
             }
         });
 
-        yield return new WaitForEndOfFrame();
-        
         if(_selectedSlot != -1) {
             SelectSlot(_selectedSlot);
         }

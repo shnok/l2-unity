@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -20,7 +19,7 @@ public class InventoryTab : L2Tab {
         _contentContainer = tabContainer.Q<VisualElement>("Content");
     }
     
-    public IEnumerator UpdateItemList(List<ItemInstance> items) {
+    public void UpdateItemList(List<ItemInstance> items) {
         // Clear slots
         if(_inventorySlots != null) {
             foreach(InventorySlot slot in _inventorySlots) {
@@ -73,8 +72,6 @@ public class InventoryTab : L2Tab {
                 }
             }
         });
-
-        yield return new WaitForEndOfFrame();
         
         if(_selectedSlot != -1) {
             SelectSlot(_selectedSlot);
