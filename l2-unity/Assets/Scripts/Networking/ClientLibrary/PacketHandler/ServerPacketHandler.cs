@@ -18,22 +18,26 @@ public abstract class ServerPacketHandler
         _clientPacketHandler = clientPacketHandler;
     }
 
-    public async Task HandlePacketAsync(byte[] data, bool init) {
-        await Task.Run(() => {
-            if (_client.CryptEnabled) {
-                data = DecryptPacket(data);
+    public bool HandlePacketCrypto(byte[] data, bool init) {
+        if (_client.CryptEnabled) {
+            data = DecryptPacket(data);
 
-                if (init) {
-                    if (!DecodeXOR(data)) {
-                        Debug.LogError("Packet XOR could not be decoded.");
-                        return;
-                    }
-                } else if(!NewCrypt.verifyChecksum(data)) {
-                    Debug.LogError("Packet checksum is wrong. Ignoring packet...");
-                    return;
+            if (init) {
+                if (!DecodeXOR(data)) {
+                    Debug.LogError("Packet XOR could not be decoded.");
+                    return false;
                 }
+            } else if(!NewCrypt.verifyChecksum(data)) {
+                Debug.LogError("Packet checksum is wrong. Ignoring packet...");
+                return false;
             }
+        }
 
+        return true;
+    }
+    
+    public async Task HandlePacketAsync(byte[] data) {
+        await Task.Run(() => {
             HandlePacket(data);
         });
     }
