@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class InventorySlot : L2Slot
+public class InventorySlot : L2DraggableSlot
 {
     protected L2Tab _currentTab;
     private int _count;
     private long _remainingTime;
-    private TooltipManipulator _tooltipManipulator;
-    private SlotDragManipulator _slotDragManipulator;
     private SlotClickSoundManipulator _slotClickSoundManipulator;
     private int _objectId;
     private ItemCategory _itemCategory;
@@ -16,8 +14,8 @@ public class InventorySlot : L2Slot
     public long RemainingTime { get { return _remainingTime; } }
     public ItemCategory ItemCategory { get { return _itemCategory; } }
 
-    public InventorySlot(int position, VisualElement slotElement, L2Tab tab, bool handleMouseOver)
-    : base(slotElement, position, handleMouseOver)
+    public InventorySlot(int position, VisualElement slotElement, L2Tab tab, SlotType slotType) :
+    base(position, slotElement, slotType)
     {
         _currentTab = tab;
         _slotElement.AddToClassList("inventory-slot");
@@ -60,12 +58,6 @@ public class InventorySlot : L2Slot
         _slotBg.style.backgroundImage = background;
 
         AddTooltip(item);
-
-        if (_slotDragManipulator == null)
-        {
-            _slotDragManipulator = new SlotDragManipulator(_slotElement, this);
-            _slotElement.AddManipulator(_slotDragManipulator);
-        }
     }
 
     private void AddTooltip(ItemInstance item)
@@ -78,31 +70,15 @@ public class InventorySlot : L2Slot
             tooltipText = _name;
         }
 
-        if (_tooltipManipulator == null)
-        {
-            _tooltipManipulator = new TooltipManipulator(_slotElement, tooltipText);
-            _slotElement.AddManipulator(_tooltipManipulator);
-        }
-        else
+        if (_tooltipManipulator != null)
         {
             _tooltipManipulator.SetText(tooltipText);
         }
     }
 
-    public void ClearSlot()
+    public override void ClearManipulators()
     {
-        if (_tooltipManipulator != null)
-        {
-            _tooltipManipulator.Clear();
-            _slotElement.RemoveManipulator(_tooltipManipulator);
-            _tooltipManipulator = null;
-        }
-
-        if (_slotDragManipulator != null)
-        {
-            _slotElement.RemoveManipulator(_slotDragManipulator);
-            _slotDragManipulator = null;
-        }
+        base.ClearManipulators();
 
         if (_slotClickSoundManipulator != null)
         {

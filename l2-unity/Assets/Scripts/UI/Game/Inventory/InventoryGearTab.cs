@@ -46,7 +46,7 @@ public class InventoryGearTab : L2Tab
                 if (kvp.Value != null)
                 {
                     kvp.Value.UnregisterCallbacks();
-                    kvp.Value.ClearSlot();
+                    kvp.Value.ClearManipulators();
                 }
             }
             _gearSlots.Clear();
@@ -69,7 +69,7 @@ public class InventoryGearTab : L2Tab
             VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
             kvp.Value.Add(slotElement);
 
-            GearSlot slot = new GearSlot((int)kvp.Key, slotElement, this);
+            GearSlot slot = new GearSlot((int)kvp.Key, slotElement, this, L2Slot.SlotType.Gear);
             _gearSlots.Add(kvp.Key, slot);
         }
 
