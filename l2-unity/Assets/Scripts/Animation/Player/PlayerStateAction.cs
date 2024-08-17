@@ -19,9 +19,9 @@ public class PlayerStateAction : PlayerStateBase
             if (InputManager.Instance.IsInputPressed(InputType.Jump)) {
                 CameraController.Instance.StickToBone = true;
                 if (run) {
-                    SetBool("run_jump", true);
+                    SetBool("run_jump", false, true);
                 } else {
-                    SetBool("jump", true);
+                    SetBool("jump", false, true);
                 }
                 return true;
             }
@@ -32,7 +32,7 @@ public class PlayerStateAction : PlayerStateBase
 
     protected bool ShouldRun() {
         if (PlayerStateMachine.Instance.State == PlayerState.RUNNING) {
-            SetBool("run_" + _weaponAnim, true);
+            SetBool("run", true, true);
             return true;
         }
 
@@ -41,7 +41,7 @@ public class PlayerStateAction : PlayerStateBase
 
     protected bool ShouldIdle() {
         if (PlayerStateMachine.Instance.State == PlayerState.IDLE) {
-            SetBool("wait_" + _weaponAnim, true);
+            SetBool("wait", true, true);
             return true;
         }
 
@@ -59,7 +59,7 @@ public class PlayerStateAction : PlayerStateBase
 
     protected bool ShouldDie() {
         if (PlayerStateMachine.Instance.State == PlayerState.DEAD) {
-            SetBool("death", true);
+            SetBool("death", false, true);
             return true;
         }
 
@@ -84,7 +84,7 @@ public class PlayerStateAction : PlayerStateBase
         if (PlayerStateMachine.Instance.State == PlayerState.IDLE
              && now - _entity.StopAutoAttackTime < 5000) {
             if (PlayerEntity.Instance.AttackTarget == null) {
-                SetBool("atkwait_" + _weaponAnim, true, false);
+                SetBool("atkwait", true, true, false);
                 return true;
             }
         }

@@ -21,4 +21,18 @@ public class PlayerAppearance : Appearance {
     public int Legs { get { return _legs; } set { _legs = value; } }
     public int Gloves { get { return _gloves; } set { _gloves = value; } }
     public int Feet { get { return _feet; } set { _feet = value; } }
+
+    public void UpdateAppearance(PlayerAppearance appearance) {
+        base.UpdateAppearance(appearance);
+        
+        _race = appearance.Race;
+        _sex = appearance.Sex;
+        _face = appearance.Face;
+        _hairStyle = appearance.HairStyle;
+        _hairColor = appearance.HairColor;
+        _chest = appearance.Chest;
+        _legs = appearance.Legs;
+        _gloves = appearance.Gloves;
+        _feet = appearance.Feet;
+    }
 }

@@ -2,8 +2,6 @@ using UnityEngine;
 
 [System.Serializable]
 public class PlayerStats : Stats {
-
-
     [SerializeField] private int _pAtk;
     [SerializeField] private int _mAtk;
     [SerializeField] private int _pEvasion;
@@ -64,5 +62,38 @@ public class PlayerStats : Stats {
     public int PvpKills { get { return _pvpKills; } set { _pvpKills = value; } }
     public int PkKills { get { return _pkKills; } set { _pkKills = value; } }
 
-    // ... TODO: add extra stats
+    public void UpdateStats(PlayerStats stats) {
+        base.UpdateStats(stats);
+
+        _pAtk = stats.PAtk;
+        _mAtk = stats.MAtk;
+        _pEvasion = stats.PEvasion;
+        _mEvasion = stats.MEvasion;
+        _pAccuracy = stats.PAccuracy;
+        _mAccuracy = stats.MAccuracy;
+        _pCritical = stats.PCritical;
+        _mCritical = stats.MCritical;
+        _mDef = stats.MDef;
+        _pDef = stats.PDef;
+        _shieldDef = stats.ShieldDef;
+
+        _exp = stats.Exp;
+        _maxExp = stats.MaxExp;
+        _sp = stats.Sp;
+
+        _currWeight = stats.CurrWeight;
+        _maxWeight = stats.MaxWeight;
+
+        _attackRange = stats.AttackRange;
+        _con = stats.Con;
+        _dex = stats.Dex;
+        _str = stats.Str;
+        _wit = stats.Wit;
+        _men = stats.Men;
+        _int = stats.Int;
+
+        _karma = stats.Karma;
+        _pvpKills = stats.PvpKills;
+        _pkKills = stats.PkKills;
+    }
 }

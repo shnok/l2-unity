@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStateAtkWait : PlayerStateAction {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
-        SetBool("atkwait_" + _weaponAnim, false, false);
+        SetBool("atkwait", true, false, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -16,7 +16,7 @@ public class PlayerStateAtkWait : PlayerStateAction {
         }
 
         if (ShouldAttack()) {
-            SetBool("atk01_" + _gear.WeaponAnim, true, false);
+            SetBool("atk01", true, true, false);
             return;
         }
 
@@ -46,6 +46,6 @@ public class PlayerStateAtkWait : PlayerStateAction {
             return;
         }
 
-        SetBool("atkwait_" + _weaponAnim, false, false);
+        SetBool("atkwait", true, false, false);
     }
 }

@@ -51,7 +51,31 @@ public class UserGear : Gear
         return _shieldBone;
     }
 
+    public bool IsArmorAlreadyEquipped(int itemId, ItemSlot slot) {
+        //Debug.Log($"IsArmorAlreadyEquipped ({itemId},{slot})");
+        
+        switch(slot) {
+            case ItemSlot.chest:
+                return itemId == _torsoMeta.Id;
+            case ItemSlot.fullarmor:
+                return itemId == _fullarmorMeta.Id;
+            case ItemSlot.legs:
+                return itemId == _legsMeta.Id;
+            case ItemSlot.gloves:
+                return itemId == _glovesMeta.Id;
+            case ItemSlot.feet:
+                return itemId == _bootsMeta.Id;
+        }
+
+        return true;
+    }
+
     public void EquipArmor(int itemId, ItemSlot slot) {
+        if(IsArmorAlreadyEquipped(itemId, slot)) {
+            Debug.Log($"Item {itemId} is already equipped in slot {slot}.");
+            return;
+        }
+
         Armor armor = ItemTable.Instance.GetArmor(itemId);
         if (armor == null) {
             Debug.LogWarning($"Can't find armor {itemId} in ItemTable");
@@ -66,6 +90,8 @@ public class UserGear : Gear
 
         GameObject mesh = Instantiate(armorPiece.baseArmorModel);
         mesh.GetComponentInChildren<SkinnedMeshRenderer>().material = armorPiece.material;
+
+        Debug.LogWarning("Instantiate new armor piece");
 
         SetArmorPiece(armor, mesh, slot);
     }

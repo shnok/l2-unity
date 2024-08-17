@@ -93,7 +93,23 @@ public class World : MonoBehaviour {
         }
     }
 
-    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance) {
+    public void OnReceivePlayerInfo(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance) {
+        // Dont need to block thread
+        Debug.LogWarning("OnReceivePlayerInfo");
+        Task task = new Task(async () => {
+            var entity = await GetEntityAsync(identity.Id);
+
+            if(entity == null) {
+                _eventProcessor.QueueEvent(() => SpawnPlayer(identity, status, stats, appearance));
+            } else {
+                Debug.LogWarning("UpdatePlayer");
+               _eventProcessor.QueueEvent(() => UpdatePlayer(entity, identity, status, stats, appearance));
+            }
+        });
+        task.Start();
+    }
+
+    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance) { 
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.Player;
 
@@ -124,17 +140,26 @@ public class World : MonoBehaviour {
 
         player.Initialize();
 
-        //go.transform.SetParent(_usersContainer.transform);
-
         CameraController.Instance.enabled = true;
         CameraController.Instance.SetTarget(go);
-
-        //ChatWindow.Instance.ReceiveChatMessage(new MessageLoggedIn(identity.Name));
 
         CharacterInfoWindow.Instance.UpdateValues();
 
         _players.Add(identity.Id, player);
         _objects.Add(identity.Id, player);
+    }
+
+    public void UpdatePlayer(Entity entity, NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance) {
+        ((PlayerEntity)entity).Identity.UpdateEntity(identity);
+        ((PlayerStatus)entity.Status).UpdateStatus(status);
+        ((PlayerStats)entity.Stats).UpdateStats(stats);
+        ((PlayerAppearance) entity.Appearance).UpdateAppearance(appearance);
+
+        entity.UpdatePAtkSpeed(stats.PAtkSpd);
+        entity.UpdateMAtkSpeed(stats.MAtkSpd);
+        entity.UpdateSpeed(stats.Speed);
+        entity.EquipAllWeapons();
+        ((PlayerEntity)entity).EquipAllArmors();
     }
 
     public void SpawnUser(NetworkIdentity identity, Status status, Stats stats, PlayerAppearance appearance) {

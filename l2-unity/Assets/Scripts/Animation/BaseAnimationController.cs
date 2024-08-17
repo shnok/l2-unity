@@ -8,11 +8,13 @@ public class BaseAnimationController : MonoBehaviour
     [SerializeField] protected float _spAtk01ClipLength = 1000;
     [SerializeField] protected Dictionary<string, float> _atkClipLengths;
 
+    private string _lastAnimationVariableName;
     private float _lastAtkClipLength;
     private float _pAtkSpd;
 
     public virtual void Initialize() {
         _animator = gameObject.GetComponentInChildren<Animator>(true);
+        _lastAnimationVariableName = "wait_hand";
     }
 
     public void SetMoveSpeed(float value) {
@@ -37,6 +39,7 @@ public class BaseAnimationController : MonoBehaviour
         _animator.SetFloat("matkspd", newMAtkSpd);
     }
 
+    // Set all animation variables to false
     public void ClearAnimParams() {
         for (int i = 0; i < _animator.parameters.Length; i++) {
             AnimatorControllerParameter anim = _animator.parameters[i];
@@ -46,17 +49,46 @@ public class BaseAnimationController : MonoBehaviour
         }
     }
 
+    public void WeaponAnimChanged(string newWeaponAnim) {
+        ClearAnimParams();
+
+        if(!_lastAnimationVariableName.Contains("_")) {
+            Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationVariableName}");
+            // The last animation was not a weapon animation
+            return;
+        }
+
+        string[] parts = _lastAnimationVariableName.Split("_");
+        if(parts.Length < 1) {
+            // Should not happen
+            Debug.LogWarning($"Error while parsing previous animation name: {_lastAnimationVariableName}");
+            return;
+        }
+
+        string newAnimation = parts[0] + "_" + newWeaponAnim;
+        Debug.LogWarning($"New animation name: {newAnimation}");
+        SetBool(newAnimation, true);
+    }
+
     public void SetBool(string name, bool value) {
         //if (value != _animator.GetBool(name)) {
         //    Debug.LogWarning($"Set bool {name}={value}");
         //}
+
+        // Save the last animation name
+        if(value == true) {
+            _lastAnimationVariableName = name;
+        }
+
         _animator.SetBool(name, value);
     }
 
+    // Update animator variable based on Animation Id
     public void SetAnimationProperty(int animId, float value) {
         SetAnimationProperty(animId, value, false);
     }
 
+    // Update animator variable based on Animation Id
     public void SetAnimationProperty(int animId, float value, bool forceReset) {
         //Debug.Log("animId " + animId + "/" + _animator.parameters.Length);
         if (animId >= 0 && animId < _animator.parameters.Length) {
@@ -74,7 +106,7 @@ public class BaseAnimationController : MonoBehaviour
                     _animator.SetInteger(anim.name, (int)value);
                     break;
                 case AnimatorControllerParameterType.Bool:
-                    _animator.SetBool(anim.name, value == 1f);
+                    SetBool(anim.name, value == 1f);
                     break;
                 case AnimatorControllerParameterType.Trigger:
                     _animator.SetTrigger(anim.name);
@@ -83,6 +115,7 @@ public class BaseAnimationController : MonoBehaviour
         }
     }
 
+    // Return an animator variable based on its ID
     public float GetAnimationProperty(int animId) {
         if (animId >= 0 && animId < _animator.parameters.Length) {   
             AnimatorControllerParameter anim = _animator.parameters[animId];

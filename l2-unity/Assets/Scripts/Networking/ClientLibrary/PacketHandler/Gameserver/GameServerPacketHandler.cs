@@ -196,11 +196,21 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnPlayerInfoReceive(byte[] data) {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        _eventProcessor.QueueEvent(() => {
-            GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
-
-            GameManager.Instance.OnCharacterSelect();
-        });
+        if(GameManager.Instance.GameState != GameState.IN_GAME) {
+            _eventProcessor.QueueEvent(() => {
+                GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
+                GameManager.Instance.OnCharacterSelect();
+            });
+        } else {
+            _eventProcessor.QueueEvent(() => {
+                GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
+            });
+            World.Instance.OnReceivePlayerInfo(
+                packet.PacketPlayerInfo.Identity,
+                packet.PacketPlayerInfo.Status, 
+                packet.PacketPlayerInfo.Stats, 
+                packet.PacketPlayerInfo.Appearance);
+        }
     }
 
     private void OnUserInfoReceive(byte[] data) {
