@@ -91,8 +91,6 @@ public class UserGear : Gear
         GameObject mesh = Instantiate(armorPiece.baseArmorModel);
         mesh.GetComponentInChildren<SkinnedMeshRenderer>().material = armorPiece.material;
 
-        Debug.LogWarning("Instantiate new armor piece");
-
         SetArmorPiece(armor, mesh, slot);
     }
 

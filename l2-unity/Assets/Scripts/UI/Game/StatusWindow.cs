@@ -22,23 +22,30 @@ public class StatusWindow : L2Window
     private static StatusWindow _instance;
     public static StatusWindow Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _instance = null;
     }
 
-    protected override void LoadAssets() {
+    protected override void LoadAssets()
+    {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/StatusWindow");
     }
 
-    protected override IEnumerator BuildWindow(VisualElement root) {
+    protected override IEnumerator BuildWindow(VisualElement root)
+    {
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
@@ -53,68 +60,81 @@ public class StatusWindow : L2Window
         horizontalResizeHandle.AddManipulator(horizontalResize);
 
         _nameLabel = (Label)GetElementById("PlayerNameText");
-        if(_nameLabel == null) {
+        if (_nameLabel == null)
+        {
             Debug.LogError("Status window PlayerNameText is null.");
         }
 
         _levelLabel = (Label)GetElementById("LevelText");
-        if(_levelLabel == null) {
+        if (_levelLabel == null)
+        {
             Debug.LogError("Status window LevelText is null.");
         }
 
         _CPTextLabel = (Label)GetElementById("CPText");
-        if(_CPTextLabel == null) {
+        if (_CPTextLabel == null)
+        {
             Debug.LogError("Status window CPText is null.");
         }
 
         _HPTextLabel = (Label)GetElementById("HPText");
-        if(_HPTextLabel == null) {
+        if (_HPTextLabel == null)
+        {
             Debug.LogError("Status window Hp text is null.");
         }
 
         _MPTextLabel = (Label)GetElementById("MPText");
-        if(_MPTextLabel == null) {
+        if (_MPTextLabel == null)
+        {
             Debug.LogError("Status window MPText is null.");
         }
 
         _CPBarBG = GetElementById("CPBarBG");
-        if(_CPBarBG == null) {
+        if (_CPBarBG == null)
+        {
             Debug.LogError("Status window CPBarBG is null");
         }
 
         _CPBar = GetElementById("CPBar");
-        if(_CPBar == null) {
+        if (_CPBar == null)
+        {
             Debug.LogError("Status window CPBar is null");
         }
 
         _HPBar = GetElementById("HPBar");
-        if(_HPBar == null) {
+        if (_HPBar == null)
+        {
             Debug.LogError("Status window HPBar is null");
         }
 
         _HPBarBG = GetElementById("HPBarBG");
-        if(_HPBarBG == null) {
+        if (_HPBarBG == null)
+        {
             Debug.LogError("Status window HPBarBG is null");
         }
 
         _MPBarBG = GetElementById("MPBarBG");
-        if(_MPBarBG == null) {
+        if (_MPBarBG == null)
+        {
             Debug.LogError("Status window MPBarBG is null");
         }
 
         _MPBar = GetElementById("MPBar");
-        if(_MPBar == null) {
+        if (_MPBar == null)
+        {
             Debug.LogError("Status windowar MPBar is null");
         }
     }
 
     void FixedUpdate()
     {
-        if(PlayerEntity.Instance == null) { 
-            return; 
+        if (PlayerEntity.Instance == null)
+        {
+            return;
         }
 
-        if(!(PlayerEntity.Instance.Status is PlayerStatus)) {
+        if (!(PlayerEntity.Instance.Status is PlayerStatus))
+        {
             Debug.LogWarning("Player status is not of type playerstatus");
             return;
         }
@@ -122,45 +142,65 @@ public class StatusWindow : L2Window
         PlayerStatus status = (PlayerStatus)PlayerEntity.Instance.Status;
         PlayerStats stats = (PlayerStats)PlayerEntity.Instance.Stats;
 
-        if (_levelLabel != null) {
+        if (_levelLabel != null)
+        {
             _levelLabel.text = stats.Level.ToString();
         }
 
-        if(_nameLabel != null) {
+        if (_nameLabel != null)
+        {
             _nameLabel.text = PlayerEntity.Instance.Identity.Name;
         }
 
-        if(_CPTextLabel != null) {
+        if (_CPTextLabel != null)
+        {
             _CPTextLabel.text = status.Cp + "/" + stats.MaxCp;
         }
 
-        if(_HPTextLabel != null) {
+        if (_HPTextLabel != null)
+        {
             _HPTextLabel.text = status.Hp + "/" + stats.MaxHp;
         }
 
-        if(_MPTextLabel != null) {
+        if (_MPTextLabel != null)
+        {
             _MPTextLabel.text = status.Mp + "/" + stats.MaxMp;
         }
 
-        if(_CPBarBG != null && _CPBar != null) {
+        if (_CPBarBG != null && _CPBar != null)
+        {
             float cpRatio = (float)status.Cp / stats.MaxCp;
             float bgWidth = _CPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * cpRatio;
             _CPBar.style.width = barWidth;
         }
 
-        if(_HPBarBG != null && _HPBar != null) {
+        if (_HPBarBG != null && _HPBar != null)
+        {
             float hpRatio = (float)status.Hp / stats.MaxHp;
             float bgWidth = _HPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * hpRatio;
             _HPBar.style.width = barWidth;
         }
 
-        if(_MPBarBG != null && _MPBar != null) {
+        if (_MPBarBG != null && _MPBar != null)
+        {
             float mpRatio = (float)status.Mp / stats.MaxMp;
             float bgWidth = _MPBarBG.resolvedStyle.width;
             float barWidth = bgWidth * mpRatio;
             _MPBar.style.width = barWidth;
         }
+    }
+
+    public override void ShowWindow()
+    {
+        base.ShowWindow();
+        AudioManager.Instance.PlayUISound("window_open");
+    }
+
+    public override void HideWindow()
+    {
+        base.HideWindow();
+        AudioManager.Instance.PlayUISound("window_close");
     }
 }

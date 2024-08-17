@@ -52,7 +52,7 @@ public abstract class L2Window : MonoBehaviour {
         _isWindowHidden = true;
         _windowEle.style.display = DisplayStyle.None;
         _mouseOverDetection.Disable();
-    }
+	}
 
     public virtual void ShowWindow() {
         _isWindowHidden = false;
@@ -60,9 +60,9 @@ public abstract class L2Window : MonoBehaviour {
         _mouseOverDetection.Enable();
     }
 
-    public void ToggleHideWindow() {
+    public virtual void ToggleHideWindow() {
         if(_isWindowHidden) {
-            GameClient.Instance.ClientPacketHandler.SendRequestOpenInventory();
+            ShowWindow();
         } else {
             HideWindow();
         }

@@ -9,7 +9,8 @@ public class InventoryGearTab : L2Tab
     private Dictionary<ItemSlot, VisualElement> _gearAnchors;
     [SerializeField] private int _selectedSlot = -1;
 
-    public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader) {
+    public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader)
+    {
         base.Initialize(chatWindowEle, tabContainer, tabHeader);
 
         _selectedSlot = -1;
@@ -33,13 +34,17 @@ public class InventoryGearTab : L2Tab
         };
     }
 
-    public void UpdateItemList(List<ItemInstance> items) {
+    public void UpdateItemList(List<ItemInstance> items)
+    {
         //Debug.Log("Update gear slots");
 
         // Clean up slot callbacks and manipulators
-        if(_gearSlots != null) {
-            foreach (KeyValuePair<ItemSlot, GearSlot> kvp in _gearSlots) {
-                if (kvp.Value != null) {
+        if (_gearSlots != null)
+        {
+            foreach (KeyValuePair<ItemSlot, GearSlot> kvp in _gearSlots)
+            {
+                if (kvp.Value != null)
+                {
                     kvp.Value.UnregisterCallbacks();
                     kvp.Value.ClearSlot();
                 }
@@ -49,8 +54,10 @@ public class InventoryGearTab : L2Tab
 
         _gearSlots = new Dictionary<ItemSlot, GearSlot>();
         // Clean up gear anchors from any child visual element
-        foreach (KeyValuePair<ItemSlot, VisualElement> kvp in _gearAnchors) {
-            if (kvp.Value == null) {
+        foreach (KeyValuePair<ItemSlot, VisualElement> kvp in _gearAnchors)
+        {
+            if (kvp.Value == null)
+            {
                 Debug.LogWarning($"Inventory gear slot {kvp.Key} is null.");
                 continue;
             }
@@ -66,36 +73,49 @@ public class InventoryGearTab : L2Tab
             _gearSlots.Add(kvp.Key, slot);
         }
 
-        items.ForEach(item => {
-            if (item.Equipped) {
+        items.ForEach(item =>
+        {
+            if (item.Equipped)
+            {
                 //Debug.Log("Equip item: " + item);
-                if(item.BodyPart == ItemSlot.lrhand) {
+                if (item.BodyPart == ItemSlot.lrhand)
+                {
                     _gearSlots[ItemSlot.lhand].AssignItem(item);
                     _gearSlots[ItemSlot.rhand].AssignItem(item);
-                } else if(item.BodyPart == ItemSlot.fullarmor) {
+                }
+                else if (item.BodyPart == ItemSlot.fullarmor)
+                {
                     _gearSlots[ItemSlot.chest].AssignItem(item);
                     _gearSlots[ItemSlot.legs].AssignItem(item);
-                } else {
+                }
+                else
+                {
                     ItemSlot slot = (ItemSlot)item.Slot;
-                    if(slot != ItemSlot.none) {
+                    if (slot != ItemSlot.none)
+                    {
                         _gearSlots[(ItemSlot)item.Slot].AssignItem(item);
-                    } else {
+                    }
+                    else
+                    {
                         Debug.LogError("Can't equip item, assigned slot is " + slot);
                     }
                 }
             }
         });
 
-        if(_selectedSlot != -1) {
+        if (_selectedSlot != -1)
+        {
             SelectSlot(_selectedSlot);
         }
     }
 
-    public override void SelectSlot(int slotPosition) {
-        if (_selectedSlot != -1) {
-            _gearSlots[(ItemSlot) _selectedSlot].UnSelect();
+    public override void SelectSlot(int slotPosition)
+    {
+        if (_selectedSlot != -1)
+        {
+            _gearSlots[(ItemSlot)_selectedSlot].UnSelect();
         }
-        _gearSlots[(ItemSlot) slotPosition].SetSelected();
+        _gearSlots[(ItemSlot)slotPosition].SetSelected();
         _selectedSlot = slotPosition;
     }
 }
