@@ -34,7 +34,7 @@ public class InventoryGearTab : L2Tab
     }
 
     public void UpdateItemList(List<ItemInstance> items) {
-        Debug.Log("Update gear slots");
+        //Debug.Log("Update gear slots");
 
         // Clean up slot callbacks and manipulators
         if(_gearSlots != null) {
@@ -68,7 +68,7 @@ public class InventoryGearTab : L2Tab
 
         items.ForEach(item => {
             if (item.Equipped) {
-                Debug.Log("Equip item: " + item);
+                //Debug.Log("Equip item: " + item);
                 if(item.BodyPart == ItemSlot.lrhand) {
                     _gearSlots[ItemSlot.lhand].AssignItem(item);
                     _gearSlots[ItemSlot.rhand].AssignItem(item);
