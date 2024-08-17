@@ -85,8 +85,7 @@ public class SkillLearn : L2Window
         return _menuItems;
     }
 
-    public void ToggleHideWindow()
-    {
+    public void ToggleHideWindow_() {
         HideElements(!isHide);
     }
 

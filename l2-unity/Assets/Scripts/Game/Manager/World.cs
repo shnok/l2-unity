@@ -162,6 +162,22 @@ public class World : MonoBehaviour {
         ((PlayerEntity)entity).EquipAllArmors();
     }
 
+    public void OnReceiveUserInfo(NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance) {
+        // Dont need to block thread
+        Debug.LogWarning("OnReceiveUserInfo");
+        Task task = new Task(async () => {
+            var entity = await GetEntityAsync(identity.Id);
+
+            if(entity == null) {
+                _eventProcessor.QueueEvent(() => SpawnUser(identity, status, stats, appearance));
+            } else {
+                Debug.LogWarning("UpdatePlayer");
+               _eventProcessor.QueueEvent(() => UpdateUser(entity, identity, status, stats, appearance));
+            }
+        });
+        task.Start();
+    }
+
     public void SpawnUser(NetworkIdentity identity, Status status, Stats stats, PlayerAppearance appearance) {
         Debug.Log("Spawn User");
         identity.SetPosY(GetGroundHeight(identity.Position));
@@ -197,6 +213,19 @@ public class World : MonoBehaviour {
 
         _players.Add(identity.Id, user);
         _objects.Add(identity.Id, user);
+    }
+
+    public void UpdateUser(Entity entity, NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance) {
+        ((UserEntity)entity).Identity.UpdateEntity(identity);
+        ((PlayerStatus)entity.Status).UpdateStatus(status);
+        entity.Stats.UpdateStats(stats);
+        ((PlayerAppearance) entity.Appearance).UpdateAppearance(appearance);
+
+        entity.UpdatePAtkSpeed(stats.PAtkSpd);
+        entity.UpdateMAtkSpeed(stats.MAtkSpd);
+        entity.UpdateSpeed(stats.Speed);
+        entity.EquipAllWeapons();
+        ((UserEntity)entity).EquipAllArmors();
     }
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status, Stats stats) {

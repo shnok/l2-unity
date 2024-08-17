@@ -12,7 +12,6 @@ public class InventorySlot : L2Slot
     private int _objectId;
     private ItemCategory _itemCategory;
     protected bool _empty = true;
-    private bool _mainTab = false;
 
     public int Count { get { return _count; } }
     public long RemainingTime { get { return _remainingTime; } }

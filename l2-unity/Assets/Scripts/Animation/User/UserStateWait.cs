@@ -7,7 +7,7 @@ public class UserStateWait : UserStateAction {
             return;
         }
 
-        SetBool("wait_" + _weaponAnim, false);
+        SetBool("wait", true, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -15,10 +15,10 @@ public class UserStateWait : UserStateAction {
             return;
         }
 
-        SetBool("wait_" + _weaponAnim, false);
+        SetBool("wait", true, false);
 
         if (IsMoving()) {
-            SetBool("run_" + _weaponAnim, true);
+            SetBool("run", true, true);
         }
     }
 

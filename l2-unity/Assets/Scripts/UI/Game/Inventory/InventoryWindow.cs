@@ -16,7 +16,6 @@ public class InventoryWindow : L2PopupWindow {
     private VisualElement _minimizedInventoryBtn;
     private InventoryTab _activeTab;
 
-    [SerializeField] private bool _minimized = false;
     private MouseOverDetectionManipulator _minimizedInventoryMouseOverManipulator;
     private DragManipulator _minimizedInventoryDragManipulator;
     [SerializeField] private bool _expanded = false;
@@ -121,7 +120,6 @@ public class InventoryWindow : L2PopupWindow {
     protected override void InitWindow(VisualElement root) {
         base.InitWindow(root);
 
-        _minimized = false;
         _expanded = false;
 
         var dragArea = GetElementByClass("drag-area");
@@ -220,7 +218,6 @@ public class InventoryWindow : L2PopupWindow {
             _minimizedInventoryBtn.AddToClassList("minimized");
             _minimizedInventoryMouseOverManipulator.Enable();
             HideWindow();
-            _minimized = true;
         }
     }
 
@@ -231,7 +228,6 @@ public class InventoryWindow : L2PopupWindow {
                 _minimizedInventoryBtn.RemoveFromClassList("minimized");
                 _minimizedInventoryMouseOverManipulator.Disable();
                 ShowWindow();
-                _minimized = false;
             }
         }
     }

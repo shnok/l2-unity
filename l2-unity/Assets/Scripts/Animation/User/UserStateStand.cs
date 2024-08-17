@@ -9,7 +9,7 @@ public class UserStateStand : UserStateBase {
             return;
         }
 
-        SetBool("stand", false);
+        SetBool("stand", false, false);
         _lastNormalizedTime = 0;
         _audioHandler.PlaySound(CharacterSoundEvent.Standup);
     }
@@ -19,10 +19,10 @@ public class UserStateStand : UserStateBase {
             return;
         }
 
-        SetBool("stand", false);
+        SetBool("stand", false, false);
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            SetBool("wait_" + _weaponAnim, true);
+            SetBool("wait", true, true);
         }
     }
 

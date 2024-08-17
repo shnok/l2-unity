@@ -7,7 +7,7 @@ public class UserStateDead : UserStateBase {
             return;
         }
 
-        SetBool("death", false);
+        SetBool("death", false, false);
         PlaySoundAtRatio(CharacterSoundEvent.Death, _audioHandler.DeathRatio);
     }
 
@@ -16,7 +16,7 @@ public class UserStateDead : UserStateBase {
             return;
         }
 
-        SetBool("death", false);
+        SetBool("death", false, false);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
