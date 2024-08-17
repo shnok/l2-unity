@@ -121,11 +121,19 @@ public class InventorySlot : L2Slot
         UseItem();
     }
 
+    protected override void HandleMiddleClick()
+    {
+        if (!_empty)
+        {
+            PlayerInventory.Instance.DestroyItem(_objectId, 1);
+        }
+    }
+
     public virtual void UseItem()
     {
         if (!_empty)
         {
-            GameClient.Instance.ClientPacketHandler.UseItem(_objectId);
+            PlayerInventory.Instance.UseItem(_objectId);
         }
     }
 }

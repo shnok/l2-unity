@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-public class L2Slot {
+public class L2Slot
+{
     [SerializeField] protected int _id;
     [SerializeField] protected int _position;
     protected string _name;
@@ -19,7 +20,8 @@ public class L2Slot {
     public VisualElement SlotBg { get { return _slotBg; } }
     public VisualElement SlotElement { get { return _slotElement; } }
 
-    public L2Slot(VisualElement slotElement, int position, int id, string name, string description, string icon) {
+    public L2Slot(VisualElement slotElement, int position, int id, string name, string description, string icon)
+    {
         _slotElement = slotElement;
         _position = position;
         _id = id;
@@ -30,7 +32,8 @@ public class L2Slot {
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
     }
 
-    public L2Slot(VisualElement slotElement, int position, bool handleMouseOver) {
+    public L2Slot(VisualElement slotElement, int position, bool handleMouseOver)
+    {
         _slotElement = slotElement;
         _position = position;
 
@@ -39,45 +42,61 @@ public class L2Slot {
         RegisterCallbacks(handleMouseOver);
     }
 
-    protected void HandleSlotClick(MouseDownEvent evt) {
-        if (evt.button == 0) {
+    protected void HandleSlotClick(MouseDownEvent evt)
+    {
+        if (evt.button == 0)
+        {
             HandleLeftClick();
-        } else if (evt.button == 1) {
+        }
+        else if (evt.button == 1)
+        {
             HandleRightClick();
+        }
+        else
+        {
+            HandleMiddleClick();
         }
     }
 
-    protected void RegisterCallbacks(bool handleMouseOver) {
+    protected void RegisterCallbacks(bool handleMouseOver)
+    {
         _slotElement.RegisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
-        if(handleMouseOver) {
+        if (handleMouseOver)
+        {
             _slotElement.RegisterCallback<PointerOverEvent>(PointerOverHandler);
             _slotElement.RegisterCallback<PointerOutEvent>(PointerOutHandler);
         }
     }
 
-    public void UnregisterCallbacks() {
+    public void UnregisterCallbacks()
+    {
         _slotElement.UnregisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
         _slotElement.UnregisterCallback<PointerOverEvent>(PointerOverHandler);
         _slotElement.UnregisterCallback<PointerOutEvent>(PointerOutHandler);
     }
 
-    public void PointerOverHandler(PointerOverEvent evt) {
+    public void PointerOverHandler(PointerOverEvent evt)
+    {
         L2SlotManager.Instance.SetHoverSlot(this);
     }
 
-    public void PointerOutHandler(PointerOutEvent evt) {
+    public void PointerOutHandler(PointerOutEvent evt)
+    {
         L2SlotManager.Instance.SetHoverSlot(null);
     }
 
-    protected virtual void HandleLeftClick() {}
-    protected virtual void HandleRightClick() {}
-    
-    public void SetSelected() {
+    protected virtual void HandleLeftClick() { }
+    protected virtual void HandleRightClick() { }
+    protected virtual void HandleMiddleClick() { }
+
+    public void SetSelected()
+    {
         Debug.Log($"Slot {_position} selected.");
         _slotElement.AddToClassList("selected");
     }
 
-    public void UnSelect() {
+    public void UnSelect()
+    {
         Debug.Log($"Slot {_position} unselected.");
         _slotElement.RemoveFromClassList("selected");
     }
