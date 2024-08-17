@@ -109,7 +109,6 @@ public class World : MonoBehaviour
     public void OnReceivePlayerInfo(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance)
     {
         // Dont need to block thread
-        Debug.LogWarning("OnReceivePlayerInfo");
         Task task = new Task(async () =>
         {
             var entity = await GetEntityAsync(identity.Id);
@@ -120,7 +119,6 @@ public class World : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("UpdatePlayer");
                 _eventProcessor.QueueEvent(() => UpdatePlayer(entity, identity, status, stats, appearance));
             }
         });
