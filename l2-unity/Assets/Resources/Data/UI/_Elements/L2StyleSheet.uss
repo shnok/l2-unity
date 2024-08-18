@@ -222,17 +222,24 @@
     border-width: 0;
 }
 
-
-.exit_over_row:active:hover {
-   background-image: url('project://database/Assets/Resources/Data/UI/Menu/icon_over_items_menu.png');
+.system-menu-row {
+    padding: 0;
+    margin: 1px 0px;
+    height: 20px;
+    justify-content: center;
 }
 
-.exit_over_row:hover {
-   background-image: url('project://database/Assets/Resources/Data/UI/Menu/icon_over_items_menu.png');
+.system-menu-row:active #Bg {
+    opacity: 0.7;
 }
 
+.system-menu-row:active:hover #Bg {
+    background-image: resource('Data/UI/Menu/icon_over_items_menu');
+}
 
-
+.system-menu-row:hover #Bg {
+   background-image: resource('Data/UI/Menu/icon_over_items_menu');
+}
 
 .chat-window .chatting-option {
     background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_option1.png?fileID=2800000&guid=9a6ea293fa56d5a4083e09b9c4684f3b&type=3#chatting_option1');
