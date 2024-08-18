@@ -92,7 +92,10 @@ public class TargetWindow : L2Window
 
         if (TargetManager.Instance.HasTarget())
         {
-            ShowWindow();
+            if (_isWindowHidden)
+            {
+                ShowWindow();
+            }
 
             TargetData targetData = TargetManager.Instance.Target;
             if (_nameLabel != null)
