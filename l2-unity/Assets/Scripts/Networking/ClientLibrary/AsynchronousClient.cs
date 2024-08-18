@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using L2_login;
 
 public class AsynchronousClient {
     private Socket _socket;
@@ -142,8 +141,9 @@ public class AsynchronousClient {
                     receivedBytes = receivedBytes + newBytes;
                 }
 
-                
-                Task.Run(() => _serverPacketHandler.HandlePacketAsync(data, _initPacket));        
+                if(_serverPacketHandler.HandlePacketCrypto(data, _initPacket)) {
+                    Task.Run(() => _serverPacketHandler.HandlePacketAsync(data));        
+                }
             }
         }
     }

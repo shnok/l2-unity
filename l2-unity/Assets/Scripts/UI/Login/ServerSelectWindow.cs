@@ -119,6 +119,10 @@ public class ServerSelectWindow : L2Window
 
         GameClient.Instance.ServerIp = StringUtils.ByteArrayToIpAddress(_serverData[rowId].ip);
         GameClient.Instance.ServerPort = _serverData[rowId].port;
+
+        if(GameManager.Instance.AutoLogin) {
+            ConfirmButtonPressed();
+        }
     }
 
     private string ParseServerName(int serverId) {

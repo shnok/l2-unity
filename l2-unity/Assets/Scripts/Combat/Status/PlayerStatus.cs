@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -11,4 +9,11 @@ public class PlayerStatus : Status {
     public long PvpFlag { get => _pvpFlag; set => _pvpFlag = value; }
 
     public PlayerStatus() {}
+
+    public void UpdateStatus(PlayerStatus status) {
+        Cp = status.Cp;
+        PvpFlag = status.PvpFlag;
+        Hp = status.Hp;
+        Mp = status.Mp;
+    }
 }

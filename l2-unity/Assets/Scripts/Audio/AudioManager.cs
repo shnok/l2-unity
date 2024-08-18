@@ -83,6 +83,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayEquipSound(string soundName) {
+        EventReference er = RuntimeManager.PathToEventReference("event:/ItemSound/" + soundName);
+        if (!er.IsNull) {
+            PlaySound(er);
+        }
+    }
+
     public void PlayStepSound(string surfaceTag, Vector3 position) {
         string eventKey;
         surfaceTag = surfaceTag.ToLower();

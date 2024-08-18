@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -21,4 +19,15 @@ public class Stats {
     public int MaxHp { get => _maxHp; set => _maxHp = value; }
     public int MaxMp { get => _maxMp; set => _maxMp = value; }
     public int MaxCp { get => _maxCp; set => _maxCp = value; }
+
+    public virtual void UpdateStats(Stats stats) {
+        _level = stats.Level;
+        _speed = stats.Speed;
+        _scaledSpeed = stats.ScaledSpeed;
+        _pAtkSpd = stats.PAtkSpd;
+        _mAtkSpd = stats.MAtkSpd;
+        _maxHp = stats.MaxHp;
+        _maxMp = stats.MaxMp;
+        _maxCp = stats.MaxCp;
+    }
 }

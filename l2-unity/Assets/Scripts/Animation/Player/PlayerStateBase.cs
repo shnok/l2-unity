@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStateBase : StateMachineBehaviour {
@@ -8,8 +6,6 @@ public class PlayerStateBase : StateMachineBehaviour {
     protected Entity _entity;
     protected PlayerGear _gear;
     [SerializeField] protected bool _enabled = true;
-    [SerializeField] protected WeaponType _weaponType;
-    [SerializeField] protected string _weaponAnim;
 
     public void LoadComponents(Animator animator) {
         if (_entity == null) {
@@ -23,9 +19,6 @@ public class PlayerStateBase : StateMachineBehaviour {
         if (_gear == null) {
             _gear = _entity.GetComponent<PlayerGear>();
         }
-
-        _weaponType = _gear.WeaponType;
-        _weaponAnim = _gear.WeaponAnim;
 
         if (_audioHandler == null) {
             _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();
@@ -43,11 +36,17 @@ public class PlayerStateBase : StateMachineBehaviour {
         _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
-    public void SetBool(string name, bool value) {
-        PlayerAnimationController.Instance.SetBool(name, value, true);
+    public void SetBool(string name, bool isWeaponAnim, bool value) {
+        SetBool(name, isWeaponAnim, value, true);
     }
 
-    public void SetBool(string name, bool value, bool share) {
+    public void SetBool(string name, bool isWeaponAnim, bool value, bool share) {
+        if(isWeaponAnim) {
+            name += "_" + _gear.WeaponAnim;
+        }
+
+        //Debug.Log("Set bool: " + name);
+
         PlayerAnimationController.Instance.SetBool(name, value, share);
     }
 }

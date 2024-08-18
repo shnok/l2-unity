@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 public class WeapongrpTable {
@@ -115,7 +113,11 @@ public class WeapongrpTable {
                     continue;
                 }
 
-                _weaponGrps.Add(weaponGrp.ObjectId, weaponGrp);
+                if (!_weaponGrps.ContainsKey(weaponGrp.ObjectId))
+                {
+                    _weaponGrps.Add(weaponGrp.ObjectId, weaponGrp);
+                }
+                
             }
 
             Debug.Log($"Successfully imported {_weaponGrps.Count} weapongrps(s)");

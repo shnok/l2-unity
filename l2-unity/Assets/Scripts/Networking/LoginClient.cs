@@ -1,7 +1,5 @@
 using UnityEngine;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Collections;
 using static ServerListPacket;
 using L2_login;
 

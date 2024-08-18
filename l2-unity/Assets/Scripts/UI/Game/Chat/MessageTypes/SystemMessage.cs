@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using static SMParam;
 
 public class SystemMessage {
@@ -31,6 +30,13 @@ public class SystemMessage {
                     value = value.Replace($"$s{i}", param.GetLongValue().ToString());
                     break;
                 case SMParamType.TYPE_ITEM_NAME:
+                    AbstractItem item = ItemTable.Instance.GetItem(param.GetIntValue());
+                    string itemName = "Unknown";
+                    if(item != null) {
+                        itemName = item.ItemName.Name;
+                    }
+                    value = value.Replace($"$s{i}", itemName);
+                    break;
                 case SMParamType.TYPE_CASTLE_NAME:
                 case SMParamType.TYPE_INT_NUMBER:
                 case SMParamType.TYPE_NPC_NAME:

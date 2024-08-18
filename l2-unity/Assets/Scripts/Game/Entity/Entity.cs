@@ -37,6 +37,7 @@ public class Entity : MonoBehaviour {
     public CharacterRace Race { get { return _race; } set { _race = value; } }
     public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
     public bool EntityLoaded { get { return _entityLoaded; } set { _entityLoaded = value; } }
+    public Gear Gear { get { return _gear; } }
 
     public void FixedUpdate() {
         LookAtTarget();
@@ -77,16 +78,20 @@ public class Entity : MonoBehaviour {
         }
     }
 
-    protected virtual void EquipAllWeapons() {
+    public virtual void EquipAllWeapons() {
         if(_gear == null) {
             Debug.LogWarning("Gear script is not attached to entity");
             return;
         }
         if (_appearance.LHand != 0) {
             _gear.EquipWeapon(_appearance.LHand, true);
+        } else {
+            _gear.UnequipWeapon(true);
         }
         if (_appearance.RHand != 0) {
             _gear.EquipWeapon(_appearance.RHand, false);
+        } else {
+            _gear.UnequipWeapon(false);
         }
     }
 

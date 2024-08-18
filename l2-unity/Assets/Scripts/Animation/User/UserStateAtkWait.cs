@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UserStateWaitAtk : UserStateAction {
@@ -12,23 +10,23 @@ public class UserStateWaitAtk : UserStateAction {
 
         _cancelAction = false;
 
-        SetBool("atkwait_" + _weaponAnim, false);
+        SetBool("atkwait", true, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         if (!_enabled) {
             return;
         }
-        SetBool("atkwait_" + _weaponAnim, false);
+        SetBool("atkwait", true, false);
 
         if (IsMoving()) {
-            SetBool("run_" + _weaponAnim, true);
+            SetBool("run", true, true);
         }
 
         if (!_cancelAction) {
             if (!ShouldAtkWait()) {
                 Debug.Log("Wait now");
-                SetBool("wait_" + _weaponAnim, true);
+                SetBool("wait", true, true);
             }
         }
     }
@@ -39,6 +37,6 @@ public class UserStateWaitAtk : UserStateAction {
         }
 
 
-        SetBool("atkwait_" + _weaponAnim, false);
+        SetBool("atkwait", true, false);
     }
 }

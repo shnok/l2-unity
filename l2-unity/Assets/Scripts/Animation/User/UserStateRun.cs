@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UserStateRun : UserStateAction {
@@ -14,7 +12,7 @@ public class UserStateRun : UserStateAction {
 
         _hasStarted = true;
         _lastNormalizedTime = 0;
-        SetBool("run_" + _weaponAnim, false);
+        SetBool("run", true, false);
         foreach (var ratio in _audioHandler.RunStepRatios) {
             _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
         }
@@ -25,7 +23,7 @@ public class UserStateRun : UserStateAction {
             return;
         }
 
-        SetBool("run_" + _weaponAnim, false);
+        SetBool("run", true, false);
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f) {
             if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance)) {
                 _audioHandler.PlaySound(CharacterSoundEvent.Breath);
@@ -48,10 +46,10 @@ public class UserStateRun : UserStateAction {
                 return;
             }
             if (ShouldAtkWait()) {
-                SetBool("atkwait_" + _weaponAnim, true);
+                SetBool("atkwait", true, true);
                 return;
             }
-            SetBool("wait_" + _weaponAnim, true);
+            SetBool("wait", true, true);
         }
     }
 

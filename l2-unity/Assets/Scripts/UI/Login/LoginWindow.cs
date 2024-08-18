@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -137,5 +136,9 @@ public class LoginWindow : L2Window
         base.ShowWindow();
         _logo.style.display = DisplayStyle.Flex;
         _userInput.Focus();
+        
+        if(GameManager.Instance.AutoLogin) {
+            LoginButtonPressed();
+        }
     }
 }

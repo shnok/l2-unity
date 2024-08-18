@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 public class EtcItemgrpTable {
@@ -56,6 +54,7 @@ public class EtcItemgrpTable {
                             break;                
                     }
                 }
+
 
                 if (!ItemTable.Instance.ShouldLoadItem(etcItemgrp.ObjectId)) {
                     continue;

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class NetworkIdentity
@@ -40,6 +38,21 @@ public class NetworkIdentity
 
     public NetworkIdentity() {}
 
+    public void UpdateEntity(NetworkIdentity identity) {
+        _entityType = identity.EntityType;
+        _id = identity.Id;
+        _npcId = identity.NpcId;
+        _npcClass = identity.NpcClass;
+        _name = identity.Name;
+        _title = identity.Title;
+        _titleColor = identity.TitleColor;
+        _position = identity.Position;
+        _heading = identity.Heading;
+        _owned = identity.Owned;
+        _playerClass = identity.PlayerClass;
+        _isMage = identity.IsMage;
+    }
+    
     public void SetPosX(float x) {
         _position.x = x;
     }

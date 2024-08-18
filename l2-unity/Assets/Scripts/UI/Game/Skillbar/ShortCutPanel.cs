@@ -1,12 +1,7 @@
 using Assets.Scripts.UI;
 using Assets.Scripts.UI.Manipulators;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 

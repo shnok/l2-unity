@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static PlayerStateMachine;
 
 public class ClickManager : MonoBehaviour {
     [SerializeField] private GameObject _locator;

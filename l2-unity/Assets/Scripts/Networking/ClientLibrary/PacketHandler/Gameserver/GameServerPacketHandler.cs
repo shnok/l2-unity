@@ -84,6 +84,12 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.ActionAllowed:
                 OnActionAllowed(data);
                 break;
+            case GameServerPacketType.InventoryItemList:
+                OnInventoryItemList(data);
+                break;
+            case GameServerPacketType.InventoryUpdate:
+                OnInventoryUpdate(data);
+                break;
         }
     }
 
@@ -190,16 +196,26 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnPlayerInfoReceive(byte[] data) {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        _eventProcessor.QueueEvent(() => {
-            GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
-
-            GameManager.Instance.OnCharacterSelect();
-        });
+        if(GameManager.Instance.GameState != GameState.IN_GAME) {
+            _eventProcessor.QueueEvent(() => {
+                GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
+                GameManager.Instance.OnCharacterSelect();
+            });
+        } else {
+            _eventProcessor.QueueEvent(() => {
+                GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
+            });
+            World.Instance.OnReceivePlayerInfo(
+                packet.PacketPlayerInfo.Identity,
+                packet.PacketPlayerInfo.Status, 
+                packet.PacketPlayerInfo.Stats, 
+                packet.PacketPlayerInfo.Appearance);
+        }
     }
 
     private void OnUserInfoReceive(byte[] data) {
         UserInfoPacket packet = new UserInfoPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.SpawnUser(packet.Identity, packet.Status, packet.Stats, packet.Appearance));
+        World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance);
     }
 
     private void OnUpdatePosition(byte[] data) {
@@ -298,5 +314,16 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnStatusUpdate(byte[] data) {
         StatusUpdatePacket packet = new StatusUpdatePacket(data);
         World.Instance.StatusUpdate(packet.ObjectId, packet.Attributes);
+    }
+
+    private void OnInventoryItemList(byte[] data) {
+        InventoryItemListPacket packet = new InventoryItemListPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerInventory.Instance.SetInventory(packet.Items, packet.OpenWindow));
+    }
+
+    private void OnInventoryUpdate(byte[] data) {
+        InventoryUpdatePacket packet = new InventoryUpdatePacket(data);
+        Debug.Log("Updated items: " + packet.Items.Length);
+        _eventProcessor.QueueEvent(() => PlayerInventory.Instance.UpdateInventory(packet.Items));
     }
 }

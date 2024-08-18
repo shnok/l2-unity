@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public enum WeaponType : byte {
     none, //shield
     hand,

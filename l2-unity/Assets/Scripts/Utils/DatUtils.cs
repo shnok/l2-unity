@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class DatUtils {
+﻿public class DatUtils {
 
     public static string CleanupString(string name) {
         return name.Replace("[", string.Empty).Replace("]", string.Empty);
@@ -50,7 +46,8 @@ public class DatUtils {
                 abstractgrp.Crystallizable = value == "1";
                 break;
             case "equip_sound":
-                abstractgrp.EquipSound = DatUtils.CleanupString(value);
+                string[] soundTypeName = value.Split(".");
+                abstractgrp.EquipSound = DatUtils.CleanupString(soundTypeName.Length > 1 ? soundTypeName[1] : value);
                 break;
             case "inventory_type":
                 abstractgrp.InventoryType = value;

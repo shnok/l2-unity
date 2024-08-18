@@ -12,5 +12,11 @@ public enum GameClientPacketType : byte
     RequestMoveDirection = 0x09,
     RequestSetTarget = 0x0A,
     RequestAutoAttack = 0x0B,
-    RequestCharSelect = 0x0C
+    RequestCharSelect = 0x0C,
+    RequestInventoryOpen = 0x0D,
+    RequestInventoryUpdateOrder = 0x0E,
+    UseItem = 0x0F,
+    RequestUnEquip = 0x10,
+    RequestDestroyItem = 0x11,
+    RequestDropItem = 0x12
 }

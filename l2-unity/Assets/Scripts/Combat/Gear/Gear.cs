@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class Gear : MonoBehaviour {
+public class Gear : MonoBehaviour
+{
     protected NetworkAnimationController _networkAnimationReceive;
     protected int _ownerId;
     protected CharacterRaceAnimation _raceId;
@@ -28,104 +28,157 @@ public class Gear : MonoBehaviour {
     public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
     public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
 
-    public virtual void Initialize(int ownderId, CharacterRaceAnimation raceId) {
+    public virtual void Initialize(int ownderId, CharacterRaceAnimation raceId)
+    {
         TryGetComponent(out _networkAnimationReceive);
         _ownerId = ownderId;
         _raceId = raceId;
-        _weaponAnim = "hand";
     }
 
-    public virtual void EquipWeapon(int weaponId, bool leftSlot) {
+    public bool IsWeaponAlreadyEquipped(int itemId, bool leftSlot)
+    {
+        //Debug.Log($"IsWeaponAlreadyEquipped ({itemId},{leftSlot})");
+
+        if (leftSlot)
+        {
+            if (_leftHandWeapon == null)
+            {
+                return false;
+            }
+            return itemId == _leftHandWeapon.Id;
+        }
+        else
+        {
+            if (_rightHandWeapon == null)
+            {
+                return false;
+            }
+            return itemId == _rightHandWeapon.Id;
+        }
+    }
+
+    public virtual void EquipWeapon(int weaponId, bool leftSlot)
+    {
+        if (IsWeaponAlreadyEquipped(weaponId, leftSlot))
+        {
+            Debug.Log($"Weapon {weaponId} is already equipped.");
+            return;
+        }
+
         UnequipWeapon(leftSlot);
-        if (weaponId == 0) {
+        if (weaponId == 0)
+        {
             return;
         }
 
         // Loading from database
         Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
-        if (weapon == null) {
+        if (weapon == null)
+        {
             Debug.LogWarning($"Could find weapon {weaponId} in DB for entity {_ownerId}.");
             return;
         }
 
         GameObject weaponPrefab = ModelTable.Instance.GetWeaponById(weaponId);
-        if (weaponPrefab == null) {
+        if (weaponPrefab == null)
+        {
             Debug.LogWarning($"Could load prefab for {weaponId} in DB for entity {_ownerId}.");
             return;
         }
 
         // Updating weapon type
-        if (leftSlot) {
+        if (leftSlot)
+        {
             _leftHandWeapon = weapon;
             _leftHandType = weapon.Weapongrp.WeaponType;
-        } else {
+        }
+        else
+        {
             _rightHandWeapon = weapon;
             _rightHandType = weapon.Weapongrp.WeaponType;
         }
 
-        UpdateWeaponType(weapon.Weapongrp.WeaponType);
+        if (weapon.Weapongrp.WeaponType != WeaponType.none)
+        { // Do not update for shields
+            UpdateWeaponType(weapon.Weapongrp.WeaponType);
+        }
 
         // Instantiating weapon
         GameObject go = GameObject.Instantiate(weaponPrefab);
         go.SetActive(false);
         go.transform.name = "weapon";
 
-        if (weapon.Weapongrp.WeaponType == WeaponType.none) {
+        if (weapon.Weapongrp.WeaponType == WeaponType.none)
+        {
             go.transform.SetParent(GetShieldBone(), false);
-        } else if (weapon.Weapongrp.WeaponType == WeaponType.bow) {
+        }
+        else if (weapon.Weapongrp.WeaponType == WeaponType.bow)
+        {
             go.transform.SetParent(GetLeftHandBone(), false);
-        } else if (leftSlot) {
+        }
+        else if (leftSlot)
+        {
             go.transform.SetParent(GetLeftHandBone(), false);
-        } else {
+        }
+        else
+        {
             go.transform.SetParent(GetRightHandBone(), false);
         }
 
         go.SetActive(true);
     }
 
-    private void UpdateWeaponType(WeaponType weaponType) {
-        _weaponAnim = WeaponTypeParser.GetWeaponAnim(weaponType);
-        UpdateIdleAnimation();
-    }
+    protected virtual void UpdateWeaponType(WeaponType weaponType) { }
 
-    protected virtual void UpdateIdleAnimation() {
-        if(_networkAnimationReceive != null) {
-            _networkAnimationReceive.SetBool("wait_" + _weaponAnim, true);
-        }
-    }
+    public virtual void UpdateWeaponAnim(string value) { }
 
-    protected virtual Transform GetLeftHandBone() {
-        if (_leftHandBone == null) {
+    protected virtual Transform GetLeftHandBone()
+    {
+        if (_leftHandBone == null)
+        {
             _leftHandBone = transform.FindRecursive("Bow Bone");
         }
         return _leftHandBone;
     }
 
-    protected virtual Transform GetRightHandBone() {
-        if (_rightHandBone == null) {
+    protected virtual Transform GetRightHandBone()
+    {
+        if (_rightHandBone == null)
+        {
             _rightHandBone = transform.FindRecursive("Sword Bone");
         }
         return _rightHandBone;
     }
 
-    protected virtual Transform GetShieldBone() {
-        if (_shieldBone == null) {
+    protected virtual Transform GetShieldBone()
+    {
+        if (_shieldBone == null)
+        {
             _shieldBone = transform.FindRecursive("Shield Bone");
         }
         return _shieldBone;
     }
 
-    protected virtual void UnequipWeapon(bool leftSlot) {
-        Transform weapon;
-        if (leftSlot) {
-            weapon = GetLeftHandBone().Find("weapon");
-        } else {
-            weapon = GetRightHandBone().Find("weapon");
+    public virtual void UnequipWeapon(bool leftSlot)
+    {
+        Transform weaponBone = leftSlot ? GetLeftHandBone() : GetRightHandBone();
+        if (weaponBone == null)
+        {
+            return;
         }
 
-        if (weapon != null) {
+        Transform weapon = weaponBone.Find("weapon") ?? (leftSlot ? GetShieldBone().Find("weapon") : null);
+
+        if (weapon != null)
+        {
             Debug.LogWarning("Unequip weapon");
-            Destroy(weapon);
+            Destroy(weapon.gameObject);
+            if (leftSlot) _leftHandWeapon = null;
+            else
+            {
+                _rightHandWeapon = null;
+                UpdateWeaponAnim("hand");
+            }
         }
     }
 }

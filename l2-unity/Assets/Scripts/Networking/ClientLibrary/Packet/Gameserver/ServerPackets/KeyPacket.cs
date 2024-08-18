@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class KeyPacket : ServerPacket {
     public byte[] BlowFishKey { get; private set; }
     public bool AuthAllowed { get; private set; }

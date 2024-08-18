@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UserStateBase : StateMachineBehaviour {
@@ -11,8 +9,6 @@ public class UserStateBase : StateMachineBehaviour {
     protected UserGear _gear;
     protected bool _cancelAction = false;
     [SerializeField] protected bool _enabled = true;
-    [SerializeField] protected string _weaponAnim;
-    [SerializeField] protected WeaponType _weaponType;
 
     public void LoadComponents(Animator animator) {
         if (_entity == null) {
@@ -32,10 +28,6 @@ public class UserStateBase : StateMachineBehaviour {
         if (_gear == null) {
             _gear = _entity.GetComponent<UserGear>();
         }
-
-        _weaponType = _gear.WeaponType;
-        _weaponAnim = _gear.WeaponAnim;
-
         if (_audioHandler == null) {
             _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();
         }
@@ -58,8 +50,12 @@ public class UserStateBase : StateMachineBehaviour {
         _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
-    public void SetBool(string name, bool value) {
+    public void SetBool(string name, bool isWeaponAnim, bool value) {
         _cancelAction = true;
+
+        if(isWeaponAnim) {
+            name += "_" + _gear.WeaponAnim;
+        }
         //if (value != _animator.GetBool(name)) {
         //    Debug.LogWarning($"Set bool {name}={value}");
         //}

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerEntity : Entity {
@@ -34,7 +32,7 @@ public class PlayerEntity : Entity {
         _instance = null;
     }
 
-    private void EquipAllArmors() {
+    public void EquipAllArmors() {
         PlayerAppearance appearance = (PlayerAppearance) _appearance;
         if(appearance.Chest != 0) {
             ((PlayerGear)_gear).EquipArmor(appearance.Chest, ItemSlot.chest);

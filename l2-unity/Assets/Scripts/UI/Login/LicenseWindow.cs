@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -61,5 +60,13 @@ public class LicenseWindow : L2Window
 
     private void DisagreeButtonPressed() {
         LoginClient.Instance.Disconnect();
+    }
+
+    public override void ShowWindow() {
+        base.ShowWindow();
+
+        if(GameManager.Instance.AutoLogin) {
+            AgreeButtonPressed();
+        }
     }
 }

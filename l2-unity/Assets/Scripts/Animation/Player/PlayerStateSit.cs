@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStateSit : PlayerStateAction {
@@ -9,7 +7,7 @@ public class PlayerStateSit : PlayerStateAction {
             return;
         }
 
-        SetBool("sit", false, false);
+        SetBool("sit", false, false, false);
         _audioHandler.PlaySound(CharacterSoundEvent.Sitdown);
     }
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UserStateAtk : UserStateBase {
@@ -18,9 +16,9 @@ public class UserStateAtk : UserStateBase {
 
         _networkAnimationController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
-        SetBool("wait_" + _weaponAnim, false);
-        SetBool("atkwait_" + _weaponAnim, false);
-        SetBool("atk01_" + _weaponAnim, false);
+        SetBool("wait", true, false);
+        SetBool("atkwait", true, false);
+        SetBool("atk01", true, false);
 
         PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
         PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
@@ -34,7 +32,7 @@ public class UserStateAtk : UserStateBase {
             return;
         }
 
-        SetBool("atk01_" + _weaponAnim, false);
+        SetBool("atk01", true, false);
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
             PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static StatusUpdatePacket;
@@ -81,9 +80,6 @@ public class WorldCombat : MonoBehaviour {
         Stats stats = entity.Stats;
 
         foreach (Attribute attribute in attributes) {
-            //if (entity != PlayerEntity.Instance) {
-            //    Debug.LogWarning($"{entity.Identity.Name} - {(AttributeType)attribute.id}");
-            //}
             switch((AttributeType) attribute.id) {
                 case AttributeType.LEVEL:
                     stats.Level = attribute.value;
@@ -135,6 +131,7 @@ public class WorldCombat : MonoBehaviour {
                     break;
                 case AttributeType.ATK_SPD:
                     stats.PAtkSpd = attribute.value;
+                    entity.UpdatePAtkSpeed(stats.PAtkSpd);
                     break;
                 case AttributeType.P_DEF:
                     ((PlayerStats) stats).PDef = attribute.value;
@@ -162,6 +159,7 @@ public class WorldCombat : MonoBehaviour {
                     break;
                 case AttributeType.CAST_SPD:
                     stats.MAtkSpd = attribute.value;
+                    entity.UpdateMAtkSpeed(stats.MAtkSpd);
                     break;
                 case AttributeType.M_DEF:
                     ((PlayerStats) stats).MDef = attribute.value;
@@ -176,6 +174,7 @@ public class WorldCombat : MonoBehaviour {
                 case AttributeType.MAX_CP:
                     stats.MaxCp = attribute.value;
                     break;
+                //TODO: Where speed?
             }
         }
     }

@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStateAtk : PlayerStateAction {
-    private float _lastNormalizedTime;
-    private bool moved;
-
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         LoadComponents(animator);
         if (!_enabled) {
@@ -19,14 +14,11 @@ public class PlayerStateAtk : PlayerStateAction {
 
         PlayerAnimationController.Instance.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
-        SetBool("atkwait_" + _weaponAnim, false, false);
-        SetBool("atk01_" + _weaponAnim, false, false);
+        SetBool("atkwait", true, false, false);
+        SetBool("atk01", true, false, false);
 
         PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
         PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
-
-        _lastNormalizedTime = 0;
-        moved = false;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -34,8 +26,8 @@ public class PlayerStateAtk : PlayerStateAction {
             return;
         }
 
-        SetBool("atkwait_" + _weaponAnim, false, false);
-        SetBool("atk01_" + _weaponAnim, false, false);
+        SetBool("atkwait", true, false, false);
+        SetBool("atk01", true, false, false);
 
         if(ShouldDie()) {
             return;

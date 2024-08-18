@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UserStateSit : UserStateBase {
@@ -9,7 +7,7 @@ public class UserStateSit : UserStateBase {
             return;
         }
 
-        SetBool("sit", false);
+        SetBool("sit", false, false);
         _audioHandler.PlaySound(CharacterSoundEvent.Sitdown);
     }
 
@@ -18,7 +16,7 @@ public class UserStateSit : UserStateBase {
             return;
         }
 
-        SetBool("sit", false);
+        SetBool("sit", false, false);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

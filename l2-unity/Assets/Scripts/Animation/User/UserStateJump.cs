@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UserStateJump : UserStateBase {
@@ -15,8 +13,8 @@ public class UserStateJump : UserStateBase {
             _wasRunning = true;
         }
 
-        SetBool("jump", false);
-        SetBool("run_jump", false);
+        SetBool("jump", false, false);
+        SetBool("run_jump", false, false);
         _audioHandler.PlaySound(CharacterSoundEvent.Jump_1);
         _lastNormalizedTime = 0;
     }
@@ -26,14 +24,14 @@ public class UserStateJump : UserStateBase {
             return;
         }
 
-        SetBool("jump", false);
-        SetBool("run_jump", false);
+        SetBool("jump", false, false);
+        SetBool("run_jump", false, false);
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
             if(_wasRunning) {
-                SetBool("run_" + _weaponAnim, true);
+                SetBool("run", true, true);
             } else {
-                SetBool("wait_" + _weaponAnim, true);
+                SetBool("wait", true, true);
             }
         }
     }

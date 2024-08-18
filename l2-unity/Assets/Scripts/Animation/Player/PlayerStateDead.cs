@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStateDead : PlayerStateBase {
@@ -9,13 +7,13 @@ public class PlayerStateDead : PlayerStateBase {
             return;
         }
 
-        SetBool("death", false, false);
+        SetBool("death", false, false, false);
         //PlayerController.Instance.SetCanMove(false);
         PlaySoundAtRatio(CharacterSoundEvent.Death, _audioHandler.DeathRatio);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        SetBool("death", false, false);
+        SetBool("death", false, false, false);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
