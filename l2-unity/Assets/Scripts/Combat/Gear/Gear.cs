@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Gear : MonoBehaviour {
@@ -30,10 +31,48 @@ public class Gear : MonoBehaviour {
         TryGetComponent(out _networkAnimationReceive);
         _ownerId = ownderId;
         _raceId = raceId;
-        _weaponAnim = "hand";
+        UpdateWeaponAnim("hand");
+    }
+
+    private void UpdateWeaponType(WeaponType weaponType) {
+        UpdateWeaponAnim(WeaponTypeParser.GetWeaponAnim(weaponType));
+        //UpdateIdleAnimation();
+    }
+
+    public void UpdateWeaponAnim(string weaponAnim) {
+        _weaponAnim = weaponAnim;
+        NotifyAnimator(_weaponAnim);
+   
+    }
+
+    protected virtual void NotifyAnimator(string newWeaponAnim) {
+        if(_networkAnimationReceive != null) {
+            _networkAnimationReceive.WeaponAnimChanged(_weaponAnim);
+        }
+    }
+
+    public bool IsWeaponAlreadyEquipped(int itemId, bool leftSlot) {
+        //Debug.Log($"IsWeaponAlreadyEquipped ({itemId},{leftSlot})");
+        
+        if(leftSlot) {
+            if(_leftHandWeapon == null) {
+                return false;
+            }
+            return itemId == _leftHandWeapon.Id;
+        } else {
+            if(_rightHandWeapon == null) {
+                return false;
+            }
+            return itemId == _rightHandWeapon.Id;
+        }
     }
 
     public virtual void EquipWeapon(int weaponId, bool leftSlot) {
+        if(IsWeaponAlreadyEquipped(weaponId, leftSlot)) {
+            Debug.Log($"Weapon {weaponId} is already equipped.");
+            return;
+        }
+
         UnequipWeapon(leftSlot);
         if (weaponId == 0) {
             return;
@@ -60,8 +99,10 @@ public class Gear : MonoBehaviour {
             _rightHandWeapon = weapon;
             _rightHandType = weapon.Weapongrp.WeaponType;
         }
-
-        UpdateWeaponType(weapon.Weapongrp.WeaponType);
+            
+        if(weapon.Weapongrp.WeaponType != WeaponType.none) { // Do not update for shields
+            UpdateWeaponType(weapon.Weapongrp.WeaponType);
+        }
 
         // Instantiating weapon
         GameObject go = GameObject.Instantiate(weaponPrefab);
@@ -79,17 +120,6 @@ public class Gear : MonoBehaviour {
         }
 
         go.SetActive(true);
-    }
-
-    private void UpdateWeaponType(WeaponType weaponType) {
-        _weaponAnim = WeaponTypeParser.GetWeaponAnim(weaponType);
-        UpdateIdleAnimation();
-    }
-
-    protected virtual void UpdateIdleAnimation() {
-        if(_networkAnimationReceive != null) {
-            _networkAnimationReceive.SetBool("wait_" + _weaponAnim, true);
-        }
     }
 
     protected virtual Transform GetLeftHandBone() {
@@ -113,17 +143,18 @@ public class Gear : MonoBehaviour {
         return _shieldBone;
     }
 
-    protected virtual void UnequipWeapon(bool leftSlot) {
-        Transform weapon;
-        if (leftSlot) {
-            weapon = GetLeftHandBone().Find("weapon");
-        } else {
-            weapon = GetRightHandBone().Find("weapon");
-        }
+    public virtual void UnequipWeapon(bool leftSlot) {
+        Transform weaponBone = leftSlot ? GetLeftHandBone() : GetRightHandBone();
+        Transform weapon = weaponBone.Find("weapon") ?? (leftSlot ? GetShieldBone().Find("weapon") : null);
 
         if (weapon != null) {
             Debug.LogWarning("Unequip weapon");
-            Destroy(weapon);
+            Destroy(weapon.gameObject);
+            if (leftSlot) _leftHandWeapon = null;
+            else {
+                _rightHandWeapon = null;
+                UpdateWeaponAnim("hand");
+            }
         }
     }
 }

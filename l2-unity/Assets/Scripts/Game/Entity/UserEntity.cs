@@ -16,7 +16,7 @@ public class UserEntity : Entity {
         EntityLoaded = true;
     }
 
-    private void EquipAllArmors() {
+    public void EquipAllArmors() {
         PlayerAppearance appearance = (PlayerAppearance)_appearance;
         if (appearance.Chest != 0) {
             ((UserGear)_gear).EquipArmor(appearance.Chest, ItemSlot.chest);

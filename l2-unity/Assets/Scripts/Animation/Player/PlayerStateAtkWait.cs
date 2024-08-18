@@ -1,30 +1,38 @@
 using UnityEngine;
 
-public class PlayerStateAtkWait : PlayerStateAction {
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+public class PlayerStateAtkWait : PlayerStateAction
+{
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         LoadComponents(animator);
-        SetBool("atkwait_" + _weaponAnim, false, false);
+        SetBool("atkwait", true, false, false);
     }
 
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 
-        if (ShouldDie()) {
+        if (ShouldDie())
+        {
             return;
         }
 
-        if (ShouldAttack()) {
-            SetBool("atk01_" + _gear.WeaponAnim, true, false);
+        if (ShouldAttack())
+        {
+            SetBool("atk01", true, true, false);
             return;
         }
 
-        if (ShouldRun()) {
+        if (ShouldRun())
+        {
             return;
         }
 
-        if (ShouldJump(false)) {
+        if (ShouldJump(false))
+        {
             return;
         }
 
@@ -32,20 +40,24 @@ public class PlayerStateAtkWait : PlayerStateAction {
         //    return;
         //}
 
-        if (ShouldAtkWait()) {
+        if (ShouldAtkWait())
+        {
             return;
         }
 
-        if (ShouldIdle()) {
+        if (ShouldIdle())
+        {
             return;
         }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 
-        SetBool("atkwait_" + _weaponAnim, false, false);
+        SetBool("atkwait", true, false, false);
     }
 }

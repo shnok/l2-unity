@@ -9,7 +9,7 @@ public class PlayerStateStand : PlayerStateAction {
             return;
         }
 
-        SetBool("stand", false, false);
+        SetBool("stand", false, false, false);
         _lastNormalizedTime = 0;
         _audioHandler.PlaySound(CharacterSoundEvent.Standup);
     }
@@ -25,7 +25,7 @@ public class PlayerStateStand : PlayerStateAction {
 
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            SetBool("wait_" + _weaponAnim, true);
+            SetBool("wait", true, true);
         }
     }
 

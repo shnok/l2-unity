@@ -18,48 +18,88 @@ public class UserGear : Gear
     [SerializeField] private GameObject _gloves;
     [SerializeField] private GameObject _boots;
 
-    public override void Initialize(int ownderId, CharacterRaceAnimation raceId) {
+    public override void Initialize(int ownderId, CharacterRaceAnimation raceId)
+    {
         base.Initialize(ownderId, raceId);
 
-        if(this is PlayerGear) {
+        if (this is PlayerGear)
+        {
             _container = this.gameObject;
-        } else {
+        }
+        else
+        {
             _container = transform.GetChild(0).gameObject;
         }
 
         _skinnedMeshSync = _container.GetComponentInChildren<SkinnedMeshSync>();
     }
 
-    protected override Transform GetLeftHandBone() {
-        if (_leftHandBone == null) {
+    protected override Transform GetLeftHandBone()
+    {
+        if (_leftHandBone == null)
+        {
             _leftHandBone = transform.FindRecursive("Weapon_L_Bone");
         }
         return _leftHandBone;
     }
 
-    protected override Transform GetRightHandBone() {
-        if (_rightHandBone == null) {
+    protected override Transform GetRightHandBone()
+    {
+        if (_rightHandBone == null)
+        {
             _rightHandBone = transform.FindRecursive("Weapon_R_Bone");
         }
         return _rightHandBone;
     }
 
-    protected override Transform GetShieldBone() {
-        if (_shieldBone == null) {
+    protected override Transform GetShieldBone()
+    {
+        if (_shieldBone == null)
+        {
             _shieldBone = transform.FindRecursive("Shield_L_Bone");
         }
         return _shieldBone;
     }
 
-    public void EquipArmor(int itemId, ItemSlot slot) {
+    public bool IsArmorAlreadyEquipped(int itemId, ItemSlot slot)
+    {
+        //Debug.Log($"IsArmorAlreadyEquipped ({itemId},{slot})");
+
+        switch (slot)
+        {
+            case ItemSlot.chest:
+                return itemId == _torsoMeta.Id;
+            case ItemSlot.fullarmor:
+                return itemId == _fullarmorMeta.Id;
+            case ItemSlot.legs:
+                return itemId == _legsMeta.Id;
+            case ItemSlot.gloves:
+                return itemId == _glovesMeta.Id;
+            case ItemSlot.feet:
+                return itemId == _bootsMeta.Id;
+        }
+
+        return true;
+    }
+
+    public void EquipArmor(int itemId, ItemSlot slot)
+    {
+        if (IsArmorAlreadyEquipped(itemId, slot))
+        {
+            Debug.Log($"Item {itemId} is already equipped in slot {slot}.");
+            return;
+        }
+
         Armor armor = ItemTable.Instance.GetArmor(itemId);
-        if (armor == null) {
+        if (armor == null)
+        {
             Debug.LogWarning($"Can't find armor {itemId} in ItemTable");
             return;
         }
 
         ModelTable.L2ArmorPiece armorPiece = ModelTable.Instance.GetArmorPiece(armor, _raceId);
-        if (armorPiece == null) {
+        if (armorPiece == null)
+        {
             Debug.LogWarning($"Can't find armor {itemId} for race {_raceId} in slot {slot} in ModelTable");
             return;
         }
@@ -70,15 +110,19 @@ public class UserGear : Gear
         SetArmorPiece(armor, mesh, slot);
     }
 
-    private void SetArmorPiece(Armor armor, GameObject armorPiece, ItemSlot slot) {
-        switch (slot) {
+    private void SetArmorPiece(Armor armor, GameObject armorPiece, ItemSlot slot)
+    {
+        switch (slot)
+        {
             case ItemSlot.chest:
-                if (_torso != null) {
-                    Destroy(_torso);
+                if (_torso != null)
+                {
+                    DestroyImmediate(_torso);
                     _torsoMeta = null;
                 }
-                if (_fullarmor != null) {
-                    Destroy(_fullarmor);
+                if (_fullarmor != null)
+                {
+                    DestroyImmediate(_fullarmor);
                     _fullarmorMeta = null;
                     EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.legs);
                 }
@@ -87,12 +131,14 @@ public class UserGear : Gear
                 _torso.transform.SetParent(_container.transform, false);
                 break;
             case ItemSlot.fullarmor:
-                if (_torso != null) {
-                    Destroy(_torso);
+                if (_torso != null)
+                {
+                    DestroyImmediate(_torso);
                     _torsoMeta = null;
                 }
-                if (_legs != null) {
-                    Destroy(_legs);
+                if (_legs != null)
+                {
+                    DestroyImmediate(_legs);
                     _legsMeta = null;
                 }
                 _fullarmor = armorPiece;
@@ -100,12 +146,14 @@ public class UserGear : Gear
                 _fullarmor.transform.SetParent(_container.transform, false);
                 break;
             case ItemSlot.legs:
-                if (_legs != null) {
-                    Destroy(_legs);
+                if (_legs != null)
+                {
+                    DestroyImmediate(_legs);
                     _legsMeta = null;
                 }
-                if (_fullarmor != null) {
-                    Destroy(_fullarmor);
+                if (_fullarmor != null)
+                {
+                    DestroyImmediate(_fullarmor);
                     _fullarmorMeta = null;
                     EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.chest);
                 }
@@ -114,8 +162,9 @@ public class UserGear : Gear
                 _legsMeta = armor;
                 break;
             case ItemSlot.gloves:
-                if (_gloves != null) {
-                    Destroy(_gloves);
+                if (_gloves != null)
+                {
+                    DestroyImmediate(_gloves);
                     _glovesMeta = null;
                 }
                 _gloves = armorPiece;
@@ -123,8 +172,9 @@ public class UserGear : Gear
                 _glovesMeta = armor;
                 break;
             case ItemSlot.feet:
-                if (_boots != null) {
-                    Destroy(_boots);
+                if (_boots != null)
+                {
+                    DestroyImmediate(_boots);
                     _bootsMeta = null;
                 }
                 _boots = armorPiece;

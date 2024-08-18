@@ -6,7 +6,6 @@ public class PlayerStateWait : PlayerStateAction {
         if (!_enabled) {
             return;
         }
-
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -19,7 +18,7 @@ public class PlayerStateWait : PlayerStateAction {
         }
 
         if (ShouldAttack()) {
-            SetBool("atk01_" + _gear.WeaponAnim, true, false);
+            SetBool("atk01", true, true, false);
             return;
         }
         if (ShouldRun()) {
@@ -42,6 +41,6 @@ public class PlayerStateWait : PlayerStateAction {
             return;
         }
 
-        SetBool("wait_" + _weaponAnim, false, false);
+        SetBool("wait", true, false, false);
     }
 }

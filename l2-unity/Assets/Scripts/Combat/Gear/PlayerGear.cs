@@ -23,7 +23,7 @@ public class PlayerGear : UserGear
         return _shieldBone;
     }
 
-    protected override void UpdateIdleAnimation() {
-        PlayerAnimationController.Instance.SetBool("wait_" + _weaponAnim, true);
+    protected override void NotifyAnimator(string newWeaponAnim) {
+        PlayerAnimationController.Instance.WeaponAnimChanged(newWeaponAnim);
     }
 }

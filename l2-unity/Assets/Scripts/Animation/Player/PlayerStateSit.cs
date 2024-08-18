@@ -7,7 +7,7 @@ public class PlayerStateSit : PlayerStateAction {
             return;
         }
 
-        SetBool("sit", false, false);
+        SetBool("sit", false, false, false);
         _audioHandler.PlaySound(CharacterSoundEvent.Sitdown);
     }
 

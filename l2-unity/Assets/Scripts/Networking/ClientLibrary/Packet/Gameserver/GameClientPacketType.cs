@@ -16,5 +16,7 @@ public enum GameClientPacketType : byte
     RequestInventoryOpen = 0x0D,
     RequestInventoryUpdateOrder = 0x0E,
     UseItem = 0x0F,
-    RequestUnEquip = 0x10
+    RequestUnEquip = 0x10,
+    RequestDestroyItem = 0x11,
+    RequestDropItem = 0x12
 }

@@ -3,27 +3,35 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-public class MenuWindow : L2Window {
+public class MenuWindow : L2Window
+{
     private static MenuWindow _instance;
     public static MenuWindow Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _instance = null;
     }
 
-    protected override void LoadAssets() {
+    protected override void LoadAssets()
+    {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/MenuWindow");
     }
 
-    protected override IEnumerator BuildWindow(VisualElement root) {
+    protected override IEnumerator BuildWindow(VisualElement root)
+    {
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();

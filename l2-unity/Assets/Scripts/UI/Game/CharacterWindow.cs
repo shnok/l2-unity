@@ -58,26 +58,34 @@ public class CharacterInfoWindow : L2PopupWindow
 
 
     private static CharacterInfoWindow _instance;
-    public static CharacterInfoWindow Instance {
+    public static CharacterInfoWindow Instance
+    {
         get { return _instance; }
     }
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _instance = null;
     }
 
-    protected override void LoadAssets() {
+    protected override void LoadAssets()
+    {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/CharacterInfoWindow");
     }
 
-    protected override void InitWindow(VisualElement root) {
+    protected override void InitWindow(VisualElement root)
+    {
         base.InitWindow(root);
 
         var dragArea = GetElementByClass("drag-area");
@@ -87,11 +95,12 @@ public class CharacterInfoWindow : L2PopupWindow
         RegisterCloseWindowEvent("btn-close-frame");
         RegisterClickWindowEvent(_windowEle, dragArea);
     }
-    protected override IEnumerator BuildWindow(VisualElement root) {
+    protected override IEnumerator BuildWindow(VisualElement root)
+    {
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
-        
+
 
         // player
         _nameLabel = GetLabelById("CharacterNameLabel");
@@ -146,10 +155,12 @@ public class CharacterInfoWindow : L2PopupWindow
         _raidLabel = GetLabelById("RaidLabel");
     }
 
-    public void UpdateValues() {
+    public void UpdateValues()
+    {
         PlayerEntity player = PlayerEntity.Instance;
 
-        if (player == null) {
+        if (player == null)
+        {
             Debug.LogWarning("Player entity is null, can't update character window");
             return;
         }
@@ -157,7 +168,8 @@ public class CharacterInfoWindow : L2PopupWindow
         StartCoroutine(UpdateWithDelay(player));
     }
 
-    private IEnumerator UpdateWithDelay(PlayerEntity player) {
+    private IEnumerator UpdateWithDelay(PlayerEntity player)
+    {
         yield return new WaitForSeconds(0.2f);
 
         UpdatePlayer(player.Identity, (PlayerStats)player.Stats);
@@ -171,13 +183,15 @@ public class CharacterInfoWindow : L2PopupWindow
         UpdateSocial((PlayerStats)player.Stats);
     }
 
-    private void UpdatePlayer(NetworkIdentity identity, PlayerStats stats) {
+    private void UpdatePlayer(NetworkIdentity identity, PlayerStats stats)
+    {
         _nameLabel.text = identity.Name;
         _classLabel.text = ((CharacterClass)(identity.PlayerClass)).ToString();
         _levelLabel.text = stats.Level.ToString();
 
     }
-    private void UpdateStats(PlayerStats stats) {
+    private void UpdateStats(PlayerStats stats)
+    {
         _strLabel.text = stats.Str.ToString();
         _intLabel.text = stats.Int.ToString();
         _dexLabel.text = stats.Dex.ToString();
@@ -186,7 +200,8 @@ public class CharacterInfoWindow : L2PopupWindow
         _menLabel.text = stats.Men.ToString();
     }
 
-    private void UpdateCombatValues(PlayerStats stats) {
+    private void UpdateCombatValues(PlayerStats stats)
+    {
         _patkLabel.text = stats.PAtk.ToString();
         _pdefLabel.text = stats.PDef.ToString();
         _paccLabel.text = stats.PAccuracy.ToString();
@@ -203,79 +218,109 @@ public class CharacterInfoWindow : L2PopupWindow
         _castspeedLabel.text = stats.MAtkSpd.ToString();
     }
 
-    private void UpdateSocial(PlayerStats stats) {
+    private void UpdateSocial(PlayerStats stats)
+    {
         _repLabel.text = "0";
         _pvpLabel.text = "0 / 0";
         _recLabel.text = "0 / 0";
         _raidLabel.text = "0";
     }
 
-    private void UpdateBars(PlayerStatus status, PlayerStats stats) {
+    private void UpdateBars(PlayerStatus status, PlayerStats stats)
+    {
         _hpLabel.text = $"{status.Hp}/{stats.MaxHp}";
         _mpLabel.text = $"{status.Mp}/{stats.MaxMp}";
         _cpLabel.text = $"{status.Cp}/{stats.MaxCp}";
         _spLabel.text = stats.Sp.ToString();
 
-        if (stats.MaxExp > 0) {
+        if (stats.MaxExp > 0)
+        {
             _expLabel.text = $"{((float)stats.Exp / stats.MaxExp).ToString("00.00")}%";
-        } else {
+        }
+        else
+        {
             _expLabel.text = $"00.00%";
         }
 
-        if (stats.MaxWeight > 0) {
+        if (stats.MaxWeight > 0)
+        {
             _weightLabel.text = $"{((float)stats.CurrWeight / stats.MaxWeight).ToString("00.00")}%";
-        } else {
+        }
+        else
+        {
             _weightLabel.text = $"00.00%";
         }
 
-        if (_hpBarBg != null && _hpBar != null) {
+        if (_hpBarBg != null && _hpBar != null)
+        {
             float hpRatio = (float)status.Hp / stats.MaxHp;
             float bgWidth = _hpBarBg.resolvedStyle.width;
             float barWidth = bgWidth * hpRatio;
-            if (stats.MaxHp == 0) {
+            if (stats.MaxHp == 0)
+            {
                 barWidth = 0;
             }
             _hpBar.style.width = barWidth;
         }
 
-        if (_mpBarBg != null && _mpBar != null) {
+        if (_mpBarBg != null && _mpBar != null)
+        {
             float mpRatio = (float)status.Mp / stats.MaxMp;
             float bgWidth = _mpBarBg.resolvedStyle.width;
             float barWidth = bgWidth * mpRatio;
-            if (stats.MaxMp == 0) {
+            if (stats.MaxMp == 0)
+            {
                 barWidth = 0;
             }
             _mpBar.style.width = barWidth;
         }
 
-        if (_cpBarBg != null && _cpBar != null) {
+        if (_cpBarBg != null && _cpBar != null)
+        {
             float bgWidth = _cpBarBg.resolvedStyle.width;
             float cpRatio = (float)status.Cp / stats.MaxCp;
             float barWidth = bgWidth * cpRatio;
-            if (stats.MaxCp == 0) {
+            if (stats.MaxCp == 0)
+            {
                 barWidth = 0;
             }
             _cpBar.style.width = barWidth;
         }
 
-        if (_expBarBg != null && _expBar != null) {
+        if (_expBarBg != null && _expBar != null)
+        {
             float bgWidth = _expBarBg.resolvedStyle.width;
             float expRatio = (float)stats.Exp / stats.MaxExp;
             float barWidth = bgWidth * expRatio;
-            if (stats.MaxExp == 0) {
+            if (stats.MaxExp == 0)
+            {
                 barWidth = 0;
             }
             _expBar.style.width = barWidth;
         }
 
-        if (_weightBarBg != null && _weightBar != null) {
+        if (_weightBarBg != null && _weightBar != null)
+        {
             float bgWidth = _expBarBg.resolvedStyle.width;
             float expRatio = (float)stats.CurrWeight / stats.MaxWeight;
             float barWidth = bgWidth * expRatio;
-            if (stats.MaxWeight == 0) {
+            if (stats.MaxWeight == 0)
+            {
                 barWidth = 0;
             }
             _weightBar.style.width = barWidth;
         }
+    }
+
+    public override void ShowWindow()
+    {
+        base.ShowWindow();
+        AudioManager.Instance.PlayUISound("window_open");
+    }
+
+    public override void HideWindow()
+    {
+        base.HideWindow();
+        AudioManager.Instance.PlayUISound("window_close");
     }
 }

@@ -5,7 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class InventoryWindow : L2PopupWindow {
+public class InventoryWindow : L2PopupWindow
+{
     public static int PLAYER_INVENTORY_SIZE = 80;
 
     private VisualTreeAsset _tabTemplate;
@@ -16,7 +17,6 @@ public class InventoryWindow : L2PopupWindow {
     private VisualElement _minimizedInventoryBtn;
     private InventoryTab _activeTab;
 
-    [SerializeField] private bool _minimized = false;
     private MouseOverDetectionManipulator _minimizedInventoryMouseOverManipulator;
     private DragManipulator _minimizedInventoryDragManipulator;
     [SerializeField] private bool _expanded = false;
@@ -43,14 +43,19 @@ public class InventoryWindow : L2PopupWindow {
     public int SlotCount { get { return _slotCount; } }
 
     private static InventoryWindow _instance;
-    public static InventoryWindow Instance {
+    public static InventoryWindow Instance
+    {
         get { return _instance; }
     }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
 
@@ -106,11 +111,13 @@ public class InventoryWindow : L2PopupWindow {
         // _playerItems.Add(new ItemInstance(0, 116, ItemLocation.Equipped, (int)ItemSlot.lfinger, 1, ItemCategory.ShieldArmor, true, ItemSlot.lfinger, 0, 0));
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _instance = null;
     }
 
-    protected override void LoadAssets() {
+    protected override void LoadAssets()
+    {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryWindow");
         _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTab");
         _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTabHeader");
@@ -118,10 +125,10 @@ public class InventoryWindow : L2PopupWindow {
         _minimizedTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryMin");
     }
 
-    protected override void InitWindow(VisualElement root) {
+    protected override void InitWindow(VisualElement root)
+    {
         base.InitWindow(root);
 
-        _minimized = false;
         _expanded = false;
 
         var dragArea = GetElementByClass("drag-area");
@@ -131,28 +138,30 @@ public class InventoryWindow : L2PopupWindow {
         RegisterCloseWindowEvent("btn-close-frame");
         RegisterClickWindowEvent(_windowEle, dragArea);
 
-        _expandButton = (Button) GetElementByClass("expand-btn");
+        _expandButton = (Button)GetElementByClass("expand-btn");
         _expandButton.AddManipulator(new ButtonClickSoundManipulator(_expandButton));
         _expandButton.RegisterCallback<MouseDownEvent>(OnExpandButtonPressed, TrickleDown.TrickleDown);
 
-        Button adenaDistribution = (Button) GetElementById("AdenaDistribBtn");
+        Button adenaDistribution = (Button)GetElementById("AdenaDistribBtn");
         adenaDistribution.AddManipulator(new ButtonClickSoundManipulator(adenaDistribution));
         adenaDistribution.AddManipulator(new TooltipManipulator(adenaDistribution, "Adena distribution"));
 
-        Button compoundBtn = (Button) GetElementById("CompoundBtn");
+        Button compoundBtn = (Button)GetElementById("CompoundBtn");
         compoundBtn.AddManipulator(new ButtonClickSoundManipulator(compoundBtn));
         compoundBtn.AddManipulator(new TooltipManipulator(adenaDistribution, "Compound"));
-        
-        Button trashBtn = (Button) GetElementById("TrashBtn");
+
+        Button trashBtn = (Button)GetElementById("TrashBtn");
         trashBtn.AddManipulator(new ButtonClickSoundManipulator(trashBtn));
         trashBtn.AddManipulator(new TooltipManipulator(adenaDistribution, "Trash"));
+        L2Slot trashSlot = new L2Slot(trashBtn, 0, L2Slot.SlotType.Trash);
 
         _inventoryCountLabel = GetLabelById("InventoryCount");
         _adenaCountLabel = GetLabelById("AdenaCount");
         _weightLabel = GetLabelById("CurrentWeight");
     }
 
-    protected override IEnumerator BuildWindow(VisualElement root) {
+    protected override IEnumerator BuildWindow(VisualElement root)
+    {
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
@@ -166,22 +175,30 @@ public class InventoryWindow : L2PopupWindow {
         UpdateItemList(_playerItems);
     }
 
-    private void OnExpandButtonPressed(MouseDownEvent evt) {
-        if(!_expanded) {
-            if(!_windowEle.ClassListContains("expanded")) {
+    private void OnExpandButtonPressed(MouseDownEvent evt)
+    {
+        if (!_expanded)
+        {
+            if (!_windowEle.ClassListContains("expanded"))
+            {
                 _windowEle.AddToClassList("expanded");
             }
-            if(!_expandButton.ClassListContains("expanded")) {
+            if (!_expandButton.ClassListContains("expanded"))
+            {
                 _expandButton.AddToClassList("expanded");
             }
             _expanded = true;
 
             UpdateItemList(_playerItems);
-        } else {
-              if(_windowEle.ClassListContains("expanded")) {
+        }
+        else
+        {
+            if (_windowEle.ClassListContains("expanded"))
+            {
                 _windowEle.RemoveFromClassList("expanded");
             }
-            if(_expandButton.ClassListContains("expanded")) {
+            if (_expandButton.ClassListContains("expanded"))
+            {
                 _expandButton.RemoveFromClassList("expanded");
             }
             _expanded = false;
@@ -192,13 +209,14 @@ public class InventoryWindow : L2PopupWindow {
         evt.PreventDefault();
     }
 
-    private void CreateMinimizedWindow() {
-        
+    private void CreateMinimizedWindow()
+    {
+
         // Header button
-        Button minimizeWindowButton = (Button) GetElementByClass("minimize-btn");
+        Button minimizeWindowButton = (Button)GetElementByClass("minimize-btn");
         minimizeWindowButton.AddManipulator(new ButtonClickSoundManipulator(minimizeWindowButton));
         minimizeWindowButton.RegisterCallback<MouseUpEvent>(OnMinimizeInventoryClick, TrickleDown.TrickleDown);
-        
+
         // Minized inventory button
         _minimizedInventoryBtn = _minimizedTemplate.Instantiate()[0];
         _minimizedInventoryMouseOverManipulator = new MouseOverDetectionManipulator(_minimizedInventoryBtn);
@@ -215,41 +233,48 @@ public class InventoryWindow : L2PopupWindow {
         _root.Add(_minimizedInventoryBtn);
     }
 
-    private void OnMinimizeInventoryClick(MouseUpEvent evt) {
-        if(!_minimizedInventoryBtn.ClassListContains("minimized")) {
+    private void OnMinimizeInventoryClick(MouseUpEvent evt)
+    {
+        if (!_minimizedInventoryBtn.ClassListContains("minimized"))
+        {
             _minimizedInventoryBtn.AddToClassList("minimized");
             _minimizedInventoryMouseOverManipulator.Enable();
             HideWindow();
-            _minimized = true;
         }
     }
 
-    private void OnMinimizedInventoryClick(MouseUpEvent evt) {
-        if(!_minimizedInventoryDragManipulator.dragged) {
+    private void OnMinimizedInventoryClick(MouseUpEvent evt)
+    {
+        if (!_minimizedInventoryDragManipulator.dragged)
+        {
             AudioManager.Instance.PlayUISound("click_01");
-            if(_minimizedInventoryBtn.ClassListContains("minimized")) {
+            if (_minimizedInventoryBtn.ClassListContains("minimized"))
+            {
                 _minimizedInventoryBtn.RemoveFromClassList("minimized");
                 _minimizedInventoryMouseOverManipulator.Disable();
                 ShowWindow();
-                _minimized = false;
             }
         }
     }
 
-    private void CreateTabs() {
+    private void CreateTabs()
+    {
         _inventoryTabView = GetElementById("InventoryTabView");
 
         VisualElement tabHeaderContainer = _inventoryTabView.Q<VisualElement>("tab-header-container");
-        if (tabHeaderContainer == null) {
+        if (tabHeaderContainer == null)
+        {
             Debug.LogError("tab-header-container is null");
         }
         VisualElement tabContainer = _inventoryTabView.Q<VisualElement>("tab-content-container");
 
-        if (tabContainer == null) {
+        if (tabContainer == null)
+        {
             Debug.LogError("tab-content-container");
         }
 
-        for (int i = _tabs.Count -1; i >= 0; i--) {
+        for (int i = _tabs.Count - 1; i >= 0; i--)
+        {
             VisualElement tabElement = _tabTemplate.CloneTree()[0];
             tabElement.name = _tabs[i].TabName;
             tabElement.AddToClassList("unselected-tab");
@@ -264,7 +289,8 @@ public class InventoryWindow : L2PopupWindow {
             _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement);
         }
 
-        if (_tabs.Count > 0) {
+        if (_tabs.Count > 0)
+        {
             SwitchTab(_tabs[0]);
         }
 
@@ -274,9 +300,12 @@ public class InventoryWindow : L2PopupWindow {
         _gearTab.Initialize(_windowEle, null, null);
     }
 
-    public bool SwitchTab(InventoryTab switchTo) {
-        if (_activeTab != switchTo) {
-            if (_activeTab != null) {
+    public bool SwitchTab(InventoryTab switchTo)
+    {
+        if (_activeTab != switchTo)
+        {
+            if (_activeTab != null)
+            {
                 _activeTab.TabContainer.AddToClassList("unselected-tab");
                 _activeTab.TabHeader.RemoveFromClassList("active");
             }
@@ -292,17 +321,22 @@ public class InventoryWindow : L2PopupWindow {
         return false;
     }
 
-    public void UpdateItemList(List<ItemInstance> items) {
+    public void UpdateItemList(List<ItemInstance> items)
+    {
         _adenaCount = 0;
         _usedSlots = 0;
 
-        if(items == null) {
+        if (items == null)
+        {
             items = new List<ItemInstance>();
-        } else {
+        }
+        else
+        {
             _usedSlots = items.Where(o => o.Location == ItemLocation.Inventory).Count();
 
             ItemInstance adenaItem = items.First(o => o.Category == ItemCategory.Adena);
-            if(adenaItem != null) {
+            if (adenaItem != null)
+            {
                 _adenaCount = adenaItem.Count;
             }
         }
@@ -323,24 +357,38 @@ public class InventoryWindow : L2PopupWindow {
         // Tabs
         _gearTab.UpdateItemList(items);
 
-        _tabs.ForEach((tab) => {
+        _tabs.ForEach((tab) =>
+        {
             tab.UpdateItemList(items);
         });
     }
 
-    public override void ShowWindow() {
-        base.ShowWindow();
+    public override void ToggleHideWindow()
+    {
+        if (_isWindowHidden)
+        {
+            GameClient.Instance.ClientPacketHandler.SendRequestOpenInventory();
+        }
+        else
+        {
+            HideWindow();
+        }
+    }
 
+    public override void ShowWindow()
+    {
+        base.ShowWindow();
         AudioManager.Instance.PlayUISound("inventory_open_01");
     }
 
-    public override void HideWindow() {
+    public override void HideWindow()
+    {
         base.HideWindow();
-
         AudioManager.Instance.PlayUISound("inventory_close_01");
     }
 
-    public void SelectSlot(int slot) {
+    public void SelectSlot(int slot)
+    {
         _tabs[0].SelectSlot(slot);
     }
 }

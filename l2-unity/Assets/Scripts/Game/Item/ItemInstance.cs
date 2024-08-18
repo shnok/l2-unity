@@ -28,7 +28,8 @@ public class ItemInstance
     public long RemainingTime { get { return _remainingTime; } }
     public int LastChange { get { return _lastChange; } set { _lastChange = value; } }
 
-    public ItemInstance(int objectId, int itemId, ItemLocation location, int slot, int count, ItemCategory category, bool equipped, ItemSlot bodyPart, int enchantLevel, long remainingTime) {
+    public ItemInstance(int objectId, int itemId, ItemLocation location, int slot, int count, ItemCategory category, bool equipped, ItemSlot bodyPart, int enchantLevel, long remainingTime)
+    {
         _objectId = objectId;
         _itemId = itemId;
         _location = location;
@@ -40,39 +41,50 @@ public class ItemInstance
         _remainingTime = remainingTime;
         _enchantLevel = enchantLevel;
 
-        if (_category == ItemCategory.Weapon) {
+        if (_category == ItemCategory.Weapon)
+        {
             _itemData = ItemTable.Instance.GetWeapon(_itemId);
-        } else if (_category == ItemCategory.ShieldArmor || _category == ItemCategory.Jewel) {
-            if (bodyPart != ItemSlot.lhand) {
+        }
+        else if (_category == ItemCategory.ShieldArmor || _category == ItemCategory.Jewel)
+        {
+            if (bodyPart != ItemSlot.lhand)
+            {
                 _itemData = ItemTable.Instance.GetArmor(_itemId);
-            } else {
+            }
+            else
+            {
                 _itemData = ItemTable.Instance.GetWeapon(_itemId);
             }
-        } else {
+        }
+        else
+        {
             _itemData = ItemTable.Instance.GetEtcItem(_itemId);
         }
 
-        Debug.Log(this.ToString());
+        //Debug.Log(this.ToString());
     }
 
-    public void Update(ItemInstance newItem) {
+    public void Update(ItemInstance newItem)
+    {
         _location = newItem.Location;
         _slot = newItem.Slot;
         _count = newItem.Count;
         _remainingTime = newItem.RemainingTime;
         _enchantLevel = newItem.EnchantLevel;
 
-        if(_equipped == false && newItem.Equipped == true 
-        || _equipped == true && newItem.Equipped == false) {
+        if (_equipped == false && newItem.Equipped == true
+        || _equipped == true && newItem.Equipped == false)
+        {
             AudioManager.Instance.PlayEquipSound(_itemData.Itemgrp.EquipSound);
-        } 
+        }
 
         _equipped = newItem.Equipped;
         _objectId = newItem.ObjectId;
         _bodyPart = newItem.BodyPart;
     }
 
-    public override string ToString() {
+    public override string ToString()
+    {
         return $"New item: ServerId:{_objectId} ItemId:{_itemId} Location:{_location} Slot:{_slot} Count:{_count} " +
         $"Cat:{_category} Equipped:{_equipped} Bodypart:{_bodyPart} Change:{_lastChange}";
     }

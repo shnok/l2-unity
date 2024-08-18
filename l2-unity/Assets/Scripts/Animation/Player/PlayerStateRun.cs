@@ -45,7 +45,7 @@ public class PlayerStateRun : PlayerStateAction {
         }
 
         if (ShouldAttack()) {
-            SetBool("atk01_" + _gear.WeaponAnim, true, false);
+            SetBool("atk01", true, true, false);
             return;
         }
 
@@ -70,6 +70,6 @@ public class PlayerStateRun : PlayerStateAction {
             return;
         }
 
-        SetBool("run_" + _weaponAnim, false, false);
+        SetBool("run", true, false, false);
     }
 }

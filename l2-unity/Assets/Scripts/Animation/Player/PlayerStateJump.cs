@@ -11,8 +11,8 @@ public class PlayerStateJump : PlayerStateAction {
 
         _lastNormalizedTime = 0;
 
-        SetBool("jump", false, false);
-        SetBool("run_jump", false, false);
+        SetBool("jump", false, false, false);
+        SetBool("run_jump", false, false, false);
         _audioHandler.PlaySound(CharacterSoundEvent.Jump_1);
     }
 
@@ -28,9 +28,9 @@ public class PlayerStateJump : PlayerStateAction {
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
             _lastNormalizedTime = stateInfo.normalizedTime;
             if (PlayerStateMachine.Instance.State == PlayerState.RUNNING) {
-                SetBool("run_" + _weaponAnim, true);
+                SetBool("run", true, true);
             } else {
-                SetBool("wait_" + _weaponAnim, true);
+                SetBool("wait", true, true);
             }
         }
     }
