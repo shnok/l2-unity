@@ -46,15 +46,15 @@ public class MenuWindow : L2Window
 
         var actionBtn = _windowEle.Q<Button>("ActionButton");
         actionBtn.AddManipulator(new ButtonClickSoundManipulator(actionBtn));
-        actionBtn.RegisterCallback<ClickEvent>((evt) => ActionWindow.Instance.ToggleHideWindow());
+        //actionBtn.RegisterCallback<ClickEvent>((evt) => ActionWindow.Instance.ToggleHideWindow());
 
         var skillBtn = _windowEle.Q<Button>("SkillButton");
         skillBtn.AddManipulator(new ButtonClickSoundManipulator(skillBtn));
-        skillBtn.RegisterCallback<ClickEvent>((evt) => SkillLearn.Instance.ToggleHideWindow());
+        //skillBtn.RegisterCallback<ClickEvent>((evt) => SkillLearn.Instance.ToggleHideWindow());
 
         var questBtn = _windowEle.Q<Button>("QuestButton");
         questBtn.AddManipulator(new ButtonClickSoundManipulator(questBtn));
-        questBtn.RegisterCallback<ClickEvent>((evt) => QuestWindow.Instance.ToggleHideWindow());
+        // questBtn.RegisterCallback<ClickEvent>((evt) => QuestWindow.Instance.ToggleHideWindow());
 
         var clanBtn = _windowEle.Q<Button>("ClanButton");
         clanBtn.AddManipulator(new ButtonClickSoundManipulator(clanBtn));
@@ -65,7 +65,7 @@ public class MenuWindow : L2Window
         var sysBtn = _windowEle.Q<Button>("SystemMenuButton");
         sysBtn.AddManipulator(new ButtonClickSoundManipulator(sysBtn));
         //sysBtn.RegisterCallback<ClickEvent>((evt) => GameClient.Instance.Disconnect());
-        sysBtn.RegisterCallback<ClickEvent>((evt) => SysMenu.Instance.Show(_windowEle.worldBound.position));
+        //sysBtn.RegisterCallback<ClickEvent>((evt) => SysMenu.Instance.Show(_windowEle.worldBound.position));
 
         root.Add(_windowEle);
 
