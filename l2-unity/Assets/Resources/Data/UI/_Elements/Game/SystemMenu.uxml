@@ -1,0 +1,143 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="DefaultMenu" src="project://database/Assets/Resources/Data/UI/_Elements/Template/DefaultMenu.uxml?fileID=9197481963319205126&amp;guid=99f991321e8e57f4d88c299131f91c56&amp;type=3#DefaultMenu" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <ui:Instance name="defaultMenu" template="DefaultMenu" style="width: 170px; height: 330px; position: absolute; top: -3px;">
+        <ui:GroupBox name="Rows" class="system-menu" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; position: absolute; width: 169px; left: 0; top: 1%; height: 321px; display: flex; visibility: visible; overflow: visible;">
+            <ui:GroupBox name="PrivateStoreRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_private_store_menu&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Private Store" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="Df" style="margin-top: 0; margin-right: 0; margin-bottom: 1px; margin-left: 10px; padding-top: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Menu/Divider_DF_Ver 1&apos;); height: 2px; width: 200px; align-self: center; opacity: 0.19;" />
+            <ui:GroupBox name="MailRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_mail_menu&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="MailBox" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="ClanRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_clan_entry_menu&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Clan Entry" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="PartyRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_party_menu&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Party" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="FriendRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_friend_menu&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Friend manager" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="CommunityRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_community_menu&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Community" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="Df" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Menu/Divider_DF_Ver 1&apos;); height: 2px; width: 200px; align-self: center; opacity: 0.19;" />
+            <ui:GroupBox name="AdditionalFunctionRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_additional_menu&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Additional Function" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="Df" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Menu/Divider_DF_Ver 1&apos;); height: 2px; width: 200px; align-self: center; opacity: 0.19;" />
+            <ui:GroupBox name="ServiceRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_exclamatory_menu&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Service" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="Df" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Menu/Divider_DF_Ver 1&apos;); height: 2px; width: 200px; align-self: center; opacity: 0.19;" />
+            <ui:GroupBox name="ShortCutRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/button_short_cut_cut&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Shortcut" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="MacrosRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 24px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/macros_img_cut&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Macro" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="OptionsRow" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 24px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/img_row_2&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Options" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="Df" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; background-image: resource(&apos;Data/UI/Menu/Divider_DF_Ver 1&apos;); height: 2px; width: 200px; align-self: center; opacity: 0.19;" />
+            <ui:GroupBox name="RestartRow" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/Icon_df_SystemMenuWnd_ReStart_clear&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Restart" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="ExitRow" class="exit_button" style="margin-top: 1px; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; opacity: 1; background-image: none; top: auto;">
+                <ui:GroupBox name="Row" style="flex-direction: row; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-bottom: 0; padding-left: 0; width: auto; height: auto; max-width: none; max-height: none; opacity: 1; background-image: none;">
+                    <ui:VisualElement name="OverImageElement" class="exit_over_row" style="flex-grow: 1; width: 165px; height: 23px; border-top-width: 0; margin-top: 0; flex-direction: row; align-self: center; max-width: 165px; justify-content: flex-start; align-items: center; margin-left: 3px;">
+                        <ui:GroupBox name="info" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 10px; padding-top: 0; padding-bottom: 0; padding-left: 0; flex-direction: row; align-self: center;">
+                            <ui:VisualElement name="icon" style="flex-grow: 1; width: 16px; height: 16px; background-image: resource(&apos;Data/UI/Menu/icon_power_menu&apos;); max-width: 16px; max-height: 16px; opacity: 1;" />
+                            <ui:Label tabindex="-1" text="Exit Game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" style="margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 7px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; color: rgb(223, 222, 222); font-size: 13px; -unity-text-outline-width: 0.3px; align-self: flex-start; align-items: flex-start;" />
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+            </ui:GroupBox>
+        </ui:GroupBox>
+    </ui:Instance>
+</ui:UXML>
