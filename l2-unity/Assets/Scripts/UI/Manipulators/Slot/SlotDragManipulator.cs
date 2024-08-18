@@ -1,33 +1,45 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SlotDragManipulator : PointerManipulator {
+public class SlotDragManipulator : PointerManipulator
+{
     private VisualElement _root;
     private Vector2 _startMousePosition;
     private Vector2 _startPosition;
     private L2Slot _slot;
     public bool dragged = false;
+    public bool enabled = false;
 
-    public SlotDragManipulator(VisualElement target, L2Slot slot) {
+    public SlotDragManipulator(VisualElement target, L2Slot slot)
+    {
         _slot = slot;
         _root = target;
         this.target = target;
     }
 
-    protected override void RegisterCallbacksOnTarget() {
+    protected override void RegisterCallbacksOnTarget()
+    {
         target.RegisterCallback<PointerDownEvent>(PointerDownHandler, TrickleDown.TrickleDown);
         target.RegisterCallback<PointerMoveEvent>(PointerMoveHandler);
         target.RegisterCallback<PointerUpEvent>(PointerUpHandler);
     }
 
-    protected override void UnregisterCallbacksFromTarget() {
+    protected override void UnregisterCallbacksFromTarget()
+    {
         target.UnregisterCallback<PointerDownEvent>(PointerDownHandler);
         target.UnregisterCallback<PointerMoveEvent>(PointerMoveHandler);
         target.UnregisterCallback<PointerUpEvent>(PointerUpHandler);
     }
 
-    public void PointerDownHandler(PointerDownEvent evt) {
-        if (evt.button == 0) {
+    public void PointerDownHandler(PointerDownEvent evt)
+    {
+        if (!enabled)
+        {
+            return;
+        }
+
+        if (evt.button == 0)
+        {
             UpdateFlotatingSlotAppearance();
             dragged = false;
             _startMousePosition = evt.position;
@@ -38,10 +50,17 @@ public class SlotDragManipulator : PointerManipulator {
         evt.StopPropagation();
     }
 
-    public void PointerMoveHandler(PointerMoveEvent evt) {
-        if (_root.HasPointerCapture(evt.pointerId)) {
+    public void PointerMoveHandler(PointerMoveEvent evt)
+    {
+        if (!enabled)
+        {
+            return;
+        }
+
+        if (_root.HasPointerCapture(evt.pointerId))
+        {
             dragged = true;
-            Vector2 diff = _startMousePosition 
+            Vector2 diff = _startMousePosition
             - new Vector2(evt.position.x, evt.position.y) // Apply mouse movement delta
             + new Vector2(_root.layout.width / 2f, _root.layout.height / 2f); // center the slot
             DragFlotatingSlot(diff);
@@ -49,20 +68,25 @@ public class SlotDragManipulator : PointerManipulator {
         evt.StopPropagation();
     }
 
-    private void UpdateFlotatingSlotAppearance() {
+    private void UpdateFlotatingSlotAppearance()
+    {
         L2SlotManager.Instance.SetDraggedSlot(_slot);
     }
 
-    private void DragFlotatingSlot(Vector2 diff) {
+    private void DragFlotatingSlot(Vector2 diff)
+    {
         float right = Screen.width - _startPosition.x - _root.layout.width + diff.x;
         float bottom = Screen.height - _startPosition.y - _root.layout.height + diff.y;
         L2SlotManager.Instance.DragSlot(right, bottom);
     }
 
-    public void PointerUpHandler(PointerUpEvent evt) {
-        if (_root.HasPointerCapture(evt.pointerId)) {
+    public void PointerUpHandler(PointerUpEvent evt)
+    {
+        if (_root.HasPointerCapture(evt.pointerId))
+        {
             _root.ReleasePointer(evt.pointerId);
-            if(dragged) {
+            if (dragged)
+            {
                 L2SlotManager.Instance.ReleaseDrag();
             }
         }

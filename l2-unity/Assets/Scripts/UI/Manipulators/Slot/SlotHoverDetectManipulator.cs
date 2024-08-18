@@ -4,6 +4,7 @@ public class SlotHoverDetectManipulator : PointerManipulator
 {
     private L2Slot _slot;
     private VisualElement _root;
+
     public SlotHoverDetectManipulator(VisualElement target, L2Slot slot)
     {
         _slot = slot;
@@ -31,6 +32,6 @@ public class SlotHoverDetectManipulator : PointerManipulator
 
     public void PointerOutHandler(PointerOutEvent evt)
     {
-        L2SlotManager.Instance.SetHoverSlot(_slot);
+        L2SlotManager.Instance.SetHoverSlot(null);
     }
 }

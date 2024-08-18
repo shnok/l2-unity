@@ -39,12 +39,19 @@ public class InventoryTab : L2Tab
         // Create empty slots
         int slotCount = InventoryWindow.Instance.SlotCount;
         _inventorySlots = new InventorySlot[slotCount];
+
+        L2Slot.SlotType slotType = L2Slot.SlotType.Inventory;
+        if (!MainTab)
+        {
+            slotType = L2Slot.SlotType.InventoryBis;
+        }
+
         for (int i = 0; i < slotCount; i++)
         {
             VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
             _contentContainer.Add(slotElement);
 
-            InventorySlot slot = new InventorySlot(i, slotElement, this, L2Slot.SlotType.Inventory);
+            InventorySlot slot = new InventorySlot(i, slotElement, this, slotType);
             _inventorySlots[i] = slot;
         }
 

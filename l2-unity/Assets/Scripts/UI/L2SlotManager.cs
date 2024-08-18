@@ -77,64 +77,75 @@ public class L2SlotManager : L2PopupWindow
             return;
         }
 
-        bool isDraggedGear = _draggedSlot.Type == L2Slot.SlotType.Gear;
-        bool isDraggedInventory = _draggedSlot.Type == L2Slot.SlotType.Inventory;
-        bool isHoverInventory = _hoverSlot.Type == L2Slot.SlotType.Inventory;
-        bool isHoverGear = _hoverSlot.Type == L2Slot.SlotType.Gear;
-
-        if (_hoverSlot == null)
-        {
-            DropItem();
-            ResetSlots();
-            return;
-        }
-
-        if (isDraggedGear && isHoverInventory && !isHoverGear)
-        {
-            Unequip();
-        }
-        else if (isDraggedInventory)
-        {
-            HandleInventorySlotDrag((InventorySlot)_draggedSlot, isHoverGear, isHoverInventory);
-        }
-        else if (!isHoverInventory && !!isHoverGear)
-        {
-            //skillbar?
-        }
-
+        HandleDragRelease();
         ResetSlots();
     }
 
-    private bool IsValidDrag()
+    private void HandleDragRelease()
     {
-        return _draggedSlot != null && (_hoverSlot != null || !L2GameUI.Instance.MouseOverUI); // Either dragging in the void or on another slot?
+        if (_hoverSlot == null)
+        {
+            DropItem();
+            return;
+        }
+
+        switch (_draggedSlot.Type)
+        {
+            case L2Slot.SlotType.Gear:
+                HandleGearDrag();
+                break;
+            case L2Slot.SlotType.Inventory:
+            case L2Slot.SlotType.InventoryBis:
+                HandleInventoryDrag();
+                break;
+            default:
+                // Handle other slot types if needed
+                break;
+        }
     }
 
-    private bool IsSameSlot()
+    private void HandleGearDrag()
     {
-        return _draggedSlot != null && _hoverSlot != null && _draggedSlot.Position == _hoverSlot.Position; // Is it the same slot ?
+        if (_hoverSlot.Type == L2Slot.SlotType.Inventory || _hoverSlot.Type == L2Slot.SlotType.InventoryBis)
+        {
+            Unequip();
+        }
+        else if (_hoverSlot.Type == L2Slot.SlotType.Trash)
+        {
+            DestroyItem();
+        }
     }
+
+    private void HandleInventoryDrag()
+    {
+        var inventorySlot = (InventorySlot)_draggedSlot;
+
+        switch (_hoverSlot.Type)
+        {
+            case L2Slot.SlotType.Gear when IsItemGear(inventorySlot.ItemCategory):
+                Equip();
+                break;
+            case L2Slot.SlotType.Inventory:
+                ChangeItemOrder();
+                break;
+            case L2Slot.SlotType.Trash:
+                DestroyItem();
+                break;
+            // Add case for skillbar if needed
+            default:
+                // Handle other hover slot types
+                break;
+        }
+    }
+
+    private bool IsValidDrag() => _draggedSlot != null && (_hoverSlot != null || !L2GameUI.Instance.MouseOverUI);
+
+    private bool IsSameSlot() => _draggedSlot != null && _hoverSlot != null && _draggedSlot.Position == _hoverSlot.Position;
 
     private void ResetSlots()
     {
         _draggedSlot = null;
         _hoverSlot = null;
-    }
-
-    private void HandleInventorySlotDrag(InventorySlot inventorySlot, bool isHoverGear, bool isHoverInventory)
-    {
-        if (isHoverGear && IsItemGear(inventorySlot.ItemCategory))
-        {
-            Equip();
-        }
-        else if (isHoverInventory && !isHoverGear)
-        {
-            ChangeItemOrder();
-        }
-        else
-        {
-            //skillbar?
-        }
     }
 
     private bool IsItemGear(ItemCategory category)
@@ -165,6 +176,14 @@ public class L2SlotManager : L2PopupWindow
         // Drop item logic
         InventorySlot slot = (InventorySlot)_draggedSlot;
         Debug.Log($"Drop {slot.Id}.");
+    }
+
+    private void DestroyItem()
+    {
+        // Destroy item logic
+        InventorySlot slot = (InventorySlot)_draggedSlot;
+        Debug.Log($"Destroy {slot.Id}.");
+        PlayerInventory.Instance.DestroyItem(slot.ObjectId, 1);
     }
 
     private void ChangeItemOrder()

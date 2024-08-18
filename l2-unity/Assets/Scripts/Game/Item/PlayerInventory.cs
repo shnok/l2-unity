@@ -78,8 +78,6 @@ public class PlayerInventory : MonoBehaviour
             {
                 ItemInstance oldItem = GetItemByObjectId(item.ObjectId);
                 _playerInventory.Remove(oldItem);
-
-                AudioManager.Instance.PlayEquipSound("trash_basket");
             }
         }
 
@@ -143,6 +141,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void DestroyItem(int objectId, int quantity)
     {
+        AudioManager.Instance.PlayEquipSound("trash_basket");
         GameClient.Instance.ClientPacketHandler.DestroyItem(objectId, quantity);
     }
 }

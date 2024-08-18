@@ -9,6 +9,7 @@ public class L2Slot
     {
         Other,
         Inventory,
+        InventoryBis, //other tab slots
         Gear,
         Skill,
         SkillBar,

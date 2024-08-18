@@ -13,6 +13,7 @@ public class InventorySlot : L2DraggableSlot
     public int Count { get { return _count; } }
     public long RemainingTime { get { return _remainingTime; } }
     public ItemCategory ItemCategory { get { return _itemCategory; } }
+    public int ObjectId { get { return _objectId; } }
 
     public InventorySlot(int position, VisualElement slotElement, L2Tab tab, SlotType slotType) :
     base(position, slotElement, slotType)
@@ -58,6 +59,8 @@ public class InventorySlot : L2DraggableSlot
         _slotBg.style.backgroundImage = background;
 
         AddTooltip(item);
+
+        _slotDragManipulator.enabled = true;
     }
 
     private void AddTooltip(ItemInstance item)
