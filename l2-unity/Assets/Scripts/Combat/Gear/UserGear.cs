@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UserGear : Gear
+public class UserGear : HumanoidGear
 {
     protected SkinnedMeshSync _skinnedMeshSync;
     [Header("Armors")]

@@ -119,7 +119,6 @@ public class TargetWindow : L2Window
     public override void ShowWindow()
     {
         base.ShowWindow();
-        AudioManager.Instance.PlayUISound("window_open");
     }
 
     public override void HideWindow()
