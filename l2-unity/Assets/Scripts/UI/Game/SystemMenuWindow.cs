@@ -73,11 +73,13 @@ public class SystemMenuWindow : L2PopupWindow
     private void HandleExitButtonClick()
     {
         HideWindow();
+        ExitWindow.Instance.OpenWindow(true);
     }
 
     private void HandleRestartButtonClick()
     {
         HideWindow();
+        ExitWindow.Instance.OpenWindow(false);
     }
 
     public void ToggleHideWindow(Vector2 basePosition)

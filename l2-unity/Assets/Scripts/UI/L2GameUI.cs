@@ -80,6 +80,10 @@ public class L2GameUI : L2UI
         {
             TargetWindow.Instance.AddWindow(_rootVisualContainer);
         }
+        if (ExitWindow.Instance != null)
+        {
+            ExitWindow.Instance.AddWindow(_rootVisualContainer);
+        }
         if (L2ToolTip.Instance != null)
         {
             L2ToolTip.Instance.AddWindow(_tooltipVisualContainer);
