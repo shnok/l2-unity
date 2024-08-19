@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Threading.Tasks;
 
-public abstract class DefaultClient : MonoBehaviour {
+public abstract class DefaultClient : MonoBehaviour
+{
     [SerializeField] protected string _serverIp = "127.0.0.1";
     [SerializeField] protected int _serverPort = 11000;
     [SerializeField] protected AsynchronousClient _client;
@@ -26,15 +27,19 @@ public abstract class DefaultClient : MonoBehaviour {
     public bool IsConnected { get { return _connected; } }
     public int Ping { get { return _ping; } set { _ping = value; } }
 
-    private void Start() {
-        if(World.Instance != null && World.Instance.OfflineMode) {
+    private void Start()
+    {
+        if (World.Instance != null && World.Instance.OfflineMode)
+        {
             this.enabled = false;
         }
     }
 
-    public async void Connect() {
+    public async void Connect()
+    {
         _connected = false;
-        if(_connecting) {
+        if (_connecting)
+        {
             return;
         }
 
@@ -43,47 +48,56 @@ public abstract class DefaultClient : MonoBehaviour {
         WhileConnecting();
 
         bool connected = await Task.Run(_client.Connect);
-        if(connected) {  
+        if (connected)
+        {
             _connecting = false;
 
             EventProcessor.Instance.QueueEvent(() => OnConnectionSuccess());
         }
     }
 
-    protected virtual void WhileConnecting() {
+    protected virtual void WhileConnecting()
+    {
         _connecting = true;
     }
 
     protected abstract void CreateAsyncClient();
 
-    protected virtual void OnConnectionSuccess() {
+    protected virtual void OnConnectionSuccess()
+    {
         _connected = true;
     }
 
-    public virtual void OnConnectionFailed() {
+    public virtual void OnConnectionFailed()
+    {
         _connecting = false;
         _connected = false;
     }
 
     public abstract void OnAuthAllowed();
 
-    public void Disconnect() {
+    public void Disconnect()
+    {
         _connected = false;
 
-        if (_client != null) {
+        if (_client != null)
+        {
             _client.Disconnect();
         }
     }
 
-    public virtual void OnDisconnect() {
-        _connected = false;
-        _client = null;
+    public virtual void OnDisconnect()
+    {
         GameManager.Instance.OnDisconnect();
     }
 
-    void OnApplicationQuit() {
-        if(_client != null) {
+#if UNITY_EDITOR
+    void OnApplicationQuit()
+    {
+        if (_client != null)
+        {
             _client.Disconnect();
-        }   
+        }
     }
+#endif
 }

@@ -21,9 +21,11 @@ public enum GameServerPacketType : byte
     AutoAttackStart = 0x12,
     AutoAttackStop = 0x13,
     ActionFailed = 0x14,
-    ServerClose=0x15,
+    ServerClose = 0x15,
     StatusUpdate = 0x16,
     ActionAllowed = 0x17,
     InventoryItemList = 0x18,
-    InventoryUpdate = 0x19
+    InventoryUpdate = 0x19,
+    LeaveWorld = 0x1A,
+    RestartReponse = 0x1B
 }

@@ -112,12 +112,12 @@ public class ExitWindow : L2PopupWindow
     private void HandleRestartButtonClick()
     {
         HideWindow();
-        GameClient.Instance.Disconnect();
+        GameClient.Instance.ClientPacketHandler.RequestRestart();
     }
 
     private void HandleExitButtonClick()
     {
         HideWindow();
-        GameClient.Instance.Disconnect();
+        GameClient.Instance.ClientPacketHandler.RequestDisconnect();
     }
 }

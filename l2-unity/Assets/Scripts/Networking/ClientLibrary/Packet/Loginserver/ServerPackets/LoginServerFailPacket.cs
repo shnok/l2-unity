@@ -1,5 +1,7 @@
-public class LoginFailPacket : ServerPacket {
-    public enum LoginFailedReason : byte {
+public class LoginServerFailPacket : ServerPacket
+{
+    public enum LoginFailedReason : byte
+    {
         REASON_NO_MESSAGE = 0x00,
         REASON_SYSTEM_ERROR_LOGIN_LATER = 0x01,
         REASON_USER_OR_PASS_WRONG = 0x02,
@@ -45,11 +47,13 @@ public class LoginFailPacket : ServerPacket {
     public LoginFailedReason FailedReason { get { return _loginFailedReason; } }
 
 
-    public LoginFailPacket(byte[] d) : base(d) {
+    public LoginServerFailPacket(byte[] d) : base(d)
+    {
         Parse();
     }
 
-    public override void Parse() {
+    public override void Parse()
+    {
         _loginFailedReason = (LoginFailedReason)ReadB();
     }
 }
