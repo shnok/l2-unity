@@ -46,8 +46,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.92242604, b: 0.798144, a: 1}
-  m_Intensity: 0.87565225
+  m_Color: {r: 0.50368524, g: 0.49845213, b: 0.6002709, a: 1}
+  m_Intensity: 0.50690806
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -85,7 +85,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
@@ -113,7 +113,7 @@ MonoBehaviour:
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
   m_LightLayerMask: 1
-  m_RenderingLayers: 1
+  m_RenderingLayers: 4294967295
   m_CustomShadowLayers: 0
   m_ShadowLayerMask: 1
   m_ShadowRenderingLayers: 1
@@ -146,13 +146,17 @@ MonoBehaviour:
   _dayFogColorStart: {r: 0.49411765, g: 0.74509805, b: 1, a: 1}
   _dayFogColorEnd: {r: 0.33320808, g: 0.44331163, b: 0.5534152, a: 0.7388527}
   _nightFogColorStart: {r: 0.4392157, g: 0.45882353, b: 0.48235294, a: 1}
-  _nightFogColorEnd: {r: 0.4392157, g: 0.45882353, b: 0.48235294, a: 0.7388527}
+  _nightFogColorEnd: {r: 0.3245157, g: 0.339003, b: 0.35638776, a: 0.7388527}
   _dayDirectionalIntensity: 0.25
   _nightDirectionalIntensity: 0
   _mainLightDayColor: {r: 1, g: 0.9764706, b: 0.88235295, a: 1}
   _mainLightNightColor: {r: 0.39607844, g: 0.43137255, b: 0.59607846, a: 1}
   _mainLightduskColor: {r: 1, g: 0.80784315, b: 0.61960787, a: 1}
   _mainLightDawnColor: {r: 1, g: 0.80784315, b: 0.61960787, a: 1}
+  _ambientLightDayColor: {r: 0.3764706, g: 0.3764706, b: 0.30980393, a: 1}
+  _ambientLightNightColor: {r: 0.16470589, g: 0.16470589, b: 0.15686275, a: 1}
+  _ambientLightduskColor: {r: 0.32156864, g: 0.25490198, b: 0.16078432, a: 1}
+  _ambientLightDawnColor: {r: 0.3764706, g: 0.3764706, b: 0.30980393, a: 1}
   _dayCloudsOpcacity: 2.54
   _nightCloudsOpacity: 0.12
   _dayHorizonCloudsOpcacity: 1
@@ -160,7 +164,7 @@ MonoBehaviour:
   _ambientMinIntensity: 0.2
   _ambientMaxIntensity: 0.6
   _mainLightMinIntensity: 0.4
-  _mainLightMaxIntensity: 1.1
+  _mainLightMaxIntensity: 1
 --- !u!114 &6026827821703622600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,8 +178,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dayDurationMinutes: 2
-  _timeHour: 16:44:18
-  _timeElapsed: 83.69218
+  _timeHour: 06:19:50
+  _timeElapsed: 31.653542
   _startClock: 1
   _worldTimer:
     dayStartTime: 0.25
@@ -185,10 +189,10 @@ MonoBehaviour:
     sunsetStartTime: 0.85
     sunsetEndTime: 0.99
   _clock:
-    totalRatio: 0.6974348
-    dayRatio: 0.89486957
+    totalRatio: 0.26377952
+    dayRatio: 0.027559042
     nightRatio: 0
-    dawnRatio: 1
-    brightRatio: 1
-    duskRatio: 0.32049677
+    dawnRatio: 0.18372694
+    brightRatio: 0
+    duskRatio: 0
     darkRatio: 1

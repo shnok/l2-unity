@@ -38,7 +38,7 @@ public class LoginWindow : L2Window
     {
         InitWindow(root);
 
-        if (GameManager.Instance.GameState >= GameState.CHAR_SELECT)
+        if (GameManager.Instance.GameState == GameState.RESTARTING)
         {
             HideWindow();
         }
@@ -75,7 +75,8 @@ public class LoginWindow : L2Window
         _passwordInput.RegisterCallback<KeyDownEvent>((evt) => OnKeyPressed(evt, _passwordInput));
 
         _logo = root.Q<VisualElement>("L2Logo");
-        if (GameManager.Instance.GameState < GameState.CHAR_SELECT)
+
+        if (GameManager.Instance.GameState != GameState.RESTARTING)
         {
             _logo.style.display = DisplayStyle.Flex;
         }

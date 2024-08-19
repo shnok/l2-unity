@@ -53,7 +53,7 @@ public class SceneLoader : MonoBehaviour
         GameManager.Instance.OnStartingGame();
         SwitchScene(_menuScene, (AsyncOperation o) =>
         {
-            L2LoginUI.Instance.StartLoading();
+            GameManager.Instance.StartLoading();
 
             LoadScene(_lobbyScene, (AsyncOperation operation) =>
             {

@@ -45,13 +45,13 @@ public class LoginCameraManager : MonoBehaviour
 
         DisableCameras();
 
-        if (GameManager.Instance.GameState < GameState.CHAR_SELECT)
+        if (GameManager.Instance.GameState == GameState.CHAR_SELECT)
         {
-            SwitchCamera("Login");
+            SwitchCamera("CharSelect");
         }
         else
         {
-            SwitchCamera("CharSelect");
+            SwitchCamera("Login");
         }
     }
 
@@ -120,12 +120,12 @@ public class LoginCameraManager : MonoBehaviour
             Initialize();
         }
 
-        Debug.LogWarning("Switch Camera: " + camera);
+        Debug.Log("Switch Camera: " + camera);
         DisableMainCamera();
 
         if (cameras.TryGetValue(camera, out Camera obj))
         {
-            Debug.LogWarning(camera + " camera enabled.");
+            Debug.Log(camera + " camera enabled.");
             obj.enabled = true;
             _activeCamera = obj;
 
