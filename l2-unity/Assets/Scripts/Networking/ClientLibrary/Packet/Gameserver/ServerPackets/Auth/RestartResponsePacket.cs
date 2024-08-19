@@ -1,18 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class RestartResponsePacket : MonoBehaviour
+public class RestartResponsePacket : ServerPacket
 {
-    // Start is called before the first frame update
-    void Start()
+    public RestartResponsePacket(byte[] d) : base(d)
     {
-        
+        Parse();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Parse()
     {
-        
     }
 }

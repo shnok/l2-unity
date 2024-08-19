@@ -181,17 +181,24 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         CharSelectionInfoPacket packet = new CharSelectionInfoPacket(data);
 
-        Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
-
-        EventProcessor.Instance.QueueEvent(() =>
+        if (GameManager.Instance.GameState != GameState.RESTARTING)
         {
-            CharSelectWindow.Instance.SetCharacterList(packet.Characters);
-            CharSelectWindow.Instance.SelectSlot(packet.SelectedSlotId);
-            CharacterSelector.Instance.SetCharacterList(packet.Characters);
-            CharacterSelector.Instance.SelectCharacter(packet.SelectedSlotId);
-            LoginClient.Instance.Disconnect();
-            GameClient.Instance.OnAuthAllowed();
-        });
+            Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
+
+            EventProcessor.Instance.QueueEvent(() =>
+            {
+                CharSelectWindow.Instance.SetCharacterList(packet.Characters);
+                CharSelectWindow.Instance.SelectSlot(packet.SelectedSlotId);
+                CharacterSelector.Instance.SetCharacterList(packet.Characters);
+                CharacterSelector.Instance.SelectCharacter(packet.SelectedSlotId);
+                LoginClient.Instance.Disconnect();
+                GameClient.Instance.OnAuthAllowed();
+            });
+        }
+        else
+        {
+            EventProcessor.Instance.QueueEvent(() => GameClient.Instance.OnCharSelectAllowed());
+        }
     }
 
     private void OnMessageReceive(byte[] data)
@@ -395,6 +402,7 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnRestartResponse(byte[] data)
     {
-        //TODO: Handle restart
+        // Do nothing, handle upcoming charselect packet instead
+        GameManager.Instance.GameState = GameState.RESTARTING;
     }
 }

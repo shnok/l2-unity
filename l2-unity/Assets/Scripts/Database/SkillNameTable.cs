@@ -21,9 +21,9 @@ public class SkillNameTable
         }
     }
 
-    
 
-    public SkillNameData GetName(int id , int level)
+
+    public SkillNameData GetName(int id, int level)
     {
         if (Names.ContainsKey(id) != true) return null;
 
@@ -32,7 +32,7 @@ public class SkillNameTable
 
         return _skillNameLevel[level];
     }
-    
+
 
     public void Initialize()
     {
@@ -42,7 +42,7 @@ public class SkillNameTable
 
     private void ReadActions()
     {
-       
+
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/SkillName_Classic-eu.txt");
 
         if (!File.Exists(dataPath))
@@ -70,16 +70,12 @@ public class SkillNameTable
                     string[] keyval = keyvals[i].Split("=");
                     string key = keyval[0];
                     string value = keyval[1];
-                    
+
                     switch (key)
                     {
                         case "skill_id":
                             nameData.Id = int.Parse(value);
-                            if (nameData.Id.Equals(410))
-                            {
-                                Debug.Log("");
-                            }
-                           break;
+                            break;
                         case "skill_level":
                             nameData.Level = int.Parse(value);
                             break;

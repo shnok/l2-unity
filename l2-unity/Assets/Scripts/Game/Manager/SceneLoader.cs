@@ -51,13 +51,15 @@ public class SceneLoader : MonoBehaviour
     public void LoadMenu()
     {
         GameManager.Instance.OnStartingGame();
-        SwitchScene(_menuScene, ((AsyncOperation o) =>
+        SwitchScene(_menuScene, (AsyncOperation o) =>
         {
+            L2LoginUI.Instance.StartLoading();
+
             LoadScene(_lobbyScene, (AsyncOperation operation) =>
             {
-                OnSceneLoad(operation, _lobbyScene);
+                GameManager.Instance.OnGameLaunched();
             });
-        }));
+        });
     }
 
     public void LoadGame()
@@ -150,14 +152,6 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.Log("Spawn player");
             World.Instance.SpawnPlayerOfflineMode();
-        }
-    }
-
-    private void OnSceneLoad(AsyncOperation operation, string sceneName)
-    {
-        if (sceneName == _lobbyScene)
-        {
-            GameManager.Instance.OnGameLaunched();
         }
     }
 }

@@ -12,28 +12,40 @@ public class LoginWindow : L2Window
     private static LoginWindow _instance;
     public static LoginWindow Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _instance = null;
     }
 
-    protected override void LoadAssets() {
+    protected override void LoadAssets()
+    {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Login/LoginWindow");
     }
 
-    protected override IEnumerator BuildWindow(VisualElement root) {
+    protected override IEnumerator BuildWindow(VisualElement root)
+    {
         InitWindow(root);
+
+        if (GameManager.Instance.GameState >= GameState.CHAR_SELECT)
+        {
+            HideWindow();
+        }
 
         yield return new WaitForEndOfFrame();
 
-        Button loginButton = (Button) GetElementById("LoginButton");
+        Button loginButton = (Button)GetElementById("LoginButton");
         loginButton.AddManipulator(new ButtonClickSoundManipulator(loginButton));
         loginButton.RegisterCallback<ClickEvent>(evt => LoginButtonPressed());
 
@@ -42,7 +54,7 @@ public class LoginWindow : L2Window
         exitButton.RegisterCallback<ClickEvent>(evt => ExitButtonPressed());
 
         VisualElement userInputBg = GetElementById("UserInputBg");
-        _userInput = (TextField) GetElementById("UserInputField");
+        _userInput = (TextField)GetElementById("UserInputField");
         _userInput.RegisterCallback<FocusEvent>((evt) => OnInputFocus(evt, _userInput));
         _userInput.RegisterCallback<BlurEvent>((evt) => OnInputBlur(evt, _userInput));
         _userInput.maxLength = 16;
@@ -63,58 +75,79 @@ public class LoginWindow : L2Window
         _passwordInput.RegisterCallback<KeyDownEvent>((evt) => OnKeyPressed(evt, _passwordInput));
 
         _logo = root.Q<VisualElement>("L2Logo");
+        if (GameManager.Instance.GameState < GameState.CHAR_SELECT)
+        {
+            _logo.style.display = DisplayStyle.Flex;
+        }
 
         _userInput.Focus();
     }
 
-    private void OnKeyPressed(KeyDownEvent evt, TextField input) {
+    private void OnKeyPressed(KeyDownEvent evt, TextField input)
+    {
         KeyCode keyCode = evt.keyCode;
-        if (keyCode == KeyCode.Tab) {
-            if (input == _passwordInput) {
+        if (keyCode == KeyCode.Tab)
+        {
+            if (input == _passwordInput)
+            {
                 _userInput.Focus();
-            } else {
+            }
+            else
+            {
                 _passwordInput.Focus();
             }
 
             evt.PreventDefault();
 
-        } else if (keyCode == KeyCode.Return || keyCode == KeyCode.KeypadEnter) {
+        }
+        else if (keyCode == KeyCode.Return || keyCode == KeyCode.KeypadEnter)
+        {
             AudioManager.Instance.PlayUISound("click_01");
             LoginButtonPressed();
             evt.PreventDefault();
         }
     }
 
-    private void OnLoginInputChanged(ChangeEvent<string> evt) {
+    private void OnLoginInputChanged(ChangeEvent<string> evt)
+    {
         string username = evt.newValue;
 
         // Regex pattern: ^[a-zA-Z0-9]{1,16}$
         // This allows only alphanumeric characters, 1-16 characters long
         Regex regex = new Regex(@"^[a-zA-Z0-9]{0,16}$");
 
-        if (!regex.IsMatch(username)) {
+        if (!regex.IsMatch(username))
+        {
             // If the input doesn't match the regex, revert to the previous value
             _userInput.SetValueWithoutNotify(evt.previousValue);
         }
     }
 
-    private void OnInputFocus(FocusEvent evt, VisualElement input) {
-        if (!input.ClassListContains("highlighted")) {
+    private void OnInputFocus(FocusEvent evt, VisualElement input)
+    {
+        if (!input.ClassListContains("highlighted"))
+        {
             input.AddToClassList("highlighted");
         }
     }
 
-    private void OnInputBlur(BlurEvent evt, VisualElement input) {
-        if (input.ClassListContains("highlighted")) {
+    private void OnInputBlur(BlurEvent evt, VisualElement input)
+    {
+        if (input.ClassListContains("highlighted"))
+        {
             input.RemoveFromClassList("highlighted");
         }
     }
 
-    private void LoginButtonPressed() {
-        if (_userInput.text.Length == 0 && _passwordInput.text.Length == 0) {
+    private void LoginButtonPressed()
+    {
+        if (_userInput.text.Length == 0 && _passwordInput.text.Length == 0)
+        {
             _userInput.value = "Shnok";
             _passwordInput.value = "1234";
-        } else if(_passwordInput.text.Length == 0) {
+        }
+        else if (_passwordInput.text.Length == 0)
+        {
             return;
         }
 
@@ -123,21 +156,34 @@ public class LoginWindow : L2Window
         LoginClient.Instance.Connect();
     }
 
-    private void ExitButtonPressed() {
+    private void ExitButtonPressed()
+    {
         Application.Quit();
     }
 
-    public override void HideWindow() {
+    public override void HideWindow()
+    {
         base.HideWindow();
-        _logo.style.display = DisplayStyle.None;
+
+        if (_logo != null)
+        {
+            _logo.style.display = DisplayStyle.None;
+        }
     }
 
-    public override void ShowWindow() {
+    public override void ShowWindow()
+    {
         base.ShowWindow();
-        _logo.style.display = DisplayStyle.Flex;
+
+        if (_logo != null)
+        {
+            _logo.style.display = DisplayStyle.Flex;
+        }
+
         _userInput.Focus();
-        
-        if(GameManager.Instance.AutoLogin) {
+
+        if (GameManager.Instance.AutoLogin)
+        {
             LoginButtonPressed();
         }
     }
