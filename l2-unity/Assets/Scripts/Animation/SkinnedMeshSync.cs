@@ -40,7 +40,7 @@ public class SkinnedMeshSync : MonoBehaviour
             Transform child = transform.parent.GetChild(i);
             if (child != transform)
             {
-                Debug.Log(childIndex + " : " + child);
+                //  Debug.Log(childIndex + " : " + child);
                 _destSkinnedRenderer[childIndex++] = child.GetComponentInChildren<SkinnedMeshRenderer>();
             }
             else

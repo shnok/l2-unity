@@ -162,4 +162,15 @@ public class GameClientPacketHandler : ClientPacketHandler
         RequestDropItemPacket packet = new RequestDropItemPacket(objectId, quantity);
         SendPacket(packet);
     }
+    public void RequestDisconnect()
+    {
+        DisconnectPacket packet = new DisconnectPacket();
+        SendPacket(packet);
+    }
+
+    public void RequestRestart()
+    {
+        RequestRestartPacket packet = new RequestRestartPacket();
+        SendPacket(packet);
+    }
 }

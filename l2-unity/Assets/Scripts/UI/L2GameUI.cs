@@ -50,20 +50,18 @@ public class L2GameUI : L2UI
             StartLoading();
         }
 
-        // SKillbar needs updates
-        //ShortCutPanelMinimal.Instance.AddWindow(rootVisualContainer);
-        //ShortCutPanel.Instance.AddWindow(rootVisualContainer);
         if (ChatWindow.Instance != null)
         {
             ChatWindow.Instance.AddWindow(_rootVisualContainer);
+        }
+        if (SystemMenuWindow.Instance != null)
+        {
+            SystemMenuWindow.Instance.AddWindow(_rootVisualContainer);
         }
         if (MenuWindow.Instance != null)
         {
             MenuWindow.Instance.AddWindow(_rootVisualContainer);
         }
-        //if (IconOverlay.Instance != null) {
-        //    IconOverlay.Instance.AddWindow(_rootVisualContainer);
-        //}
         if (StatusWindow.Instance != null)
         {
             StatusWindow.Instance.AddWindow(_rootVisualContainer);
@@ -78,15 +76,13 @@ public class L2GameUI : L2UI
             CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
             CharacterInfoWindow.Instance.HideWindow();
         }
-        // if (ActionWindow.Instance != null) {
-        //     ActionWindow.Instance.AddWindow(_rootVisualContainer);
-        // }
-        // if (SkillLearn.Instance != null) {
-        //     SkillLearn.Instance.AddWindow(_rootVisualContainer);
-        // }
         if (TargetWindow.Instance != null)
         {
             TargetWindow.Instance.AddWindow(_rootVisualContainer);
+        }
+        if (ExitWindow.Instance != null)
+        {
+            ExitWindow.Instance.AddWindow(_rootVisualContainer);
         }
         if (L2ToolTip.Instance != null)
         {

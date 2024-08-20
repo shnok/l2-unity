@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 6227403751048920905}
   - component: {fileID: 5806285974765348047}
   - component: {fileID: 3414367172090928233}
+  - component: {fileID: 506747367762882996}
+  - component: {fileID: 8274691919601176420}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -51,6 +53,7 @@ MonoBehaviour:
   _protocolVersion: 1
   _gameState: 0
   _autoLogin: 0
+  _loadingCamera: {fileID: 0}
 --- !u!114 &2081572240581827940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,10 +94,15 @@ MonoBehaviour:
   _lobbyScene: l2_lobby
   _gameScene: Game
   _mapList:
-  - 17_25
-  - 16_25
-  - 17_24
-  - 16_24
+  - name: 17_25
+    enabled: 1
+  - name: 16_25
+    enabled: 0
+  - name: 17_24
+    enabled: 0
+  - name: 16_24
+    enabled: 0
+  _mapsToLoad: []
 --- !u!114 &3414367172090928233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,3 +115,108 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ec007b0cdb24343a752efda3c5bb5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &506747367762882996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6810262815525540192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a2a645736c50d3468cc7a4d4b6acfe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectedCharacterSlot: 0
+  _defaultSelectedCharacterSlot: 0
+  _selectedCharacter:
+    _slot: 0
+    _name: 
+    _account: 
+    _id: 0
+    _position: {x: 0, y: 0, z: 0}
+    _playerAppearance:
+      _collisonHeight: 0
+      _collisionRadius: 0
+      _lhand: 0
+      _rhand: 0
+      _race: 0
+      _sex: 0
+      _face: 0
+      _hairStyle: 0
+      _hairColor: 0
+      _chest: 0
+      _legs: 0
+      _gloves: 0
+      _feet: 0
+    _characterRaceAnimation: 0
+    _playerStatus:
+      _hp: 0
+      _mp: 0
+      _cp: 0
+      _pvpFlag: 0
+    _playerStats:
+      _level: 0
+      _speed: 0
+      _scaledSpeed: 0
+      _pAtkSpd: 0
+      _mAtkSpd: 0
+      _maxHp: 0
+      _maxMp: 0
+      _maxCp: 0
+      _pAtk: 0
+      _mAtk: 0
+      _pEvasion: 0
+      _mEvasion: 0
+      _pAccuracy: 0
+      _mAccuracy: 0
+      _pCritical: 0
+      _mCritical: 0
+      _mDef: 0
+      _pDef: 0
+      _shieldDef: 0
+      _exp: 0
+      _maxExp: 0
+      _sp: 0
+      _currWeight: 0
+      _maxWeight: 0
+      _attackRange: 0
+      _con: 0
+      _dex: 0
+      _str: 0
+      _wit: 0
+      _men: 0
+      _int: 0
+      _karma: 0
+      _pvpKills: 0
+      _pkKills: 0
+    _isMage: 0
+    _classId: 0
+    _exp: 0
+    _sp: 0
+    _expPercent: 0
+    _karma: 0
+    _pvpKills: 0
+    _pkKills: 0
+    _deleteTimer: 0
+    _clanId: 0
+    _selected: 0
+  _characters: []
+  _characterMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  _charSelectCamera: {fileID: 0}
+--- !u!114 &8274691919601176420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6810262815525540192}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c28e3cf9dc9693438b6eb036f0c18ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  focusedFrameRate: 165
+  unfocusedFrameRate: 25
