@@ -181,16 +181,15 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         CharSelectionInfoPacket packet = new CharSelectionInfoPacket(data);
 
+        CharacterSelector.Instance.Characters = packet.Characters;
+        CharacterSelector.Instance.DefaultSelectedSlot = packet.SelectedSlotId;
+
         if (GameManager.Instance.GameState != GameState.RESTARTING)
         {
             Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
 
             EventProcessor.Instance.QueueEvent(() =>
             {
-                CharSelectWindow.Instance.SetCharacterList(packet.Characters);
-                CharSelectWindow.Instance.SelectSlot(packet.SelectedSlotId);
-                CharacterSelector.Instance.SetCharacterList(packet.Characters);
-                CharacterSelector.Instance.SelectCharacter(packet.SelectedSlotId);
                 LoginClient.Instance.Disconnect();
                 GameClient.Instance.OnAuthAllowed();
             });

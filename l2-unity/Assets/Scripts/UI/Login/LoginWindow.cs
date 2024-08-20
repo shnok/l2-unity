@@ -37,11 +37,9 @@ public class LoginWindow : L2Window
     protected override IEnumerator BuildWindow(VisualElement root)
     {
         InitWindow(root);
+        _logo = root.Q<VisualElement>("L2Logo");
 
-        if (GameManager.Instance.GameState == GameState.RESTARTING)
-        {
-            HideWindow();
-        }
+        GameManager.Instance.OnLoginUILoaded();
 
         yield return new WaitForEndOfFrame();
 
@@ -74,12 +72,7 @@ public class LoginWindow : L2Window
         _passwordInput.AddManipulator(new BlinkingCursorManipulator(_passwordInput));
         _passwordInput.RegisterCallback<KeyDownEvent>((evt) => OnKeyPressed(evt, _passwordInput));
 
-        _logo = root.Q<VisualElement>("L2Logo");
 
-        if (GameManager.Instance.GameState != GameState.RESTARTING)
-        {
-            _logo.style.display = DisplayStyle.Flex;
-        }
 
         _userInput.Focus();
     }
@@ -162,24 +155,34 @@ public class LoginWindow : L2Window
         Application.Quit();
     }
 
-    public override void HideWindow()
+    public void ShowLogo()
     {
-        base.HideWindow();
+        if (_logo != null)
+        {
+            _logo.style.display = DisplayStyle.Flex;
+        }
+    }
 
+    public void HideLogo()
+    {
         if (_logo != null)
         {
             _logo.style.display = DisplayStyle.None;
         }
     }
 
+    public override void HideWindow()
+    {
+        base.HideWindow();
+
+        HideLogo();
+    }
+
     public override void ShowWindow()
     {
         base.ShowWindow();
 
-        if (_logo != null)
-        {
-            _logo.style.display = DisplayStyle.Flex;
-        }
+        ShowLogo();
 
         _userInput.Focus();
 

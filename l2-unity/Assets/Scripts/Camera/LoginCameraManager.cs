@@ -45,14 +45,7 @@ public class LoginCameraManager : MonoBehaviour
 
         DisableCameras();
 
-        if (GameManager.Instance.GameState == GameState.CHAR_SELECT)
-        {
-            SwitchCamera("CharSelect");
-        }
-        else
-        {
-            SwitchCamera("Login");
-        }
+        GameManager.Instance.OnLoginCamerasInitialized();
     }
 
     public Camera SelectClassCamera(string race, string charClass)

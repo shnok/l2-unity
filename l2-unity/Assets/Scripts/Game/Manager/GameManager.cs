@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
     {
         GameState = GameState.CHAR_SELECT;
 
-        LoginCameraManager.Instance.SwitchCamera("CharSelect");
+        SwitchToCharSelect();
 
         L2LoginUI.Instance.ShowCharSelectWindow();
     }
@@ -218,6 +218,42 @@ public class GameManager : MonoBehaviour
             MusicManager.Instance.Clear();
             SceneLoader.Instance.LoadMenu();
             StartLoading();
+        }
+    }
+
+    public void OnLoginCamerasInitialized()
+    {
+        if (GameState == GameState.CHAR_SELECT)
+        {
+            SwitchToCharSelect();
+        }
+        else
+        {
+            LoginCameraManager.Instance.SwitchCamera("Login");
+        }
+    }
+
+    public void SwitchToCharSelect()
+    {
+        CharSelectWindow.Instance.SetCharacterList(CharacterSelector.Instance.Characters);
+
+        CharacterSelector.Instance.ApplyCharacterList();
+        CharacterSelector.Instance.SelectDefaultCharacter();
+
+        CharSelectWindow.Instance.SelectSlot(CharacterSelector.Instance.SelectedSlot);
+
+        LoginCameraManager.Instance.SwitchCamera("CharSelect");
+    }
+
+    public void OnLoginUILoaded()
+    {
+        if (GameState == GameState.RESTARTING)
+        {
+            LoginWindow.Instance.HideWindow();
+        }
+        else
+        {
+            LoginWindow.Instance.ShowLogo();
         }
     }
 
