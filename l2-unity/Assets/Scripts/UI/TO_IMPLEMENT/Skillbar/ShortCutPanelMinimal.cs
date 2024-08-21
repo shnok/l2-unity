@@ -47,13 +47,13 @@ public class ShortCutPanelMinimal : MonoBehaviour, IShortCutButton
 
     private void InitArrImgNumbers()
     {
-        arrImgNextButton[0] = "Data/UI/ShortCut/button/numbers/shortcut_f01";
-        arrImgNextButton[1] = "Data/UI/ShortCut/button/numbers/shortcut_f02";
-        arrImgNextButton[2] = "Data/UI/ShortCut/button/numbers/shortcut_f03";
-        arrImgNextButton[3] = "Data/UI/ShortCut/button/numbers/shortcut_f04";
-        arrImgNextButton[4] = "Data/UI/ShortCut/button/numbers/shortcut_f05";
-        arrImgNextButton[5] = "Data/UI/ShortCut/button/numbers/shortcut_f06";
-        // arrImgNextButton[6] = "Data/UI/ShortCut/button/numbers/shortcut_f07";
+        arrImgNextButton[0] = "Data/UI/Assets/ShortCut/button/numbers/shortcut_f01";
+        arrImgNextButton[1] = "Data/UI/Assets/ShortCut/button/numbers/shortcut_f02";
+        arrImgNextButton[2] = "Data/UI/Assets/ShortCut/button/numbers/shortcut_f03";
+        arrImgNextButton[3] = "Data/UI/Assets/ShortCut/button/numbers/shortcut_f04";
+        arrImgNextButton[4] = "Data/UI/Assets/ShortCut/button/numbers/shortcut_f05";
+        arrImgNextButton[5] = "Data/UI/Assets/ShortCut/button/numbers/shortcut_f06";
+        // arrImgNextButton[6] = "Data/UI/Assets/ShortCut/button/numbers/shortcut_f07";
     }
     public void SetResetPosition()
     {
@@ -82,34 +82,34 @@ public class ShortCutPanelMinimal : MonoBehaviour, IShortCutButton
             if (i == 0)
             {
                 int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
-                string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0914", "", "", "", "", "", "", "", "", "", "" };
+                string[] img = { "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0914", "", "", "", "", "", "", "", "", "", "" };
                 arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
             }
             if (i == 1)
             {
                 int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
-                string[] img = { "Data/UI/ShortCut/demo_skills/skill0009", "Data/UI/ShortCut/demo_skills/skill5760", "", "", "", "", "", "", "", "", "", "" };
+                string[] img = { "Data/UI/Assets/ShortCut/demo_skills/skill0009", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "", "", "", "", "", "", "", "", "", "" };
                 arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
             }
 
             if (i == 2)
             {
                 int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
-                string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915" };
+                string[] img = { "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915" };
                 arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
             }
 
             if (i == 3)
             {
                 int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
-                string[] img = { "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760", "Data/UI/ShortCut/demo_skills/skill5760" };
+                string[] img = { "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760", "Data/UI/Assets/ShortCut/demo_skills/skill5760" };
                 arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
             }
 
             if (i == 4)
             {
                 int[] row = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 };
-                string[] img = { "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "Data/UI/ShortCut/demo_skills/skill0915", "", "", "", "", "", "", "", "", "" };
+                string[] img = { "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "Data/UI/Assets/ShortCut/demo_skills/skill0915", "", "", "", "", "", "", "", "", "" };
                 arrayRowsPanels[i] = new ShortCutChildrenModel(row, img);
             }
 

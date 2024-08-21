@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
     <ui:VisualElement name="CharSelectWindow" class="char-select-window">
         <ui:VisualElement style="flex-grow: 1; width: 33.3%; max-width: 33.3%; min-width: 33.3%; align-items: flex-start;">
-            <ui:VisualElement name="CharSelectDetailWindow" tabindex="-1" style="flex-grow: 0; width: 300px; height: auto; flex-shrink: 0; background-image: resource(&apos;Data/UI/Windows/Windows_DF_Drawer_Bg_Darker&apos;); -unity-slice-bottom: 10; -unity-slice-left: 27; -unity-slice-top: 10; -unity-slice-right: 20; margin-right: 0; margin-left: 14px; padding-top: 10px; padding-right: 5px; padding-bottom: 12px; padding-left: 5px; margin-bottom: 0; flex-wrap: nowrap; margin-top: 14px;">
+            <ui:VisualElement name="CharSelectDetailWindow" tabindex="-1" style="flex-grow: 0; width: 300px; height: auto; flex-shrink: 0; background-image: resource(&apos;Data/UI/Assets/Windows/Windows_DF_Drawer_Bg_Darker&apos;); -unity-slice-bottom: 10; -unity-slice-left: 27; -unity-slice-top: 10; -unity-slice-right: 20; margin-right: 0; margin-left: 14px; padding-top: 10px; padding-right: 5px; padding-bottom: 12px; padding-left: 5px; margin-bottom: 0; flex-wrap: nowrap; margin-top: 14px;">
                 <ui:VisualElement name="row" class="char-select-row" style="flex-grow: 0; height: 28px; width: 80%;">
                     <ui:VisualElement name="UserSelectContainer" class="char-select-col" style="width: 50%; padding-right: 4px; padding-left: 16px; height: auto;" />
                 </ui:VisualElement>
@@ -19,23 +19,23 @@
                         <ui:Label tabindex="-1" text="HP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label" style="color: rgb(255, 255, 255); -unity-font-definition: initial;" />
                         <ui:VisualElement name="HPBarContainer" template="HpBar" class="bar-container" style="height: 14px; flex-direction: row; flex-grow: 1;">
                             <ui:GroupBox name="HPBarBG" class="bar-inner" style="width: 100%;">
-                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_bg_Left.png?fileID=2800000&amp;guid=eb4faf84cfe537245a613ac946a5eb78&amp;type=3#Gauge_DF_Large_HP_bg_Left&apos;);" />
-                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_bg_Center.png?fileID=2800000&amp;guid=9a39b86abc753c1468dc586de59e7d7c&amp;type=3#Gauge_DF_Large_HP_bg_Center&apos;);" />
-                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_bg_Right.png?fileID=2800000&amp;guid=527fbaec86a1c30488274d5fa95ee8cb&amp;type=3#Gauge_DF_Large_HP_bg_Right&apos;);" />
+                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_bg_Left.png?fileID=2800000&amp;guid=eb4faf84cfe537245a613ac946a5eb78&amp;type=3#Gauge_DF_Large_HP_bg_Left&apos;);" />
+                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_bg_Center.png?fileID=2800000&amp;guid=9a39b86abc753c1468dc586de59e7d7c&amp;type=3#Gauge_DF_Large_HP_bg_Center&apos;);" />
+                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_bg_Right.png?fileID=2800000&amp;guid=527fbaec86a1c30488274d5fa95ee8cb&amp;type=3#Gauge_DF_Large_HP_bg_Right&apos;);" />
                             </ui:GroupBox>
                             <ui:GroupBox name="HPBar" class="bar-inner">
-                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_Left.png?fileID=2800000&amp;guid=8f1fe67ab14eb824f9f0a2e508beb448&amp;type=3#Gauge_DF_Large_HP_Left&apos;);" />
-                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_Center.png?fileID=2800000&amp;guid=7df1dce37f179ab4fa24cf38b6f08d7a&amp;type=3#Gauge_DF_Large_HP_Center&apos;);" />
-                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_Right.png?fileID=2800000&amp;guid=830973b84f348384fa261d0a752100dc&amp;type=3#Gauge_DF_Large_HP_Right&apos;);" />
+                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_Left.png?fileID=2800000&amp;guid=8f1fe67ab14eb824f9f0a2e508beb448&amp;type=3#Gauge_DF_Large_HP_Left&apos;);" />
+                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_Center.png?fileID=2800000&amp;guid=7df1dce37f179ab4fa24cf38b6f08d7a&amp;type=3#Gauge_DF_Large_HP_Center&apos;);" />
+                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_Right.png?fileID=2800000&amp;guid=830973b84f348384fa261d0a752100dc&amp;type=3#Gauge_DF_Large_HP_Right&apos;);" />
                             </ui:GroupBox>
-                            <ui:Label text="1234/1234" name="HPText" select-word-by-double-click="true" class="bar-label bar-label-numbers hp-text-label" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; position: relative; left: auto; flex-grow: 1; padding-left: 0; -unity-font: resource(&apos;Data/UI/Font/tahoma&apos;);" />
+                            <ui:Label text="1234/1234" name="HPText" select-word-by-double-click="true" class="bar-label bar-label-numbers hp-text-label" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; position: relative; left: auto; flex-grow: 1; padding-left: 0; -unity-font: resource(&apos;Data/UI/Assets/Font/tahoma&apos;);" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="col" class="char-select-col" style="width: 50%; padding-right: 16px; padding-left: 4px; align-items: center;">
                         <ui:Label tabindex="-1" text="SP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label" style="color: rgb(255, 255, 255); -unity-font-definition: initial;" />
                         <ui:VisualElement name="HPBarContainer" template="HpBar" style="height: 14px; flex-direction: row; flex-grow: 1; -unity-text-align: upper-left; justify-content: flex-start; align-items: auto;">
                             <ui:VisualElement name="UserInputBg" tabindex="-1" class="login-input-bg" style="flex-grow: 1; position: absolute; width: 106%; height: 21px;" />
-                            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SPLabel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 4px; padding-bottom: 0; padding-left: 0; align-self: auto; flex-grow: 1; font-size: 12px; -unity-font: resource(&apos;Data/UI/Font/tahoma&apos;); color: rgb(165, 143, 113); -unity-text-align: middle-right; -unity-font-definition: initial;" />
+                            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SPLabel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 4px; padding-bottom: 0; padding-left: 0; align-self: auto; flex-grow: 1; font-size: 12px; -unity-font: resource(&apos;Data/UI/Assets/Font/tahoma&apos;); color: rgb(165, 143, 113); -unity-text-align: middle-right; -unity-font-definition: initial;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
@@ -44,14 +44,14 @@
                         <ui:Label tabindex="-1" text="MP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label" style="color: rgb(255, 255, 255); -unity-font-definition: initial;" />
                         <ui:VisualElement name="MPBarContainer" template="HpBar" class="bar-container" style="height: 14px; flex-direction: row; flex-grow: 1;">
                             <ui:GroupBox name="MPBarBG" class="bar-inner" style="width: 100%;">
-                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_bg_Left&apos;);" />
-                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_bg_Center&apos;);" />
-                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_bg_Right&apos;);" />
+                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_bg_Left&apos;);" />
+                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_bg_Center&apos;);" />
+                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_bg_Right&apos;);" />
                             </ui:GroupBox>
                             <ui:GroupBox name="MPBar" class="bar-inner">
-                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_Left&apos;);" />
-                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_Center&apos;);" />
-                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_Right&apos;);" />
+                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_Left&apos;);" />
+                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_Center&apos;);" />
+                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_Right&apos;);" />
                             </ui:GroupBox>
                             <ui:Label text="1234/1234" name="MPText" select-word-by-double-click="true" class="bar-label bar-label-numbers hp-text-label" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; position: relative; left: auto; flex-grow: 1; padding-left: 0;" />
                         </ui:VisualElement>
@@ -60,7 +60,7 @@
                         <ui:Label tabindex="-1" text="Kar." parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label" style="color: rgb(255, 255, 255); -unity-font-definition: initial;" />
                         <ui:VisualElement name="HPBarContainer" template="HpBar" style="height: 14px; flex-direction: row; flex-grow: 1; -unity-text-align: upper-left; justify-content: flex-start; align-items: auto;">
                             <ui:VisualElement name="UserInputBg" tabindex="-1" class="login-input-bg" style="flex-grow: 1; position: absolute; width: 106%; height: 21px;" />
-                            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="KarmaLabel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 4px; padding-bottom: 0; padding-left: 0; align-self: auto; flex-grow: 1; font-size: 12px; -unity-font: resource(&apos;Data/UI/Font/tahoma&apos;); color: rgb(165, 143, 113); -unity-text-align: middle-right; -unity-font-definition: initial;" />
+                            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="KarmaLabel" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 4px; padding-bottom: 0; padding-left: 0; align-self: auto; flex-grow: 1; font-size: 12px; -unity-font: resource(&apos;Data/UI/Assets/Font/tahoma&apos;); color: rgb(165, 143, 113); -unity-text-align: middle-right; -unity-font-definition: initial;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
@@ -69,14 +69,14 @@
                         <ui:Label tabindex="-1" text="Exp" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label" style="color: rgb(255, 255, 255); -unity-font-definition: initial;" />
                         <ui:VisualElement name="ExpBarContainer" template="HpBar" class="bar-container" style="height: 13px; flex-direction: row; flex-grow: 1;">
                             <ui:GroupBox name="ExpBarBG" class="bar-inner" style="width: 100%; max-height: none; min-height: auto; height: 12px;">
-                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_bg_Left&apos;);" />
-                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_bg_Center&apos;);" />
-                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_bg_Right&apos;);" />
+                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_bg_Left&apos;);" />
+                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_bg_Center&apos;);" />
+                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_bg_Right&apos;);" />
                             </ui:GroupBox>
                             <ui:GroupBox name="ExpBar" class="bar-inner" style="max-height: none; min-height: auto; height: 12px;">
-                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Left&apos;);" />
-                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Center&apos;);" />
-                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: resource(&apos;Data/UI/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Right&apos;);" />
+                                <ui:VisualElement name="BGLeft" class="left bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Left&apos;);" />
+                                <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Center&apos;);" />
+                                <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Right&apos;);" />
                             </ui:GroupBox>
                             <ui:Label text="0.00%" name="ExpText" select-word-by-double-click="true" class="bar-label bar-label-numbers hp-text-label" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; position: relative; left: auto; flex-grow: 1; padding-left: 0;" />
                         </ui:VisualElement>
@@ -85,7 +85,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="VisualElement" style="flex-grow: 1; width: 33.3%; min-width: 33.3%; max-width: 33.3%; flex-direction: column-reverse;">
-            <ui:VisualElement name="StartButtonWindow" tabindex="-1" style="flex-grow: 0; width: auto; height: auto; flex-shrink: 0; background-image: resource(&apos;Data/UI/Windows/Windows_DF_Drawer_Bg_Darker&apos;); -unity-slice-bottom: 10; -unity-slice-left: 27; -unity-slice-top: 10; -unity-slice-right: 20; margin-right: auto; margin-left: auto; padding-top: 10px; padding-right: 5px; padding-bottom: 12px; padding-left: 5px; margin-bottom: 40px; flex-wrap: nowrap;">
+            <ui:VisualElement name="StartButtonWindow" tabindex="-1" style="flex-grow: 0; width: auto; height: auto; flex-shrink: 0; background-image: resource(&apos;Data/UI/Assets/Windows/Windows_DF_Drawer_Bg_Darker&apos;); -unity-slice-bottom: 10; -unity-slice-left: 27; -unity-slice-top: 10; -unity-slice-right: 20; margin-right: auto; margin-left: auto; padding-top: 10px; padding-right: 5px; padding-bottom: 12px; padding-left: 5px; margin-bottom: 40px; flex-wrap: nowrap;">
                 <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StartButton" tabindex="-1" focusable="false" class="l2-button" style="height: 25px;">
                     <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg" style="height: 37px;" />
                     <ui:Label tabindex="-1" text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" class="button-label" style="letter-spacing: 0; padding-top: 5px; padding-bottom: 0;" />
@@ -93,7 +93,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row-reverse; align-self: auto; align-items: flex-end; justify-content: space-between; flex-wrap: nowrap; width: 33.3%; max-width: 33.3%; min-width: 33.3%;">
-            <ui:VisualElement name="MenuWindow" tabindex="-1" style="flex-grow: 0; width: 109px; height: auto; flex-shrink: 0; background-image: resource(&apos;Data/UI/Windows/Windows_DF_Drawer_Bg_Darker&apos;); -unity-slice-bottom: 10; -unity-slice-left: 27; -unity-slice-top: 10; -unity-slice-right: 20; margin-right: 20px; margin-left: 0; padding-top: 10px; padding-right: 5px; padding-bottom: 12px; padding-left: 5px; margin-top: 0; margin-bottom: 30px; align-self: flex-end;">
+            <ui:VisualElement name="MenuWindow" tabindex="-1" style="flex-grow: 0; width: 109px; height: auto; flex-shrink: 0; background-image: resource(&apos;Data/UI/Assets/Windows/Windows_DF_Drawer_Bg_Darker&apos;); -unity-slice-bottom: 10; -unity-slice-left: 27; -unity-slice-top: 10; -unity-slice-right: 20; margin-right: 20px; margin-left: 0; padding-top: 10px; padding-right: 5px; padding-bottom: 12px; padding-left: 5px; margin-top: 0; margin-bottom: 30px; align-self: flex-end;">
                 <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CreateButton" tabindex="-1" focusable="false" class="l2-button" style="height: 20px; width: auto;">
                     <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg" />
                     <ui:Label tabindex="-1" text="Create" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" class="button-label" style="letter-spacing: 0;" />

@@ -1,19 +1,19 @@
 * {
-    cursor: url('project://database/Assets/Resources/Data/UI/Cursor/Default.png?fileID=2800000&guid=56b7edcd62f0a5d4cb23cc185e1e2b99&type=3#Default');
-    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
+    cursor: resource('Data/UI/Assets/Cursor/Default');
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
     text-shadow: 0.5px 0.5px 3px rgb(0, 0, 0);
 }
 
 .resize-hor {
-    cursor: url('project://database/Assets/Resources/Data/UI/Cursor/Resize_Hor.png?fileID=2800000&guid=3a9a3b1bcc59b344e8139e05ca5a7952&type=3#Resize_Hor') 15 5;
+    cursor: resource('Data/UI/Assets/Cursor/Resize_Hor') 15 5;
 }
 
 .resize-vert {
-    cursor: url('project://database/Assets/Resources/Data/UI/Cursor/Resize_Vert.png?fileID=2800000&guid=d1c8a1644935a0f44aa8b1d5473a4e7c&type=3#Resize_Vert');
+    cursor: resource('Data/UI/Assets/Cursor/Resize_Vert');
 }
 
 .resize-diag {
-    cursor: url('project://database/Assets/Resources/Data/UI/Cursor/Resize_Diag.png?fileID=2800000&guid=12607bbb123d2e94ba56a3adcbbccaa9&type=3#Resize_Diag') 12 12;
+    cursor: resource('Data/UI/Assets/Cursor/Resize_Diag') 12 12;
 }
 
 .status-window {
@@ -21,7 +21,7 @@
 }
 
 .chat-window {
-    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
     background-color: rgba(0, 0, 0, 0.25);
 }
 
@@ -85,7 +85,7 @@
 }
 
 .status-window .bar-label-name {
-    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/asiahm-medium.ttf?fileID=12800000&guid=244aa0b24e0b1014ab31e5cc3bc49024&type=3#asiahm-medium');
+    -unity-font-definition: resource('Data/UI/Assets/Font/asiahm-medium');
     margin: 0;
     position: absolute;
     left: 10px;
@@ -95,7 +95,7 @@
 }
 
 .bar-label-numbers {
-    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/TAHOMABD.TTF?fileID=12800000&guid=8184769e61bb85e4ba928a3b6b159f27&type=3#TAHOMABD');
+    -unity-font-definition: resource('Data/UI/Assets/Font/TAHOMABD');
     margin: 0;
     padding-left: 10%;
     height: 11px;
@@ -234,253 +234,39 @@
 }
 
 .system-menu-row:active:hover #Bg {
-    background-image: resource('Data/UI/Menu/icon_over_items_menu');
+    background-image: resource('Data/UI/Assets/Menu/icon_over_items_menu');
 }
 
 .system-menu-row:hover #Bg {
-    background-image: resource('Data/UI/Menu/icon_over_items_menu');
+    background-image: resource('Data/UI/Assets/Menu/icon_over_items_menu');
 }
 
 .chat-window .chatting-option {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_option1.png?fileID=2800000&guid=9a6ea293fa56d5a4083e09b9c4684f3b&type=3#chatting_option1');
+    background-image: resource('Data/UI/Assets/Chat/chatting_option1');
 }
 
 .chat-window .chatting-option:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_option2.png?fileID=2800000&guid=2397f064f86bf3f47a480683d5f90646&type=3#chatting_option2');
+    background-image: resource('Data/UI/Assets/Chat/chatting_option2');
 }
 
 .chat-window .chatting-option:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_option2.png?fileID=2800000&guid=2397f064f86bf3f47a480683d5f90646&type=3#chatting_option2');
+    background-image: resource('Data/UI/Assets/Chat/chatting_option2');
 }
 
 .chat-window .chatting-option:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_option1_over.png?fileID=2800000&guid=d8fcf3fe99c18024d95a92f58c405d62&type=3#chatting_option1_over');
+    background-image: resource('Data/UI/Assets/Chat/chatting_option1_over.png1_over');
 }
 
 .chat-window .chatting-fontsize {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_fontsize1.png?fileID=2800000&guid=722e30f5355637148b8efd75ddc83bcc&type=3#chatting_fontsize1');
+    background-image: resource('Data/UI/Assets/Chat/chatting_fontsize1');
 }
 
 .chat-window .chatting-fontsize:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_fontsize2.png?fileID=2800000&guid=5b93214152a50e841b300924c3373edb&type=3#chatting_fontsize2');
+    background-image: resource('Data/UI/Assets/Chat/chatting_fontsize2');
 }
 
 .chat-window .chatting-fontsize:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_fontsize2.png?fileID=2800000&guid=5b93214152a50e841b300924c3373edb&type=3#chatting_fontsize2');
-}
-
-.short-cut .button-option_preview {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarLeftBtn.png?fileID=2800000&guid=b9f4ebaf401f9064ba2997be0181c324&type=3#ScrollBarLeftBtn');
-}
-
-.short-cut .button-option_preview:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarLeftOnBtn.png?fileID=2800000&guid=c5c1c395e4ef6eb488fc2b6b681f5e92&type=3#ScrollBarLeftOnBtn');
-}
-
-.short-cut .button-option_preview:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarLeftOnBtn.png?fileID=2800000&guid=c5c1c395e4ef6eb488fc2b6b681f5e92&type=3#ScrollBarLeftOnBtn');
-}
-
-.short-cut .button-option_preview:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarLeftBtn_Over.png?fileID=2800000&guid=cb1662ad213c8a047ac172c53453c411&type=3#ScrollBarLeftBtn_Over');
-}
-
-.minimal-panel .button-option_preview {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarLeftBtn.png?fileID=2800000&guid=b9f4ebaf401f9064ba2997be0181c324&type=3#ScrollBarLeftBtn');
-}
-
-.minimal-panel .button-option_preview:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarLeftOnBtn.png?fileID=2800000&guid=c5c1c395e4ef6eb488fc2b6b681f5e92&type=3#ScrollBarLeftOnBtn');
-}
-
-.minimal-panel .button-option_preview:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarLeftOnBtn.png?fileID=2800000&guid=c5c1c395e4ef6eb488fc2b6b681f5e92&type=3#ScrollBarLeftOnBtn');
-}
-
-.minimal-panel .button-option_preview:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarLeftBtn_Over.png?fileID=2800000&guid=cb1662ad213c8a047ac172c53453c411&type=3#ScrollBarLeftBtn_Over');
-}
-
-.short-cut {
-    position: absolute;
-    left: 80%;
-    bottom: 0;
-}
-
-.short-cut .button-option_next {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarRightBtn.png?fileID=2800000&guid=d48d4fff11741e24fa34b724f38376d6&type=3#ScrollBarRightBtn');
-}
-
-.short-cut .button-option_next:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarRightOnBtn.png?fileID=2800000&guid=b5ef2c17364a22b45aa11e81e3fe3e3d&type=3#ScrollBarRightOnBtn');
-}
-
-.short-cut .button-option_next:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarRightOnBtn.png?fileID=2800000&guid=b5ef2c17364a22b45aa11e81e3fe3e3d&type=3#ScrollBarRightOnBtn');
-}
-
-.short-cut .button-option_next:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarRightBtn_Over.png?fileID=2800000&guid=61bc3520c0e8a4d46b3eb0840d0947ff&type=3#ScrollBarRightBtn_Over');
-}
-
-.minimal-panel .button-option_next {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarRightBtn.png?fileID=2800000&guid=d48d4fff11741e24fa34b724f38376d6&type=3#ScrollBarRightBtn');
-}
-
-.minimal-panel .button-option_next:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarRightOnBtn.png?fileID=2800000&guid=b5ef2c17364a22b45aa11e81e3fe3e3d&type=3#ScrollBarRightOnBtn');
-}
-
-.minimal-panel .button-option_next:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarRightOnBtn.png?fileID=2800000&guid=b5ef2c17364a22b45aa11e81e3fe3e3d&type=3#ScrollBarRightOnBtn');
-}
-
-.minimal-panel .button-option_next:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/button/ScrollBarRightBtn_Over.png?fileID=2800000&guid=61bc3520c0e8a4d46b3eb0840d0947ff&type=3#ScrollBarRightBtn_Over');
-}
-
-.short-cut .button-tool-tip {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/ShortCut_TooltipMin.png?fileID=2800000&guid=1fbaa536add74ba47b7088b46cd7ab19&type=3#ShortCut_TooltipMin');
-}
-
-.short-cut .button-tool-tip:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/ShortCut_TooltipMin_Down.png?fileID=2800000&guid=e6f0961455310b441832394e474c169b&type=3#ShortCut_TooltipMin_Down');
-}
-
-.short-cut .button-tool-tip:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/ShortCut_TooltipMin_Down.png?fileID=2800000&guid=e6f0961455310b441832394e474c169b&type=3#ShortCut_TooltipMin_Down');
-}
-
-.short-cut .button-tool-tip:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/ShortCut_TooltipMin_Over.png?fileID=2800000&guid=cd6ac99620086744fb5179682f83451e&type=3#ShortCut_TooltipMin_Over');
-}
-
-.short-cut .button-rotate {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/shortcut_rotate.png?fileID=2800000&guid=4654f6a57acfbe64ebda974e46e28376&type=3#shortcut_rotate');
-}
-
-.short-cut .button-rotate:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/shortcut_rotate_down.png?fileID=2800000&guid=3da7e57ffed53d846b3a57036346899e&type=3#shortcut_rotate_down');
-}
-
-.short-cut .button-rotate:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/shortcut_rotate_down.png?fileID=2800000&guid=3da7e57ffed53d846b3a57036346899e&type=3#shortcut_rotate_down');
-}
-
-.short-cut .button-rotate:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/shortcut_rotate_over.png?fileID=2800000&guid=88f7ee3ecfbd1a64593e74e5164be887&type=3#shortcut_rotate_over');
-}
-
-.short-cut .button-rotate {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/shortcut_rotate.png?fileID=2800000&guid=4654f6a57acfbe64ebda974e46e28376&type=3#shortcut_rotate');
-}
-
-.short-cut .button-rotate:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/shortcut_rotate_down.png?fileID=2800000&guid=3da7e57ffed53d846b3a57036346899e&type=3#shortcut_rotate_down');
-}
-
-.short-cut .button-rotate:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/shortcut_rotate_down.png?fileID=2800000&guid=3da7e57ffed53d846b3a57036346899e&type=3#shortcut_rotate_down');
-}
-
-.short-cut .button-rotate:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/shortcut_rotate_over.png?fileID=2800000&guid=88f7ee3ecfbd1a64593e74e5164be887&type=3#shortcut_rotate_over');
-}
-
-.short-cut .button-lock {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/joypad_unlock.png?fileID=2800000&guid=2962e377df8efaa4db5d4c7163cbf944&type=3#joypad_unlock');
-}
-
-.short-cut .button-lock:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/joypad_unlock_down.png?fileID=2800000&guid=d19d3d49099cecb4bb30ad342938c51f&type=3#joypad_unlock_down');
-}
-
-.short-cut .button-lock:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/joypad_unlock_down.png?fileID=2800000&guid=d19d3d49099cecb4bb30ad342938c51f&type=3#joypad_unlock_down');
-}
-
-.short-cut .button-lock:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/footer/joypad_unlock_over.png?fileID=2800000&guid=b5ddae93ea8dbdb4faade865a8c0e18c&type=3#joypad_unlock_over');
-}
-
-.short-cut .button-slider {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter.png?fileID=2800000&guid=0e6a63a51cecdce4a9ca025f1d751440&type=3#HorizontalSliderBarCenter');
-}
-
-.short-cut .button-slider:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_down.png?fileID=2800000&guid=b5c29d247119d5945912aae976588c53&type=3#HorizontalSliderBarCenter_down');
-}
-
-.short-cut .button-slider:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_down.png?fileID=2800000&guid=b5c29d247119d5945912aae976588c53&type=3#HorizontalSliderBarCenter_down');
-}
-
-.short-cut .button-slider:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_over.png?fileID=2800000&guid=959d0ec92e06ce04ab85a1e96ffe58a9&type=3#HorizontalSliderBarCenter_over');
-}
-
-.short-cut .button-slider-right {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenterRight.png?fileID=2800000&guid=b965c67c252105a4cbff34f73702e4f3&type=3#HorizontalSliderBarCenterRight');
-}
-
-.short-cut .button-slider-right:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
-}
-
-.short-cut .button-slider-right:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
-}
-
-.short-cut .button-slider-right:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenterRight_over.png?fileID=2800000&guid=546cd8ddae3f5984ba02ca04bc7f8d96&type=3#HorizontalSliderBarCenterRight_over');
-}
-
-.short-cut .button-slider-left:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_down.png?fileID=2800000&guid=b5c29d247119d5945912aae976588c53&type=3#HorizontalSliderBarCenter_down');
-}
-
-.short-cut .button-slider-left:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_over.png?fileID=2800000&guid=959d0ec92e06ce04ab85a1e96ffe58a9&type=3#HorizontalSliderBarCenter_over');
-}
-
-.short-cut .button-slider-empty {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_empty.png?fileID=2800000&guid=b3aff0d3d72691f4b8c8329fb2110a97&type=3#HorizontalSliderBarCenter_empty');
-}
-
-.short-cut .button-slider-empty :active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_empty.png?fileID=2800000&guid=b3aff0d3d72691f4b8c8329fb2110a97&type=3#HorizontalSliderBarCenter_empty');
-}
-
-.short-cut .button-slider-empty :active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_empty.png?fileID=2800000&guid=b3aff0d3d72691f4b8c8329fb2110a97&type=3#HorizontalSliderBarCenter_empty');
-}
-
-.short-cut .button-slider-empty :hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_empty.png?fileID=2800000&guid=b3aff0d3d72691f4b8c8329fb2110a97&type=3#HorizontalSliderBarCenter_empty');
-}
-
-.short-cut .slide-hor {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenter_empty.png?fileID=2800000&guid=b3aff0d3d72691f4b8c8329fb2110a97&type=3#HorizontalSliderBarCenter_empty');
-}
-
-.short-cut .slide-hor-arrow {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenterRight.png?fileID=2800000&guid=b965c67c252105a4cbff34f73702e4f3&type=3#HorizontalSliderBarCenterRight');
-}
-
-.short-cut .slide-hor-arrow:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
-}
-
-.short-cut .slide-hor-arrow:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenterRight_down.png?fileID=2800000&guid=b8e3c7786045dab41945a54fe7bf1efc&type=3#HorizontalSliderBarCenterRight_down');
-}
-
-.short-cut .slide-hor-arrow:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/SkillBar/head/HorizontalSliderBarCenterRight_over.png?fileID=2800000&guid=546cd8ddae3f5984ba02ca04bc7f8d96&type=3#HorizontalSliderBarCenterRight_over');
-}
-
-.short-cut {
-    position: absolute;
+    background-image: resource('Data/UI/Assets/Chat/chatting_fontsize2');
 }
 
 .l2-scroll-view .unity-scroll-view__content-viewport {
@@ -536,7 +322,7 @@
     min-width: 14px;
     width: 14px;
     margin-left: -3px;
-    background-image: url('project://database/Assets/Resources/Data/UI/Scrollbar/SliderBar.png?fileID=2800000&guid=13d15d7bea173064da0757930d99d7a0&type=3#SliderBar');
+    background-image: resource('Data/UI/Assets/Scrollbar/SliderBar');
     background-color: transparent;
     -unity-slice-top: 0;
     -unity-slice-left: 0;
@@ -576,39 +362,39 @@
 }
 
 .l2-scroll-view .unity-scroller__high-button {
-    background-image: resource('Data/UI/Scrollbar/ScrollBarDownBtn');
+    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarDownBtn');
 }
 
 .l2-scroll-view .unity-scroller__high-button:active {
-    background-image: resource('Data/UI/Scrollbar/ScrollBarDownOnBtn');
+    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarDownOnBtn');
 }
 
 .l2-scroll-view .unity-scroller__high-button:active:hover {
-    background-image: resource('Data/UI/Scrollbar/ScrollBarDownOnBtn');
+    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarDownOnBtn');
 }
 
 .l2-scroll-view .unity-scroller__high-button:hover {
-    background-image: resource('Data/UI/Scrollbar/scrollbardownbtn_over');
+    background-image: resource('Data/UI/Assets/Scrollbar/scrollbardownbtn_over');
 }
 
 .l2-scroll-view .unity-scroller__low-button {
-    background-image: resource('Data/UI/Scrollbar/ScrollBarUpBtn');
+    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarUpBtn');
 }
 
 .l2-scroll-view .unity-scroller__low-button:active {
-    background-image: resource('Data/UI/Scrollbar/ScrollBarUpOnBtn');
+    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarUpOnBtn');
 }
 
 .l2-scroll-view .unity-scroller__low-button:active:hover {
-    background-image: resource('Data/UI/Scrollbar/ScrollBarUpOnBtn');
+    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarUpOnBtn');
 }
 
 .l2-scroll-view .unity-scroller__low-button:hover {
-    background-image: resource('Data/UI/Scrollbar/scrollbarupbtn_over');
+    background-image: resource('Data/UI/Assets/Scrollbar/scrollbarupbtn_over');
 }
 
 .chat-window .chatting-fontsize:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Chat/chatting_fontsize1_over.png?fileID=2800000&guid=df4d4dcf0ebb0894ba514a3d2be22628&type=3#chatting_fontsize1_over');
+    background-image: resource('Data/UI/Assets/Chat/chatting_fontsize1_over.png1_over');
 }
 
 .chat-window .unity-base-text-field__input {
@@ -702,7 +488,7 @@
 }
 
 .chat-window .unity-tab__header {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected');
     background-color: transparent;
     -unity-slice-top: 24;
     -unity-slice-left: 5;
@@ -717,7 +503,7 @@
 }
 
 .chat-window .tab-header {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected');
     background-color: transparent;
     -unity-slice-top: 24;
     -unity-slice-left: 5;
@@ -732,7 +518,7 @@
 }
 
 .chat-window .unity-tab__header:checked {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
     -unity-slice-top: 24;
     -unity-slice-left: 5;
     -unity-slice-bottom: 0;
@@ -741,7 +527,7 @@
 }
 
 .chat-window .tab-header.active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
     -unity-slice-top: 24;
     -unity-slice-left: 5;
     -unity-slice-bottom: 0;
@@ -750,7 +536,7 @@
 }
 
 .chat-window .unity-tab__header:checked:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
     -unity-slice-top: 24;
     -unity-slice-left: 5;
     -unity-slice-bottom: 0;
@@ -759,7 +545,7 @@
 }
 
 .chat-window .tab-header.active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
     -unity-slice-top: 24;
     -unity-slice-left: 5;
     -unity-slice-bottom: 0;
@@ -768,11 +554,11 @@
 }
 
 .chat-window .unity-tab__header:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected_Over');
 }
 
 .chat-window .tab-header:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected_Over');
 }
 
 .chat-window .unity-tab__header-label {
@@ -807,15 +593,15 @@
 }
 
 .nameplate .target-bubble-hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Target/HeadDisplay_DF_Target_Normal.png?fileID=2800000&guid=f160c451cc463df438332391c03a8c51&type=3#HeadDisplay_DF_Target_Normal');
+    background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Normal');
 }
 
 .nameplate .target-bubble-target {
-    background-image: url('project://database/Assets/Resources/Data/UI/Target/HeadDisplay_DF_Target_Target.png?fileID=2800000&guid=0bd90bc3cd302574eb43d2e6a9511227&type=3#HeadDisplay_DF_Target_Target');
+    background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Target');
 }
 
 .nameplate .target-bubble-attack {
-    background-image: url('project://database/Assets/Resources/Data/UI/Target/HeadDisplay_DF_Target_Attack.png?fileID=2800000&guid=6bdf58b5adb48c842a9dde3553704ef0&type=3#HeadDisplay_DF_Target_Attack');
+    background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Attack');
 }
 
 .nameplate .target-name {
@@ -827,7 +613,7 @@
     padding-right: 2px;
     padding-bottom: 0;
     padding-left: 2px;
-    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
     color: rgb(255, 255, 255);
     -unity-font-style: bold;
     font-size: 12px;
@@ -846,7 +632,7 @@
     padding-bottom: 0;
     padding-left: 0;
     -unity-text-align: upper-center;
-    -unity-font-definition: url('project://database/Assets/Resources/Data/UI/Font/tahoma.ttf?fileID=12800000&guid=96fb7a735e76e0742bf125e2d4734bf3&type=3#tahoma');
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
     color: rgb(156, 218, 144);
     -unity-font-style: bold;
     -unity-text-outline-width: 1px;
@@ -904,21 +690,21 @@
     width: 10px;
     height: 10px;
     border-width: 0;
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close.png?fileID=2800000&guid=6e7037ea9d27a4e4886d39a91b3b289b&type=3#frames_df_btn_close');
+    background-image: resource('Data/UI/Assets/Frame/Frame_DF_Btn_Close/frames_df_btn_close');
     margin: 0;
     padding: 0;
 }
 
 .close-btn:active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png?fileID=2800000&guid=40ee7601c8c45864e8419eb5c3b8112f&type=3#frames_df_btn_close_Down');
+    background-image: resource('Data/UI/Assets/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down');
 }
 
 .close-btn:active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down.png?fileID=2800000&guid=40ee7601c8c45864e8419eb5c3b8112f&type=3#frames_df_btn_close_Down');
+    background-image: resource('Data/UI/Assets/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Down');
 }
 
 .close-btn:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Over.png?fileID=2800000&guid=153013be4375b9842ae5bca3021a6343&type=3#frames_df_btn_close_Over');
+    background-image: resource('Data/UI/Assets/Frame/Frame_DF_Btn_Close/frames_df_btn_close_Over');
 }
 
 .chat-tab {
@@ -964,131 +750,131 @@
 }
 
 #CharacterButton .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Character');
 }
 
 #CharacterButton:active .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Character_Down');
 }
 
 #CharacterButton:active:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Character_Down');
 }
 
 #CharacterButton:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Character_Over');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Character_Over');
 }
 
 #InventoryButton .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Inventory');
 }
 
 #InventoryButton:active .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Inventory_Down');
 }
 
 #InventoryButton:active:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Inventory_Down');
 }
 
 #InventoryButton:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Inventory_Over');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Inventory_Over');
 }
 
 #ActionButton .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Action');
 }
 
 #ActionButton:active .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Action_Down');
 }
 
 #ActionButton:active:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Action_Down');
 }
 
 #ActionButton:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Action_Over');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Action_Over');
 }
 
 #SkillButton .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Skill');
 }
 
 #SkillButton:active .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Skill_Down');
 }
 
 #SkillButton:active:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Skill_Down');
 }
 
 #SkillButton:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Skill_Over');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Skill_Over');
 }
 
 #QuestButton .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Quest');
 }
 
 #QuestButton:active .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Quest_Down');
 }
 
 #QuestButton:active:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Quest_Down');
 }
 
 #QuestButton:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Quest_Over');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Quest_Over');
 }
 
 #ClanButton .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Clan');
 }
 
 #ClanButton:active .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Clan_Down');
 }
 
 #ClanButton:active:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Clan_Down');
 }
 
 #ClanButton:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Clan_Over');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Clan_Over');
 }
 
 #MapButton .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Map');
 }
 
 #MapButton:active .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Map_Down');
 }
 
 #MapButton:active:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Map_Down');
 }
 
 #MapButton:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_Map_Over');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_Map_Over');
 }
 
 #SystemMenuButton .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_SystemMenu');
 }
 
 #SystemMenuButton:active .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_SystemMenu_Down');
 }
 
 #SystemMenuButton:active:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Down');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_SystemMenu_Down');
 }
 
 #SystemMenuButton:hover .menu-button-bg {
-    background-image: resource('Data/UI/Menu/Icon_DF_MenuWnd_SystemMenu_Over');
+    background-image: resource('Data/UI/Assets/Menu/Icon_DF_MenuWnd_SystemMenu_Over');
 }
 
 .menu-window {
@@ -1152,20 +938,20 @@
 }
 
 .l2-button:active .l2-button-bg {
-    background-image: resource('Data/UI/Button/Button_DF_Down');
+    background-image: resource('Data/UI/Assets/Button/Button_DF_Down');
 }
 
 .l2-button:active:hover .l2-button-bg {
-    background-image: resource('Data/UI/Button/Button_DF_Down');
+    background-image: resource('Data/UI/Assets/Button/Button_DF_Down');
 }
 
 .l2-button:hover .l2-button-bg {
-    background-image: resource('Data/UI/Button/Button_DF_Over');
+    background-image: resource('Data/UI/Assets/Button/Button_DF_Over');
 }
 
 .l2-button-bg {
     flex-grow: 1;
-    background-image: resource('Data/UI/Button/Button_DF');
+    background-image: resource('Data/UI/Assets/Button/Button_DF');
     height: 22px;
     min-height: 32px;
     position: absolute;
@@ -1199,7 +985,7 @@
     border-left-width: 0;
     width: 100%;
     height: 100%;
-    -unity-font: resource('Data/UI/Font/tahoma');
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
     color: rgb(255, 255, 255);
 }
 
@@ -1221,7 +1007,7 @@
 }
 
 .l2-button {
-    -unity-font-definition: resource('Data/UI/Font/tahoma Light');
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma Light');
     letter-spacing: 2px;
     padding-top: 0;
     padding-right: 0;
@@ -1236,8 +1022,8 @@
 }
 
 .button-label {
-    -unity-font: resource('Data/UI/Font/tahoma');
-    -unity-font-definition: resource('Data/UI/Font/tahoma Light');
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma Light');
 }
 
 .button-label {
@@ -1254,88 +1040,88 @@
     position: absolute;
     width: 100%;
     height: 30px;
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBox');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBox');
     flex-direction: column;
 }
 
 .bg-highlight-0 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus');
 }
 
 .bg-highlight-1 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus01');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus01');
 }
 
 .bg-highlight-2 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus02');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus02');
 }
 
 .bg-highlight-3 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus03');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus03');
 }
 
 .bg-highlight-4 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus04');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus04');
 }
 
 .bg-highlight-5 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus05');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus05');
 }
 
 .bg-highlight-6 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus06');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus06');
 }
 
 .bg-highlight-7 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus07');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus07');
 }
 
 .bg-highlight-8 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus08');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus08');
 }
 
 .bg-highlight-9 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus09');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus09');
 }
 
 .bg-highlight-10 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus10');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus10');
 }
 
 .bg-highlight-11 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus11');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus11');
 }
 
 .bg-highlight-12 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus12');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus12');
 }
 
 .bg-highlight-13 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus13');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus13');
 }
 
 .bg-highlight-14 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus14');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus14');
 }
 
 .bg-highlight-15 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus15');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus15');
 }
 
 .bg-highlight-16 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus16');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus16');
 }
 
 .bg-highlight-17 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus17');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus17');
 }
 
 .bg-highlight-18 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus18');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus18');
 }
 
 .bg-highlight-19 {
-    background-image: resource('Data/UI/Login/CharacterPassword_DF_EditBoxFocus19');
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus19');
 }
 
 .char-creation-window .unity-base-text-field__input {
@@ -1399,7 +1185,7 @@
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
-    background-image: resource('Data/UI/Scrollbar/ScrollBarLeftBtn');
+    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarLeftBtn');
     background-color: rgba(188, 188, 188, 0);
 }
 
@@ -1448,7 +1234,7 @@
 }
 
 .login-input {
-    -unity-font: resource('Data/UI/Font/tahoma');
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
     background-color: rgba(0, 0, 0, 0);
     -unity-background-image-tint-color: rgb(12, 12, 12);
     background-image: none;
@@ -1483,35 +1269,35 @@
 }
 
 .arrow-right .arrow-bg {
-    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next');
+    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Next');
 }
 
 .arrow-right:active .arrow-bg {
-    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next_Down');
+    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Next_Down');
 }
 
 .arrow-right:active:hover .arrow-bg {
-    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next_Down');
+    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Next_Down');
 }
 
 .arrow-right:hover .arrow-bg {
-    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Next_Over');
+    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Next_Over');
 }
 
 .arrow-left .arrow-bg {
-    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre');
+    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Pre');
 }
 
 .arrow-left:active .arrow-bg {
-    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
+    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
 }
 
 .arrow-left:active:hover .arrow-bg {
-    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
+    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
 }
 
 .arrow-left:hover .arrow-bg {
-    background-image: resource('Data/UI/Button/24Hz_DF_ChannelControlBtn_Pre_Over');
+    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Pre_Over');
 }
 
 .arrow-bg {
@@ -1520,67 +1306,67 @@
 }
 
 .char-creation-window #TurnLeftButton .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_LEFT');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_LEFT');
 }
 
 .char-creation-window #TurnLeftButton:active .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_LEFT_Down');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_LEFT_Down');
 }
 
 .char-creation-window #TurnLeftButton:active:hover .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_LEFT_Down');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_LEFT_Down');
 }
 
 .char-creation-window #TurnLeftButton:hover .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_LEFT_Over');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_LEFT_Over');
 }
 
 .char-creation-window #TurnRightButton .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_RIGHT');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_RIGHT');
 }
 
 .char-creation-window #TurnRightButton:active .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_RIGHT_DOWN');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_RIGHT_DOWN');
 }
 
 .char-creation-window #TurnRightButton:active:hover .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_RIGHT_DOWN');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_RIGHT_DOWN');
 }
 
 .char-creation-window #TurnRightButton:hover .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_RIGHT_OVER');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_RIGHT_OVER');
 }
 
 .char-creation-window #ZoomButton .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMIN');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMIN');
 }
 
 .char-creation-window #ZoomButton:active .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Down');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Down');
 }
 
 .char-creation-window #ZoomButton:active:hover .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Down');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Down');
 }
 
 .char-creation-window #ZoomButton:hover .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Over');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Over');
 }
 
 .char-creation-window #ZoomButton.toggle .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMOUT');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMOUT');
 }
 
 .char-creation-window #ZoomButton.toggle:active .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Down');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Down');
 }
 
 .char-creation-window #ZoomButton.toggle:active:hover .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Down');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Down');
 }
 
 .char-creation-window #ZoomButton.toggle:hover .l2-button-bg {
-    background-image: resource('Data/UI/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Over');
+    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Over');
 }
 
 .rotate_img90 {
@@ -1684,7 +1470,7 @@
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
-    -unity-font: resource('Data/UI/Font/tahoma');
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
 }
 
 .char-select-window {
@@ -1766,7 +1552,7 @@
 }
 
 .inventory-window .unity-tab__header {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected');
     background-color: transparent;
     -unity-slice-top: 24;
     -unity-slice-left: 5;
@@ -1781,7 +1567,7 @@
 }
 
 .inventory-window .tab-header {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected.png?fileID=2800000&guid=9fcccf25212d2ba45ab07149e9f85004&type=3#Tab_DF_Tab_Unselected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected');
     background-color: transparent;
     -unity-slice-top: 24;
     -unity-slice-left: 5;
@@ -1795,7 +1581,7 @@
 }
 
 .inventory-window .unity-tab__header:checked {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
     -unity-slice-top: 24;
     -unity-slice-left: 5;
     -unity-slice-bottom: 0;
@@ -1804,7 +1590,7 @@
 }
 
 .inventory-window .tab-header.active {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
     -unity-slice-top: 24;
     -unity-slice-left: 5;
     -unity-slice-bottom: 0;
@@ -1813,7 +1599,7 @@
 }
 
 .inventory-window .unity-tab__header:checked:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
     -unity-slice-top: 24;
     -unity-slice-left: 5;
     -unity-slice-bottom: 0;
@@ -1822,7 +1608,7 @@
 }
 
 .inventory-window .tab-header.active:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Selected.png?fileID=2800000&guid=a4bef18d4c0d3624195ae7bf5ba687a6&type=3#Tab_DF_Tab_Selected');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
     -unity-slice-top: 24;
     -unity-slice-left: 5;
     -unity-slice-bottom: 0;
@@ -1831,11 +1617,11 @@
 }
 
 .inventory-window .unity-tab__header:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected_Over');
 }
 
 .inventory-window .tab-header:hover {
-    background-image: url('project://database/Assets/Resources/Data/UI/Tab/Tab_DF_Tab_Unselected_Over.png?fileID=2800000&guid=69a81866a3c01be45ab5e57824581859&type=3#Tab_DF_Tab_Unselected_Over');
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected_Over');
 }
 
 .inventory-windoww .unity-tab__header-label {
@@ -1864,51 +1650,51 @@
 }
 
 .inventory-window #AdenaDistribBtn #ButtonBg {
-    background-image: resource('Data/UI/Inventory/adenacalculate_recipe');
+    background-image: resource('Data/UI/Assets/Inventory/adenacalculate_recipe');
 }
 
 .inventory-window #AdenaDistribBtn:active #ButtonBg {
-    background-image: resource('Data/UI/Inventory/adenacalculate_recipe');
+    background-image: resource('Data/UI/Assets/Inventory/adenacalculate_recipe');
 }
 
 .inventory-window #AdenaDistribBtn:active:hover #ButtonBg {
-    background-image: resource('Data/UI/Inventory/adenacalculate_recipe');
+    background-image: resource('Data/UI/Assets/Inventory/adenacalculate_recipe');
 }
 
 .inventory-window #AdenaDistribBtn:hover #ButtonBg {
-    background-image: resource('Data/UI/Inventory/adenacalculate_recipe_over');
+    background-image: resource('Data/UI/Assets/Inventory/adenacalculate_recipe_over');
 }
 
 .inventory-window #CompoundBtn #ButtonBg {
-    background-image: resource('Data/UI/Inventory/inventory_compound');
+    background-image: resource('Data/UI/Assets/Inventory/inventory_compound');
 }
 
 .inventory-window #CompoundBtn:active #ButtonBg {
-    background-image: resource('Data/UI/Inventory/inventory_compound');
+    background-image: resource('Data/UI/Assets/Inventory/inventory_compound');
 }
 
 .inventory-window #CompoundBtn:active:hover #ButtonBg {
-    background-image: resource('Data/UI/Inventory/inventory_compound');
+    background-image: resource('Data/UI/Assets/Inventory/inventory_compound');
 }
 
 .inventory-window #CompoundBtn:hover #ButtonBg {
-    background-image: resource('Data/UI/Inventory/inventory_compound_drag');
+    background-image: resource('Data/UI/Assets/Inventory/inventory_compound_drag');
 }
 
 .inventory-window #TrashBtn #ButtonBg {
-    background-image: resource('Data/UI/Inventory/inventory_trash');
+    background-image: resource('Data/UI/Assets/Inventory/inventory_trash');
 }
 
 .inventory-window #TrashBtn:active #ButtonBg {
-    background-image: resource('Data/UI/Inventory/inventory_trash');
+    background-image: resource('Data/UI/Assets/Inventory/inventory_trash');
 }
 
 .inventory-window #TrashBtn:active:hover #ButtonBg {
-    background-image: resource('Data/UI/Inventory/inventory_trash');
+    background-image: resource('Data/UI/Assets/Inventory/inventory_trash');
 }
 
 .inventory-window #TrashBtn:hover #ButtonBg {
-    background-image: resource('Data/UI/Inventory/inventory_trash_over');
+    background-image: resource('Data/UI/Assets/Inventory/inventory_trash_over');
 }
 
 .inventory-window .l2-scroll-view .unity-scroller {
@@ -1923,21 +1709,21 @@
     width: 10px;
     height: 10px;
     border-width: 0;
-    background-image: resource('Data/UI/Frame/frames_df_btn_min');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_min');
     margin: 0;
     padding: 0;
 }
 
 .minimize-btn:active {
-    background-image: resource('Data/UI/Frame/frames_df_btn_min_down');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_min_down');
 }
 
 .minimize-btn:active:hover {
-    background-image: resource('Data/UI/Frame/frames_df_btn_min_down');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_min_down');
 }
 
 .minimize-btn:hover {
-    background-image: resource('Data/UI/Frame/frames_df_btn_min_Over');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_min_Over');
 }
 
 .expand-btn {
@@ -1951,43 +1737,43 @@
 }
 
 .expand-btn #ButtonBg {
-    background-image: resource('Data/UI/Frame/frames_df_btn_Expand');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_Expand');
 }
 
 .expand-btn:active #ButtonBg {
-    background-image: resource('Data/UI/Frame/frames_df_btn_Expand_down');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_Expand_down');
 }
 
 .expand-btn:active:hover #ButtonBg {
-    background-image: resource('Data/UI/Frame/frames_df_btn_Expand_down');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_Expand_down');
 }
 
 .expand-btn:hover #ButtonBg {
-    background-image: resource('Data/UI/Frame/frames_df_btn_Expand_over');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_Expand_over');
 }
 
 .expand-btn.expanded #ButtonBg {
-    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_Minimize');
 }
 
 .expand-btn.expanded:active #ButtonBg {
-    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_down');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_Minimize_down');
 }
 
 .expand-btn.expanded:active:hover #ButtonBg {
-    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_down');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_Minimize_down');
 }
 
 .expand-btn.expanded:hover #ButtonBg {
-    background-image: resource('Data/UI/Frame/frames_df_btn_Minimize_over');
+    background-image: resource('Data/UI/Assets/Frame/frames_df_btn_Minimize_over');
 }
 
 .l2-slot .slot-bg {
-    background-image: resource('Data/UI/Inventory/ItemWindow_DF_SlotBox_Default');
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_SlotBox_Default');
 }
 
 .inventory-slot.disabled .slot-bg {
-    background-image: resource('Data/UI/Inventory/ItemWindow_DF_SlotBox_Disable');
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_SlotBox_Disable');
 }
 
 .l2-slot .slot-frame {
@@ -2004,4 +1790,98 @@
 
 .inventory-minimized.minimized {
     display: flex;
+}
+
+.skillbar {
+    height: 361px;
+    flex-direction: row;
+}
+
+.frame_df_ver {
+    height: auto;
+    width: 18px;
+    max-width: 18px;
+    margin-top: -1px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-grow: 1;
+}
+
+.skillbar-slot-anchor {
+    flex-grow: 0;
+    width: 34px;
+    height: 34px;
+    margin-right: 3px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.skillbar .button-tooltip {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMin');
+}
+
+.skillbar .button-tooltip:active {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMin_Down');
+}
+
+.skillbar .button-tooltip:active:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMin_Down');
+}
+
+.skillbar .button-tooltip:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMin_Over');
+}
+
+.skillbar .button-rotate {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_rotate');
+}
+
+.skillbar .button-rotate:active {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_rotate_down');
+}
+
+.skillbar .button-rotate:active:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_rotate_down');
+}
+
+.skillbar .button-rotate:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_rotate_over');
+}
+
+.skillbar .button-lock {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_unlock');
+}
+
+.skillbar .button-lock:active {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_unlock_down');
+}
+
+.skillbar .button-lock:active:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_unlock_down');
+}
+
+.skillbar .button-lock:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_unlock_over');
+}
+
+.skillbar-footer-btn {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    width: 14px;
+    height: 14px;
+    background-color: rgba(188, 188, 188, 0);
 }

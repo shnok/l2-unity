@@ -15,7 +15,7 @@ public static class SkillTimeArray
 
             for (int i = 1; i < 358; i++)
             {
-                string path = "Data/UI/ShortCut/skill_time/cooltime" + i++;
+                string path = "Data/UI/Assets/ShortCut/skill_time/cooltime" + i++;
                 list.Add(path);
             }
 
