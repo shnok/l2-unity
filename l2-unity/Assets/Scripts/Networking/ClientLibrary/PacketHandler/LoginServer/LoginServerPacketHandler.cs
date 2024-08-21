@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class LoginServerPacketHandler : ServerPacketHandler
 {
-    public override void HandlePacket(byte[] data) {
+    public override void HandlePacket(byte[] data)
+    {
         LoginServerPacketType packetType = (LoginServerPacketType)data[0];
-        if (LoginClient.Instance.LogReceivedPackets && packetType != LoginServerPacketType.Ping) {
+        if (LoginClient.Instance.LogReceivedPackets && packetType != LoginServerPacketType.Ping)
+        {
             Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [LoginServer] Received packet:" + packetType);
         }
 
-        switch (packetType) {
+        switch (packetType)
+        {
             case LoginServerPacketType.Ping:
                 OnPingReceive();
                 break;
@@ -39,36 +42,45 @@ public class LoginServerPacketHandler : ServerPacketHandler
         }
     }
 
-    protected override byte[] DecryptPacket(byte[] data) {
-        if (LoginClient.Instance.LogCryptography) {
+    protected override byte[] DecryptPacket(byte[] data)
+    {
+        if (LoginClient.Instance.LogCryptography)
+        {
             Debug.Log("<---- [LOGIN] ENCRYPTED: " + StringUtils.ByteArrayToString(data));
         }
 
         LoginClient.Instance.DecryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
 
-        if (LoginClient.Instance.LogCryptography) {
+        if (LoginClient.Instance.LogCryptography)
+        {
             Debug.Log("<---- [LOGIN] DECRYPTED: " + StringUtils.ByteArrayToString(data));
         }
 
         return data;
     }
 
-    private void OnPingReceive() {
+    private void OnPingReceive()
+    {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         int ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
         //Debug.Log("Ping: " + ping + "ms");
         LoginClient.Instance.Ping = ping;
 
-        Task.Delay(1000).ContinueWith(t => {
-            if (!_tokenSource.IsCancellationRequested) {
+        Task.Delay(1000).ContinueWith(t =>
+        {
+            if (!_tokenSource.IsCancellationRequested)
+            {
                 ((LoginClientPacketHandler)_clientPacketHandler).SendPing();
                 _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             }
 
-            Task.Delay(LoginClient.Instance.ConnectionTimeoutMs + 100).ContinueWith(t => {
-                if (!_tokenSource.IsCancellationRequested) {
+            Task.Delay(LoginClient.Instance.ConnectionTimeoutMs + 100).ContinueWith(t =>
+            {
+                if (!_tokenSource.IsCancellationRequested)
+                {
                     long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    if (now2 - _timestamp >= LoginClient.Instance.ConnectionTimeoutMs) {
+                    if (now2 - _timestamp >= LoginClient.Instance.ConnectionTimeoutMs)
+                    {
                         Debug.Log("Connection timed out");
                         _client.Disconnect();
                     }
@@ -77,7 +89,8 @@ public class LoginServerPacketHandler : ServerPacketHandler
         }, _tokenSource.Token);
     }
 
-    private void OnInitReceive(byte[] data) {
+    private void OnInitReceive(byte[] data)
+    {
         Debug.Log("On init receive");
         InitPacket packet = new InitPacket(data);
 
@@ -95,17 +108,19 @@ public class LoginServerPacketHandler : ServerPacketHandler
         EventProcessor.Instance.QueueEvent(() => ((LoginClientPacketHandler)_clientPacketHandler).SendAuth());
     }
 
-    private void OnLoginFail(byte[] data) {
-        LoginFailPacket packet = new LoginFailPacket(data);
+    private void OnLoginFail(byte[] data)
+    {
+        LoginServerFailPacket packet = new LoginServerFailPacket(data);
 
-        LoginFailPacket.LoginFailedReason failedReason = packet.FailedReason;
+        LoginServerFailPacket.LoginFailedReason failedReason = packet.FailedReason;
 
-        Debug.LogWarning($"Login failed reason: {Enum.GetName(typeof(LoginFailPacket.LoginFailedReason), failedReason)}");
+        Debug.LogWarning($"Login failed reason: {Enum.GetName(typeof(LoginServerFailPacket.LoginFailedReason), failedReason)}");
 
         _client.Disconnect();
     }
 
-    private void OnAccountKicked(byte[] data) {
+    private void OnAccountKicked(byte[] data)
+    {
         AccountKickedPacket packet = new AccountKickedPacket(data);
 
         AccountKickedPacket.AccountKickedReason kickedReason = packet.KickedReason;
@@ -115,7 +130,8 @@ public class LoginServerPacketHandler : ServerPacketHandler
         _client.Disconnect();
     }
 
-    private void OnLoginOk(byte[] data) {
+    private void OnLoginOk(byte[] data)
+    {
         LoginOkPacket packet = new LoginOkPacket(data);
 
         LoginClient.Instance.SessionKey1 = packet.SessionKey1;
@@ -127,14 +143,16 @@ public class LoginServerPacketHandler : ServerPacketHandler
         EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.OnAuthAllowed());
     }
 
-    private void OnServerListReceived(byte[] data) {
+    private void OnServerListReceived(byte[] data)
+    {
         ServerListPacket packet = new ServerListPacket(data);
 
         EventProcessor.Instance.QueueEvent(
             () => LoginClient.Instance.OnServerListReceived(packet.LastServer, packet.ServersData, packet.CharsOnServers));
     }
 
-    private void OnPlayFail(byte[] data) {
+    private void OnPlayFail(byte[] data)
+    {
         PlayFailPacket packet = new PlayFailPacket(data);
 
         PlayFailPacket.PlayFailReason failedReason = packet.FailedReason;
@@ -143,7 +161,8 @@ public class LoginServerPacketHandler : ServerPacketHandler
     }
 
 
-    private void OnPlayOk(byte[] data) {
+    private void OnPlayOk(byte[] data)
+    {
         LoginOkPacket packet = new LoginOkPacket(data);
 
         GameClient.Instance.PlayKey1 = packet.SessionKey1;

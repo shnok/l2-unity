@@ -2,7 +2,8 @@ using UnityEngine;
 using L2_login;
 using static PlayerInfoPacket;
 
-public class GameClient : DefaultClient {
+public class GameClient : DefaultClient
+{
     [SerializeField] protected PlayerInfo _playerInfo;
     [SerializeField] protected int _serverId;
     [SerializeField] private int _playKey1;
@@ -14,7 +15,7 @@ public class GameClient : DefaultClient {
     public int ServerId { get { return _serverId; } set { _serverId = value; } }
     public int PlayKey1 { get { return _playKey1; } set { _playKey1 = value; } }
     public int PlayKey2 { get { return _playKey2; } set { _playKey2 = value; } }
-    public GameCrypt GameCrypt { get { return _gameCrypt; } }   
+    public GameCrypt GameCrypt { get { return _gameCrypt; } }
 
     private GameClientPacketHandler clientPacketHandler;
     private GameServerPacketHandler serverPacketHandler;
@@ -25,34 +26,42 @@ public class GameClient : DefaultClient {
     private static GameClient _instance;
     public static GameClient Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else if (_instance != this) {
+        }
+        else if (_instance != this)
+        {
             Destroy(this);
         }
     }
 
-    protected override void CreateAsyncClient() {
+    protected override void CreateAsyncClient()
+    {
         clientPacketHandler = new GameClientPacketHandler();
         serverPacketHandler = new GameServerPacketHandler();
 
         _client = new AsynchronousClient(_serverIp, _serverPort, this, clientPacketHandler, serverPacketHandler, false);
     }
 
-    public void EnableCrypt(byte[] key) {
+    public void EnableCrypt(byte[] key)
+    {
         _gameCrypt = new GameCrypt();
         _gameCrypt.SetKey(key);
         _client.CryptEnabled = true;
     }
 
-    protected override void WhileConnecting() {
+    protected override void WhileConnecting()
+    {
         base.WhileConnecting();
 
         GameManager.Instance.OnConnectingToGameServer();
     }
 
-    protected override void OnConnectionSuccess() {
+    protected override void OnConnectionSuccess()
+    {
         base.OnConnectionSuccess();
 
         Debug.Log("Connected to GameServer");
@@ -60,17 +69,26 @@ public class GameClient : DefaultClient {
         clientPacketHandler.SendProtocolVersion();
     }
 
-    public override void OnConnectionFailed() {
+    public override void OnConnectionFailed()
+    {
         base.OnConnectionFailed();
     }
 
-    public override void OnAuthAllowed() {
-        Debug.Log("Authed to GameServer");
+    public override void OnAuthAllowed()
+    {
+        Debug.Log("Authed to GameServer.");
 
         GameManager.Instance.OnAuthAllowed();
     }
 
-    public override void OnDisconnect() {
+    public void OnCharSelectAllowed()
+    {
+        Debug.Log("Return to character selection.");
+        GameManager.Instance.OnCharSelectAllowed();
+    }
+
+    public override void OnDisconnect()
+    {
         base.OnDisconnect();
         Debug.Log("Disconnected from GameServer.");
     }

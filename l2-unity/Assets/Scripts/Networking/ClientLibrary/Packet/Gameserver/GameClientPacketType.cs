@@ -18,5 +18,7 @@ public enum GameClientPacketType : byte
     UseItem = 0x0F,
     RequestUnEquip = 0x10,
     RequestDestroyItem = 0x11,
-    RequestDropItem = 0x12
+    RequestDropItem = 0x12,
+    Disconnect = 0x13,
+    RequestRestart = 0x14
 }

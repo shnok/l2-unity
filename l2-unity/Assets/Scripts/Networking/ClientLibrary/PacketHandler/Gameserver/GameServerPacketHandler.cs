@@ -5,13 +5,16 @@ using System.Threading.Tasks;
 
 public class GameServerPacketHandler : ServerPacketHandler
 {
-    public override void HandlePacket(byte[] data) {
+    public override void HandlePacket(byte[] data)
+    {
         GameServerPacketType packetType = (GameServerPacketType)data[0];
-        if (GameClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping) {
+        if (GameClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping)
+        {
             Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [GameServer] Received packet:" + packetType);
         }
 
-        switch (packetType) {
+        switch (packetType)
+        {
             case GameServerPacketType.Ping:
                 OnPingReceive();
                 break;
@@ -90,38 +93,53 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.InventoryUpdate:
                 OnInventoryUpdate(data);
                 break;
+            case GameServerPacketType.LeaveWorld:
+                OnLeaveWorld(data);
+                break;
+            case GameServerPacketType.RestartReponse:
+                OnRestartResponse(data);
+                break;
         }
     }
 
-    protected override byte[] DecryptPacket(byte[] data) {
-        if(GameClient.Instance.LogCryptography) {
+    protected override byte[] DecryptPacket(byte[] data)
+    {
+        if (GameClient.Instance.LogCryptography)
+        {
             Debug.Log("<---- [GAME] ENCRYPTED: " + StringUtils.ByteArrayToString(data));
         }
 
         GameClient.Instance.GameCrypt.Decrypt(data);
 
-        if (GameClient.Instance.LogCryptography) {
+        if (GameClient.Instance.LogCryptography)
+        {
             Debug.Log("<---- [GAME] DECRYPTED: " + StringUtils.ByteArrayToString(data));
         }
 
         return data;
     }
 
-    private void OnPingReceive() {
+    private void OnPingReceive()
+    {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         int ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
         GameClient.Instance.Ping = ping;
 
-        Task.Delay(1000).ContinueWith(t => {
-            if (!_tokenSource.IsCancellationRequested) {
+        Task.Delay(1000).ContinueWith(t =>
+        {
+            if (!_tokenSource.IsCancellationRequested)
+            {
                 ((GameClientPacketHandler)_clientPacketHandler).SendPing();
                 _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             }
 
-            Task.Delay(GameClient.Instance.ConnectionTimeoutMs + 100).ContinueWith(t => {
-                if (!_tokenSource.IsCancellationRequested) {
+            Task.Delay(GameClient.Instance.ConnectionTimeoutMs + 100).ContinueWith(t =>
+            {
+                if (!_tokenSource.IsCancellationRequested)
+                {
                     long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    if (now2 - _timestamp >= GameClient.Instance.ConnectionTimeoutMs) {
+                    if (now2 - _timestamp >= GameClient.Instance.ConnectionTimeoutMs)
+                    {
                         Debug.LogWarning("Connection timed out");
                         _client.Disconnect();
                     }
@@ -130,10 +148,12 @@ public class GameServerPacketHandler : ServerPacketHandler
         }, _tokenSource.Token);
     }
 
-    private void OnKeyReceive(byte[] data) {
+    private void OnKeyReceive(byte[] data)
+    {
         KeyPacket packet = new KeyPacket(data);
 
-        if (!packet.AuthAllowed) {
+        if (!packet.AuthAllowed)
+        {
             Debug.LogWarning("Gameserver connect not allowed.");
             EventProcessor.Instance.QueueEvent(() => GameClient.Instance.Disconnect());
             EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
@@ -147,31 +167,41 @@ public class GameServerPacketHandler : ServerPacketHandler
         _eventProcessor.QueueEvent(() => ((GameClientPacketHandler)_clientPacketHandler).SendPing());
     }
 
-    private void OnLoginFail(byte[] data) {
-        PlayFailPacket packet = new PlayFailPacket(data);
+    private void OnLoginFail(byte[] data)
+    {
+        LoginFailPacket packet = new LoginFailPacket(data);
         EventProcessor.Instance.QueueEvent(() => GameClient.Instance.Disconnect());
         EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
 
         Debug.LogWarning($"Gameserver login failed reason: " +
-            $"{Enum.GetName(typeof(LoginFailPacket.LoginFailedReason), packet.FailedReason)}");
+            $"{Enum.GetName(typeof(LoginServerFailPacket.LoginFailedReason), packet.FailedReason)}");
     }
 
-    private void OnCharSelectionInfoReceive(byte[] data) {
+    private void OnCharSelectionInfoReceive(byte[] data)
+    {
         CharSelectionInfoPacket packet = new CharSelectionInfoPacket(data);
 
-        Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
+        CharacterSelector.Instance.Characters = packet.Characters;
+        CharacterSelector.Instance.DefaultSelectedSlot = packet.SelectedSlotId;
 
-        EventProcessor.Instance.QueueEvent(() => {
-            CharSelectWindow.Instance.SetCharacterList(packet.Characters);
-            CharSelectWindow.Instance.SelectSlot(packet.SelectedSlotId);
-            CharacterSelector.Instance.SetCharacterList(packet.Characters);
-            CharacterSelector.Instance.SelectCharacter(packet.SelectedSlotId);
-            LoginClient.Instance.Disconnect();
-            GameClient.Instance.OnAuthAllowed();
-        });
+        if (GameManager.Instance.GameState != GameState.RESTARTING)
+        {
+            Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
+
+            EventProcessor.Instance.QueueEvent(() =>
+            {
+                LoginClient.Instance.Disconnect();
+                GameClient.Instance.OnAuthAllowed();
+            });
+        }
+        else
+        {
+            EventProcessor.Instance.QueueEvent(() => GameClient.Instance.OnCharSelectAllowed());
+        }
     }
 
-    private void OnMessageReceive(byte[] data) {
+    private void OnMessageReceive(byte[] data)
+    {
         ReceiveMessagePacket packet = new ReceiveMessagePacket(data);
         String sender = packet.Sender;
         String text = packet.Text;
@@ -179,65 +209,80 @@ public class GameServerPacketHandler : ServerPacketHandler
         _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveChatMessage(message));
     }
 
-    private void OnSystemMessageReceive(byte[] data) {
+    private void OnSystemMessageReceive(byte[] data)
+    {
         SystemMessagePacket packet = new SystemMessagePacket(data);
         SMParam[] smParams = packet.Params;
         int messageId = packet.Id;
 
         SystemMessageDat messageData = SystemMessageTable.Instance.GetSystemMessage(messageId);
-        if(messageData != null) {
+        if (messageData != null)
+        {
             SystemMessage systemMessage = new SystemMessage(smParams, messageData);
             _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(systemMessage));
-        } else {
+        }
+        else
+        {
             _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(new UnhandledMessage()));
         }
 
     }
 
-    private void OnPlayerInfoReceive(byte[] data) {
+    private void OnPlayerInfoReceive(byte[] data)
+    {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        if(GameManager.Instance.GameState != GameState.IN_GAME) {
-            _eventProcessor.QueueEvent(() => {
+        if (GameManager.Instance.GameState != GameState.IN_GAME)
+        {
+            _eventProcessor.QueueEvent(() =>
+            {
                 GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
                 GameManager.Instance.OnCharacterSelect();
             });
-        } else {
-            _eventProcessor.QueueEvent(() => {
+        }
+        else
+        {
+            _eventProcessor.QueueEvent(() =>
+            {
                 GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
             });
             World.Instance.OnReceivePlayerInfo(
                 packet.PacketPlayerInfo.Identity,
-                packet.PacketPlayerInfo.Status, 
-                packet.PacketPlayerInfo.Stats, 
+                packet.PacketPlayerInfo.Status,
+                packet.PacketPlayerInfo.Stats,
                 packet.PacketPlayerInfo.Appearance);
         }
     }
 
-    private void OnUserInfoReceive(byte[] data) {
+    private void OnUserInfoReceive(byte[] data)
+    {
         UserInfoPacket packet = new UserInfoPacket(data);
         World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance);
     }
 
-    private void OnUpdatePosition(byte[] data) {
+    private void OnUpdatePosition(byte[] data)
+    {
         UpdatePositionPacket packet = new UpdatePositionPacket(data);
         int id = packet.Id;
         Vector3 position = packet.Position;
         World.Instance.UpdateObjectPosition(id, position);
     }
 
-    private void OnRemoveObject(byte[] data) {
+    private void OnRemoveObject(byte[] data)
+    {
         RemoveObjectPacket packet = new RemoveObjectPacket(data);
         _eventProcessor.QueueEvent(() => World.Instance.RemoveObject(packet.Id));
     }
 
-    private void OnUpdateRotation(byte[] data) {
+    private void OnUpdateRotation(byte[] data)
+    {
         UpdateRotationPacket packet = new UpdateRotationPacket(data);
         int id = packet.Id;
         float angle = packet.Angle;
         World.Instance.UpdateObjectRotation(id, angle);
     }
 
-    private void OnUpdateAnimation(byte[] data) {
+    private void OnUpdateAnimation(byte[] data)
+    {
         UpdateAnimationPacket packet = new UpdateAnimationPacket(data);
         int id = packet.Id;
         int animId = packet.AnimId;
@@ -246,84 +291,117 @@ public class GameServerPacketHandler : ServerPacketHandler
         World.Instance.UpdateObjectAnimation(id, animId, value);
     }
 
-    private void OnInflictDamage(byte[] data) {
+    private void OnInflictDamage(byte[] data)
+    {
         InflictDamagePacket packet = new InflictDamagePacket(data);
         Hit[] hits = packet.Hits;
 
-        for (int i = 0; i < hits.Length; i++) {
-            if (hits[i] != null && !hits[i].isMiss()) {
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i] != null && !hits[i].isMiss())
+            {
                 World.Instance.InflictDamageTo(packet.SenderId, hits[i].TargetId, hits[i].Damage, hits[i].isCrit());
             }
         }
     }
 
-    private void OnNpcInfoReceive(byte[] data) {
+    private void OnNpcInfoReceive(byte[] data)
+    {
         NpcInfoPacket packet = new NpcInfoPacket(data);
         _eventProcessor.QueueEvent(() => World.Instance.SpawnNpc(packet.Identity, packet.Status, packet.Stats));
     }
 
-    private void OnObjectMoveTo(byte[] data) {
+    private void OnObjectMoveTo(byte[] data)
+    {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
         World.Instance.UpdateObjectDestination(packet.Id, packet.Pos, packet.Speed, packet.Walking);
 
     }
 
-    private void OnUpdateMoveDirection(byte[] data) {
+    private void OnUpdateMoveDirection(byte[] data)
+    {
         UpdateMoveDirectionPacket packet = new UpdateMoveDirectionPacket(data);
         World.Instance.UpdateObjectMoveDirection(packet.Id, packet.Speed, packet.Direction);
     }
 
-    private void OnUpdateGameTime(byte[] data) {
+    private void OnUpdateGameTime(byte[] data)
+    {
         GameTimePacket packet = new GameTimePacket(data);
         WorldClock.Instance.SynchronizeClock(packet.GameTicks, packet.TickDurationMs, packet.DayDurationMins);
     }
 
-    private void OnEntitySetTarget(byte[] data) {
+    private void OnEntitySetTarget(byte[] data)
+    {
         EntitySetTargetPacket packet = new EntitySetTargetPacket(data);
         World.Instance.UpdateEntityTarget(packet.EntityId, packet.TargetId);
     }
 
-    private void OnEntityAutoAttackStart(byte[] data) {
+    private void OnEntityAutoAttackStart(byte[] data)
+    {
         Debug.Log("OnEntityAutoAttackStart");
         AutoAttackStartPacket packet = new AutoAttackStartPacket(data);
         World.Instance.EntityStartAutoAttacking(packet.EntityId);
     }
 
-    private void OnEntityAutoAttackStop(byte[] data) {
+    private void OnEntityAutoAttackStop(byte[] data)
+    {
         Debug.Log("OnEntityAutoAttackStop");
         AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
         World.Instance.EntityStopAutoAttacking(packet.EntityId);
     }
 
-    private void OnActionFailed(byte[] data) {
+    private void OnActionFailed(byte[] data)
+    {
         ActionFailedPacket packet = new ActionFailedPacket(data);
         Debug.LogWarning($"Action failed: " + packet.PlayerAction);
         _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
     }
 
-    private void OnActionAllowed(byte[] data) {
+    private void OnActionAllowed(byte[] data)
+    {
         ActionAllowedPacket packet = new ActionAllowedPacket(data);
         _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionAllowed(packet.PlayerAction));
     }
 
-    private void OnServerClose() {
+    private void OnServerClose()
+    {
         Debug.Log("ServerClose received from Gameserver");
         _client.Disconnect();
     }
 
-    private void OnStatusUpdate(byte[] data) {
+    private void OnStatusUpdate(byte[] data)
+    {
         StatusUpdatePacket packet = new StatusUpdatePacket(data);
         World.Instance.StatusUpdate(packet.ObjectId, packet.Attributes);
     }
 
-    private void OnInventoryItemList(byte[] data) {
+    private void OnInventoryItemList(byte[] data)
+    {
         InventoryItemListPacket packet = new InventoryItemListPacket(data);
         _eventProcessor.QueueEvent(() => PlayerInventory.Instance.SetInventory(packet.Items, packet.OpenWindow));
     }
 
-    private void OnInventoryUpdate(byte[] data) {
+    private void OnInventoryUpdate(byte[] data)
+    {
         InventoryUpdatePacket packet = new InventoryUpdatePacket(data);
         Debug.Log("Updated items: " + packet.Items.Length);
         _eventProcessor.QueueEvent(() => PlayerInventory.Instance.UpdateInventory(packet.Items));
+    }
+
+    private void OnLeaveWorld(byte[] data)
+    {
+#if UNITY_EDITOR
+        _client.Disconnect();
+#else
+        _eventProcessor.QueueEvent(() => {
+            Application.Quit();
+        }); 
+#endif
+    }
+
+    private void OnRestartResponse(byte[] data)
+    {
+        // Do nothing, handle upcoming charselect packet instead
+        GameManager.Instance.GameState = GameState.RESTARTING;
     }
 }
