@@ -66,6 +66,10 @@ public class L2GameUI : L2UI
         {
             StatusWindow.Instance.AddWindow(_rootVisualContainer);
         }
+        if (SkillbarWindow.Instance != null)
+        {
+            SkillbarWindow.Instance.AddWindow(_rootVisualContainer);
+        }
         if (InventoryWindow.Instance != null)
         {
             InventoryWindow.Instance.AddWindow(_rootVisualContainer);

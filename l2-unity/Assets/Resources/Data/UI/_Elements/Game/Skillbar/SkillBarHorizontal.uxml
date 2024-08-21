@@ -1,0 +1,46 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <ui:VisualElement name="SkillBar1" class="skillbar" style="height: 46px; flex-grow: 0;">
+        <ui:VisualElement name="DragArea" class="skillbar-drag">
+            <ui:GroupBox name="Frame_DF_Ver" class="frame_df_ver" style="margin-top: -1px; height: 48px;">
+                <ui:VisualElement style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Frame/Frame_DF_Ver/Frame_DF_Ver_Small_Top.png?fileID=2800000&amp;guid=3616eb66b6343964d92d1c6d7d5a936d&amp;type=3#Frame_DF_Ver_Small_Top&apos;); height: 8px; max-height: 8px; -unity-slice-left: 3; -unity-slice-top: 3; -unity-slice-right: 3; -unity-slice-bottom: 3; -unity-slice-scale: 0.9px;" />
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Frame/Frame_DF_Ver/Frame_DF_Ver_Small_Center.png?fileID=2800000&amp;guid=3adb856d45b78b242a89388ef2b70652&amp;type=3#Frame_DF_Ver_Small_Center&apos;); -unity-slice-left: 3; -unity-slice-top: 3; -unity-slice-right: 3; -unity-slice-bottom: 3; -unity-slice-scale: 0.9px;" />
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Frame/Frame_DF_Ver/Frame_DF_Ver_Small_Center.png?fileID=2800000&amp;guid=3adb856d45b78b242a89388ef2b70652&amp;type=3#Frame_DF_Ver_Small_Center&apos;); -unity-slice-left: 3; -unity-slice-top: 3; -unity-slice-right: 3; -unity-slice-bottom: 3; -unity-slice-scale: 0.9px;" />
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Frame/Frame_DF_Ver/Frame_DF_Ver_Small_Bottom.png?fileID=2800000&amp;guid=4e98b48730be8f04ba5e021a1a1a32bc&amp;type=3#Frame_DF_Ver_Small_Bottom&apos;); height: 8px; max-height: 8px; -unity-slice-left: 3; -unity-slice-top: 3; -unity-slice-right: 3; -unity-slice-bottom: 3; -unity-slice-scale: 0.9px;" />
+            </ui:GroupBox>
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ExpandBtn" class="skillbar-footer-btn button-expand" style="-unity-slice-scale: -1px; -unity-slice-right: 1; -unity-slice-bottom: 1; left: 3px;" />
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="MinimizeBtn" class="skillbar-footer-btn button-minimize" style="left: 3px; -unity-slice-right: 1; -unity-slice-bottom: 1; -unity-slice-scale: -1px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="InnerContainer" class="skillbar-inner-container">
+            <ui:VisualElement name="NumberGroupBox" class="skillbar-arrow-control">
+                <ui:VisualElement name="SkillArrowInput" class="skill-arrow-input" style="margin-top: -1px; margin-right: 0; overflow: visible;">
+                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ArrowInputNext" class="skillbar-footer-btn skillbar-arrow-input-up" style="-unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 1; -unity-slice-bottom: 1; -unity-slice-scale: -1px; margin-left: 0;" />
+                    <ui:Label tabindex="-1" text="1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SkillbarIndex" class="skill-arrow-input-label" style="font-size: 10px; width: 15px; height: 14px; margin-left: 0; margin-right: 0;" />
+                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ArrowInputPrev" class="skillbar-footer-btn skillbar-arrow-input-down" style="margin-top: 0; -unity-slice-right: 1; -unity-slice-bottom: 1; -unity-slice-scale: -1px; margin-left: 0;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="SlotContainer" class="skillbar-slot-container">
+                <ui:VisualElement name="Darkener" class="skillbar-darkener" />
+                <ui:VisualElement name="SlotAnchor1" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="SlotAnchor2" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="SlotAnchor3" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="SlotAnchor4" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="Spacer" class="skillbar-slot-spacer" />
+                <ui:VisualElement name="SlotAnchor5" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="SlotAnchor6" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="SlotAnchor7" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="SlotAnchor8" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="Spacer" class="skillbar-slot-spacer" />
+                <ui:VisualElement name="SlotAnchor9" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="SlotAnchor10" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="SlotAnchor11" class="skillbar-slot-anchor" />
+                <ui:VisualElement name="SlotAnchor12" class="skillbar-slot-anchor" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Footer" class="skillbar-footer" style="margin-top: -2px;">
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="TooltipBtn" class="skillbar-footer-btn button-tooltip" />
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="RotateBtn" class="skillbar-footer-btn button-rotate" style="margin-top: 1px;" />
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="LockBtn" class="skillbar-footer-btn button-lock" style="margin-top: 1px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
