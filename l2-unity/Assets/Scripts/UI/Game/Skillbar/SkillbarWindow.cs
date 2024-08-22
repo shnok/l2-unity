@@ -15,6 +15,8 @@ public class SkillbarWindow : L2PopupWindow
     [SerializeField] private int _maxSkillbarCount = 5;
     [SerializeField] private int _expandedSkillbarCount;
 
+    private List<Coroutine> _expandCoroutines;
+    private List<Coroutine> _minimizeCoroutines;
     private VisualElement _skillbarContainer;
     private VisualTreeAsset _skillbarTemplate;
 
@@ -33,6 +35,9 @@ public class SkillbarWindow : L2PopupWindow
         {
             Destroy(this);
         }
+
+        _expandCoroutines = new List<Coroutine>();
+        _minimizeCoroutines = new List<Coroutine>();
     }
 
     private void OnDestroy()
@@ -81,19 +86,35 @@ public class SkillbarWindow : L2PopupWindow
 
         _skillbars[0].UpdateExpandInput(0);
 
-        MinimizeAllSkillbars();
+        MinimizeSkillbar();
     }
 
     private void ExpandSkillbar()
     {
-        _skillbars[_expandedSkillbarCount + 1].Expand();
+        // Stop all skillbar minimize animations
+        _minimizeCoroutines.ForEach((c) => StopCoroutine(c));
+        _minimizeCoroutines.Clear();
+
+        // Expand the next skillbar
+        _expandCoroutines.Add(StartCoroutine(_skillbars[_expandedSkillbarCount + 1].Expand()));
+
+        // Hide skillbars that are not supposed to be visible
+        for (int i = _expandedSkillbarCount + 2; i < _maxSkillbarCount; i++)
+        {
+            _skillbars[i].HideBar();
+        }
     }
 
-    private void MinimizeAllSkillbars()
+    private void MinimizeSkillbar()
     {
+        // Stop all skillbar expand animations
+        _expandCoroutines.ForEach((c) => StopCoroutine(c));
+        _expandCoroutines.Clear();
+
+        // Minimize all skillbars
         for (int i = 1; i < _maxSkillbarCount; i++)
         {
-            _skillbars[i].Minimize();
+            _minimizeCoroutines.Add(StartCoroutine(_skillbars[i].Minimize()));
         }
     }
 

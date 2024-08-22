@@ -14,6 +14,7 @@ public class Skillbar
     private bool _expanded = false;
     private bool _mainSkillbar;
     private int _skillbarIndex;
+    private float _currentHeight;
 
     public Skillbar(VisualElement skillbarWindowElement, int skillbarIndex)
     {
@@ -51,7 +52,7 @@ public class Skillbar
             _windowEle.Q<VisualElement>("ExpandBtn").style.display = DisplayStyle.None;
             _windowEle.Q<VisualElement>("MinimizeBtn").style.display = DisplayStyle.None;
             _windowEle.style.marginBottom = -4;
-            Minimize();
+            HideBar();
         }
     }
 
@@ -68,35 +69,46 @@ public class Skillbar
         _expandButton.style.display = DisplayStyle.None;
     }
 
-    public void Expand()
+    public IEnumerator Expand()
     {
-        _windowEle.style.display = DisplayStyle.Flex;
+        ShowBar();
+
+        AdjustHeight(0);
+        while (_currentHeight < 46)
+        {
+
+
+            AdjustHeight(Mathf.Min(46, _currentHeight + 6f));
+            yield return new WaitForFixedUpdate();
+        }
     }
 
-    public void Minimize()
+    public IEnumerator Minimize()
+    {
+        AdjustHeight(46);
+
+        while (_currentHeight > 0)
+        {
+            AdjustHeight(Mathf.Max(0, _currentHeight - 6f));
+            yield return new WaitForFixedUpdate();
+        }
+
+        HideBar();
+    }
+
+    private void AdjustHeight(float value)
+    {
+        _currentHeight = value;
+        _windowEle.style.height = value;
+    }
+
+    public void HideBar()
     {
         _windowEle.style.display = DisplayStyle.None;
     }
 
-    // public void Animate()
-    // {
-
-    // }
-
-    // private IEnumerator WaitAndStart(Vector2 target_postion, VisualElement activeElement)
-    // {
-    //     while (true)
-    //     {
-    //         Vector2 source = activeElement.transform.position;
-    //         Vector2 tempVector = Vector2.MoveTowards(source, target_postion, Time.deltaTime * 500);
-    //         if (source.Equals(target_postion))
-    //         {
-    //             break;
-    //         }
-
-    //         activeElement.transform.position = tempVector;
-    //         yield return new WaitForSeconds(0.01f);
-    //     }
-    // }
-
+    private void ShowBar()
+    {
+        _windowEle.style.display = DisplayStyle.Flex;
+    }
 }
