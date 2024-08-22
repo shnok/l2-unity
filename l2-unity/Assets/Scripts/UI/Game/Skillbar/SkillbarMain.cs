@@ -4,17 +4,18 @@ public class SkillbarMain : AbstractSkillbar
 {
     private Button _expandButton;
     private Button _minimizeButton;
-    private bool _expanded = false;
-    private SkillBarFooterManipulator _footerManipulator;
+    private Button _tooltipButton;
+    private Button _lockButton;
+    private Button _rotateButton;
 
-    public SkillbarMain(VisualElement skillbarWindowElement, int skillbarIndex) : base(skillbarWindowElement, skillbarIndex)
+    public SkillbarMain(VisualElement skillbarWindowElement, int skillbarIndex, bool horizontalBar)
+    : base(skillbarWindowElement, skillbarIndex, horizontalBar)
     {
     }
 
     // Start is called before the first frame update
     protected override void UpdateVisuals()
     {
-
         _expandButton = _windowEle.Q<Button>("ExpandBtn");
         _expandButton.AddManipulator(new ButtonClickSoundManipulator(_expandButton));
         _expandButton.RegisterCallback<ClickEvent>((evt) => SkillbarWindow.Instance.AddSkillbar());
@@ -22,7 +23,19 @@ public class SkillbarMain : AbstractSkillbar
         _minimizeButton = _windowEle.Q<Button>("MinimizeBtn");
         _minimizeButton.AddManipulator(new ButtonClickSoundManipulator(_minimizeButton));
         _minimizeButton.RegisterCallback<ClickEvent>((evt) => SkillbarWindow.Instance.ResetSkillbar());
-        _footerManipulator = new SkillBarFooterManipulator(_windowEle);
+
+        _rotateButton = _windowEle.Q<Button>("RotateBtn");
+        _rotateButton.AddManipulator(new ButtonClickSoundManipulator(_rotateButton));
+
+        _lockButton = _windowEle.Q<Button>("LockBtn");
+        _lockButton.AddManipulator(new ButtonClickSoundManipulator(_lockButton));
+
+        _tooltipButton = _windowEle.Q<Button>("TooltipBtn");
+        _tooltipButton.AddManipulator(new ButtonClickSoundManipulator(_tooltipButton));
+
+        _rotateButton.RegisterCallback<ClickEvent>((evt) => HandleRotateClick());
+        _lockButton.RegisterCallback<ClickEvent>((evt) => HandleLockClick());
+        _tooltipButton.RegisterCallback<ClickEvent>((evt) => HandleTooltipClick());
 
         UpdateExpandInput(0);
     }
@@ -38,5 +51,50 @@ public class SkillbarMain : AbstractSkillbar
 
         _minimizeButton.style.display = DisplayStyle.Flex;
         _expandButton.style.display = DisplayStyle.None;
+    }
+
+    private void HandleTooltipClick()
+    {
+        if (SkillbarWindow.Instance.TooltipDisabled)
+        {
+            if (_tooltipButton.ClassListContains("min"))
+            {
+                _tooltipButton.RemoveFromClassList("min");
+
+            }
+        }
+        else
+        {
+            if (!_tooltipButton.ClassListContains("min"))
+            {
+
+                _tooltipButton.AddToClassList("min");
+            }
+        }
+        SkillbarWindow.Instance.TooltipDisabled = !SkillbarWindow.Instance.TooltipDisabled;
+    }
+
+    private void HandleLockClick()
+    {
+        if (SkillbarWindow.Instance.Locked)
+        {
+            if (_lockButton.ClassListContains("locked"))
+            {
+                _lockButton.RemoveFromClassList("locked");
+            }
+        }
+        else
+        {
+            if (!_lockButton.ClassListContains("locked"))
+            {
+                _lockButton.AddToClassList("locked");
+            }
+        }
+        SkillbarWindow.Instance.Locked = !SkillbarWindow.Instance.Locked;
+    }
+
+    private void HandleRotateClick()
+    {
+        SkillbarWindow.Instance.ToggleRotate();
     }
 }

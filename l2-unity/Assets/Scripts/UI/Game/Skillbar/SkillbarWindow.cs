@@ -7,18 +7,21 @@ using UnityEngine.UIElements;
 public class SkillbarWindow : L2PopupWindow
 {
     private bool _locked = false;
-    private bool _vertical = false;
+    private bool _vertical = true;
     private bool _tooltipDisabled = false;
     public bool Locked { get { return _locked; } set { _locked = value; } }
     public bool Vertical { get { return _vertical; } set { _vertical = value; } }
     public bool TooltipDisabled { get { return _tooltipDisabled; } set { _tooltipDisabled = value; } }
+
     [SerializeField] private int _maxSkillbarCount = 5;
     [SerializeField] private int _expandedSkillbarCount;
 
     private List<Coroutine> _expandCoroutines;
     private List<Coroutine> _minimizeCoroutines;
-    private VisualElement _skillbarContainer;
-    private VisualTreeAsset _skillbarTemplate;
+    private VisualElement _skillbarContainerHorizontal;
+    private VisualElement _skillbarContainerVertical;
+    private VisualTreeAsset _skillbarHorizontalTemplate;
+    private VisualTreeAsset _skillbarVerticalTemplate;
 
     private List<AbstractSkillbar> _skillbars;
 
@@ -48,7 +51,8 @@ public class SkillbarWindow : L2PopupWindow
     protected override void LoadAssets()
     {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillbarWindow");
-        _skillbarTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillBarHorizontal");
+        _skillbarHorizontalTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillBarHorizontal");
+        _skillbarVerticalTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillBarVertical");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -57,26 +61,43 @@ public class SkillbarWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
-        _skillbarContainer = GetElementById("SkillbarContainer");
+        _skillbarContainerHorizontal = GetElementById("SkillbarContainerHorizontal");
+        _skillbarContainerVertical = GetElementById("SkillbarContainerVertical");
+        ToggleRotate();
 
         _skillbars = new List<AbstractSkillbar>();
 
-
-        for (int i = 0; i < _maxSkillbarCount; i++)
+        for (int x = 0; x < 2; x++)
         {
-            AbstractSkillbar skillbar;
-            if (i == 0)
+            for (int i = 0; i < _maxSkillbarCount; i++)
             {
-                skillbar = new SkillbarMain(_windowEle, i);
-            }
-            else
-            {
-                skillbar = new SkillbarMin(_windowEle, i);
-            }
+                AbstractSkillbar skillbar;
 
-            StartCoroutine(skillbar.BuildWindow(_skillbarTemplate, _skillbarContainer));
-            _skillbars.Add(skillbar);
+                bool mainBar = i == 0;
+                bool horizontalBar = x == 0;
+
+                if (mainBar)
+                {
+                    skillbar = new SkillbarMain(_windowEle, i, horizontalBar);
+                }
+                else
+                {
+                    skillbar = new SkillbarMin(_windowEle, i, horizontalBar);
+                }
+
+                if (horizontalBar)
+                {
+                    StartCoroutine(skillbar.BuildWindow(_skillbarHorizontalTemplate, _skillbarContainerHorizontal));
+                }
+                else
+                {
+                    StartCoroutine(skillbar.BuildWindow(_skillbarVerticalTemplate, _skillbarContainerVertical));
+                }
+
+                _skillbars.Add(skillbar);
+            }
         }
+
     }
 
     public void AddSkillbar()
@@ -85,6 +106,7 @@ public class SkillbarWindow : L2PopupWindow
         if (_expandedSkillbarCount++ >= _maxSkillbarCount - 2)
         {
             ((SkillbarMain)_skillbars[0]).UpdateExpandInput(1);
+            ((SkillbarMain)_skillbars[_maxSkillbarCount]).UpdateExpandInput(1);
         }
 
         ExpandSkillbar();
@@ -95,6 +117,7 @@ public class SkillbarWindow : L2PopupWindow
         _expandedSkillbarCount = 0;
 
         ((SkillbarMain)_skillbars[0]).UpdateExpandInput(0);
+        ((SkillbarMain)_skillbars[_maxSkillbarCount]).UpdateExpandInput(0);
 
         MinimizeSkillbar();
     }
@@ -109,10 +132,16 @@ public class SkillbarWindow : L2PopupWindow
         SkillbarMin skillbar = (SkillbarMin)_skillbars[_expandedSkillbarCount];
         _expandCoroutines.Add(StartCoroutine(skillbar.Expand()));
 
+        skillbar = (SkillbarMin)_skillbars[_expandedSkillbarCount + _maxSkillbarCount];
+        _expandCoroutines.Add(StartCoroutine(skillbar.Expand()));
+
         // Hide skillbars that are not supposed to be visible
-        for (int i = _expandedSkillbarCount + 1; i < _maxSkillbarCount; i++)
+        for (int x = 0; x < 2; x++)
         {
-            _skillbars[i].HideBar();
+            for (int i = _expandedSkillbarCount + 1; i < _maxSkillbarCount; i++)
+            {
+                _skillbars[i + _maxSkillbarCount * x].HideBar();
+            }
         }
     }
 
@@ -123,11 +152,29 @@ public class SkillbarWindow : L2PopupWindow
         _expandCoroutines.Clear();
 
         // Minimize all skillbars
-        for (int i = 1; i < _maxSkillbarCount; i++)
+        for (int x = 0; x < 2; x++)
         {
-            SkillbarMin skillbar = (SkillbarMin)_skillbars[i];
-            _minimizeCoroutines.Add(StartCoroutine(skillbar.Minimize()));
+            for (int i = 1; i < _maxSkillbarCount; i++)
+            {
+                SkillbarMin skillbar = (SkillbarMin)_skillbars[i + _maxSkillbarCount * x];
+                _minimizeCoroutines.Add(StartCoroutine(skillbar.Minimize()));
+            }
         }
     }
 
+    public void ToggleRotate()
+    {
+        _vertical = !_vertical;
+
+        if (_vertical)
+        {
+            _skillbarContainerHorizontal.style.display = DisplayStyle.None;
+            _skillbarContainerVertical.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            _skillbarContainerHorizontal.style.display = DisplayStyle.Flex;
+            _skillbarContainerVertical.style.display = DisplayStyle.None;
+        }
+    }
 }

@@ -6,13 +6,14 @@ public abstract class AbstractSkillbar
 {
     protected VisualElement _windowEle;
     protected VisualElement _skillbarWindow;
-
     protected int _skillbarIndex;
+    protected bool _horizontalBar;
 
-    public AbstractSkillbar(VisualElement skillbarWindowElement, int skillbarIndex)
+    public AbstractSkillbar(VisualElement skillbarWindowElement, int skillbarIndex, bool horizontalBar)
     {
         _skillbarWindow = skillbarWindowElement;
         _skillbarIndex = skillbarIndex;
+        _horizontalBar = horizontalBar;
     }
 
     public IEnumerator BuildWindow(VisualTreeAsset template, VisualElement container)

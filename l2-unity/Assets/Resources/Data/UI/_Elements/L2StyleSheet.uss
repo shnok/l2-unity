@@ -2115,7 +2115,7 @@
 }
 
 .skillbar-inner-container {
-    background-color: rgba(0, 0, 0, 0.36);
+    background-color: rgba(0, 0, 0, 0.49);
 }
 
 .skillbar-darkener {
@@ -2133,4 +2133,163 @@
 .skillbar {
     flex-grow: 0;
     overflow: hidden;
+}
+
+.skillbar-vertical {
+}
+
+.skillbar-vertical {
+    flex-direction: column;
+}
+
+.skillbar-wrapper-vertical {
+    flex-grow: 1;
+    height: 500px;
+    width: 46px;
+    flex-direction: column;
+}
+
+.skillbar-drag-vertical {
+    height: 17px;
+    width: 48px;
+}
+
+.frame_df_ver-vertical {
+    margin-top: 0;
+    height: 49px;
+    rotate: 90deg;
+    transform-origin: left top;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    scale: 1 -1;
+    max-height: 49px;
+    min-height: 49px;
+    right: 1px;
+}
+
+.button-expand-vertical {
+    -unity-slice-scale: -1px;
+    -unity-slice-right: 1;
+    -unity-slice-bottom: 1;
+    left: 6px;
+    top: 4px;
+    rotate: -90deg;
+}
+
+.button-minimize-vertical {
+    left: 3px;
+    -unity-slice-right: 1;
+    -unity-slice-bottom: 1;
+    -unity-slice-scale: -1px;
+    display: none;
+}
+
+.skillbar-inner-container-vertical {
+    flex-direction: column;
+    background-image: resource('Data/UI/Assets/Windows/Windows_DF_Small_Bg');
+    -unity-slice-left: 9;
+    -unity-slice-top: 9;
+    -unity-slice-right: 9;
+    -unity-slice-bottom: 9;
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.skillbar-arrow-control-vertical {
+    height: 17px;
+    width: 46px;
+    flex-grow: 0;
+}
+
+.skill-arrow-input-vertical {
+    margin-top: -1px;
+    margin-right: 0;
+    overflow: visible;
+    height: 14px;
+    width: 46px;
+    flex-direction: row-reverse;
+    margin-left: 0;
+}
+
+.skillbar-slot-anchor-vertical {
+    margin-top: 3px;
+    margin-right: 0;
+}
+
+.skillbar-arrow-input-right {
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+    -unity-slice-right: 1;
+    -unity-slice-bottom: 1;
+    -unity-slice-scale: -1px;
+    margin-left: 0;
+    margin-right: 4px;
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_next');
+}
+
+.skillbar-arrow-input-right:active {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_next_down');
+}
+
+.skillbar-arrow-input-right:active:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_next_down');
+}
+
+.skillbar-arrow-input-right:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_next_over');
+}
+
+.skillbar-arrow-input-left {
+    margin-top: 0;
+    -unity-slice-right: 1;
+    -unity-slice-bottom: 1;
+    -unity-slice-scale: -1px;
+    margin-left: -1px;
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prev');
+}
+
+.skillbar-arrow-input-left:active {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prev_down');
+}
+
+.skillbar-arrow-input-left:active:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prev_down');
+}
+
+.skillbar-arrow-input-left:hover {
+    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prev_over');
+}
+
+.skillbar-footer-vertical {
+    margin-top: 0;
+    width: auto;
+    height: 15px;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.skillbar-container-vertical {
+    position: absolute;
+    min-width: 46px;
+    min-height: 500px;
+    flex-grow: 0;
+    align-self: flex-end;
+    justify-content: flex-start;
+    align-items: auto;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.button-minimize-vertical {
+    display: flex;
+    left: 6px;
+    top: 4px;
+    rotate: -90deg;
+}
+
+.button-minimize-vertical {
+    display: none;
 }

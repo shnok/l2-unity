@@ -6,7 +6,8 @@ public class SkillbarMin : AbstractSkillbar
 {
     protected float _currentHeight;
 
-    public SkillbarMin(VisualElement skillbarWindowElement, int skillbarIndex) : base(skillbarWindowElement, skillbarIndex)
+    public SkillbarMin(VisualElement skillbarWindowElement, int skillbarIndex, bool horizontalBar)
+    : base(skillbarWindowElement, skillbarIndex, horizontalBar)
     {
     }
 
@@ -15,7 +16,15 @@ public class SkillbarMin : AbstractSkillbar
         _windowEle.Q<VisualElement>("Footer").style.display = DisplayStyle.None;
         _windowEle.Q<VisualElement>("ExpandBtn").style.display = DisplayStyle.None;
         _windowEle.Q<VisualElement>("MinimizeBtn").style.display = DisplayStyle.None;
-        _windowEle.style.marginBottom = -4;
+        if (_horizontalBar)
+        {
+            _windowEle.style.marginBottom = -3;
+        }
+        else
+        {
+            _windowEle.style.marginRight = -3;
+        }
+
         HideBar();
     }
 
@@ -26,8 +35,6 @@ public class SkillbarMin : AbstractSkillbar
         AdjustHeight(0);
         while (_currentHeight < 46)
         {
-
-
             AdjustHeight(Mathf.Min(46, _currentHeight + 6f));
             yield return new WaitForFixedUpdate();
         }
@@ -49,7 +56,15 @@ public class SkillbarMin : AbstractSkillbar
     private void AdjustHeight(float value)
     {
         _currentHeight = value;
-        _windowEle.style.height = value;
+
+        if (_horizontalBar)
+        {
+            _windowEle.style.height = value;
+        }
+        else
+        {
+            _windowEle.style.width = value;
+        }
     }
 
 }
