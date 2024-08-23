@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.UIElements;
 
-public class L2DraggableSlot : L2Slot
+public class L2DraggableSlot : L2ClickableSlot
 {
     protected SlotDragManipulator _slotDragManipulator;
 

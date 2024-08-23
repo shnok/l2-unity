@@ -29,7 +29,7 @@ public class InventorySlot : L2DraggableSlot
         }
     }
 
-    public InventorySlot(VisualElement slotElement, SlotType slotType) : base(-1, slotElement, slotType)
+    public InventorySlot(int position, VisualElement slotElement, SlotType slotType) : base(position, slotElement, slotType)
     {
         _empty = true;
     }

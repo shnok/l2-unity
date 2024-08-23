@@ -90,7 +90,7 @@ public abstract class AbstractSkillbar
             VisualElement slotElement = SkillbarWindow.Instance.BarSlotTemplate.Instantiate()[0];
             anchor.Add(slotElement);
 
-            SkillbarSlot slot = new SkillbarSlot(slotElement);
+            SkillbarSlot slot = new SkillbarSlot(slotElement, _page * 12 + i);
             _barSlots.Add(slot);
         }
     }

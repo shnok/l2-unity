@@ -38,7 +38,7 @@ public class L2SlotManager : L2PopupWindow
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
-        _dragSlotData = new L2Slot(_windowEle, 0, 0, "", "", "", L2Slot.SlotType.Other);
+        _dragSlotData = new L2Slot(_windowEle);
         _windowEle.usageHints = UsageHints.None;
         _windowEle.pickingMode = PickingMode.Ignore;
         _windowEle.style.position = Position.Absolute;
@@ -83,12 +83,6 @@ public class L2SlotManager : L2PopupWindow
 
     private void HandleDragRelease()
     {
-        if (_hoverSlot == null)
-        {
-            DropItem();
-            return;
-        }
-
         switch (_draggedSlot.Type)
         {
             case L2Slot.SlotType.Gear:
@@ -98,8 +92,10 @@ public class L2SlotManager : L2PopupWindow
             case L2Slot.SlotType.InventoryBis:
                 HandleInventoryDrag();
                 break;
+            case L2Slot.SlotType.SkillBar:
+                HandleSkillbarDrag();
+                break;
             default:
-                // Handle other slot types if needed
                 break;
         }
     }
@@ -131,9 +127,30 @@ public class L2SlotManager : L2PopupWindow
             case L2Slot.SlotType.Trash:
                 DestroyItem();
                 break;
-            // Add case for skillbar if needed
+            case L2Slot.SlotType.SkillBar:
+                AddItemToSkillbar();
+                break;
             default:
-                // Handle other hover slot types
+                if (!L2GameUI.Instance.MouseOverUI)
+                {
+                    DropItem();
+                }
+                break;
+        }
+    }
+
+    private void HandleSkillbarDrag()
+    {
+        switch (_hoverSlot.Type)
+        {
+            case L2Slot.SlotType.SkillBar:
+                MoveSkillbarSlot();
+                break;
+            default:
+                if (!L2GameUI.Instance.MouseOverUI)
+                {
+                    RemoveSkillbarSlot();
+                }
                 break;
         }
     }
@@ -194,6 +211,26 @@ public class L2SlotManager : L2PopupWindow
         Debug.Log($"Moving item from slot {fromSlot} to slot {toSlot}.");
 
         PlayerInventory.Instance.ChangeItemOrder(fromSlot, toSlot);
+    }
+
+    private void AddItemToSkillbar()
+    {
+        int itemId = ((InventorySlot)_draggedSlot).Id;
+        int slot = _hoverSlot.Position;
+        Debug.LogWarning($"Add item {itemId} to skillbar slot {slot}.");
+    }
+
+    private void MoveSkillbarSlot()
+    {
+        int oldSlot = _draggedSlot.Position;
+        int newSlot = _hoverSlot.Position;
+        Debug.LogWarning($"Moving skillbar shortcut from slot {oldSlot} to slot {newSlot}.");
+    }
+
+    private void RemoveSkillbarSlot()
+    {
+        int oldSlot = _draggedSlot.Position;
+        Debug.LogWarning($"Renoving skillbar shortcut from slot {oldSlot}.");
     }
 
     public override void ShowWindow()
