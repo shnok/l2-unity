@@ -24,10 +24,10 @@ public class SkillbarWindow : L2PopupWindow
     private VisualTreeAsset _skillbarVerticalTemplate;
     private VisualTreeAsset _barSlotTemplate;
     private List<AbstractSkillbar> _skillbars;
+    private static SkillbarWindow _instance;
+    private List<Shortcut> _shortcuts;
 
     public VisualTreeAsset BarSlotTemplate { get { return _barSlotTemplate; } }
-
-    private static SkillbarWindow _instance;
     public static SkillbarWindow Instance { get { return _instance; } }
 
     private void Awake()
@@ -192,6 +192,8 @@ public class SkillbarWindow : L2PopupWindow
         {
             _skillbars[skillbarIndex + _maxSkillbarCount * x].ChangePage(page);
         }
+
+        UpdateShortcuts();
     }
 
     public void ToggleLockSkillBar()
@@ -214,20 +216,31 @@ public class SkillbarWindow : L2PopupWindow
         }
     }
 
+    public void UpdateShortcuts()
+    {
+        UpdateShortcuts(_shortcuts);
+    }
+
     public void UpdateShortcuts(List<Shortcut> shortcuts)
     {
+        _shortcuts = shortcuts;
+
         _skillbars.ForEach((skillbar) => skillbar.ResetShortcuts());
 
         shortcuts.ForEach((shortcut) =>
         {
-            int horSkillbarId = shortcut.Slot / 12;
-            int verSkillbarId = horSkillbarId + _maxSkillbarCount;
+            int page = shortcut.Slot / 12;
             int slot = shortcut.Slot % 12;
 
             if (slot < 12)
             {
-                _skillbars[horSkillbarId].UpdateShortcut(shortcut, slot);
-                _skillbars[verSkillbarId].UpdateShortcut(shortcut, slot);
+                _skillbars.ForEach((skillbar) =>
+                {
+                    if (skillbar.Page == page)
+                    {
+                        skillbar.UpdateShortcut(shortcut, slot);
+                    }
+                });
             }
             else
             {
