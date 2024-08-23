@@ -53,6 +53,7 @@ public abstract class AbstractSkillbar
         (index, value) => SkillbarWindow.Instance.OnPageChanged(SkillbarIndex, index));
 
         UpdateVisuals();
+        UpdateShortcuts();
     }
 
     public void ChangePage(int page)
@@ -65,7 +66,35 @@ public abstract class AbstractSkillbar
 
     public void UpdateShortcuts()
     {
-        Debug.LogWarning("UpdateShortcuts");
+        // Clean up slot callbacks and manipulators
+        if (_barSlots != null)
+        {
+            foreach (L2Slot slot in _barSlots)
+            {
+                slot.UnregisterCallbacks();
+                slot.ClearManipulators();
+            }
+            _barSlots.Clear();
+        }
+
+        _barSlots = new List<L2Slot>();
+
+        // Clean up gear anchors from any child visual element
+        for (int i = 0; i < _slotAnchors.Count; i++)
+        {
+            VisualElement anchor = _slotAnchors[i];
+
+            // Clear childs
+            anchor.Clear();
+
+            // Create slots
+            VisualElement slotElement = SkillbarWindow.Instance.BarSlotTemplate.Instantiate()[0];
+            anchor.Add(slotElement);
+
+            SKillbarSlot slot = new SKillbarSlot(_page, i, slotElement, L2Slot.SlotType.SkillBar);
+            _barSlots.Add(slot);
+        }
+
     }
 
     protected abstract void UpdateVisuals();

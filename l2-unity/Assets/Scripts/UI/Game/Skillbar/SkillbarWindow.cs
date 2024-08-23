@@ -22,8 +22,10 @@ public class SkillbarWindow : L2PopupWindow
     private VisualElement _skillbarContainerVertical;
     private VisualTreeAsset _skillbarHorizontalTemplate;
     private VisualTreeAsset _skillbarVerticalTemplate;
-
+    private VisualTreeAsset _barSlotTemplate;
     private List<AbstractSkillbar> _skillbars;
+
+    public VisualTreeAsset BarSlotTemplate { get { return _barSlotTemplate; } }
 
     private static SkillbarWindow _instance;
     public static SkillbarWindow Instance { get { return _instance; } }
@@ -53,6 +55,7 @@ public class SkillbarWindow : L2PopupWindow
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillbarWindow");
         _skillbarHorizontalTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillBarHorizontal");
         _skillbarVerticalTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillBarVertical");
+        _barSlotTemplate = LoadAsset("Data/UI/_Elements/Template/Slot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -186,6 +189,26 @@ public class SkillbarWindow : L2PopupWindow
         for (int x = 0; x < 2; x++)
         {
             _skillbars[skillbarIndex + _maxSkillbarCount * x].ChangePage(page);
+        }
+    }
+
+    public void ToggleLockSkillBar()
+    {
+        Locked = !Locked;
+
+        for (int x = 0; x < 2; x++)
+        {
+            ((SkillbarMain)_skillbars[x * _maxSkillbarCount]).ToggleLockSkillBar();
+        }
+    }
+
+    public void ToggleDisableTooltip()
+    {
+        TooltipDisabled = !TooltipDisabled;
+
+        for (int x = 0; x < 2; x++)
+        {
+            ((SkillbarMain)_skillbars[x * _maxSkillbarCount]).ToggleDisableTooltip();
         }
     }
 }

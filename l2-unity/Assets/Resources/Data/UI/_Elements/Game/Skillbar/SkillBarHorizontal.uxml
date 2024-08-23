@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="Slot" src="project://database/Assets/Resources/Data/UI/_Elements/Template/Slot.uxml?fileID=9197481963319205126&amp;guid=9d85f669bd3786246b11558e35706780&amp;type=3#Slot" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
-    <ui:VisualElement name="SkillBar1" class="skillbar">
+    <ui:VisualElement name="SkillBar1" class="skillbar" style="width: 508px; min-width: 508px;">
         <ui:VisualElement name="Wrapper" class="skillbar-wrapper">
             <ui:VisualElement name="DragArea" class="skillbar-drag">
                 <ui:GroupBox name="Frame_DF_Ver" class="frame_df_ver" style="margin-top: -1px; height: 48px;">
@@ -22,25 +23,51 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="SlotContainer" class="skillbar-slot-container">
                     <ui:VisualElement name="Darkener" class="skillbar-darkener" />
-                    <ui:VisualElement name="SlotAnchor1" class="skillbar-slot-anchor" />
-                    <ui:VisualElement name="SlotAnchor2" class="skillbar-slot-anchor" />
-                    <ui:VisualElement name="SlotAnchor3" class="skillbar-slot-anchor" />
-                    <ui:VisualElement name="SlotAnchor4" class="skillbar-slot-anchor" />
+                    <ui:VisualElement name="SlotAnchor1" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor2" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor3" class="skillbar-slot-anchor" style="margin-right: 3px;">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor4" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
                     <ui:VisualElement name="Spacer" class="skillbar-slot-spacer" />
-                    <ui:VisualElement name="SlotAnchor5" class="skillbar-slot-anchor" />
-                    <ui:VisualElement name="SlotAnchor6" class="skillbar-slot-anchor" />
-                    <ui:VisualElement name="SlotAnchor7" class="skillbar-slot-anchor" />
-                    <ui:VisualElement name="SlotAnchor8" class="skillbar-slot-anchor" />
+                    <ui:VisualElement name="SlotAnchor5" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor6" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor7" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor8" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
                     <ui:VisualElement name="Spacer" class="skillbar-slot-spacer" />
-                    <ui:VisualElement name="SlotAnchor9" class="skillbar-slot-anchor" />
-                    <ui:VisualElement name="SlotAnchor10" class="skillbar-slot-anchor" />
-                    <ui:VisualElement name="SlotAnchor11" class="skillbar-slot-anchor" />
-                    <ui:VisualElement name="SlotAnchor12" class="skillbar-slot-anchor" />
+                    <ui:VisualElement name="SlotAnchor9" class="skillbar-slot-anchor" style="flex-shrink: 1;">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor10" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor11" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor12" class="skillbar-slot-anchor">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="Footer" class="skillbar-footer" style="margin-top: -2px;">
-                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="TooltipBtn" class="skillbar-footer-btn button-tooltip" />
-                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="RotateBtn" class="skillbar-footer-btn button-rotate" style="margin-top: 1px;" />
-                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="LockBtn" class="skillbar-footer-btn button-lock" style="margin-top: 1px;" />
+                <ui:VisualElement name="FooterContainer" class="footer-container-horizontal">
+                    <ui:VisualElement name="Footer" class="skillbar-footer" style="margin-top: -2px;">
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="TooltipBtn" class="skillbar-footer-btn button-tooltip" style="margin-top: 2px;" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="RotateBtn" class="skillbar-footer-btn button-rotate" style="margin-top: 0;" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="LockBtn" class="skillbar-footer-btn button-lock" style="margin-top: 0;" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

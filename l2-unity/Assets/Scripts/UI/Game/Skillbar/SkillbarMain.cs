@@ -55,7 +55,12 @@ public class SkillbarMain : AbstractSkillbar
 
     private void HandleTooltipClick()
     {
-        if (SkillbarWindow.Instance.TooltipDisabled)
+        SkillbarWindow.Instance.ToggleDisableTooltip();
+    }
+
+    public void ToggleDisableTooltip()
+    {
+        if (!SkillbarWindow.Instance.TooltipDisabled)
         {
             if (_tooltipButton.ClassListContains("min"))
             {
@@ -71,12 +76,16 @@ public class SkillbarMain : AbstractSkillbar
                 _tooltipButton.AddToClassList("min");
             }
         }
-        SkillbarWindow.Instance.TooltipDisabled = !SkillbarWindow.Instance.TooltipDisabled;
     }
 
     private void HandleLockClick()
     {
-        if (SkillbarWindow.Instance.Locked)
+        SkillbarWindow.Instance.ToggleLockSkillBar();
+    }
+
+    public void ToggleLockSkillBar()
+    {
+        if (!SkillbarWindow.Instance.Locked)
         {
             if (_lockButton.ClassListContains("locked"))
             {
@@ -90,7 +99,6 @@ public class SkillbarMain : AbstractSkillbar
                 _lockButton.AddToClassList("locked");
             }
         }
-        SkillbarWindow.Instance.Locked = !SkillbarWindow.Instance.Locked;
     }
 
     private void HandleRotateClick()
