@@ -2,7 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ArrowInputManipulator : PointerManipulator {
+public class ArrowInputManipulator : PointerManipulator
+{
+    private string _labelValue;
     private Label _label;
     private string[] _values;
     private TextField _textField;
@@ -15,31 +17,46 @@ public class ArrowInputManipulator : PointerManipulator {
     public String Value { get { return _textField.value; } }
     public int Index { get { return _index; } }
 
-    public ArrowInputManipulator(VisualElement target, string label, string[] values, int defaultIndex, Action<int, string> onArrowClick) {
+    public ArrowInputManipulator(VisualElement target, string label, string[] values, int defaultIndex, Action<int, string> onArrowClick)
+    {
+        _labelValue = label;
         this.target = target;
-        _label.text = label;
+        if (_labelValue != null && _labelValue.Length > 0)
+        {
+            _label.text = label;
+        }
+
         _values = values;
         _index = defaultIndex;
-        if(defaultIndex != -1) {
+
+        if (defaultIndex != -1)
+        {
             _textField.value = values[defaultIndex];
         }
+
         _onArrowClick = onArrowClick;
     }
 
-    public void UpdateValues(string[] newVals) {
+    public void UpdateValues(string[] newVals)
+    {
         _values = newVals;
         _index = -1;
         _textField.value = "";
     }
 
-    private void LoadElements() {
-        _label = target.Q<Label>("Label");
+    private void LoadElements()
+    {
+        if (_labelValue != null && _labelValue.Length > 0)
+        {
+            _label = target.Q<Label>("Label");
+        }
         _textField = target.Q<TextField>("DataField");
         _leftArrow = target.Q<Button>("LeftArrow");
         _rightArrow = target.Q<Button>("RightArrow");
     }
 
-    protected override void RegisterCallbacksOnTarget() {
+    protected override void RegisterCallbacksOnTarget()
+    {
         LoadElements();
         _leftArrow.RegisterCallback<ClickEvent>(OnLeftArrowClick);
         _rightArrow.RegisterCallback<ClickEvent>(OnRightArrowClick);
@@ -47,13 +64,16 @@ public class ArrowInputManipulator : PointerManipulator {
         _rightArrow.AddManipulator(new ButtonClickSoundManipulator(_rightArrow));
     }
 
-    protected override void UnregisterCallbacksFromTarget() {
+    protected override void UnregisterCallbacksFromTarget()
+    {
         _leftArrow.UnregisterCallback<ClickEvent>(OnLeftArrowClick);
         _rightArrow.UnregisterCallback<ClickEvent>(OnRightArrowClick);
-    }  
-    
-    private void OnLeftArrowClick(ClickEvent e) {
-        if (--_index < 0) {
+    }
+
+    private void OnLeftArrowClick(ClickEvent e)
+    {
+        if (--_index < 0)
+        {
             _index = _values.Length - 1;
         }
 
@@ -62,10 +82,12 @@ public class ArrowInputManipulator : PointerManipulator {
         _onArrowClick(_index, _textField.value);
     }
 
-    private void OnRightArrowClick(ClickEvent e) {
+    private void OnRightArrowClick(ClickEvent e)
+    {
 
         Debug.Log(_index);
-        if (++_index > _values.Length - 1) {
+        if (++_index > _values.Length - 1)
+        {
             _index = 0;
         }
         Debug.Log(_index);
@@ -76,8 +98,10 @@ public class ArrowInputManipulator : PointerManipulator {
         _onArrowClick(_index, _textField.value);
     }
 
-    public void SelectIndex(int index) {
-        if (index < 0 || index >= _values.Length) {
+    public void SelectIndex(int index)
+    {
+        if (index < 0 || index >= _values.Length)
+        {
             Debug.LogWarning($"Trying to select wrong index [{index}] for arrow manipulator.");
             return;
         }
@@ -86,12 +110,14 @@ public class ArrowInputManipulator : PointerManipulator {
         _textField.value = _values[_index];
     }
 
-    public void ClearInput() {
+    public void ClearInput()
+    {
         _index = -1;
         _textField.value = "";
     }
 
-    public void ResetInput() {
+    public void ResetInput()
+    {
         _index = 0;
         _textField.value = _values[_index];
     }

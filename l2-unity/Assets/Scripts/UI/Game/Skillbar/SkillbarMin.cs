@@ -6,8 +6,8 @@ public class SkillbarMin : AbstractSkillbar
 {
     protected float _currentHeight;
 
-    public SkillbarMin(VisualElement skillbarWindowElement, int skillbarIndex, bool horizontalBar)
-    : base(skillbarWindowElement, skillbarIndex, horizontalBar)
+    public SkillbarMin(VisualElement skillbarWindowElement, int skillbarIndex, int page, bool horizontalBar)
+    : base(skillbarWindowElement, skillbarIndex, page, horizontalBar)
     {
     }
 
@@ -16,6 +16,7 @@ public class SkillbarMin : AbstractSkillbar
         _windowEle.Q<VisualElement>("Footer").style.display = DisplayStyle.None;
         _windowEle.Q<VisualElement>("ExpandBtn").style.display = DisplayStyle.None;
         _windowEle.Q<VisualElement>("MinimizeBtn").style.display = DisplayStyle.None;
+
         if (_horizontalBar)
         {
             _windowEle.style.marginBottom = -3;

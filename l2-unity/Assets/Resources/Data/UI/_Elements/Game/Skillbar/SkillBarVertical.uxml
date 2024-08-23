@@ -15,9 +15,9 @@
             <ui:VisualElement name="InnerContainer" class="skillbar-inner-container skillbar-inner-container-vertical">
                 <ui:VisualElement name="NumberGroupBox" class="skillbar-arrow-control skillbar-arrow-control-vertical">
                     <ui:VisualElement name="SkillArrowInputVertical" class="skill-arrow-input skill-arrow-input-vertical">
-                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ArrowInputNext" class="skillbar-footer-btn skillbar-arrow-input-right" style="margin-right: 5px;" />
-                        <ui:Label tabindex="-1" text="1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SkillbarIndex" class="skill-arrow-input-label" style="font-size: 10px; height: 14px; margin-left: 0; margin-right: 0;" />
-                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ArrowInputPrev" class="skillbar-footer-btn skillbar-arrow-input-left" style="margin-left: -1px;" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="RightArrow" class="skillbar-footer-btn skillbar-arrow-input-right" style="margin-right: 5px;" />
+                        <ui:TextField picking-mode="Ignore" focusable="false" readonly="true" name="DataField" value="1" class="skill-arrow-input-label" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="LeftArrow" class="skillbar-footer-btn skillbar-arrow-input-left" style="margin-left: -1px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="SlotContainer" class="skillbar-slot-container" style="flex-direction: column;">

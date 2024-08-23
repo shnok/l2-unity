@@ -8,8 +8,8 @@ public class SkillbarMain : AbstractSkillbar
     private Button _lockButton;
     private Button _rotateButton;
 
-    public SkillbarMain(VisualElement skillbarWindowElement, int skillbarIndex, bool horizontalBar)
-    : base(skillbarWindowElement, skillbarIndex, horizontalBar)
+    public SkillbarMain(VisualElement skillbarWindowElement, int skillbarIndex, int page, bool horizontalBar)
+    : base(skillbarWindowElement, skillbarIndex, page, horizontalBar)
     {
     }
 

@@ -13,7 +13,6 @@ public class ExitWindow : L2PopupWindow
     private Label _itemAcquired;
 
     private static ExitWindow _instance;
-    private bool _isShow;
     public static ExitWindow Instance
     {
         get { return _instance; }

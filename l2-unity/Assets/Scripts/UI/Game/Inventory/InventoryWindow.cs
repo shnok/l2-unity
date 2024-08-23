@@ -93,8 +93,6 @@ public class InventoryWindow : L2PopupWindow
         _playerItems.Add(new ItemInstance(0, 116, ItemLocation.Inventory, 48, 1, ItemCategory.ShieldArmor, false, ItemSlot.rfinger, 0, 0));
         _playerItems.Add(new ItemInstance(0, 116, ItemLocation.Inventory, 49, 1, ItemCategory.ShieldArmor, false, ItemSlot.lfinger, 0, 0));
 
-
-
         // gear
         _playerItems.Add(new ItemInstance(0, 28, ItemLocation.Equipped, (int)ItemSlot.legs, 1, ItemCategory.ShieldArmor, true, ItemSlot.legs, 0, 0));
         _playerItems.Add(new ItemInstance(0, 48, ItemLocation.Equipped, (int)ItemSlot.gloves, 1, ItemCategory.ShieldArmor, true, ItemSlot.gloves, 0, 0));
