@@ -29,6 +29,12 @@ public class InventorySlot : L2DraggableSlot
         }
     }
 
+    public InventorySlot(VisualElement slotElement, SlotType slotType) : base(-1, slotElement, slotType)
+    {
+        _empty = true;
+        _slotElement.AddToClassList("inventory-slot");
+    }
+
     public void AssignItem(ItemInstance item)
     {
         if (item.ItemData != null)
@@ -55,12 +61,15 @@ public class InventorySlot : L2DraggableSlot
         _count = item.Count;
         _remainingTime = item.RemainingTime;
 
-        StyleBackground background = new StyleBackground(IconManager.Instance.GetIcon(_id));
-        _slotBg.style.backgroundImage = background;
+        if (_slotElement != null)
+        {
+            StyleBackground background = new StyleBackground(IconManager.Instance.GetIcon(_id));
+            _slotBg.style.backgroundImage = background;
 
-        AddTooltip(item);
+            AddTooltip(item);
 
-        _slotDragManipulator.enabled = true;
+            _slotDragManipulator.enabled = true;
+        }
     }
 
     private void AddTooltip(ItemInstance item)
@@ -92,7 +101,10 @@ public class InventorySlot : L2DraggableSlot
 
     protected override void HandleLeftClick()
     {
-        _currentTab.SelectSlot(_position);
+        if (_currentTab != null)
+        {
+            _currentTab.SelectSlot(_position);
+        }
     }
 
     protected override void HandleRightClick()

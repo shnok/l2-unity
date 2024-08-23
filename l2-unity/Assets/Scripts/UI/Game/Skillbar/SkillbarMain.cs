@@ -13,7 +13,6 @@ public class SkillbarMain : AbstractSkillbar
     {
     }
 
-    // Start is called before the first frame update
     protected override void UpdateVisuals()
     {
         _expandButton = _windowEle.Q<Button>("ExpandBtn");

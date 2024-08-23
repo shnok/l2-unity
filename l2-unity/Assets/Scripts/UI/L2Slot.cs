@@ -54,6 +54,12 @@ public class L2Slot
         _slotElement = slotElement;
         _position = position;
         _slotType = type;
+
+        if (slotElement == null)
+        {
+            return;
+        }
+
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
 
         if (_tooltipManipulator == null)
@@ -89,11 +95,21 @@ public class L2Slot
 
     protected void RegisterCallbacks()
     {
+        if (_slotElement == null)
+        {
+            return;
+        }
+
         _slotElement.RegisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
     }
 
     public void UnregisterCallbacks()
     {
+        if (_slotElement == null)
+        {
+            return;
+        }
+
         _slotElement.UnregisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
     }
 
@@ -115,6 +131,11 @@ public class L2Slot
 
     public virtual void ClearManipulators()
     {
+        if (_slotElement == null)
+        {
+            return;
+        }
+
         if (_tooltipManipulator != null)
         {
             _tooltipManipulator.Clear();

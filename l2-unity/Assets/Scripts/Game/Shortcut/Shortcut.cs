@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Shortcut
 {
-    public static int TYPE_ITEM = 1;
-    public static int TYPE_SKILL = 2;
-    public static int TYPE_ACTION = 3;
-    public static int TYPE_MACRO = 4;
-    public static int TYPE_RECIPE = 5;
+    public const int TYPE_ITEM = 1;
+    public const int TYPE_SKILL = 2;
+    public const int TYPE_ACTION = 3;
+    public const int TYPE_MACRO = 4;
+    public const int TYPE_RECIPE = 5;
 
     private int _slot;
     private int _page;

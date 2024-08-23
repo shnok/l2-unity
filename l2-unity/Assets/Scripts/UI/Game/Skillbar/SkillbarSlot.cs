@@ -1,23 +1,43 @@
 using UnityEngine.UIElements;
+using static L2Slot;
 
-public class SKillbarSlot : L2DraggableSlot
+public class SkillbarSlot
 {
-    private int _page;
-    private long _remainingTime;
-    private ButtonClickSoundManipulator _slotClickSoundManipulator;
-    private bool _empty;
+    private ButtonClickSoundManipulator _buttonClickSoundManipulator;
+    private VisualElement _slotElement;
+    private L2Slot _innerSlot;
 
-    public SKillbarSlot(int page, int position, VisualElement slotElement, SlotType slotType) :
-    base(position, slotElement, slotType)
+    public SkillbarSlot(VisualElement slotElement)
     {
-        _page = page;
-        _slotElement.AddToClassList("inventory-slot");
-        _empty = true;
+        _slotElement = slotElement;
+        _buttonClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
+    }
 
-        if (_slotClickSoundManipulator == null)
+    public void AssignShortcut(Shortcut shortcut)
+    {
+        _slotElement.AddManipulator(_buttonClickSoundManipulator);
+
+        switch (shortcut.Type)
         {
-            _slotClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
+            case Shortcut.TYPE_ACTION:
+                break;
+            case Shortcut.TYPE_ITEM:
+                AssignItem(shortcut.Id);
+                break;
+            case Shortcut.TYPE_MACRO:
+                break;
+            case Shortcut.TYPE_RECIPE:
+                break;
+            case Shortcut.TYPE_SKILL:
+                break;
         }
+    }
+
+    public void AssignItem(int itemId)
+    {
+        ItemInstance item = PlayerInventory.Instance.GetItemById(itemId);
+        _innerSlot = new InventorySlot(_slotElement, SlotType.SkillBar);
+        ((InventorySlot)_innerSlot).AssignItem(item);
     }
 
     // public void AssignItem(ItemInstance item)
@@ -70,22 +90,12 @@ public class SKillbarSlot : L2DraggableSlot
     //     }
     // }
 
-    public override void ClearManipulators()
+    public void ClearManipulators()
     {
-        base.ClearManipulators();
-
-        if (_slotClickSoundManipulator != null)
+        if (_buttonClickSoundManipulator != null)
         {
-            _slotElement.RemoveManipulator(_slotClickSoundManipulator);
-            _slotClickSoundManipulator = null;
+            _slotElement.RemoveManipulator(_buttonClickSoundManipulator);
+            _buttonClickSoundManipulator = null;
         }
-    }
-
-    protected override void HandleLeftClick()
-    {
-    }
-
-    protected override void HandleRightClick()
-    {
     }
 }

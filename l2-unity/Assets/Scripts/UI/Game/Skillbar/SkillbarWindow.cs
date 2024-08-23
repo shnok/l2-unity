@@ -100,7 +100,9 @@ public class SkillbarWindow : L2PopupWindow
                 _skillbars.Add(skillbar);
             }
         }
-
+#if UNITY_EDITOR
+        DebugData();
+#endif
     }
 
     public void AddSkillbar()
@@ -211,4 +213,51 @@ public class SkillbarWindow : L2PopupWindow
             ((SkillbarMain)_skillbars[x * _maxSkillbarCount]).ToggleDisableTooltip();
         }
     }
+
+    public void UpdateShortcuts(List<Shortcut> shortcuts)
+    {
+        _skillbars.ForEach((skillbar) => skillbar.ResetShortcuts());
+
+        shortcuts.ForEach((shortcut) =>
+        {
+            int horSkillbarId = shortcut.Slot / 12;
+            int verSkillbarId = horSkillbarId + _maxSkillbarCount;
+            int slot = shortcut.Slot % 12;
+
+            if (slot < 12)
+            {
+                _skillbars[horSkillbarId].UpdateShortcut(shortcut, slot);
+            }
+            else
+            {
+                Debug.LogError($"Slot value {slot} is too high.");
+            }
+        });
+    }
+
+    public void UpdateSingleShortcut(Shortcut shortcut)
+    {
+
+    }
+#if UNITY_EDITOR
+    private void DebugData()
+    {
+        StartCoroutine(DelayDebug());
+    }
+
+    private IEnumerator DelayDebug()
+    {
+        yield return new WaitForSeconds(1);
+
+        List<Shortcut> shortcuts = new List<Shortcut>();
+        for (int i = 0; i < 15; i++)
+        {
+            Shortcut shortcut = new Shortcut(i, 0, Shortcut.TYPE_ITEM, 57, -1);
+            shortcuts.Add(shortcut);
+        }
+
+        UpdateShortcuts(shortcuts);
+    }
+#endif
+
 }

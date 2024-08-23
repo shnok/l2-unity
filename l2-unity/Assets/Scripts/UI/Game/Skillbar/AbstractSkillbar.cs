@@ -11,7 +11,7 @@ public abstract class AbstractSkillbar
     protected int _page;
     protected bool _horizontalBar;
     protected List<VisualElement> _slotAnchors;
-    protected List<L2Slot> _barSlots;
+    protected List<SkillbarSlot> _barSlots;
     protected ArrowInputManipulator _arrowInputManipulator;
 
     public int Page { get { return _page; } }
@@ -53,7 +53,7 @@ public abstract class AbstractSkillbar
         (index, value) => SkillbarWindow.Instance.OnPageChanged(SkillbarIndex, index));
 
         UpdateVisuals();
-        UpdateShortcuts();
+        ResetShortcuts();
     }
 
     public void ChangePage(int page)
@@ -61,23 +61,22 @@ public abstract class AbstractSkillbar
         _page = page;
         _arrowInputManipulator.SelectIndex(page);
 
-        UpdateShortcuts();
+        ResetShortcuts();
     }
 
-    public void UpdateShortcuts()
+    public void ResetShortcuts()
     {
         // Clean up slot callbacks and manipulators
         if (_barSlots != null)
         {
-            foreach (L2Slot slot in _barSlots)
+            foreach (SkillbarSlot slot in _barSlots)
             {
-                slot.UnregisterCallbacks();
                 slot.ClearManipulators();
             }
             _barSlots.Clear();
         }
 
-        _barSlots = new List<L2Slot>();
+        _barSlots = new List<SkillbarSlot>();
 
         // Clean up gear anchors from any child visual element
         for (int i = 0; i < _slotAnchors.Count; i++)
@@ -91,10 +90,14 @@ public abstract class AbstractSkillbar
             VisualElement slotElement = SkillbarWindow.Instance.BarSlotTemplate.Instantiate()[0];
             anchor.Add(slotElement);
 
-            SKillbarSlot slot = new SKillbarSlot(_page, i, slotElement, L2Slot.SlotType.SkillBar);
+            SkillbarSlot slot = new SkillbarSlot(slotElement);
             _barSlots.Add(slot);
         }
+    }
 
+    public void UpdateShortcut(Shortcut shortcut, int slot)
+    {
+        _barSlots[slot].AssignShortcut(shortcut);
     }
 
     protected abstract void UpdateVisuals();

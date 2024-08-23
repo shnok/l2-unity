@@ -7,6 +7,11 @@ public class L2DraggableSlot : L2Slot
 
     public L2DraggableSlot(int position, VisualElement slotElement, SlotType slotType) : base(slotElement, position, slotType)
     {
+        if (slotElement == null)
+        {
+            return;
+        }
+
         if (_slotDragManipulator == null)
         {
             _slotDragManipulator = new SlotDragManipulator(_slotElement, this);
@@ -17,6 +22,11 @@ public class L2DraggableSlot : L2Slot
     public override void ClearManipulators()
     {
         base.ClearManipulators();
+
+        if (_slotElement == null)
+        {
+            return;
+        }
 
         if (_slotDragManipulator != null)
         {
