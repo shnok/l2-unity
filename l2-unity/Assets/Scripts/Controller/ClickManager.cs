@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class ClickManager : MonoBehaviour {
+public class ClickManager : MonoBehaviour
+{
     [SerializeField] private GameObject _locator;
     [SerializeField] private ObjectData _targetObjectData;
     [SerializeField] private ObjectData _hoverObjectData;
@@ -14,81 +15,103 @@ public class ClickManager : MonoBehaviour {
     private static ClickManager _instance;
     public static ClickManager Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    void OnDestroy() {
+    void OnDestroy()
+    {
         _instance = null;
     }
 
-    void Start() {
+    void Start()
+    {
         _locator = GameObject.Find("Locator");
         HideLocator();
     }
 
-    public void SetMasks(LayerMask entityMask, LayerMask clickThroughMask) {
+    public void SetMasks(LayerMask entityMask, LayerMask clickThroughMask)
+    {
         _entityMask = entityMask;
         _clickThroughMask = clickThroughMask;
     }
 
-    void Update() {
+    void Update()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, 1000f, ~_clickThroughMask)) {
+        if (Physics.Raycast(ray, out hit, 1000f, ~_clickThroughMask))
+        {
             int hitLayer = hit.collider.gameObject.layer;
-            if(_entityMask == (_entityMask | (1 << hitLayer))) {
+            if (_entityMask == (_entityMask | (1 << hitLayer)))
+            {
                 _hoverObjectData = new ObjectData(hit.transform.parent.gameObject);
-            } else {
+            }
+            else
+            {
                 _hoverObjectData = new ObjectData(hit.collider.gameObject);
             }
 
-            if(InputManager.Instance.IsInputPressed(InputType.LeftMouseButtonDown) &&
-                !InputManager.Instance.IsInputPressed(InputType.RightMouseButton)) 
+            if (InputManager.Instance.LeftClickDown &&
+                !InputManager.Instance.RightClickHeld)
             {
                 _targetObjectData = _hoverObjectData;
 
-                if(_entityMask == (_entityMask | (1 << hitLayer)) && _targetObjectData.ObjectTag != "Player") {
+                if (_entityMask == (_entityMask | (1 << hitLayer)) && _targetObjectData.ObjectTag != "Player")
+                {
                     OnClickOnEntity();
-                } else if(_targetObjectData != null) {
+                }
+                else if (_targetObjectData != null)
+                {
                     OnClickToMove(hit);
                 }
             }
         }
     }
 
-    public void OnClickToMove(RaycastHit hit) {
+    public void OnClickToMove(RaycastHit hit)
+    {
         _lastClickPosition = hit.point;
         //  PlayerCombatController.Instance.RunningToTarget = false;
 
         PlayerStateMachine.Instance.setIntention(Intention.INTENTION_MOVE_TO, _lastClickPosition);
 
         TargetManager.Instance.ClearAttackTarget();
-      //  PathFinderController.Instance.MoveTo(_lastClickPosition);
+        //  PathFinderController.Instance.MoveTo(_lastClickPosition);
         float angle = Vector3.Angle(hit.normal, Vector3.up);
-        if (angle < 85f) {
+        if (angle < 85f)
+        {
             PlaceLocator(_lastClickPosition);
-        } else {
+        }
+        else
+        {
             HideLocator();
         }
     }
 
-    public void OnClickOnEntity() {
+    public void OnClickOnEntity()
+    {
         Debug.Log("Hit entity");
         TargetManager.Instance.SetTarget(_targetObjectData);
     }
 
-    public void PlaceLocator(Vector3 position) {
+    public void PlaceLocator(Vector3 position)
+    {
         _locator.SetActive(true);
         _locator.gameObject.transform.position = position;
     }
 
-    public void HideLocator() {
+    public void HideLocator()
+    {
         _locator.SetActive(false);
     }
 }

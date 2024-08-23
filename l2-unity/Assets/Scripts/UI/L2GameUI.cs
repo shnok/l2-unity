@@ -31,7 +31,7 @@ public class L2GameUI : L2UI
     {
         base.Update();
 
-        if (InputManager.Instance != null && InputManager.Instance.IsInputPressed(InputType.TurnCamera))
+        if (InputManager.Instance != null && InputManager.Instance.TurnCamera)
         {
             DisableMouse();
         }
