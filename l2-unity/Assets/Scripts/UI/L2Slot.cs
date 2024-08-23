@@ -40,6 +40,15 @@ public class L2Slot
     public L2Slot(VisualElement slotElement, int position, int id, string name, string description, string icon, SlotType type)
     {
         _slotElement = slotElement;
+        if (type != SlotType.Other)
+        {
+            _slotElement.AddToClassList("empty");
+        }
+        else
+        {
+            _slotElement.AddToClassList("dragged");
+        }
+
         _position = position;
         _id = id;
         _name = name;
@@ -52,6 +61,7 @@ public class L2Slot
     public L2Slot(VisualElement slotElement, int position, SlotType type)
     {
         _slotElement = slotElement;
+        _slotElement.AddToClassList("empty");
         _position = position;
         _slotType = type;
 

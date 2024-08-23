@@ -227,6 +227,7 @@ public class SkillbarWindow : L2PopupWindow
             if (slot < 12)
             {
                 _skillbars[horSkillbarId].UpdateShortcut(shortcut, slot);
+                _skillbars[verSkillbarId].UpdateShortcut(shortcut, slot);
             }
             else
             {

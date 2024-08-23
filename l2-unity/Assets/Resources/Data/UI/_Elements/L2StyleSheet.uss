@@ -1776,12 +1776,46 @@
     background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_SlotBox_Disable');
 }
 
-.l2-slot .slot-frame {
-    display: none;
+.l2-slot .slot-bg-container {
+    border-width: 1px;
+}
+
+.l2-slot.empty .slot-bg-container {
+    border-width: 0;
+}
+
+.l2-slot.dragged .slot-bg-container {
+    border-color: rgba(255, 0, 0, 0);
+}
+
+.skillbar-slot .slot-bg-container {
+    border-width: 0;
+    padding: 1px;
+}
+
+.skillbar-slot.empty .slot-bg-container {
+    border-width: 0;
+    padding: 0;
+}
+
+.skillbar-slot .slot-bg-container {
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame');
+}
+
+.skillbar-slot:active .slot-bg-container {
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame_Down');
+}
+
+.inventory-slot .slot-bg {
+    display: flex;
 }
 
 .inventory-slot.selected .slot-frame {
     display: flex;
+}
+
+.l2-slot .slot-frame {
+    display: none;
 }
 
 .inventory-minimized {
@@ -2359,4 +2393,71 @@
     padding-right: 0;
     padding-left: 0;
     align-items: center;
+}
+
+.slot-frame {
+}
+
+.l2-slot {
+    min-width: 36px;
+    min-height: 34px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-left: 0;
+    width: 36px;
+    height: 36px;
+    max-width: 36px;
+    max-height: 36px;
+    padding-bottom: 0;
+    position: relative;
+}
+
+.slot-bg-container {
+    border-left-color: rgba(0, 0, 0, 0.65);
+    border-right-color: rgba(0, 0, 0, 0.65);
+    border-top-color: rgba(0, 0, 0, 0.65);
+    border-bottom-color: rgba(0, 0, 0, 0.65);
+    flex-grow: 1;
+    width: 34px;
+    height: 34px;
+    max-height: 34px;
+    max-width: 34px;
+}
+
+.slot-frame {
+    background-image: resource('Data/UI/Assets/Inventory/blue_tab_v5');
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    -unity-slice-left: 18;
+    -unity-slice-top: 18;
+    -unity-slice-right: 18;
+    -unity-slice-bottom: 18;
+    -unity-slice-scale: 1.4px;
+    -unity-background-scale-mode: stretch-to-fill;
+    flex-shrink: 0;
+}
+
+.l2-slot {
+    background-color: rgba(188, 188, 188, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.slot-bg-container {
+    width: 34px;
+    height: 34px;
+    max-height: 34px;
+    max-width: 34px;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 235, 182);
 }

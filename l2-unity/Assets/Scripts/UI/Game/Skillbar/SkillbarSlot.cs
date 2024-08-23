@@ -10,12 +10,13 @@ public class SkillbarSlot
     public SkillbarSlot(VisualElement slotElement)
     {
         _slotElement = slotElement;
-        _buttonClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
+        _slotElement.AddToClassList("skillbar-slot");
+        _slotElement.AddToClassList("empty");
     }
 
     public void AssignShortcut(Shortcut shortcut)
     {
-        _slotElement.AddManipulator(_buttonClickSoundManipulator);
+        _buttonClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
 
         switch (shortcut.Type)
         {
@@ -38,6 +39,8 @@ public class SkillbarSlot
         ItemInstance item = PlayerInventory.Instance.GetItemById(itemId);
         _innerSlot = new InventorySlot(_slotElement, SlotType.SkillBar);
         ((InventorySlot)_innerSlot).AssignItem(item);
+
+        _slotElement.RemoveFromClassList("empty");
     }
 
     // public void AssignItem(ItemInstance item)

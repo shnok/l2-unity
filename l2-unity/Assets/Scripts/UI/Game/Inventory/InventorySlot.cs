@@ -32,11 +32,12 @@ public class InventorySlot : L2DraggableSlot
     public InventorySlot(VisualElement slotElement, SlotType slotType) : base(-1, slotElement, slotType)
     {
         _empty = true;
-        _slotElement.AddToClassList("inventory-slot");
     }
 
     public void AssignItem(ItemInstance item)
     {
+        _slotElement.RemoveFromClassList("empty");
+
         if (item.ItemData != null)
         {
             _id = item.ItemData.Id;
