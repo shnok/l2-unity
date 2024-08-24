@@ -5,7 +5,8 @@ public class L2DraggableSlot : L2ClickableSlot
 {
     protected SlotDragManipulator _slotDragManipulator;
 
-    public L2DraggableSlot(int position, VisualElement slotElement, SlotType slotType) : base(slotElement, position, slotType)
+    public L2DraggableSlot(int position, VisualElement slotElement, SlotType slotType, bool leftMouseUp, bool rightMouseup)
+    : base(slotElement, position, slotType, leftMouseUp, rightMouseup)
     {
         if (slotElement == null)
         {

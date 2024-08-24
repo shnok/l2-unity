@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerShortcuts : MonoBehaviour
 {
-    private Dictionary<int, Shortcut> _shortcuts;
+    private List<Shortcut> _shortcuts;
 
     private static PlayerShortcuts _instance;
     public static PlayerShortcuts Instance
@@ -23,7 +24,7 @@ public class PlayerShortcuts : MonoBehaviour
             Destroy(this);
         }
 
-        _shortcuts = new Dictionary<int, Shortcut>();
+        _shortcuts = new List<Shortcut>();
     }
 
     private void OnDestroy()
@@ -31,11 +32,33 @@ public class PlayerShortcuts : MonoBehaviour
         _instance = null;
     }
 
-    public void UpdateShortcutList(Shortcut[] shortcuts)
+    private void Update()
     {
         if (_shortcuts == null)
         {
-            _shortcuts = new Dictionary<int, Shortcut>();
+            return;
+        }
+
+        foreach (Shortcut shortcut in _shortcuts)
+        {
+            bool shortcutUsed = InputManager.Instance.SkillbarInputs[shortcut.Page, shortcut.Slot];
+            if (shortcutUsed)
+            {
+                UseShortcut(shortcut);
+            }
+        }
+    }
+
+    public void UseShortcut(Shortcut shortcut)
+    {
+        Debug.LogWarning($"Use shortcut {shortcut.Page * 12 + shortcut.Slot}.");
+    }
+
+    public void SetShortcutList(Shortcut[] shortcuts)
+    {
+        if (_shortcuts == null)
+        {
+            _shortcuts = new List<Shortcut>();
         }
         else
         {
@@ -45,26 +68,9 @@ public class PlayerShortcuts : MonoBehaviour
         for (int i = 0; i < shortcuts.Length; i++)
         {
             Shortcut shortcut = shortcuts[i];
-            UpdateShortcut(shortcut);
-        }
-    }
-
-    public void UpdateShortcut(Shortcut shortcut)
-    {
-        if (_shortcuts == null)
-        {
-            _shortcuts = new Dictionary<int, Shortcut>();
-        }
-        _shortcuts[shortcut.Slot + shortcut.Page * 12] = shortcut;
-    }
-
-    public Shortcut GetShortcut(int page, int slot)
-    {
-        if (_shortcuts.TryGetValue(slot + page * 12, out Shortcut shortcut))
-        {
-            return shortcut;
+            _shortcuts.Add(shortcut);
         }
 
-        return null;
+        SkillbarWindow.Instance.UpdateShortcuts(_shortcuts);
     }
 }

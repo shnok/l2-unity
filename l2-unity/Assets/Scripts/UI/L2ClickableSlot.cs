@@ -4,29 +4,36 @@ using UnityEngine.UIElements;
 
 public class L2ClickableSlot : L2Slot
 {
-    public L2ClickableSlot(VisualElement slotElement, int position, SlotType type) : base(slotElement, position, type)
+    private bool _leftMouseUp;
+    private bool _rightMouseup;
+
+    public L2ClickableSlot(VisualElement slotElement, int position, SlotType type, bool leftMouseUp, bool rightMouseup) : base(slotElement, position, type)
     {
-        RegisterCallbacks();
+        _leftMouseUp = leftMouseUp;
+        _rightMouseup = rightMouseup;
+        RegisterClickableCallback();
     }
 
-    protected void RegisterCallbacks()
+    protected void RegisterClickableCallback()
     {
         if (_slotElement == null)
         {
             return;
         }
 
-        _slotElement.RegisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
+        _slotElement.RegisterCallback<MouseDownEvent>(HandleSlotClickDown, TrickleDown.TrickleDown);
+        _slotElement.RegisterCallback<ClickEvent>(HandleSlotClickUp);
     }
 
-    public void UnregisterCallbacks()
+    public void UnregisterClickableCallback()
     {
         if (_slotElement == null)
         {
             return;
         }
 
-        _slotElement.UnregisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
+        _slotElement.UnregisterCallback<MouseDownEvent>(HandleSlotClickDown, TrickleDown.TrickleDown);
+        _slotElement.UnregisterCallback<ClickEvent>(HandleSlotClickUp);
     }
 
     public void SetSelected()
@@ -41,15 +48,43 @@ public class L2ClickableSlot : L2Slot
         _slotElement.RemoveFromClassList("selected");
     }
 
-    protected void HandleSlotClick(MouseDownEvent evt)
+    protected void HandleSlotClickDown(MouseDownEvent evt)
     {
         if (evt.button == 0)
         {
-            HandleLeftClick();
+            if (!_leftMouseUp)
+            {
+                HandleLeftClick();
+            }
         }
         else if (evt.button == 1)
         {
-            HandleRightClick();
+            if (!_rightMouseup)
+            {
+                HandleRightClick();
+            }
+        }
+        else
+        {
+            HandleMiddleClick();
+        }
+    }
+
+    protected void HandleSlotClickUp(ClickEvent evt)
+    {
+        if (evt.button == 0)
+        {
+            if (_leftMouseUp)
+            {
+                HandleLeftClick();
+            }
+        }
+        else if (evt.button == 1)
+        {
+            if (_rightMouseup)
+            {
+                HandleRightClick();
+            }
         }
         else
         {

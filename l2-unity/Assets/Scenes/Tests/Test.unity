@@ -168,7 +168,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: KBM
-  m_DefaultActionMap: Movements
+  m_DefaultActionMap: InGame
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!4 &113702082
@@ -198,123 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9181601ffd73f4ea42e97be3615453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftClickAction:
-    m_Name: Left Click
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 3e3123e7-a5df-47d0-9611-4cd28acac1ad
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _rightClickAction:
-    m_Name: Right Click
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 94bf571f-135e-44d8-b0be-e024351ca4e7
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _cameraAxisAction:
-    m_Name: Camera Axis
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 4327fde8-f57c-4192-a78c-39fca4467bb9
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _zoomAxisAction:
-    m_Name: Zoom Axis
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 7a44a0e4-5011-47b3-a822-b09af800543e
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _moveAction:
-    m_Name: Move
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 95b160dc-37f3-4ab3-b15a-99482d4e0b0a
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _jumpAction:
-    m_Name: Jump
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: d2bff261-4c66-430f-be1b-4f3103cf9d0b
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _attackAction:
-    m_Name: Attack
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 3a8903e4-82c9-44e4-9095-d6e2efa68836
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _nextTargetAction:
-    m_Name: Next Target
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 7dad52ba-1cac-4413-9440-1db9d2e22d30
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _inventoryAction:
-    m_Name: Inventory
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: af1e14cd-3cc2-457b-8db3-7b7b6aedc048
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _characterStatusAction:
-    m_Name: Character Status
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: d9d09b9d-fc49-4ff8-9b71-5dabdfdf3b26
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _closeWindowAction:
-    m_Name: Close Window
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 34fa48ff-d9fc-4a2c-ba16-a351eac12676
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _systemMenuAction:
-    m_Name: System Menu
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 9f60ddbe-4ac1-49f3-9bca-76b58d63d316
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  _validateAction:
-    m_Name: Validate
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: c1416c44-9434-4029-8b4f-e3ce4ca8df85
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
   <LeftClickDown>k__BackingField: 0
   <RightClickDown>k__BackingField: 0
   <RightClickUp>k__BackingField: 0
@@ -353,6 +236,7 @@ GameObject:
   - component: {fileID: 149149318}
   - component: {fileID: 149149319}
   - component: {fileID: 149149320}
+  - component: {fileID: 149149321}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -489,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06673b42d8b149d4aafa4bb6207728d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSkillbarCount: 5
+  _defaultSkillbarCount: 2
   _expandedSkillbarCount: 0
 --- !u!114 &149149319
 MonoBehaviour:
@@ -522,6 +406,18 @@ MonoBehaviour:
   _tabs: []
   _chatOpened: 0
   _chatInputCharacterLimit: 64
+--- !u!114 &149149321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149149311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a74cdee76f988fd4aa5bfa3027894c59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &445805727
 PrefabInstance:
   m_ObjectHideFlags: 0

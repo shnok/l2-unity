@@ -9,11 +9,8 @@ public class SkillbarWindow : L2PopupWindow
     private bool _locked = false;
     private bool _vertical = true;
     private bool _tooltipDisabled = false;
-    public bool Locked { get { return _locked; } set { _locked = value; } }
-    public bool Vertical { get { return _vertical; } set { _vertical = value; } }
-    public bool TooltipDisabled { get { return _tooltipDisabled; } set { _tooltipDisabled = value; } }
-
-    [SerializeField] private int _maxSkillbarCount = 5;
+    private int _maxSkillbarCount = 5;
+    [SerializeField] private int _defaultSkillbarCount;
     [SerializeField] private int _expandedSkillbarCount;
 
     private List<Coroutine> _expandCoroutines;
@@ -27,6 +24,9 @@ public class SkillbarWindow : L2PopupWindow
     private static SkillbarWindow _instance;
     private List<Shortcut> _shortcuts;
 
+    public bool Locked { get { return _locked; } set { _locked = value; } }
+    public bool Vertical { get { return _vertical; } set { _vertical = value; } }
+    public bool TooltipDisabled { get { return _tooltipDisabled; } set { _tooltipDisabled = value; } }
     public VisualTreeAsset BarSlotTemplate { get { return _barSlotTemplate; } }
     public static SkillbarWindow Instance { get { return _instance; } }
 
@@ -100,6 +100,14 @@ public class SkillbarWindow : L2PopupWindow
                 _skillbars.Add(skillbar);
             }
         }
+
+        yield return new WaitForEndOfFrame();
+
+        for (int i = 0; i < _defaultSkillbarCount; i++)
+        {
+            AddSkillbar();
+        }
+
 #if UNITY_EDITOR
         DebugData();
 #endif
@@ -107,7 +115,6 @@ public class SkillbarWindow : L2PopupWindow
 
     public void AddSkillbar()
     {
-
         for (int x = 0; x < 2; x++)
         {
             if (_expandedSkillbarCount >= _maxSkillbarCount - 2)
@@ -229,22 +236,19 @@ public class SkillbarWindow : L2PopupWindow
 
         shortcuts.ForEach((shortcut) =>
         {
-            int page = shortcut.Slot / 12;
-            int slot = shortcut.Slot % 12;
-
-            if (slot < 12)
+            if (shortcut.Slot < 12)
             {
                 _skillbars.ForEach((skillbar) =>
                 {
-                    if (skillbar.Page == page)
+                    if (skillbar.Page == shortcut.Page)
                     {
-                        skillbar.UpdateShortcut(shortcut, slot);
+                        skillbar.UpdateShortcut(shortcut, shortcut.Slot);
                     }
                 });
             }
             else
             {
-                Debug.LogError($"Slot value {slot} is too high.");
+                Debug.LogError($"Slot value {shortcut.Slot} is too high.");
             }
         });
     }
@@ -253,6 +257,7 @@ public class SkillbarWindow : L2PopupWindow
     {
 
     }
+
 #if UNITY_EDITOR
     private void DebugData()
     {
@@ -264,13 +269,20 @@ public class SkillbarWindow : L2PopupWindow
         yield return new WaitForSeconds(1);
 
         List<Shortcut> shortcuts = new List<Shortcut>();
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 12; i++)
         {
             Shortcut shortcut = new Shortcut(i, 0, Shortcut.TYPE_ITEM, 57, -1);
             shortcuts.Add(shortcut);
         }
+        for (int i = 0; i < 6; i++)
+        {
+            Shortcut shortcut = new Shortcut(i, 1, Shortcut.TYPE_ITEM, 57, -1);
+            shortcuts.Add(shortcut);
+        }
 
-        UpdateShortcuts(shortcuts);
+        PlayerShortcuts.Instance.SetShortcutList(shortcuts.ToArray());
+
+        //UpdateShortcuts(shortcuts);
     }
 #endif
 

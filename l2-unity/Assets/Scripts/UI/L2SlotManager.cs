@@ -141,6 +141,19 @@ public class L2SlotManager : L2PopupWindow
 
     private void HandleSkillbarDrag()
     {
+        if (SkillbarWindow.Instance.Locked)
+        {
+            return;
+        }
+
+        if (_hoverSlot == null)
+        {
+            if (!L2GameUI.Instance.MouseOverUI)
+            {
+                RemoveSkillbarSlot();
+            }
+        }
+
         switch (_hoverSlot.Type)
         {
             case L2Slot.SlotType.SkillBar:

@@ -15,8 +15,8 @@ public class InventorySlot : L2DraggableSlot
     public ItemCategory ItemCategory { get { return _itemCategory; } }
     public int ObjectId { get { return _objectId; } }
 
-    public InventorySlot(int position, VisualElement slotElement, L2Tab tab, SlotType slotType) :
-    base(position, slotElement, slotType)
+    public InventorySlot(int position, VisualElement slotElement, L2Tab tab, SlotType slotType)
+    : base(position, slotElement, slotType, false, true)
     {
         _currentTab = tab;
         _slotElement.AddToClassList("inventory-slot");
@@ -29,7 +29,8 @@ public class InventorySlot : L2DraggableSlot
         }
     }
 
-    public InventorySlot(int position, VisualElement slotElement, SlotType slotType) : base(position, slotElement, slotType)
+    public InventorySlot(int position, VisualElement slotElement, SlotType slotType)
+    : base(position, slotElement, slotType, true, false)
     {
         _empty = true;
     }

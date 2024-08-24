@@ -181,7 +181,6 @@ public class InputManager : MonoBehaviour
         }
     }
 
-
     // private void UpdateInputsOld()
     // {
     //     if (!L2GameUI.Instance.MouseOverUI)
@@ -249,7 +248,6 @@ public class InputManager : MonoBehaviour
 
     void OnDestroy()
     {
-        // inputsPressed = null;
         _instance = null;
     }
 }

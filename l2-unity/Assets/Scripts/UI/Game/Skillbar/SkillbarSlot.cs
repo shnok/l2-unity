@@ -1,12 +1,14 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 using static L2Slot;
 
-public class SkillbarSlot : L2Slot
+public class SkillbarSlot : L2ClickableSlot
 {
     private ButtonClickSoundManipulator _buttonClickSoundManipulator;
     private L2Slot _innerSlot;
+    private Shortcut _shortcut;
 
-    public SkillbarSlot(VisualElement slotElement, int position) : base(slotElement, position, SlotType.SkillBar)
+    public SkillbarSlot(VisualElement slotElement, int position) : base(slotElement, position, SlotType.SkillBar, true, false)
     {
         _slotElement = slotElement;
         _position = position;
@@ -16,6 +18,7 @@ public class SkillbarSlot : L2Slot
     {
         ClearManipulators();
 
+        _shortcut = shortcut;
         _slotElement.AddToClassList("skillbar-slot");
         _buttonClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
 
@@ -40,6 +43,7 @@ public class SkillbarSlot : L2Slot
         ItemInstance item = PlayerInventory.Instance.GetItemById(itemId);
         _innerSlot = new InventorySlot(_position, _slotElement, SlotType.SkillBar);
         ((InventorySlot)_innerSlot).AssignItem(item);
+        ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
 
         _slotElement.RemoveFromClassList("empty");
     }
@@ -54,5 +58,22 @@ public class SkillbarSlot : L2Slot
             _slotElement.RemoveManipulator(_buttonClickSoundManipulator);
             _buttonClickSoundManipulator = null;
         }
+    }
+
+    protected override void HandleLeftClick()
+    {
+        if (_shortcut != null)
+        {
+            Debug.LogWarning($"Use bar slot {_position}.");
+            PlayerShortcuts.Instance.UseShortcut(_shortcut);
+        }
+    }
+
+    protected override void HandleRightClick()
+    {
+    }
+
+    protected override void HandleMiddleClick()
+    {
     }
 }
