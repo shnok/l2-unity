@@ -124,7 +124,7 @@ public class InventoryWindow : L2PopupWindow
         UpdateItemList(_playerItems);
 
 #if UNITY_EDITOR
-        DebugData();
+        //DebugData();
 #endif
     }
 
@@ -332,12 +332,14 @@ public class InventoryWindow : L2PopupWindow
     {
         base.ShowWindow();
         AudioManager.Instance.PlayUISound("inventory_open_01");
+        L2GameUI.Instance.WindowOpened(this);
     }
 
     public override void HideWindow()
     {
         base.HideWindow();
         AudioManager.Instance.PlayUISound("inventory_close_01");
+        L2GameUI.Instance.WindowClosed(this);
     }
 
     public void SelectSlot(int slot)

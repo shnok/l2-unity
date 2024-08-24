@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements;
 using static NativeFunctions;
 
@@ -6,6 +7,8 @@ public class L2GameUI : L2UI
 {
     private NativeCoords _lastMousePosition;
     [SerializeField] private bool _mouseEnabled = true;
+
+    private List<L2PopupWindow> _openedWindows;
 
     private static L2GameUI _instance;
     public static L2GameUI Instance { get { return _instance; } }
@@ -20,6 +23,8 @@ public class L2GameUI : L2UI
         {
             Destroy(this);
         }
+
+        _openedWindows = new List<L2PopupWindow>();
     }
 
     private void OnDestroy()
@@ -39,6 +44,8 @@ public class L2GameUI : L2UI
         {
             EnableMouse();
         }
+
+        CheckUIInputs();
     }
 
     protected override void LoadUI()
@@ -116,6 +123,57 @@ public class L2GameUI : L2UI
             NativeFunctions.GetCursorPos(out _lastMousePosition);
             _mouseEnabled = false;
         }
+    }
+
+    public void CheckUIInputs()
+    {
+        if (InputManager.Instance.OpenCharacerStatus)
+        {
+            if (CharacterInfoWindow.Instance != null)
+            {
+                CharacterInfoWindow.Instance.ToggleHideWindow();
+            }
+        }
+
+        if (InputManager.Instance.OpenInventory)
+        {
+            if (InventoryWindow.Instance != null)
+            {
+                InventoryWindow.Instance.ToggleHideWindow();
+            }
+        }
+
+        if (InputManager.Instance.OpenSystemMenu)
+        {
+            if (SystemMenuWindow.Instance != null)
+            {
+                SystemMenuWindow.Instance.ToggleHideWindow();
+            }
+        }
+
+        if (InputManager.Instance.CloseWindow)
+        {
+            if (ChatWindow.Instance != null && ChatWindow.Instance.ChatOpened)
+            {
+                ChatWindow.Instance.CloseChat(false);
+                return;
+            }
+
+            if (_openedWindows != null && _openedWindows.Count > 0)
+            {
+                _openedWindows[_openedWindows.Count - 1].HideWindow();
+            }
+        }
+    }
+
+    public void WindowOpened(L2PopupWindow popupWindow)
+    {
+        _openedWindows.Add(popupWindow);
+    }
+
+    public void WindowClosed(L2PopupWindow popupWindow)
+    {
+        _openedWindows.Remove(popupWindow);
     }
 
     public void OnGUI()

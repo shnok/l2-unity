@@ -46,6 +46,11 @@ public class ClickManager : MonoBehaviour
 
     void Update()
     {
+        if (L2GameUI.Instance.MouseOverUI)
+        {
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 

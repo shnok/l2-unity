@@ -69,6 +69,7 @@ public class CameraController : MonoBehaviour
         if (_target != null && _collisionDetector != null)
         {
             UpdateInputs();
+            UpdateZoom();
         }
     }
 
@@ -78,8 +79,6 @@ public class CameraController : MonoBehaviour
         {
             _collisionDetector.DetectCollision(_camDistance);
             UpdatePosition();
-
-            UpdateZoom();
         }
     }
 
@@ -130,11 +129,8 @@ public class CameraController : MonoBehaviour
 
     private void UpdateZoom()
     {
-        if (InputManager.Instance.Zoom)
-        {
-            float scrollAxis = InputManager.Instance.ZoomAxis.y;
-            _camDistance = Mathf.Clamp(_camDistance - scrollAxis * _zoomSpeed, _minDistance, _maxDistance);
-        }
+        float scrollAxis = InputManager.Instance.ZoomAxis;
+        _camDistance = Mathf.Clamp(_camDistance - scrollAxis * _zoomSpeed * 0.001f, _minDistance, _maxDistance);
     }
 
     private void UpdatePosition()
@@ -144,11 +140,11 @@ public class CameraController : MonoBehaviour
 
         if (_collisionDetector.AdjustedDistance > Vector3.Distance(_targetPos + _camOffset, transform.position))
         {
-            _currentDistance += ((_collisionDetector.AdjustedDistance - _currentDistance) / 0.2f) * Time.deltaTime;
+            _currentDistance += (_collisionDetector.AdjustedDistance - _currentDistance) / 0.2f * Time.deltaTime;
         }
         else
         {
-            _currentDistance -= ((_currentDistance - _collisionDetector.AdjustedDistance) / 0.075f) * Time.deltaTime;
+            _currentDistance -= (_currentDistance - _collisionDetector.AdjustedDistance) / 0.075f * Time.deltaTime;
         }
 
         float boneOffset = 0;

@@ -64,6 +64,12 @@ public class SkillbarWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
+        // Center window
+        _windowEle.style.left = new Length(50, LengthUnit.Percent);
+        _windowEle.style.right = StyleKeyword.Undefined;
+        _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), 0));
+
+        RegisterClickWindowEvent(_windowEle, null);
         _skillbarContainerHorizontal = GetElementById("SkillbarContainerHorizontal");
         _skillbarContainerVertical = GetElementById("SkillbarContainerVertical");
         ToggleRotate();
@@ -109,7 +115,7 @@ public class SkillbarWindow : L2PopupWindow
         }
 
 #if UNITY_EDITOR
-        DebugData();
+        // DebugData();
 #endif
     }
 
@@ -233,6 +239,11 @@ public class SkillbarWindow : L2PopupWindow
         _shortcuts = shortcuts;
 
         _skillbars.ForEach((skillbar) => skillbar.ResetShortcuts());
+
+        if (shortcuts == null)
+        {
+            return;
+        }
 
         shortcuts.ForEach((shortcut) =>
         {

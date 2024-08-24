@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Sit",
+                    "type": "Button",
+                    "id": "78f7d3b1-d40d-4a53-a057-ea7ed68e8081",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "CameraAxis",
                     "type": "PassThrough",
                     "id": "678f0fc2-6eff-440b-9ec1-ae49a0b70cac",
@@ -72,7 +81,7 @@
                     "name": "ZoomAxis",
                     "type": "PassThrough",
                     "id": "952cef23-79ad-4ce6-be66-76d70c2ab88d",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -854,7 +863,7 @@
                 {
                     "name": "",
                     "id": "797832a9-7053-4fcf-90a0-4573651e3119",
-                    "path": "<Mouse>/scroll",
+                    "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1585,6 +1594,17 @@
                     "processors": "",
                     "groups": "KBM",
                     "action": "Shortcut5-12",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "62f13f4f-32b6-4b82-8ddc-3f1da445c8b2",
+                    "path": "<Keyboard>/comma",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KBM",
+                    "action": "Sit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

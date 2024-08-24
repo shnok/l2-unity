@@ -100,12 +100,14 @@ public class ExitWindow : L2PopupWindow
     public override void ShowWindow()
     {
         base.ShowWindow();
+        L2GameUI.Instance.WindowOpened(this);
     }
 
     public override void HideWindow()
     {
         base.HideWindow();
         AudioManager.Instance.PlayUISound("window_close");
+        L2GameUI.Instance.WindowClosed(this);
     }
 
     private void HandleRestartButtonClick()

@@ -164,14 +164,6 @@ public class ChatWindow : L2Window
                 StartCoroutine(OpenChat());
             }
         }
-
-        if (InputManager.Instance.Validate)
-        {
-            if (_chatOpened)
-            {
-                CloseChat(false);
-            }
-        }
     }
 
     IEnumerator OpenChat()

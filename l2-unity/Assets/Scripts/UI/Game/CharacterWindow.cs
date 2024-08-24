@@ -101,6 +101,8 @@ public class CharacterInfoWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
+        Label _windowName = (Label)GetElementById("windows-name-label");
+        _windowName.text = "Character Status";
 
         // player
         _nameLabel = GetLabelById("CharacterNameLabel");
@@ -316,11 +318,13 @@ public class CharacterInfoWindow : L2PopupWindow
     {
         base.ShowWindow();
         AudioManager.Instance.PlayUISound("window_open");
+        L2GameUI.Instance.WindowOpened(this);
     }
 
     public override void HideWindow()
     {
         base.HideWindow();
         AudioManager.Instance.PlayUISound("window_close");
+        L2GameUI.Instance.WindowClosed(this);
     }
 }
