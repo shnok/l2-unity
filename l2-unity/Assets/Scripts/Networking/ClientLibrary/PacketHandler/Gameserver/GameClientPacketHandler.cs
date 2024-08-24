@@ -173,4 +173,16 @@ public class GameClientPacketHandler : ClientPacketHandler
         RequestRestartPacket packet = new RequestRestartPacket();
         SendPacket(packet);
     }
+
+    public void RequestAddShortcut(int type, int id, int slot)
+    {
+        RequestShortcutRegPacket packet = new RequestShortcutRegPacket(type, id, slot);
+        SendPacket(packet);
+    }
+
+    public void RequestRemoveShortcut(int oldSlot)
+    {
+        RequestShortcutDelPacket packet = new RequestShortcutDelPacket(oldSlot);
+        SendPacket(packet);
+    }
 }

@@ -16,8 +16,8 @@ public class Shortcut
     private int _id;
     private int _level;
 
-    public int Slot { get { return _slot; } }
-    public int Page { get { return _page; } }
+    public int Slot { get { return _slot; } set { _slot = value; } }
+    public int Page { get { return _page; } set { _page = value; } }
     public int Type { get { return _type; } }
     public int Id { get { return _id; } }
     public int Level { get { return _level; } }

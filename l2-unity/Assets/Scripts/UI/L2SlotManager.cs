@@ -231,6 +231,8 @@ public class L2SlotManager : L2PopupWindow
         int itemId = ((InventorySlot)_draggedSlot).Id;
         int slot = _hoverSlot.Position;
         Debug.LogWarning($"Add item {itemId} to skillbar slot {slot}.");
+
+        PlayerShortcuts.Instance.AddShortcut(slot, itemId, Shortcut.TYPE_ITEM);
     }
 
     private void MoveSkillbarSlot()
@@ -238,12 +240,14 @@ public class L2SlotManager : L2PopupWindow
         int oldSlot = _draggedSlot.Position;
         int newSlot = _hoverSlot.Position;
         Debug.LogWarning($"Moving skillbar shortcut from slot {oldSlot} to slot {newSlot}.");
+        PlayerShortcuts.Instance.MoveShortcut(oldSlot, newSlot);
     }
 
     private void RemoveSkillbarSlot()
     {
         int oldSlot = _draggedSlot.Position;
         Debug.LogWarning($"Renoving skillbar shortcut from slot {oldSlot}.");
+        PlayerShortcuts.Instance.RemoveShortcut(oldSlot);
     }
 
     public override void ShowWindow()

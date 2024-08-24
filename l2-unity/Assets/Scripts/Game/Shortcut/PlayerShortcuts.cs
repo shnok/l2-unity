@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerShortcuts : MonoBehaviour
 {
-    private List<Shortcut> _shortcuts;
+    private Dictionary<int, Shortcut> _shortcuts;
 
     private static PlayerShortcuts _instance;
     public static PlayerShortcuts Instance
@@ -24,7 +25,7 @@ public class PlayerShortcuts : MonoBehaviour
             Destroy(this);
         }
 
-        _shortcuts = new List<Shortcut>();
+        _shortcuts = new Dictionary<int, Shortcut>();
     }
 
     private void OnDestroy()
@@ -39,7 +40,7 @@ public class PlayerShortcuts : MonoBehaviour
             return;
         }
 
-        foreach (Shortcut shortcut in _shortcuts)
+        foreach (Shortcut shortcut in _shortcuts.Values)
         {
             bool shortcutUsed = InputManager.Instance.SkillbarInputs[shortcut.Page, shortcut.Slot];
             if (shortcutUsed)
@@ -58,7 +59,7 @@ public class PlayerShortcuts : MonoBehaviour
     {
         if (_shortcuts == null)
         {
-            _shortcuts = new List<Shortcut>();
+            _shortcuts = new Dictionary<int, Shortcut>();
         }
         else
         {
@@ -68,9 +69,51 @@ public class PlayerShortcuts : MonoBehaviour
         for (int i = 0; i < shortcuts.Length; i++)
         {
             Shortcut shortcut = shortcuts[i];
-            _shortcuts.Add(shortcut);
+            _shortcuts.Add(shortcut.Slot + shortcut.Page * 12, shortcut);
         }
 
-        SkillbarWindow.Instance.UpdateShortcuts(_shortcuts);
+        SkillbarWindow.Instance.UpdateShortcuts(shortcuts.ToList());
+    }
+
+    public Shortcut GetShortcutBySlot(int slot)
+    {
+        if (_shortcuts.TryGetValue(slot, out Shortcut shortcut))
+        {
+            return shortcut;
+        }
+
+        return null;
+    }
+
+    // Shortcut dragged onto skillbar
+    public void AddShortcut(int slot, int id, int type)
+    {
+        GameClient.Instance.ClientPacketHandler.RequestAddShortcut(type, id, slot);
+    }
+
+    // Shortcut dragged within bar
+    public void MoveShortcut(int oldSlot, int newSlot)
+    {
+        Shortcut oldShortcut = GetShortcutBySlot(oldSlot);
+        if (oldShortcut == null)
+        {
+            Debug.LogError($"MoveShortcut. Old slot is null at {oldSlot}.");
+            return;
+        }
+
+        GameClient.Instance.ClientPacketHandler.RequestAddShortcut(oldShortcut.Type, oldShortcut.Id, newSlot);
+
+        Shortcut newShortcut = GetShortcutBySlot(oldSlot);
+        // Swap slots
+        if (newShortcut != null)
+        {
+            GameClient.Instance.ClientPacketHandler.RequestAddShortcut(newShortcut.Type, newShortcut.Id, oldSlot);
+        }
+    }
+
+    // Shortcut dragged out of bar
+    public void RemoveShortcut(int oldSlot)
+    {
+        GameClient.Instance.ClientPacketHandler.RequestRemoveShortcut(oldSlot);
     }
 }
