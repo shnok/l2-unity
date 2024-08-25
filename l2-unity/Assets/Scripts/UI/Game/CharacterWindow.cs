@@ -101,6 +101,10 @@ public class CharacterInfoWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
+        _windowEle.style.left = new Length(50, LengthUnit.Percent);
+        _windowEle.style.top = new Length(50, LengthUnit.Percent);
+        _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
+
         Label _windowName = (Label)GetElementById("windows-name-label");
         _windowName.text = "Character Status";
 

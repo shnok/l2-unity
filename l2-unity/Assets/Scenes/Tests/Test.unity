@@ -206,17 +206,18 @@ MonoBehaviour:
   <CameraAxis>k__BackingField: {x: 0, y: 0}
   <CameraMoving>k__BackingField: 0
   <TurnCamera>k__BackingField: 0
-  <ZoomAxis>k__BackingField: {x: 0, y: 0}
-  <Zoom>k__BackingField: 0
+  <ZoomAxis>k__BackingField: 0
   <MoveInput>k__BackingField: {x: 0, y: 0}
   <Move>k__BackingField: 0
   <MoveForward>k__BackingField: 0
   <Jump>k__BackingField: 0
   <Attack>k__BackingField: 0
   <NextTarget>k__BackingField: 0
+  <Sit>k__BackingField: 0
   <OpenInventory>k__BackingField: 0
   <OpenCharacerStatus>k__BackingField: 0
   <OpenSystemMenu>k__BackingField: 0
+  <OpenActions>k__BackingField: 0
   <CloseWindow>k__BackingField: 0
   <Validate>k__BackingField: 0
 --- !u!1 &149149311
@@ -237,6 +238,7 @@ GameObject:
   - component: {fileID: 149149319}
   - component: {fileID: 149149320}
   - component: {fileID: 149149321}
+  - component: {fileID: 149149322}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -382,7 +384,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149149311}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14bf3f2dcfcbba64aade5b0f3ee646a6, type: 3}
   m_Name: 
@@ -394,7 +396,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149149311}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90c3fb83fa7e05d4e85e87bffbb0b9f4, type: 3}
   m_Name: 
@@ -416,6 +418,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a74cdee76f988fd4aa5bfa3027894c59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &149149322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149149311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b9275d71bba04749bfde79eeea369f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &445805727

@@ -53,7 +53,7 @@ public class SkillbarWindow : L2PopupWindow
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillbarWindow");
         _skillbarHorizontalTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillBarHorizontal");
         _skillbarVerticalTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillBarVertical");
-        _barSlotTemplate = LoadAsset("Data/UI/_Elements/Template/Slot");
+        _barSlotTemplate = LoadAsset("Data/UI/_Elements/Template/SkillbarSlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -206,7 +206,7 @@ public class SkillbarWindow : L2PopupWindow
 
         PlayerShortcuts.Instance.UpdatePageMapping(skillbarIndex, page);
 
-        UpdateShortcuts();
+        UpdateAllShortcuts();
     }
 
     public void ToggleLockSkillBar()
@@ -229,12 +229,12 @@ public class SkillbarWindow : L2PopupWindow
         }
     }
 
-    public void UpdateShortcuts()
+    public void UpdateAllShortcuts()
     {
-        UpdateShortcuts(PlayerShortcuts.Instance.Shortcuts);
+        UpdateAllShortcuts(PlayerShortcuts.Instance.Shortcuts);
     }
 
-    public void UpdateShortcuts(List<Shortcut> shortcuts)
+    public void UpdateAllShortcuts(List<Shortcut> shortcuts)
     {
         _skillbars.ForEach((skillbar) => skillbar.ResetShortcuts());
 

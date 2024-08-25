@@ -54,7 +54,6 @@ public class L2Slot
     public L2Slot(VisualElement slotElement, int position, SlotType type)
     {
         _slotElement = slotElement;
-        _slotElement.AddToClassList("empty");
         _position = position;
         _slotType = type;
 

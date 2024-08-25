@@ -19,7 +19,6 @@ public class InventorySlot : L2DraggableSlot
     : base(position, slotElement, slotType, false, true)
     {
         _currentTab = tab;
-        _slotElement.AddToClassList("inventory-slot");
         _empty = true;
 
         if (_slotClickSoundManipulator == null)

@@ -21,6 +21,7 @@ public class InputManager : MonoBehaviour
     // UI
     private InputAction _inventoryAction;
     private InputAction _characterStatusAction;
+    private InputAction _actionsAction;
     private InputAction _closeWindowAction;
     private InputAction _systemMenuAction;
     private InputAction _validateAction;
@@ -61,6 +62,7 @@ public class InputManager : MonoBehaviour
     [field: SerializeField] public bool OpenInventory { get; private set; }
     [field: SerializeField] public bool OpenCharacerStatus { get; private set; }
     [field: SerializeField] public bool OpenSystemMenu { get; private set; }
+    [field: SerializeField] public bool OpenActions { get; private set; }
     [field: SerializeField] public bool CloseWindow { get; private set; }
     [field: SerializeField] public bool Validate { get; private set; }
     public bool[,] SkillbarInputs { get; private set; }
@@ -104,6 +106,7 @@ public class InputManager : MonoBehaviour
 
         _inventoryAction = _playerInput.actions["Inventory"];
         _characterStatusAction = _playerInput.actions["CharacterStatus"];
+        _actionsAction = _playerInput.actions["Actions"];
         _closeWindowAction = _playerInput.actions["CloseWindow"];
         _systemMenuAction = _playerInput.actions["SystemMenu"];
         _validateAction = _playerInput.actions["Validate"];
@@ -169,6 +172,7 @@ public class InputManager : MonoBehaviour
             OpenCharacerStatus = _characterStatusAction.WasPerformedThisFrame();
             OpenInventory = _inventoryAction.WasPerformedThisFrame();
             OpenSystemMenu = _systemMenuAction.WasPerformedThisFrame();
+            OpenActions = _actionsAction.WasPerformedThisFrame();
         }
         else
         {

@@ -92,7 +92,7 @@ public class PlayerShortcuts : MonoBehaviour
             _shortcuts.Add(shortcut.Slot + shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR, shortcut);
         }
 
-        SkillbarWindow.Instance.UpdateShortcuts(shortcuts);
+        SkillbarWindow.Instance.UpdateAllShortcuts(shortcuts);
     }
 
     public void RegisterShortcut(Shortcut shortcut)

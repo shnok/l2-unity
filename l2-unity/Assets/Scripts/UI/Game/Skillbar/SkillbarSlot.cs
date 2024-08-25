@@ -19,7 +19,6 @@ public class SkillbarSlot : L2ClickableSlot
         ClearManipulators();
 
         _shortcut = shortcut;
-        _slotElement.AddToClassList("skillbar-slot");
         _buttonClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
 
         switch (shortcut.Type)

@@ -70,7 +70,7 @@ public class InventoryWindow : L2PopupWindow
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryWindow");
         _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTab");
         _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTabHeader");
-        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Template/Slot");
+        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Template/InventorySlot");
         _minimizedTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryMin");
     }
 
@@ -114,6 +114,10 @@ public class InventoryWindow : L2PopupWindow
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
+
+        _windowEle.style.left = new Length(50, LengthUnit.Percent);
+        _windowEle.style.top = new Length(50, LengthUnit.Percent);
+        _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
 
         CreateTabs();
 
