@@ -230,7 +230,7 @@ public class L2SlotManager : L2PopupWindow
 
     private void AddItemToSkillbar()
     {
-        int itemId = ((InventorySlot)_draggedSlot).Id;
+        int itemId = ((InventorySlot)_draggedSlot).ObjectId;
         int slot = _hoverSlot.Position;
         Debug.LogWarning($"Add item {itemId} to skillbar slot {slot}.");
 
