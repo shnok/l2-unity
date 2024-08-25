@@ -161,7 +161,7 @@ public class InputManager : MonoBehaviour
         if (!ChatWindow.Instance.ChatOpened)
         {
             MoveInput = _moveAction.ReadValue<Vector2>();
-            Jump = _jumpAction.IsPressed();
+            Jump = _jumpAction.WasPerformedThisFrame();
             Attack = _attackAction.WasPerformedThisFrame();
             NextTarget = _nextTargetAction.WasPerformedThisFrame();
             Sit = _sitAction.WasPerformedThisFrame();
