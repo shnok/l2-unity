@@ -49,7 +49,7 @@ public class IconManager
         }
     }
 
-    private Texture2D LoadTextureByName(string name)
+    public Texture2D LoadTextureByName(string name)
     {
         string icon = _iconFolder + "\\" + CleanIconName(name);
         var result = Resources.Load<Texture2D>(icon);

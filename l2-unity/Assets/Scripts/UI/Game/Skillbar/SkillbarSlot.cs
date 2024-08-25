@@ -24,6 +24,7 @@ public class SkillbarSlot : L2ClickableSlot
         switch (shortcut.Type)
         {
             case Shortcut.TYPE_ACTION:
+                AssignAction(shortcut.Id);
                 break;
             case Shortcut.TYPE_ITEM:
                 AssignItem(shortcut.Id);
@@ -42,6 +43,15 @@ public class SkillbarSlot : L2ClickableSlot
         ItemInstance item = PlayerInventory.Instance.GetItemByObjectId(objectId);
         _innerSlot = new InventorySlot(_position, _slotElement, SlotType.SkillBar);
         ((InventorySlot)_innerSlot).AssignItem(item);
+        ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
+
+        _slotElement.RemoveFromClassList("empty");
+    }
+
+    public void AssignAction(int objectId)
+    {
+        _innerSlot = new ActionSlot(_slotElement, _position, SlotType.SkillBar);
+        ((ActionSlot)_innerSlot).AssignAction(objectId);
         ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
 
         _slotElement.RemoveFromClassList("empty");

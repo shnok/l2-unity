@@ -104,6 +104,7 @@ public class PlayerShortcuts : MonoBehaviour
 
         int slot = shortcut.Slot + shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR;
         Debug.Log($"Register shortcut {shortcut.Id} at {slot}.");
+
         if (_shortcuts.TryAdd(slot, shortcut))
         {
             SkillbarWindow.Instance.AddShortcut(shortcut);
