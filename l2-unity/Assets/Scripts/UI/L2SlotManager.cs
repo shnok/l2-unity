@@ -152,6 +152,8 @@ public class L2SlotManager : L2PopupWindow
             {
                 RemoveSkillbarSlot();
             }
+
+            return;
         }
 
         switch (_hoverSlot.Type)
@@ -247,7 +249,7 @@ public class L2SlotManager : L2PopupWindow
     {
         int oldSlot = _draggedSlot.Position;
         Debug.LogWarning($"Renoving skillbar shortcut from slot {oldSlot}.");
-        PlayerShortcuts.Instance.RemoveShortcut(oldSlot);
+        PlayerShortcuts.Instance.DeleteShortcut(oldSlot);
     }
 
     public override void ShowWindow()

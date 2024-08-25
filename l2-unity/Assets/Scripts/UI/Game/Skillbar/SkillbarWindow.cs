@@ -22,7 +22,6 @@ public class SkillbarWindow : L2PopupWindow
     private VisualTreeAsset _barSlotTemplate;
     private List<AbstractSkillbar> _skillbars;
     private static SkillbarWindow _instance;
-    private List<Shortcut> _shortcuts;
 
     public bool Locked { get { return _locked; } set { _locked = value; } }
     public bool Vertical { get { return _vertical; } set { _vertical = value; } }
@@ -231,13 +230,11 @@ public class SkillbarWindow : L2PopupWindow
 
     public void UpdateShortcuts()
     {
-        UpdateShortcuts(_shortcuts);
+        UpdateShortcuts(PlayerShortcuts.Instance.Shortcuts);
     }
 
     public void UpdateShortcuts(List<Shortcut> shortcuts)
     {
-        _shortcuts = shortcuts;
-
         _skillbars.ForEach((skillbar) => skillbar.ResetShortcuts());
 
         if (shortcuts == null)
@@ -247,27 +244,48 @@ public class SkillbarWindow : L2PopupWindow
 
         shortcuts.ForEach((shortcut) =>
         {
-            if (shortcut.Slot < 12)
-            {
-                _skillbars.ForEach((skillbar) =>
-                {
-                    if (skillbar.Page == shortcut.Page)
-                    {
-                        skillbar.UpdateShortcut(shortcut, shortcut.Slot);
-                    }
-                });
-            }
-            else
-            {
-                Debug.LogError($"Slot value {shortcut.Slot} is too high.");
-            }
+            UpdateBarShortcut(shortcut);
         });
     }
 
-    public void UpdateSingleShortcut(Shortcut shortcut)
+    private void UpdateBarShortcut(Shortcut shortcut)
     {
-
+        if (shortcut.Slot < 12)
+        {
+            _skillbars.ForEach((skillbar) =>
+            {
+                if (skillbar.Page == shortcut.Page)
+                {
+                    Debug.Log($"Add shortcut at page {shortcut.Page} in slot {shortcut.Slot}.");
+                    skillbar.UpdateShortcut(shortcut, shortcut.Slot);
+                }
+            });
+        }
+        else
+        {
+            Debug.LogError($"Slot value {shortcut.Slot} is too high.");
+        }
     }
+
+    public void AddShortcut(Shortcut shortcut)
+    {
+        UpdateBarShortcut(shortcut);
+    }
+
+    public void RemoveShortcut(int oldSlot)
+    {
+        int slot = oldSlot % 12;
+        int page = oldSlot / 12;
+
+        _skillbars.ForEach((skillbar) =>
+            {
+                if (skillbar.Page == page)
+                {
+                    skillbar.DeleteShortcut(oldSlot);
+                }
+            });
+    }
+
 
 #if UNITY_EDITOR
     private void DebugData()
@@ -291,7 +309,7 @@ public class SkillbarWindow : L2PopupWindow
             shortcuts.Add(shortcut);
         }
 
-        PlayerShortcuts.Instance.SetShortcutList(shortcuts.ToArray());
+        PlayerShortcuts.Instance.SetShortcutList(shortcuts);
 
         //UpdateShortcuts(shortcuts);
     }

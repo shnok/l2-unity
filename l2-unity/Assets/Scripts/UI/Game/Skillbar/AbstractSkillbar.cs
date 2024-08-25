@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -81,23 +82,39 @@ public abstract class AbstractSkillbar
         // Clean up gear anchors from any child visual element
         for (int i = 0; i < _slotAnchors.Count; i++)
         {
-            VisualElement anchor = _slotAnchors[i];
-
-            // Clear childs
-            anchor.Clear();
-
-            // Create slots
-            VisualElement slotElement = SkillbarWindow.Instance.BarSlotTemplate.Instantiate()[0];
-            anchor.Add(slotElement);
-
-            SkillbarSlot slot = new SkillbarSlot(slotElement, _page * 12 + i);
-            _barSlots.Add(slot);
+            CreateSlot(i);
         }
+    }
+
+    private void CreateSlot(int position)
+    {
+
+        VisualElement anchor = _slotAnchors[position];
+
+        //Debug.Log($"Create slot at {position} with anchor {anchor.name}.");
+
+        // Clear childs
+        anchor.Clear();
+
+        // Create slots
+        VisualElement slotElement = SkillbarWindow.Instance.BarSlotTemplate.Instantiate()[0];
+        anchor.Add(slotElement);
+
+        SkillbarSlot slot = new SkillbarSlot(slotElement, _page * 12 + position);
+        _barSlots.Add(slot);
     }
 
     public void UpdateShortcut(Shortcut shortcut, int slot)
     {
-        _barSlots[slot].AssignShortcut(shortcut);
+        for (int i = 0; i < _barSlots.Count; i++)
+        {
+            if (_barSlots[i].Position == _page * 12 + slot)
+            {
+                Debug.Log($"Found slot at index {i} with slot {slot}.");
+                _barSlots[i].AssignShortcut(shortcut);
+                break;
+            }
+        }
     }
 
     protected abstract void UpdateVisuals();
@@ -110,5 +127,20 @@ public abstract class AbstractSkillbar
     public void ShowBar()
     {
         _windowEle.style.display = DisplayStyle.Flex;
+    }
+
+    public void DeleteShortcut(int slot)
+    {
+        for (int i = 0; i < _barSlots.Count; i++)
+        {
+            if (_barSlots[i].Position == slot)
+            {
+                Debug.Log($"Succesfully deleted slot {slot}.");
+                _barSlots.Remove(_barSlots[i]);
+                break;
+            }
+        }
+
+        CreateSlot(slot % 12);
     }
 }
