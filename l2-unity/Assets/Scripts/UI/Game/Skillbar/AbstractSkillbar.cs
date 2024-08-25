@@ -100,7 +100,7 @@ public abstract class AbstractSkillbar
         VisualElement slotElement = SkillbarWindow.Instance.BarSlotTemplate.Instantiate()[0];
         anchor.Add(slotElement);
 
-        SkillbarSlot slot = new SkillbarSlot(slotElement, _page * 12 + position);
+        SkillbarSlot slot = new SkillbarSlot(slotElement, _page * PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR + position);
         _barSlots.Add(slot);
     }
 
@@ -108,7 +108,7 @@ public abstract class AbstractSkillbar
     {
         for (int i = 0; i < _barSlots.Count; i++)
         {
-            if (_barSlots[i].Position == _page * 12 + slot)
+            if (_barSlots[i].Position == _page * PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR + slot)
             {
                 Debug.Log($"Found slot at index {i} with slot {slot}.");
                 _barSlots[i].AssignShortcut(shortcut);

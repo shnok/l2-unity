@@ -9,7 +9,6 @@ public class SkillbarWindow : L2PopupWindow
     private bool _locked = false;
     private bool _vertical = true;
     private bool _tooltipDisabled = false;
-    private int _maxSkillbarCount = 5;
     [SerializeField] private int _defaultSkillbarCount;
     [SerializeField] private int _expandedSkillbarCount;
 
@@ -77,7 +76,7 @@ public class SkillbarWindow : L2PopupWindow
 
         for (int x = 0; x < 2; x++)
         {
-            for (int i = 0; i < _maxSkillbarCount; i++)
+            for (int i = 0; i < PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT; i++)
             {
                 AbstractSkillbar skillbar;
 
@@ -122,9 +121,9 @@ public class SkillbarWindow : L2PopupWindow
     {
         for (int x = 0; x < 2; x++)
         {
-            if (_expandedSkillbarCount >= _maxSkillbarCount - 2)
+            if (_expandedSkillbarCount >= PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT - 2)
             {
-                ((SkillbarMain)_skillbars[x * _maxSkillbarCount]).UpdateExpandInput(1);
+                ((SkillbarMain)_skillbars[x * PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT]).UpdateExpandInput(1);
             }
         }
 
@@ -139,7 +138,7 @@ public class SkillbarWindow : L2PopupWindow
 
         for (int x = 0; x < 2; x++)
         {
-            ((SkillbarMain)_skillbars[x * _maxSkillbarCount]).UpdateExpandInput(0);
+            ((SkillbarMain)_skillbars[x * PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT]).UpdateExpandInput(0);
         }
 
         MinimizeSkillbar();
@@ -154,13 +153,13 @@ public class SkillbarWindow : L2PopupWindow
         for (int x = 0; x < 2; x++)
         {
             // Expand the next skillbar
-            SkillbarMin skillbar = (SkillbarMin)_skillbars[_expandedSkillbarCount + _maxSkillbarCount * x];
+            SkillbarMin skillbar = (SkillbarMin)_skillbars[_expandedSkillbarCount + PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT * x];
             _expandCoroutines.Add(StartCoroutine(skillbar.Expand()));
 
             // Hide skillbars that are not supposed to be visible
-            for (int i = _expandedSkillbarCount + 1; i < _maxSkillbarCount; i++)
+            for (int i = _expandedSkillbarCount + 1; i < PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT; i++)
             {
-                _skillbars[i + _maxSkillbarCount * x].HideBar();
+                _skillbars[i + PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT * x].HideBar();
             }
         }
     }
@@ -174,9 +173,9 @@ public class SkillbarWindow : L2PopupWindow
         // Minimize all skillbars
         for (int x = 0; x < 2; x++)
         {
-            for (int i = 1; i < _maxSkillbarCount; i++)
+            for (int i = 1; i < PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT; i++)
             {
-                SkillbarMin skillbar = (SkillbarMin)_skillbars[i + _maxSkillbarCount * x];
+                SkillbarMin skillbar = (SkillbarMin)_skillbars[i + PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT * x];
                 _minimizeCoroutines.Add(StartCoroutine(skillbar.Minimize()));
             }
         }
@@ -202,8 +201,10 @@ public class SkillbarWindow : L2PopupWindow
     {
         for (int x = 0; x < 2; x++)
         {
-            _skillbars[skillbarIndex + _maxSkillbarCount * x].ChangePage(page);
+            _skillbars[skillbarIndex + PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT * x].ChangePage(page);
         }
+
+        PlayerShortcuts.Instance.UpdatePageMapping(skillbarIndex, page);
 
         UpdateShortcuts();
     }
@@ -214,7 +215,7 @@ public class SkillbarWindow : L2PopupWindow
 
         for (int x = 0; x < 2; x++)
         {
-            ((SkillbarMain)_skillbars[x * _maxSkillbarCount]).ToggleLockSkillBar();
+            ((SkillbarMain)_skillbars[x * PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT]).ToggleLockSkillBar();
         }
     }
 
@@ -224,7 +225,7 @@ public class SkillbarWindow : L2PopupWindow
 
         for (int x = 0; x < 2; x++)
         {
-            ((SkillbarMain)_skillbars[x * _maxSkillbarCount]).ToggleDisableTooltip();
+            ((SkillbarMain)_skillbars[x * PlayerShortcuts.MAXIMUM_SKILLBAR_COUNT]).ToggleDisableTooltip();
         }
     }
 
@@ -274,8 +275,8 @@ public class SkillbarWindow : L2PopupWindow
 
     public void RemoveShortcut(int oldSlot)
     {
-        int slot = oldSlot % 12;
-        int page = oldSlot / 12;
+        int slot = oldSlot % PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR;
+        int page = oldSlot / PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR;
 
         _skillbars.ForEach((skillbar) =>
             {
@@ -285,7 +286,6 @@ public class SkillbarWindow : L2PopupWindow
                 }
             });
     }
-
 
 #if UNITY_EDITOR
     private void DebugData()
@@ -298,7 +298,7 @@ public class SkillbarWindow : L2PopupWindow
         yield return new WaitForSeconds(1);
 
         List<Shortcut> shortcuts = new List<Shortcut>();
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR; i++)
         {
             Shortcut shortcut = new Shortcut(i, 0, Shortcut.TYPE_ITEM, 57, -1);
             shortcuts.Add(shortcut);

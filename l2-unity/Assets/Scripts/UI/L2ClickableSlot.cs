@@ -22,7 +22,7 @@ public class L2ClickableSlot : L2Slot
         }
 
         _slotElement.RegisterCallback<MouseDownEvent>(HandleSlotClickDown, TrickleDown.TrickleDown);
-        _slotElement.RegisterCallback<ClickEvent>(HandleSlotClickUp);
+        _slotElement.RegisterCallback<MouseUpEvent>(HandleSlotClickUp, TrickleDown.TrickleDown);
     }
 
     public void UnregisterClickableCallback()
@@ -33,7 +33,7 @@ public class L2ClickableSlot : L2Slot
         }
 
         _slotElement.UnregisterCallback<MouseDownEvent>(HandleSlotClickDown, TrickleDown.TrickleDown);
-        _slotElement.UnregisterCallback<ClickEvent>(HandleSlotClickUp);
+        _slotElement.UnregisterCallback<MouseUpEvent>(HandleSlotClickUp, TrickleDown.TrickleDown);
     }
 
     public void SetSelected()
@@ -48,7 +48,7 @@ public class L2ClickableSlot : L2Slot
         _slotElement.RemoveFromClassList("selected");
     }
 
-    protected void HandleSlotClickDown(MouseDownEvent evt)
+    private void HandleSlotClickDown(MouseDownEvent evt)
     {
         if (evt.button == 0)
         {
@@ -70,8 +70,13 @@ public class L2ClickableSlot : L2Slot
         }
     }
 
-    protected void HandleSlotClickUp(ClickEvent evt)
+    private void HandleSlotClickUp(MouseUpEvent evt)
     {
+        if (!_hoverManipulator.Hovering)
+        {
+            return;
+        }
+
         if (evt.button == 0)
         {
             if (_leftMouseUp)

@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class PlayerShortcuts : MonoBehaviour
 {
+    public const int MAXIMUM_SHORTCUTS_PER_BAR = 12;
+    public const int MAXIMUM_SKILLBAR_COUNT = 5;
+    private int[] _pageMap;
+
     private Dictionary<int, Shortcut> _shortcuts;
     public List<Shortcut> Shortcuts { get { return _shortcuts.Values.ToList(); } }
 
@@ -27,6 +31,7 @@ public class PlayerShortcuts : MonoBehaviour
         }
 
         _shortcuts = new Dictionary<int, Shortcut>();
+        _pageMap = new int[5] { 0, 1, 2, 3, 4 };
     }
 
     private void OnDestroy()
@@ -43,17 +48,31 @@ public class PlayerShortcuts : MonoBehaviour
 
         foreach (Shortcut shortcut in _shortcuts.Values)
         {
-            bool shortcutUsed = InputManager.Instance.SkillbarInputs[shortcut.Page, shortcut.Slot];
-            if (shortcutUsed)
+            for (int i = 0; i < _pageMap.Length; i++)
             {
-                UseShortcut(shortcut);
+                if (_pageMap[i] == shortcut.Page)
+                {
+                    bool shortcutUsed = InputManager.Instance.SkillbarInputs[i, shortcut.Slot];
+                    if (shortcutUsed)
+                    {
+                        UseShortcut(shortcut);
+                    }
+                }
             }
         }
     }
 
     public void UseShortcut(Shortcut shortcut)
     {
-        Debug.LogWarning($"Use shortcut {shortcut.Page * 12 + shortcut.Slot}.");
+        Debug.LogWarning($"Use shortcut {shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR + shortcut.Slot}.");
+        switch (shortcut.Type)
+        {
+            case Shortcut.TYPE_ITEM:
+                PlayerInventory.Instance.UseItem(shortcut.Id);
+                break;
+            default:
+                break;
+        }
     }
 
     public void SetShortcutList(List<Shortcut> shortcuts)
@@ -70,7 +89,7 @@ public class PlayerShortcuts : MonoBehaviour
         for (int i = 0; i < shortcuts.Count; i++)
         {
             Shortcut shortcut = shortcuts[i];
-            _shortcuts.Add(shortcut.Slot + shortcut.Page * 12, shortcut);
+            _shortcuts.Add(shortcut.Slot + shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR, shortcut);
         }
 
         SkillbarWindow.Instance.UpdateShortcuts(shortcuts);
@@ -83,7 +102,7 @@ public class PlayerShortcuts : MonoBehaviour
             _shortcuts = new Dictionary<int, Shortcut>();
         }
 
-        int slot = shortcut.Slot + shortcut.Page * 12;
+        int slot = shortcut.Slot + shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR;
         Debug.Log($"Register shortcut {shortcut.Id} at {slot}.");
         if (_shortcuts.TryAdd(slot, shortcut))
         {
@@ -146,5 +165,10 @@ public class PlayerShortcuts : MonoBehaviour
     {
         RemoveShotcutLocally(oldSlot);
         GameClient.Instance.ClientPacketHandler.RequestRemoveShortcut(oldSlot);
+    }
+
+    public void UpdatePageMapping(int skillbarIndex, int page)
+    {
+        _pageMap[skillbarIndex] = page;
     }
 }
