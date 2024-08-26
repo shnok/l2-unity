@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 public class ActionSlot : L2DraggableSlot
 {
     public int ActionId { get; private set; }
+    public ActionData Action { get; private set; }
 
     public ActionSlot(VisualElement slotElement, int position, SlotType slotType) : base(position, slotElement, slotType, true, false)
     {
@@ -23,12 +24,19 @@ public class ActionSlot : L2DraggableSlot
     {
     }
 
-    public void AssignAction(int actionId)
+    public void AssignAction(ActionType actionType)
     {
-        ActionId = actionId;
-        _slotDragManipulator.enabled = true;
         ButtonClickSoundManipulator _buttonClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
+        _slotDragManipulator.enabled = true;
         _slotElement.RemoveFromClassList("empty");
-        _slotBg.style.backgroundImage = IconManager.Instance.LoadTextureByName($"action{actionId.ToString().PadLeft(3, '0')}");
+
+        ActionId = (int)actionType;
+        Action = ActionNameTable.Instance.GetAction(actionType);
+        _slotBg.style.backgroundImage = IconManager.Instance.LoadTextureByName(Action.Icon);
+
+        if (_tooltipManipulator != null)
+        {
+            _tooltipManipulator.SetText(Action.Name);
+        }
     }
 }

@@ -93,12 +93,12 @@ public class ActionWindow : L2PopupWindow
             AddSlot(position++, _socialContainer);
         }
 
-        _slots[0].AssignAction((int)ActionType.Sit);
-        _slots[1].AssignAction((int)ActionType.WalkRun);
-        _slots[2].AssignAction((int)ActionType.Attack);
-        _slots[3].AssignAction((int)ActionType.NextTarget);
-        _slots[4].AssignAction((int)ActionType.Pickup);
-        _slots[5].AssignAction((int)ActionType.Assist);
+        _slots[0].AssignAction(ActionType.Sit);
+        _slots[1].AssignAction(ActionType.WalkRun);
+        _slots[2].AssignAction(ActionType.Attack);
+        _slots[3].AssignAction(ActionType.NextTarget);
+        _slots[4].AssignAction(ActionType.Pickup);
+        _slots[5].AssignAction(ActionType.Assist);
     }
 
     private void AddSlot(int position, VisualElement container)

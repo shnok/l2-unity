@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class ActionNameTable 
+public class ActionNameTable
 {
     private static ActionNameTable _instance;
 
@@ -22,10 +22,11 @@ public class ActionNameTable
 
     private Dictionary<int, ActionData> _actions;
 
-    public ActionData GetAciton(int id)
+    public ActionData GetAction(ActionType type)
     {
-        return (_actions.ContainsKey(id)) ? _actions[id] : null;
+        return _actions.ContainsKey((int)type) ? _actions[(int)type] : null;
     }
+
     public Dictionary<int, ActionData> Actions { get { return _actions; } }
 
     public void Initialize()
@@ -71,13 +72,17 @@ public class ActionNameTable
                         case "cmd":
                             actionData.Name = DatUtils.CleanupString(value);
                             break;
+                        case "icon":
+                            string[] iconSplit = DatUtils.CleanupString(value).Split(".");
+                            actionData.Icon = iconSplit.Length > 1 ? iconSplit[1] : iconSplit[0];
+                            break;
                         case "name":
                             actionData.Descripion = DatUtils.CleanupString(value);
                             break;
                     }
                 }
 
-                if (_actions.ContainsKey(actionData.Id) != true)
+                if (!_actions.ContainsKey(actionData.Id))
                 {
                     _actions.TryAdd(actionData.Id, actionData);
                 }

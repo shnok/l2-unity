@@ -1,13 +1,13 @@
 public enum ActionType : int
 {
-    Sit = 1,
-    WalkRun = 2,
-    Attack = 3,
-    Trade = 5,
-    NextTarget = 7,
-    Pickup = 8,
-    Assist = 10,
-    PartyInvite = 10,
-    PartyLeave = 12,
-    PartyKick = 13
+    Sit = 0,
+    WalkRun = 1,
+    Attack = 2,
+    Trade = 3,
+    NextTarget = 4,
+    Pickup = 5,
+    Assist = 6,
+    PartyInvite = 7,
+    PartyLeave = 8,
+    PartyKick = 9
 }

@@ -51,7 +51,7 @@ public class SkillbarSlot : L2ClickableSlot
     public void AssignAction(int objectId)
     {
         _innerSlot = new ActionSlot(_slotElement, _position, SlotType.SkillBar);
-        ((ActionSlot)_innerSlot).AssignAction(objectId);
+        ((ActionSlot)_innerSlot).AssignAction((ActionType)objectId);
         ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
 
         _slotElement.RemoveFromClassList("empty");
