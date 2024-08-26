@@ -723,7 +723,7 @@
     flex-direction: column;
     margin-top: 3px;
     margin-right: 2px;
-    margin-bottom: 3px;
+    margin-bottom: 0;
     margin-left: 2px;
     padding-top: 0;
     padding-right: 0;
@@ -1816,21 +1816,21 @@
 .skillbar-slot.empty .slot-bg-container {
     border-width: 0;
     padding: 0;
-    background-image: unset;
+    background-image: none;
 }
 
 .action-slot.empty .slot-bg-container {
     border-width: 0;
     padding: 0;
-    background-image: unset;
+    background-image: none;
 }
 
 .action-slot.empty:active .slot-bg-container {
-    background-image: unset;
+    background-image: none;
 }
 
 .skillbar-slot.empty:active .slot-bg-container {
-    background-image: unset;
+    background-image: none;
 }
 
 .action-slot .slot-bg-container {
@@ -2706,4 +2706,75 @@
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 5px;
+}
+
+.menu-btn {
+    display: flex;
+}
+
+.menu-btn-grp {
+    margin-top: 5px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 5px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-grow: 0;
+    height: auto;
+    flex-direction: row;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    width: 161px;
+    overflow: visible;
+    display: flex;
+    opacity: 1;
+}
+
+.menu-window {
+    right: 0;
+    min-width: auto;
+    max-width: 168px;
+}
+
+.menu-window-container {
+    flex-grow: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-shrink: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-left-color: rgb(72, 65, 47);
+    border-right-color: rgb(72, 65, 47);
+    border-top-color: rgb(72, 65, 47);
+    border-bottom-color: rgb(72, 65, 47);
+    overflow: hidden;
+    width: 166px;
+    background-color: rgba(19, 19, 19, 0);
+    background-image: none;
+    -unity-slice-left: 11;
+    -unity-slice-top: 11;
+    -unity-slice-right: 11;
+    -unity-slice-bottom: 11;
+    -unity-slice-scale: 0.3px;
+    height: 86px;
+}
+
+.menu-window-bg {
+    flex-grow: 1;
+    background-image: resource('Data/UI/Assets/Menu/Menu_I1');
+    height: 119px;
+    width: 1012px;
+    -unity-slice-scale: 0.4px;
+    position: absolute;
+    left: 1px;
 }
