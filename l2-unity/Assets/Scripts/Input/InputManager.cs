@@ -160,7 +160,6 @@ public class InputManager : MonoBehaviour
             L2GameUI.Instance.EnableMouse();
         }
 
-
         if (!ChatWindow.Instance.ChatOpened)
         {
             MoveInput = _moveAction.ReadValue<Vector2>();
@@ -180,7 +179,7 @@ public class InputManager : MonoBehaviour
         }
 
         MoveForward = LeftClickHeld && RightClickHeld;
-        Move = (MoveInput.y != 0 || MoveInput.x != 0) && !MoveForward;
+        Move = MoveInput.y != 0 || MoveInput.x != 0 || MoveForward;
 
         for (int skillbar = 0; skillbar < 5; skillbar++)
         {
