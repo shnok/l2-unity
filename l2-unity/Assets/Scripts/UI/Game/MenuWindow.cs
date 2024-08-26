@@ -64,6 +64,7 @@ public class MenuWindow : L2Window
 
         var sysBtn = _windowEle.Q<Button>("SystemMenuButton");
         sysBtn.AddManipulator(new ButtonClickSoundManipulator(sysBtn));
+        Debug.LogWarning(sysBtn);
         sysBtn.RegisterCallback<ClickEvent>((evt) => SystemMenuWindow.Instance.ToggleHideWindow());
 
         root.Add(_windowEle);

@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 8779640280532892959}
   - component: {fileID: 7544970182174366211}
   - component: {fileID: 8505752976446594678}
+  - component: {fileID: 2735858361821499948}
   m_Layer: 7
   m_Name: CandleLight
   m_TagString: Untagged
@@ -137,13 +138,13 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
-    m_Resolution: -1
+    m_Type: 0
+    m_Resolution: 0
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.5
+    m_NearPlane: 1
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -199,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 3
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 1
   m_LightLayerMask: 1
   m_RenderingLayers: 4294967295
   m_CustomShadowLayers: 0
@@ -208,3 +209,35 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &2735858361821499948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8038692720020630982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e687a076c06e96439a832fd1aa3c441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LightShouldBeOn: 1
+  UpdateDelay: 3
+  _squareDistanceFromCamera: 641.7859
+  _lastUpdate: 495.32104
+  LODLevels:
+  - MinSquareDistance: 0
+    MaxSquareDistance: 150
+    ShadowResolution: 1
+    LightShadows: 2
+    DebugColor: {r: 0, g: 0, b: 0, a: 0}
+  - MinSquareDistance: 150
+    MaxSquareDistance: 600
+    ShadowResolution: 0
+    LightShadows: 1
+    DebugColor: {r: 0, g: 0, b: 0, a: 0}
+  - MinSquareDistance: 600
+    MaxSquareDistance: 10000
+    ShadowResolution: 0
+    LightShadows: 0
+    DebugColor: {r: 0, g: 0, b: 0, a: 0}

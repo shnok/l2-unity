@@ -130,7 +130,7 @@ public class CameraController : MonoBehaviour
     private void UpdateZoom()
     {
         float scrollAxis = InputManager.Instance.ZoomAxis;
-        _camDistance = Mathf.Clamp(_camDistance - scrollAxis * _zoomSpeed * 0.001f, _minDistance, _maxDistance);
+        _camDistance = Mathf.Clamp(_camDistance - scrollAxis * _zoomSpeed * 0.1f, _minDistance, _maxDistance);
     }
 
     private void UpdatePosition()

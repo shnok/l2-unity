@@ -4,7 +4,7 @@
         <ui:GroupBox name="Container" class="ui-bg menu-window-container">
             <ui:VisualElement name="Bg" class="menu-window-bg" />
             <ui:GroupBox name="ButtonGroup" class="bar-container menu-btn-grp">
-                <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CharacterButton" class="menu-btn">
+                <ui:Button text="&#10;" parse-escape-sequences="false" display-tooltip-when-elided="false" name="CharacterButton" selectable="true" triple-click-selects-line="false" double-click-selects-word="false" emoji-fallback-support="false" enable-rich-text="false" class="menu-btn">
                     <ui:VisualElement name="ButtonBG" class="menu-button-bg" style="flex-grow: 0; width: 64px; height: 64px; flex-shrink: 0;" />
                 </ui:Button>
                 <ui:Button text="&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="InventoryButton" class="menu-btn">

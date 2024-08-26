@@ -183,7 +183,7 @@ public class InventoryWindow : L2PopupWindow
         _minimizedInventoryBtn.style.left = new StyleLength(Screen.width / 2);
         _minimizedInventoryBtn.style.top = new StyleLength(Screen.height / 2);
 
-        _minimizedInventoryBtn.RegisterCallback<MouseUpEvent>(OnMinimizedInventoryClick, TrickleDown.TrickleDown);
+        _minimizedInventoryBtn.RegisterCallback<ClickEvent>(OnMinimizedInventoryClick, TrickleDown.TrickleDown);
         _minimizedInventoryDragManipulator = new DragManipulator(_minimizedInventoryBtn, _minimizedInventoryBtn);
         _minimizedInventoryBtn.AddManipulator(_minimizedInventoryDragManipulator);
 
@@ -192,25 +192,19 @@ public class InventoryWindow : L2PopupWindow
 
     private void OnMinimizeInventoryClick(MouseUpEvent evt)
     {
-        if (!_minimizedInventoryBtn.ClassListContains("minimized"))
-        {
-            _minimizedInventoryBtn.AddToClassList("minimized");
-            _minimizedInventoryMouseOverManipulator.Enable();
-            HideWindow();
-        }
+        _minimizedInventoryBtn.style.display = DisplayStyle.Flex;
+        _minimizedInventoryMouseOverManipulator.Enable();
+        HideWindow();
     }
 
-    private void OnMinimizedInventoryClick(MouseUpEvent evt)
+    private void OnMinimizedInventoryClick(ClickEvent evt)
     {
         if (!_minimizedInventoryDragManipulator.dragged)
         {
             AudioManager.Instance.PlayUISound("click_01");
-            if (_minimizedInventoryBtn.ClassListContains("minimized"))
-            {
-                _minimizedInventoryBtn.RemoveFromClassList("minimized");
-                _minimizedInventoryMouseOverManipulator.Disable();
-                ShowWindow();
-            }
+            _minimizedInventoryBtn.style.display = DisplayStyle.None;
+            _minimizedInventoryMouseOverManipulator.Disable();
+            ShowWindow();
         }
     }
 
