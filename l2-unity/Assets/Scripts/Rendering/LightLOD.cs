@@ -1,4 +1,6 @@
-using System.Collections;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +24,7 @@ namespace LlamAcademy.LightLOD
 
         private void Awake()
         {
+            _lastUpdate = 0;
             Light = GetComponent<Light>();
         }
 
@@ -39,17 +42,24 @@ namespace LlamAcademy.LightLOD
 
             if (Time.time - _lastUpdate >= UpdateDelay)
             {
+                Debug.LogWarning(Time.time - _lastUpdate);
                 _lastUpdate = Time.time;
 #if (UNITY_EDITOR)
-                if (Camera.current != null)
+                if (EditorApplication.isPlaying)
                 {
-                    AdjustLODQuality(Camera.current);
+                    AdjustLODQuality(Camera.main);
+                }
+                else
+                {
+                    if (Camera.current != null)
+                    {
+                        AdjustLODQuality(Camera.current);
+                    }
                 }
 #else
                 AdjustLODQuality(Camera.main);
 #endif
             }
-
         }
 
 

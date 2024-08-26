@@ -1,3 +1,6 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -13,10 +16,18 @@ public class LayerCullDistance : MonoBehaviour
 #if (UNITY_EDITOR)
     private void Update()
     {
-        if (Camera.current != null)
+        if (EditorApplication.isPlaying)
         {
-            ApplyCulling(Camera.current);
+            ApplyCulling(Camera.main);
         }
+        else
+        {
+            if (Camera.current != null)
+            {
+                ApplyCulling(Camera.current);
+            }
+        }
+
     }
 #endif
 
