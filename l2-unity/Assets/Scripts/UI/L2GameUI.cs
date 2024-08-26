@@ -80,7 +80,7 @@ public class L2GameUI : L2UI
         if (InventoryWindow.Instance != null)
         {
             InventoryWindow.Instance.AddWindow(_rootVisualContainer);
-            // InventoryWindow.Instance.HideWindow();
+            InventoryWindow.Instance.HideWindow();
         }
         if (CharacterInfoWindow.Instance != null)
         {
@@ -90,7 +90,7 @@ public class L2GameUI : L2UI
         if (ActionWindow.Instance != null)
         {
             ActionWindow.Instance.AddWindow(_rootVisualContainer);
-            // ActionWindow.Instance.HideWindow();
+            ActionWindow.Instance.HideWindow();
         }
         if (TargetWindow.Instance != null)
         {

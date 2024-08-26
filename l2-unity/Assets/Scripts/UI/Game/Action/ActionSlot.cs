@@ -3,7 +3,6 @@ using UnityEngine.UIElements;
 public class ActionSlot : L2DraggableSlot
 {
     public int ActionId { get; private set; }
-    private ButtonClickSoundManipulator _buttonClickSoundManipulator;
 
     public ActionSlot(VisualElement slotElement, int position, SlotType slotType) : base(position, slotElement, slotType, true, false)
     {
@@ -13,6 +12,7 @@ public class ActionSlot : L2DraggableSlot
 
     protected override void HandleLeftClick()
     {
+        PlayerActions.Instance.UseAction((ActionType)ActionId);
     }
 
     protected override void HandleRightClick()
@@ -27,7 +27,7 @@ public class ActionSlot : L2DraggableSlot
     {
         ActionId = actionId;
         _slotDragManipulator.enabled = true;
-        _buttonClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
+        ButtonClickSoundManipulator _buttonClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
         _slotElement.RemoveFromClassList("empty");
         _slotBg.style.backgroundImage = IconManager.Instance.LoadTextureByName($"action{actionId.ToString().PadLeft(3, '0')}");
     }

@@ -70,6 +70,9 @@ public class PlayerShortcuts : MonoBehaviour
             case Shortcut.TYPE_ITEM:
                 PlayerInventory.Instance.UseItem(shortcut.Id);
                 break;
+            case Shortcut.TYPE_ACTION:
+                PlayerActions.Instance.UseAction((ActionType)shortcut.Id);
+                break;
             default:
                 break;
         }
@@ -132,6 +135,13 @@ public class PlayerShortcuts : MonoBehaviour
         _shortcuts.Remove(slot);
     }
 
+
+    public void UpdatePageMapping(int skillbarIndex, int page)
+    {
+        _pageMap[skillbarIndex] = page;
+    }
+
+    #region ShortcutClientRequests
     // Shortcut dragged onto skillbar
     public void AddShortcut(int slot, int id, int type)
     {
@@ -168,8 +178,5 @@ public class PlayerShortcuts : MonoBehaviour
         GameClient.Instance.ClientPacketHandler.RequestRemoveShortcut(oldSlot);
     }
 
-    public void UpdatePageMapping(int skillbarIndex, int page)
-    {
-        _pageMap[skillbarIndex] = page;
-    }
+    #endregion
 }

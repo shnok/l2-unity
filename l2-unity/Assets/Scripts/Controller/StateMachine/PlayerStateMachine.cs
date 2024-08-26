@@ -56,6 +56,7 @@ public class PlayerStateMachine : MonoBehaviour
         _waitingForServerReply = value;
     }
 
+    #region Events
     /*
     =========================
     ========= EVENT =========
@@ -186,7 +187,9 @@ public class PlayerStateMachine : MonoBehaviour
             setIntention(Intention.INTENTION_IDLE);
         }
     }
+    #endregion
 
+    #region Actions
     /*
     =========================
     ========= THINK =========
@@ -194,25 +197,34 @@ public class PlayerStateMachine : MonoBehaviour
      */
     void thinkIdle()
     {
+        if (_intention != Intention.INTENTION_IDLE)
+        {
+            return;
+        }
+
         // Does the player want to move ?
         if (InputManager.Instance.Move || PlayerController.Instance.RunningToDestination)
         {
             setIntention(Intention.INTENTION_MOVE_TO);
         }
-
-        // If has a target and attack key pressed
-        if (InputManager.Instance.Attack && TargetManager.Instance.HasTarget())
-        {
-            setIntention(Intention.INTENTION_ATTACK);
-        }
     }
 
     void thinkMoveTo()
     {
+        if (_intention != Intention.INTENTION_MOVE_TO)
+        {
+            return;
+        }
+
         // Arrived to destination
         if (!InputManager.Instance.Move && !PlayerController.Instance.RunningToDestination && CanMove())
         {
             notifyEvent(Event.ARRIVED);
+        }
+
+        if (_intention != Intention.INTENTION_MOVE_TO)
+        {
+            return;
         }
 
         // If move input is pressed while running to target
@@ -222,10 +234,9 @@ public class PlayerStateMachine : MonoBehaviour
             TargetManager.Instance.ClearAttackTarget();
         }
 
-        // If has a target and attack key pressed
-        if (InputManager.Instance.Attack && TargetManager.Instance.HasTarget())
+        if (_intention != Intention.INTENTION_MOVE_TO)
         {
-            setIntention(Intention.INTENTION_ATTACK);
+            return;
         }
 
         // If the player wants to move but cant
@@ -237,14 +248,20 @@ public class PlayerStateMachine : MonoBehaviour
 
     void thinkAttack()
     {
+        if (_intention != Intention.INTENTION_ATTACK)
+        {
+            return;
+        }
+
         // Does the player want to move ?
         if (InputManager.Instance.Move || PlayerController.Instance.RunningToDestination)
         {
             setIntention(Intention.INTENTION_MOVE_TO);
         }
     }
+    #endregion
 
-
+    #region Intentions
     /*
     =========================
     ======= INTENTION =======
@@ -342,6 +359,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         SetState(PlayerState.IDLE);
     }
+    #endregion
 
     public bool CanMove()
     {
