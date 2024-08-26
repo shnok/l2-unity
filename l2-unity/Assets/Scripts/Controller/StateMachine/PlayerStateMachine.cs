@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class PlayerStateMachine : MonoBehaviour {
+public class PlayerStateMachine : MonoBehaviour
+{
     private static PlayerStateMachine _instance;
     public static PlayerStateMachine Instance { get { return _instance; } }
 
@@ -16,10 +17,14 @@ public class PlayerStateMachine : MonoBehaviour {
     public PlayerState State { get { return _state; } }
 
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
 
@@ -28,41 +33,50 @@ public class PlayerStateMachine : MonoBehaviour {
         TryGetComponent<NetworkCharacterControllerShare>(out _networkCharacterControllerShare);
     }
 
-    void OnDestroy() {
+    void OnDestroy()
+    {
         _instance = null;
     }
 
 
-    void Update() {
+    void Update()
+    {
         notifyEvent(Event.THINK);
     }
 
-    public void SetState(PlayerState state) {
-      //  Debug.Log($"[StateMachine] New state: {state}");
+    public void SetState(PlayerState state)
+    {
+        //  Debug.Log($"[StateMachine] New state: {state}");
         _state = state;
     }
 
-    public void SetWaitingForServerReply(bool value) {
-       // Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
+    public void SetWaitingForServerReply(bool value)
+    {
+        // Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
         _waitingForServerReply = value;
     }
 
+    #region Events
     /*
     =========================
     ========= EVENT =========
     =========================
      */
-    public void notifyEvent(Event evt) {
-        if (evt != Event.THINK) {
+    public void notifyEvent(Event evt)
+    {
+        if (evt != Event.THINK)
+        {
             _lastEvent = evt;
-        //    Debug.Log($"[StateMachine] New event: {evt}");
+            //    Debug.Log($"[StateMachine] New event: {evt}");
         }
 
         notifyEvent(evt, null);
     }
 
-    public void notifyEvent(Event evt, Entity go) {
-        switch (evt) {
+    public void notifyEvent(Event evt, Entity go)
+    {
+        switch (evt)
+        {
             case Event.THINK:
                 onEvtThink();
                 break;
@@ -84,55 +98,73 @@ public class PlayerStateMachine : MonoBehaviour {
         }
     }
 
-    private void onEvtThink() {
-        if (_thinking) {
+    private void onEvtThink()
+    {
+        if (_thinking)
+        {
             return;
         }
 
         _thinking = true;
 
-        if (_intention == Intention.INTENTION_IDLE) {
+        if (_intention == Intention.INTENTION_IDLE)
+        {
             thinkIdle();
         }
 
-        if (_intention == Intention.INTENTION_MOVE_TO) {
+        if (_intention == Intention.INTENTION_MOVE_TO)
+        {
             thinkMoveTo();
         }
 
-        if (_intention == Intention.INTENTION_ATTACK) {
+        if (_intention == Intention.INTENTION_ATTACK)
+        {
             thinkAttack();
         }
 
         _thinking = false;
     }
 
-    private void onEvtDead() {
+    private void onEvtDead()
+    {
         SetState(PlayerState.DEAD);
     }
 
-    private void onEvtArrived() {
-        if(_intention != Intention.INTENTION_ATTACK) {
-            if(TargetManager.Instance.HasAttackTarget()) {
+    private void onEvtArrived()
+    {
+        if (_intention != Intention.INTENTION_ATTACK)
+        {
+            if (TargetManager.Instance.HasAttackTarget())
+            {
                 // arrived to target position
                 setIntention(Intention.INTENTION_ATTACK);
-            } else {
+            }
+            else
+            {
                 // regular player movement
                 setIntention(Intention.INTENTION_IDLE);
             }
         }
     }
 
-    private void onEvtAttacked(Entity attacker) {
+    private void onEvtAttacked(Entity attacker)
+    {
 
     }
 
-    private void onEvtReadyToAct() {
-        if (_intention == Intention.INTENTION_ATTACK) {
-            if (_waitingForServerReply) {
+    private void onEvtReadyToAct()
+    {
+        if (_intention == Intention.INTENTION_ATTACK)
+        {
+            if (_waitingForServerReply)
+            {
                 SetWaitingForServerReply(false);
                 SetState(PlayerState.ATTACKING);
-            } else {
-                if (TargetManager.Instance.Target == null) {
+            }
+            else
+            {
+                if (TargetManager.Instance.Target == null)
+                {
                     notifyEvent(Event.CANCEL);
                     return;
                 }
@@ -141,80 +173,113 @@ public class PlayerStateMachine : MonoBehaviour {
 
                 SetWaitingForServerReply(true);
             }
-        } else if (_intention == Intention.INTENTION_MOVE_TO) {
+        }
+        else if (_intention == Intention.INTENTION_MOVE_TO)
+        {
             SetState(PlayerState.RUNNING);
         }
     }
 
-    private void onEvtCancel() {
-        if (_intention == Intention.INTENTION_ATTACK) {
+    private void onEvtCancel()
+    {
+        if (_intention == Intention.INTENTION_ATTACK)
+        {
             setIntention(Intention.INTENTION_IDLE);
         }
     }
+    #endregion
 
+    #region Actions
     /*
     =========================
     ========= THINK =========
     =========================
      */
-    void thinkIdle() {
-        // Does the player want to move ?
-        if (InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) {
-            setIntention(Intention.INTENTION_MOVE_TO);
+    void thinkIdle()
+    {
+        if (_intention != Intention.INTENTION_IDLE)
+        {
+            return;
         }
 
-        // If has a target and attack key pressed
-        if (InputManager.Instance.IsInputPressed(InputType.Attack) && TargetManager.Instance.HasTarget()) {
-            setIntention(Intention.INTENTION_ATTACK);
+        // Does the player want to move ?
+        if (InputManager.Instance.Move || PlayerController.Instance.RunningToDestination)
+        {
+            setIntention(Intention.INTENTION_MOVE_TO);
         }
     }
 
-    void thinkMoveTo() {
+    void thinkMoveTo()
+    {
+        if (_intention != Intention.INTENTION_MOVE_TO)
+        {
+            return;
+        }
+
         // Arrived to destination
-        if (!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToDestination && CanMove()) {
+        if (!InputManager.Instance.Move && !PlayerController.Instance.RunningToDestination && CanMove())
+        {
             notifyEvent(Event.ARRIVED);
         }
 
+        if (_intention != Intention.INTENTION_MOVE_TO)
+        {
+            return;
+        }
+
         // If move input is pressed while running to target
-        if (TargetManager.Instance.HasAttackTarget() && InputManager.Instance.IsInputPressed(InputType.Move)) {
+        if (TargetManager.Instance.HasAttackTarget() && InputManager.Instance.Move)
+        {
             // Cancel follow target
             TargetManager.Instance.ClearAttackTarget();
         }
 
-        // If has a target and attack key pressed
-        if (InputManager.Instance.IsInputPressed(InputType.Attack) && TargetManager.Instance.HasTarget()) {
-            setIntention(Intention.INTENTION_ATTACK);
+        if (_intention != Intention.INTENTION_MOVE_TO)
+        {
+            return;
         }
 
         // If the player wants to move but cant
-        if ((InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) && !CanMove()) {
+        if ((InputManager.Instance.Move || PlayerController.Instance.RunningToDestination) && !CanMove())
+        {
             setIntention(Intention.INTENTION_MOVE_TO);
         }
     }
 
-    void thinkAttack() {
+    void thinkAttack()
+    {
+        if (_intention != Intention.INTENTION_ATTACK)
+        {
+            return;
+        }
+
         // Does the player want to move ?
-        if (InputManager.Instance.IsInputPressed(InputType.Move) || PlayerController.Instance.RunningToDestination) {
+        if (InputManager.Instance.Move || PlayerController.Instance.RunningToDestination)
+        {
             setIntention(Intention.INTENTION_MOVE_TO);
         }
     }
+    #endregion
 
-
+    #region Intentions
     /*
     =========================
     ======= INTENTION =======
     =========================
     */
-    public void setIntention(Intention intention) {
+    public void setIntention(Intention intention)
+    {
         setIntention(intention, null);
     }
 
-    public void setIntention(Intention intention, object arg0) {
-       // Debug.Log($"[StateMachine] New intention: {intention}");
+    public void setIntention(Intention intention, object arg0)
+    {
+        // Debug.Log($"[StateMachine] New intention: {intention}");
 
         _intention = intention;
 
-        switch (intention) {
+        switch (intention)
+        {
             case Intention.INTENTION_IDLE:
                 onIntentionIdle();
                 break;
@@ -222,7 +287,7 @@ public class PlayerStateMachine : MonoBehaviour {
                 onIntentionMoveTo(arg0);
                 break;
             case Intention.INTENTION_ATTACK:
-                onIntentionAttack((Entity) arg0);
+                onIntentionAttack((Entity)arg0);
                 break;
             case Intention.INTENTION_FOLLOW:
                 onIntentionFollow();
@@ -230,12 +295,15 @@ public class PlayerStateMachine : MonoBehaviour {
         }
     }
 
-    private void onIntentionAttack(Entity entity) {
-        if (CanMove()) {
+    private void onIntentionAttack(Entity entity)
+    {
+        if (CanMove())
+        {
 
             Transform target = TargetManager.Instance.Target.Data.ObjectTransform;
 
-            if (target == null) {
+            if (target == null)
+            {
                 Debug.Log("Target is null, CANCEL event sent");
                 notifyEvent(Event.CANCEL);
                 return;
@@ -248,55 +316,72 @@ public class PlayerStateMachine : MonoBehaviour {
             Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
 
             // Is close enough? Is player already waiting for server reply?
-            if (distance <= attackRange * 0.9f && !_waitingForServerReply) {
+            if (distance <= attackRange * 0.9f && !_waitingForServerReply)
+            {
                 notifyEvent(Event.READY_TO_ACT);
-            } else {
+            }
+            else
+            {
                 // Move to target with a 10% error margin
                 PathFinderController.Instance.MoveTo(target.position, ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange * 0.9f);
             }
         }
     }
 
-    private void onIntentionFollow() {
+    private void onIntentionFollow()
+    {
 
     }
 
-    private void onIntentionMoveTo(object arg0) {
-        if (arg0 != null) {
+    private void onIntentionMoveTo(object arg0)
+    {
+        if (arg0 != null)
+        {
             PathFinderController.Instance.MoveTo((Vector3)arg0);
         }
 
-        if (CanMove()) {
+        if (CanMove())
+        {
             SetState(PlayerState.RUNNING);
-        } else if(!_waitingForServerReply) {
+        }
+        else if (!_waitingForServerReply)
+        {
             SetWaitingForServerReply(true);
             GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(Vector3.zero);
-        } else {
+        }
+        else
+        {
             PlayerController.Instance.StopMoving();
         }
     }
 
-    private void onIntentionIdle() {
+    private void onIntentionIdle()
+    {
         SetState(PlayerState.IDLE);
     }
+    #endregion
 
-    public bool CanMove() {
+    public bool CanMove()
+    {
         return (_state == PlayerState.IDLE
             || _state == PlayerState.RUNNING
             || _state == PlayerState.WALKING);
     }
 
 
-    public void OnReachingTarget() {
-      //  Debug.Log("On Reaching Target");
+    public void OnReachingTarget()
+    {
+        //  Debug.Log("On Reaching Target");
         PathFinderController.Instance.ClearPath();
         PlayerController.Instance.ResetDestination();
 
-        if (_networkTransformShare != null) {
+        if (_networkTransformShare != null)
+        {
             _networkTransformShare.SharePosition();
         }
 
-        if (_networkCharacterControllerShare != null) {
+        if (_networkCharacterControllerShare != null)
+        {
             // _networkCharacterControllerShare.ShareMoveDirection(Vector3.zero);
         }
 
@@ -305,15 +390,18 @@ public class PlayerStateMachine : MonoBehaviour {
         GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack();
     }
 
-    public void OnAutoAttackStart() {
+    public void OnAutoAttackStart()
+    {
         SetWaitingForServerReply(false);
-        if(PlayerEntity.Instance.StartAutoAttacking()) {
+        if (PlayerEntity.Instance.StartAutoAttacking())
+        {
             PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
         }
         notifyEvent(Event.READY_TO_ACT);
     }
 
-    public void OnAutoAttackStop() {
+    public void OnAutoAttackStop()
+    {
         SetWaitingForServerReply(false);
         PlayerEntity.Instance.StopAutoAttacking();
         PlayerController.Instance.StopLookAt();
@@ -321,21 +409,25 @@ public class PlayerStateMachine : MonoBehaviour {
     }
 
     // Autoattack failed (entity probably too far)
-    public void OnAutoAttackFailed() {
+    public void OnAutoAttackFailed()
+    {
         SetWaitingForServerReply(false);
-        PlayerEntity.Instance.StopAutoAttacking(); 
+        PlayerEntity.Instance.StopAutoAttacking();
         notifyEvent(Event.CANCEL);
         // PlayerController.Instance.SetCanMove(true);
     }
 
-    public void OnMoveAllowed() {
+    public void OnMoveAllowed()
+    {
         SetWaitingForServerReply(false);
         notifyEvent(Event.READY_TO_ACT);
     }
 
-    public void OnMoveFailed() {
+    public void OnMoveFailed()
+    {
         SetWaitingForServerReply(false);
-        if(CanMove()) {
+        if (CanMove())
+        {
             Debug.LogWarning("Player move failed but can move !");
             SetState(PlayerState.ATTACKING);
         }

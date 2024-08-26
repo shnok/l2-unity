@@ -2,32 +2,38 @@ using UnityEngine;
 using System;
 using static SMParam;
 
-public class SystemMessagePacket : ServerPacket {
+public class SystemMessagePacket : ServerPacket
+{
     private SMParam[] _params;
     private int _smId;
 
     public SMParam[] Params { get { return _params; } }
     public int Id { get { return _smId; } }
 
-    public SystemMessagePacket(byte[] d) : base(d) {
+    public SystemMessagePacket(byte[] d) : base(d)
+    {
         Parse();
     }
-    
-    public override void Parse() {    
-        try {
+
+    public override void Parse()
+    {
+        try
+        {
             _smId = ReadI();
 
             byte paramCount = ReadB();
 
             _params = new SMParam[paramCount];
 
-            for (int i = 0; i < paramCount; i++) {
+            for (int i = 0; i < paramCount; i++)
+            {
 
                 byte paramType = ReadB();
 
-                SMParam param = new SMParam((SMParamType) paramType);
+                SMParam param = new SMParam((SMParamType)paramType);
 
-                switch ((SMParamType)paramType) {
+                switch ((SMParamType)paramType)
+                {
                     case SMParamType.TYPE_TEXT:
                     case SMParamType.TYPE_PLAYER_NAME:
                         param.SetValue(ReadS());
@@ -62,8 +68,10 @@ public class SystemMessagePacket : ServerPacket {
 
                 _params[i] = param;
             }
-          
-        } catch(Exception e) {
+
+        }
+        catch (Exception e)
+        {
             Debug.LogError(e);
         }
     }

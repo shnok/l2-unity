@@ -1,0 +1,75 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="Slot" src="project://database/Assets/Resources/Data/UI/_Elements/Template/Slot.uxml?fileID=9197481963319205126&amp;guid=9d85f669bd3786246b11558e35706780&amp;type=3#Slot" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <ui:VisualElement name="SkillBar1" class="skillbar skillbar-vertical" style="height: 508px; min-height: 508px;">
+        <ui:VisualElement name="Wrapper" class="skillbar-wrapper skillbar-wrapper-vertical">
+            <ui:VisualElement name="DragArea" class="skillbar-drag skillbar-drag-vertical">
+                <ui:GroupBox name="Frame_DF_Ver" class="frame_df_ver frame_df_ver-vertical">
+                    <ui:VisualElement style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Frame/Frame_DF_Ver/Frame_DF_Ver_Small_Top.png?fileID=2800000&amp;guid=3616eb66b6343964d92d1c6d7d5a936d&amp;type=3#Frame_DF_Ver_Small_Top&apos;); height: 8px; max-height: 8px; -unity-slice-left: 3; -unity-slice-top: 3; -unity-slice-right: 3; -unity-slice-bottom: 3; -unity-slice-scale: 0.9px;" />
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Frame/Frame_DF_Ver/Frame_DF_Ver_Small_Center.png?fileID=2800000&amp;guid=3adb856d45b78b242a89388ef2b70652&amp;type=3#Frame_DF_Ver_Small_Center&apos;); -unity-slice-left: 3; -unity-slice-top: 3; -unity-slice-right: 3; -unity-slice-bottom: 3; -unity-slice-scale: 0.9px;" />
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Frame/Frame_DF_Ver/Frame_DF_Ver_Small_Center.png?fileID=2800000&amp;guid=3adb856d45b78b242a89388ef2b70652&amp;type=3#Frame_DF_Ver_Small_Center&apos;); -unity-slice-left: 3; -unity-slice-top: 3; -unity-slice-right: 3; -unity-slice-bottom: 3; -unity-slice-scale: 0.9px;" />
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/Resources/Data/UI/Assets/Frame/Frame_DF_Ver/Frame_DF_Ver_Small_Bottom.png?fileID=2800000&amp;guid=4e98b48730be8f04ba5e021a1a1a32bc&amp;type=3#Frame_DF_Ver_Small_Bottom&apos;); height: 8px; max-height: 8px; -unity-slice-left: 3; -unity-slice-top: 3; -unity-slice-right: 3; -unity-slice-bottom: 3; -unity-slice-scale: 0.9px;" />
+                </ui:GroupBox>
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ExpandBtn" class="skillbar-footer-btn button-expand button-expand-vertical" />
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="MinimizeBtn" class="skillbar-footer-btn button-minimize button-minimize-vertical" />
+            </ui:VisualElement>
+            <ui:VisualElement name="InnerContainer" class="skillbar-inner-container skillbar-inner-container-vertical">
+                <ui:VisualElement name="NumberGroupBox" class="skillbar-arrow-control skillbar-arrow-control-vertical">
+                    <ui:VisualElement name="SkillArrowInputVertical" class="skill-arrow-input skill-arrow-input-vertical">
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="RightArrow" class="skillbar-footer-btn skillbar-arrow-input-right" style="margin-right: 5px;" />
+                        <ui:TextField picking-mode="Ignore" focusable="false" readonly="true" name="DataField" value="1" class="skill-arrow-input-label" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="LeftArrow" class="skillbar-footer-btn skillbar-arrow-input-left" style="margin-left: -1px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="SlotContainer" class="skillbar-slot-container skillbar-slot-container-vertical" style="margin-left: 4px; margin-top: 0; align-items: flex-start; padding-top: 1px; padding-bottom: 5px;">
+                    <ui:VisualElement name="Darkener" class="skillbar-darkener skillbar-darkener-vertical" style="margin-left: -3px; width: 41px; margin-top: 151px; height: 153px;" />
+                    <ui:VisualElement name="SlotAnchor1" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor2" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor3" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor4" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Spacer" class="skillbar-slot-spacer" style="flex-shrink: 0; width: 39px; flex-grow: 1;" />
+                    <ui:VisualElement name="SlotAnchor5" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor6" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor7" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor8" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Spacer" class="skillbar-slot-spacer" style="flex-shrink: 0; width: 38px;" />
+                    <ui:VisualElement name="SlotAnchor9" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor10" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor11" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SlotAnchor12" class="skillbar-slot-anchor skillbar-slot-anchor-vertical">
+                        <ui:Instance template="Slot" name="Slot" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="FooterContainer" class="footer-container-vertical">
+                    <ui:VisualElement name="Footer" class="skillbar-footer skillbar-footer-vertical">
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="TooltipBtn" class="skillbar-footer-btn button-tooltip" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="RotateBtn" class="skillbar-footer-btn button-rotate" style="margin-top: 1px;" />
+                        <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="LockBtn" class="skillbar-footer-btn button-lock" style="margin-top: 1px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

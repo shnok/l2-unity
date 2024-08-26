@@ -14,13 +14,19 @@ public class PlayerStateAction : PlayerStateBase
     //}
 
 
-    protected bool ShouldJump(bool run) {
-        if (PlayerStateMachine.Instance.State == PlayerState.IDLE || PlayerStateMachine.Instance.State == PlayerState.RUNNING) {
-            if (InputManager.Instance.IsInputPressed(InputType.Jump)) {
+    protected bool ShouldJump(bool run)
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.IDLE || PlayerStateMachine.Instance.State == PlayerState.RUNNING)
+        {
+            if (InputManager.Instance.Jump)
+            {
                 CameraController.Instance.StickToBone = true;
-                if (run) {
+                if (run)
+                {
                     SetBool("run_jump", false, true);
-                } else {
+                }
+                else
+                {
                     SetBool("jump", false, true);
                 }
                 return true;
@@ -30,8 +36,10 @@ public class PlayerStateAction : PlayerStateBase
         return false;
     }
 
-    protected bool ShouldRun() {
-        if (PlayerStateMachine.Instance.State == PlayerState.RUNNING) {
+    protected bool ShouldRun()
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.RUNNING)
+        {
             SetBool("run", true, true);
             return true;
         }
@@ -39,8 +47,10 @@ public class PlayerStateAction : PlayerStateBase
         return false;
     }
 
-    protected bool ShouldIdle() {
-        if (PlayerStateMachine.Instance.State == PlayerState.IDLE) {
+    protected bool ShouldIdle()
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.IDLE)
+        {
             SetBool("wait", true, true);
             return true;
         }
@@ -49,16 +59,20 @@ public class PlayerStateAction : PlayerStateBase
     }
 
 
-    protected bool ShouldAttack() {
-        if (PlayerStateMachine.Instance.State == PlayerState.ATTACKING) {
+    protected bool ShouldAttack()
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.ATTACKING)
+        {
             return true;
         }
 
         return false;
     }
 
-    protected bool ShouldDie() {
-        if (PlayerStateMachine.Instance.State == PlayerState.DEAD) {
+    protected bool ShouldDie()
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.DEAD)
+        {
             SetBool("death", false, true);
             return true;
         }
@@ -79,11 +93,14 @@ public class PlayerStateAction : PlayerStateBase
     //    return false;
     //}
 
-    protected bool ShouldAtkWait() {
+    protected bool ShouldAtkWait()
+    {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         if (PlayerStateMachine.Instance.State == PlayerState.IDLE
-             && now - _entity.StopAutoAttackTime < 5000) {
-            if (PlayerEntity.Instance.AttackTarget == null) {
+             && now - _entity.StopAutoAttackTime < 5000)
+        {
+            if (PlayerEntity.Instance.AttackTarget == null)
+            {
                 SetBool("atkwait", true, true, false);
                 return true;
             }

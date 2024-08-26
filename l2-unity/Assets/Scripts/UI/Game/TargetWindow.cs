@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class TargetWindow : L2Window
+public class TargetWindow : L2PopupWindow
 {
     private Label _nameLabel;
     private VisualElement _HPBar;
@@ -119,11 +119,16 @@ public class TargetWindow : L2Window
     public override void ShowWindow()
     {
         base.ShowWindow();
+        L2GameUI.Instance.WindowOpened(this);
     }
 
     public override void HideWindow()
     {
         base.HideWindow();
+
+        TargetManager.Instance.ClearTarget();
+
         AudioManager.Instance.PlayUISound("window_close");
+        L2GameUI.Instance.WindowClosed(this);
     }
 }

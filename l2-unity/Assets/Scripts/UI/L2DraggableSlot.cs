@@ -1,12 +1,18 @@
 using System;
 using UnityEngine.UIElements;
 
-public class L2DraggableSlot : L2Slot
+public class L2DraggableSlot : L2ClickableSlot
 {
     protected SlotDragManipulator _slotDragManipulator;
 
-    public L2DraggableSlot(int position, VisualElement slotElement, SlotType slotType) : base(slotElement, position, slotType)
+    public L2DraggableSlot(int position, VisualElement slotElement, SlotType slotType, bool leftMouseUp, bool rightMouseup)
+    : base(slotElement, position, slotType, leftMouseUp, rightMouseup)
     {
+        if (slotElement == null)
+        {
+            return;
+        }
+
         if (_slotDragManipulator == null)
         {
             _slotDragManipulator = new SlotDragManipulator(_slotElement, this);
@@ -17,6 +23,11 @@ public class L2DraggableSlot : L2Slot
     public override void ClearManipulators()
     {
         base.ClearManipulators();
+
+        if (_slotElement == null)
+        {
+            return;
+        }
 
         if (_slotDragManipulator != null)
         {

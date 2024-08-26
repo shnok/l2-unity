@@ -45,7 +45,7 @@ public class InventoryGearTab : L2Tab
             {
                 if (kvp.Value != null)
                 {
-                    kvp.Value.UnregisterCallbacks();
+                    kvp.Value.UnregisterClickableCallback();
                     kvp.Value.ClearManipulators();
                 }
             }

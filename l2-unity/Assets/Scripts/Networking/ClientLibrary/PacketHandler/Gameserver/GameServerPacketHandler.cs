@@ -99,6 +99,12 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.RestartReponse:
                 OnRestartResponse(data);
                 break;
+            case GameServerPacketType.ShortcutInit:
+                OnShortcutInit(data);
+                break;
+            case GameServerPacketType.ShortcutRegister:
+                OnShortcutRegister(data);
+                break;
         }
     }
 
@@ -403,5 +409,18 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         // Do nothing, handle upcoming charselect packet instead
         GameManager.Instance.GameState = GameState.RESTARTING;
+    }
+
+
+    private void OnShortcutInit(byte[] data)
+    {
+        ShortcutInitPacket packet = new ShortcutInitPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.SetShortcutList(packet.Shortcuts));
+    }
+
+    private void OnShortcutRegister(byte[] data)
+    {
+        ShortcutRegisterPacket packet = new ShortcutRegisterPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.RegisterShortcut(packet.NewShortcut));
     }
 }

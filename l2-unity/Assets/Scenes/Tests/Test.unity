@@ -123,6 +123,103 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &113702080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 113702082}
+  - component: {fileID: 113702081}
+  - component: {fileID: 113702083}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &113702081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113702080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: c39e911f6bbd0b445ba62379dbfaf06d, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: KBM
+  m_DefaultActionMap: InGame
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!4 &113702082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113702080}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4559.8335, y: -119.98817, z: -318.63187}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &113702083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113702080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c9181601ffd73f4ea42e97be3615453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <LeftClickDown>k__BackingField: 0
+  <RightClickDown>k__BackingField: 0
+  <RightClickUp>k__BackingField: 0
+  <LeftClickHeld>k__BackingField: 0
+  <RightClickHeld>k__BackingField: 0
+  <CameraAxis>k__BackingField: {x: 0, y: 0}
+  <CameraMoving>k__BackingField: 0
+  <TurnCamera>k__BackingField: 0
+  <ZoomAxis>k__BackingField: 0
+  <MoveInput>k__BackingField: {x: 0, y: 0}
+  <Move>k__BackingField: 0
+  <MoveForward>k__BackingField: 0
+  <Jump>k__BackingField: 0
+  <Attack>k__BackingField: 0
+  <NextTarget>k__BackingField: 0
+  <Sit>k__BackingField: 0
+  <OpenInventory>k__BackingField: 0
+  <OpenCharacerStatus>k__BackingField: 0
+  <OpenSystemMenu>k__BackingField: 0
+  <OpenActions>k__BackingField: 0
+  <CloseWindow>k__BackingField: 0
+  <Validate>k__BackingField: 0
 --- !u!1 &149149311
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,6 +234,11 @@ GameObject:
   - component: {fileID: 149149315}
   - component: {fileID: 149149316}
   - component: {fileID: 149149317}
+  - component: {fileID: 149149318}
+  - component: {fileID: 149149319}
+  - component: {fileID: 149149320}
+  - component: {fileID: 149149321}
+  - component: {fileID: 149149322}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -156,7 +258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ecd1a0a0495f174fb7ecee096229e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minimized: 0
   _expanded: 0
   _gearTab:
     _tabName: Tab
@@ -252,6 +353,83 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fe0768350cff00408db1a575d04517b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _draggedSlot:
+    _id: 0
+    _position: 0
+    _slotType: 0
+  _hoverSlot:
+    _id: 0
+    _position: 0
+    _slotType: 0
+--- !u!114 &149149318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149149311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06673b42d8b149d4aafa4bb6207728d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultSkillbarCount: 2
+  _expandedSkillbarCount: 0
+--- !u!114 &149149319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149149311}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14bf3f2dcfcbba64aade5b0f3ee646a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &149149320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149149311}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c3fb83fa7e05d4e85e87bffbb0b9f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _chatWindowMinWidth: 225
+  _chatWindowMaxWidth: 500
+  _chatWindowMinHeight: 175
+  _chatWindowMaxHeight: 600
+  _tabs: []
+  _chatOpened: 0
+  _chatInputCharacterLimit: 64
+--- !u!114 &149149321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149149311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a74cdee76f988fd4aa5bfa3027894c59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &149149322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149149311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b9275d71bba04749bfde79eeea369f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &445805727
@@ -896,3 +1074,4 @@ SceneRoots:
   - {fileID: 692854680}
   - {fileID: 149149314}
   - {fileID: 742913640}
+  - {fileID: 113702082}

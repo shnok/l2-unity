@@ -27,5 +27,7 @@ public enum GameServerPacketType : byte
     InventoryItemList = 0x18,
     InventoryUpdate = 0x19,
     LeaveWorld = 0x1A,
-    RestartReponse = 0x1B
+    RestartReponse = 0x1B,
+    ShortcutInit = 0x1C,
+    ShortcutRegister = 0x1D
 }

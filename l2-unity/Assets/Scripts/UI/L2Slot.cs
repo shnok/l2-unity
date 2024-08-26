@@ -37,16 +37,18 @@ public class L2Slot
     public VisualElement SlotBg { get { return _slotBg; } }
     public VisualElement SlotElement { get { return _slotElement; } }
 
-    public L2Slot(VisualElement slotElement, int position, int id, string name, string description, string icon, SlotType type)
+    public L2Slot(VisualElement slotElement)
     {
         _slotElement = slotElement;
-        _position = position;
-        _id = id;
-        _name = name;
-        _description = description;
-        _icon = icon;
-        _slotType = type;
+        _slotElement.AddToClassList("dragged");
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
+
+        _position = -1;
+        _id = -1;
+        _name = "";
+        _description = "";
+        _icon = "";
+        _slotType = SlotType.Other;
     }
 
     public L2Slot(VisualElement slotElement, int position, SlotType type)
@@ -54,6 +56,12 @@ public class L2Slot
         _slotElement = slotElement;
         _position = position;
         _slotType = type;
+
+        if (slotElement == null)
+        {
+            return;
+        }
+
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
 
         if (_tooltipManipulator == null)
@@ -68,53 +76,15 @@ public class L2Slot
             _slotElement.AddManipulator(_hoverManipulator);
         }
 
-        RegisterCallbacks();
-    }
-
-    protected void HandleSlotClick(MouseDownEvent evt)
-    {
-        if (evt.button == 0)
-        {
-            HandleLeftClick();
-        }
-        else if (evt.button == 1)
-        {
-            HandleRightClick();
-        }
-        else
-        {
-            HandleMiddleClick();
-        }
-    }
-
-    protected void RegisterCallbacks()
-    {
-        _slotElement.RegisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
-    }
-
-    public void UnregisterCallbacks()
-    {
-        _slotElement.UnregisterCallback<MouseDownEvent>(HandleSlotClick, TrickleDown.TrickleDown);
-    }
-
-    protected virtual void HandleLeftClick() { }
-    protected virtual void HandleRightClick() { }
-    protected virtual void HandleMiddleClick() { }
-
-    public void SetSelected()
-    {
-        Debug.Log($"Slot {_position} selected.");
-        _slotElement.AddToClassList("selected");
-    }
-
-    public void UnSelect()
-    {
-        Debug.Log($"Slot {_position} unselected.");
-        _slotElement.RemoveFromClassList("selected");
     }
 
     public virtual void ClearManipulators()
     {
+        if (_slotElement == null)
+        {
+            return;
+        }
+
         if (_tooltipManipulator != null)
         {
             _tooltipManipulator.Clear();

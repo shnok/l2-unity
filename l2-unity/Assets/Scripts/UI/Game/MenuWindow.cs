@@ -46,7 +46,7 @@ public class MenuWindow : L2Window
 
         var actionBtn = _windowEle.Q<Button>("ActionButton");
         actionBtn.AddManipulator(new ButtonClickSoundManipulator(actionBtn));
-        //actionBtn.RegisterCallback<ClickEvent>((evt) => ActionWindow.Instance.ToggleHideWindow());
+        actionBtn.RegisterCallback<ClickEvent>((evt) => ActionWindow.Instance.ToggleHideWindow());
 
         var skillBtn = _windowEle.Q<Button>("SkillButton");
         skillBtn.AddManipulator(new ButtonClickSoundManipulator(skillBtn));
@@ -64,8 +64,7 @@ public class MenuWindow : L2Window
 
         var sysBtn = _windowEle.Q<Button>("SystemMenuButton");
         sysBtn.AddManipulator(new ButtonClickSoundManipulator(sysBtn));
-        //sysBtn.RegisterCallback<ClickEvent>((evt) => GameClient.Instance.Disconnect());
-        sysBtn.RegisterCallback<ClickEvent>((evt) => SystemMenuWindow.Instance.ToggleHideWindow(_windowEle.worldBound.position));
+        sysBtn.RegisterCallback<ClickEvent>((evt) => SystemMenuWindow.Instance.ToggleHideWindow());
 
         root.Add(_windowEle);
 
@@ -74,5 +73,10 @@ public class MenuWindow : L2Window
         var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
         DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle);
         dragAreaEle.AddManipulator(drag);
+    }
+
+    public Vector2 GetWindowPosition()
+    {
+        return _windowEle.worldBound.position;
     }
 }
