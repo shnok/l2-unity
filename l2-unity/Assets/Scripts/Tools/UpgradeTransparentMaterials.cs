@@ -33,22 +33,32 @@ public class UpgradeTransparentMaterials : MonoBehaviour
 
             if (material.shader.name == oldShaderName)
             {
+                Texture t = material.mainTexture;
+                Debug.Log(t);
 
                 material.shader = Shader.Find(newShaderName);
-                material.SetFloat("_Cull", 2f);
+                // Set the Cull Mode to Off (which means double-sided rendering)
+                material.SetFloat("_Cull", (float)UnityEngine.Rendering.CullMode.Off);
+
+                // Ensure the shader knows we want two-sided rendering
+                material.SetFloat("_DoubleSidedEnable", 1);
+
+                // If your shader uses the _DoubleSidedGIMode property, you might want to set it as well
+                // 0 = Flip Backfaces, 1 = Mirror, 2 = None
+                material.SetFloat("_DoubleSidedGIMode", 0);
                 material.SetColor("_BaseColor", Color.white);
                 material.SetFloat("_Smoothness", 0);
                 material.SetFloat("_EnvironmentReflections", 0f);
                 material.SetFloat("_SpecularHighlights", 0f);
                 // Enable alpha clipping
                 material.SetFloat("_AlphaClip", 1); // or true, depending on the shader
-
+                material.mainTexture = t;
+                material.SetTexture("_BaseMap", t);
                 // Set the alpha clip threshold
                 material.SetFloat("_Cutoff", 0.5f);
 
                 material.EnableKeyword("_ALPHATEST_ON");
-                Texture t = material.mainTexture;
-                Debug.Log(t);
+
                 // material.shader = newShader;
                 // EditorUtility.SetDirty(material);
                 replacedCount++;
