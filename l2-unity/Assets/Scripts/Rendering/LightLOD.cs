@@ -24,8 +24,12 @@ namespace LlamAcademy.LightLOD
 
         private void Awake()
         {
-            _lastUpdate = 0;
             Light = GetComponent<Light>();
+        }
+
+        private void Start()
+        {
+            _lastUpdate = 0;
         }
 
 
@@ -42,7 +46,6 @@ namespace LlamAcademy.LightLOD
 
             if (Time.time - _lastUpdate >= UpdateDelay)
             {
-                Debug.LogWarning(Time.time - _lastUpdate);
                 _lastUpdate = Time.time;
 #if (UNITY_EDITOR)
                 if (EditorApplication.isPlaying)
