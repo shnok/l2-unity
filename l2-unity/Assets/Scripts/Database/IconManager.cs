@@ -1,22 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IconManager
+public class IconTable
 {
     private string _iconFolder = "Data\\SysTextures\\Icon";
 
     private Texture2D _noImageIcon;
 
     private Dictionary<int, Texture2D> _icons = new Dictionary<int, Texture2D>();
+    private Dictionary<string, Texture2D> _keyIcons = new Dictionary<string, Texture2D>();
 
-    private static IconManager _instance;
-    public static IconManager Instance
+    private static IconTable _instance;
+    public static IconTable Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = new IconManager();
+                _instance = new IconTable();
             }
 
             return _instance;
@@ -26,9 +27,11 @@ public class IconManager
     public void Initialize()
     {
         _noImageIcon = GetNoImageIcon();
+        
+        CacheIcons();
     }
 
-    public void CacheIcons()
+    private void CacheIcons()
     {
         foreach (Weapon weapon in ItemTable.Instance.Weapons.Values)
         {

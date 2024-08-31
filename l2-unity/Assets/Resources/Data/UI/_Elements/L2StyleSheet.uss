@@ -1819,6 +1819,21 @@
     background-image: none;
 }
 
+.shortcut-key {
+    flex-grow: 1;
+    position: absolute;
+    height: 16px;
+    width: 32px;
+    top: 2px;
+    left: 2px;
+    flex-direction: row;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.skillbar-slot.empty .shortcut-key {
+    display: none;
+}
+
 .action-slot.empty .slot-bg-container {
     border-width: 0;
     padding: 0;

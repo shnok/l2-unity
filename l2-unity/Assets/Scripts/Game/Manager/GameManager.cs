@@ -48,12 +48,15 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
 
-        _loadingCamera = GameObject.Find("LoadingCamera").GetComponent<Camera>();
-        if (_loadingCamera == null)
+        GameObject camObject = GameObject.Find("LoadingCamera");
+        if (camObject == null)
         {
             Debug.LogError("Can't find loading camera");
             return;
         }
+
+        camObject.TryGetComponent(out _loadingCamera);
+
         StartLoading();
     }
 
@@ -81,8 +84,8 @@ public class GameManager : MonoBehaviour
         ModelTable.Instance.Initialize();
         LogongrpTable.Instance.Initialize();
         SystemMessageTable.Instance.Initialize();
-        IconManager.Instance.Initialize();
-        IconManager.Instance.CacheIcons();
+        IconTable.Instance.Initialize();
+        KeyImageTable.Instance.Initialize();
     }
 
     public void LogIn()

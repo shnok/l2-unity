@@ -26,9 +26,6 @@ public class InputManager : MonoBehaviour
     private InputAction _systemMenuAction;
     private InputAction _validateAction;
 
-    // Skillbar
-    private InputAction[,] _skillbarActions;
-
     #endregion
 
     #region InputValues
@@ -65,6 +62,8 @@ public class InputManager : MonoBehaviour
     [field: SerializeField] public bool OpenActions { get; private set; }
     [field: SerializeField] public bool CloseWindow { get; private set; }
     [field: SerializeField] public bool Validate { get; private set; }
+
+    public InputAction[,] SkillbarActions { get; private set; }
     public bool[,] SkillbarInputs { get; private set; }
 
     #endregion
@@ -111,13 +110,13 @@ public class InputManager : MonoBehaviour
         _systemMenuAction = _playerInput.actions["SystemMenu"];
         _validateAction = _playerInput.actions["Validate"];
 
-        _skillbarActions = new InputAction[5, 12];
+        SkillbarActions = new InputAction[5, 12];
 
         for (int skillbar = 1; skillbar <= 5; skillbar++)
         {
             for (int i = 1; i <= 12; i++)
             {
-                _skillbarActions[skillbar - 1, i - 1] = _playerInput.actions[$"Shortcut{skillbar}-{i}"];
+                SkillbarActions[skillbar - 1, i - 1] = _playerInput.actions[$"Shortcut{skillbar}-{i}"];
             }
         }
 
@@ -185,7 +184,7 @@ public class InputManager : MonoBehaviour
         {
             for (int i = 0; i < 12; i++)
             {
-                SkillbarInputs[skillbar, i] = _skillbarActions[skillbar, i].WasPerformedThisFrame();
+                SkillbarInputs[skillbar, i] = SkillbarActions[skillbar, i].WasPerformedThisFrame();
             }
         }
     }

@@ -64,7 +64,7 @@ public class InventorySlot : L2DraggableSlot
 
         if (_slotElement != null)
         {
-            StyleBackground background = new StyleBackground(IconManager.Instance.GetIcon(_id));
+            StyleBackground background = new StyleBackground(IconTable.Instance.GetIcon(_id));
             _slotBg.style.backgroundImage = background;
 
             AddTooltip(item);

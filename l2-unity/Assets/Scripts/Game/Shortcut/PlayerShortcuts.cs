@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerShortcuts : MonoBehaviour
 {
@@ -46,6 +47,11 @@ public class PlayerShortcuts : MonoBehaviour
             return;
         }
 
+        VerifySkillbarInputs();
+    }
+
+    private void VerifySkillbarInputs() 
+    {
         foreach (Shortcut shortcut in _shortcuts.Values)
         {
             for (int i = 0; i < _pageMap.Length; i++)
@@ -60,6 +66,11 @@ public class PlayerShortcuts : MonoBehaviour
                 }
             }
         }
+    }
+
+    public string GetKeybindForShortcut(int skillbarId, int slot) {
+        InputAction action = InputManager.Instance.SkillbarActions[skillbarId, slot];
+        return action.GetBindingDisplayString(0).ToUpper();
     }
 
     public void UseShortcut(Shortcut shortcut)

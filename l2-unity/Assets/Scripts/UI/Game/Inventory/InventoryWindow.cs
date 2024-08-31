@@ -58,6 +58,23 @@ public class InventoryWindow : L2PopupWindow
         {
             Destroy(this);
         }
+
+        // ItemTable.Instance.Initialize();
+        // ItemNameTable.Instance.Initialize();
+        // ItemStatDataTable.Instance.Initialize();
+        // ArmorgrpTable.Instance.Initialize();
+        // EtcItemgrpTable.Instance.Initialize();
+        // WeapongrpTable.Instance.Initialize();
+        // ItemTable.Instance.CacheItems();
+        // NpcgrpTable.Instance.Initialize();
+        // NpcNameTable.Instance.Initialize();
+        // ActionNameTable.Instance.Initialize();
+        // SysStringTable.Instance.Initialize();
+        // SkillNameTable.Instance.Initialize();
+        // SkillgrpTable.Instance.Initialize();
+        // SystemMessageTable.Instance.Initialize();
+        // IconTable.Instance.Initialize();
+        // KeyImageTable.Instance.Initialize();
     }
 
     private void OnDestroy()
@@ -131,7 +148,7 @@ public class InventoryWindow : L2PopupWindow
         UpdateItemList(_playerItems);
 
 #if UNITY_EDITOR
-        //DebugData();
+        // DebugData();
 #endif
     }
 
@@ -351,17 +368,6 @@ public class InventoryWindow : L2PopupWindow
 #if UNITY_EDITOR
     public void DebugData()
     {
-        /* TO REMOVE FOR TESTING ONLY */
-        ItemTable.Instance.Initialize();
-        ItemNameTable.Instance.Initialize();
-        ItemStatDataTable.Instance.Initialize();
-        ArmorgrpTable.Instance.Initialize();
-        EtcItemgrpTable.Instance.Initialize();
-        WeapongrpTable.Instance.Initialize();
-        ItemTable.Instance.CacheItems();
-        IconManager.Instance.Initialize();
-        IconManager.Instance.CacheIcons();
-
         /* TO REMOVE FOR TESTING ONLY */
 
         List<ItemInstance> _playerItems = new List<ItemInstance>();

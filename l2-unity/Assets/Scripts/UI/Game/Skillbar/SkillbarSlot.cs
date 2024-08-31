@@ -7,11 +7,17 @@ public class SkillbarSlot : L2ClickableSlot
     private ButtonClickSoundManipulator _buttonClickSoundManipulator;
     private L2Slot _innerSlot;
     private Shortcut _shortcut;
+    private int _skillbarId;
+    private int _slot;
+    private VisualElement _keyElement;
 
-    public SkillbarSlot(VisualElement slotElement, int position) : base(slotElement, position, SlotType.SkillBar, true, false)
+    public SkillbarSlot(VisualElement slotElement, int position, int skillbarId, int slot) : base(slotElement, position, SlotType.SkillBar, true, false)
     {
         _slotElement = slotElement;
         _position = position;
+        _skillbarId = skillbarId;
+        _slot = slot;
+        _keyElement = _slotElement.Q<VisualElement>("Key");
     }
 
     public void AssignShortcut(Shortcut shortcut)
@@ -45,7 +51,7 @@ public class SkillbarSlot : L2ClickableSlot
         ((InventorySlot)_innerSlot).AssignItem(item);
         ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
 
-        _slotElement.RemoveFromClassList("empty");
+        UpdateInputInfo();
     }
 
     public void AssignAction(int objectId)
@@ -54,9 +60,21 @@ public class SkillbarSlot : L2ClickableSlot
         ((ActionSlot)_innerSlot).AssignAction((ActionType)objectId);
         ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
 
-        _slotElement.RemoveFromClassList("empty");
+        UpdateInputInfo();
     }
 
+    private void UpdateInputInfo() {
+        _slotElement.RemoveFromClassList("empty");
+
+        string key = PlayerShortcuts.Instance.GetKeybindForShortcut(_skillbarId, _slot);
+
+        Texture2D inputTexture = KeyImageTable.Instance.LoadTextureByKey(key);
+
+        if(inputTexture != null) {
+            _keyElement.style.backgroundImage = inputTexture;
+            _keyElement.style.width = inputTexture.width;
+        }
+    }
 
     public override void ClearManipulators()
     {

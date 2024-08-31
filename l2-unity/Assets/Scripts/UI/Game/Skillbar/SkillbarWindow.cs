@@ -300,12 +300,12 @@ public class SkillbarWindow : L2PopupWindow
         List<Shortcut> shortcuts = new List<Shortcut>();
         for (int i = 0; i < PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR; i++)
         {
-            Shortcut shortcut = new Shortcut(i, 0, Shortcut.TYPE_ITEM, 57, -1);
+            Shortcut shortcut = new Shortcut(i, 0, Shortcut.TYPE_ACTION, (int) ActionType.Attack, -1);
             shortcuts.Add(shortcut);
         }
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR; i++)
         {
-            Shortcut shortcut = new Shortcut(i, 1, Shortcut.TYPE_ITEM, 57, -1);
+            Shortcut shortcut = new Shortcut(i, 1, Shortcut.TYPE_ACTION, (int) ActionType.Pickup, -1);
             shortcuts.Add(shortcut);
         }
 
