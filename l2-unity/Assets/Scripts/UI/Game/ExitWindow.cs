@@ -44,7 +44,7 @@ public class ExitWindow : L2PopupWindow
     {
         InitWindow(root);
 
-        root.Add(_windowEle);
+       // root.Add(_windowEle);
 
         yield return new WaitForEndOfFrame();
 

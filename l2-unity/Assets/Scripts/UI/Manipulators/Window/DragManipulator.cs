@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DragManipulator : PointerManipulator {
+public class DragManipulator : PointerManipulator
+{
     private VisualElement _root;
     private Vector2 _startMousePosition;
     private Vector2 _startPosition;
@@ -10,25 +11,29 @@ public class DragManipulator : PointerManipulator {
     private bool _bottomAnchor = true;
     public bool dragged = false;
 
-    public DragManipulator(VisualElement target, VisualElement root) {
+    public DragManipulator(VisualElement target, VisualElement root)
+    {
         this.target = target;
         this._root = root;
         UpdateAnchorType();
     }
 
-    protected override void RegisterCallbacksOnTarget() {
+    protected override void RegisterCallbacksOnTarget()
+    {
         target.RegisterCallback<PointerDownEvent>(PointerDownHandler, TrickleDown.TrickleDown);
         target.RegisterCallback<PointerMoveEvent>(PointerMoveHandler);
         target.RegisterCallback<PointerUpEvent>(PointerUpHandler);
     }
 
-    protected override void UnregisterCallbacksFromTarget() {
+    protected override void UnregisterCallbacksFromTarget()
+    {
         target.UnregisterCallback<PointerDownEvent>(PointerDownHandler);
         target.UnregisterCallback<PointerMoveEvent>(PointerMoveHandler);
         target.UnregisterCallback<PointerUpEvent>(PointerUpHandler);
     }
 
-    public void PointerDownHandler(PointerDownEvent evt) {
+    public void PointerDownHandler(PointerDownEvent evt)
+    {
         if (evt.button == 0)
         {
             dragged = false;
@@ -36,10 +41,10 @@ public class DragManipulator : PointerManipulator {
             _startPosition = _root.layout.position;// + target.layout.position;
             target.CapturePointer(evt.pointerId);
         }
-        evt.StopPropagation();
     }
 
-    public void PointerMoveHandler(PointerMoveEvent evt) {
+    public void PointerMoveHandler(PointerMoveEvent evt)
+    {
         if (target.HasPointerCapture(evt.pointerId))
         {
             dragged = true;
@@ -49,39 +54,47 @@ public class DragManipulator : PointerManipulator {
         evt.StopPropagation();
     }
 
-    public void PointerUpHandler(PointerUpEvent evt) {
+    public void PointerUpHandler(PointerUpEvent evt)
+    {
         if (target.HasPointerCapture(evt.pointerId))
         {
             target.ReleasePointer(evt.pointerId);
         }
-        evt.StopPropagation();
 
         UpdateAnchorType();
     }
 
     // Apply drag
-    private void DragWindow(Vector2 diff) {
+    private void DragWindow(Vector2 diff)
+    {
         UpdateAnchorType();
 
-        if (_rightAnchor) {
+        if (_rightAnchor)
+        {
             _root.style.right = Screen.width - _startPosition.x - _root.layout.width + diff.x;
             _root.style.left = StyleKeyword.Null;
-        } else {
+        }
+        else
+        {
             _root.style.left = _startPosition.x - diff.x;
             _root.style.right = StyleKeyword.Null;
         }
 
-        if (_bottomAnchor) {
+        if (_bottomAnchor)
+        {
             _root.style.bottom = Screen.height - _startPosition.y - _root.layout.height + diff.y;
             _root.style.top = StyleKeyword.Null;
-        } else {
+        }
+        else
+        {
             _root.style.top = _startPosition.y - diff.y;
             _root.style.bottom = StyleKeyword.Null;
         }
     }
 
     // Update the anchor based on the window position ratio
-    private void UpdateAnchorType() {
+    private void UpdateAnchorType()
+    {
         _rightAnchor = _root.layout.position.x + (_root.layout.width / 2f) >= Screen.width / 2f;
         _bottomAnchor = _root.layout.position.y + (_root.layout.height / 2f) >= Screen.height / 2f;
     }

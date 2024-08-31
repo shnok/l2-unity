@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5281045348642752118}
   - component: {fileID: 1117509276519485781}
   - component: {fileID: 4404761229312347620}
+  - component: {fileID: 3621843624747031418}
   m_Layer: 0
   m_Name: CookLight
   m_TagString: Untagged
@@ -92,8 +93,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!114 &4404761229312347620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 3
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 0
   m_LightLayerMask: 1
   m_RenderingLayers: 1
   m_CustomShadowLayers: 0
@@ -117,3 +122,35 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &3621843624747031418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135904318655300621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e687a076c06e96439a832fd1aa3c441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LightShouldBeOn: 1
+  UpdateDelay: 3
+  _squareDistanceFromCamera: 0
+  _lastUpdate: 625.85266
+  LODLevels:
+  - MinSquareDistance: 0
+    MaxSquareDistance: 150
+    ShadowResolution: 1
+    LightShadows: 2
+    DebugColor: {r: 0, g: 0, b: 0, a: 0}
+  - MinSquareDistance: 150
+    MaxSquareDistance: 600
+    ShadowResolution: 0
+    LightShadows: 1
+    DebugColor: {r: 0, g: 0, b: 0, a: 0}
+  - MinSquareDistance: 600
+    MaxSquareDistance: 10000
+    ShadowResolution: 0
+    LightShadows: 0
+    DebugColor: {r: 0, g: 0, b: 0, a: 0}

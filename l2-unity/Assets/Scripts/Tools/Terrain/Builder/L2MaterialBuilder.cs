@@ -3,13 +3,16 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class L2MaterialBuilder {
+public class L2MaterialBuilder
+{
 
     [MenuItem("Shnok/2. [Material] Generate staticmesh materials")]
-    static void SetupMaterials() {
+    static void SetupMaterials()
+    {
 
         bool overwrite = false;
-        if(overwrite) {
+        if (overwrite)
+        {
             ClearMaterials();
         }
 
@@ -18,13 +21,16 @@ public class L2MaterialBuilder {
         CreateBaseMaterials(overwrite);
     }
 
-    static void ClearMaterials() {
+    static void ClearMaterials()
+    {
         string[] materialGUIDs = AssetDatabase.FindAssets("t:Material", new string[] { "Assets/Resources/Data/Textures", "Assets/Resources/Data/SysTextures" });
-        for(int i = 0; i < materialGUIDs.Length; i++) {
+        for (int i = 0; i < materialGUIDs.Length; i++)
+        {
             string materialPath = AssetDatabase.GUIDToAssetPath(materialGUIDs[i]);
 
             string ignorePath = Path.Combine(Path.GetDirectoryName(materialPath), ".ignore");
-            if (File.Exists(ignorePath)) {
+            if (File.Exists(ignorePath))
+            {
                 Debug.Log("Ignoring folder");
                 continue;
             }
@@ -33,11 +39,13 @@ public class L2MaterialBuilder {
         }
     }
 
-    static void ProcessProps(bool overwrite) {
+    static void ProcessProps(bool overwrite)
+    {
         string[] propsTxtGUIDs = AssetDatabase.FindAssets("t:TextAsset", new string[] { "Assets/Resources/Data/Textures", "Assets/Resources/Data/SysTextures" });
         //Debug.Log("Found " + propsTxtGUIDs.Length + " props.");
 
-        for (int i = 0; i < propsTxtGUIDs.Length; i++) {
+        for (int i = 0; i < propsTxtGUIDs.Length; i++)
+        {
             string propsPath = AssetDatabase.GUIDToAssetPath(propsTxtGUIDs[i]);
             string materialPath = Path.Combine(
                    Path.GetDirectoryName(propsPath),
@@ -45,8 +53,10 @@ public class L2MaterialBuilder {
                        .Replace(".props", string.Empty)
                        .Replace("_sh", string.Empty) + ".mat");
 
-            if (File.Exists(materialPath)) {
-                if (!overwrite) {
+            if (File.Exists(materialPath))
+            {
+                if (!overwrite)
+                {
                     continue;
                 }
             }
@@ -58,23 +68,30 @@ public class L2MaterialBuilder {
             string textureName = null;
             string specularTextureName = null;
 
-            using (StreamReader reader = new StreamReader(propsPath)) {
+            using (StreamReader reader = new StreamReader(propsPath))
+            {
                 string line;
-                while ((line = reader.ReadLine()) != null) {
+                while ((line = reader.ReadLine()) != null)
+                {
                     string[] parts = line.Split("=");
                     string key = parts[0].Trim();
                     string value = parts[1].Trim();
 
-                    if (key.StartsWith("Diffuse") || key.StartsWith("Material")) {
-                        if (value.StartsWith("Texture")) {
+                    if (key.StartsWith("Diffuse") || key.StartsWith("Material"))
+                    {
+                        if (value.StartsWith("Texture"))
+                        {
                             string texRef = value.Substring(8);
                             texRef = texRef.Substring(0, texRef.Length - 1);
                             string[] texRefEntries = texRef.Split('.');
                             textureName = texRefEntries[texRefEntries.Length - 1];
                             Debug.Log("Texture: " + textureName);
                         }
-                    } else if (key.StartsWith("SpecularityMask")) {
-                        if (value.StartsWith("Texture")) {
+                    }
+                    else if (key.StartsWith("SpecularityMask"))
+                    {
+                        if (value.StartsWith("Texture"))
+                        {
                             string texRef = value.Substring(8);
                             texRef = texRef.Substring(0, texRef.Length - 1);
                             string[] texRefEntries = texRef.Split('.');
@@ -82,23 +99,36 @@ public class L2MaterialBuilder {
                             isSpecular = true;
                             Debug.Log("Specular texture: " + specularTextureName);
                         }
-                    } else if (key.StartsWith("Opacity")) {
-                        if (value.StartsWith("Texture")) {
+                    }
+                    else if (key.StartsWith("Opacity"))
+                    {
+                        if (value.StartsWith("Texture"))
+                        {
                             Debug.LogWarning("Transparent: " + textureName);
                             isTransparent = true;
                         }
-                    } else if (key.StartsWith("TwoSided")) {
+                    }
+                    else if (key.StartsWith("TwoSided"))
+                    {
                         isDoubleFace = (value == "true");
-                    } else if (key.StartsWith("AlphaTest")) {
-                        if(!isTransparent) {
+                    }
+                    else if (key.StartsWith("AlphaTest"))
+                    {
+                        if (!isTransparent)
+                        {
                             isTransparent = (value == "true");
                         }
                         Debug.Log("AlphaTest:" + value);
-                    } else if (key.StartsWith("OutputBlending")) {
+                    }
+                    else if (key.StartsWith("OutputBlending"))
+                    {
                         Debug.Log("OutputBlending:");
-                        if (value.StartsWith("OB_Brighten")) {
+                        if (value.StartsWith("OB_Brighten"))
+                        {
                             isUnlit = true;
-                        } else if (value.StartsWith("OB_Masked")) {
+                        }
+                        else if (value.StartsWith("OB_Masked"))
+                        {
                             isTransparent = true;
                         }
                     }
@@ -109,13 +139,19 @@ public class L2MaterialBuilder {
             Material material;
 
             // Build Material
-            if (isTransparent) {
+            if (isTransparent)
+            {
                 material = BuildTransprentMaterial();
-            } else if (isUnlit) {
+            }
+            else if (isUnlit)
+            {
                 material = BuildUnlitMaterial(isDoubleFace);
-            } else {
+            }
+            else
+            {
                 Texture2D specularMap = null;
-                if (isSpecular) {
+                if (isSpecular)
+                {
                     specularMap = LoadTexture(materialPath, specularTextureName);
                 }
                 material = BuildLitMaterial(specularMap, isDoubleFace);
@@ -123,15 +159,18 @@ public class L2MaterialBuilder {
 
             material.mainTexture = texture;
 
-            if (File.Exists(materialPath)) {
-                if (!isTransparent && !overwrite) {
+            if (File.Exists(materialPath))
+            {
+                if (!isTransparent && !overwrite)
+                {
                     continue;
                 }
                 Debug.LogWarning("Delete " + texture);
                 AssetDatabase.DeleteAsset(materialPath);
             }
 
-            if (!Directory.Exists(Path.GetDirectoryName(materialPath))) {
+            if (!Directory.Exists(Path.GetDirectoryName(materialPath)))
+            {
                 Directory.CreateDirectory(Path.GetDirectoryName(materialPath));
             }
 
@@ -139,7 +178,8 @@ public class L2MaterialBuilder {
         }
     }
 
-    static Texture2D LoadTexture(string materialPath, string textureName) {
+    static Texture2D LoadTexture(string materialPath, string textureName)
+    {
         string materialDirectory = Path.GetDirectoryName(materialPath);
         string parentFolder = Directory.GetParent(materialDirectory).FullName;
         string texturePath = Path.Combine(parentFolder, textureName + ".png");
@@ -149,7 +189,9 @@ public class L2MaterialBuilder {
         return texture;
     }
 
-    static Material BuildTransprentMaterial() {
+    // UNITY 2022.3f
+    static Material BuildTransprentMaterialLegacy()
+    {
         Material material = new Material(Shader.Find("Universal Render Pipeline/Nature/SpeedTree8_PBRLit"));
         material.SetFloat("_AlphaClip", 0.5f);
         material.SetInt("_WindQuality", 0);
@@ -168,7 +210,25 @@ public class L2MaterialBuilder {
         return material;
     }
 
-    static Material BuildLitMaterial(Texture2D specularMap, bool isDoubleFace) {
+    static Material BuildTransprentMaterial()
+    {
+        Material material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        material.SetFloat("_Cull", 2f);
+        material.SetColor("_BaseColor", Color.white);
+        material.SetFloat("_Smoothness", 0);
+        material.SetFloat("_EnvironmentReflections", 0f);
+        material.SetFloat("_SpecularHighlights", 0f);
+        // Enable alpha clipping
+        material.SetFloat("_AlphaClip", 1); // or true, depending on the shader
+
+        // Set the alpha clip threshold
+        material.SetFloat("_Cutoff", 0.5f);
+
+        return material;
+    }
+
+    static Material BuildLitMaterial(Texture2D specularMap, bool isDoubleFace)
+    {
         Material material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
         float state = isDoubleFace ? 0f : 2f;
         material.SetFloat("_Cull", state);
@@ -177,7 +237,8 @@ public class L2MaterialBuilder {
         material.SetFloat("_EnvironmentReflections", 0f);
         material.SetFloat("_SpecularHighlights", 0f);
 
-        if (specularMap != null) {
+        if (specularMap != null)
+        {
             material.EnableKeyword("_METALLICSPECGLOSSMAP");
             material.EnableKeyword("_SPECULAR_SETUP");
             material.SetFloat("_WorkflowMode", 0);
@@ -190,7 +251,8 @@ public class L2MaterialBuilder {
         return material;
     }
 
-    static Material BuildUnlitMaterial(bool isDoubleFace) {
+    static Material BuildUnlitMaterial(bool isDoubleFace)
+    {
         Material material = new Material(Shader.Find("Universal Render Pipeline/Particles/Unlit"));
         material.SetFloat("_Surface", 1f);
         material.SetFloat("_Blend", 2f);
@@ -204,40 +266,49 @@ public class L2MaterialBuilder {
         return material;
     }
 
-    static void CreateBaseMaterials(bool overwrite) {
+    static void CreateBaseMaterials(bool overwrite)
+    {
         string[] textureGUIDs = AssetDatabase.FindAssets("t:Texture2D", new string[] { "Assets/Resources/Data/Textures", "Assets/Resources/Data/SysTextures" });
-        for(int i = 0; i < textureGUIDs.Length; i++) {
+        for (int i = 0; i < textureGUIDs.Length; i++)
+        {
             string texturePath = AssetDatabase.GUIDToAssetPath(textureGUIDs[i]);
             string materialDirectory = Path.Combine(Path.GetDirectoryName(texturePath), "Materials");
             string materialPath = Path.Combine(materialDirectory, Path.GetFileNameWithoutExtension(texturePath) + ".mat");
 
             string ignorePath = Path.Combine(Path.GetDirectoryName(texturePath), ".ignore");
-            if(File.Exists(ignorePath)) {
+            if (File.Exists(ignorePath))
+            {
                 Debug.Log("Ignoring folder");
                 continue;
             }
 
-            if(materialPath.EndsWith("_ori.mat") || materialPath.EndsWith("_sp.mat")) {
+            if (materialPath.EndsWith("_ori.mat") || materialPath.EndsWith("_sp.mat"))
+            {
                 Debug.Log("Skipping materials with props");
                 continue;
             }
 
-            if (!overwrite && File.Exists(materialPath)) {
+            if (!overwrite && File.Exists(materialPath))
+            {
                 continue;
             }
 
-            if(!Directory.Exists(materialDirectory)) {
+            if (!Directory.Exists(materialDirectory))
+            {
                 Directory.CreateDirectory(materialDirectory);
             }
 
             Material material;
-            if (materialPath.EndsWith("_h.mat") || 
-                materialPath.EndsWith("_ah.mat") || 
-                materialPath.EndsWith("_bh.mat") || 
-                materialPath.EndsWith("_ah_u00.mat") || 
-                materialPath.EndsWith("_bh_u00.mat")) {
+            if (materialPath.EndsWith("_h.mat") ||
+                materialPath.EndsWith("_ah.mat") ||
+                materialPath.EndsWith("_bh.mat") ||
+                materialPath.EndsWith("_ah_u00.mat") ||
+                materialPath.EndsWith("_bh_u00.mat"))
+            {
                 material = BuildTransprentMaterial();
-            } else {
+            }
+            else
+            {
                 material = BuildLitMaterial(null, false);
             }
 
