@@ -3,17 +3,23 @@
     <ui:GroupBox name="Windows" class="window-template">
         <ui:GroupBox name="Header" class="window-template-header">
             <ui:VisualElement name="Frame_DF_Hor_Large_Left" class="frame_df_hor_large_left" />
-            <ui:VisualElement name="Frame_DF_How_Large_Tile" class="frame_df_hor_large_tile" />
+            <ui:VisualElement name="Frame_DF_How_Large_Tile" class="frame_df_hor_large_tile">
+                <ui:VisualElement name="Bg" class="frame_df_hor_large_tile_bg" />
+            </ui:VisualElement>
             <ui:VisualElement name="Frame_DF_Hor_Large_Center" class="frame_df_hor_large_center" />
-            <ui:VisualElement name="Frame_DF_How_Large_Tile" class="frame_df_hor_large_tile" />
+            <ui:VisualElement name="Frame_DF_How_Large_Tile" class="frame_df_hor_large_tile">
+                <ui:VisualElement name="Bg" class="frame_df_hor_large_tile_bg" />
+            </ui:VisualElement>
             <ui:VisualElement name="Frame_DF_Hor_Large_Right" class="frame_df_hor_large_right" />
             <ui:VisualElement name="DragArea" class="drag-area window-template-drag-area">
-                <ui:Label tabindex="-1" text="Window" parse-escape-sequences="true" display-tooltip-when-elided="true" name="windows-name-label" class="windows-name-label" />
+                <ui:Label tabindex="-1" text="Window" parse-escape-sequences="true" display-tooltip-when-elided="true" name="windows-name-label" class="windows-name-label l2-color-4" />
                 <ui:GroupBox name="HeaderButtons" class="windows-header-buttons">
                     <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="Close-Window-Button" class="btn-close-frame close-btn" />
                 </ui:GroupBox>
             </ui:VisualElement>
         </ui:GroupBox>
-        <ui:VisualElement name="Content" class="windows-template-content" />
+        <ui:VisualElement name="Content" class="windows-template-content">
+            <ui:VisualElement name="Content" class="windows-template-content" />
+        </ui:VisualElement>
     </ui:GroupBox>
 </ui:UXML>

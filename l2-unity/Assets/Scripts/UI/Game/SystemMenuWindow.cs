@@ -53,7 +53,7 @@ public class SystemMenuWindow : L2PopupWindow
     {
         InitWindow(root);
 
-        root.Add(_windowEle);
+       // root.Add(_windowEle);
 
         yield return new WaitForEndOfFrame();
 
@@ -82,7 +82,7 @@ public class SystemMenuWindow : L2PopupWindow
         ExitWindow.Instance.OpenWindow(false);
     }
 
-    public void ToggleHideWindow()
+    public override void ToggleHideWindow()
     {
         Vector2 basePosition = MenuWindow.Instance.GetWindowPosition();
         _windowEle.transform.position = new Vector2(basePosition.x, basePosition.y - _windowHeight);
