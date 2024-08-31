@@ -80,6 +80,9 @@ public class InventoryWindow : L2PopupWindow
 
         _expanded = false;
 
+        Label _windowName = (Label)GetElementById("windows-name-label");
+        _windowName.text = "Inventory";
+
         var dragArea = GetElementByClass("drag-area");
         DragManipulator drag = new DragManipulator(dragArea, _windowEle);
         dragArea.AddManipulator(drag);
