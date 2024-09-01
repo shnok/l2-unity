@@ -32,6 +32,8 @@ public class CameraController : MonoBehaviour
     public Transform Target { get { return _target; } set { _target = value; } }
 
     public bool StickToBone { get { return _stickToBone; } set { _stickToBone = value; } }
+    public float CurrentDistance { get { return _currentDistance; } }
+    public float MaxDistance { get { return _maxDistance; } }
 
 
     private static CameraController _instance;

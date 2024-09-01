@@ -6,102 +6,114 @@ using UnityEngine;
 
 using UnityEngine.Rendering;
 
-namespace LlamAcademy.LightLOD
+[ExecuteInEditMode]
+[RequireComponent(typeof(Light))]
+public class LightLOD : MonoBehaviour
 {
-    [ExecuteInEditMode]
-    [RequireComponent(typeof(Light))]
-    public class LightLOD : MonoBehaviour
+    private Light _light;
+
+    [SerializeField]
+    [Range(0, 15)]
+    private float _updateDelay = 1f;
+    [SerializeField] private float _squareDistanceFromCamera;
+    [SerializeField] private float _lastUpdate;
+
+    [SerializeField]
+    private List<LODAdjustment> LODLevels = new();
+
+    private bool _ready = false;
+
+    private void Awake()
     {
-        private Light Light;
-        public bool LightShouldBeOn = true;
-        [SerializeField]
-        [Range(0, 15)]
-        private float UpdateDelay = 1f;
-        [SerializeField] private float _squareDistanceFromCamera;
-        [SerializeField] private float _lastUpdate;
-        [SerializeField]
-        private List<LODAdjustment> LODLevels = new();
+        _light = GetComponent<Light>();
+    }
 
-        private void Awake()
+    private void Start()
+    {
+        _ready = false;
+        _lastUpdate = 0;
+    }
+
+
+    private void Update()
+    {
+        if (_light == null)
         {
-            Light = GetComponent<Light>();
-        }
-
-        private void Start()
-        {
-            _lastUpdate = 0;
-        }
-
-
-        private void Update()
-        {
-            if (Light == null)
+            _light = GetComponent<Light>();
+            if (_light == null)
             {
-                Light = GetComponent<Light>();
-                if (Light == null)
-                {
-                    return;
-                }
+                return;
             }
+        }
 
-            if (Time.time - _lastUpdate >= UpdateDelay)
-            {
-                _lastUpdate = Time.time;
-#if (UNITY_EDITOR)
-                if (EditorApplication.isPlaying)
-                {
-                    AdjustLODQuality(Camera.main);
-                }
-                else
-                {
-                    if (Camera.current != null)
-                    {
-                        AdjustLODQuality(Camera.current);
-                    }
-                }
-#else
-                AdjustLODQuality(Camera.main);
+#if (UNITY_EDITOR) 
+        if (!EditorApplication.isPlaying)
+        {
+            _ready = true;
+        }
 #endif
+
+        if(!_ready) {
+            if(CameraController.Instance == null || CameraController.Instance.Target == null) {
+                return;
             }
+
+            if(CameraController.Instance.CurrentDistance > CameraController.Instance.MaxDistance) {
+                return;
+            }
+
+            _ready = true;
         }
 
-
-        private void AdjustLODQuality(Camera camera)
+        if (Time.time - _lastUpdate >= _updateDelay)
         {
-            if (LightShouldBeOn)
+            _lastUpdate = Time.time;
+#if (UNITY_EDITOR)
+            if (EditorApplication.isPlaying)
             {
-                _squareDistanceFromCamera = Vector3.SqrMagnitude(
-                    camera.transform.position - transform.position
-                );
-
-                for (int i = 0; i < LODLevels.Count; i++)
-                {
-                    if (_squareDistanceFromCamera > LODLevels[i].MinSquareDistance
-                        && _squareDistanceFromCamera <= LODLevels[i].MaxSquareDistance
-                    )
-                    {
-                        Light.enabled = true;
-                        Light.shadows = LODLevels[i].LightShadows;
-                        if (QualitySettings.shadowResolution <= LODLevels[i].ShadowResolution)
-                        {
-                            Light.shadowResolution = (LightShadowResolution)QualitySettings.shadowResolution;
-                        }
-                        else
-                        {
-                            Light.shadowResolution = (LightShadowResolution)LODLevels[i].ShadowResolution;
-                        }
-
-                        return;
-                    }
-                }
-
-                Light.enabled = false;
+                AdjustLODQuality(Camera.main);
             }
             else
             {
-                Light.enabled = false;
+                if (Camera.current != null)
+                {
+                    AdjustLODQuality(Camera.current);
+                }
             }
-
+#else
+            AdjustLODQuality(Camera.main);
+#endif
         }
+    }
+
+
+    private void AdjustLODQuality(Camera camera)
+    {
+        _squareDistanceFromCamera = Vector3.SqrMagnitude(
+            camera.transform.position - transform.position
+        );
+
+        for (int i = 0; i < LODLevels.Count; i++)
+        {
+            if (_squareDistanceFromCamera > LODLevels[i].MinSquareDistance
+                && _squareDistanceFromCamera <= LODLevels[i].MaxSquareDistance
+            )
+            {
+                _light.enabled = true;
+                _light.shadows = LODLevels[i].LightShadows;
+                if (QualitySettings.shadowResolution <= LODLevels[i].ShadowResolution)
+                {
+                    _light.shadowResolution = (LightShadowResolution)QualitySettings.shadowResolution;
+                }
+                else
+                {
+                    _light.shadowResolution = (LightShadowResolution)LODLevels[i].ShadowResolution;
+                }
+
+                return;
+            }
+        }
+
+        _light.enabled = false;
     }
 }
