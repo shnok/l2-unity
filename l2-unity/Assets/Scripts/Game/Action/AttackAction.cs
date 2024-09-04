@@ -1,4 +1,5 @@
 using UnityEngine;
+using static AttackingState;
 
 public class AttackAction : L2Action
 {
@@ -11,7 +12,7 @@ public class AttackAction : L2Action
         if (TargetManager.Instance.HasTarget())
         {
             Debug.LogWarning("Use attack action.");
-            PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_ATTACK);
+            PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.AttackInput);
         }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static AttackingState;
 
 public class AttackIntention : IntentionBase
 {
@@ -8,7 +9,7 @@ public class AttackIntention : IntentionBase
     {
         Transform target = TargetManager.Instance.Target.Data.ObjectTransform;
 
-        if (target == null && arg0 == null)
+        if (target == null)
         {
             Debug.Log("Target is null, CANCEL event sent");
             // _stateMachine.NotifyEvent(Event.CANCEL);
@@ -24,20 +25,31 @@ public class AttackIntention : IntentionBase
             }
             else
             {
-                if (!_stateMachine.WaitingForServerReply)
-                {
-                    _stateMachine.SetWaitingForServerReply(true);
-                    GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(Vector3.zero);
-                }
+                // if (!_stateMachine.WaitingForServerReply)
+                // {
+                //     _stateMachine.SetWaitingForServerReply(true);
+                //     GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(Vector3.zero);
+                // }
+
+                _stateMachine.ChangeIntention(Intention.INTENTION_FOLLOW);
 
                 return;
             }
         }
 
-        TargetManager.Instance.SetAttackTarget();
+        AttackIntentionType type = (AttackIntentionType)arg0;
+
+        Debug.LogWarning((AttackIntentionType)arg0);
+
+        if (type != AttackIntentionType.TargetReached)
+        {
+            TargetManager.Instance.SetAttackTarget();
+        }
+
+        Vector3 targetPos = TargetManager.Instance.AttackTarget.Data.ObjectTransform.position;
 
         float attackRange = ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange;
-        float distance = Vector3.Distance(PlayerEntity.Instance.transform.position, target.position);
+        float distance = Vector3.Distance(PlayerEntity.Instance.transform.position, targetPos);
         Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
 
         // Is close enough? Is player already waiting for server reply?
@@ -49,7 +61,7 @@ public class AttackIntention : IntentionBase
         else
         {
             // Move to target with a 10% error margin
-            PathFinderController.Instance.MoveTo(target.position, ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange * 0.9f);
+            PathFinderController.Instance.MoveTo(targetPos, ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange * 0.9f);
         }
     }
 

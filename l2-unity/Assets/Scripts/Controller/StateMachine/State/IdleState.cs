@@ -1,4 +1,5 @@
-using UnityEditorInternal;
+
+using UnityEngine;
 
 public class IdleState : StateBase
 {
@@ -35,7 +36,15 @@ public class IdleState : StateBase
 
                 NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
 
-                GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack();
+                if (TargetManager.Instance.IsAttackTargetSet())
+                {
+                    GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack(-1);
+                }
+                else
+                {
+                    Debug.LogWarning("[StateMachine] Attacking a target which is not current target.");
+                    GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack(TargetManager.Instance.AttackTarget.Identity.Id);
+                }
 
                 _stateMachine.SetWaitingForServerReply(true);
             }

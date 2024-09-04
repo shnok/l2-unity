@@ -1,3 +1,5 @@
+using static AttackingState;
+
 public class RunningState : StateBase
 {
     public RunningState(PlayerStateMachine stateMachine) : base(stateMachine) { }
@@ -8,7 +10,7 @@ public class RunningState : StateBase
         {
             if (TargetManager.Instance.HasAttackTarget())
             {
-                _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK);
+                _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.TargetReached);
             }
             else
             {

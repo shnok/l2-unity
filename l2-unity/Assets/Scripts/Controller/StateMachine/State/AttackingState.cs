@@ -36,15 +36,23 @@ public class AttackingState : StateBase
             }
         }
 
+        // Auto attack stop event
         if (evt == Event.CANCEL)
         {
             _stateMachine.ChangeState(PlayerState.IDLE);
 
-            if (_stateMachine.Intention == Intention.INTENTION_ATTACK)
+            if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
             {
-                _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, true);
+                _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.ChangeTarget);
             }
         }
+    }
+
+    public enum AttackIntentionType
+    {
+        ChangeTarget,
+        AttackInput,
+        TargetReached
     }
 
 
