@@ -12,22 +12,8 @@ public class FollowIntention : IntentionBase
         {
             PathFinderController.Instance.MoveTo((Vector3)arg0);
         }
-
-
-        // if (CanMove())
-        // {
-        //     SetState(PlayerState.RUNNING);
-        // }
-        // else if (!_waitingForServerReply)
-        // {
-        //     SetWaitingForServerReply(true);
-        //     GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(Vector3.zero);
-        // }
-        // else
-        // {
-        //     PlayerController.Instance.StopMoving();
-        // }
     }
+
     public override void Exit() { }
     public override void Update() { }
 }

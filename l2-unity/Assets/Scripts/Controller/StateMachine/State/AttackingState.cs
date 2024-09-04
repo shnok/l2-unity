@@ -35,6 +35,11 @@ public class AttackingState : StateBase
                 _stateMachine.ChangeState(PlayerState.IDLE);
             }
         }
+
+        if (evt == Event.CANCEL)
+        {
+            _stateMachine.ChangeState(PlayerState.IDLE);
+        }
     }
 
 

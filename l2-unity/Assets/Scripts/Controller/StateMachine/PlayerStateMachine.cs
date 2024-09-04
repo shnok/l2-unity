@@ -565,6 +565,11 @@ public class PlayerStateMachine : MonoBehaviour
         NotifyEvent(Event.ACTION_DENIED);
     }
 
+    public void OnStopAutoAttack()
+    {
+        NotifyEvent(Event.CANCEL);
+    }
+
     // public void OnAutoAttackStart()
     // {
     //     SetWaitingForServerReply(false);

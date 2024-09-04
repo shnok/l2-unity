@@ -26,21 +26,6 @@ public class MoveToIntention : IntentionBase
         {
             PlayerController.Instance.StopMoving();
         }
-
-
-        // if (CanMove())
-        // {
-        //     SetState(PlayerState.RUNNING);
-        // }
-        // else if (!_waitingForServerReply)
-        // {
-        //     SetWaitingForServerReply(true);
-        //     GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(Vector3.zero);
-        // }
-        // else
-        // {
-        //     PlayerController.Instance.StopMoving();
-        // }
     }
 
     public override void Exit() { }

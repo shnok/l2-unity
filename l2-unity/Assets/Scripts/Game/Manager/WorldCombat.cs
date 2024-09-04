@@ -66,7 +66,7 @@ public class WorldCombat : MonoBehaviour
     {
         if (entity == PlayerEntity.Instance)
         {
-            PlayerStateMachine.Instance.OnActionAllowed();
+            PlayerStateMachine.Instance.OnStopAutoAttack();
         }
         else
         {
