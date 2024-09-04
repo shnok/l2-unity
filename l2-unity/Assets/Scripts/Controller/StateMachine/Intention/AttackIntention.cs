@@ -8,7 +8,7 @@ public class AttackIntention : IntentionBase
     {
         Transform target = TargetManager.Instance.Target.Data.ObjectTransform;
 
-        if (target == null)
+        if (target == null && arg0 == null)
         {
             Debug.Log("Target is null, CANCEL event sent");
             // _stateMachine.NotifyEvent(Event.CANCEL);
@@ -24,8 +24,12 @@ public class AttackIntention : IntentionBase
             }
             else
             {
-                //Stop attacking current target
-                _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+                if (!_stateMachine.WaitingForServerReply)
+                {
+                    _stateMachine.SetWaitingForServerReply(true);
+                    GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(Vector3.zero);
+                }
+
                 return;
             }
         }

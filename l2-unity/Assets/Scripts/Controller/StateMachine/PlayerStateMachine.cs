@@ -1,6 +1,144 @@
 using System;
 using UnityEngine;
 
+public class PlayerStateMachine : MonoBehaviour
+{
+    [SerializeField] private bool _enableLogs;
+
+    private static PlayerStateMachine _instance;
+    public static PlayerStateMachine Instance => _instance;
+
+    [SerializeField] private PlayerState _currentState;
+    [SerializeField] private Intention _currentIntention;
+    public Intention Intention { get { return _currentIntention; } }
+    public PlayerState State { get { return _currentState; } }
+    [SerializeField] private bool _waitingForServerReply;
+
+    private NetworkTransformShare _networkTransformShare;
+    private NetworkCharacterControllerShare _networkCharacterControllerShare;
+    public NetworkTransformShare NetworkTransformShare { get { return _networkTransformShare; } }
+    public NetworkCharacterControllerShare NetworkCharacterControllerShare { get { return _networkCharacterControllerShare; } }
+
+    public bool WaitingForServerReply { get { return _waitingForServerReply; } }
+    private StateBase _stateInstance;
+    private IntentionBase _intentionInstance;
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
+        InitializeState();
+        InitializeIntention();
+
+        TryGetComponent<NetworkTransformShare>(out _networkTransformShare);
+        TryGetComponent<NetworkCharacterControllerShare>(out _networkCharacterControllerShare);
+    }
+
+    private void Start()
+    {
+        _waitingForServerReply = false;
+        ChangeState(PlayerState.IDLE);
+    }
+
+    public void SetWaitingForServerReply(bool value)
+    {
+        // Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
+        _waitingForServerReply = value;
+    }
+
+    private void Update()
+    {
+        _stateInstance?.Update();
+        _intentionInstance?.Update();
+    }
+
+    public void ChangeState(PlayerState newState)
+    {
+        if (_enableLogs) Debug.Log("[StateMachine][STATE] " + newState);
+        _stateInstance?.Exit();
+        _currentState = newState;
+        InitializeState();
+        _stateInstance?.Enter();
+    }
+
+    public void ChangeIntention(Intention intention)
+    {
+        ChangeIntention(intention, null);
+    }
+
+    public void ChangeIntention(Intention newIntention, object arg0)
+    {
+        if (_enableLogs) Debug.Log("[StateMachine][INTENTION] " + newIntention);
+        _intentionInstance?.Exit();
+        _currentIntention = newIntention;
+        InitializeIntention();
+        _intentionInstance?.Enter(arg0);
+    }
+
+    private void InitializeState()
+    {
+        _stateInstance = _currentState switch
+        {
+            PlayerState.IDLE => new IdleState(this),
+            PlayerState.RUNNING => new RunningState(this),
+            PlayerState.ATTACKING => new AttackingState(this),
+            PlayerState.DEAD => new DeadState(this),
+            _ => throw new ArgumentException("Invalid state")
+        };
+    }
+
+    private void InitializeIntention()
+    {
+        _intentionInstance = _currentIntention switch
+        {
+            Intention.INTENTION_IDLE => new IdleIntention(this),
+            Intention.INTENTION_MOVE_TO => new MoveToIntention(this),
+            Intention.INTENTION_ATTACK => new AttackIntention(this),
+            Intention.INTENTION_FOLLOW => new FollowIntention(this),
+            _ => throw new ArgumentException("Invalid intention")
+        };
+    }
+
+    public bool CanMove() =>
+        _currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING;
+
+    public void NotifyEvent(Event evt)
+    {
+        if (_enableLogs) Debug.Log("[StateMachine][EVENT] " + evt);
+        _stateInstance?.HandleEvent(evt);
+    }
+
+    public void OnActionAllowed()
+    {
+        if (_enableLogs) Debug.Log("[StateMachine] Action allowed");
+        SetWaitingForServerReply(false);
+        NotifyEvent(Event.ACTION_ALLOWED);
+    }
+
+    public void OnActionDenied()
+    {
+        if (_enableLogs) Debug.Log("[StateMachine] Action denied");
+        SetWaitingForServerReply(false);
+        NotifyEvent(Event.ACTION_DENIED);
+    }
+
+    public void OnStopAutoAttack()
+    {
+        if (_enableLogs) Debug.Log("[StateMachine] Stop autoattack");
+        NotifyEvent(Event.CANCEL);
+    }
+}
+
+
+// OLD SYSTEM FOR REFERENCE
+
 // public class PlayerStateMachine : MonoBehaviour
 // {
 //     private static PlayerStateMachine _instance;
@@ -439,177 +577,3 @@ using UnityEngine;
 //         }
 //     }
 // }
-
-
-public class PlayerStateMachine : MonoBehaviour
-{
-    private static PlayerStateMachine _instance;
-    public static PlayerStateMachine Instance => _instance;
-
-    [SerializeField] private PlayerState _currentState;
-    [SerializeField] private Intention _currentIntention;
-    public Intention Intention { get { return _currentIntention; } }
-    public PlayerState State { get { return _currentState; } }
-    [SerializeField] private bool _waitingForServerReply;
-
-    private NetworkTransformShare _networkTransformShare;
-    private NetworkCharacterControllerShare _networkCharacterControllerShare;
-    public NetworkTransformShare NetworkTransformShare { get { return _networkTransformShare; } }
-    public NetworkCharacterControllerShare NetworkCharacterControllerShare { get { return _networkCharacterControllerShare; } }
-
-    public bool WaitingForServerReply { get { return _waitingForServerReply; } }
-    private StateBase _stateInstance;
-    private IntentionBase _intentionInstance;
-
-    private void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
-
-        InitializeState();
-        InitializeIntention();
-
-        TryGetComponent<NetworkTransformShare>(out _networkTransformShare);
-        TryGetComponent<NetworkCharacterControllerShare>(out _networkCharacterControllerShare);
-    }
-
-    private void Start()
-    {
-        _waitingForServerReply = false;
-        ChangeState(PlayerState.IDLE);
-    }
-
-    public void SetWaitingForServerReply(bool value)
-    {
-        // Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
-        _waitingForServerReply = value;
-    }
-
-    private void Update()
-    {
-        _stateInstance?.Update();
-        _intentionInstance?.Update();
-    }
-
-    public void ChangeState(PlayerState newState)
-    {
-        Debug.Log("[STATE] " + newState);
-        _stateInstance?.Exit();
-        _currentState = newState;
-        InitializeState();
-        _stateInstance?.Enter();
-    }
-
-    public void ChangeIntention(Intention intention)
-    {
-        ChangeIntention(intention, null);
-    }
-
-    public void ChangeIntention(Intention newIntention, object arg0)
-    {
-        Debug.Log("[INTENTION] " + newIntention);
-        _intentionInstance?.Exit();
-        _currentIntention = newIntention;
-        InitializeIntention();
-        _intentionInstance?.Enter(arg0);
-    }
-
-    private void InitializeState()
-    {
-        _stateInstance = _currentState switch
-        {
-            PlayerState.IDLE => new IdleState(this),
-            PlayerState.RUNNING => new RunningState(this),
-            PlayerState.ATTACKING => new AttackingState(this),
-            PlayerState.DEAD => new DeadState(this),
-            _ => throw new ArgumentException("Invalid state")
-        };
-    }
-
-    private void InitializeIntention()
-    {
-        _intentionInstance = _currentIntention switch
-        {
-            Intention.INTENTION_IDLE => new IdleIntention(this),
-            Intention.INTENTION_MOVE_TO => new MoveToIntention(this),
-            Intention.INTENTION_ATTACK => new AttackIntention(this),
-            Intention.INTENTION_FOLLOW => new FollowIntention(this),
-            _ => throw new ArgumentException("Invalid intention")
-        };
-    }
-
-    public bool CanMove() =>
-        _currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING;
-
-    public void NotifyEvent(Event evt)
-    {
-        Debug.Log("[EVENT] " + evt);
-        _stateInstance?.HandleEvent(evt);
-    }
-
-    public void OnActionAllowed()
-    {
-        SetWaitingForServerReply(false);
-        NotifyEvent(Event.ACTION_ALLOWED);
-    }
-
-    public void OnActionDenied()
-    {
-        SetWaitingForServerReply(false);
-        NotifyEvent(Event.ACTION_DENIED);
-    }
-
-    public void OnStopAutoAttack()
-    {
-        NotifyEvent(Event.CANCEL);
-    }
-
-    // public void OnAutoAttackStart()
-    // {
-    //     SetWaitingForServerReply(false);
-    //     if (PlayerEntity.Instance.StartAutoAttacking())
-    //     {
-    //         PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
-    //     }
-    //     NotifyEvent(Event.READY_TO_ACT);
-    // }
-
-    // public void OnAutoAttackStop()
-    // {
-    //     SetWaitingForServerReply(false);
-    //     PlayerEntity.Instance.StopAutoAttacking();
-    //     PlayerController.Instance.StopLookAt();
-    //     NotifyEvent(Event.CANCEL);
-    // }
-
-    // // Autoattack failed (entity probably too far)
-    // public void OnAutoAttackFailed()
-    // {
-    //     SetWaitingForServerReply(false);
-    //     PlayerEntity.Instance.StopAutoAttacking();
-    //     NotifyEvent(Event.CANCEL);
-    //     // PlayerController.Instance.SetCanMove(true);
-    // }
-
-    // public void OnMoveAllowed()
-    // {
-    //     SetWaitingForServerReply(false);
-    //     NotifyEvent(Event.READY_TO_ACT);
-    // }
-
-    // public void OnMoveFailed()
-    // {
-    //     SetWaitingForServerReply(false);
-    //     if (CanMove())
-    //     {
-    //         Debug.LogWarning("Player move failed but can move !");
-    //         ChangeState(PlayerState.ATTACKING);
-    //     }
-    // }
-}

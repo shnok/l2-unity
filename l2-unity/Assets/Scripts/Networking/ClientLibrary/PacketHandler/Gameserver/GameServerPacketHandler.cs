@@ -351,7 +351,6 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnEntityAutoAttackStop(byte[] data)
     {
-        Debug.Log("OnEntityAutoAttackStop");
         AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
         World.Instance.EntityStopAutoAttacking(packet.EntityId);
     }
@@ -359,7 +358,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnActionFailed(byte[] data)
     {
         ActionFailedPacket packet = new ActionFailedPacket(data);
-        Debug.LogWarning($"Action failed: " + packet.PlayerAction);
+        Debug.Log($"Action failed: " + packet.PlayerAction);
         _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
     }
 

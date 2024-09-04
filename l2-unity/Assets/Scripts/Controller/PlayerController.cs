@@ -107,7 +107,6 @@ public class PlayerController : MonoBehaviour
 
     public void ResetDestination()
     {
-        Debug.Log($"ResetDestination");
         _runningToDestination = false;
         _targetPosition = _flatTransformPos;
         ClickManager.Instance.HideLocator();

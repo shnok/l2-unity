@@ -50,6 +50,14 @@ public class IdleState : StateBase
             {
                 _stateMachine.ChangeState(PlayerState.ATTACKING);
             }
+            // if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
+            // {
+            //     _stateMachine.ChangeState(PlayerState.ATTACKING);
+            // }
+        }
+        else if (evt == Event.ACTION_DENIED)
+        {
+
         }
     }
 }

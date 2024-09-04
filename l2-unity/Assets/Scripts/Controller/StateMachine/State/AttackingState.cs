@@ -39,6 +39,11 @@ public class AttackingState : StateBase
         if (evt == Event.CANCEL)
         {
             _stateMachine.ChangeState(PlayerState.IDLE);
+
+            if (_stateMachine.Intention == Intention.INTENTION_ATTACK)
+            {
+                _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, true);
+            }
         }
     }
 
