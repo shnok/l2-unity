@@ -11,8 +11,23 @@ public class AttackIntention : IntentionBase
         if (target == null)
         {
             Debug.Log("Target is null, CANCEL event sent");
-            _stateMachine.NotifyEvent(Event.CANCEL);
+            // _stateMachine.NotifyEvent(Event.CANCEL);
             return;
+        }
+
+        if (_stateMachine.State == PlayerState.ATTACKING)
+        {
+            if (TargetManager.Instance.IsAttackTargetSet())
+            {
+                // Already attacking target
+                return;
+            }
+            else
+            {
+                //Stop attacking current target
+                _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+                return;
+            }
         }
 
         TargetManager.Instance.SetAttackTarget();

@@ -27,6 +27,14 @@ public class AttackingState : StateBase
                 _stateMachine.ChangeState(PlayerState.RUNNING);
             }
         }
+
+        if (evt == Event.ACTION_ALLOWED)
+        {
+            if (_stateMachine.Intention == Intention.INTENTION_IDLE)
+            {
+                _stateMachine.ChangeState(PlayerState.IDLE);
+            }
+        }
     }
 
 

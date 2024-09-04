@@ -11,25 +11,33 @@ public class TargetManager : MonoBehaviour
     private static TargetManager _instance;
     public static TargetManager Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    void OnDestroy() {
+    void OnDestroy()
+    {
         _instance = null;
     }
 
-    private void Start() {
+    private void Start()
+    {
         _target = null;
         _attackTarget = null;
     }
 
-    public void SetTarget(ObjectData target) {
-        if(target == null) {
+    public void SetTarget(ObjectData target)
+    {
+        if (target == null)
+        {
             ClearTarget();
             return;
         }
@@ -41,25 +49,37 @@ public class TargetManager : MonoBehaviour
         GameClient.Instance.ClientPacketHandler.SendRequestSetTarget(_target.Identity.Id);
     }
 
-    public void SetAttackTarget() {
+    public void SetAttackTarget()
+    {
         _attackTarget = _target;
     }
 
-    public void ClearAttackTarget() {
+    public void ClearAttackTarget()
+    {
         _attackTarget = null;
     }
 
-    public bool HasTarget() {
+    public bool IsAttackTargetSet()
+    {
+        return _target != null && _attackTarget != null && _target == _attackTarget;
+    }
+
+    public bool HasTarget()
+    {
         return _target != null && _target.Data.ObjectTransform != null;
     }
 
-    public bool HasAttackTarget() {
+    public bool HasAttackTarget()
+    {
         return _attackTarget != null;
     }
 
-    public void ClearTarget() {
-        if (HasTarget()) {
-            if(PlayerEntity.Instance.TargetId != -1) {
+    public void ClearTarget()
+    {
+        if (HasTarget())
+        {
+            if (PlayerEntity.Instance.TargetId != -1)
+            {
                 GameClient.Instance.ClientPacketHandler.SendRequestSetTarget(-1);
                 PlayerEntity.Instance.TargetId = -1;
                 PlayerEntity.Instance.Target = null;
@@ -70,16 +90,21 @@ public class TargetManager : MonoBehaviour
         }
     }
 
-    void Update() {
-        if (PlayerEntity.Instance == null) {
+    void Update()
+    {
+        if (PlayerEntity.Instance == null)
+        {
             return;
         }
 
-        if(HasTarget()) {
+        if (HasTarget())
+        {
             _target.Distance = Vector3.Distance(
-                PlayerController.Instance.transform.position, 
+                PlayerController.Instance.transform.position,
                 _target.Data.ObjectTransform.position);
-        } else {
+        }
+        else
+        {
             ClearTarget();
         }
     }
