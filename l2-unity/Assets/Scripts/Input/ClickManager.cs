@@ -88,7 +88,7 @@ public class ClickManager : MonoBehaviour
         _lastClickPosition = hit.point;
         //  PlayerCombatController.Instance.RunningToTarget = false;
 
-        PlayerStateMachine.Instance.setIntention(Intention.INTENTION_MOVE_TO, _lastClickPosition);
+        PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_MOVE_TO, _lastClickPosition);
 
         TargetManager.Instance.ClearAttackTarget();
         //  PathFinderController.Instance.MoveTo(_lastClickPosition);

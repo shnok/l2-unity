@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetDestination(Vector3 position, float distance)
     {
+        Debug.Log($"Set destination: {position}");
         _runningToDestination = true;
         _stopAtRange = distance;
         _targetPosition = VectorUtils.To2D(position);
@@ -106,6 +107,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetDestination()
     {
+        Debug.Log($"ResetDestination");
         _runningToDestination = false;
         _targetPosition = _flatTransformPos;
         ClickManager.Instance.HideLocator();

@@ -11,7 +11,7 @@ public class AttackAction : L2Action
         if (TargetManager.Instance.HasTarget())
         {
             Debug.LogWarning("Use attack action.");
-            PlayerStateMachine.Instance.setIntention(Intention.INTENTION_ATTACK);
+            PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_ATTACK);
         }
     }
 }
