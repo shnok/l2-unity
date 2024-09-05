@@ -7,7 +7,6 @@ using UnityEngine;
 public class LayerCullDistance : MonoBehaviour
 {
     [SerializeField] private float _decoCullDistance = 30f;
-    [SerializeField] private float _lightCullDistance = 50f;
     void Start()
     {
         ApplyCulling(Camera.main);

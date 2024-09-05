@@ -96,9 +96,9 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
-    public void SendRequestAutoAttack()
+    public void SendRequestAutoAttack(int objectId)
     {
-        RequestAutoAttackPacket packet = new RequestAutoAttackPacket();
+        RequestAutoAttackPacket packet = new RequestAutoAttackPacket(objectId);
         SendPacket(packet);
     }
 
