@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     private Vector3 _lerpTargetPos;
-    private float _x, _y = 0;
+    [SerializeField] private float _x, _y = 0;
     private Vector3 _targetPos;
     private LayerMask _collisionMask;
 
@@ -70,8 +71,16 @@ public class CameraController : MonoBehaviour
     {
         if (_target != null && _collisionDetector != null)
         {
-            UpdateInputs();
             UpdateZoom();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (_target != null && _collisionDetector != null)
+        {
+            UpdateInputs();
+            UpdatePosition();
         }
     }
 
@@ -80,7 +89,6 @@ public class CameraController : MonoBehaviour
         if (_target != null && _collisionDetector != null)
         {
             _collisionDetector.DetectCollision(_camDistance);
-            UpdatePosition();
         }
     }
 
@@ -123,8 +131,15 @@ public class CameraController : MonoBehaviour
         if (InputManager.Instance.TurnCamera)
         {
             Vector2 mouseAxis = InputManager.Instance.CameraAxis;
-            _x += mouseAxis.x * _camSpeed * 0.1f;
-            _y -= mouseAxis.y * _camSpeed * 0.1f;
+            // float logX = Mathf.Pow(Mathf.Abs(mouseAxis.x), 0.7f);
+            // float logY = Mathf.Pow(Mathf.Abs(mouseAxis.y), 0.7f);
+            // float diffX = mouseAxis.x < 0 ? -logX : logX;
+            // float diffY = mouseAxis.y < 0 ? -logY : logY;
+            // _x += mouseAxis.x == 0 ? 0 : diffX * _camSpeed * Time.deltaTime;
+            // _y -= mouseAxis.y == 0 ? 0 : diffY * _camSpeed * Time.deltaTime;
+
+            _x += Input.GetAxis("Mouse X") * _camSpeed;
+            _y -= Input.GetAxis("Mouse Y") * _camSpeed;
             _y = ClampAngle(_y, -90, 90);
         }
     }
