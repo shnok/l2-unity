@@ -436,6 +436,16 @@ public class World : MonoBehaviour
         });
     }
 
+
+    public Task ChangeWaitType(int owner, ChangeWaitTypePacket.WaitType moveType, float posX, float posY, float posZ)
+    {
+        return ExecuteWithEntityAsync(owner, e =>
+        {
+            e.transform.position = new Vector3(posX, e.transform.position.y, posZ);
+            e.UpdateWaitType(moveType);
+        });
+    }
+
     public Task StatusUpdate(int id, List<StatusUpdatePacket.Attribute> attributes)
     {
         return ExecuteWithEntityAsync(id, e =>

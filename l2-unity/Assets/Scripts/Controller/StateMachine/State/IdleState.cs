@@ -21,51 +21,51 @@ public class IdleState : StateBase
 
     public override void HandleEvent(Event evt)
     {
-        if (evt == Event.READY_TO_ACT)
+        switch (evt)
         {
-            if (TargetManager.Instance.HasAttackTarget() && !_stateMachine.WaitingForServerReply)
-            {
-                //Debug.Log("On Reaching Target");
-                PathFinderController.Instance.ClearPath();
-                PlayerController.Instance.ResetDestination();
-
-                if (_stateMachine.NetworkTransformShare != null)
+            case Event.READY_TO_ACT:
+                if (TargetManager.Instance.HasAttackTarget() && !_stateMachine.WaitingForServerReply)
                 {
-                    _stateMachine.NetworkTransformShare.SharePosition();
-                }
+                    //Debug.Log("On Reaching Target");
+                    PathFinderController.Instance.ClearPath();
+                    PlayerController.Instance.ResetDestination();
 
-                NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
+                    if (_stateMachine.NetworkTransformShare != null)
+                    {
+                        _stateMachine.NetworkTransformShare.SharePosition();
+                    }
 
-                if (TargetManager.Instance.IsAttackTargetSet())
-                {
-                    GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack(-1);
+                    NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
+
+                    if (TargetManager.Instance.IsAttackTargetSet())
+                    {
+                        GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack(-1);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[StateMachine] Attacking a target which is not current target.");
+                        GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack(TargetManager.Instance.AttackTarget.Identity.Id);
+                    }
+
+                    _stateMachine.SetWaitingForServerReply(true);
                 }
                 else
                 {
-                    Debug.LogWarning("[StateMachine] Attacking a target which is not current target.");
-                    GameClient.Instance.ClientPacketHandler.SendRequestAutoAttack(TargetManager.Instance.AttackTarget.Identity.Id);
+                    _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
                 }
-
-                _stateMachine.SetWaitingForServerReply(true);
-            }
-            else
-            {
-                _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
-            }
-        }
-        else if (evt == Event.ACTION_ALLOWED)
-        {
-            if (_stateMachine.Intention == Intention.INTENTION_ATTACK)
-            {
-                _stateMachine.ChangeState(PlayerState.ATTACKING);
-            }
-            // if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
-            // {
-            //     _stateMachine.ChangeState(PlayerState.ATTACKING);
-            // }
-        }
-        else if (evt == Event.ACTION_DENIED)
-        {
+                break;
+            case Event.ACTION_ALLOWED:
+                if (_stateMachine.Intention == Intention.INTENTION_ATTACK)
+                {
+                    _stateMachine.ChangeState(PlayerState.ATTACKING);
+                }
+                if (_stateMachine.Intention == Intention.INTENTION_SIT)
+                {
+                    _stateMachine.ChangeState(PlayerState.SITTING);
+                }
+                break;
+            case Event.ACTION_DENIED:
+                break;
 
         }
     }

@@ -105,6 +105,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.ShortcutRegister:
                 OnShortcutRegister(data);
                 break;
+            case GameServerPacketType.ChangeWaitType:
+                OnChangeWaitType(data);
+                break;
         }
     }
 
@@ -421,5 +424,11 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         ShortcutRegisterPacket packet = new ShortcutRegisterPacket(data);
         _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.RegisterShortcut(packet.NewShortcut));
+    }
+
+    private void OnChangeWaitType(byte[] data)
+    {
+        ChangeWaitTypePacket packet = new ChangeWaitTypePacket(data);
+        World.Instance.ChangeWaitType(packet.Owner, packet.MoveType, packet.PosX, packet.PosY, packet.PosZ);
     }
 }

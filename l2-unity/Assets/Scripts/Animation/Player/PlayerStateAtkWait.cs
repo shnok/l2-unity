@@ -36,9 +36,10 @@ public class PlayerStateAtkWait : PlayerStateAction
             return;
         }
 
-        //if (ShouldSit()) {
-        //    return;
-        //}
+        if (ShouldSit())
+        {
+            return;
+        }
 
         if (ShouldAtkWait())
         {

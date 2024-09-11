@@ -164,4 +164,9 @@ public class PlayerEntity : Entity
                 break;
         }
     }
+
+    public override void UpdateWaitType(ChangeWaitTypePacket.WaitType moveType)
+    {
+        PlayerStateMachine.Instance.OnActionAllowed();
+    }
 }

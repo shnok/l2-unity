@@ -75,6 +75,12 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ChangeIntention(Intention newIntention, object arg0)
     {
+        if (_waitingForServerReply)
+        {
+            //TODO: Set this new intention in a "NextIntention" in temporary variable
+            return;
+        }
+
         if (_enableLogs) Debug.Log("[StateMachine][INTENTION] " + newIntention);
         _intentionInstance?.Exit();
         _currentIntention = newIntention;
@@ -90,6 +96,7 @@ public class PlayerStateMachine : MonoBehaviour
             PlayerState.RUNNING => new RunningState(this),
             PlayerState.ATTACKING => new AttackingState(this),
             PlayerState.DEAD => new DeadState(this),
+            PlayerState.SITTING => new SittingState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }
@@ -102,12 +109,15 @@ public class PlayerStateMachine : MonoBehaviour
             Intention.INTENTION_MOVE_TO => new MoveToIntention(this),
             Intention.INTENTION_ATTACK => new AttackIntention(this),
             Intention.INTENTION_FOLLOW => new FollowIntention(this),
+            Intention.INTENTION_SIT => new SitIntention(this),
             _ => throw new ArgumentException("Invalid intention")
         };
     }
 
-    public bool CanMove() =>
-        _currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING;
+    public bool CanMove()
+    {
+        return (_currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING) && !_waitingForServerReply;
+    }
 
     public void NotifyEvent(Event evt)
     {

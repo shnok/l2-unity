@@ -2,17 +2,17 @@ using System;
 
 public class PlayerStateAction : PlayerStateBase
 {
-    //protected bool ShouldSit() {
-    //    if (InputManager.Instance.IsInputPressed(InputType.Sit)) {
-    //        CameraController.Instance.StickToBone = true;
-    //        PlayerController.Instance.SetCanMove(false);
-    //        SetBool("sit", true);
-    //        return true;
-    //    }
+    protected bool ShouldSit()
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.SITTING)
+        {
+            SetBool("sit", false, true, false); //Do not share sit animation (shared by server with ChangeWaitType)
+                                                // At some point need to get rid of the ShareAnimation packet 
+            return true;
+        }
 
-    //    return false;
-    //}
-
+        return false;
+    }
 
     protected bool ShouldJump(bool run)
     {

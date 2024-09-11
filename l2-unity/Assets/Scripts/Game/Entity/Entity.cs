@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-public class Entity : MonoBehaviour {
+public class Entity : MonoBehaviour
+{
     [SerializeField] private bool _entityLoaded;
     [SerializeField] private NetworkIdentity _identity;
     [SerializeField] private Status _status;
@@ -39,17 +40,21 @@ public class Entity : MonoBehaviour {
     public bool EntityLoaded { get { return _entityLoaded; } set { _entityLoaded = value; } }
     public Gear Gear { get { return _gear; } }
 
-    public void FixedUpdate() {
+    public void FixedUpdate()
+    {
         LookAtTarget();
     }
 
-    protected virtual void LookAtTarget() {
-        if (AttackTarget != null && Status.Hp > 0) {
+    protected virtual void LookAtTarget()
+    {
+        if (AttackTarget != null && Status.Hp > 0)
+        {
             _networkTransformReceive.LookAt(_attackTarget);
         }
     }
 
-    public virtual void Initialize() {
+    public virtual void Initialize()
+    {
         TryGetComponent(out _networkAnimationReceive);
         TryGetComponent(out _networkTransformReceive);
         TryGetComponent(out _networkCharacterControllerReceive);
@@ -63,8 +68,10 @@ public class Entity : MonoBehaviour {
     }
 
     // Called when ApplyDamage packet is received 
-    public void ApplyDamage(int damage, bool criticalHit) {
-        if(_status.Hp <= 0) {
+    public void ApplyDamage(int damage, bool criticalHit)
+    {
+        if (_status.Hp <= 0)
+        {
             Debug.LogWarning("Trying to apply damage to a dead entity");
             return;
         }
@@ -73,56 +80,73 @@ public class Entity : MonoBehaviour {
 
         OnHit(criticalHit);
 
-        if(_status.Hp <= 0) {
+        if (_status.Hp <= 0)
+        {
             OnDeath();
         }
     }
 
-    public virtual void EquipAllWeapons() {
-        if(_gear == null) {
+    public virtual void EquipAllWeapons()
+    {
+        if (_gear == null)
+        {
             Debug.LogWarning("Gear script is not attached to entity");
             return;
         }
-        if (_appearance.LHand != 0) {
+        if (_appearance.LHand != 0)
+        {
             _gear.EquipWeapon(_appearance.LHand, true);
-        } else {
+        }
+        else
+        {
             _gear.UnequipWeapon(true);
         }
-        if (_appearance.RHand != 0) {
+        if (_appearance.RHand != 0)
+        {
             _gear.EquipWeapon(_appearance.RHand, false);
-        } else {
+        }
+        else
+        {
             _gear.UnequipWeapon(false);
         }
     }
 
     /* Notify server that entity got attacked */
-    public void InflictAttack(AttackType attackType) {
+    public void InflictAttack(AttackType attackType)
+    {
         GameClient.Instance.ClientPacketHandler.InflictAttack(_identity.Id, attackType);
     }
 
-    protected virtual void OnDeath() {
-        if(_networkAnimationReceive != null) {
+    protected virtual void OnDeath()
+    {
+        if (_networkAnimationReceive != null)
+        {
             _networkAnimationReceive.enabled = false;
         }
-        if (_networkTransformReceive != null) {
+        if (_networkTransformReceive != null)
+        {
             _networkTransformReceive.enabled = false;
         }
-        if (_networkCharacterControllerReceive != null) {
+        if (_networkCharacterControllerReceive != null)
+        {
             _networkCharacterControllerReceive.enabled = false;
         }
     }
 
-    protected virtual void OnHit(bool criticalHit) {
+    protected virtual void OnHit(bool criticalHit)
+    {
         // TODO: Add armor type for more hit sounds
         AudioManager.Instance.PlayHitSound(criticalHit, transform.position);
     }
 
-    public virtual void OnStopMoving() {}
+    public virtual void OnStopMoving() { }
 
-    public virtual void OnStartMoving(bool walking) {}
+    public virtual void OnStartMoving(bool walking) { }
 
-    public virtual bool StartAutoAttacking() {
-        if (_target == null) {
+    public virtual bool StartAutoAttacking()
+    {
+        if (_target == null)
+        {
             Debug.LogWarning("Trying to attack a null target");
             return false;
         }
@@ -133,9 +157,11 @@ public class Entity : MonoBehaviour {
         return true;
     }
 
-    public virtual bool StopAutoAttacking() {
+    public virtual bool StopAutoAttacking()
+    {
         Debug.Log($"[{Identity.Name}] Stop autoattacking");
-        if (_attackTarget == null) {
+        if (_attackTarget == null)
+        {
             return false;
         }
 
@@ -144,24 +170,33 @@ public class Entity : MonoBehaviour {
         return true;
     }
 
-    public virtual float UpdatePAtkSpeed(int pAtkSpd) {
+    public virtual float UpdatePAtkSpeed(int pAtkSpd)
+    {
         _stats.PAtkSpd = pAtkSpd;
         return StatsConverter.Instance.ConvertStat(Stat.PHYS_ATTACK_SPEED, pAtkSpd);
     }
 
-    public virtual float UpdateMAtkSpeed(int mAtkSpd) {
+    public virtual float UpdateMAtkSpeed(int mAtkSpd)
+    {
         _stats.MAtkSpd = mAtkSpd;
         return StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
     }
 
-    public virtual float UpdateSpeed(int speed) {
+    public virtual float UpdateSpeed(int speed)
+    {
         float scaled = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
         _stats.Speed = speed;
         _stats.ScaledSpeed = scaled;
         return StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
     }
 
-    public bool IsDead() {
+    public bool IsDead()
+    {
         return Status.Hp <= 0;
+    }
+
+    public virtual void UpdateWaitType(ChangeWaitTypePacket.WaitType moveType)
+    {
+
     }
 }

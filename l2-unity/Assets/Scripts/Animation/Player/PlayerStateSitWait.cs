@@ -1,20 +1,28 @@
 using UnityEngine;
 
-public class PlayerStateSitWait : PlayerStateAction {
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+public class PlayerStateSitWait : PlayerStateAction
+{
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         LoadComponents(animator);
-        if (!_enabled) {
+        if (!_enabled)
+        {
             return;
         }
+
+        SetBool("sit", false, false, false);
 
     }
 
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 
-        if (ShouldDie()) {
+        if (ShouldDie())
+        {
             return;
         }
 
@@ -25,6 +33,7 @@ public class PlayerStateSitWait : PlayerStateAction {
         //}
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
     }
 }

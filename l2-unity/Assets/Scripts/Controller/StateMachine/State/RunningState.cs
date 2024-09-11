@@ -6,16 +6,24 @@ public class RunningState : StateBase
 
     public override void HandleEvent(Event evt)
     {
-        if (evt == Event.ARRIVED)
+        switch (evt)
         {
-            if (TargetManager.Instance.HasAttackTarget())
-            {
-                _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.TargetReached);
-            }
-            else
-            {
-                _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
-            }
+            case Event.ARRIVED:
+                if (TargetManager.Instance.HasAttackTarget())
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.TargetReached);
+                }
+                else
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+                }
+                break;
+            case Event.ACTION_ALLOWED:
+                if (_stateMachine.Intention == Intention.INTENTION_SIT)
+                {
+                    _stateMachine.ChangeState(PlayerState.SITTING);
+                }
+                break;
         }
     }
 
