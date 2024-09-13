@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class UserStateRun : UserStateAction
+public class UserStateWalk : UserStateAction
 {
-    private bool _hasStarted = false;
     private float _lastNormalizedTime = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -13,10 +12,9 @@ public class UserStateRun : UserStateAction
             return;
         }
 
-        _hasStarted = true;
         _lastNormalizedTime = 0;
-        SetBool("run", true, false);
-        foreach (var ratio in _audioHandler.RunStepRatios)
+        SetBool("walk", true, false);
+        foreach (var ratio in _audioHandler.WalkStepRatios)
         {
             _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
         }
@@ -29,25 +27,12 @@ public class UserStateRun : UserStateAction
             return;
         }
 
-        SetBool("run", true, false);
-
-        if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f)
-        {
-            if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance))
-            {
-                _audioHandler.PlaySound(CharacterSoundEvent.Breath);
-            }
-            _hasStarted = false;
-        }
-        if ((stateInfo.normalizedTime % 1) >= 0.90f)
-        {
-            _hasStarted = true;
-        }
+        SetBool("walk", true, false);
 
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            foreach (var ratio in _audioHandler.RunStepRatios)
+            foreach (var ratio in _audioHandler.WalkStepRatios)
             {
                 _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
             }
@@ -66,9 +51,9 @@ public class UserStateRun : UserStateAction
             }
             SetBool("wait", true, true);
         }
-        else if (!_entity.Running)
+        else if (_entity.Running)
         {
-            SetBool("walk", true, true);
+            SetBool("run", true, true);
             return;
         }
     }

@@ -93,6 +93,8 @@ public class BaseAnimationController : MonoBehaviour
         //    Debug.LogWarning($"Set bool {name}={value}");
         //}
 
+        // Debug.LogWarning($"Set bool {name}={value}");
+
         // Save the last animation name
         if (value == true)
         {
