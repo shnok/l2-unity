@@ -122,19 +122,22 @@ public class UserEntity : Entity
     {
         if (moveType == ChangeWaitTypePacket.WaitType.WT_SITTING)
         {
-            _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Sitdown);
+            _networkAnimationReceive.SetBool("sit", true);
+            //  _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Sitdown);
         }
         else if (moveType == ChangeWaitTypePacket.WaitType.WT_STANDING)
         {
-            _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Standup);
+            _networkAnimationReceive.SetBool("stand", true);
+            //  _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Standup);
         }
         else if (moveType == ChangeWaitTypePacket.WaitType.WT_START_FAKEDEATH)
         {
-            _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Death);
+            _networkAnimationReceive.SetBool("death", true);
+            //   _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Death);
         }
         else if (moveType == ChangeWaitTypePacket.WaitType.WT_STOP_FAKEDEATH)
         {
-            _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Atk_1H_S);
+            //  _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Atk_1H_S);
         }
     }
 }

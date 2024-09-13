@@ -93,6 +93,17 @@ public class PlayerStateAction : PlayerStateBase
     //    return false;
     //}
 
+    protected bool ShouldStand()
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.STANDING)
+        {
+            SetBool("stand", false, true, false);
+            return true;
+        }
+
+        return false;
+    }
+
     protected bool ShouldAtkWait()
     {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();

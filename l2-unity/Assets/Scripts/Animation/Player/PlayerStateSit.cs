@@ -21,6 +21,8 @@ public class PlayerStateSit : PlayerStateAction
             return;
         }
 
+        SetBool("sit", false, false, false);
+
         if (ShouldDie())
         {
             return;

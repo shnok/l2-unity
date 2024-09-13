@@ -26,6 +26,11 @@ public class PlayerStateSitWait : PlayerStateAction
             return;
         }
 
+        if (ShouldStand())
+        {
+            return;
+        }
+
         //if (InputManager.Instance.IsInputPressed(InputType.Sit) || InputManager.Instance.IsInputPressed(InputType.Move)) {
         //    CameraController.Instance.StickToBone = true;
         //    PlayerController.Instance.SetCanMove(false);

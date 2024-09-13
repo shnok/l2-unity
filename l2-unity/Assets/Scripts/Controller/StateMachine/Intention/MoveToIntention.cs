@@ -6,7 +6,11 @@ public class MoveToIntention : IntentionBase
 
     public override void Enter(object arg0)
     {
-        // _stateMachine.ChangeState(PlayerState.RUNNING);
+        if (_stateMachine.State == PlayerState.SITTING || _stateMachine.State == PlayerState.SIT_WAIT || _stateMachine.State == PlayerState.STANDING)
+        {
+            _stateMachine.ChangeIntention(Intention.INTENTION_STAND);
+            return;
+        }
 
         if (arg0 != null)
         {

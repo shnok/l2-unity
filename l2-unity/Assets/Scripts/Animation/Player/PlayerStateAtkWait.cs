@@ -4,6 +4,11 @@ public class PlayerStateAtkWait : PlayerStateAction
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (!_enabled)
+        {
+            return;
+        }
+
         LoadComponents(animator);
         SetBool("atkwait", true, false, false);
     }

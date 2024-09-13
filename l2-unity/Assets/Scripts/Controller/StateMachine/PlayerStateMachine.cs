@@ -49,7 +49,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void SetWaitingForServerReply(bool value)
     {
-        // Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
+        Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
         _waitingForServerReply = value;
     }
 
@@ -97,6 +97,8 @@ public class PlayerStateMachine : MonoBehaviour
             PlayerState.ATTACKING => new AttackingState(this),
             PlayerState.DEAD => new DeadState(this),
             PlayerState.SITTING => new SittingState(this),
+            PlayerState.SIT_WAIT => new SitWaitState(this),
+            PlayerState.STANDING => new StandingState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }
@@ -110,6 +112,7 @@ public class PlayerStateMachine : MonoBehaviour
             Intention.INTENTION_ATTACK => new AttackIntention(this),
             Intention.INTENTION_FOLLOW => new FollowIntention(this),
             Intention.INTENTION_SIT => new SitIntention(this),
+            Intention.INTENTION_STAND => new StandIntention(this),
             _ => throw new ArgumentException("Invalid intention")
         };
     }

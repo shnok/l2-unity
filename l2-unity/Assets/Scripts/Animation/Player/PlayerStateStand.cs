@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class PlayerStateStand : PlayerStateAction {
+public class PlayerStateStand : PlayerStateAction
+{
     private float _lastNormalizedTime = 0;
 
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         LoadComponents(animator);
-        if (!_enabled) {
+        if (!_enabled)
+        {
             return;
         }
 
@@ -14,27 +17,40 @@ public class PlayerStateStand : PlayerStateAction {
         _audioHandler.PlaySound(CharacterSoundEvent.Standup);
     }
 
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 
-        if (ShouldDie()) {
+        SetBool("stand", false, false, false);
+
+        if (ShouldDie())
+        {
             return;
         }
 
-        if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
-            _lastNormalizedTime = stateInfo.normalizedTime;
-            SetBool("wait", true, true);
+        if (ShouldIdle())
+        {
+            return;
         }
+
+        // if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
+        // {
+        //     _lastNormalizedTime = stateInfo.normalizedTime;
+        //     SetBool("wait", true, true);
+        // }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 
         CameraController.Instance.StickToBone = false;
-      //  PlayerController.Instance.SetCanMove(true);
+        //  PlayerController.Instance.SetCanMove(true);
     }
 }

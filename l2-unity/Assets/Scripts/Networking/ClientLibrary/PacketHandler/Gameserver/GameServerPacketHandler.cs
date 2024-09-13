@@ -429,6 +429,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnChangeWaitType(byte[] data)
     {
         ChangeWaitTypePacket packet = new ChangeWaitTypePacket(data);
+        Debug.Log("ChangeWaitType: " + packet.Owner + " " + packet.MoveType);
         World.Instance.ChangeWaitType(packet.Owner, packet.MoveType, packet.PosX, packet.PosY, packet.PosZ);
     }
 }
