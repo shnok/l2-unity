@@ -125,11 +125,20 @@ public class PlayerEntity : Entity
         return converted;
     }
 
-    public override float UpdateSpeed(int speed)
+    public override float UpdateRunSpeed(int speed)
     {
-        float converted = base.UpdateSpeed(speed);
-        PlayerAnimationController.Instance.SetMoveSpeed(converted);
-        PlayerController.Instance.DefaultSpeed = converted;
+        float converted = base.UpdateRunSpeed(speed);
+        PlayerAnimationController.Instance.SetRunSpeed(converted);
+        PlayerController.Instance.DefaultRunSpeed = converted;
+
+        return converted;
+    }
+
+    public override float UpdateWalkSpeed(int speed)
+    {
+        float converted = base.UpdateWalkSpeed(speed);
+        PlayerAnimationController.Instance.SetWalkSpeed(converted);
+        PlayerController.Instance.DefaultWalkSpeed = converted;
 
         return converted;
     }
@@ -162,6 +171,28 @@ public class PlayerEntity : Entity
             case PlayerAction.Move:
                 PlayerStateMachine.Instance.OnActionAllowed();
                 break;
+        }
+    }
+
+    public override void UpdateWaitType(ChangeWaitTypePacket.WaitType moveType)
+    {
+        base.UpdateWaitType(moveType);
+
+        PlayerStateMachine.Instance.OnActionAllowed();
+    }
+
+    public override void UpdateMoveType(bool running)
+    {
+        base.UpdateMoveType(running);
+
+        if (PlayerController.Instance != null)
+        {
+            PlayerController.Instance.Running = running;
+        }
+
+        if (PlayerStateMachine.Instance != null)
+        {
+            PlayerStateMachine.Instance.NotifyEvent(Event.MOVE_TYPE_UPDATED);
         }
     }
 }

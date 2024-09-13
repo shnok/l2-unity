@@ -6,16 +6,27 @@ public class MoveToIntention : IntentionBase
 
     public override void Enter(object arg0)
     {
-        // _stateMachine.ChangeState(PlayerState.RUNNING);
+        if (_stateMachine.State == PlayerState.SITTING || _stateMachine.State == PlayerState.SIT_WAIT || _stateMachine.State == PlayerState.STANDING)
+        {
+            _stateMachine.ChangeIntention(Intention.INTENTION_STAND);
+            return;
+        }
 
         if (arg0 != null)
         {
             PathFinderController.Instance.MoveTo((Vector3)arg0);
         }
 
-        if (_stateMachine.State == PlayerState.RUNNING || _stateMachine.State == PlayerState.IDLE)
+        if (_stateMachine.IsInMovableState())
         {
-            _stateMachine.ChangeState(PlayerState.RUNNING);
+            if (PlayerEntity.Instance.Running)
+            {
+                _stateMachine.ChangeState(PlayerState.RUNNING);
+            }
+            else
+            {
+                _stateMachine.ChangeState(PlayerState.WALKING);
+            }
         }
         else if (!_stateMachine.WaitingForServerReply)
         {

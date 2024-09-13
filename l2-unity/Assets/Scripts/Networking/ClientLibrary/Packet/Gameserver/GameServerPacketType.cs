@@ -29,5 +29,8 @@ public enum GameServerPacketType : byte
     LeaveWorld = 0x1A,
     RestartReponse = 0x1B,
     ShortcutInit = 0x1C,
-    ShortcutRegister = 0x1D
+    ShortcutRegister = 0x1D,
+    SocialAction = 0x1E,
+    ChangeWaitType = 0x1F,
+    ChangeMoveType = 0x20
 }

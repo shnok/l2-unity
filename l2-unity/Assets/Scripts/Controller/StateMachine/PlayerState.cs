@@ -1,4 +1,5 @@
-public enum PlayerState {
+public enum PlayerState
+{
     IDLE,
     ATTACKING,
     ANIMATION_LOCKED,
@@ -8,5 +9,7 @@ public enum PlayerState {
     UNCONTROLLABLE,
     EMOTING,
     SITTING,
+    SIT_WAIT,
+    STANDING,
     DEAD
 }

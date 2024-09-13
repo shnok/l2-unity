@@ -60,8 +60,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!1102 &-8552094679964632665
 AnimatorState:
   serializedVersion: 6
@@ -86,7 +84,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 957d2627f2babb94d9507dfb6cb7bbdf, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -103,8 +101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1101 &-8451134137542940837
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -140,8 +136,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!1102 &-8435281348558128612
 AnimatorState:
   serializedVersion: 6
@@ -203,8 +197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!114 &-8186604645653537020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,8 +210,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1101 &-8160019766720223834
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -266,7 +256,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 2c589d155dc85624c8556dcf8c7c96b6, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -283,8 +273,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!114 &-8102254483703562107
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -298,8 +286,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!114 &-7780567674310768879
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -313,8 +299,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1101 &-7667392003323718687
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -353,8 +337,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
+--- !u!114 &-7551807510823482235
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a976b4a197b38d442af9f18cfe2bddf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!1101 &-7542744906934502061
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -399,7 +394,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 41872b698d2b61a46a6384ad156632ea, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -450,7 +445,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 75add098b1317a84094aa4141313b506, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -492,8 +487,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!114 &-6947109255137180318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -507,8 +500,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1101 &-6877980033183152586
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -544,8 +535,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!114 &-6747588116655581788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -559,8 +548,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!1101 &-6590439403293335853
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -599,8 +586,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1102 &-6535930471803049344
 AnimatorState:
   serializedVersion: 6
@@ -625,7 +610,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: bf3fdc8d7d17410429beb05efa88bdca, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -653,10 +638,23 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: f7090efe7434d1e469b67e882164a64b, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: run_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-6075255613660822565
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a976b4a197b38d442af9f18cfe2bddf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!114 &-6031817947582711059
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -670,8 +668,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!114 &-6006323425714302281
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -685,8 +681,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1102 &-6003969983813099880
 AnimatorState:
   serializedVersion: 6
@@ -695,21 +689,23 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: walk_dual
-  m_Speed: 1
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -2226216491126322223}
+  - {fileID: -6075255613660822565}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 92eb24b3cd1408c4996b0dbee58c6442, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -726,8 +722,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!114 &-5881122146273154680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -741,8 +735,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!1102 &-5815957331509951425
 AnimatorState:
   serializedVersion: 6
@@ -767,7 +759,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 9847aecb47056e040ae8d56c5d2b1437, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: run_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -835,8 +827,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1101 &-5024877433459754117
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -875,8 +865,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1101 &-4811354474675036554
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -937,8 +925,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1101 &-4285898001363139661
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1032,7 +1018,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 7c3bbc5311201a44c806b85b3b72e4ee, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1060,7 +1046,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 8b893e353fa8712438b999a5c0e598a5, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1088,7 +1074,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: c2a14d5fe1ccd664d9304d52c69f6194, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1105,8 +1091,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1102 &-3592469238315095503
 AnimatorState:
   serializedVersion: 6
@@ -1160,6 +1144,19 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
+--- !u!114 &-3173312217781218610
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a976b4a197b38d442af9f18cfe2bddf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!1101 &-3129036635654558931
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1234,7 +1231,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: c74e01b715d8afe4391c0fe482326350, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1322,24 +1319,39 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: walk_2HS
-  m_Speed: 1
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 8781696306078248216}
+  - {fileID: -3173312217781218610}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 8fc1ecbd5792f8a419dbf49842074312, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-2728390894154372658
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dde87294195be47ba0c004432e86bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!114 &-2705857979992630877
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1353,8 +1365,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1102 &-2688199095767943405
 AnimatorState:
   serializedVersion: 6
@@ -1379,7 +1389,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 1f38e10d5afb13641ad5a74e80edf3e7, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1407,7 +1417,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 91b8cc4a8506fba4aa17614c487b3846, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1424,8 +1434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!114 &-2582193268523737695
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1439,8 +1447,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!114 &-2471650527890941361
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1454,8 +1460,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1101 &-2454789296473233993
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1535,6 +1539,19 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
+--- !u!114 &-2226216491126322223
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dde87294195be47ba0c004432e86bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!1102 &-2167155312241742108
 AnimatorState:
   serializedVersion: 6
@@ -1559,7 +1576,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 0f79c550a29381a4084db99c5381c5be, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: run_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1588,6 +1605,19 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
+--- !u!114 &-1983513330056099011
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a976b4a197b38d442af9f18cfe2bddf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!1102 &-1684330815122793332
 AnimatorState:
   serializedVersion: 6
@@ -1610,7 +1640,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 63990c7aa6063bc4dbef9e85cc6003b2, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1638,7 +1668,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 8df9670777d78f04b831fe627eb1a95b, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1713,7 +1743,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 469f9d1f29ef02941a7b81a6cd119aeb, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: run_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1835,8 +1865,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1102 &-632110641085126201
 AnimatorState:
   serializedVersion: 6
@@ -1845,21 +1873,23 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: walk_bow
-  m_Speed: 1
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -2728390894154372658}
+  - {fileID: 6603935049095507218}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 8e8492bfe0f2ffa41a3a385425e7ac3b, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1898,8 +1928,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!1107 &-323563886131513667
 AnimatorStateMachine:
   serializedVersion: 6
@@ -2197,8 +2225,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -2508,7 +2534,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: speed
+  - m_Name: walk_speed
+    m_Type: 1
+    m_DefaultFloat: 1
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: run_speed
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
@@ -2571,8 +2603,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
+--- !u!114 &251672557362533220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a976b4a197b38d442af9f18cfe2bddf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!1102 &259051011057014534
 AnimatorState:
   serializedVersion: 6
@@ -2598,7 +2641,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: ab816495e0952004fb7689b61861a7cc, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -2665,8 +2708,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1102 &801424905681970209
 AnimatorState:
   serializedVersion: 6
@@ -2689,7 +2730,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 232e55781e572b642b76c0a5f5e076da, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -2760,8 +2801,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!114 &1186514035011411180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2775,8 +2814,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1102 &1246958812617430029
 AnimatorState:
   serializedVersion: 6
@@ -2841,8 +2878,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!1101 &1557112233827050370
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2868,6 +2903,19 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
+--- !u!114 &1562772559380865811
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dde87294195be47ba0c004432e86bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!1102 &1701810685821752499
 AnimatorState:
   serializedVersion: 6
@@ -2890,7 +2938,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: a37a067fa9d13b54590990a17f824b40, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -2932,8 +2980,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!114 &1980010328117803259
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2947,8 +2993,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!1102 &1999328760289581217
 AnimatorState:
   serializedVersion: 6
@@ -2973,7 +3017,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 0c86d8a5357baa946bca6deb3df1f763, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -3015,8 +3059,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1102 &2220897335022309199
 AnimatorState:
   serializedVersion: 6
@@ -3041,7 +3083,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 5b77fef656b07724da95d23aba8bce57, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -3058,8 +3100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!114 &2369949753964286463
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3073,8 +3113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!1101 &2780459890347563774
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -3139,8 +3177,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!1101 &2859590378588785443
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -3179,8 +3215,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1102 &2913671906307039428
 AnimatorState:
   serializedVersion: 6
@@ -3189,21 +3223,23 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: walk_1HS
-  m_Speed: 1
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 1562772559380865811}
+  - {fileID: -7551807510823482235}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: ab1e09106ea0bc0439d6f821c9fc90a6, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -3249,8 +3285,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!114 &3164431031910996253
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3264,8 +3298,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1102 &3300803781450488331
 AnimatorState:
   serializedVersion: 6
@@ -3290,7 +3322,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 7b1c85e71868c884d8429e561a072e49, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -3336,8 +3368,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!114 &3922229499145451199
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3351,8 +3381,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!1102 &3939094384619174411
 AnimatorState:
   serializedVersion: 6
@@ -3377,7 +3405,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 9847aecb47056e040ae8d56c5d2b1437, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: run_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -3394,8 +3422,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1101 &4101251219538041431
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -3484,8 +3510,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!1102 &4297781783686656201
 AnimatorState:
   serializedVersion: 6
@@ -3564,7 +3588,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: c18c7aac6285b1b4c842a80ec183cb43, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -3607,8 +3631,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1102 &4595799664881029406
 AnimatorState:
   serializedVersion: 6
@@ -3673,8 +3695,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
+--- !u!114 &4832233982424035361
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dde87294195be47ba0c004432e86bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!114 &4911246618607484022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3688,8 +3721,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!1101 &5090265770684097590
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -3725,8 +3756,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!114 &5307949970015159333
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3740,8 +3769,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!114 &5338917707580932369
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3755,8 +3782,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!114 &5415089742089202189
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3770,8 +3795,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!1101 &5525817319305394383
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -3886,8 +3909,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1101 &5838745068521677843
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -3921,21 +3942,23 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: walk_hand
-  m_Speed: 1
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 6047882314757310430}
+  - {fileID: -1983513330056099011}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 7a8a2513a7ab2a745ba00d6f0471ec52, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -4067,7 +4090,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: c472899ca98c0084aa16267fa0a30e52, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -4084,8 +4107,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!114 &5999677414912348006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4099,8 +4120,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
+--- !u!114 &6047882314757310430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dde87294195be47ba0c004432e86bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!114 &6133884865208761683
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4114,8 +4146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1101 &6139309518427508387
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4154,8 +4184,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1102 &6183261178106670563
 AnimatorState:
   serializedVersion: 6
@@ -4164,21 +4192,23 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: walk_pole
-  m_Speed: 1
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 4832233982424035361}
+  - {fileID: 251672557362533220}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 38e59d21435cd2240821a1dd8e61345e, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -4195,8 +4225,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!114 &6261659149939686630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4210,8 +4238,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!114 &6460621751927975046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4225,8 +4251,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 0
-  _weaponAnim: 
 --- !u!114 &6581336630942696665
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4240,8 +4264,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
+--- !u!114 &6603935049095507218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a976b4a197b38d442af9f18cfe2bddf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!114 &6617254011352949518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4255,8 +4290,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1101 &6622105548856931743
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4295,8 +4328,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!114 &7028938805939883492
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4310,8 +4341,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!1102 &7043330288798479925
 AnimatorState:
   serializedVersion: 6
@@ -4336,7 +4365,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 9847aecb47056e040ae8d56c5d2b1437, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: run_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -4353,8 +4382,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!114 &7194907285976264862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4368,8 +4395,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1102 &7438922053808145741
 AnimatorState:
   serializedVersion: 6
@@ -4412,8 +4437,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!1102 &7720312349417973476
 AnimatorState:
   serializedVersion: 6
@@ -4456,8 +4479,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!1101 &8217562025343072822
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4507,7 +4528,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 7ddb8a8b7d89fd145b94dcb625527421, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -4536,7 +4557,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: dea4d2afb3aabe84a96ad1edf5ece539, type: 2}
   m_Tag: 
-  m_SpeedParameter: speed
+  m_SpeedParameter: walk_speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -4590,6 +4611,19 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
+--- !u!114 &8781696306078248216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dde87294195be47ba0c004432e86bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enabled: 1
 --- !u!1101 &8884665096506307157
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4650,8 +4684,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1
 --- !u!1101 &8966607029679645453
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4690,8 +4722,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 0
 --- !u!1102 &9132580372665246902
 AnimatorState:
   serializedVersion: 6
@@ -4731,8 +4761,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponType: 1
-  _weaponAnim: 
 --- !u!114 &9181399725849284563
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4746,5 +4774,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabled: 1
-  _weaponAnim: 
-  _weaponType: 1

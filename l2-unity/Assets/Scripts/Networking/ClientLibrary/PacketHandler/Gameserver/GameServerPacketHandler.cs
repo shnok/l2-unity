@@ -105,6 +105,12 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.ShortcutRegister:
                 OnShortcutRegister(data);
                 break;
+            case GameServerPacketType.ChangeWaitType:
+                OnChangeWaitType(data);
+                break;
+            case GameServerPacketType.ChangeMoveType:
+                OnChangeMoveType(data);
+                break;
         }
     }
 
@@ -255,14 +261,15 @@ public class GameServerPacketHandler : ServerPacketHandler
                 packet.PacketPlayerInfo.Identity,
                 packet.PacketPlayerInfo.Status,
                 packet.PacketPlayerInfo.Stats,
-                packet.PacketPlayerInfo.Appearance);
+                packet.PacketPlayerInfo.Appearance,
+                packet.PacketPlayerInfo.Running);
         }
     }
 
     private void OnUserInfoReceive(byte[] data)
     {
         UserInfoPacket packet = new UserInfoPacket(data);
-        World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance);
+        World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.Running);
     }
 
     private void OnUpdatePosition(byte[] data)
@@ -293,6 +300,8 @@ public class GameServerPacketHandler : ServerPacketHandler
         int id = packet.Id;
         int animId = packet.AnimId;
         float value = packet.Value;
+
+        Debug.Log($"ID: {id} AnimId: {(PlayerAnimationEvent)animId} Value: {value}");
 
         World.Instance.UpdateObjectAnimation(id, animId, value);
     }
@@ -421,5 +430,19 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         ShortcutRegisterPacket packet = new ShortcutRegisterPacket(data);
         _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.RegisterShortcut(packet.NewShortcut));
+    }
+
+    private void OnChangeWaitType(byte[] data)
+    {
+        ChangeWaitTypePacket packet = new ChangeWaitTypePacket(data);
+        Debug.Log("ChangeWaitType: " + packet.Owner + " " + packet.MoveType);
+        World.Instance.ChangeWaitType(packet.Owner, packet.MoveType, packet.PosX, packet.PosY, packet.PosZ);
+    }
+
+    private void OnChangeMoveType(byte[] data)
+    {
+        ChangeMoveTypePacket packet = new ChangeMoveTypePacket(data);
+        Debug.Log("ChangeMoveType: " + packet.Owner + " running? " + packet.Running);
+        World.Instance.ChangeMoveType(packet.Owner, packet.Running);
     }
 }

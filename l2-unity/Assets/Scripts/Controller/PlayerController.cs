@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     /* Movement */
     [SerializeField] private Vector3 _moveDirection;
     [SerializeField] private float _currentSpeed;
-    [SerializeField] private float _defaultSpeed = 4;
+    [SerializeField] private float _defaultRunSpeed = 4;
+    [SerializeField] private float _defaultWalkSpeed = 4;
+    [SerializeField] private bool _running = true;
     [SerializeField] private float _measuredSpeed;
     private Vector3 _currentPos;
     private Vector3 _lastPos;
@@ -29,8 +31,10 @@ public class PlayerController : MonoBehaviour
     private Vector3 _flatTransformPos;
 
     public float CurrentSpeed { get { return _currentSpeed; } }
-    public float DefaultSpeed { get { return _defaultSpeed; } set { _defaultSpeed = value; } }
+    public float DefaultRunSpeed { get { return _defaultRunSpeed; } set { _defaultRunSpeed = value; } }
+    public float DefaultWalkSpeed { get { return _defaultWalkSpeed; } set { _defaultWalkSpeed = value; } }
     public bool RunningToDestination { get { return _runningToDestination; } }
+    public bool Running { get { return _running; } set { _running = value; } }
     public Vector3 MoveDirection { get { return _moveDirection; } }
 
     private static PlayerController _instance;
@@ -153,7 +157,15 @@ public class PlayerController : MonoBehaviour
 
             _axis = relativeAxis;
             _finalAngle = angleInDegrees;
-            _currentSpeed = _defaultSpeed;
+
+            if (_running)
+            {
+                _currentSpeed = _defaultRunSpeed;
+            }
+            else
+            {
+                _currentSpeed = _defaultWalkSpeed;
+            }
         }
         else
         {
@@ -247,13 +259,16 @@ public class PlayerController : MonoBehaviour
     {
         float smoothDuration = 0.2f;
 
+
+        float selectSpeed = Running ? _defaultRunSpeed : _defaultWalkSpeed;
+
         if (InputManager.Instance.Move)
         {
-            speed = _defaultSpeed;
+            speed = selectSpeed;
         }
         else if (speed > 0 && _controller.isGrounded)
         {
-            speed -= (_defaultSpeed / smoothDuration) * Time.deltaTime;
+            speed -= (selectSpeed / smoothDuration) * Time.deltaTime;
         }
 
         return speed < 0 ? 0 : speed;
@@ -311,7 +326,7 @@ public class PlayerController : MonoBehaviour
 
     public void StopMoving()
     {
-        //ResetDestination();
+        ResetDestination();
         _moveDirection = new Vector3(0, _moveDirection.y, 0);
     }
 }

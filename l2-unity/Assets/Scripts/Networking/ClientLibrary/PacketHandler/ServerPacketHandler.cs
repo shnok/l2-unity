@@ -11,23 +11,30 @@ public abstract class ServerPacketHandler
     protected EventProcessor _eventProcessor;
     protected ClientPacketHandler _clientPacketHandler;
 
-    public void SetClient(AsynchronousClient client, ClientPacketHandler clientPacketHandler) {
+    public void SetClient(AsynchronousClient client, ClientPacketHandler clientPacketHandler)
+    {
         _client = client;
         _tokenSource = new CancellationTokenSource();
         _eventProcessor = EventProcessor.Instance;
         _clientPacketHandler = clientPacketHandler;
     }
 
-    public bool HandlePacketCrypto(byte[] data, bool init) {
-        if (_client.CryptEnabled) {
+    public bool HandlePacketCrypto(byte[] data, bool init)
+    {
+        if (_client.CryptEnabled)
+        {
             data = DecryptPacket(data);
 
-            if (init) {
-                if (!DecodeXOR(data)) {
+            if (init)
+            {
+                if (!DecodeXOR(data))
+                {
                     Debug.LogError("Packet XOR could not be decoded.");
                     return false;
                 }
-            } else if(!NewCrypt.verifyChecksum(data)) {
+            }
+            else if (!NewCrypt.verifyChecksum(data))
+            {
                 Debug.LogError("Packet checksum is wrong. Ignoring packet...");
                 return false;
             }
@@ -35,14 +42,14 @@ public abstract class ServerPacketHandler
 
         return true;
     }
-    
-    public async Task HandlePacketAsync(byte[] data) {
-        await Task.Run(() => {
-            HandlePacket(data);
-        });
+
+    public void HandlePacketAsync(byte[] data)
+    {
+        HandlePacket(data);
     }
 
-    public void CancelTokens() {
+    public void CancelTokens()
+    {
         _tokenSource.Cancel();
     }
 
@@ -50,8 +57,10 @@ public abstract class ServerPacketHandler
 
     protected abstract byte[] DecryptPacket(byte[] data);
 
-    public bool DecodeXOR(byte[] packet) {
-        if(NewCrypt.decXORPass(packet)) {
+    public bool DecodeXOR(byte[] packet)
+    {
+        if (NewCrypt.decXORPass(packet))
+        {
             Debug.Log("CLEAR: " + StringUtils.ByteArrayToString(packet));
             return true;
         }

@@ -185,4 +185,10 @@ public class GameClientPacketHandler : ClientPacketHandler
         RequestShortcutDelPacket packet = new RequestShortcutDelPacket(oldSlot);
         SendPacket(packet);
     }
+
+    public void RequestActionUse(int actionId)
+    {
+        RequestActionUsePacket packet = new RequestActionUsePacket(actionId);
+        SendPacket(packet);
+    }
 }

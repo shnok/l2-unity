@@ -18,9 +18,14 @@ public class BaseAnimationController : MonoBehaviour
         _lastAnimationVariableName = "wait_hand";
     }
 
-    public void SetMoveSpeed(float value)
+    public void SetRunSpeed(float value)
     {
-        _animator.SetFloat("speed", value);
+        _animator.SetFloat("run_speed", value);
+    }
+
+    public void SetWalkSpeed(float value)
+    {
+        _animator.SetFloat("walk_speed", value);
     }
 
     public void SetPAtkSpd(float value)
@@ -87,6 +92,8 @@ public class BaseAnimationController : MonoBehaviour
         //if (value != _animator.GetBool(name)) {
         //    Debug.LogWarning($"Set bool {name}={value}");
         //}
+
+        // Debug.LogWarning($"Set bool {name}={value}");
 
         // Save the last animation name
         if (value == true)

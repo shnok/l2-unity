@@ -9,8 +9,8 @@ public class ClickManager : MonoBehaviour
     public ObjectData HoverObjectData { get { return _hoverObjectData; } }
 
     private Vector3 _lastClickPosition = Vector3.zero;
-    private LayerMask _entityMask;
-    private LayerMask _clickThroughMask;
+    [SerializeField] private LayerMask _entityMask;
+    [SerializeField] private LayerMask _clickThroughMask;
 
     private static ClickManager _instance;
     public static ClickManager Instance { get { return _instance; } }

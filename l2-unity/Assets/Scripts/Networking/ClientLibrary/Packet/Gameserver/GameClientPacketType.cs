@@ -22,5 +22,6 @@ public enum GameClientPacketType : byte
     Disconnect = 0x13,
     RequestRestart = 0x14,
     RequestShortcutReg = 0x15,
-    RequestShortcutDel = 0x16
+    RequestShortcutDel = 0x16,
+    RequestActionUse = 0x17
 }

@@ -2,17 +2,17 @@ using System;
 
 public class PlayerStateAction : PlayerStateBase
 {
-    //protected bool ShouldSit() {
-    //    if (InputManager.Instance.IsInputPressed(InputType.Sit)) {
-    //        CameraController.Instance.StickToBone = true;
-    //        PlayerController.Instance.SetCanMove(false);
-    //        SetBool("sit", true);
-    //        return true;
-    //    }
+    protected bool ShouldSit()
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.SITTING)
+        {
+            SetBool("sit", false, true, false); //Do not share sit animation (shared by server with ChangeWaitType)
+                                                // At some point need to get rid of the ShareAnimation packet 
+            return true;
+        }
 
-    //    return false;
-    //}
-
+        return false;
+    }
 
     protected bool ShouldJump(bool run)
     {
@@ -41,6 +41,17 @@ public class PlayerStateAction : PlayerStateBase
         if (PlayerStateMachine.Instance.State == PlayerState.RUNNING)
         {
             SetBool("run", true, true);
+            return true;
+        }
+
+        return false;
+    }
+
+    protected bool ShouldWalk()
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.WALKING)
+        {
+            SetBool("walk", true, true);
             return true;
         }
 
@@ -92,6 +103,17 @@ public class PlayerStateAction : PlayerStateBase
 
     //    return false;
     //}
+
+    protected bool ShouldStand()
+    {
+        if (PlayerStateMachine.Instance.State == PlayerState.STANDING)
+        {
+            SetBool("stand", false, true, false);
+            return true;
+        }
+
+        return false;
+    }
 
     protected bool ShouldAtkWait()
     {

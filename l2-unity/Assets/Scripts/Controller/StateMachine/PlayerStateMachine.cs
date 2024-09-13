@@ -39,6 +39,8 @@ public class PlayerStateMachine : MonoBehaviour
 
         TryGetComponent<NetworkTransformShare>(out _networkTransformShare);
         TryGetComponent<NetworkCharacterControllerShare>(out _networkCharacterControllerShare);
+
+        this.enabled = false;
     }
 
     private void Start()
@@ -49,7 +51,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void SetWaitingForServerReply(bool value)
     {
-        // Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
+        Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
         _waitingForServerReply = value;
     }
 
@@ -75,6 +77,12 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ChangeIntention(Intention newIntention, object arg0)
     {
+        if (_waitingForServerReply)
+        {
+            //TODO: Set this new intention in a "NextIntention" in temporary variable
+            return;
+        }
+
         if (_enableLogs) Debug.Log("[StateMachine][INTENTION] " + newIntention);
         _intentionInstance?.Exit();
         _currentIntention = newIntention;
@@ -90,6 +98,10 @@ public class PlayerStateMachine : MonoBehaviour
             PlayerState.RUNNING => new RunningState(this),
             PlayerState.ATTACKING => new AttackingState(this),
             PlayerState.DEAD => new DeadState(this),
+            PlayerState.SITTING => new SittingState(this),
+            PlayerState.SIT_WAIT => new SitWaitState(this),
+            PlayerState.STANDING => new StandingState(this),
+            PlayerState.WALKING => new WalkingState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }
@@ -102,12 +114,21 @@ public class PlayerStateMachine : MonoBehaviour
             Intention.INTENTION_MOVE_TO => new MoveToIntention(this),
             Intention.INTENTION_ATTACK => new AttackIntention(this),
             Intention.INTENTION_FOLLOW => new FollowIntention(this),
+            Intention.INTENTION_SIT => new SitIntention(this),
+            Intention.INTENTION_STAND => new StandIntention(this),
             _ => throw new ArgumentException("Invalid intention")
         };
     }
 
-    public bool CanMove() =>
-        _currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING;
+    public bool CanMove()
+    {
+        return IsInMovableState() && !_waitingForServerReply;
+    }
+
+    public bool IsInMovableState()
+    {
+        return _currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING || _currentState == PlayerState.WALKING;
+    }
 
     public void NotifyEvent(Event evt)
     {

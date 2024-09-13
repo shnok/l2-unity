@@ -4,10 +4,12 @@ using UnityEngine;
     RequireComponent(typeof(NetworkTransformReceive)),
     RequireComponent(typeof(NetworkCharacterControllerReceive))]
 
-public class UserEntity : Entity {
+public class UserEntity : NetworkEntity
+{
     private CharacterAnimationAudioHandler _characterAnimationAudioHandler;
 
-    public override void Initialize() {
+    public override void Initialize()
+    {
         base.Initialize();
         _characterAnimationAudioHandler = transform.GetChild(0).GetComponentInChildren<CharacterAnimationAudioHandler>();
 
@@ -16,50 +18,69 @@ public class UserEntity : Entity {
         EntityLoaded = true;
     }
 
-    public void EquipAllArmors() {
+    public void EquipAllArmors()
+    {
         PlayerAppearance appearance = (PlayerAppearance)_appearance;
-        if (appearance.Chest != 0) {
+        if (appearance.Chest != 0)
+        {
             ((UserGear)_gear).EquipArmor(appearance.Chest, ItemSlot.chest);
-        } else {
+        }
+        else
+        {
             ((UserGear)_gear).EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.chest);
         }
 
-        if (appearance.Legs != 0) {
+        if (appearance.Legs != 0)
+        {
             ((UserGear)_gear).EquipArmor(appearance.Legs, ItemSlot.legs);
-        } else {
+        }
+        else
+        {
             ((UserGear)_gear).EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.legs);
         }
 
-        if (appearance.Gloves != 0) {
+        if (appearance.Gloves != 0)
+        {
             ((UserGear)_gear).EquipArmor(appearance.Gloves, ItemSlot.gloves);
-        } else {
+        }
+        else
+        {
             ((UserGear)_gear).EquipArmor(ItemTable.NAKED_GLOVES, ItemSlot.gloves);
         }
 
-        if (appearance.Feet != 0) {
+        if (appearance.Feet != 0)
+        {
             ((UserGear)_gear).EquipArmor(appearance.Feet, ItemSlot.feet);
-        } else {
+        }
+        else
+        {
             ((UserGear)_gear).EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.feet);
         }
     }
 
-    protected override void OnDeath() {
+    protected override void OnDeath()
+    {
         base.OnDeath();
         _networkAnimationReceive.SetAnimationProperty((int)PlayerAnimationEvent.death, 1f, true);
-    } 
+    }
 
-    public override bool StartAutoAttacking() {
-        if (base.StartAutoAttacking()) {
+    public override bool StartAutoAttacking()
+    {
+        if (base.StartAutoAttacking())
+        {
             _networkAnimationReceive.SetBool("atk01_" + _gear.WeaponAnim, true);
         }
 
         return true;
     }
 
-    public override bool StopAutoAttacking() {
-        if (base.StopAutoAttacking()) {
+    public override bool StopAutoAttacking()
+    {
+        if (base.StopAutoAttacking())
+        {
             _networkAnimationReceive.SetBool("atk01_" + _gear.WeaponAnim, false);
-            if(!_networkCharacterControllerReceive.IsMoving() && !IsDead()) {
+            if (!_networkCharacterControllerReceive.IsMoving() && !IsDead())
+            {
                 _networkAnimationReceive.SetBool("atkwait_" + _gear.WeaponAnim, true);
             }
         }
@@ -67,29 +88,34 @@ public class UserEntity : Entity {
         return true;
     }
 
-    protected override void OnHit(bool criticalHit) {
+    protected override void OnHit(bool criticalHit)
+    {
         base.OnHit(criticalHit);
         _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Dmg);
     }
 
-    public override float UpdateMAtkSpeed(int mAtkSpd) {
-        float converted = base.UpdateMAtkSpeed(mAtkSpd);
-        _networkAnimationReceive.SetMAtkSpd(converted);
+    public override void UpdateWaitType(ChangeWaitTypePacket.WaitType moveType)
+    {
+        base.UpdateWaitType(moveType);
 
-        return converted;
-    }
-
-    public override float UpdatePAtkSpeed(int pAtkSpd) {
-        float converted = base.UpdatePAtkSpeed(pAtkSpd);
-        _networkAnimationReceive.SetPAtkSpd(converted);
-
-        return converted;
-    }
-
-    public override float UpdateSpeed(int speed) {
-        float converted = base.UpdateSpeed(speed);
-        _networkAnimationReceive.SetMoveSpeed(converted);
-
-        return converted;
+        if (moveType == ChangeWaitTypePacket.WaitType.WT_SITTING)
+        {
+            _networkAnimationReceive.SetBool("sit", true);
+            //  _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Sitdown);
+        }
+        else if (moveType == ChangeWaitTypePacket.WaitType.WT_STANDING)
+        {
+            _networkAnimationReceive.SetBool("stand", true);
+            //  _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Standup);
+        }
+        else if (moveType == ChangeWaitTypePacket.WaitType.WT_START_FAKEDEATH)
+        {
+            _networkAnimationReceive.SetBool("death", true);
+            //   _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Death);
+        }
+        else if (moveType == ChangeWaitTypePacket.WaitType.WT_STOP_FAKEDEATH)
+        {
+            //  _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Atk_1H_S);
+        }
     }
 }

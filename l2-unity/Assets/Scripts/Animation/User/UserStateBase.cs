@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class UserStateBase : StateMachineBehaviour {
+public class UserStateBase : StateMachineBehaviour
+{
     protected CharacterAnimationAudioHandler _audioHandler;
     protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
     protected NetworkAnimationController _networkAnimationController;
@@ -10,55 +11,70 @@ public class UserStateBase : StateMachineBehaviour {
     protected bool _cancelAction = false;
     [SerializeField] protected bool _enabled = true;
 
-    public void LoadComponents(Animator animator) {
-        if (_entity == null) {
-            if(animator.transform.parent == null) {
+    public void LoadComponents(Animator animator)
+    {
+        if (_entity == null)
+        {
+            if (animator.transform.parent == null)
+            {
                 _enabled = false;
                 return;
-            } else if (animator.transform.parent.parent == null) {
+            }
+            else if (animator.transform.parent.parent == null)
+            {
                 _enabled = false;
                 return;
             }
             _entity = animator.transform.parent.parent.GetComponent<Entity>();
         }
-        if (_entity == null || _entity is PlayerEntity) {
+        if (_entity == null || _entity is PlayerEntity)
+        {
             _enabled = false;
             return;
         }
-        if (_gear == null) {
+        if (_gear == null)
+        {
             _gear = _entity.GetComponent<UserGear>();
         }
-        if (_audioHandler == null) {
+        if (_audioHandler == null)
+        {
             _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();
         }
-        if (_animator == null) {
+        if (_animator == null)
+        {
             _animator = animator;
         }
-        if (_networkCharacterControllerReceive == null) {
+        if (_networkCharacterControllerReceive == null)
+        {
             _networkCharacterControllerReceive = _entity.transform.GetComponent<NetworkCharacterControllerReceive>();
         }
-        if (_networkAnimationController == null) {
+        if (_networkAnimationController == null)
+        {
             _networkAnimationController = _entity.transform.GetComponent<NetworkAnimationController>();
         }
     }
 
-    public void PlaySoundAtRatio(CharacterSoundEvent soundEvent, float ratio) {
+    public void PlaySoundAtRatio(CharacterSoundEvent soundEvent, float ratio)
+    {
         _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
-    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio) {
+    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio)
+    {
         _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
-    public void SetBool(string name, bool isWeaponAnim, bool value) {
+    public void SetBool(string name, bool isWeaponAnim, bool value)
+    {
         _cancelAction = true;
 
-        if(isWeaponAnim) {
+        if (isWeaponAnim)
+        {
             name += "_" + _gear.WeaponAnim;
         }
         //if (value != _animator.GetBool(name)) {
         //    Debug.LogWarning($"Set bool {name}={value}");
         //}
-        _animator.SetBool(name, value);
+        _networkAnimationController.SetBool(name, value);
     }
 }

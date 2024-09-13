@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class PlayerStateSit : PlayerStateAction {
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+public class PlayerStateSit : PlayerStateAction
+{
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         LoadComponents(animator);
-        if (!_enabled) {
+        if (!_enabled)
+        {
             return;
         }
 
@@ -11,12 +14,22 @@ public class PlayerStateSit : PlayerStateAction {
         _audioHandler.PlaySound(CharacterSoundEvent.Sitdown);
     }
 
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (ShouldDie()) {
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
+            return;
+        }
+
+        SetBool("sit", false, false, false);
+
+        if (ShouldDie())
+        {
             return;
         }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
     }
 }

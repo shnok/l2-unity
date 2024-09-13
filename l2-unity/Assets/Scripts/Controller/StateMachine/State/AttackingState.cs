@@ -20,31 +20,38 @@ public class AttackingState : StateBase
 
     public override void HandleEvent(Event evt)
     {
-        if (evt == Event.ACTION_ALLOWED)
+        switch (evt)
         {
-            if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
-            {
-                _stateMachine.ChangeState(PlayerState.RUNNING);
-            }
-        }
-
-        if (evt == Event.ACTION_ALLOWED)
-        {
-            if (_stateMachine.Intention == Intention.INTENTION_IDLE)
-            {
+            case Event.ACTION_ALLOWED:
+                if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
+                {
+                    if (PlayerEntity.Instance.Running)
+                    {
+                        _stateMachine.ChangeState(PlayerState.RUNNING);
+                    }
+                    else
+                    {
+                        _stateMachine.ChangeState(PlayerState.WALKING);
+                    }
+                }
+                if (_stateMachine.Intention == Intention.INTENTION_IDLE)
+                {
+                    _stateMachine.ChangeState(PlayerState.IDLE);
+                }
+                if (_stateMachine.Intention == Intention.INTENTION_SIT)
+                {
+                    _stateMachine.ChangeState(PlayerState.SITTING);
+                }
+                break;
+            // Auto attack stop event
+            case Event.CANCEL:
                 _stateMachine.ChangeState(PlayerState.IDLE);
-            }
-        }
 
-        // Auto attack stop event
-        if (evt == Event.CANCEL)
-        {
-            _stateMachine.ChangeState(PlayerState.IDLE);
-
-            if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
-            {
-                _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.ChangeTarget);
-            }
+                if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.ChangeTarget);
+                }
+                break;
         }
     }
 

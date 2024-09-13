@@ -1,43 +1,64 @@
 using UnityEngine;
 
-public class PlayerStateWait : PlayerStateAction {
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+public class PlayerStateWait : PlayerStateAction
+{
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         LoadComponents(animator);
-        if (!_enabled) {
+        if (!_enabled)
+        {
             return;
         }
     }
 
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 
-        if (ShouldDie()) {
+        if (ShouldDie())
+        {
             return;
         }
 
-        if (ShouldAttack()) {
+        if (ShouldAttack())
+        {
             SetBool("atk01", true, true, false);
             return;
         }
-        if (ShouldRun()) {
+
+        if (ShouldRun())
+        {
             return;
         }
 
-        if (ShouldJump(false)) {
+        if (ShouldWalk())
+        {
             return;
         }
-        //if(ShouldSit()) {
-        //    return;
-        //}
-        if (ShouldAtkWait()) {
+
+        if (ShouldJump(false))
+        {
+            return;
+        }
+
+        if (ShouldSit())
+        {
+            return;
+        }
+
+        if (ShouldAtkWait())
+        {
             return;
         }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 
