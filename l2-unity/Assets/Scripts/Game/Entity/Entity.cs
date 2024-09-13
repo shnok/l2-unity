@@ -9,9 +9,10 @@ public class Entity : MonoBehaviour
     [SerializeField] private Status _status;
     [SerializeField] private Stats _stats;
     [SerializeField] protected Appearance _appearance;
-
     [SerializeField] private CharacterRace _race;
     [SerializeField] private CharacterRaceAnimation _raceId;
+    [SerializeField] private bool _running;
+    [SerializeField] private bool _sitting;
 
     [Header("Combat")]
     [SerializeField] private int _targetId;
@@ -39,6 +40,7 @@ public class Entity : MonoBehaviour
     public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
     public bool EntityLoaded { get { return _entityLoaded; } set { _entityLoaded = value; } }
     public Gear Gear { get { return _gear; } }
+    public bool Running { get { return _running; } set { _running = value; } }
 
     public void FixedUpdate()
     {
@@ -62,7 +64,8 @@ public class Entity : MonoBehaviour
 
         UpdatePAtkSpeed(_stats.PAtkSpd);
         UpdateMAtkSpeed(_stats.MAtkSpd);
-        UpdateSpeed(_stats.Speed);
+        UpdateRunSpeed(_stats.RunSpeed);
+        UpdateWalkSpeed(_stats.WalkSpeed);
 
         EquipAllWeapons();
     }
@@ -141,7 +144,10 @@ public class Entity : MonoBehaviour
 
     public virtual void OnStopMoving() { }
 
-    public virtual void OnStartMoving(bool walking) { }
+    public virtual void OnStartMoving(bool walking)
+    {
+        UpdateMoveType(!walking);
+    }
 
     public virtual bool StartAutoAttacking()
     {
@@ -182,11 +188,19 @@ public class Entity : MonoBehaviour
         return StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
     }
 
-    public virtual float UpdateSpeed(int speed)
+    public virtual float UpdateRunSpeed(int speed)
     {
         float scaled = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
-        _stats.Speed = speed;
-        _stats.ScaledSpeed = scaled;
+        _stats.RunSpeed = speed;
+        _stats.ScaledRunSpeed = scaled;
+        return StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
+    }
+
+    public virtual float UpdateWalkSpeed(int speed)
+    {
+        float scaled = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
+        _stats.WalkSpeed = speed;
+        _stats.ScaledWalkSpeed = scaled;
         return StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
     }
 
@@ -197,6 +211,18 @@ public class Entity : MonoBehaviour
 
     public virtual void UpdateWaitType(ChangeWaitTypePacket.WaitType moveType)
     {
+        if (moveType == ChangeWaitTypePacket.WaitType.WT_SITTING)
+        {
+            _sitting = true;
+        }
+        else if (moveType == ChangeWaitTypePacket.WaitType.WT_STANDING)
+        {
+            _sitting = false;
+        }
+    }
 
+    public virtual void UpdateMoveType(bool running)
+    {
+        Running = running;
     }
 }

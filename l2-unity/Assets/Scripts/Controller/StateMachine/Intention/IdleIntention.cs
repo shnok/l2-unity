@@ -6,7 +6,7 @@ public class IdleIntention : IntentionBase
 
     public override void Enter(object arg0)
     {
-        if (_stateMachine.State == PlayerState.RUNNING || _stateMachine.State == PlayerState.IDLE)
+        if (_stateMachine.IsInMovableState())
         {
             _stateMachine.ChangeState(PlayerState.IDLE);
         }

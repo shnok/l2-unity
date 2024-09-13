@@ -28,7 +28,13 @@ public class PlayerStateWait : PlayerStateAction
             SetBool("atk01", true, true, false);
             return;
         }
+
         if (ShouldRun())
+        {
+            return;
+        }
+
+        if (ShouldWalk())
         {
             return;
         }
@@ -37,10 +43,12 @@ public class PlayerStateWait : PlayerStateAction
         {
             return;
         }
+
         if (ShouldSit())
         {
             return;
         }
+
         if (ShouldAtkWait())
         {
             return;

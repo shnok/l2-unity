@@ -36,6 +36,11 @@ public class PlayerStateAtkWait : PlayerStateAction
             return;
         }
 
+        if (ShouldWalk())
+        {
+            return;
+        }
+
         if (ShouldJump(false))
         {
             return;

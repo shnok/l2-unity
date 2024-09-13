@@ -99,6 +99,7 @@ public class PlayerStateMachine : MonoBehaviour
             PlayerState.SITTING => new SittingState(this),
             PlayerState.SIT_WAIT => new SitWaitState(this),
             PlayerState.STANDING => new StandingState(this),
+            PlayerState.WALKING => new WalkingState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }
@@ -119,7 +120,12 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool CanMove()
     {
-        return (_currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING) && !_waitingForServerReply;
+        return IsInMovableState() && !_waitingForServerReply;
+    }
+
+    public bool IsInMovableState()
+    {
+        return _currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING || _currentState == PlayerState.WALKING;
     }
 
     public void NotifyEvent(Event evt)

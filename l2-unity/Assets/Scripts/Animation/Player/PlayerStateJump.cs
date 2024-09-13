@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class PlayerStateJump : PlayerStateAction {
+public class PlayerStateJump : PlayerStateAction
+{
     private float _lastNormalizedTime = 0;
 
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         LoadComponents(animator);
-        if (!_enabled) {
+        if (!_enabled)
+        {
             return;
         }
 
@@ -16,27 +19,40 @@ public class PlayerStateJump : PlayerStateAction {
         _audioHandler.PlaySound(CharacterSoundEvent.Jump_1);
     }
 
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 
-        if (ShouldDie()) {
+        if (ShouldDie())
+        {
             return;
         }
 
-        if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f) {
+        if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
+        {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            if (PlayerStateMachine.Instance.State == PlayerState.RUNNING) {
-                SetBool("run", true, true);
-            } else {
-                SetBool("wait", true, true);
+
+            if (ShouldRun())
+            {
+                return;
             }
+
+            if (ShouldWalk())
+            {
+                return;
+            }
+
+            SetBool("wait", true, true);
         }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 

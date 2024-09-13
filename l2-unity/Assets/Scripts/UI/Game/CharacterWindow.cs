@@ -182,7 +182,7 @@ public class CharacterInfoWindow : L2PopupWindow
 
         UpdateStats((PlayerStats)player.Stats);
 
-        UpdateCombatValues((PlayerStats)player.Stats);
+        UpdateCombatValues(player.Running, (PlayerStats)player.Stats);
 
         UpdateBars((PlayerStatus)player.Status, (PlayerStats)player.Stats);
 
@@ -206,7 +206,7 @@ public class CharacterInfoWindow : L2PopupWindow
         _menLabel.text = stats.Men.ToString();
     }
 
-    private void UpdateCombatValues(PlayerStats stats)
+    private void UpdateCombatValues(bool running, PlayerStats stats)
     {
         _patkLabel.text = stats.PAtk.ToString();
         _pdefLabel.text = stats.PDef.ToString();
@@ -214,7 +214,7 @@ public class CharacterInfoWindow : L2PopupWindow
         _pevaLabel.text = stats.PEvasion.ToString();
         _pcritLabel.text = stats.PCritical.ToString();
         _patkspdLabel.text = stats.PAtkSpd.ToString();
-        _speedLabel.text = stats.Speed.ToString();
+        _speedLabel.text = running ? stats.RunSpeed.ToString() : stats.WalkSpeed.ToString();
 
         _matkLabel.text = stats.MAtk.ToString();
         _mdefLabel.text = stats.MDef.ToString();

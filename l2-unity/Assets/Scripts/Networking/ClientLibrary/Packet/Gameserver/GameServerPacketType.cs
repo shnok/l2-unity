@@ -31,5 +31,6 @@ public enum GameServerPacketType : byte
     ShortcutInit = 0x1C,
     ShortcutRegister = 0x1D,
     SocialAction = 0x1E,
-    ChangeWaitType = 0x1F
+    ChangeWaitType = 0x1F,
+    ChangeMoveType = 0x20
 }

@@ -102,11 +102,11 @@ public class World : MonoBehaviour
             PlayerEntity entity = _playerPlaceholder.GetComponent<PlayerEntity>();
             entity.Identity.Position = _playerPlaceholder.transform.position;
             // TODO: Add default stats
-            SpawnPlayer(entity.Identity, (PlayerStatus)entity.Status, new PlayerStats(), new PlayerAppearance());
+            SpawnPlayer(entity.Identity, (PlayerStatus)entity.Status, new PlayerStats(), new PlayerAppearance(), true);
         }
     }
 
-    public void OnReceivePlayerInfo(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance)
+    public void OnReceivePlayerInfo(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, bool running)
     {
         // Dont need to block thread
         Task task = new Task(async () =>
@@ -115,17 +115,17 @@ public class World : MonoBehaviour
 
             if (entity == null)
             {
-                _eventProcessor.QueueEvent(() => SpawnPlayer(identity, status, stats, appearance));
+                _eventProcessor.QueueEvent(() => SpawnPlayer(identity, status, stats, appearance, running));
             }
             else
             {
-                _eventProcessor.QueueEvent(() => UpdatePlayer(entity, identity, status, stats, appearance));
+                _eventProcessor.QueueEvent(() => UpdatePlayer(entity, identity, status, stats, appearance, running));
             }
         });
         task.Start();
     }
 
-    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance)
+    public void SpawnPlayer(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, bool running)
     {
         identity.SetPosY(GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.Player;
@@ -146,6 +146,7 @@ public class World : MonoBehaviour
         player.Appearance = appearance;
         player.Race = race;
         player.RaceId = raceId;
+        player.UpdateMoveType(running);
 
         go.GetComponent<NetworkTransformShare>().enabled = true;
         go.GetComponent<PlayerController>().enabled = true;
@@ -166,23 +167,25 @@ public class World : MonoBehaviour
         _objects.Add(identity.Id, player);
     }
 
-    public void UpdatePlayer(Entity entity, NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance)
+    public void UpdatePlayer(Entity entity, NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, bool running)
     {
         ((PlayerEntity)entity).Identity.UpdateEntity(identity);
         ((PlayerStatus)entity.Status).UpdateStatus(status);
         ((PlayerStats)entity.Stats).UpdateStats(stats);
         ((PlayerAppearance)entity.Appearance).UpdateAppearance(appearance);
+        entity.UpdateMoveType(running);
 
         entity.UpdatePAtkSpeed(stats.PAtkSpd);
         entity.UpdateMAtkSpeed(stats.MAtkSpd);
-        entity.UpdateSpeed(stats.Speed);
+        entity.UpdateWalkSpeed(stats.WalkSpeed);
+        entity.UpdateRunSpeed(stats.RunSpeed);
         entity.EquipAllWeapons();
         ((PlayerEntity)entity).EquipAllArmors();
 
         CharacterInfoWindow.Instance.UpdateValues();
     }
 
-    public void OnReceiveUserInfo(NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance)
+    public void OnReceiveUserInfo(NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance, bool running)
     {
         // Dont need to block thread
         Debug.LogWarning("OnReceiveUserInfo");
@@ -192,18 +195,18 @@ public class World : MonoBehaviour
 
             if (entity == null)
             {
-                _eventProcessor.QueueEvent(() => SpawnUser(identity, status, stats, appearance));
+                _eventProcessor.QueueEvent(() => SpawnUser(identity, status, stats, appearance, running));
             }
             else
             {
                 Debug.LogWarning("UpdatePlayer");
-                _eventProcessor.QueueEvent(() => UpdateUser(entity, identity, status, stats, appearance));
+                _eventProcessor.QueueEvent(() => UpdateUser(entity, identity, status, stats, appearance, running));
             }
         });
         task.Start();
     }
 
-    public void SpawnUser(NetworkIdentity identity, Status status, Stats stats, PlayerAppearance appearance)
+    public void SpawnUser(NetworkIdentity identity, Status status, Stats stats, PlayerAppearance appearance, bool running)
     {
         Debug.Log("Spawn User");
         identity.SetPosY(GetGroundHeight(identity.Position));
@@ -224,6 +227,7 @@ public class World : MonoBehaviour
         user.Stats = stats;
         user.Race = race;
         user.RaceId = raceId;
+        user.UpdateMoveType(running);
 
         go.GetComponent<NetworkTransformReceive>().enabled = true;
 
@@ -241,16 +245,18 @@ public class World : MonoBehaviour
         _objects.Add(identity.Id, user);
     }
 
-    public void UpdateUser(Entity entity, NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance)
+    public void UpdateUser(Entity entity, NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance, bool running)
     {
         ((UserEntity)entity).Identity.UpdateEntity(identity);
         ((PlayerStatus)entity.Status).UpdateStatus(status);
         entity.Stats.UpdateStats(stats);
+        entity.Running = running;
         ((PlayerAppearance)entity.Appearance).UpdateAppearance(appearance);
 
         entity.UpdatePAtkSpeed(stats.PAtkSpd);
         entity.UpdateMAtkSpeed(stats.MAtkSpd);
-        entity.UpdateSpeed(stats.Speed);
+        entity.UpdateWalkSpeed(stats.WalkSpeed);
+        entity.UpdateRunSpeed(stats.RunSpeed);
         entity.EquipAllWeapons();
         ((UserEntity)entity).EquipAllArmors();
     }
@@ -364,9 +370,13 @@ public class World : MonoBehaviour
     {
         return ExecuteWithEntityAsync(id, e =>
         {
-            if (speed != e.Stats.Speed)
+            if (speed != e.Stats.WalkSpeed && walking)
             {
-                e.UpdateSpeed(speed);
+                e.UpdateWalkSpeed(speed);
+            }
+            else if (speed != e.Stats.RunSpeed && !walking)
+            {
+                e.UpdateRunSpeed(speed);
             }
 
             e.GetComponent<NetworkCharacterControllerReceive>().SetDestination(position);
@@ -402,9 +412,13 @@ public class World : MonoBehaviour
     {
         return ExecuteWithEntityAsync(id, e =>
         {
-            if (speed != e.Stats.Speed)
+            if (e.Running && speed != e.Stats.RunSpeed)
             {
-                e.UpdateSpeed(speed);
+                e.UpdateRunSpeed(speed);
+            }
+            else if (!e.Running && speed != e.Stats.WalkSpeed)
+            {
+                e.UpdateWalkSpeed(speed);
             }
 
             e.GetComponent<NetworkCharacterControllerReceive>().UpdateMoveDirection(direction);
@@ -456,6 +470,14 @@ public class World : MonoBehaviour
                 CharacterInfoWindow.Instance.UpdateValues();
             }
         });
+    }
+
+    public Task ChangeMoveType(int owner, bool running)
+    {
+        return ExecuteWithEntityAsync(owner, e =>
+                {
+                    e.UpdateMoveType(running);
+                });
     }
 
     // Wait for entity to be fully loaded

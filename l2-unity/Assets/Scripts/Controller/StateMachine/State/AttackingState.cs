@@ -25,7 +25,14 @@ public class AttackingState : StateBase
             case Event.ACTION_ALLOWED:
                 if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
                 {
-                    _stateMachine.ChangeState(PlayerState.RUNNING);
+                    if (PlayerEntity.Instance.Running)
+                    {
+                        _stateMachine.ChangeState(PlayerState.RUNNING);
+                    }
+                    else
+                    {
+                        _stateMachine.ChangeState(PlayerState.WALKING);
+                    }
                 }
                 if (_stateMachine.Intention == Intention.INTENTION_IDLE)
                 {

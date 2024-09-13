@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class PlayerStateAtk : PlayerStateAction
+public class PlayerStateWalk : PlayerStateAction
 {
+    private float _lastNormalizedTime = 0;
+
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         LoadComponents(animator);
@@ -10,19 +12,12 @@ public class PlayerStateAtk : PlayerStateAction
             return;
         }
 
-        AnimatorClipInfo[] clipInfos = animator.GetNextAnimatorClipInfo(0);
-        if (clipInfos == null || clipInfos.Length == 0)
+        _lastNormalizedTime = 0;
+
+        foreach (var ratio in _audioHandler.WalkStepRatios)
         {
-            clipInfos = animator.GetCurrentAnimatorClipInfo(0);
+            _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
         }
-
-        PlayerAnimationController.Instance.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
-
-        SetBool("atkwait", true, false, false);
-        SetBool("atk01", true, false, false);
-
-        PlaySoundAtRatio(CharacterSoundEvent.Atk_1H, _audioHandler.AtkRatio);
-        PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -32,8 +27,14 @@ public class PlayerStateAtk : PlayerStateAction
             return;
         }
 
-        SetBool("atkwait", true, false, false);
-        SetBool("atk01", true, false, false);
+        if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
+        {
+            _lastNormalizedTime = stateInfo.normalizedTime;
+            foreach (var ratio in _audioHandler.WalkStepRatios)
+            {
+                _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
+            }
+        }
 
         if (ShouldDie())
         {
@@ -41,6 +42,12 @@ public class PlayerStateAtk : PlayerStateAction
         }
 
         if (ShouldAttack())
+        {
+            SetBool("atk01", true, true, false);
+            return;
+        }
+
+        if (ShouldJump(true))
         {
             return;
         }
@@ -50,12 +57,12 @@ public class PlayerStateAtk : PlayerStateAction
             return;
         }
 
-        if (ShouldWalk())
+        if (ShouldSit())
         {
             return;
         }
 
-        if (ShouldSit())
+        if (ShouldAtkWait())
         {
             return;
         }
@@ -72,5 +79,7 @@ public class PlayerStateAtk : PlayerStateAction
         {
             return;
         }
+
+        SetBool("walk", true, false, false);
     }
 }

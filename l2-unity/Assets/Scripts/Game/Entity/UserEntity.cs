@@ -4,7 +4,7 @@ using UnityEngine;
     RequireComponent(typeof(NetworkTransformReceive)),
     RequireComponent(typeof(NetworkCharacterControllerReceive))]
 
-public class UserEntity : Entity
+public class UserEntity : NetworkEntity
 {
     private CharacterAnimationAudioHandler _characterAnimationAudioHandler;
 
@@ -94,32 +94,10 @@ public class UserEntity : Entity
         _characterAnimationAudioHandler.PlaySound(CharacterSoundEvent.Dmg);
     }
 
-    public override float UpdateMAtkSpeed(int mAtkSpd)
-    {
-        float converted = base.UpdateMAtkSpeed(mAtkSpd);
-        _networkAnimationReceive.SetMAtkSpd(converted);
-
-        return converted;
-    }
-
-    public override float UpdatePAtkSpeed(int pAtkSpd)
-    {
-        float converted = base.UpdatePAtkSpeed(pAtkSpd);
-        _networkAnimationReceive.SetPAtkSpd(converted);
-
-        return converted;
-    }
-
-    public override float UpdateSpeed(int speed)
-    {
-        float converted = base.UpdateSpeed(speed);
-        _networkAnimationReceive.SetMoveSpeed(converted);
-
-        return converted;
-    }
-
     public override void UpdateWaitType(ChangeWaitTypePacket.WaitType moveType)
     {
+        base.UpdateWaitType(moveType);
+
         if (moveType == ChangeWaitTypePacket.WaitType.WT_SITTING)
         {
             _networkAnimationReceive.SetBool("sit", true);

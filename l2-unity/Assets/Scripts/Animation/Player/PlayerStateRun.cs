@@ -67,6 +67,11 @@ public class PlayerStateRun : PlayerStateAction
             return;
         }
 
+        if (ShouldWalk())
+        {
+            return;
+        }
+
         if (ShouldSit())
         {
             return;

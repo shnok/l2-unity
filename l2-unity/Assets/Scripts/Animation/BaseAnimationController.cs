@@ -18,9 +18,14 @@ public class BaseAnimationController : MonoBehaviour
         _lastAnimationVariableName = "wait_hand";
     }
 
-    public void SetMoveSpeed(float value)
+    public void SetRunSpeed(float value)
     {
-        _animator.SetFloat("speed", value);
+        _animator.SetFloat("run_speed", value);
+    }
+
+    public void SetWalkSpeed(float value)
+    {
+        _animator.SetFloat("walk_speed", value);
     }
 
     public void SetPAtkSpd(float value)

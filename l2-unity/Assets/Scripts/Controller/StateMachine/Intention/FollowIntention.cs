@@ -11,9 +11,16 @@ public class FollowIntention : IntentionBase
             PathFinderController.Instance.MoveTo((Vector3)arg0);
         }
 
-        if (_stateMachine.State == PlayerState.RUNNING || _stateMachine.State == PlayerState.IDLE)
+        if (_stateMachine.IsInMovableState())
         {
-            _stateMachine.ChangeState(PlayerState.RUNNING);
+            if (PlayerEntity.Instance.Running)
+            {
+                _stateMachine.ChangeState(PlayerState.RUNNING);
+            }
+            else
+            {
+                _stateMachine.ChangeState(PlayerState.WALKING);
+            }
         }
         else if (!_stateMachine.WaitingForServerReply)
         {

@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
 
         PlayerInfo playerInfo = GameClient.Instance.PlayerInfo;
 
-        World.Instance.SpawnPlayer(playerInfo.Identity, playerInfo.Status, playerInfo.Stats, playerInfo.Appearance);
+        World.Instance.SpawnPlayer(playerInfo.Identity, playerInfo.Status, playerInfo.Stats, playerInfo.Appearance, playerInfo.Running);
 
         StopLoading();
 

@@ -25,6 +25,7 @@ public class PlayerActions : MonoBehaviour
         _actions = new Dictionary<ActionType, L2Action>();
         _actions.Add(ActionType.Attack, new AttackAction());
         _actions.Add(ActionType.Sit, new SitStandAction());
+        _actions.Add(ActionType.WalkRun, new WalkRunAction());
     }
 
     private void OnDestroy()

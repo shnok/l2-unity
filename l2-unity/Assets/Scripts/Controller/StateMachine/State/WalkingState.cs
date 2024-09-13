@@ -1,8 +1,8 @@
 using static AttackingState;
 
-public class RunningState : StateBase
+public class WalkingState : StateBase
 {
-    public RunningState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public WalkingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void HandleEvent(Event evt)
     {
@@ -25,9 +25,9 @@ public class RunningState : StateBase
                 }
                 break;
             case Event.MOVE_TYPE_UPDATED:
-                if (!PlayerEntity.Instance.Running)
+                if (PlayerEntity.Instance.Running)
                 {
-                    _stateMachine.ChangeState(PlayerState.WALKING);
+                    _stateMachine.ChangeState(PlayerState.RUNNING);
                 }
                 break;
         }
