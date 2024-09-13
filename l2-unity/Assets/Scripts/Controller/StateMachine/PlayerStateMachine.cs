@@ -39,6 +39,8 @@ public class PlayerStateMachine : MonoBehaviour
 
         TryGetComponent<NetworkTransformShare>(out _networkTransformShare);
         TryGetComponent<NetworkCharacterControllerShare>(out _networkCharacterControllerShare);
+
+        this.enabled = false;
     }
 
     private void Start()

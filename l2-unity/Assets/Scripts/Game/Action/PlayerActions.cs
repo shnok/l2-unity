@@ -26,6 +26,7 @@ public class PlayerActions : MonoBehaviour
         _actions.Add(ActionType.Attack, new AttackAction());
         _actions.Add(ActionType.Sit, new SitStandAction());
         _actions.Add(ActionType.WalkRun, new WalkRunAction());
+        _actions.Add(ActionType.NextTarget, new NextTargetAction());
     }
 
     private void OnDestroy()
@@ -43,6 +44,11 @@ public class PlayerActions : MonoBehaviour
         if (InputManager.Instance.Attack)
         {
             UseAction(ActionType.Attack);
+        }
+
+        if (InputManager.Instance.NextTarget)
+        {
+            UseAction(ActionType.NextTarget);
         }
     }
 

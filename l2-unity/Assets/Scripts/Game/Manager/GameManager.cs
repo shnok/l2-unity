@@ -88,15 +88,6 @@ public class GameManager : MonoBehaviour
         KeyImageTable.Instance.Initialize();
     }
 
-    public void LogIn()
-    {
-    }
-
-    public void LogOut()
-    {
-        LoginClient.Instance.Disconnect();
-    }
-
     public void OnWorldSceneLoaded()
     {
         GameObject.Destroy(L2LoginUI.Instance.gameObject);
@@ -104,6 +95,8 @@ public class GameManager : MonoBehaviour
         PlayerInfo playerInfo = GameClient.Instance.PlayerInfo;
 
         World.Instance.SpawnPlayer(playerInfo.Identity, playerInfo.Status, playerInfo.Stats, playerInfo.Appearance, playerInfo.Running);
+
+        PlayerStateMachine.Instance.enabled = true;
 
         StopLoading();
 

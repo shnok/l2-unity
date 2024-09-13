@@ -23,6 +23,7 @@ public class World : MonoBehaviour
 
     [Header("Layer Masks")]
     [SerializeField] private LayerMask _entityMask;
+    [SerializeField] private LayerMask _simpleEntityMask;
     [SerializeField] private LayerMask _entityClickAreaMask;
     [SerializeField] private LayerMask _obstacleMask;
     [SerializeField] private LayerMask _clickThroughMask;
@@ -73,6 +74,7 @@ public class World : MonoBehaviour
         Geodata.Instance.ObstacleMask = _obstacleMask;
         ClickManager.Instance.SetMasks(_entityClickAreaMask, _clickThroughMask);
         CameraController.Instance.SetMask(_obstacleMask);
+        TargetManager.Instance.SetMask(_simpleEntityMask);
     }
 
     public void ClearEntities()
