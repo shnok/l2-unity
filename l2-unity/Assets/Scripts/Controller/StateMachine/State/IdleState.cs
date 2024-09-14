@@ -30,10 +30,7 @@ public class IdleState : StateBase
                     PathFinderController.Instance.ClearPath();
                     PlayerController.Instance.ResetDestination();
 
-                    if (_stateMachine.NetworkTransformShare != null)
-                    {
-                        _stateMachine.NetworkTransformShare.SharePosition();
-                    }
+                    NetworkTransformShare.Instance.SharePosition();
 
                     NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
 

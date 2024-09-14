@@ -14,11 +14,6 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerState State { get { return _currentState; } }
     [SerializeField] private bool _waitingForServerReply;
 
-    private NetworkTransformShare _networkTransformShare;
-    private NetworkCharacterControllerShare _networkCharacterControllerShare;
-    public NetworkTransformShare NetworkTransformShare { get { return _networkTransformShare; } }
-    public NetworkCharacterControllerShare NetworkCharacterControllerShare { get { return _networkCharacterControllerShare; } }
-
     public bool WaitingForServerReply { get { return _waitingForServerReply; } }
     private StateBase _stateInstance;
     private IntentionBase _intentionInstance;
@@ -36,9 +31,6 @@ public class PlayerStateMachine : MonoBehaviour
 
         InitializeState();
         InitializeIntention();
-
-        TryGetComponent<NetworkTransformShare>(out _networkTransformShare);
-        TryGetComponent<NetworkCharacterControllerShare>(out _networkCharacterControllerShare);
 
         this.enabled = false;
     }
