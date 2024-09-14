@@ -63,14 +63,16 @@ public class SkillbarSlot : L2ClickableSlot
         UpdateInputInfo();
     }
 
-    private void UpdateInputInfo() {
+    private void UpdateInputInfo()
+    {
         _slotElement.RemoveFromClassList("empty");
 
         string key = PlayerShortcuts.Instance.GetKeybindForShortcut(_skillbarId, _slot);
 
         Texture2D inputTexture = KeyImageTable.Instance.LoadTextureByKey(key);
 
-        if(inputTexture != null) {
+        if (inputTexture != null)
+        {
             _keyElement.style.backgroundImage = inputTexture;
             _keyElement.style.width = inputTexture.width;
         }

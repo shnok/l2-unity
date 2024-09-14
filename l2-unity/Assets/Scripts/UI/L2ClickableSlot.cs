@@ -52,6 +52,8 @@ public class L2ClickableSlot : L2Slot
     {
         if (evt.button == 0)
         {
+            SetActive();
+
             if (!_leftMouseUp)
             {
                 HandleLeftClick();
@@ -72,6 +74,8 @@ public class L2ClickableSlot : L2Slot
 
     private void HandleSlotClickUp(MouseUpEvent evt)
     {
+        UnsetActive();
+
         if (!_hoverManipulator.Hovering)
         {
             return;
@@ -95,6 +99,16 @@ public class L2ClickableSlot : L2Slot
         {
             HandleMiddleClick();
         }
+    }
+
+    protected virtual void SetActive()
+    {
+        _slotElement.AddToClassList("active");
+    }
+
+    protected virtual void UnsetActive()
+    {
+        _slotElement.RemoveFromClassList("active");
     }
 
     protected virtual void HandleLeftClick() { }
