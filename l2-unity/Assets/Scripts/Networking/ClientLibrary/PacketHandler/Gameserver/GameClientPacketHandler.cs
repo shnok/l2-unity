@@ -96,9 +96,9 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
-    public void SendRequestAutoAttack()
+    public void SendRequestAutoAttack(int objectId)
     {
-        RequestAutoAttackPacket packet = new RequestAutoAttackPacket();
+        RequestAutoAttackPacket packet = new RequestAutoAttackPacket(objectId);
         SendPacket(packet);
     }
 
@@ -171,6 +171,24 @@ public class GameClientPacketHandler : ClientPacketHandler
     public void RequestRestart()
     {
         RequestRestartPacket packet = new RequestRestartPacket();
+        SendPacket(packet);
+    }
+
+    public void RequestAddShortcut(int type, int id, int slot)
+    {
+        RequestShortcutRegPacket packet = new RequestShortcutRegPacket(type, id, slot);
+        SendPacket(packet);
+    }
+
+    public void RequestRemoveShortcut(int oldSlot)
+    {
+        RequestShortcutDelPacket packet = new RequestShortcutDelPacket(oldSlot);
+        SendPacket(packet);
+    }
+
+    public void RequestActionUse(int actionId)
+    {
+        RequestActionUsePacket packet = new RequestActionUsePacket(actionId);
         SendPacket(packet);
     }
 }

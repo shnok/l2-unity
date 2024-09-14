@@ -101,6 +101,12 @@ public class CharacterInfoWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
+        _windowEle.style.left = new Length(50, LengthUnit.Percent);
+        _windowEle.style.top = new Length(50, LengthUnit.Percent);
+        _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
+
+        Label _windowName = (Label)GetElementById("windows-name-label");
+        _windowName.text = "Character Status";
 
         // player
         _nameLabel = GetLabelById("CharacterNameLabel");
@@ -176,7 +182,7 @@ public class CharacterInfoWindow : L2PopupWindow
 
         UpdateStats((PlayerStats)player.Stats);
 
-        UpdateCombatValues((PlayerStats)player.Stats);
+        UpdateCombatValues(player.Running, (PlayerStats)player.Stats);
 
         UpdateBars((PlayerStatus)player.Status, (PlayerStats)player.Stats);
 
@@ -200,7 +206,7 @@ public class CharacterInfoWindow : L2PopupWindow
         _menLabel.text = stats.Men.ToString();
     }
 
-    private void UpdateCombatValues(PlayerStats stats)
+    private void UpdateCombatValues(bool running, PlayerStats stats)
     {
         _patkLabel.text = stats.PAtk.ToString();
         _pdefLabel.text = stats.PDef.ToString();
@@ -208,7 +214,7 @@ public class CharacterInfoWindow : L2PopupWindow
         _pevaLabel.text = stats.PEvasion.ToString();
         _pcritLabel.text = stats.PCritical.ToString();
         _patkspdLabel.text = stats.PAtkSpd.ToString();
-        _speedLabel.text = stats.Speed.ToString();
+        _speedLabel.text = running ? stats.RunSpeed.ToString() : stats.WalkSpeed.ToString();
 
         _matkLabel.text = stats.MAtk.ToString();
         _mdefLabel.text = stats.MDef.ToString();
@@ -316,11 +322,14 @@ public class CharacterInfoWindow : L2PopupWindow
     {
         base.ShowWindow();
         AudioManager.Instance.PlayUISound("window_open");
+        L2GameUI.Instance.WindowOpened(this);
+        UpdateValues();
     }
 
     public override void HideWindow()
     {
         base.HideWindow();
         AudioManager.Instance.PlayUISound("window_close");
+        L2GameUI.Instance.WindowClosed(this);
     }
 }

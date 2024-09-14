@@ -169,10 +169,10 @@ public class AsynchronousClient
 
                 int receivedBytes = 0;
                 int newBytes = 0;
-                while ((newBytes != -1) && (receivedBytes < (length)))
+                while ((newBytes != -1) && (receivedBytes < length))
                 {
                     newBytes = stream.Read(data, 0, length);
-                    receivedBytes = receivedBytes + newBytes;
+                    receivedBytes += newBytes;
                 }
 
                 if (_serverPacketHandler.HandlePacketCrypto(data, _initPacket))

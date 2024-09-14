@@ -1,5 +1,8 @@
-public class RequestAutoAttackPacket : ClientPacket {
-    public RequestAutoAttackPacket() : base((byte)GameClientPacketType.RequestAutoAttack) {
+public class RequestAutoAttackPacket : ClientPacket
+{
+    public RequestAutoAttackPacket(int objectId) : base((byte)GameClientPacketType.RequestAutoAttack)
+    {
+        WriteI(objectId);
         BuildPacket();
     }
 }

@@ -4,12 +4,12 @@ using System.Security.Cryptography;
 using System.Xml.Linq;
 using UnityEngine;
 
-public class ActionData 
+public class ActionData
 {
-    [SerializeField] public int _id;
-    [SerializeField] public string _name;
-    [SerializeField] public string _description;
-    [SerializeField] public string _icon;
+    [SerializeField] private int _id;
+    [SerializeField] private string _name;
+    [SerializeField] private string _description;
+    [SerializeField] private string _icon;
 
     public int Id { get => _id; set => _id = value; }
     public string Name { get => _name; set => _name = value; }

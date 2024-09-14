@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -30,7 +31,7 @@ public class L2SlotManager : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Template/Slot");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Template/DraggedSlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -38,7 +39,7 @@ public class L2SlotManager : L2PopupWindow
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
-        _dragSlotData = new L2Slot(_windowEle, 0, 0, "", "", "", L2Slot.SlotType.Other);
+        _dragSlotData = new L2Slot(_windowEle);
         _windowEle.usageHints = UsageHints.None;
         _windowEle.pickingMode = PickingMode.Ignore;
         _windowEle.style.position = Position.Absolute;
@@ -56,7 +57,7 @@ public class L2SlotManager : L2PopupWindow
         _dragSlotData.Icon = slot.Icon;
         _dragSlotData.Id = slot.Id;
 
-        StyleBackground background = new StyleBackground(IconManager.Instance.GetIcon(slot.Id));
+        StyleBackground background = slot.SlotBg.style.backgroundImage;
         _dragSlotData.SlotBg.style.backgroundImage = background;
     }
 
@@ -83,12 +84,6 @@ public class L2SlotManager : L2PopupWindow
 
     private void HandleDragRelease()
     {
-        if (_hoverSlot == null)
-        {
-            DropItem();
-            return;
-        }
-
         switch (_draggedSlot.Type)
         {
             case L2Slot.SlotType.Gear:
@@ -98,9 +93,28 @@ public class L2SlotManager : L2PopupWindow
             case L2Slot.SlotType.InventoryBis:
                 HandleInventoryDrag();
                 break;
-            default:
-                // Handle other slot types if needed
+            case L2Slot.SlotType.SkillBar:
+                HandleSkillbarDrag();
                 break;
+            case L2Slot.SlotType.Action:
+                HandleActionDrag();
+                break;
+            default:
+                break;
+        }
+    }
+
+    #region DragReleaseHandlers
+    private void HandleActionDrag()
+    {
+        if (_hoverSlot == null)
+        {
+            return;
+        }
+
+        if (_hoverSlot.Type == L2Slot.SlotType.SkillBar)
+        {
+            AddActionToSkillbar();
         }
     }
 
@@ -120,6 +134,16 @@ public class L2SlotManager : L2PopupWindow
     {
         var inventorySlot = (InventorySlot)_draggedSlot;
 
+        if (_hoverSlot == null)
+        {
+            if (!L2GameUI.Instance.MouseOverUI)
+            {
+                DropItem();
+            }
+
+            return;
+        }
+
         switch (_hoverSlot.Type)
         {
             case L2Slot.SlotType.Gear when IsItemGear(inventorySlot.ItemCategory):
@@ -131,22 +155,55 @@ public class L2SlotManager : L2PopupWindow
             case L2Slot.SlotType.Trash:
                 DestroyItem();
                 break;
-            // Add case for skillbar if needed
+            case L2Slot.SlotType.SkillBar:
+                AddItemToSkillbar();
+                break;
             default:
-                // Handle other hover slot types
+                if (!L2GameUI.Instance.MouseOverUI)
+                {
+                    DropItem();
+                }
                 break;
         }
     }
 
+    private void HandleSkillbarDrag()
+    {
+        if (SkillbarWindow.Instance.Locked)
+        {
+            return;
+        }
+
+        if (_hoverSlot == null)
+        {
+            if (!L2GameUI.Instance.MouseOverUI)
+            {
+                RemoveSkillbarSlot();
+            }
+
+            return;
+        }
+
+        switch (_hoverSlot.Type)
+        {
+            case L2Slot.SlotType.SkillBar:
+                MoveSkillbarSlot();
+                break;
+            default:
+                if (!L2GameUI.Instance.MouseOverUI)
+                {
+                    RemoveSkillbarSlot();
+                }
+                break;
+        }
+    }
+
+    #endregion
+
+    #region SlotVerification
     private bool IsValidDrag() => _draggedSlot != null && (_hoverSlot != null || !L2GameUI.Instance.MouseOverUI);
 
-    private bool IsSameSlot() => _draggedSlot != null && _hoverSlot != null && _draggedSlot.Position == _hoverSlot.Position;
-
-    private void ResetSlots()
-    {
-        _draggedSlot = null;
-        _hoverSlot = null;
-    }
+    private bool IsSameSlot() => _draggedSlot != null && _hoverSlot != null && _draggedSlot.Position == _hoverSlot.Position && _draggedSlot.Type == _hoverSlot.Type;
 
     private bool IsItemGear(ItemCategory category)
     {
@@ -154,6 +211,10 @@ public class L2SlotManager : L2PopupWindow
             || category == ItemCategory.ShieldArmor
             || category == ItemCategory.Jewel;
     }
+
+    #endregion
+
+    #region DragActions
 
     private void Unequip()
     {
@@ -186,6 +247,15 @@ public class L2SlotManager : L2PopupWindow
         PlayerInventory.Instance.DestroyItem(slot.ObjectId, 1);
     }
 
+    private void AddActionToSkillbar()
+    {
+        int actionId = ((ActionSlot)_draggedSlot).ActionId;
+        int slot = _hoverSlot.Position;
+        Debug.LogWarning($"Add action ID {actionId} into skillbar slot {slot}.");
+
+        PlayerShortcuts.Instance.AddShortcut(slot, actionId, Shortcut.TYPE_ACTION);
+    }
+
     private void ChangeItemOrder()
     {
         int fromSlot = _draggedSlot.Position;
@@ -194,6 +264,38 @@ public class L2SlotManager : L2PopupWindow
         Debug.Log($"Moving item from slot {fromSlot} to slot {toSlot}.");
 
         PlayerInventory.Instance.ChangeItemOrder(fromSlot, toSlot);
+    }
+
+    private void AddItemToSkillbar()
+    {
+        int itemId = ((InventorySlot)_draggedSlot).ObjectId;
+        int slot = _hoverSlot.Position;
+        Debug.LogWarning($"Add item {itemId} to skillbar slot {slot}.");
+
+        PlayerShortcuts.Instance.AddShortcut(slot, itemId, Shortcut.TYPE_ITEM);
+    }
+
+    private void MoveSkillbarSlot()
+    {
+        int oldSlot = _draggedSlot.Position;
+        int newSlot = _hoverSlot.Position;
+        Debug.LogWarning($"Moving skillbar shortcut from slot {oldSlot} to slot {newSlot}.");
+        PlayerShortcuts.Instance.MoveShortcut(oldSlot, newSlot);
+    }
+
+    private void RemoveSkillbarSlot()
+    {
+        int oldSlot = _draggedSlot.Position;
+        Debug.LogWarning($"Renoving skillbar shortcut from slot {oldSlot}.");
+        PlayerShortcuts.Instance.DeleteShortcut(oldSlot);
+    }
+
+    #endregion
+
+    private void ResetSlots()
+    {
+        _draggedSlot = null;
+        _hoverSlot = null;
     }
 
     public override void ShowWindow()

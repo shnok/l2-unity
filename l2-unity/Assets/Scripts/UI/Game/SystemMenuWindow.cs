@@ -53,7 +53,7 @@ public class SystemMenuWindow : L2PopupWindow
     {
         InitWindow(root);
 
-        root.Add(_windowEle);
+       // root.Add(_windowEle);
 
         yield return new WaitForEndOfFrame();
 
@@ -82,8 +82,9 @@ public class SystemMenuWindow : L2PopupWindow
         ExitWindow.Instance.OpenWindow(false);
     }
 
-    public void ToggleHideWindow(Vector2 basePosition)
+    public override void ToggleHideWindow()
     {
+        Vector2 basePosition = MenuWindow.Instance.GetWindowPosition();
         _windowEle.transform.position = new Vector2(basePosition.x, basePosition.y - _windowHeight);
         base.ToggleHideWindow();
     }
@@ -92,11 +93,13 @@ public class SystemMenuWindow : L2PopupWindow
     {
         base.ShowWindow();
         AudioManager.Instance.PlayUISound("window_open");
+        L2GameUI.Instance.WindowOpened(this);
     }
 
     public override void HideWindow()
     {
         base.HideWindow();
         AudioManager.Instance.PlayUISound("window_close");
+        L2GameUI.Instance.WindowClosed(this);
     }
 }

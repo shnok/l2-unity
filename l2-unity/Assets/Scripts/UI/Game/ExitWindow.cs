@@ -13,7 +13,6 @@ public class ExitWindow : L2PopupWindow
     private Label _itemAcquired;
 
     private static ExitWindow _instance;
-    private bool _isShow;
     public static ExitWindow Instance
     {
         get { return _instance; }
@@ -45,7 +44,7 @@ public class ExitWindow : L2PopupWindow
     {
         InitWindow(root);
 
-        root.Add(_windowEle);
+       // root.Add(_windowEle);
 
         yield return new WaitForEndOfFrame();
 
@@ -101,12 +100,14 @@ public class ExitWindow : L2PopupWindow
     public override void ShowWindow()
     {
         base.ShowWindow();
+        L2GameUI.Instance.WindowOpened(this);
     }
 
     public override void HideWindow()
     {
         base.HideWindow();
         AudioManager.Instance.PlayUISound("window_close");
+        L2GameUI.Instance.WindowClosed(this);
     }
 
     private void HandleRestartButtonClick()

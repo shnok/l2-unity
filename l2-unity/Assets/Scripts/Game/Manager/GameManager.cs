@@ -6,6 +6,13 @@ using static ServerListPacket;
 
 public class GameManager : MonoBehaviour
 {
+    // TODO: SWITCH TO EVENT HANDLER AND STATE MACHINE
+    // TODO: SWITCH TO EVENT HANDLER AND STATE MACHINE
+    // TODO: SWITCH TO EVENT HANDLER AND STATE MACHINE
+    // TODO: SWITCH TO EVENT HANDLER AND STATE MACHINE
+    // TODO: SWITCH TO EVENT HANDLER AND STATE MACHINE
+    // TODO: SWITCH TO EVENT HANDLER AND STATE MACHINE
+    // TODO: SWITCH TO EVENT HANDLER AND STATE MACHINE
     [SerializeField] private int _protocolVersion = 1;
     [SerializeField] private GameState _gameState = GameState.LOGIN_SCREEN;
     private bool _gameReady = false;
@@ -41,12 +48,15 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
 
-        _loadingCamera = GameObject.Find("LoadingCamera").GetComponent<Camera>();
-        if (_loadingCamera == null)
+        GameObject camObject = GameObject.Find("LoadingCamera");
+        if (camObject == null)
         {
             Debug.LogError("Can't find loading camera");
             return;
         }
+
+        camObject.TryGetComponent(out _loadingCamera);
+
         StartLoading();
     }
 
@@ -74,17 +84,8 @@ public class GameManager : MonoBehaviour
         ModelTable.Instance.Initialize();
         LogongrpTable.Instance.Initialize();
         SystemMessageTable.Instance.Initialize();
-        IconManager.Instance.Initialize();
-        IconManager.Instance.CacheIcons();
-    }
-
-    public void LogIn()
-    {
-    }
-
-    public void LogOut()
-    {
-        LoginClient.Instance.Disconnect();
+        IconTable.Instance.Initialize();
+        KeyImageTable.Instance.Initialize();
     }
 
     public void OnWorldSceneLoaded()
@@ -93,7 +94,9 @@ public class GameManager : MonoBehaviour
 
         PlayerInfo playerInfo = GameClient.Instance.PlayerInfo;
 
-        World.Instance.SpawnPlayer(playerInfo.Identity, playerInfo.Status, playerInfo.Stats, playerInfo.Appearance);
+        World.Instance.SpawnPlayer(playerInfo.Identity, playerInfo.Status, playerInfo.Stats, playerInfo.Appearance, playerInfo.Running);
+
+        PlayerStateMachine.Instance.enabled = true;
 
         StopLoading();
 

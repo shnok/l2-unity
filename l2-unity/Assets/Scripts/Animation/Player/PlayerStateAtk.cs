@@ -1,14 +1,18 @@
 using UnityEngine;
 
-public class PlayerStateAtk : PlayerStateAction {
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+public class PlayerStateAtk : PlayerStateAction
+{
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
         LoadComponents(animator);
-        if (!_enabled) {
+        if (!_enabled)
+        {
             return;
         }
 
         AnimatorClipInfo[] clipInfos = animator.GetNextAnimatorClipInfo(0);
-        if (clipInfos == null || clipInfos.Length == 0) {
+        if (clipInfos == null || clipInfos.Length == 0)
+        {
             clipInfos = animator.GetCurrentAnimatorClipInfo(0);
         }
 
@@ -21,33 +25,51 @@ public class PlayerStateAtk : PlayerStateAction {
         PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
     }
 
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
 
         SetBool("atkwait", true, false, false);
         SetBool("atk01", true, false, false);
 
-        if(ShouldDie()) {
+        if (ShouldDie())
+        {
             return;
         }
 
-        if (ShouldAttack()) {
+        if (ShouldAttack())
+        {
             return;
         }
 
-        if (ShouldRun()) {
+        if (ShouldRun())
+        {
             return;
         }
 
-        if (ShouldIdle()) {
+        if (ShouldWalk())
+        {
+            return;
+        }
+
+        if (ShouldSit())
+        {
+            return;
+        }
+
+        if (ShouldIdle())
+        {
             return;
         }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        if (!_enabled) {
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (!_enabled)
+        {
             return;
         }
     }

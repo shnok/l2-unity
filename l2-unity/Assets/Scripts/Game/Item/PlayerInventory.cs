@@ -97,6 +97,19 @@ public class PlayerInventory : MonoBehaviour
         return null;
     }
 
+    public ItemInstance GetItemById(int itemId)
+    {
+        foreach (ItemInstance item in _playerInventory)
+        {
+            if (item.ItemId == itemId)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
     public ItemInstance GetItemBySlot(int slot)
     {
         foreach (ItemInstance item in _playerInventory)

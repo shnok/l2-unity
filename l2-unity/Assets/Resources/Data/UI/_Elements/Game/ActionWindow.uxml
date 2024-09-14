@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Template name="WindowTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Template/WindowTemplate.uxml?fileID=9197481963319205126&amp;guid=5ca840f56ef6f1044b4dc077c7d3e6e6&amp;type=3#WindowTemplate" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <ui:Instance template="WindowTemplate" name="WindowTemplate" class="action-window" style="height: 545px; width: 315px; position: absolute;">
+        <ui:VisualElement name="Content" class="action-window-content">
+            <ui:VisualElement name="Category" class="action-window-category">
+                <ui:Label tabindex="-1" text="Basic" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="action-window-category-title" />
+                <ui:VisualElement name="BasicSlots" class="action-window-category-slots" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Category" class="action-window-category" style="margin-top: 4px;">
+                <ui:Label tabindex="-1" text="Party" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="action-window-category-title" />
+                <ui:VisualElement name="PartySlots" class="action-window-category-slots" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Category" class="action-window-category" style="margin-top: 4px;">
+                <ui:Label tabindex="-1" text="Token Action" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="action-window-category-title" />
+                <ui:VisualElement name="TokenSlots" class="action-window-category-slots" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Category" class="action-window-category" style="margin-top: 4px;">
+                <ui:Label tabindex="-1" text="Social" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Title" class="action-window-category-title" />
+                <ui:VisualElement name="SocialSlots" class="action-window-category-slots" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:Instance>
+</ui:UXML>

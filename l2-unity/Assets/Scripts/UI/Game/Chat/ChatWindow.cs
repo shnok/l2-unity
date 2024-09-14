@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ChatWindow : L2Window {
+public class ChatWindow : L2Window
+{
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
     private TextField _chatInput;
@@ -24,25 +25,32 @@ public class ChatWindow : L2Window {
     private static ChatWindow _instance;
     public static ChatWindow Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _instance = null;
     }
 
-    protected override void LoadAssets() {
+    protected override void LoadAssets()
+    {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatWindow");
         _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatTab");
         _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatTabHeader");
     }
 
-    protected override IEnumerator BuildWindow(VisualElement root) {
+    protected override IEnumerator BuildWindow(VisualElement root)
+    {
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
@@ -61,12 +69,12 @@ public class ChatWindow : L2Window {
 
         diagonalResizeHandle.AddManipulator(diagonalResizeManipulator);
 
-        _chatInput = (TextField) GetElementById("ChatInputField");
+        _chatInput = (TextField)GetElementById("ChatInputField");
         _chatInput.RegisterCallback<FocusEvent>(OnChatInputFocus);
         _chatInput.RegisterCallback<BlurEvent>(OnChatInputBlur);
         _chatInput.maxLength = _chatInputCharacterLimit;
 
-        var enlargeTextBtn = (Button) GetElementById("EnlargeTextBtn");
+        var enlargeTextBtn = (Button)GetElementById("EnlargeTextBtn");
         enlargeTextBtn.AddManipulator(new ButtonClickSoundManipulator(enlargeTextBtn));
 
         var chatOptionsBtn = (Button)GetElementById("ChatOptionsBtn");
@@ -83,20 +91,24 @@ public class ChatWindow : L2Window {
     }
 
 
-    private void CreateTabs() {
+    private void CreateTabs()
+    {
         _chatTabView = GetElementById("ChatTabView");
 
         VisualElement tabHeaderContainer = _chatTabView.Q<VisualElement>("tab-header-container");
-        if(tabHeaderContainer == null) {
+        if (tabHeaderContainer == null)
+        {
             Debug.LogError("tab-header-container is null");
         }
         VisualElement tabContainer = _chatTabView.Q<VisualElement>("tab-content-container");
 
-        if (tabContainer == null) {
+        if (tabContainer == null)
+        {
             Debug.LogError("tab-content-container");
         }
 
-        for (int i = 0; i < _tabs.Count; i++) {
+        for (int i = 0; i < _tabs.Count; i++)
+        {
             VisualElement tabElement = _tabTemplate.CloneTree()[0];
             // tabElement.name = _tabs[i].TabName;
             tabElement.name = _tabs[i].TabName;
@@ -112,14 +124,18 @@ public class ChatWindow : L2Window {
             _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement);
         }
 
-        if (_tabs.Count > 0) {
+        if (_tabs.Count > 0)
+        {
             SwitchTab(_tabs[0]);
         }
     }
 
-    public bool SwitchTab(ChatTab switchTo) {
-        if (_activeTab != switchTo) {
-            if(_activeTab != null) {
+    public bool SwitchTab(ChatTab switchTo)
+    {
+        if (_activeTab != switchTo)
+        {
+            if (_activeTab != null)
+            {
                 _activeTab.TabContainer.AddToClassList("unselected-tab");
                 _activeTab.TabHeader.RemoveFromClassList("active");
             }
@@ -135,90 +151,110 @@ public class ChatWindow : L2Window {
         return false;
     }
 
-    void Update() {
-        if(InputManager.Instance.IsInputPressed(InputType.SendMessage)) {
-            if(_chatOpened) {
+    void Update()
+    {
+        if (InputManager.Instance.Validate)
+        {
+            if (_chatOpened)
+            {
                 CloseChat(true);
-            } else {
-                StartCoroutine(OpenChat());
             }
-        }
-
-        if(InputManager.Instance.IsInputPressed(InputType.Escape)) {
-            if(_chatOpened) {
-                CloseChat(false);
+            else
+            {
+                StartCoroutine(OpenChat());
             }
         }
     }
 
-    IEnumerator OpenChat() {
+    IEnumerator OpenChat()
+    {
         _chatOpened = true;
         L2GameUI.Instance.BlurFocus();
         yield return new WaitForEndOfFrame();
         _chatInput.Focus();
     }
 
-    public void CloseChat(bool sendMessage) {
+    public void CloseChat(bool sendMessage)
+    {
         _chatOpened = false;
 
         L2GameUI.Instance.BlurFocus();
 
-        if(sendMessage) {
-            if(_chatInput.text.Length > 0) {
+        if (sendMessage)
+        {
+            if (_chatInput.text.Length > 0)
+            {
                 SendChatMessage(_chatInput.text);
                 _chatInput.value = "";
             }
         }
     }
 
-    private void OnChatInputFocus(FocusEvent evt) {
-        if(!_chatInputContainer.ClassListContains("highlighted")) {
+    private void OnChatInputFocus(FocusEvent evt)
+    {
+        if (!_chatInputContainer.ClassListContains("highlighted"))
+        {
             _chatInputContainer.AddToClassList("highlighted");
         }
 
-        if(!_chatOpened) {
+        if (!_chatOpened)
+        {
             _chatOpened = true;
         }
     }
 
-    private void OnChatInputBlur(BlurEvent evt) {
-        if(_chatInputContainer.ClassListContains("highlighted")) {
+    private void OnChatInputBlur(BlurEvent evt)
+    {
+        if (_chatInputContainer.ClassListContains("highlighted"))
+        {
             _chatInputContainer.RemoveFromClassList("highlighted");
         }
 
-        if(_chatOpened) {
+        if (_chatOpened)
+        {
             _chatOpened = false;
         }
     }
 
-    public void ClearChat() {
-        for(int i = 0; i < _tabs.Count; i++) {
+    public void ClearChat()
+    {
+        for (int i = 0; i < _tabs.Count; i++)
+        {
             ClearTab(i);
         }
     }
 
-    public void ClearTab(int tabIndex) {
-        if(tabIndex <= _tabs.Count - 1) {
+    public void ClearTab(int tabIndex)
+    {
+        if (tabIndex <= _tabs.Count - 1)
+        {
             _tabs[tabIndex].Content.text = "";
         }
     }
 
- 
-    public void SendChatMessage(string text) {
-        if(World.Instance.OfflineMode) {
+
+    public void SendChatMessage(string text)
+    {
+        if (World.Instance.OfflineMode)
+        {
             ChatMessage message = new ChatMessage(PlayerEntity.Instance.Identity.Name, text);
             ReceiveChatMessage(message);
-        } else {
+        }
+        else
+        {
             GameClient.Instance.ClientPacketHandler.SendMessage(text);
         }
     }
 
-    public void ReceiveChatMessage(ChatMessage message) {
-        if(message == null) {
+    public void ReceiveChatMessage(ChatMessage message)
+    {
+        if (message == null)
+        {
             return;
         }
 
-        for(int i = 0; i < _tabs.Count; i++) {
+        for (int i = 0; i < _tabs.Count; i++)
+        {
             //if(_tabs[i].FilteredMessages.Count > 0) {
             //    if(_tabs[i].FilteredMessages.Contains(message.MessageType)) {
             //        ConcatMessage(_tabs[i].Content, message.ToString());
@@ -228,12 +264,15 @@ public class ChatWindow : L2Window {
         }
     }
 
-    public void ReceiveSystemMessage(SystemMessage message) {
-        if (message == null) {
+    public void ReceiveSystemMessage(SystemMessage message)
+    {
+        if (message == null)
+        {
             return;
         }
 
-        for (int i = 0; i < _tabs.Count; i++) {
+        for (int i = 0; i < _tabs.Count; i++)
+        {
             //if(_tabs[i].FilteredMessages.Count > 0) {
             //    if(_tabs[i].FilteredMessages.Contains(message.MessageType)) {
             //        ConcatMessage(_tabs[i].Content, message.ToString());
@@ -243,11 +282,13 @@ public class ChatWindow : L2Window {
         }
     }
 
-    internal void ScrollDown(Scroller scroller) {
+    internal void ScrollDown(Scroller scroller)
+    {
         StartCoroutine(ScrollDownWithDelay(scroller));
     }
 
-    IEnumerator ScrollDownWithDelay(Scroller scroller) {
+    IEnumerator ScrollDownWithDelay(Scroller scroller)
+    {
         yield return new WaitForEndOfFrame();
         scroller.value = scroller.highValue > 0 ? scroller.highValue : 0;
     }

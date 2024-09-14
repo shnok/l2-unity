@@ -1,22 +1,27 @@
 using UnityEngine;
 using System;
 
-public class UserInfoPacket : ServerPacket {
+public class UserInfoPacket : ServerPacket
+{
     public NetworkIdentity Identity { get; private set; }
     public PlayerStatus Status { get; private set; }
     public Stats Stats { get; private set; }
     public PlayerAppearance Appearance { get; private set; }
+    public bool Running { get; set; }
 
-    public UserInfoPacket(byte[] d) : base(d) {
+    public UserInfoPacket(byte[] d) : base(d)
+    {
         Identity = new NetworkIdentity();
         Status = new PlayerStatus();
         Stats = new Stats();
         Appearance = new PlayerAppearance();
         Parse();
     }
-    
-    public override void Parse() {    
-        try {
+
+    public override void Parse()
+    {
+        try
+        {
             Identity.Id = ReadI();
             Identity.Name = ReadS();
             Identity.PlayerClass = ReadB();
@@ -31,7 +36,8 @@ public class UserInfoPacket : ServerPacket {
             Status.Hp = ReadI();
             Stats.MaxHp = ReadI();
             // Stats
-            Stats.Speed = ReadI();
+            Stats.RunSpeed = ReadI();
+            Stats.WalkSpeed = ReadI();
             Stats.PAtkSpd = ReadI();
             Stats.MAtkSpd = ReadI();
             // Appearance
@@ -50,7 +56,10 @@ public class UserInfoPacket : ServerPacket {
             Appearance.Gloves = ReadI();
             Appearance.Feet = ReadI();
 
-        } catch (Exception e) {
+            Running = ReadI() == 1;
+        }
+        catch (Exception e)
+        {
             Debug.LogError(e);
         }
     }

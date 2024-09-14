@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class AbstractSkills
 {
-    protected string[] fillBackgroundDf = { "Data/UI/Window/Skills/QuestWndPlusBtn_v2", "Data/UI/Window/Skills/Button_DF_Skills_Down_v3" };
+    protected string[] fillBackgroundDf = { "Data/UI/Assets/Window/Skills/QuestWndPlusBtn_v2", "Data/UI/Assets/Window/Skills/Button_DF_Skills_Down_v3" };
     protected void ChangeDfBox(Button btn, string texture)
     {
         IEnumerable<VisualElement> children = btn.Children();

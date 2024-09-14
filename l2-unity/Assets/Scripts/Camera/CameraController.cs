@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour
+{
     private Vector3 _lerpTargetPos;
-    private float _x, _y = 0;
+    [SerializeField] private float _x, _y = 0;
     private Vector3 _targetPos;
     private LayerMask _collisionMask;
 
@@ -31,47 +33,67 @@ public class CameraController : MonoBehaviour {
     public Transform Target { get { return _target; } set { _target = value; } }
 
     public bool StickToBone { get { return _stickToBone; } set { _stickToBone = value; } }
+    public float CurrentDistance { get { return _currentDistance; } }
+    public float MaxDistance { get { return _maxDistance; } }
 
 
     private static CameraController _instance;
     public static CameraController Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    void OnDestroy() {
+    void OnDestroy()
+    {
         _instance = null;
     }
 
-    private void Start() {
+    private void Start()
+    {
         _lerpTargetPos = Vector3.zero;
     }
 
-    public void SetMask(LayerMask collisionMask) {
+    public void SetMask(LayerMask collisionMask)
+    {
         this._collisionMask = collisionMask;
     }
 
-    private void Update() {
-        if(_target != null && _collisionDetector != null) {
-            UpdateInputs();
-        }
-    }
-
-    void FixedUpdate() {
-        if(_target != null && _collisionDetector != null) {
-            _collisionDetector.DetectCollision(_camDistance);
-            UpdatePosition();
-            
+    private void Update()
+    {
+        if (_target != null && _collisionDetector != null)
+        {
             UpdateZoom();
         }
     }
 
-    public void SetTarget(GameObject go) {
+    private void LateUpdate()
+    {
+        if (_target != null && _collisionDetector != null)
+        {
+            UpdateInputs();
+            UpdatePosition();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (_target != null && _collisionDetector != null)
+        {
+            _collisionDetector.DetectCollision(_camDistance);
+        }
+    }
+
+    public void SetTarget(GameObject go)
+    {
         _target = go.transform;
         transform.position = _targetPos;
 
@@ -80,18 +102,22 @@ public class CameraController : MonoBehaviour {
         _collisionDetector = new CameraCollisionDetection(GetComponent<Camera>(), _target, _camOffset, _collisionMask);
     }
 
-    public bool IsObjectVisible(Transform target) {
+    public bool IsObjectVisible(Transform target)
+    {
         RaycastHit hit;
         Vector3[] cameraClips = _collisionDetector.GetCameraViewPortPoints();
         bool visible = false;
-        for(int i = 0; i < cameraClips.Length; i++) {
-            if(!Physics.Linecast(cameraClips[i], target.position + 1f * Vector3.up, out hit, _collisionMask)) {
+        for (int i = 0; i < cameraClips.Length; i++)
+        {
+            if (!Physics.Linecast(cameraClips[i], target.position + 1f * Vector3.up, out hit, _collisionMask))
+            {
                 visible = true;
                 break;
             }
         }
 
-        if(visible == false) {
+        if (visible == false)
+        {
             return false;
         }
 
@@ -100,45 +126,62 @@ public class CameraController : MonoBehaviour {
         return insideView;
     }
 
-    private void UpdateInputs() {
-        if(InputManager.Instance.IsInputPressed(InputType.TurnCamera)) {
-            Vector2 mouseAxis = InputManager.Instance.mouseAxis;
-            _x += mouseAxis.x * _camSpeed * 0.1f;
-            _y -= mouseAxis.y * _camSpeed * 0.1f;
+    private void UpdateInputs()
+    {
+        if (InputManager.Instance.TurnCamera)
+        {
+            Vector2 mouseAxis = InputManager.Instance.CameraAxis;
+            // float logX = Mathf.Pow(Mathf.Abs(mouseAxis.x), 0.7f);
+            // float logY = Mathf.Pow(Mathf.Abs(mouseAxis.y), 0.7f);
+            // float diffX = mouseAxis.x < 0 ? -logX : logX;
+            // float diffY = mouseAxis.y < 0 ? -logY : logY;
+            // _x += mouseAxis.x == 0 ? 0 : diffX * _camSpeed * Time.deltaTime;
+            // _y -= mouseAxis.y == 0 ? 0 : diffY * _camSpeed * Time.deltaTime;
+
+            _x += Input.GetAxis("Mouse X") * _camSpeed;
+            _y -= Input.GetAxis("Mouse Y") * _camSpeed;
             _y = ClampAngle(_y, -90, 90);
         }
     }
 
-    private void UpdateZoom() {
-        if(InputManager.Instance.IsInputPressed(InputType.Zoom)) {
-            float scrollAxis = InputManager.Instance.scrollAxis;
-            _camDistance = Mathf.Clamp(_camDistance - scrollAxis * _zoomSpeed, _minDistance, _maxDistance);
-        }
+    private void UpdateZoom()
+    {
+        float scrollAxis = InputManager.Instance.ZoomAxis;
+        _camDistance = Mathf.Clamp(_camDistance - scrollAxis * _zoomSpeed * 0.1f, _minDistance, _maxDistance);
     }
 
-    private void UpdatePosition() {
+    private void UpdatePosition()
+    {
         Quaternion rotation = Quaternion.Euler(_y, _x, 0);
         transform.rotation = rotation;
 
-        if(_collisionDetector.AdjustedDistance > Vector3.Distance(_targetPos + _camOffset, transform.position)) {
-            _currentDistance += ((_collisionDetector.AdjustedDistance - _currentDistance) / 0.2f) * Time.deltaTime;
-        } else {
-            _currentDistance -= ((_currentDistance - _collisionDetector.AdjustedDistance) / 0.075f) * Time.deltaTime;
+        if (_collisionDetector.AdjustedDistance > Vector3.Distance(_targetPos + _camOffset, transform.position))
+        {
+            _currentDistance += (_collisionDetector.AdjustedDistance - _currentDistance) / 0.2f * Time.deltaTime;
+        }
+        else
+        {
+            _currentDistance -= (_currentDistance - _collisionDetector.AdjustedDistance) / 0.075f * Time.deltaTime;
         }
 
         float boneOffset = 0;
-        if(_stickToBone) {
+        if (_stickToBone)
+        {
             boneOffset = _rootBone.position.y - _target.position.y - _rootBoneHeight;
         }
 
         _targetPos = new Vector3(_camOffset.x, boneOffset + _camOffset.y, _camOffset.z) + _target.position;
 
-        if(_smoothCamera) {
-            if(_lerpTargetPos == Vector3.zero) {
+        if (_smoothCamera)
+        {
+            if (_lerpTargetPos == Vector3.zero)
+            {
                 _lerpTargetPos = _targetPos;
             }
             _lerpTargetPos = Vector3.Lerp(_lerpTargetPos, _targetPos, _smoothness * Time.deltaTime);
-        } else {
+        }
+        else
+        {
             _lerpTargetPos = _targetPos;
         }
 
@@ -147,10 +190,11 @@ public class CameraController : MonoBehaviour {
         transform.position = adjustedPosition;
     }
 
-    private float ClampAngle(float angle, float min, float max) {
-        if(angle < -360F)
+    private float ClampAngle(float angle, float min, float max)
+    {
+        if (angle < -360F)
             angle += 360F;
-        if(angle > 360F)
+        if (angle > 360F)
             angle -= 360F;
         return Mathf.Clamp(angle, min, max);
     }

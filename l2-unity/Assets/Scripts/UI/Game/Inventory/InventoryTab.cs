@@ -28,7 +28,7 @@ public class InventoryTab : L2Tab
         {
             foreach (InventorySlot slot in _inventorySlots)
             {
-                slot.UnregisterCallbacks();
+                slot.UnregisterClickableCallback();
                 slot.ClearManipulators();
             }
         }

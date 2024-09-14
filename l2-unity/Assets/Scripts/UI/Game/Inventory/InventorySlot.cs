@@ -15,11 +15,10 @@ public class InventorySlot : L2DraggableSlot
     public ItemCategory ItemCategory { get { return _itemCategory; } }
     public int ObjectId { get { return _objectId; } }
 
-    public InventorySlot(int position, VisualElement slotElement, L2Tab tab, SlotType slotType) :
-    base(position, slotElement, slotType)
+    public InventorySlot(int position, VisualElement slotElement, L2Tab tab, SlotType slotType)
+    : base(position, slotElement, slotType, false, true)
     {
         _currentTab = tab;
-        _slotElement.AddToClassList("inventory-slot");
         _empty = true;
 
         if (_slotClickSoundManipulator == null)
@@ -29,8 +28,16 @@ public class InventorySlot : L2DraggableSlot
         }
     }
 
+    public InventorySlot(int position, VisualElement slotElement, SlotType slotType)
+    : base(position, slotElement, slotType, true, false)
+    {
+        _empty = true;
+    }
+
     public void AssignItem(ItemInstance item)
     {
+        _slotElement.RemoveFromClassList("empty");
+
         if (item.ItemData != null)
         {
             _id = item.ItemData.Id;
@@ -55,12 +62,15 @@ public class InventorySlot : L2DraggableSlot
         _count = item.Count;
         _remainingTime = item.RemainingTime;
 
-        StyleBackground background = new StyleBackground(IconManager.Instance.GetIcon(_id));
-        _slotBg.style.backgroundImage = background;
+        if (_slotElement != null)
+        {
+            StyleBackground background = new StyleBackground(IconTable.Instance.GetIcon(_id));
+            _slotBg.style.backgroundImage = background;
 
-        AddTooltip(item);
+            AddTooltip(item);
 
-        _slotDragManipulator.enabled = true;
+            _slotDragManipulator.enabled = true;
+        }
     }
 
     private void AddTooltip(ItemInstance item)
@@ -92,7 +102,10 @@ public class InventorySlot : L2DraggableSlot
 
     protected override void HandleLeftClick()
     {
-        _currentTab.SelectSlot(_position);
+        if (_currentTab != null)
+        {
+            _currentTab.SelectSlot(_position);
+        }
     }
 
     protected override void HandleRightClick()

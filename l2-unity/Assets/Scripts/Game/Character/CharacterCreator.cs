@@ -18,34 +18,45 @@ public class CharacterCreator : MonoBehaviour
 
     void Awake()
     {
-        if (_instance == null) {
+        if (_instance == null)
+        {
             _instance = this;
-        } else if(_instance != this) {
+        }
+        else if (_instance != this)
+        {
             Destroy(gameObject);
         }
     }
 
-    private void Update() {
-        if (currentPawn == null) {
+    private void Update()
+    {
+        if (currentPawn == null)
+        {
             _pawnRotating = false;
             return;
         }
 
-        if(_pawnRotating) {
-            if (_pawnRotatingRight) {
+        if (_pawnRotating)
+        {
+            if (_pawnRotatingRight)
+            {
                 currentPawn.transform.eulerAngles = new Vector3(0, currentPawn.transform.eulerAngles.y + Time.deltaTime * 69f, 0);
-            } else {
+            }
+            else
+            {
                 currentPawn.transform.eulerAngles = new Vector3(0, currentPawn.transform.eulerAngles.y - Time.deltaTime * 69f, 0);
             }
         }
     }
 
-    public void SpawnAllPawns() {
+    public void SpawnAllPawns()
+    {
         List<Logongrp> pawnData = LogongrpTable.Instance.Logongrps;
 
         _pawnContainer = new GameObject("Pawns");
 
-        for (var i = 8; i < pawnData.Count; i++) {
+        for (var i = 8; i < pawnData.Count; i++)
+        {
             GameObject pawnObject = CreatePawn(CharacterRaceAnimation.FDarkElf, new PlayerAppearance());
 
             pawns[i] = pawnObject;
@@ -54,7 +65,8 @@ public class CharacterCreator : MonoBehaviour
         }
     }
 
-    public void SpawnPawnWithId(int id) {
+    public void SpawnPawnWithId(int id)
+    {
         List<Logongrp> pawnData = LogongrpTable.Instance.Logongrps;
 
         GameObject pawnObject = CreatePawn(CharacterRaceAnimation.FDarkElf, new PlayerAppearance());
@@ -62,9 +74,11 @@ public class CharacterCreator : MonoBehaviour
         PlacePawn(pawnObject, pawnData[id], "Pawn" + id, _pawnContainer);
     }
 
-    public void SelectPawn(string race, string pawnClass, string gender) {
+    public void SelectPawn(string race, string pawnClass, string gender)
+    {
         int index = 0;
-        switch(race) {
+        switch (race)
+        {
             case "Human":
                 index = 8;
                 break;
@@ -82,11 +96,13 @@ public class CharacterCreator : MonoBehaviour
                 break;
         }
 
-        if(pawnClass == "Mystic") {
+        if (pawnClass == "Mystic")
+        {
             index += 2;
         }
 
-        if(gender == "Female") {
+        if (gender == "Female")
+        {
             index += 1;
         }
 
@@ -94,8 +110,10 @@ public class CharacterCreator : MonoBehaviour
         currentPawn = pawns[index];
     }
 
-    public void ResetPawnSelection() {
-        if (currentPawn != null) {
+    public void ResetPawnSelection()
+    {
+        if (currentPawn != null)
+        {
             // Restore pawn appearance and rotation
             Destroy(currentPawn);
 
@@ -107,48 +125,64 @@ public class CharacterCreator : MonoBehaviour
     }
 
 
-    public GameObject CreatePawn(CharacterRaceAnimation raceId, PlayerAppearance appearance) {
+    public GameObject CreatePawn(CharacterRaceAnimation raceId, PlayerAppearance appearance)
+    {
         GameObject pawnObject = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, EntityType.Pawn);
 
         UserGear gear = pawnObject.GetComponent<UserGear>();
 
         gear.Initialize(-1, raceId);
 
-        if (appearance.Chest != 0) {
+        if (appearance.Chest != 0)
+        {
             gear.EquipArmor(appearance.Chest, ItemSlot.chest);
-        } else {
+        }
+        else
+        {
             gear.EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.chest);
         }
 
-        if (appearance.Legs != 0) {
+        if (appearance.Legs != 0)
+        {
             gear.EquipArmor(appearance.Legs, ItemSlot.legs);
-        } else {
+        }
+        else
+        {
             gear.EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.legs);
         }
 
-        if (appearance.Gloves != 0) {
+        if (appearance.Gloves != 0)
+        {
             gear.EquipArmor(appearance.Gloves, ItemSlot.gloves);
-        } else {
+        }
+        else
+        {
             gear.EquipArmor(ItemTable.NAKED_GLOVES, ItemSlot.gloves);
         }
 
-        if (appearance.Feet != 0) {
+        if (appearance.Feet != 0)
+        {
             gear.EquipArmor(appearance.Feet, ItemSlot.feet);
-        } else {
+        }
+        else
+        {
             gear.EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.feet);
         }
 
-        if (appearance.LHand != 0) {
+        if (appearance.LHand != 0)
+        {
             gear.EquipWeapon(appearance.LHand, true);
         }
-        if (appearance.RHand != 0) {
+        if (appearance.RHand != 0)
+        {
             gear.EquipWeapon(appearance.RHand, false);
         }
 
         return pawnObject;
     }
 
-    public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container) {
+    public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container)
+    {
 
         UpdatePawnPosAndRot(pawnObject, pawnData);
         pawnObject.transform.name = name;
@@ -161,21 +195,25 @@ public class CharacterCreator : MonoBehaviour
         BaseAnimationController animController = pawnObject.GetComponent<BaseAnimationController>();
         animController.Initialize();
         animController.SetBool("wait_" + gear.WeaponAnim, true);
+        animController.SetWalkSpeed(2.5f);
     }
 
-    public void UpdatePawnPosAndRot(GameObject pawnObject, Logongrp pawnData) {
+    public void UpdatePawnPosAndRot(GameObject pawnObject, Logongrp pawnData)
+    {
         Vector3 pawnPosition = new Vector3(pawnData.X, pawnData.Y, pawnData.Z);
         pawnPosition = VectorUtils.ConvertPosToUnity(pawnPosition);
         pawnObject.transform.position = pawnPosition;
         pawnObject.transform.eulerAngles = new Vector3(0, 360.00f * pawnData.Yaw / 65536, 0);
     }
 
-    public void RotatePawn(bool right) {
+    public void RotatePawn(bool right)
+    {
         _pawnRotating = true;
         _pawnRotatingRight = right;
     }
 
-    public void StopRotatingPawn() {
+    public void StopRotatingPawn()
+    {
         _pawnRotating = false;
     }
 }

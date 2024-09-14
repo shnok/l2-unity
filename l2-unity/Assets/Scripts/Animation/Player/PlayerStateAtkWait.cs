@@ -4,6 +4,11 @@ public class PlayerStateAtkWait : PlayerStateAction
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (!_enabled)
+        {
+            return;
+        }
+
         LoadComponents(animator);
         SetBool("atkwait", true, false, false);
     }
@@ -31,14 +36,20 @@ public class PlayerStateAtkWait : PlayerStateAction
             return;
         }
 
+        if (ShouldWalk())
+        {
+            return;
+        }
+
         if (ShouldJump(false))
         {
             return;
         }
 
-        //if (ShouldSit()) {
-        //    return;
-        //}
+        if (ShouldSit())
+        {
+            return;
+        }
 
         if (ShouldAtkWait())
         {

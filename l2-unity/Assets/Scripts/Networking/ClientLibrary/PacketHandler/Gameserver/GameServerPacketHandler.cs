@@ -99,6 +99,18 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.RestartReponse:
                 OnRestartResponse(data);
                 break;
+            case GameServerPacketType.ShortcutInit:
+                OnShortcutInit(data);
+                break;
+            case GameServerPacketType.ShortcutRegister:
+                OnShortcutRegister(data);
+                break;
+            case GameServerPacketType.ChangeWaitType:
+                OnChangeWaitType(data);
+                break;
+            case GameServerPacketType.ChangeMoveType:
+                OnChangeMoveType(data);
+                break;
         }
     }
 
@@ -249,14 +261,15 @@ public class GameServerPacketHandler : ServerPacketHandler
                 packet.PacketPlayerInfo.Identity,
                 packet.PacketPlayerInfo.Status,
                 packet.PacketPlayerInfo.Stats,
-                packet.PacketPlayerInfo.Appearance);
+                packet.PacketPlayerInfo.Appearance,
+                packet.PacketPlayerInfo.Running);
         }
     }
 
     private void OnUserInfoReceive(byte[] data)
     {
         UserInfoPacket packet = new UserInfoPacket(data);
-        World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance);
+        World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.Running);
     }
 
     private void OnUpdatePosition(byte[] data)
@@ -287,6 +300,8 @@ public class GameServerPacketHandler : ServerPacketHandler
         int id = packet.Id;
         int animId = packet.AnimId;
         float value = packet.Value;
+
+        Debug.Log($"ID: {id} AnimId: {(PlayerAnimationEvent)animId} Value: {value}");
 
         World.Instance.UpdateObjectAnimation(id, animId, value);
     }
@@ -345,7 +360,6 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnEntityAutoAttackStop(byte[] data)
     {
-        Debug.Log("OnEntityAutoAttackStop");
         AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
         World.Instance.EntityStopAutoAttacking(packet.EntityId);
     }
@@ -353,7 +367,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnActionFailed(byte[] data)
     {
         ActionFailedPacket packet = new ActionFailedPacket(data);
-        Debug.LogWarning($"Action failed: " + packet.PlayerAction);
+        Debug.Log($"Action failed: " + packet.PlayerAction);
         _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
     }
 
@@ -403,5 +417,32 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         // Do nothing, handle upcoming charselect packet instead
         GameManager.Instance.GameState = GameState.RESTARTING;
+    }
+
+
+    private void OnShortcutInit(byte[] data)
+    {
+        ShortcutInitPacket packet = new ShortcutInitPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.SetShortcutList(packet.Shortcuts));
+    }
+
+    private void OnShortcutRegister(byte[] data)
+    {
+        ShortcutRegisterPacket packet = new ShortcutRegisterPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.RegisterShortcut(packet.NewShortcut));
+    }
+
+    private void OnChangeWaitType(byte[] data)
+    {
+        ChangeWaitTypePacket packet = new ChangeWaitTypePacket(data);
+        Debug.Log("ChangeWaitType: " + packet.Owner + " " + packet.MoveType);
+        World.Instance.ChangeWaitType(packet.Owner, packet.MoveType, packet.PosX, packet.PosY, packet.PosZ);
+    }
+
+    private void OnChangeMoveType(byte[] data)
+    {
+        ChangeMoveTypePacket packet = new ChangeMoveTypePacket(data);
+        Debug.Log("ChangeMoveType: " + packet.Owner + " running? " + packet.Running);
+        World.Instance.ChangeMoveType(packet.Owner, packet.Running);
     }
 }

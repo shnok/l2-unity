@@ -37,7 +37,7 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] private Color _mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
     [SerializeField] private Color _mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
     [Header("Ambient light colors")]
-    [SerializeField] private Color _ambientLightDayColor = new Color(96f / 255f, 96f / 255f, 79f / 255f);
+    [SerializeField] private Color _ambientLightDayColor = new Color(166f / 255f, 156f / 255f, 135f / 255f);
     [SerializeField] private Color _ambientLightNightColor = new Color(42f / 255f, 42f / 255f, 40f / 255f);
     [SerializeField] private Color _ambientLightduskColor = new Color(82f / 255f, 65f / 255f, 41f / 255f);
     [SerializeField] private Color _ambientLightDawnColor = new Color(96f / 255f, 96f / 255f, 79f / 255f);
@@ -50,7 +50,7 @@ public class DayNightCycle : MonoBehaviour
 
     [Header("Ambient light intensity")]
     [SerializeField] private float _ambientMinIntensity = 0.2f;
-    [SerializeField] private float _ambientMaxIntensity = 0.6f;
+    [SerializeField] private float _ambientMaxIntensity = 0.5f;
 
     [Header("Main light intensity")]
     [SerializeField] private float _mainLightMinIntensity = 0.4f;

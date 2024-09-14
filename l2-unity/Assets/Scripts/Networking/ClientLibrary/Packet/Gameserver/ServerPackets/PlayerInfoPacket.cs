@@ -1,29 +1,36 @@
 using UnityEngine;
 using System;
 
-public class PlayerInfoPacket : ServerPacket {
-    public struct PlayerInfo {
+public class PlayerInfoPacket : ServerPacket
+{
+    public struct PlayerInfo
+    {
         public NetworkIdentity Identity { get; set; }
         public PlayerStatus Status { get; set; }
         public PlayerStats Stats { get; set; }
         public PlayerAppearance Appearance { get; set; }
+        public bool Running { get; set; }
     }
 
     private PlayerInfo _info;
     public PlayerInfo PacketPlayerInfo { get { return _info; } }
 
 
-    public PlayerInfoPacket(byte[] d) : base(d) {
+    public PlayerInfoPacket(byte[] d) : base(d)
+    {
         _info = new PlayerInfo();
         _info.Identity = new NetworkIdentity();
         _info.Status = new PlayerStatus();
         _info.Stats = new PlayerStats();
         _info.Appearance = new PlayerAppearance();
+        _info.Appearance = new PlayerAppearance();
         Parse();
     }
 
-    public override void Parse() {    
-        try {
+    public override void Parse()
+    {
+        try
+        {
             _info.Identity.Id = ReadI();
             _info.Identity.Name = ReadS();
             _info.Identity.PlayerClass = ReadB();
@@ -37,12 +44,13 @@ public class PlayerInfoPacket : ServerPacket {
             _info.Stats.Level = ReadI();
             _info.Status.Hp = ReadI();
             _info.Stats.MaxHp = ReadI();
-            _info.Status.Mp = ReadI(); 
+            _info.Status.Mp = ReadI();
             _info.Stats.MaxMp = ReadI();
             _info.Status.Cp = ReadI();
             _info.Stats.MaxCp = ReadI();
             // Combat
-            _info.Stats.Speed = ReadI();
+            _info.Stats.RunSpeed = ReadI();
+            _info.Stats.WalkSpeed = ReadI();
             _info.Stats.PAtkSpd = ReadI();
             _info.Stats.MAtkSpd = ReadI();
             _info.Stats.AttackRange = ReadF();
@@ -88,7 +96,11 @@ public class PlayerInfoPacket : ServerPacket {
             _info.Appearance.Legs = ReadI();
             _info.Appearance.Gloves = ReadI();
             _info.Appearance.Feet = ReadI();
-        } catch(Exception e) {
+
+            _info.Running = ReadI() == 1;
+        }
+        catch (Exception e)
+        {
             Debug.LogError(e);
         }
     }
