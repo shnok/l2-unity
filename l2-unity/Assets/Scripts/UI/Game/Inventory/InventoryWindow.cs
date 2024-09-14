@@ -301,7 +301,7 @@ public class InventoryWindow : L2PopupWindow
         {
             items = new List<ItemInstance>();
         }
-        else
+        else if (items.Count > 0)
         {
             _usedSlots = items.Where(o => o.Location == ItemLocation.Inventory).Count();
 
