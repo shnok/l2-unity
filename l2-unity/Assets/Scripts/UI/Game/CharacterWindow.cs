@@ -323,6 +323,7 @@ public class CharacterInfoWindow : L2PopupWindow
         base.ShowWindow();
         AudioManager.Instance.PlayUISound("window_open");
         L2GameUI.Instance.WindowOpened(this);
+        UpdateValues();
     }
 
     public override void HideWindow()

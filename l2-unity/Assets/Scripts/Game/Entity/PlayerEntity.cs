@@ -194,5 +194,10 @@ public class PlayerEntity : Entity
         {
             PlayerStateMachine.Instance.NotifyEvent(Event.MOVE_TYPE_UPDATED);
         }
+
+        if (CharacterInfoWindow.Instance != null)
+        {
+            CharacterInfoWindow.Instance.UpdateValues();
+        }
     }
 }
