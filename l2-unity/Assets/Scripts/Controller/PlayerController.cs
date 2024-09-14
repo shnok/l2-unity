@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         _controller = GetComponent<CharacterController>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         _flatTransformPos = new Vector3(transform.position.x, 0, transform.position.z);
 

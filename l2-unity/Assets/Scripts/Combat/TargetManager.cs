@@ -109,14 +109,14 @@ public class TargetManager : MonoBehaviour
         }
 
         // Is our target visible
-        if (_target != null && !IsTransformVisible(_target.Data.ObjectTransform))
+        if (HasTarget() && !IsTransformVisible(_target.Data.ObjectTransform))
         {
             _nextTargetIndex = 0;
             return;
         }
 
         // Did my next target index change?
-        if (_target != null)
+        if (HasTarget())
         {
             for (int i = 0; i < _visibleEntities.Count; i++)
             {
@@ -142,7 +142,7 @@ public class TargetManager : MonoBehaviour
             index = 0;
         }
 
-        if (_target != null && _visibleEntities[index] == _target.Data.ObjectTransform)
+        if (HasTarget() && _visibleEntities[index] == _target.Data.ObjectTransform)
         {
             index++;
         }
