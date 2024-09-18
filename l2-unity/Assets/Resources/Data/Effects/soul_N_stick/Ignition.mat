@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: skill_power01
+  m_Name: Ignition
   m_Shader: {fileID: -6465566751694194690, guid: 1870ff111598ba143984e7e94be27ad8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -87,16 +87,23 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _Alpha: 1
+    - _Alpha: 1.067
     - _AlphaClip: 0
-    - _AlphaSmooth: 0.5
+    - _AlphaSmooth: 0
     - _AlphaToMask: 0
     - _Billboard: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
+    - _COLORSCALE: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorScale0Time: 0
+    - _ColorScale1Time: 0.1
+    - _ColorScale2Time: 0.175
+    - _ColorScale3Time: 0.6
+    - _ColorScale4Time: 1
+    - _ColorScale5Time: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -104,21 +111,22 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FadeIn: 0
-    - _FadeInEndTime: 0
+    - _FadeIn: 1
+    - _FadeInEndTime: 0.05
     - _Fadeout: 1
-    - _FadeoutStartTime: 0.08
+    - _FadeoutStartTime: 0.1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Lifetime: 1
-    - _LifetimeSec: 120
+    - _LifetimeSec: 0.6
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SIZERANGE: 0
     - _SIZESCALE: 0
     - _SPIN: 0
     - _Smoothness: 0.5
@@ -135,6 +143,7 @@ Material:
     - _TIMER: 0
     - _TextureUSubdivisions: 1
     - _TextureVSubdivisions: 1
+    - _UseColorScale: 1
     - _UseSizeScale: 1
     - _VELOCITY: 0
     - _WorkflowMode: 1
@@ -142,16 +151,28 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorScale0Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorScale1Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorScale2Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    - _ColorScale3Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    - _ColorScale4Color: {r: 0, g: 0, b: 0, a: 1}
+    - _ColorScale5Color: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SizeRangeX: {r: 0.06, g: 0.1, b: 0, a: 0}
+    - _SizeRangeY: {r: 0.06, g: 0.1, b: 0, a: 0}
+    - _SizeRangeZ: {r: 0.06, g: 0.1, b: 0, a: 0}
     - _SizeScale0: {r: 0.09, g: 2, b: 0, a: 0}
     - _SizeScale1: {r: 0.24, g: 2.5, b: 0, a: 0}
     - _SizeScale2: {r: 0.6, g: 3, b: 0, a: 0}
     - _SizeScale3: {r: 1, g: 3.4, b: 0, a: 0}
     - _SizeScale4: {r: 1, g: 3.4, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SpinsPerSecondRangeX: {r: -1, g: 1, b: 0, a: 0}
-    - _SpinsPerSecondRangeY: {r: -1, g: 1, b: 0, a: 0}
-    - _SpinsPerSecondRangeZ: {r: -1, g: 1, b: 0, a: 0}
+    - _SpinsPerSecondRangeX: {r: 0, g: 0, b: 0, a: 0}
+    - _SpinsPerSecondRangeY: {r: 0, g: 0, b: 0, a: 0}
+    - _SpinsPerSecondRangeZ: {r: 0, g: 0, b: 0, a: 0}
+    - _StartSpinRangeX: {r: -1, g: 1, b: 0, a: 0}
+    - _StartSpinRangeY: {r: -1, g: 1, b: 0, a: 0}
+    - _StartSpinRangeZ: {r: -1, g: 1, b: 0, a: 0}
     - _StartVelocityRangeX: {r: 0, g: 0, b: 0, a: 0}
     - _StartVelocityRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _StartVelocityRangeZ: {r: 0, g: 0, b: 0, a: 0}

@@ -87,15 +87,23 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _Alpha: 0.903
+    - _Alpha: 0.143
     - _AlphaClip: 0
-    - _AlphaSmooth: 1
+    - _AlphaSmooth: 0
     - _AlphaToMask: 0
+    - _Billboard: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
+    - _COLORSCALE: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _ColorScale0Time: 0
+    - _ColorScale1Time: 0.039
+    - _ColorScale2Time: 0.05
+    - _ColorScale3Time: 0.8
+    - _ColorScale4Time: 1
+    - _ColorScale5Time: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -106,17 +114,19 @@ Material:
     - _FadeIn: 0
     - _FadeInEndTime: 0
     - _Fadeout: 1
-    - _FadeoutStartTime: 0
+    - _FadeoutStartTime: 0.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Lifetime: 0
-    - _LifetimeSec: 3
+    - _Lifetime: 1
+    - _LifetimeSec: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SIZERANGE: 0
     - _SIZESCALE: 0
     - _SPIN: 0
     - _Smoothness: 0.5
@@ -126,13 +136,14 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _StartTime: 0
-    - _SubdivisionEnd: 6
+    - _SubdivisionEnd: 7
     - _SubdivisionStart: 1
     - _Surface: 0
     - _TEXTURE: 0
     - _TIMER: 0
     - _TextureUSubdivisions: 4
     - _TextureVSubdivisions: 4
+    - _UseColorScale: 1
     - _UseSizeScale: 1
     - _VELOCITY: 0
     - _WorkflowMode: 1
@@ -140,20 +151,32 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorScale0Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorScale1Color: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorScale2Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorScale3Color: {r: 0.3137255, g: 0.3137255, b: 0.3137255, a: 1}
+    - _ColorScale4Color: {r: 0, g: 0, b: 0, a: 1}
+    - _ColorScale5Color: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SizeScale0: {r: 0.1, g: 1, b: 0, a: 0}
+    - _SizeRangeX: {r: 10, g: 10, b: 0, a: 0}
+    - _SizeRangeY: {r: 10, g: 10, b: 0, a: 0}
+    - _SizeRangeZ: {r: 10, g: 10, b: 0, a: 0}
+    - _SizeScale0: {r: 0.2, g: 3.5, b: 0, a: 0}
     - _SizeScale1: {r: 0.2, g: 1, b: 0, a: 0}
     - _SizeScale2: {r: 0.21, g: 1, b: 0, a: 0}
-    - _SizeScale3: {r: 0.05, g: 1, b: 0, a: 0}
-    - _SizeScale4: {r: 0.05, g: 1, b: 0, a: 0}
+    - _SizeScale3: {r: 0.21, g: 1, b: 0, a: 0}
+    - _SizeScale4: {r: 0.21, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpinX: {r: 0, g: 0, b: 0, a: 0}
     - _SpinY: {r: 0, g: 0, b: 0, a: 0}
     - _SpinZ: {r: 1, g: 45, b: 0, a: 0}
     - _SpinsPerSecondRangeX: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeY: {r: 0, g: 0, b: 0, a: 0}
-    - _SpinsPerSecondRangeZ: {r: 0.2, g: 0.2, b: 0, a: 0}
-    - _StartVelocityRangeX: {r: 1, g: 2, b: 0, a: 0}
+    - _SpinsPerSecondRangeZ: {r: -1, g: 1, b: 0, a: 0}
+    - _StartSpinRangeX: {r: 0, g: 0, b: 0, a: 0}
+    - _StartSpinRangeY: {r: 0, g: 0, b: 0, a: 0}
+    - _StartSpinRangeZ: {r: 0, g: 0, b: 0, a: 0}
+    - _StartVelocityRangeX: {r: 0.57, g: 0.57, b: 0, a: 0}
     - _StartVelocityRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _StartVelocityRangeZ: {r: 0, g: 0, b: 0, a: 0}
     - _UV_Offset: {r: 0.25, g: 0, b: 0, a: 0}

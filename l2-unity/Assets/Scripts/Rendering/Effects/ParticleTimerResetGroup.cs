@@ -4,7 +4,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ParticleTimerResetGroup : MonoBehaviour
 {
-        private Renderer[] _particles;
+        [SerializeField] private Renderer[] _particles;
 
         void Start()
         {
@@ -13,7 +13,6 @@ public class ParticleTimerResetGroup : MonoBehaviour
 
         void OnEnable()
         {
-                Debug.Log("PrintOnEnable: script was enabled");
                 ResetTimer();
         }
 
