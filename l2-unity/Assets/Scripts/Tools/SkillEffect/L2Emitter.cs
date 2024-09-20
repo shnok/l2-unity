@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class L2Emitter
 {
+    public string effectName;
     public string objectName;
     public string name;
     public bool useColorScale;

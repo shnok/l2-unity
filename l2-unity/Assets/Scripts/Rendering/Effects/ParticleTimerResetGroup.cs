@@ -24,6 +24,7 @@ public class ParticleTimerResetGroup : MonoBehaviour
         float time = Time.time;
 #endif
 
+
                 if (_particles == null || _particles.Length == 0)
                 {
                         _particles = GetComponentsInChildren<Renderer>();
@@ -32,6 +33,8 @@ public class ParticleTimerResetGroup : MonoBehaviour
                 for (int i = 0; i < _particles.Length; i++)
                 {
                         _particles[i].material.SetFloat("_StartTime", time);
+                        float seed = Random.Range(-100f, 100f);
+                        _particles[i].material.SetFloat("_Seed", seed);
                 }
         }
 }

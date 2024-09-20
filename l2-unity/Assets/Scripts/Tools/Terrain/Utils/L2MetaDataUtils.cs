@@ -130,7 +130,7 @@ public class L2MetaDataUtils
     public static ColorScale ParseColorScale(string line)
     {
         int equalsIndex = line.IndexOf('=');
-        string valueString = line.Substring(equalsIndex + 1, line.Length - equalsIndex - 2);
+        string valueString = line.Substring(equalsIndex + 1, line.Length - equalsIndex - 1);
 
 
         float relativeTime = 0;
