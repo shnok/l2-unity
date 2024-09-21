@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 public class ColorScale
 {
     public float relativeTime;
@@ -11,3 +12,4 @@ public class ColorScale
         return $"RelativeTime={relativeTime} R={r} G={g} B={b} A={a}";
     }
 }
+#endif

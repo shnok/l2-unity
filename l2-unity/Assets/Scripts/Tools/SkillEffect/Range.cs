@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 public class Range
 {
     public float min;
@@ -8,3 +9,4 @@ public class Range
         return $"Min={min} Max={max}";
     }
 }
+#endif

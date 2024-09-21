@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 public class SizeScale
 {
     public float relativeTime;
@@ -8,3 +9,4 @@ public class SizeScale
         return $"RelativeTime={relativeTime} RelativeSize={relativeSize}";
     }
 }
+#endif

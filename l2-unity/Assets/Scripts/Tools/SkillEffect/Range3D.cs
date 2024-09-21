@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 public class Range3D
 {
     public Range x;
@@ -16,3 +17,4 @@ public class Range3D
         return $"X={x.ToString()} Y={y.ToString()} Z={z.ToString()}";
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -251,6 +252,12 @@ public class L2ParticleEmitterParser
                             emitter.SubdivisionEnd = L2MetaDataUtils.ParseInt(line);
                             Debug.Log("SubdivisionEnd=" + emitter.SubdivisionEnd);
                         }
+
+                        if (line.StartsWith("DrawStyle="))
+                        {
+                            emitter.drawStyle = line.Split("=")[1];
+                            Debug.Log("DrawStyle=" + emitter.drawStyle);
+                        }
                     }
 
                     emitters.Add(emitter);
@@ -332,6 +339,8 @@ public class L2ParticleEmitterParser
         if (isTextureEmitter)
         {
             go.transform.localScale = new Vector3(1 / 52.5f, 1 / 52.5f, 1 / 52.5f);
+            // Global scale multiplier... Dont know what the correct size, it seems the L2 size of texture emitters are not 1 by default
+            go.transform.localScale *= 2f;
         }
         go.transform.name = emitter.objectName;
         return go;
@@ -352,7 +361,8 @@ public class L2ParticleEmitterParser
         material.SetFloat("_TextureVSubdivisions", emitter.TextureVSubdivisions > 0 ? emitter.TextureVSubdivisions : 1);
         material.SetFloat("_SubdivisionStart", emitter.SubdivisionStart > 0 ? emitter.SubdivisionStart - 1 : 1);
         material.SetFloat("_SubdivisionEnd", emitter.SubdivisionEnd > 0 ? emitter.SubdivisionEnd - 1 : 1);
-        material.SetFloat("_Alpha", emitter.opacity > 0 && spriteEmitter ? emitter.opacity * 0.2f : 1);
+        material.SetFloat("_Alpha", emitter.opacity > 0 && spriteEmitter ? emitter.opacity : 1);
+        material.SetFloat("_Brighten", emitter.drawStyle != null && emitter.drawStyle == "PTDS_Brighten" ? 1 : 0);
 
         // Timer
         material.SetFloat("_HasLifetime", emitter.lifetimeRange.max > 0 || emitter.lifetimeRange.min > 0 ? 1 : 0);
@@ -366,6 +376,11 @@ public class L2ParticleEmitterParser
         material.SetVector("_SizeRangeX", new Vector2(emitter.startSizeRange.x.min, emitter.startSizeRange.x.max));
         material.SetVector("_SizeRangeY", new Vector2(emitter.startSizeRange.y.min, emitter.startSizeRange.y.max)); //TODO verify x-y-z convertion between unity and unreal 
         material.SetVector("_SizeRangeZ", new Vector2(emitter.startSizeRange.z.min, emitter.startSizeRange.z.max));
+
+        // ColorMultiplierRange
+        material.SetVector("_ColorMultiplierRangeR", new Vector2(emitter.colorMultiplierRange.x.min, emitter.colorMultiplierRange.x.max));
+        material.SetVector("_ColorMultiplierRangeG", new Vector2(emitter.colorMultiplierRange.y.min, emitter.colorMultiplierRange.y.max)); //TODO verify RGB conversion BGR ?
+        material.SetVector("_ColorMultiplierRangeB", new Vector2(emitter.colorMultiplierRange.z.min, emitter.colorMultiplierRange.z.max));
 
         // SizeScale
         const int MAXMIMUM_SIZESCALE_COUNT = 10;
@@ -403,18 +418,13 @@ public class L2ParticleEmitterParser
             for (int i = 0; i < Mathf.Min(emitter.colorScales.Count, MAXMIMUM_COLORSCALE_COUNT); i++)
             {
                 material.SetFloat($"_ColorScale{i}Time", emitter.colorScales[i].relativeTime);
-                if (emitter.colorScales[i].r == 0 && emitter.colorScales[i].g == 0 && emitter.colorScales[i].b == 0)
-                {
-                    material.SetColor($"_ColorScale{i}Color", new Color(1, 1, 1, 1));
-                }
-                else
-                {
-                    material.SetColor($"_ColorScale{i}Color", new Color(
-                        emitter.colorScales[i].r / 255f,
-                        emitter.colorScales[i].g / 255f,
-                        emitter.colorScales[i].g / 255f,
-                        emitter.colorScales[i].a / 255f)); //TODO verify color conversions 
-                }
+
+                material.SetColor($"_ColorScale{i}Color", new Color(
+                    emitter.colorScales[i].r / 255f,
+                    emitter.colorScales[i].g / 255f,
+                    emitter.colorScales[i].g / 255f,
+                    emitter.colorScales[i].a / 255f)); //TODO verify color conversions 
+
             }
 
             if (emitter.colorScales.Count < MAXMIMUM_COLORSCALE_COUNT && emitter.colorScales.Count > 0)
@@ -423,18 +433,12 @@ public class L2ParticleEmitterParser
                 for (int i = lastIndex; i < MAXMIMUM_COLORSCALE_COUNT; i++)
                 {
                     material.SetFloat($"_ColorScale{i}Time", emitter.colorScales[lastIndex].relativeTime);
-                    if (emitter.colorScales[lastIndex].r == 0 && emitter.colorScales[lastIndex].g == 0 && emitter.colorScales[lastIndex].b == 0)
-                    {
-                        material.SetColor($"_ColorScale{i}Color", new Color(1, 1, 1, 1));
-                    }
-                    else
-                    {
-                        material.SetColor($"_ColorScale{i}Color", new Color(
-                            emitter.colorScales[lastIndex].r / 255f,
-                            emitter.colorScales[lastIndex].g / 255f,
-                            emitter.colorScales[lastIndex].g / 255f,
-                            emitter.colorScales[lastIndex].a / 255f)); //TODO verify color conversions 
-                    }
+                    material.SetColor($"_ColorScale{i}Color", new Color(
+                        emitter.colorScales[lastIndex].r / 255f,
+                        emitter.colorScales[lastIndex].g / 255f,
+                        emitter.colorScales[lastIndex].g / 255f,
+                        emitter.colorScales[lastIndex].a / 255f)); //TODO verify color conversions 
+
                 }
             }
         }
@@ -483,3 +487,4 @@ public class L2ParticleEmitterParser
         return material;
     }
 }
+#endif

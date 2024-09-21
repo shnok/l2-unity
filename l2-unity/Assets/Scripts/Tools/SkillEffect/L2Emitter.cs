@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,4 +33,6 @@ public class L2Emitter
     public List<SizeScale> sizeScales;
     public Range3D startVelocityRange;
     public Range lifetimeRange;
+    public string drawStyle;
 }
+#endif
