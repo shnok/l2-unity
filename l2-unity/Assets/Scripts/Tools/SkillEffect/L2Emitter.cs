@@ -34,5 +34,6 @@ public class L2Emitter
     public Range3D startVelocityRange;
     public Range lifetimeRange;
     public string drawStyle;
+    public Range3D velocityLossRange;
 }
 #endif

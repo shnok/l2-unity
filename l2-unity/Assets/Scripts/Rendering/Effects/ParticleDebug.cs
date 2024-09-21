@@ -22,13 +22,17 @@ public class ParticleDebug : MonoBehaviour
         if (Time.time > _lastLoop + _loopDelay)
         {
             _lastLoop = Time.time;
-            ParticleTimerResetGroup resetGroup = GetComponentInChildren<ParticleTimerResetGroup>();
+            ParticleTimerResetGroup[] resetGroup = GetComponentsInChildren<ParticleTimerResetGroup>();
             if (resetGroup == null)
             {
                 return;
             }
-            resetGroup.enabled = false;
-            resetGroup.enabled = true;
+
+            for (int i = 0; i < resetGroup.Length; i++)
+            {
+                resetGroup[i].enabled = false;
+                resetGroup[i].enabled = true;
+            }
         }
     }
 }

@@ -258,6 +258,12 @@ public class L2ParticleEmitterParser
                             emitter.drawStyle = line.Split("=")[1];
                             Debug.Log("DrawStyle=" + emitter.drawStyle);
                         }
+
+                        if (line.StartsWith("VelocityLossRange="))
+                        {
+                            emitter.velocityLossRange = L2MetaDataUtils.ParseRange3D(line);
+                            Debug.Log("VelocityLossRange=" + emitter.velocityLossRange);
+                        }
                     }
 
                     emitters.Add(emitter);
@@ -317,8 +323,6 @@ public class L2ParticleEmitterParser
 
 
         Texture2D effectTexture = (Texture2D)Resources.Load(texturePath);
-        Debug.Log(effectTexture);
-
         Material material = BuildMaterial(emitter, effectTexture, isTextureEmitter);
 
         // Save material
@@ -373,14 +377,20 @@ public class L2ParticleEmitterParser
         material.SetFloat("_FadeInEndTime", emitter.fadeInEndTime);
 
         // SizeRange
-        material.SetVector("_SizeRangeX", new Vector2(emitter.startSizeRange.x.min, emitter.startSizeRange.x.max));
-        material.SetVector("_SizeRangeY", new Vector2(emitter.startSizeRange.y.min, emitter.startSizeRange.y.max)); //TODO verify x-y-z convertion between unity and unreal 
-        material.SetVector("_SizeRangeZ", new Vector2(emitter.startSizeRange.z.min, emitter.startSizeRange.z.max));
+        if (emitter.startSizeRange != null)
+        {
+            material.SetVector("_SizeRangeX", new Vector2(emitter.startSizeRange.x.min, emitter.startSizeRange.x.max));
+            material.SetVector("_SizeRangeY", new Vector2(emitter.startSizeRange.y.min, emitter.startSizeRange.y.max)); //TODO verify x-y-z convertion between unity and unreal 
+            material.SetVector("_SizeRangeZ", new Vector2(emitter.startSizeRange.z.min, emitter.startSizeRange.z.max));
+        }
 
         // ColorMultiplierRange
-        material.SetVector("_ColorMultiplierRangeR", new Vector2(emitter.colorMultiplierRange.x.min, emitter.colorMultiplierRange.x.max));
-        material.SetVector("_ColorMultiplierRangeG", new Vector2(emitter.colorMultiplierRange.y.min, emitter.colorMultiplierRange.y.max)); //TODO verify RGB conversion BGR ?
-        material.SetVector("_ColorMultiplierRangeB", new Vector2(emitter.colorMultiplierRange.z.min, emitter.colorMultiplierRange.z.max));
+        if (emitter.colorMultiplierRange != null)
+        {
+            material.SetVector("_ColorMultiplierRangeR", new Vector2(emitter.colorMultiplierRange.x.min, emitter.colorMultiplierRange.x.max));
+            material.SetVector("_ColorMultiplierRangeG", new Vector2(emitter.colorMultiplierRange.y.min, emitter.colorMultiplierRange.y.max)); //TODO verify RGB conversion BGR ?
+            material.SetVector("_ColorMultiplierRangeB", new Vector2(emitter.colorMultiplierRange.z.min, emitter.colorMultiplierRange.z.max));
+        }
 
         // SizeScale
         const int MAXMIMUM_SIZESCALE_COUNT = 10;
@@ -473,6 +483,14 @@ public class L2ParticleEmitterParser
             {
                 material.SetVector("_StartVelocityRangeZ", new Vector2(-emitter.startVelocityRange.z.max / 52.5f, -emitter.startVelocityRange.z.min / 52.5f));
             }
+        }
+
+        // SizeRange
+        if (emitter.velocityLossRange != null)
+        {
+            material.SetVector("_VelocityLossRangeX", new Vector2(emitter.velocityLossRange.x.min, emitter.velocityLossRange.x.max));
+            material.SetVector("_VelocityLossRangeY", new Vector2(emitter.velocityLossRange.y.min, emitter.velocityLossRange.y.max)); //TODO verify x-y-z convertion between unity and unreal 
+            material.SetVector("_VelocityLossRangeZ", new Vector2(emitter.velocityLossRange.z.min, emitter.velocityLossRange.z.max));
         }
 
         // Location
