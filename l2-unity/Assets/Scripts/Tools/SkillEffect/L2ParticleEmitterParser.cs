@@ -259,6 +259,12 @@ public class L2ParticleEmitterParser
                             Debug.Log("DrawStyle=" + emitter.drawStyle);
                         }
 
+                        if (line.StartsWith("GetVelocityDirectionFrom="))
+                        {
+                            emitter.getVelocityDirectionFrom = line.Split("=")[1];
+                            Debug.Log("GetVelocityDirectionFrom=" + emitter.getVelocityDirectionFrom);
+                        }
+
                         if (line.StartsWith("VelocityLossRange="))
                         {
                             emitter.velocityLossRange = L2MetaDataUtils.ParseRange3D(line);
@@ -471,18 +477,18 @@ public class L2ParticleEmitterParser
         // Velocity
         if (emitter.startVelocityRange != null)
         {
-            if (-emitter.startVelocityRange.x.max != emitter.startVelocityRange.x.min) // Can't understand the rule when min = -x and max = x....
-            {
-                material.SetVector("_StartVelocityRangeX", new Vector2(-emitter.startVelocityRange.x.max / 52.5f, -emitter.startVelocityRange.x.min / 52.5f));
-            }
-            if (-emitter.startVelocityRange.y.max != emitter.startVelocityRange.y.min) // Can't understand the rule when min = -x and max = x....
-            {
-                material.SetVector("_StartVelocityRangeY", new Vector2(-emitter.startVelocityRange.y.max / 52.5f, -emitter.startVelocityRange.y.min / 52.5f));
-            }
-            if (-emitter.startVelocityRange.z.max != emitter.startVelocityRange.z.min) // Can't understand the rule when min = -x and max = x....
-            {
-                material.SetVector("_StartVelocityRangeZ", new Vector2(-emitter.startVelocityRange.z.max / 52.5f, -emitter.startVelocityRange.z.min / 52.5f));
-            }
+            // if (-emitter.startVelocityRange.x.max != emitter.startVelocityRange.x.min) // Can't understand the rule when min = -x and max = x....
+            //  {
+            material.SetVector("_StartVelocityRangeX", new Vector2(-emitter.startVelocityRange.x.max / 52.5f, -emitter.startVelocityRange.x.min / 52.5f));
+            //  }
+            //  if (-emitter.startVelocityRange.y.max != emitter.startVelocityRange.y.min) // Can't understand the rule when min = -x and max = x....
+            //  {
+            material.SetVector("_StartVelocityRangeY", new Vector2(-emitter.startVelocityRange.y.max / 52.5f, -emitter.startVelocityRange.y.min / 52.5f));
+            //  }
+            //  if (-emitter.startVelocityRange.z.max != emitter.startVelocityRange.z.min) // Can't understand the rule when min = -x and max = x....
+            //  {
+            material.SetVector("_StartVelocityRangeZ", new Vector2(-emitter.startVelocityRange.z.max / 52.5f, -emitter.startVelocityRange.z.min / 52.5f));
+            //  }
         }
 
         // SizeRange
@@ -494,15 +500,45 @@ public class L2ParticleEmitterParser
         }
 
         // Location
-        material.SetVector("_StartLocationOffset", -emitter.startLocationOffset / 52.5f);
+        material.SetVector("_StartLocationOffset", FromUnrealToUnityShader(emitter.startLocationOffset));
         if (emitter.startLocationRange != null)
         {
-            material.SetVector("_StartLocationRangeX", new Vector2(emitter.startLocationRange.x.min / 52.5f, emitter.startLocationRange.x.max / 52.5f));
-            material.SetVector("_StartLocationRangeY", new Vector2(emitter.startLocationRange.y.min / 52.5f, emitter.startLocationRange.y.max / 52.5f)); //TODO verify x-y-z convertion between unity and unreal 
-            material.SetVector("_StartLocationRangeZ", new Vector2(emitter.startLocationRange.z.min / 52.5f, emitter.startLocationRange.z.max / 52.5f));
+            material.SetVector("_StartLocationRangeX", new Vector2(-emitter.startLocationRange.x.max / 52.5f, -emitter.startLocationRange.x.min / 52.5f));
+            material.SetVector("_StartLocationRangeY", new Vector2(emitter.startLocationRange.z.min / 52.5f, emitter.startLocationRange.z.max / 52.5f)); //TODO verify x-y-z convertion between unity and unreal 
+            material.SetVector("_StartLocationRangeZ", new Vector2(emitter.startLocationRange.y.min / 52.5f, emitter.startLocationRange.y.max / 52.5f));
+        }
+
+        if (emitter.getVelocityDirectionFrom != null && emitter.getVelocityDirectionFrom.Length > 0)
+        {
+            switch (emitter.getVelocityDirectionFrom)
+            {
+                case "PTVD_None":
+                    Debug.LogWarning("0");
+                    material.SetFloat("_GetVelocityDirectionFrom", 0);
+                    break;
+
+                case "PTVD_OwnerAndStartPosition":
+                    Debug.LogWarning("1");
+                    material.SetFloat("_GetVelocityDirectionFrom", 1);
+                    break;
+
+                case "PTVD_StartPositionAndOwner":
+                    material.SetFloat("_GetVelocityDirectionFrom", 2);
+                    break;
+
+                case "PTVD_AddRadial":
+                    material.SetFloat("_GetVelocityDirectionFrom", 3);
+                    break;
+            }
+
         }
 
         return material;
+    }
+    private static Vector3 FromUnrealToUnityShader(Vector3 unrealVec)
+    {
+        return new Vector3(-unrealVec.x, unrealVec.z, unrealVec.y) / 52.5f;
+
     }
 }
 #endif

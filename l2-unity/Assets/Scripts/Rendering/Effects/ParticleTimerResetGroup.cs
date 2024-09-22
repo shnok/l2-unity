@@ -4,6 +4,8 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ParticleTimerResetGroup : MonoBehaviour
 {
+        public Transform owner;
+
         [SerializeField] private Renderer[] _particles;
 
         void Start()
@@ -32,6 +34,10 @@ public class ParticleTimerResetGroup : MonoBehaviour
 
                 for (int i = 0; i < _particles.Length; i++)
                 {
+                        if (owner != null)
+                        {
+                                _particles[i].material.SetVector("_OwnerPosition", owner.position);
+                        }
                         _particles[i].material.SetFloat("_StartTime", time);
                         float seed = Random.Range(-100f, 100f);
                         _particles[i].material.SetFloat("_Seed", seed);
