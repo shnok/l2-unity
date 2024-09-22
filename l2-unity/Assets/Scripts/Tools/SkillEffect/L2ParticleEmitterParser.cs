@@ -270,6 +270,27 @@ public class L2ParticleEmitterParser
                             emitter.velocityLossRange = L2MetaDataUtils.ParseRange3D(line);
                             Debug.Log("VelocityLossRange=" + emitter.velocityLossRange);
                         }
+
+                        if (line.StartsWith("StartLocationShape="))
+                        {
+                            emitter.StartLocationShape = line.Split("=")[1];
+                            Debug.Log("StartLocationShape=" + emitter.StartLocationShape);
+                        }
+
+                        if (line.StartsWith("StartLocationPolarRange="))
+                        {
+                            emitter.startLocationPolarRange = L2MetaDataUtils.ParseRange3D(line);
+                            Debug.Log("StartLocationPolarRange=" + emitter.startLocationPolarRange);
+                        }
+
+                        if (line.StartsWith("SphereRadiusRange="))
+                        {
+                            int equalsIndex = line.IndexOf('=');
+                            line = line.Substring(equalsIndex + 1, line.Length - equalsIndex - 2);
+
+                            emitter.sphereRadiusRange = L2MetaDataUtils.ParseRange(line);
+                            Debug.Log("SphereRadiusRange=" + emitter.sphereRadiusRange);
+                        }
                     }
 
                     emitters.Add(emitter);
@@ -499,26 +520,16 @@ public class L2ParticleEmitterParser
             material.SetVector("_VelocityLossRangeZ", new Vector2(emitter.velocityLossRange.z.min, emitter.velocityLossRange.z.max));
         }
 
-        // Location
-        material.SetVector("_StartLocationOffset", FromUnrealToUnityShader(emitter.startLocationOffset));
-        if (emitter.startLocationRange != null)
-        {
-            material.SetVector("_StartLocationRangeX", new Vector2(-emitter.startLocationRange.x.max / 52.5f, -emitter.startLocationRange.x.min / 52.5f));
-            material.SetVector("_StartLocationRangeY", new Vector2(emitter.startLocationRange.z.min / 52.5f, emitter.startLocationRange.z.max / 52.5f)); //TODO verify x-y-z convertion between unity and unreal 
-            material.SetVector("_StartLocationRangeZ", new Vector2(emitter.startLocationRange.y.min / 52.5f, emitter.startLocationRange.y.max / 52.5f));
-        }
 
         if (emitter.getVelocityDirectionFrom != null && emitter.getVelocityDirectionFrom.Length > 0)
         {
             switch (emitter.getVelocityDirectionFrom)
             {
                 case "PTVD_None":
-                    Debug.LogWarning("0");
                     material.SetFloat("_GetVelocityDirectionFrom", 0);
                     break;
 
                 case "PTVD_OwnerAndStartPosition":
-                    Debug.LogWarning("1");
                     material.SetFloat("_GetVelocityDirectionFrom", 1);
                     break;
 
@@ -527,11 +538,57 @@ public class L2ParticleEmitterParser
                     break;
 
                 case "PTVD_AddRadial":
+                    Debug.LogError("Mode still not supported.");
                     material.SetFloat("_GetVelocityDirectionFrom", 3);
                     break;
             }
 
         }
+
+
+        // Location
+        if (emitter.StartLocationShape != null && emitter.StartLocationShape.Length > 0)
+        {
+            switch (emitter.StartLocationShape)
+            {
+                case "PTLS_Box":
+                    material.SetFloat("_StartLocationShape", 0);
+                    break;
+                case "PTLS_Sphere":
+                    Debug.LogError("Mode still not supported.");
+                    material.SetFloat("_StartLocationShape", 1);
+                    break;
+                case "PTLS_Polar":
+                    material.SetFloat("_StartLocationShape", 2);
+                    break;
+                case "PTLS_All":
+                    material.SetFloat("_StartLocationShape", 3);
+                    break;
+            }
+        }
+
+        material.SetVector("_StartLocationOffset", FromUnrealToUnityShader(emitter.startLocationOffset));
+
+        if (emitter.startLocationRange != null)
+        {
+            material.SetVector("_StartLocationRangeX", new Vector2(-emitter.startLocationRange.x.max / 52.5f, -emitter.startLocationRange.x.min / 52.5f));
+            material.SetVector("_StartLocationRangeY", new Vector2(emitter.startLocationRange.z.min / 52.5f, emitter.startLocationRange.z.max / 52.5f));
+            material.SetVector("_StartLocationRangeZ", new Vector2(emitter.startLocationRange.y.min / 52.5f, emitter.startLocationRange.y.max / 52.5f));
+        }
+
+        if (emitter.sphereRadiusRange != null)
+        {
+            material.SetVector("_SphereRadiusRange", new Vector2(emitter.sphereRadiusRange.min / 52.5f, emitter.sphereRadiusRange.max / 52.5f));
+        }
+
+
+        if (emitter.startLocationPolarRange != null)
+        {
+            material.SetVector("_StartLocationPolarRangeX", new Vector2(emitter.startLocationPolarRange.x.min / 52.5f, emitter.startLocationPolarRange.x.max / 52.5f));
+            material.SetVector("_StartLocationPolarRangeY", new Vector2(emitter.startLocationPolarRange.y.min / 52.5f, emitter.startLocationPolarRange.y.max / 52.5f));
+            material.SetVector("_StartLocationPolarRangeZ", new Vector2(emitter.startLocationPolarRange.z.min / 52.5f, emitter.startLocationPolarRange.z.max / 52.5f));
+        }
+
 
         return material;
     }

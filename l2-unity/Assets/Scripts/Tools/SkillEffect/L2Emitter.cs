@@ -36,5 +36,8 @@ public class L2Emitter
     public string drawStyle;
     public string getVelocityDirectionFrom;
     public Range3D velocityLossRange;
+    public string StartLocationShape;
+    public Range sphereRadiusRange;
+    public Range3D startLocationPolarRange;
 }
 #endif

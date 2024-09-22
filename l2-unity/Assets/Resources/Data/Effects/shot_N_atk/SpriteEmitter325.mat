@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5551836123673380184
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -79,6 +66,7 @@ Material:
     - _QueueOffset: 0
     - _Seed: 0
     - _SpinParticles: 1
+    - _StartLocationShape: 0
     - _StartTime: 0
     - _SubdivisionEnd: 3
     - _SubdivisionStart: 1
@@ -115,10 +103,14 @@ Material:
     - _SizeScale7: {r: 1, g: 2.5, b: 0, a: 0}
     - _SizeScale8: {r: 1, g: 2.5, b: 0, a: 0}
     - _SizeScale9: {r: 1, g: 2.5, b: 0, a: 0}
+    - _SphereRadiusRange: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeX: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeZ: {r: 0.05, g: 0.1, b: 0, a: 0}
     - _StartLocationOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _StartLocationPolarRangeX: {r: 0, g: 6.857143, b: 0, a: 0}
+    - _StartLocationPolarRangeY: {r: 1.7142857, g: 1.7142857, b: 0, a: 0}
+    - _StartLocationPolarRangeZ: {r: 0.0952381, g: 0.0952381, b: 0, a: 0}
     - _StartLocationRangeX: {r: 0, g: 0, b: 0, a: 0}
     - _StartLocationRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _StartLocationRangeZ: {r: 0, g: 0, b: 0, a: 0}
@@ -133,3 +125,16 @@ Material:
     - _VelocityLossRangeZ: {r: 8, g: 8, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &7099217449690462935
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
