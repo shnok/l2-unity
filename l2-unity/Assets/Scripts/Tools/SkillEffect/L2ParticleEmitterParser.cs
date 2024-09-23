@@ -584,9 +584,9 @@ public class L2ParticleEmitterParser
 
         if (emitter.startLocationPolarRange != null)
         {
-            material.SetVector("_StartLocationPolarRangeX", new Vector2(emitter.startLocationPolarRange.x.min / 52.5f, emitter.startLocationPolarRange.x.max / 52.5f));
-            material.SetVector("_StartLocationPolarRangeY", new Vector2(emitter.startLocationPolarRange.y.min / 52.5f, emitter.startLocationPolarRange.y.max / 52.5f));
-            material.SetVector("_StartLocationPolarRangeZ", new Vector2(emitter.startLocationPolarRange.z.min / 52.5f, emitter.startLocationPolarRange.z.max / 52.5f));
+            material.SetVector("_StartLocationPolarRangeX", new Vector2(emitter.startLocationPolarRange.x.min, emitter.startLocationPolarRange.x.max)); // Degrees
+            material.SetVector("_StartLocationPolarRangeY", new Vector2(emitter.startLocationPolarRange.y.min, emitter.startLocationPolarRange.y.max)); // Degrees
+            material.SetVector("_StartLocationPolarRangeZ", new Vector2(emitter.startLocationPolarRange.z.min / 52.5f, emitter.startLocationPolarRange.z.max / 52.5f)); // Y Offset
         }
 
 
