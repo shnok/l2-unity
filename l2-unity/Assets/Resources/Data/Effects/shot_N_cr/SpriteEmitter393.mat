@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7779965577836641830
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -44,7 +57,7 @@ Material:
     m_Floats:
     - _Alpha: 0.6
     - _AlphaSmooth: 0
-    - _Billboard: 1
+    - _Billboard: 0
     - _Brighten: 0
     - _ColorScale0Time: 0
     - _ColorScale1Time: 1
@@ -56,21 +69,25 @@ Material:
     - _ColorScale7Time: 1
     - _ColorScale8Time: 1
     - _ColorScale9Time: 1
+    - _Debug: 0
     - _FadeIn: 0
     - _FadeInEndTime: 0
     - _Fadeout: 1
     - _FadeoutStartTime: 0.084
+    - _GetVelocityDirectionFrom: 1
     - _HasLifetime: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Seed: 0
     - _SpinParticles: 0
+    - _StartLocationShape: 2
     - _StartTime: 0
     - _SubdivisionEnd: 2
     - _SubdivisionStart: 1
     - _TextureUSubdivisions: 2
     - _TextureVSubdivisions: 2
     - _UseColorScale: 0
+    - _UseDirectionAs: 2
     - _UseSizeScale: 1
     m_Colors:
     - _ColorMultiplierRangeB: {r: 0, g: 0, b: 0, a: 0}
@@ -100,10 +117,14 @@ Material:
     - _SizeScale7: {r: 1, g: 1, b: 0, a: 0}
     - _SizeScale8: {r: 1, g: 1, b: 0, a: 0}
     - _SizeScale9: {r: 1, g: 1, b: 0, a: 0}
+    - _SphereRadiusRange: {r: 0.2857143, g: 0.47619048, b: 0, a: 0}
     - _SpinsPerSecondRangeX: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeZ: {r: 0, g: 0, b: 0, a: 0}
-    - _StartLocationOffset: {r: -0.03809524, g: -0, b: -0, a: 0}
+    - _StartLocationOffset: {r: -0.03809524, g: 0, b: 0, a: 0}
+    - _StartLocationPolarRangeX: {r: 90, g: 90, b: 0, a: 0}
+    - _StartLocationPolarRangeY: {r: 0, g: 360, b: 0, a: 0}
+    - _StartLocationPolarRangeZ: {r: 0.1904762, g: 0.2857143, b: 0, a: 0}
     - _StartLocationRangeX: {r: 0, g: 0, b: 0, a: 0}
     - _StartLocationRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _StartLocationRangeZ: {r: 0, g: 0, b: 0, a: 0}
@@ -113,21 +134,8 @@ Material:
     - _StartVelocityRangeX: {r: -3.4285715, g: -2.857143, b: 0, a: 0}
     - _StartVelocityRangeY: {r: -3.4285715, g: -2.857143, b: 0, a: 0}
     - _StartVelocityRangeZ: {r: -3.4285715, g: -2.857143, b: 0, a: 0}
-    - _VelocityLossRangeX: {r: 0, g: 0, b: 0, a: 0}
-    - _VelocityLossRangeY: {r: 0, g: 0, b: 0, a: 0}
-    - _VelocityLossRangeZ: {r: 0, g: 0, b: 0, a: 0}
+    - _VelocityLossRangeX: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _VelocityLossRangeY: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _VelocityLossRangeZ: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &229483141751904465
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 9

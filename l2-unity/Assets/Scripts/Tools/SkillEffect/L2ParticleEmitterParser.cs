@@ -291,6 +291,12 @@ public class L2ParticleEmitterParser
                             emitter.sphereRadiusRange = L2MetaDataUtils.ParseRange(line);
                             Debug.Log("SphereRadiusRange=" + emitter.sphereRadiusRange);
                         }
+
+                        if (line.StartsWith("UseDirectionAs="))
+                        {
+                            emitter.useDirectionAs = line.Split("=")[1];
+                            Debug.Log("UseDirectionAs=" + emitter.useDirectionAs);
+                        }
                     }
 
                     emitters.Add(emitter);
@@ -380,12 +386,6 @@ public class L2ParticleEmitterParser
     private static Material BuildMaterial(L2Emitter emitter, Texture2D effectTexture, bool spriteEmitter)
     {
         Material material = new Material(Shader.Find("Shader Graphs/L2SkillEffect"));
-
-        // Texture
-        if (spriteEmitter)
-        {
-            material.SetFloat("_Billboard", 1f);
-        }
 
         material.SetTexture("_MainTexture", effectTexture);
         material.SetFloat("_TextureUSubdivisions", emitter.TextureUSubdivisions > 0 ? emitter.TextureUSubdivisions : 1);
@@ -587,6 +587,23 @@ public class L2ParticleEmitterParser
             material.SetVector("_StartLocationPolarRangeX", new Vector2(emitter.startLocationPolarRange.x.min, emitter.startLocationPolarRange.x.max)); // Degrees
             material.SetVector("_StartLocationPolarRangeY", new Vector2(emitter.startLocationPolarRange.y.min, emitter.startLocationPolarRange.y.max)); // Degrees
             material.SetVector("_StartLocationPolarRangeZ", new Vector2(emitter.startLocationPolarRange.z.min / 52.5f, emitter.startLocationPolarRange.z.max / 52.5f)); // Y Offset
+        }
+
+        if (spriteEmitter)
+        {
+            if (emitter.useDirectionAs == null || emitter.useDirectionAs == "PTDU_None") // Billboard
+            {
+                material.SetFloat("_Billboard", 1f);
+            }
+            else if (emitter.useDirectionAs == "PTDU_Normal") // Use parent rotation
+            {
+                material.SetFloat("_UseDirectionAs", 1);
+            }
+            else
+            {
+                // FOR NOW USE THE SAME VALUE FOR ANY OTHER TYPE
+                material.SetFloat("_UseDirectionAs", 2);
+            }
         }
 
 

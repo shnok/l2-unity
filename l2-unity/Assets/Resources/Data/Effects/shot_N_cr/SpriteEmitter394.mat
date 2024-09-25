@@ -44,7 +44,7 @@ Material:
     m_Floats:
     - _Alpha: 0.6
     - _AlphaSmooth: 0
-    - _Billboard: 1
+    - _Billboard: 0
     - _Brighten: 0
     - _ColorScale0Time: 0
     - _ColorScale1Time: 1
@@ -56,21 +56,25 @@ Material:
     - _ColorScale7Time: 1
     - _ColorScale8Time: 1
     - _ColorScale9Time: 1
+    - _Debug: 0
     - _FadeIn: 1
     - _FadeInEndTime: 0.021
     - _Fadeout: 1
     - _FadeoutStartTime: 0.039
+    - _GetVelocityDirectionFrom: 0
     - _HasLifetime: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Seed: 0
     - _SpinParticles: 1
+    - _StartLocationShape: 0
     - _StartTime: 0
     - _SubdivisionEnd: 1
     - _SubdivisionStart: 1
     - _TextureUSubdivisions: 1
     - _TextureVSubdivisions: 1
     - _UseColorScale: 0
+    - _UseDirectionAs: 1
     - _UseSizeScale: 1
     m_Colors:
     - _ColorMultiplierRangeB: {r: 0.725, g: 0.725, b: 0, a: 0}
@@ -100,10 +104,14 @@ Material:
     - _SizeScale7: {r: 1, g: 2, b: 0, a: 0}
     - _SizeScale8: {r: 1, g: 2, b: 0, a: 0}
     - _SizeScale9: {r: 1, g: 2, b: 0, a: 0}
+    - _SphereRadiusRange: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeX: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeZ: {r: 3, g: 3, b: 0, a: 0}
     - _StartLocationOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _StartLocationPolarRangeX: {r: 0, g: 0, b: 0, a: 0}
+    - _StartLocationPolarRangeY: {r: 0, g: 0, b: 0, a: 0}
+    - _StartLocationPolarRangeZ: {r: 0, g: 0, b: 0, a: 0}
     - _StartLocationRangeX: {r: -0.068571426, g: 0.068571426, b: 0, a: 0}
     - _StartLocationRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _StartLocationRangeZ: {r: 0, g: 0, b: 0, a: 0}
@@ -113,12 +121,12 @@ Material:
     - _StartVelocityRangeX: {r: -0.95238096, g: -0.3809524, b: 0, a: 0}
     - _StartVelocityRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _StartVelocityRangeZ: {r: 0, g: 0, b: 0, a: 0}
-    - _VelocityLossRangeX: {r: 0, g: 0, b: 0, a: 0}
+    - _VelocityLossRangeX: {r: 1, g: 1, b: 0, a: 0}
     - _VelocityLossRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _VelocityLossRangeZ: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &6924675038619226519
+--- !u!114 &6039692103623770048
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
