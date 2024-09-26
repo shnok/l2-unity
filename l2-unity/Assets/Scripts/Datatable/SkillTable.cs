@@ -1,38 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemTable
+public class SkillTable
 {
-    private static ItemTable _instance;
-    public static ItemTable Instance
+    private static SkillTable _instance;
+    public static SkillTable Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = new ItemTable();
+                _instance = new SkillTable();
             }
 
             return _instance;
         }
     }
 
-    [SerializeField] private List<int> weaponsToLoad = new List<int>();
-    [SerializeField] private List<int> armorsToLoad = new List<int>();
-    [SerializeField] private List<int> itemsToLoad = new List<int>();
+    [SerializeField] private List<int> _skillToLoad = new List<int>();
 
-    private Dictionary<int, Weapon> _weapons = new Dictionary<int, Weapon>();
-    private Dictionary<int, Armor> _armors = new Dictionary<int, Armor>();
-    private Dictionary<int, EtcItem> _etcItems = new Dictionary<int, EtcItem>();
+    public Dictionary<int, Skillgrp> Skills { get; private set; }
+    public Dictionary<int, SkillNameData> SkillNames { get; private set; }
+    public Dictionary<int, L2SkillEffectEmitter> SkillEffects { get; private set; }
 
-    public Dictionary<int, Weapon> Weapons { get { return _weapons; } }
-    public Dictionary<int, Armor> Armors { get { return _armors; } }
-    public Dictionary<int, EtcItem> EtcItems { get { return _etcItems; } }
-
-    public static int NAKED_CHEST = 21;
-    public static int NAKED_LEGS = 28;
-    public static int NAKED_GLOVES = 48;
-    public static int NAKED_BOOTS = 35;
     private bool _loadAll = false;
 
     public void Initialize()
@@ -40,47 +30,68 @@ public class ItemTable
         FillDataToLoad();
     }
 
-    // private void OnDestroy()
-    // {
-    //     _weapons.Clear();
-    //     _armors.Clear();
-    //     _instance = null;
-    // }
-
     public void CacheItems()
     {
         CacheWeapons();
         CacheArmors();
         CacheEtcItems();
-
-        // TODO: Clear Datatables after caching
     }
 
     private void FillDataToLoad()
     {
-        weaponsToLoad = new List<int> { 1, 2, 3, 4, 5, 6, 7, 10, 14, 89, 102, 129, 177, 188, 156, 275, 2369, 2370, 5284, 20 };
-        armorsToLoad = new List<int> { NAKED_CHEST, NAKED_LEGS, NAKED_GLOVES, NAKED_BOOTS, 425, 461, 1146, 1147, 45, 118, 112, 116 };
-        itemsToLoad = new List<int>() { 1835, 3947, 2509, 57, 736 };
+        _skillToLoad = new List<int> { 16, 56, 3, 1216, 1177, 1012, 1011, 1168, 4345, 1040, 1027, 1015, 1147, 1164, 91, 77, 70, 29, 1090, 1100, 1097, 1010, 1095 };
     }
 
-    public bool ShouldLoadItem(int id)
+
+    // Mortal Blow 16
+    // Power Shot 56
+    // Power Strike 3
+    // Self Heal 1216
+    // Wind Strike 1177
+    // Cure Poison 1012
+    // Heal 1011
+    // Curse: Poison 1168
+    // Might 4345
+    // Shield 1040
+    // Group Heal 1027 
+    // Battle Heal 1015 
+    // Vampiric Touch 1147 
+    // Curse: Weakness 1164 
+    // Defense Aura 91 
+    // Attack Aura 77
+    // Drain Health 70
+    // Iron Punch 29
+    // Life Drain 1090
+    // Chill Flame 1100 
+    // Dreaming Spirit 1097 
+    // Soul Shield 1010
+    // Venom 1095 
+
+    /*
+
+
+    Soulshots (cast):
+    2039 NG
+    2150 D
+    2151 C
+    2152 B
+    2153 A
+    2154 S
+
+    */
+
+    public bool ShouldLoadSkill(int id)
     {
         if (_loadAll) return true;
 
-        if (weaponsToLoad.Count == 0 && armorsToLoad.Count == 0 && itemsToLoad.Count == 0)
+        FillDataToLoad();
+
+        if (_skillToLoad.Count == 0)
         {
             return true;
         }
 
-        if (weaponsToLoad.Contains(id))
-        {
-            return true;
-        }
-        if (armorsToLoad.Contains(id))
-        {
-            return true;
-        }
-        if (itemsToLoad.Contains(id))
+        if (_skillToLoad.Contains(id))
         {
             return true;
         }
