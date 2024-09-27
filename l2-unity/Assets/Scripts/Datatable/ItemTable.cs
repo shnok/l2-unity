@@ -52,8 +52,6 @@ public class ItemTable
         CacheWeapons();
         CacheArmors();
         CacheEtcItems();
-
-        // TODO: Clear Datatables after caching
     }
 
     private void FillDataToLoad()

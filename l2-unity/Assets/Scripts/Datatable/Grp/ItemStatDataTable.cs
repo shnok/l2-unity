@@ -3,11 +3,15 @@ using System.IO;
 using UnityEngine;
 using System.Globalization;
 
-public class ItemStatDataTable {
+public class ItemStatDataTable
+{
     private static ItemStatDataTable _instance;
-    public static ItemStatDataTable Instance {
-        get {
-            if (_instance == null) {
+    public static ItemStatDataTable Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 _instance = new ItemStatDataTable();
             }
 
@@ -18,27 +22,41 @@ public class ItemStatDataTable {
     private Dictionary<int, ItemStatData> _itemStatData;
     public Dictionary<int, ItemStatData> ItemsStatData { get { return _itemStatData; } }
 
-    public void Initialize() {
+    public void Initialize()
+    {
         ReadItemStatDataDat();
     }
 
-    private void ReadItemStatDataDat() {
+    public void ClearTable()
+    {
+        _itemStatData.Clear();
+        _itemStatData = null;
+        _instance = null;
+    }
+
+    private void ReadItemStatDataDat()
+    {
         _itemStatData = new Dictionary<int, ItemStatData>();
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/ItemStatData_Classic.txt");
-        if (!File.Exists(dataPath)) {
+        if (!File.Exists(dataPath))
+        {
             Debug.LogWarning("File not found: " + dataPath);
             return;
         }
 
-        using (StreamReader reader = new StreamReader(dataPath)) {
+        using (StreamReader reader = new StreamReader(dataPath))
+        {
             string line;
-            while ((line = reader.ReadLine()) != null) {
+            while ((line = reader.ReadLine()) != null)
+            {
                 ItemStatData itemStatData = new ItemStatData();
 
                 string[] keyvals = line.Split('\t');
 
-                for (int i = 0; i < keyvals.Length; i++) {
-                    if (!keyvals[i].Contains("=")) {
+                for (int i = 0; i < keyvals.Length; i++)
+                {
+                    if (!keyvals[i].Contains("="))
+                    {
                         continue;
                     }
 
@@ -46,7 +64,8 @@ public class ItemStatDataTable {
                     string key = keyval[0];
                     string value = keyval[1];
 
-                    switch (key) {
+                    switch (key)
+                    {
                         case "object_id":
                             itemStatData.ObjectId = int.Parse(value);
                             break;
@@ -66,7 +85,7 @@ public class ItemStatDataTable {
                             itemStatData.PAtkSpd = int.Parse(value);
                             break;
                         case "pHit":
-                            itemStatData.PHit =  float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
+                            itemStatData.PHit = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                         case "mHit":
                             itemStatData.MHit = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
@@ -96,7 +115,8 @@ public class ItemStatDataTable {
                     }
                 }
 
-                if (!ItemTable.Instance.ShouldLoadItem(itemStatData.ObjectId)) {
+                if (!ItemTable.Instance.ShouldLoadItem(itemStatData.ObjectId))
+                {
                     continue;
                 }
 
@@ -107,7 +127,8 @@ public class ItemStatDataTable {
         }
     }
 
-    public ItemStatData GetItemStatData(int id) {
+    public ItemStatData GetItemStatData(int id)
+    {
         ItemStatData itemStatData;
         _itemStatData.TryGetValue(id, out itemStatData);
         return itemStatData;

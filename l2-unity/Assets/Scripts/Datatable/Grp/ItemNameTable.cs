@@ -3,11 +3,15 @@ using System.IO;
 using UnityEngine;
 
 
-public class ItemNameTable {
+public class ItemNameTable
+{
     private static ItemNameTable _instance;
-    public static ItemNameTable Instance {
-        get {
-            if (_instance == null) {
+    public static ItemNameTable Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 _instance = new ItemNameTable();
             }
 
@@ -18,27 +22,41 @@ public class ItemNameTable {
     private Dictionary<int, ItemName> _itemNames;
     public Dictionary<int, ItemName> ItemNames { get { return _itemNames; } }
 
-    public void Initialize() {
+    public void Initialize()
+    {
         ReadItemNameDat();
     }
 
-    private void ReadItemNameDat() {
+    public void ClearTable()
+    {
+        _itemNames.Clear();
+        _itemNames = null;
+        _instance = null;
+    }
+
+    private void ReadItemNameDat()
+    {
         _itemNames = new Dictionary<int, ItemName>();
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/ItemName_Classic-eu.txt");
-        if (!File.Exists(dataPath)) {
+        if (!File.Exists(dataPath))
+        {
             Debug.LogWarning("File not found: " + dataPath);
             return;
         }
 
-        using (StreamReader reader = new StreamReader(dataPath)) {
+        using (StreamReader reader = new StreamReader(dataPath))
+        {
             string line;
-            while ((line = reader.ReadLine()) != null) {
+            while ((line = reader.ReadLine()) != null)
+            {
                 ItemName itemName = new ItemName();
 
                 string[] keyvals = line.Split('\t');
 
-                for (int i = 0; i < keyvals.Length; i++) {
-                    if (!keyvals[i].Contains("=")) {
+                for (int i = 0; i < keyvals.Length; i++)
+                {
+                    if (!keyvals[i].Contains("="))
+                    {
                         continue;
                     }
 
@@ -46,14 +64,15 @@ public class ItemNameTable {
                     string key = keyval[0];
                     string value = keyval[1];
 
-                    switch (key) {
+                    switch (key)
+                    {
                         case "id":
                             itemName.Id = int.Parse(value);
                             break;
-                        case "name": 
+                        case "name":
                             itemName.Name = DatUtils.CleanupString(value);
                             break;
-                        case "description": 
+                        case "description":
                             itemName.Description = DatUtils.CleanupString(value);
                             break;
                         case "default_action":
@@ -70,11 +89,12 @@ public class ItemNameTable {
                             break;
                         case "is_npctrade":
                             itemName.Sellable = value == "1";
-                            break;                    
+                            break;
                     }
                 }
 
-                if (!ItemTable.Instance.ShouldLoadItem(itemName.Id)) {
+                if (!ItemTable.Instance.ShouldLoadItem(itemName.Id))
+                {
                     continue;
                 }
 
@@ -85,7 +105,8 @@ public class ItemNameTable {
         }
     }
 
-    public ItemName GetItemName(int id) {
+    public ItemName GetItemName(int id)
+    {
         ItemName itemName;
         _itemNames.TryGetValue(id, out itemName);
         return itemName;

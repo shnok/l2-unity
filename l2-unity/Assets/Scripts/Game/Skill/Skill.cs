@@ -1,5 +1,16 @@
+using System.Collections.Generic;
+
 public class Skill
 {
-    public Skillgrp Skillgrp { get; set; }
-    public SkillNameData SkillNameData { get; set; }
+    public int SkillId { get; private set; }
+    public int EffectId { get { return Skillgrps[0].SkillVisualEffect; } }
+    public SkillNameData[] SkillNameDatas { get; private set; }
+    public Skillgrp[] Skillgrps { get; private set; }
+
+    public Skill(int skillId, SkillNameData[] skillNameDatas, Skillgrp[] skillgrps)
+    {
+        SkillId = skillId;
+        SkillNameDatas = skillNameDatas;
+        Skillgrps = skillgrps;
+    }
 }

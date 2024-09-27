@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class SkillNameData
 {
-    [SerializeField] public int _id;
-    [SerializeField] public int _level;
-    [SerializeField] public int _subLevel;
-    [SerializeField] public string _name;
-    [SerializeField] public string _desc;
-    [SerializeField] public int _prev_skill_id;
-    
+    [SerializeField] private int _id;
+    [SerializeField] private int _level;
+    [SerializeField] private int _subLevel;
+    [SerializeField] private string _name;
+    [SerializeField] private string _desc;
+    [SerializeField] private int _prev_skill_id;
+
 
     public int Id { get => _id; set => _id = value; }
     public int Level { get => _level; set => _level = value; }

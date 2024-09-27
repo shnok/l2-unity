@@ -21,23 +21,35 @@ public class SkillNameTable
         }
     }
 
-
-
-    public SkillNameData GetName(int id, int level)
-    {
-        if (Names.ContainsKey(id) != true) return null;
-
-        Dictionary<int, SkillNameData> _skillNameLevel = Names[id];
-        if (!_skillNameLevel.ContainsKey(level)) return null;
-
-        return _skillNameLevel[level];
-    }
-
-
     public void Initialize()
     {
         _names = new Dictionary<int, Dictionary<int, SkillNameData>>();
         ReadActions();
+    }
+
+    public void ClearTable()
+    {
+        _names.Clear();
+        _names = null;
+        _instance = null;
+    }
+
+    public SkillNameData GetName(int id, int level)
+    {
+        _names.TryGetValue(id, out Dictionary<int, SkillNameData> skillLevel);
+
+        if (skillLevel == null) return null;
+
+        skillLevel.TryGetValue(level, out SkillNameData skillName);
+
+        return skillName;
+    }
+
+    public Dictionary<int, SkillNameData> GetNames(int id)
+    {
+        _names.TryGetValue(id, out Dictionary<int, SkillNameData> skillLevel);
+
+        return skillLevel;
     }
 
     private void ReadActions()
@@ -94,6 +106,11 @@ public class SkillNameTable
                     }
                 }
 
+                if (!SkillTable.Instance.ShouldLoadSkill(nameData.Id))
+                {
+                    continue;
+                }
+
                 TryAdd(nameData);
             }
 
@@ -121,6 +138,7 @@ public class SkillNameTable
     {
         return new Dictionary<int, SkillNameData>();
     }
+
     private void AddDict(Dictionary<int, SkillNameData> dataGrp, SkillNameData skillName)
     {
         dataGrp.TryAdd(skillName.Level, skillName);

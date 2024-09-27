@@ -2,11 +2,15 @@
 using System.IO;
 using UnityEngine;
 
-public class EtcItemgrpTable {
+public class EtcItemgrpTable
+{
     private static EtcItemgrpTable _instance;
-    public static EtcItemgrpTable Instance {
-        get {
-            if (_instance == null) {
+    public static EtcItemgrpTable Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 _instance = new EtcItemgrpTable();
             }
 
@@ -17,26 +21,40 @@ public class EtcItemgrpTable {
     private Dictionary<int, EtcItemgrp> _etcItemGrps;
     public Dictionary<int, EtcItemgrp> EtcItemGrps { get { return _etcItemGrps; } }
 
-    public void Initialize() {
+    public void Initialize()
+    {
         ReadEtcItemgrpDat();
     }
 
-    private void ReadEtcItemgrpDat() {
+    public void ClearTable()
+    {
+        _etcItemGrps.Clear();
+        _etcItemGrps = null;
+        _instance = null;
+    }
+
+    private void ReadEtcItemgrpDat()
+    {
         _etcItemGrps = new Dictionary<int, EtcItemgrp>();
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/EtcItemgrp_Classic.txt");
-        if (!File.Exists(dataPath)) {
+        if (!File.Exists(dataPath))
+        {
             Debug.LogWarning("File not found: " + dataPath);
             return;
         }
 
-        using (StreamReader reader = new StreamReader(dataPath)) {
+        using (StreamReader reader = new StreamReader(dataPath))
+        {
             string line;
-            while ((line = reader.ReadLine()) != null) {
+            while ((line = reader.ReadLine()) != null)
+            {
                 EtcItemgrp etcItemgrp = new EtcItemgrp();
                 string[] keyvals = line.Split('\t');
 
-                for (int i = 0; i < keyvals.Length; i++) {
-                    if (!keyvals[i].Contains("=")) {
+                for (int i = 0; i < keyvals.Length; i++)
+                {
+                    if (!keyvals[i].Contains("="))
+                    {
                         continue;
                     }
 
@@ -44,19 +62,22 @@ public class EtcItemgrpTable {
                     string key = keyval[0];
                     string value = keyval[1];
 
-                    if (DatUtils.ParseBaseAbstractItemGrpDat(etcItemgrp, key, value)) {
+                    if (DatUtils.ParseBaseAbstractItemGrpDat(etcItemgrp, key, value))
+                    {
                         continue;
                     }
 
-                    switch (key) {
-                        case "etcitem_type": 
+                    switch (key)
+                    {
+                        case "etcitem_type":
                             etcItemgrp.EtcItemType = value;
-                            break;                
+                            break;
                     }
                 }
 
 
-                if (!ItemTable.Instance.ShouldLoadItem(etcItemgrp.ObjectId)) {
+                if (!ItemTable.Instance.ShouldLoadItem(etcItemgrp.ObjectId))
+                {
                     continue;
                 }
 

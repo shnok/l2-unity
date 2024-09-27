@@ -25,33 +25,42 @@ public class SkillgrpTable
 
     private Dictionary<int, Dictionary<int, Skillgrp>> _skills;
 
-    public Skillgrp GetSkill(int id , int level)
-    {
-       if(!_skills.ContainsKey(id)) return null;
-
-       Dictionary<int, Skillgrp> _skillLevel = _skills[id];
-       if (!_skillLevel.ContainsKey(level)) return null;
-
-       return _skillLevel[level];
-    }
-
-    public SkillNameData GetSkillName(int id, int level)
-    {
-        return SkillNameTable.Instance.GetName(id, level);
-    }
-
-  
-    public Dictionary<int, Dictionary<int, Skillgrp>> Skills { get { return _skills; } }
-
     public void Initialize()
     {
         _skills = new Dictionary<int, Dictionary<int, Skillgrp>>();
         ReadActions();
     }
 
+    public void ClearTable()
+    {
+        _skills.Clear();
+        _skills = null;
+        _instance = null;
+    }
+
+    public Skillgrp GetSkill(int id, int level)
+    {
+        _skills.TryGetValue(id, out Dictionary<int, Skillgrp> skillLevel);
+
+        if (skillLevel == null) return null;
+
+        skillLevel.TryGetValue(level, out Skillgrp skillgrp);
+
+        return skillgrp;
+    }
+
+    public Dictionary<int, Skillgrp> GetSkillgrp(int id)
+    {
+        _skills.TryGetValue(id, out Dictionary<int, Skillgrp> skillLevel);
+
+        return skillLevel;
+    }
+
+    public Dictionary<int, Dictionary<int, Skillgrp>> Skills { get { return _skills; } }
+
     private void ReadActions()
     {
-        
+
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/Skillgrp_Classic.txt");
         if (!File.Exists(dataPath))
         {
@@ -109,14 +118,13 @@ public class SkillgrpTable
                             skillGrp.CastStyle = int.Parse(value);
                             break;
                         case "hit_time":
-                           // float.Parse(settings.data, CultureInfo.InvariantCulture);
-                            skillGrp.HitTime = double.Parse(value, CultureInfo.InvariantCulture);
+                            skillGrp.HitTime = float.Parse(value, CultureInfo.InvariantCulture);
                             break;
                         case "cool_time":
-                            skillGrp.CoolTime = double.Parse(value, CultureInfo.InvariantCulture);
+                            skillGrp.CoolTime = float.Parse(value, CultureInfo.InvariantCulture);
                             break;
                         case "reuse_delay":
-                            skillGrp.ReuseDelay = double.Parse(value, CultureInfo.InvariantCulture);
+                            skillGrp.ReuseDelay = float.Parse(value, CultureInfo.InvariantCulture);
                             break;
                         case "effect_point":
                             skillGrp.EffectPoint = int.Parse(value);
@@ -131,7 +139,15 @@ public class SkillgrpTable
                             skillGrp.Animation = DatUtils.CleanupString(value);
                             break;
                         case "skill_visual_effect":
-                            skillGrp.SkillVisualEffect = DatUtils.CleanupString(value);
+                            string visualEffect = DatUtils.CleanupString(value); ;
+                            if (int.TryParse(visualEffect, out int effectId))
+                            {
+                                skillGrp.SkillVisualEffect = effectId;
+                            }
+                            else
+                            {
+                                skillGrp.SkillVisualEffect = -1;
+                            }
                             break;
                         case "icon":
                             skillGrp.Icon = DatUtils.CleanupString(value);
@@ -162,9 +178,15 @@ public class SkillgrpTable
                             break;
                     }
                 }
+
+                if (!SkillTable.Instance.ShouldLoadSkill(skillGrp.Id))
+                {
+                    continue;
+                }
+
                 TryAdd(skillGrp);
             }
-            
+
             Debug.Log($"Successfully imported {_skills.Count} skills(s)");
         }
 
@@ -172,8 +194,7 @@ public class SkillgrpTable
 
     private void TryAdd(Skillgrp skillGrp)
     {
-
-        if (_skills.ContainsKey(skillGrp.Id) == true)
+        if (_skills.ContainsKey(skillGrp.Id))
         {
             Dictionary<int, Skillgrp> dataGrp = _skills[skillGrp.Id];
             dataGrp.TryAdd(skillGrp.Level, skillGrp);
@@ -188,9 +209,10 @@ public class SkillgrpTable
 
     private Dictionary<int, Skillgrp> CreateDict()
     {
-        return  new Dictionary<int, Skillgrp>();
+        return new Dictionary<int, Skillgrp>();
     }
-    private void AddDict(Dictionary<int, Skillgrp> dataGrp , Skillgrp skillGrp)
+
+    private void AddDict(Dictionary<int, Skillgrp> dataGrp, Skillgrp skillGrp)
     {
         dataGrp.TryAdd(skillGrp.Level, skillGrp);
     }

@@ -2,11 +2,15 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class LogongrpTable {
+public class LogongrpTable
+{
     private static LogongrpTable _instance;
-    public static LogongrpTable Instance {
-        get {
-            if (_instance == null) {
+    public static LogongrpTable Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 _instance = new LogongrpTable();
             }
 
@@ -18,27 +22,34 @@ public class LogongrpTable {
 
     public List<Logongrp> Logongrps { get { return _logongrps; } }
 
-    public void Initialize() {
+    public void Initialize()
+    {
         Readgrps();
     }
 
-    private void Readgrps() {
-        _logongrps = new List<Logongrp> ();
+    private void Readgrps()
+    {
+        _logongrps = new List<Logongrp>();
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/Logongrp.txt");
-        if (!File.Exists(dataPath)) {
+        if (!File.Exists(dataPath))
+        {
             Debug.LogWarning("File not found: " + dataPath);
             return;
         }
 
-        using (StreamReader reader = new StreamReader(dataPath)) {
+        using (StreamReader reader = new StreamReader(dataPath))
+        {
             string line;
-            while ((line = reader.ReadLine()) != null) {
+            while ((line = reader.ReadLine()) != null)
+            {
                 Logongrp logongrp = new Logongrp();
 
                 string[] keyvals = line.Split('\t');
 
-                for (int i = 0; i < keyvals.Length; i++) {
-                    if (!keyvals[i].Contains("=")) {
+                for (int i = 0; i < keyvals.Length; i++)
+                {
+                    if (!keyvals[i].Contains("="))
+                    {
                         continue;
                     }
 
@@ -46,7 +57,8 @@ public class LogongrpTable {
                     string key = keyval[0];
                     string value = keyval[1];
 
-                    switch (key) {
+                    switch (key)
+                    {
                         case "x":
                             logongrp.X = int.Parse(value);
                             break;
@@ -64,10 +76,10 @@ public class LogongrpTable {
 
                 }
 
-                logongrp.X = NumberUtils.FromIntToFLoat((int) logongrp.X);
-                logongrp.Y = NumberUtils.FromIntToFLoat((int) logongrp.Y);
-                logongrp.Z = NumberUtils.FromIntToFLoat((int) logongrp.Z);
-                logongrp.Yaw = NumberUtils.FromIntToFLoat((int) logongrp.Yaw);
+                logongrp.X = NumberUtils.FromIntToFLoat((int)logongrp.X);
+                logongrp.Y = NumberUtils.FromIntToFLoat((int)logongrp.Y);
+                logongrp.Z = NumberUtils.FromIntToFLoat((int)logongrp.Z);
+                logongrp.Yaw = NumberUtils.FromIntToFLoat((int)logongrp.Yaw);
 
                 _logongrps.Add(logongrp);
             }
