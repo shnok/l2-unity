@@ -19,8 +19,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool _autoLogin = false;
     [SerializeField] private Camera _loadingCamera;
 
-    [SerializeField] public L2SkillEffect debugEffect;
-
     public bool AutoLogin { get { return _autoLogin; } }
 
     public GameState GameState

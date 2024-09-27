@@ -32,8 +32,14 @@ public class SkillEffectTable
 
         foreach (KeyValuePair<int, Skill> kvp in SkillTable.Instance.Skills)
         {
-            if (SkillEffects.ContainsKey(kvp.Key))
+            if (kvp.Value.EffectId == -1)
             {
+                continue;
+            }
+
+            if (SkillEffects.TryGetValue(kvp.Key, out L2SkillEffect value))
+            {
+                kvp.Value.SkillEffect = value;
                 continue;
             }
 
@@ -42,6 +48,7 @@ public class SkillEffectTable
             if (skillEffect != null)
             {
                 SkillEffects.TryAdd(kvp.Value.EffectId, skillEffect);
+                kvp.Value.SkillEffect = skillEffect;
             }
         }
     }
@@ -59,7 +66,6 @@ public class SkillEffectTable
         using (StreamReader reader = new StreamReader(dataPath))
         {
             L2SkillEffect skillEffect = ParseL2SkillEffect(reader.ReadToEnd());
-            GameManager.Instance.debugEffect = skillEffect;
 
             return skillEffect;
         }

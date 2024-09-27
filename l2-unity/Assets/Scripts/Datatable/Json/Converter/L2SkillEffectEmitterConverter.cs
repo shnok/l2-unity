@@ -44,32 +44,6 @@ public class L2SkillEffectEmitterConverter : JsonConverter
         }
 
         return (AttachOnType)Enum.Parse(typeof(AttachOnType), attachOn.ToUpper());
-
-        // switch (attachOn)
-        // {
-        //     case "AM_None":
-        //         return AttachOnType.AM_None;
-        //     case "AM_Location":
-        //         return AttachOnType.AM_Location;
-        //     case "AM_RH":
-        //         return AttachOnType.AM_RH;
-        //     case "AM_LH":
-        //         return AttachOnType.AM_LH;
-        //     case "AM_RA":
-        //         return AttachOnType.AM_RA;
-        //     case "AM_LA":
-        //         return AttachOnType.AM_LA;
-        //     case "AM_WING":
-        //         return AttachOnType.AM_WING;
-        //     case "AM_BoneSpecified":
-        //         return AttachOnType.AM_BoneSpecified;
-        //     case "AM_AliasSpecified":
-        //         return AttachOnType.AM_AliasSpecified;
-        //     case "AM_Trail":
-        //         return AttachOnType.AM_Trail;
-        //     default:
-        //         return AttachOnType.AM_None;
-        // }
     }
 
 
@@ -81,28 +55,6 @@ public class L2SkillEffectEmitterConverter : JsonConverter
         }
 
         return (EtcEffect)Enum.Parse(typeof(EtcEffect), etcEffect.ToUpper());
-
-        // switch (etcEffect)
-        // {
-        //     case "EET_None":
-        //         return EtcEffect.EET_None;
-        //     case "EET_FireCracker":
-        //         return EtcEffect.EET_FireCracker;
-        //     case "EET_Soulshot":
-        //         return EtcEffect.EET_Soulshot;
-        //     case "EET_SpiritShot":
-        //         return EtcEffect.EET_SpiritShot;
-        //     case "EET_Cubic":
-        //         return EtcEffect.EET_Cubic;
-        //     case "EET_SoundCrystal":
-        //         return EtcEffect.EET_SoundCrystal;
-        //     case "EET_JewelShot":
-        //         return EtcEffect.EET_JewelShot;
-        //     case "EET_PetJewelShot":
-        //         return EtcEffect.EET_PetJewelShot;
-        //     default:
-        //         return EtcEffect.EET_None;
-        // }
     }
 
     private EtcEffectInfo ParseEtcEffectInfo(string etcEffectInfo)
@@ -113,32 +65,6 @@ public class L2SkillEffectEmitterConverter : JsonConverter
         }
 
         return (EtcEffectInfo)Enum.Parse(typeof(EtcEffectInfo), etcEffectInfo.ToUpper());
-
-        // switch (etcEffectInfo)
-        // {
-        //     case "EEP_None":
-        //         return EtcEffectInfo.EEP_None;
-        //     case "EEP_FireCrackerSmall":
-        //         return EtcEffectInfo.EEP_FireCrackerSmall;
-        //     case "EEP_FireCrackerMiddle":
-        //         return EtcEffectInfo.EEP_FireCrackerMiddle;
-        //     case "EEP_FireCrackerLarge":
-        //         return EtcEffectInfo.EEP_FireCrackerLarge;
-        //     case "EEP_GradeNone":
-        //         return EtcEffectInfo.EEP_GradeNone;
-        //     case "EEP_GradeD":
-        //         return EtcEffectInfo.EEP_GradeD;
-        //     case "EEP_GradeC":
-        //         return EtcEffectInfo.EEP_GradeC;
-        //     case "EEP_GradeB":
-        //         return EtcEffectInfo.EEP_GradeB;
-        //     case "EEP_GradeA":
-        //         return EtcEffectInfo.EEP_GradeA;
-        //     case "EEP_GradeS":
-        //         return EtcEffectInfo.EEP_GradeS;
-        //     default:
-        //         return EtcEffectInfo.EEP_None;
-        // }
     }
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
