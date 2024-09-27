@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class L2SkillEffectEmitter
+public class EffectEmitter
 {
     [SerializeField] private AttachOnType _attachOn;
     [SerializeField] private bool _spawnOnTarget;
@@ -13,7 +13,7 @@ public class L2SkillEffectEmitter
     [SerializeField] private EtcEffect _etcEffect;
     [SerializeField] private EtcEffectInfo _etcEffectInfo;
     [SerializeField] private bool _pawnLight;
-    [SerializeField] private L2SkillEffectPawnLightParam _pawnLightParam;
+    [SerializeField] private EffectPawnLightParam _pawnLightParam;
 
     public AttachOnType AttachOn { get { return _attachOn; } set { _attachOn = value; } }
     public bool SpawnOnTarget { get { return _spawnOnTarget; } set { _spawnOnTarget = value; } }
@@ -25,6 +25,6 @@ public class L2SkillEffectEmitter
     public EtcEffect EtcEffect { get { return _etcEffect; } set { _etcEffect = value; } }
     public EtcEffectInfo EtcEffectInfo { get { return _etcEffectInfo; } set { _etcEffectInfo = value; } }
     public bool PawnLight { get { return _pawnLight; } set { _pawnLight = value; } }
-    public L2SkillEffectPawnLightParam PawnLightParam { get { return _pawnLightParam; } set { _pawnLightParam = value; } }
+    public EffectPawnLightParam PawnLightParam { get { return _pawnLightParam; } set { _pawnLightParam = value; } }
 
 }

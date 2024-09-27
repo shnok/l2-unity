@@ -21,7 +21,7 @@ public class SkillTable
 
     public Dictionary<int, Skill> Skills { get; private set; }
 
-    public Dictionary<int, L2SkillEffectEmitter> SkillEffects { get; private set; }
+    public Dictionary<int, EffectEmitter> SkillEffects { get; private set; }
 
     private bool _loadAll = false;
 

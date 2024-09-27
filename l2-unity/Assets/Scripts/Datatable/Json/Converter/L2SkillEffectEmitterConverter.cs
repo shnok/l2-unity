@@ -7,14 +7,14 @@ public class L2SkillEffectEmitterConverter : JsonConverter
 {
     public override bool CanConvert(Type objectType)
     {
-        return objectType == typeof(L2SkillEffectEmitter);
+        return objectType == typeof(EffectEmitter);
     }
 
     public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
         JObject jObject = JObject.Load(reader);
 
-        L2SkillEffectEmitter emitter = new L2SkillEffectEmitter
+        EffectEmitter emitter = new EffectEmitter
         {
             AttachOn = ParseAttachOnType(jObject["AttachOn"]?.ToString()),
             SpawnOnTarget = jObject["bSpawnOnTarget"]?.ToString().ToLower() == "true",
@@ -29,7 +29,7 @@ public class L2SkillEffectEmitterConverter : JsonConverter
 
         if (jObject["PawnLightParam"] != null)
         {
-            emitter.PawnLightParam = L2SkillEffectPawnLightParam.Parse(jObject["PawnLightParam"].ToString());
+            emitter.PawnLightParam = EffectPawnLightParam.Parse(jObject["PawnLightParam"].ToString());
         }
 
 

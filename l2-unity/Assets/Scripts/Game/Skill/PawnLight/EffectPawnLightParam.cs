@@ -4,7 +4,7 @@ using UnityEditor.Search;
 using UnityEngine;
 
 [System.Serializable]
-public class L2SkillEffectPawnLightParam
+public class EffectPawnLightParam
 {
     [SerializeField] private EPawnLightType _pawnLightType;
     [SerializeField] private ELightType _lightType;
@@ -20,9 +20,9 @@ public class L2SkillEffectPawnLightParam
     public float LightRadius { get { return _lightRadius; } set { _lightRadius = value; } }
     public ELightCoordSystem LightCoordSystem { get { return _lightCoordSystem; } set { _lightCoordSystem = value; } }
 
-    public static L2SkillEffectPawnLightParam Parse(string input)
+    public static EffectPawnLightParam Parse(string input)
     {
-        L2SkillEffectPawnLightParam effect = new L2SkillEffectPawnLightParam();
+        EffectPawnLightParam effect = new EffectPawnLightParam();
         input = input.Trim('(', ')');
 
         string pattern = @"(\w+)=(\([^)]+\)|[^,]+)"; // TODO: Use this regex in system grp files
