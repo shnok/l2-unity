@@ -6,6 +6,7 @@ public class Skill
     public int EffectId { get { return Skillgrps[0].SkillVisualEffect; } }
     public SkillNameData[] SkillNameDatas { get; private set; }
     public Skillgrp[] Skillgrps { get; private set; }
+    public L2SkillEffect SkillEffect { get; set; }
 
     public Skill(int skillId, SkillNameData[] skillNameDatas, Skillgrp[] skillgrps)
     {
