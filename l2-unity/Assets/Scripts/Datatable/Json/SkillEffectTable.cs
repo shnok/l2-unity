@@ -49,6 +49,8 @@ public class SkillEffectTable
             {
                 SkillEffects.TryAdd(kvp.Value.EffectId, skillEffect);
                 kvp.Value.SkillEffect = skillEffect;
+                skillEffect.CastingActions?.ForEach((e) => Debug.LogWarning(e.EffectClass));
+                skillEffect.ShotActions?.ForEach((e) => Debug.LogWarning(e.EffectClass));
             }
         }
     }

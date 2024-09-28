@@ -221,6 +221,7 @@ public class L2MetaDataUtils
         SizeScale sizeScale = new SizeScale();
 
         string[] timeSize = valueString.Split(",");
+        Debug.Log(line);
         for (int i = 0; i < timeSize.Length; i++)
         {
             string[] keyVal = timeSize[i].Split("=");

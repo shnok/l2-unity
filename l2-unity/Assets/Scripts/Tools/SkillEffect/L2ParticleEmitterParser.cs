@@ -185,7 +185,7 @@ public class L2ParticleEmitterParser
                             Debug.Log("UseSizeScale=" + emitter.useSizeScale);
                         }
 
-                        if (line.StartsWith("SizeScale"))
+                        if (line.StartsWith("SizeScale") && !line.StartsWith("SizeScaleRepeats"))
                         {
                             if (emitter.sizeScales == null)
                             {
@@ -194,6 +194,12 @@ public class L2ParticleEmitterParser
 
                             emitter.sizeScales.Add(L2MetaDataUtils.ParseSizeScale(line));
                             Debug.Log($"SizeScale({emitter.sizeScales.Count - 1})={emitter.sizeScales[emitter.sizeScales.Count - 1]}");
+                        }
+
+                        if (line.StartsWith("SizeScaleRepeats"))
+                        {
+                            emitter.sizeScaleRepeats = L2MetaDataUtils.ParseFloat(line);
+                            Debug.Log("SizeScaleRepeats=" + emitter.sizeScaleRepeats);
                         }
 
                         if (line.StartsWith("StartSizeRange="))
@@ -422,6 +428,7 @@ public class L2ParticleEmitterParser
         // SizeScale
         const int MAXMIMUM_SIZESCALE_COUNT = 10;
         material.SetFloat("_UseSizeScale", emitter.useSizeScale ? 1 : 0);
+        material.SetFloat("_SizeScaleRepeats", emitter.sizeScaleRepeats);
         if (emitter.sizeScales != null)
         {
             if (emitter.sizeScales.Count > MAXMIMUM_SIZESCALE_COUNT)
@@ -595,7 +602,11 @@ public class L2ParticleEmitterParser
             {
                 material.SetFloat("_Billboard", 1f);
             }
-            else if (emitter.useDirectionAs == "PTDU_Normal") // Use parent rotation
+            /*
+                PTDU_NORMAL -> Parallel to the floor
+                PTDU_UP -> Perpandicular to the floor (Y rotation still facing camera)
+            */
+            else if (emitter.useDirectionAs.ToUpper() == "PTDU_NORMAL") // Use parent rotation
             {
                 material.SetFloat("_UseDirectionAs", 1);
             }

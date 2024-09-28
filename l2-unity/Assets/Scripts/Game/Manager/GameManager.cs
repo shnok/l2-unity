@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour
         SkillTable.Instance.CacheSkills();
         ModelTable.Instance.Initialize();
         SkillEffectTable.Instance.Initialize();
+        ParticleEffectTable.Instance.Initialize();
 
         // Memory cleanup
         ArmorgrpTable.Instance.ClearTable();

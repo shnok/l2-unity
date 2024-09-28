@@ -19,7 +19,9 @@ public class L2SkillEffectEmitterConverter : JsonConverter
             AttachOn = ParseAttachOnType(jObject["AttachOn"]?.ToString()),
             SpawnOnTarget = jObject["bSpawnOnTarget"]?.ToString().ToLower() == "true",
             RelativeToCylinder = jObject["bRelativeToCylinder"]?.ToString().ToLower() == "true",
-            EffectClass = jObject["EffectClass"]?.ToString(),
+            EffectClass =
+            (jObject["EffectClass"] != null && jObject["EffectClass"].ToString().Length > 0)
+            ? jObject["EffectClass"].ToString().Split(".")[1] : null,
             ScaleSize = jObject["ScaleSize"]?.Value<float>() ?? 1.0f,
             Offset = L2JsonConverterCommonFunctions.ParseVector3(jObject["Offset"]?.ToString()),
             EtcEffect = ParseEtcEffect(jObject["EtcEffect"]?.ToString()),

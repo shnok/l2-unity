@@ -5,6 +5,7 @@ using UnityEngine;
 public class ParticleTimerResetGroup : MonoBehaviour
 {
         public Transform owner;
+        public Vector3 surfaceNormal;
 
         [SerializeField] private Renderer[] _particles;
 
@@ -41,6 +42,7 @@ public class ParticleTimerResetGroup : MonoBehaviour
                         _particles[i].material.SetFloat("_StartTime", time);
                         float seed = Random.Range(-100f, 100f);
                         _particles[i].material.SetFloat("_Seed", seed);
+                        _particles[i].material.SetVector("_SurfaceNormals", surfaceNormal);
                 }
         }
 }

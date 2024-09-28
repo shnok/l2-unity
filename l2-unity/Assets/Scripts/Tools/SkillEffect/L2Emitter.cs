@@ -40,5 +40,6 @@ public class L2Emitter
     public Range sphereRadiusRange;
     public Range3D startLocationPolarRange;
     public string useDirectionAs;
+    public float sizeScaleRepeats;
 }
 #endif
