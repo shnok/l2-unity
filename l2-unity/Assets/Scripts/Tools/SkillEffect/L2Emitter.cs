@@ -30,6 +30,7 @@ public class L2Emitter
     public int SubdivisionEnd;
     public string staticMesh;
     public bool useSizeScale;
+    public bool uniformSize;
     public List<SizeScale> sizeScales;
     public Range3D startVelocityRange;
     public Range lifetimeRange;
@@ -43,5 +44,7 @@ public class L2Emitter
     public float sizeScaleRepeats;
     public Vector3 projectionNormal;
     public float drawScale;
+    public Vector3 acceleration;
+    public Range initialDelayRange;
 }
 #endif

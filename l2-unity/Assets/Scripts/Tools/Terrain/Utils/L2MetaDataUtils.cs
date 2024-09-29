@@ -272,6 +272,7 @@ public class L2MetaDataUtils
 
         string[] minMax = line.Split("|");
 
+        Debug.LogWarning(line);
         Range range = new Range();
         float min = 0;
         float max = 0;

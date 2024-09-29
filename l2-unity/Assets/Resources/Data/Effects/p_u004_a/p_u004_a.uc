@@ -1,0 +1,94 @@
+class p_u004_a extends Emitter;
+
+defaultproperties
+{
+     Begin Object Class=SpriteEmitter Name=SpriteEmitter9
+         UseDirectionAs=PTDU_Up
+         ProjectionNormal=(X=1.000000,Z=0.000000)
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         ColorMultiplierRange=(X=(Min=0.900000,Max=0.900000),Y=(Min=0.900000,Max=0.900000))
+         FadeOutStartTime=0.084000
+         FadeOut=True
+         MaxParticles=8
+         RespawnDeadParticles=False
+         Name="BlueNeedle"
+         StartLocationOffset=(X=2.000000)
+         StartLocationShape=PTLS_Polar
+         SphereRadiusRange=(Min=15.000000,Max=25.000000)
+         StartLocationPolarRange=(X=(Min=90.000000,Max=90.000000),Y=(Max=360.000000),Z=(Min=10.000000,Max=15.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         SizeScale(0)=(RelativeTime=0.460000,RelativeSize=1.500000)
+         SizeScale(1)=(RelativeTime=1.000000,RelativeSize=1.000000)
+         StartSizeRange=(X=(Min=0.150000,Max=0.700000),Y=(Min=10.000000,Max=19.044001),Z=(Min=0.150000,Max=0.700000))
+         InitialParticlesPerSecond=10000.000000
+         AutomaticInitialSpawning=False
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0061'
+         TextureUSubdivisions=2
+         TextureVSubdivisions=2
+         SubdivisionStart=2
+         SubdivisionEnd=3
+         LifetimeRange=(Min=0.300000,Max=0.300000)
+         StartVelocityRange=(X=(Min=130.000000,Max=160.000000),Y=(Min=130.000000,Max=160.000000),Z=(Min=130.000000,Max=160.000000))
+         VelocityLossRange=(X=(Min=0.500000,Max=0.500000),Y=(Min=0.500000,Max=0.500000),Z=(Min=0.500000,Max=0.500000))
+         GetVelocityDirectionFrom=PTVD_OwnerAndStartPosition
+     End Object
+     Emitters(0)=SpriteEmitter'SpriteEmitter9'
+     Begin Object Class=MeshEmitter Name=MeshEmitter15
+         StaticMesh=StaticMesh'LineageEffectsStaticmeshes.Impact.shockwave00'
+         UseMeshBlendMode=False
+         RenderTwoSided=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         Opacity=0.490000
+         FadeOutStartTime=0.037500
+         FadeOut=True
+         MaxParticles=1
+         RespawnDeadParticles=False
+         Name="ShockWave"
+         SpinParticles=True
+         StartSpinRange=(Z=(Max=1.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         SizeScale(0)=(RelativeTime=0.090000,RelativeSize=1.400000)
+         SizeScale(1)=(RelativeTime=0.230000,RelativeSize=1.700000)
+         SizeScale(2)=(RelativeTime=0.620000,RelativeSize=1.900000)
+         SizeScale(3)=(RelativeTime=1.000000,RelativeSize=2.000000)
+         StartSizeRange=(X=(Min=0.150000,Max=0.150000),Y=(Min=0.200000,Max=0.200000),Z=(Min=0.200000,Max=0.200000))
+         InitialParticlesPerSecond=1000.000000
+         AutomaticInitialSpawning=False
+         LifetimeRange=(Min=0.200000,Max=0.200000)
+         StartVelocityRange=(X=(Min=4.000000,Max=4.000000))
+     End Object
+     Emitters(1)=MeshEmitter'MeshEmitter15'
+     Begin Object Class=MeshEmitter Name=MeshEmitter16
+         StaticMesh=StaticMesh'LineageEffectsStaticmeshes.Impact.sparkredcone00'
+         UseMeshBlendMode=False
+         RenderTwoSided=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         Opacity=0.400000
+         FadeOutStartTime=0.039000
+         FadeOut=True
+         MaxParticles=2
+         RespawnDeadParticles=False
+         Name="SparkCone"
+         StartLocationOffset=(X=-3.000000)
+         SpinParticles=True
+         SpinsPerSecondRange=(Z=(Max=0.200000))
+         StartSpinRange=(Z=(Max=1.000000))
+         InitialParticlesPerSecond=10000.000000
+         AutomaticInitialSpawning=False
+         LifetimeRange=(Min=0.300000,Max=0.300000)
+         StartVelocityRange=(X=(Min=10.000000,Max=10.000000))
+     End Object
+     Emitters(2)=MeshEmitter'MeshEmitter16'
+     AutoReplay=True
+     bSetSizeScale=False
+     bUseDynamicLights=False
+     bLightChanged=True
+     bNoDelete=False
+     bAcceptsProjectors=False
+     DrawScale=0.020000
+}

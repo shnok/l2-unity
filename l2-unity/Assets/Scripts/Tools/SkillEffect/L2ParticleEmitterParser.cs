@@ -327,6 +327,26 @@ public class L2ParticleEmitterParser
                             emitter.projectionNormal = L2MetaDataUtils.ParseVector3(line);
                             Debug.Log("ProjectionNormal=" + emitter.projectionNormal);
                         }
+
+                        if (line.StartsWith("UniformSize="))
+                        {
+                            emitter.uniformSize = L2MetaDataUtils.ParseBool(line);
+                            Debug.Log("UniformSize=" + emitter.uniformSize);
+                        }
+
+                        if (line.StartsWith("Acceleration="))
+                        {
+                            emitter.acceleration = L2MetaDataUtils.ParseVector3(line);
+                            Debug.Log("Acceleration=" + emitter.acceleration);
+                        }
+
+                        if (line.StartsWith("InitialDelayRange="))
+                        {
+                            int equalsIndex = line.IndexOf('=');
+                            line = line.Substring(equalsIndex + 1, line.Length - equalsIndex - 2);
+                            emitter.initialDelayRange = L2MetaDataUtils.ParseRange(line);
+                            Debug.Log("InitialDelayRange=" + emitter.initialDelayRange);
+                        }
                     }
 
                     emitters.Add(emitter);
@@ -379,6 +399,7 @@ public class L2ParticleEmitterParser
             go = GameObject.Instantiate(resource);
             //go.transform.localScale = new Vector3(100 * emitter.drawScale, 100 * emitter.drawScale, 100 * emitter.drawScale);
             go.transform.localScale = new Vector3(1, 1, 1);
+            go.transform.eulerAngles = new Vector3(0, 0, 0);
         }
         else
         {
@@ -388,6 +409,10 @@ public class L2ParticleEmitterParser
 
 
         Texture2D effectTexture = (Texture2D)Resources.Load(texturePath);
+        if (effectTexture == null)
+        {
+            Debug.LogWarning("Missing texture: " + texturePath);
+        }
         Material material = BuildMaterial(emitter, effectTexture, isTextureEmitter);
 
         // Save material
@@ -424,36 +449,62 @@ public class L2ParticleEmitterParser
         material.SetFloat("_TextureVSubdivisions", emitter.TextureVSubdivisions > 0 ? emitter.TextureVSubdivisions : 1);
         material.SetFloat("_SubdivisionStart", emitter.SubdivisionStart > 0 ? emitter.SubdivisionStart - 1 : 1);
         material.SetFloat("_SubdivisionEnd", emitter.SubdivisionEnd > 0 ? emitter.SubdivisionEnd - 1 : 1);
-        material.SetFloat("_Alpha", emitter.opacity > 0 && spriteEmitter ? emitter.opacity : 1);
+        material.SetFloat("_Alpha", emitter.opacity > 0 ? emitter.opacity : 1);
         material.SetFloat("_Brighten", emitter.drawStyle != null && emitter.drawStyle == "PTDS_Brighten" ? 1 : 0);
 
         // Timer
-        material.SetFloat("_HasLifetime", emitter.lifetimeRange.max > 0 || emitter.lifetimeRange.min > 0 ? 1 : 0);
-        material.SetVector("_LifetimeRange", emitter.lifetimeRange.max > 0 || emitter.lifetimeRange.min > 0 ? new Vector2(emitter.lifetimeRange.min, emitter.lifetimeRange.max) : Vector2.zero);
+        if (emitter.initialDelayRange != null)
+        {
+            material.SetVector("_InitialDelayRange", new Vector2(emitter.initialDelayRange.min, emitter.initialDelayRange.max > 0 ? emitter.initialDelayRange.max : (emitter.initialDelayRange.min > 0 ? emitter.initialDelayRange.min : 0)));
+        }
+
+        if (emitter.lifetimeRange != null)
+        {
+            material.SetFloat("_HasLifetime", emitter.lifetimeRange.max > 0 || emitter.lifetimeRange.min > 0 ? 1 : 0);
+            material.SetVector("_LifetimeRange", emitter.lifetimeRange.max > 0 || emitter.lifetimeRange.min > 0 ? new Vector2(emitter.lifetimeRange.min, emitter.lifetimeRange.max) : Vector2.zero);
+        }
+        else
+        {
+            material.SetFloat("_HasLifetime", 0);
+        }
         material.SetFloat("_Fadeout", emitter.fadeOut ? 1 : 0);
         material.SetFloat("_FadeoutStartTime", emitter.fadeOutStartTime);
         material.SetFloat("_FadeIn", emitter.fadeIn ? 1 : 0);
         material.SetFloat("_FadeInEndTime", emitter.fadeInEndTime);
 
         // SizeRange
-        if (emitter.startSizeRange != null)
+        if (spriteEmitter)
         {
-            material.SetVector("_SizeRangeX", new Vector2(emitter.startSizeRange.x.min, emitter.startSizeRange.x.max));
-            material.SetVector("_SizeRangeY", new Vector2(emitter.startSizeRange.y.min, emitter.startSizeRange.y.max)); //TODO verify x-y-z convertion between unity and unreal 
-            material.SetVector("_SizeRangeZ", new Vector2(emitter.startSizeRange.z.min, emitter.startSizeRange.z.max));
+            if (emitter.startSizeRange != null)
+            {
+                material.SetVector("_SizeRangeX", new Vector2(emitter.startSizeRange.x.min, emitter.startSizeRange.x.max));
+                material.SetVector("_SizeRangeY", new Vector2(emitter.startSizeRange.y.min, emitter.startSizeRange.y.max)); //TODO verify x-y-z convertion between unity and unreal 
+                material.SetVector("_SizeRangeZ", new Vector2(emitter.startSizeRange.z.min, emitter.startSizeRange.z.max));
+            }
+        }
+        else
+        {
+            if (emitter.startSizeRange != null)
+            {
+                material.SetVector("_SizeRangeX", new Vector2(emitter.startSizeRange.x.min, emitter.startSizeRange.x.max));
+                material.SetVector("_SizeRangeY", new Vector2(emitter.startSizeRange.z.min, emitter.startSizeRange.z.max)); //TODO verify x-y-z convertion between unity and unreal 
+                material.SetVector("_SizeRangeZ", new Vector2(emitter.startSizeRange.y.min, emitter.startSizeRange.y.max));
+            }
+
         }
 
         // ColorMultiplierRange
         if (emitter.colorMultiplierRange != null)
         {
-            material.SetVector("_ColorMultiplierRangeR", new Vector2(emitter.colorMultiplierRange.x.min, emitter.colorMultiplierRange.x.max));
-            material.SetVector("_ColorMultiplierRangeG", new Vector2(emitter.colorMultiplierRange.y.min, emitter.colorMultiplierRange.y.max)); //TODO verify RGB conversion BGR ?
-            material.SetVector("_ColorMultiplierRangeB", new Vector2(emitter.colorMultiplierRange.z.min, emitter.colorMultiplierRange.z.max));
+            material.SetVector("_ColorMultiplierRangeR", new Vector2(emitter.colorMultiplierRange.x.min, emitter.colorMultiplierRange.x.max > 0 ? emitter.colorMultiplierRange.x.max : (emitter.colorMultiplierRange.x.min > 0 ? emitter.colorMultiplierRange.x.min : 0)));
+            material.SetVector("_ColorMultiplierRangeG", new Vector2(emitter.colorMultiplierRange.y.min, emitter.colorMultiplierRange.y.max > 0 ? emitter.colorMultiplierRange.y.max : (emitter.colorMultiplierRange.y.min > 0 ? emitter.colorMultiplierRange.y.min : 0)));
+            material.SetVector("_ColorMultiplierRangeB", new Vector2(emitter.colorMultiplierRange.z.min, emitter.colorMultiplierRange.z.max > 0 ? emitter.colorMultiplierRange.z.max : (emitter.colorMultiplierRange.z.min > 0 ? emitter.colorMultiplierRange.z.min : 0)));
         }
 
         // SizeScale
         const int MAXMIMUM_SIZESCALE_COUNT = 10;
         material.SetFloat("_UseSizeScale", emitter.useSizeScale ? 1 : 0);
+        material.SetFloat("_UniformSize", emitter.uniformSize ? 1 : 0);
         material.SetFloat("_SizeScaleRepeats", emitter.sizeScaleRepeats);
         if (emitter.sizeScales != null)
         {
@@ -515,18 +566,37 @@ public class L2ParticleEmitterParser
 
         // Spin
         material.SetFloat("_SpinParticles", emitter.spinParticles ? 1 : 0);
-        if (emitter.startSpinRange != null)
+        if (!spriteEmitter)
         {
-            material.SetVector("_StartSpinRangeZ", new Vector2(emitter.startSpinRange.x.min, emitter.startSpinRange.x.max));
-            material.SetVector("_StartSpinRangeY", new Vector2(emitter.startSpinRange.y.min, emitter.startSpinRange.y.max)); //TODO verify x-y-z convertion between unity and unreal 
-            material.SetVector("_StartSpinRangeX", new Vector2(emitter.startSpinRange.z.min, emitter.startSpinRange.z.max));
+            if (emitter.startSpinRange != null)
+            {
+                material.SetVector("_StartSpinRangeX", new Vector2(emitter.startSpinRange.y.min, emitter.startSpinRange.y.max));
+                material.SetVector("_StartSpinRangeY", new Vector2(emitter.startSpinRange.x.min, emitter.startSpinRange.x.max)); //TODO verify x-y-z convertion between unity and unreal 
+                material.SetVector("_StartSpinRangeZ", new Vector2(emitter.startSpinRange.z.min, emitter.startSpinRange.z.max));
+            }
+            if (emitter.spinsPerSecondRange != null)
+            {
+                material.SetVector("_SpinsPerSecondRangeX", new Vector2(emitter.spinsPerSecondRange.y.min, emitter.spinsPerSecondRange.y.max));
+                material.SetVector("_SpinsPerSecondRangeY", new Vector2(emitter.spinsPerSecondRange.x.min, emitter.spinsPerSecondRange.x.max)); //TODO verify x-y-z convertion between unity and unreal 
+                material.SetVector("_SpinsPerSecondRangeZ", new Vector2(emitter.spinsPerSecondRange.z.min, emitter.spinsPerSecondRange.z.max));
+            }
         }
-        if (emitter.spinsPerSecondRange != null)
+        else
         {
-            material.SetVector("_SpinsPerSecondRangeZ", new Vector2(emitter.spinsPerSecondRange.x.min, emitter.spinsPerSecondRange.x.max));
-            material.SetVector("_SpinsPerSecondRangeY", new Vector2(emitter.spinsPerSecondRange.y.min, emitter.spinsPerSecondRange.y.max)); //TODO verify x-y-z convertion between unity and unreal 
-            material.SetVector("_SpinsPerSecondRangeX", new Vector2(emitter.spinsPerSecondRange.z.min, emitter.spinsPerSecondRange.z.max));
+            if (emitter.startSpinRange != null)
+            {
+                material.SetVector("_StartSpinRangeX", new Vector2(emitter.startSpinRange.y.min, emitter.startSpinRange.y.max));
+                material.SetVector("_StartSpinRangeY", new Vector2(emitter.startSpinRange.z.min, emitter.startSpinRange.z.max)); //TODO verify x-y-z convertion between unity and unreal 
+                material.SetVector("_StartSpinRangeZ", new Vector2(emitter.startSpinRange.x.min, emitter.startSpinRange.x.max));
+            }
+            if (emitter.spinsPerSecondRange != null)
+            {
+                material.SetVector("_SpinsPerSecondRangeX", new Vector2(emitter.spinsPerSecondRange.y.min, emitter.spinsPerSecondRange.y.max));
+                material.SetVector("_SpinsPerSecondRangeY", new Vector2(emitter.spinsPerSecondRange.z.min, emitter.spinsPerSecondRange.z.max)); //TODO verify x-y-z convertion between unity and unreal 
+                material.SetVector("_SpinsPerSecondRangeZ", new Vector2(emitter.spinsPerSecondRange.x.min, emitter.spinsPerSecondRange.x.max));
+            }
         }
+
 
         // Velocity
         if (emitter.startVelocityRange != null)
@@ -537,20 +607,23 @@ public class L2ParticleEmitterParser
             //  }
             //  if (-emitter.startVelocityRange.y.max != emitter.startVelocityRange.y.min) // Can't understand the rule when min = -x and max = x....
             //  {
-            material.SetVector("_StartVelocityRangeY", new Vector2(-emitter.startVelocityRange.y.max / 52.5f, -emitter.startVelocityRange.y.min / 52.5f));
+            material.SetVector("_StartVelocityRangeY", new Vector2(emitter.startVelocityRange.z.max / 52.5f, emitter.startVelocityRange.z.min / 52.5f));
             //  }
             //  if (-emitter.startVelocityRange.z.max != emitter.startVelocityRange.z.min) // Can't understand the rule when min = -x and max = x....
             //  {
-            material.SetVector("_StartVelocityRangeZ", new Vector2(-emitter.startVelocityRange.z.max / 52.5f, -emitter.startVelocityRange.z.min / 52.5f));
+            material.SetVector("_StartVelocityRangeZ", new Vector2(emitter.startVelocityRange.y.max / 52.5f, emitter.startVelocityRange.y.min / 52.5f));
             //  }
         }
+
+        //Acceleration
+        material.SetVector("_Acceleration", new Vector3(emitter.acceleration.x, emitter.acceleration.z, emitter.acceleration.y) / 52.5f);
 
         // SizeRange
         if (emitter.velocityLossRange != null)
         {
             material.SetVector("_VelocityLossRangeX", new Vector2(emitter.velocityLossRange.x.min, emitter.velocityLossRange.x.max));
-            material.SetVector("_VelocityLossRangeY", new Vector2(emitter.velocityLossRange.y.min, emitter.velocityLossRange.y.max)); //TODO verify x-y-z convertion between unity and unreal 
-            material.SetVector("_VelocityLossRangeZ", new Vector2(emitter.velocityLossRange.z.min, emitter.velocityLossRange.z.max));
+            material.SetVector("_VelocityLossRangeY", new Vector2(emitter.velocityLossRange.z.min, emitter.velocityLossRange.z.max)); //TODO verify x-y-z convertion between unity and unreal 
+            material.SetVector("_VelocityLossRangeZ", new Vector2(emitter.velocityLossRange.y.min, emitter.velocityLossRange.y.max));
         }
 
 
