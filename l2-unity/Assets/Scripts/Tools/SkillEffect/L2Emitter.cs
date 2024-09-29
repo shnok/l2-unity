@@ -41,5 +41,6 @@ public class L2Emitter
     public Range3D startLocationPolarRange;
     public string useDirectionAs;
     public float sizeScaleRepeats;
+    public Vector3 projectionNormal;
 }
 #endif

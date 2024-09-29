@@ -303,6 +303,12 @@ public class L2ParticleEmitterParser
                             emitter.useDirectionAs = line.Split("=")[1];
                             Debug.Log("UseDirectionAs=" + emitter.useDirectionAs);
                         }
+
+                        if (line.StartsWith("ProjectionNormal="))
+                        {
+                            emitter.projectionNormal = L2MetaDataUtils.ParseVector3(line);
+                            Debug.Log("ProjectionNormal=" + emitter.projectionNormal);
+                        }
                     }
 
                     emitters.Add(emitter);
@@ -614,6 +620,11 @@ public class L2ParticleEmitterParser
             {
                 // FOR NOW USE THE SAME VALUE FOR ANY OTHER TYPE
                 material.SetFloat("_UseDirectionAs", 2);
+            }
+
+            if (emitter.projectionNormal != null)
+            {
+                material.SetVector("_ProjectionNormal", new Vector3(emitter.projectionNormal.y, emitter.projectionNormal.z, emitter.projectionNormal.x));
             }
         }
 
