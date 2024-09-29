@@ -570,15 +570,15 @@ public class L2ParticleEmitterParser
         {
             if (emitter.startSpinRange != null)
             {
-                material.SetVector("_StartSpinRangeX", new Vector2(emitter.startSpinRange.y.min, emitter.startSpinRange.y.max));
+                material.SetVector("_StartSpinRangeX", new Vector2(emitter.startSpinRange.z.min, emitter.startSpinRange.z.max));
                 material.SetVector("_StartSpinRangeY", new Vector2(emitter.startSpinRange.x.min, emitter.startSpinRange.x.max)); //TODO verify x-y-z convertion between unity and unreal 
-                material.SetVector("_StartSpinRangeZ", new Vector2(emitter.startSpinRange.z.min, emitter.startSpinRange.z.max));
+                material.SetVector("_StartSpinRangeZ", new Vector2(emitter.startSpinRange.y.min, emitter.startSpinRange.y.max));
             }
             if (emitter.spinsPerSecondRange != null)
             {
-                material.SetVector("_SpinsPerSecondRangeX", new Vector2(emitter.spinsPerSecondRange.y.min, emitter.spinsPerSecondRange.y.max));
+                material.SetVector("_SpinsPerSecondRangeX", new Vector2(emitter.spinsPerSecondRange.z.min, emitter.spinsPerSecondRange.z.max));
                 material.SetVector("_SpinsPerSecondRangeY", new Vector2(emitter.spinsPerSecondRange.x.min, emitter.spinsPerSecondRange.x.max)); //TODO verify x-y-z convertion between unity and unreal 
-                material.SetVector("_SpinsPerSecondRangeZ", new Vector2(emitter.spinsPerSecondRange.z.min, emitter.spinsPerSecondRange.z.max));
+                material.SetVector("_SpinsPerSecondRangeZ", new Vector2(emitter.spinsPerSecondRange.y.min, emitter.spinsPerSecondRange.y.max));
             }
         }
         else

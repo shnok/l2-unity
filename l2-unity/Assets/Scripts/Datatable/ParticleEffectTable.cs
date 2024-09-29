@@ -57,8 +57,7 @@ public class ParticleEffectTable
         // Hit particles
         DefaultHitParticles = new GameObject[2];
         DefaultHitParticles[0] = LoadEffectByName("p_u002_a"); // Load whenever any hit occurs (with and without crit)
-        DefaultHitParticles[1] = LoadEffectByName("p_u005_a"); // Load when no soulshot is activated
-
+        DefaultHitParticles[1] = LoadEffectByName("p_u004_a"); // Load when soulshot disabled and crit occurs
         SoulshotCastParticles = new GameObject[12, 2];
         SoulshotHitParticles[(int)EtcEffectInfo.EEP_GRADENONE, 0] = LoadEffectByName("shot_N_atk"); // SS No-Grade no-crit
         SoulshotHitParticles[(int)EtcEffectInfo.EEP_GRADENONE, 1] = LoadEffectByName("shot_N_crit"); // SS No-Grade crit
