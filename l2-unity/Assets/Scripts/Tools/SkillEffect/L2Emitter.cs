@@ -42,5 +42,6 @@ public class L2Emitter
     public string useDirectionAs;
     public float sizeScaleRepeats;
     public Vector3 projectionNormal;
+    public float drawScale;
 }
 #endif

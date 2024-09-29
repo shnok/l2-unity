@@ -58,6 +58,23 @@ public class L2ParticleEmitterParser
     {
         List<L2Emitter> emitters = new List<L2Emitter>();
 
+        float drawScale = 1;
+
+        using (StreamReader reader = new StreamReader(path))
+        {
+            string line;
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                line = line.Trim();
+                if (line.StartsWith("DrawScale="))
+                {
+                    drawScale = L2MetaDataUtils.ParseFloat(line);
+                    Debug.Log("DrawScale=" + drawScale);
+                }
+            }
+        }
+
         using (StreamReader reader = new StreamReader(path))
         {
             string line;
@@ -69,6 +86,7 @@ public class L2ParticleEmitterParser
                 if (line.StartsWith("Begin Object Class=SpriteEmitter Name=") || line.StartsWith("Begin Object Class=MeshEmitter Name="))
                 {
                     L2Emitter emitter = new L2Emitter();
+                    emitter.drawScale = drawScale;
                     emitter.effectName = Path.GetFileNameWithoutExtension(path);
                     emitter.objectName = line.Replace("Begin Object Class=SpriteEmitter Name=", "").Replace("Begin Object Class=MeshEmitter Name=", "");
                     Debug.Log("ObjectName=" + emitter.objectName);
@@ -359,6 +377,8 @@ public class L2ParticleEmitterParser
             texturePath = $"Data/SysTextures/LineageEffectsTextures/{materialName}";
             //GameObject go = (GameObject)Resources.Load("Prefab/SpriteEmitter");
             go = GameObject.Instantiate(resource);
+            //go.transform.localScale = new Vector3(100 * emitter.drawScale, 100 * emitter.drawScale, 100 * emitter.drawScale);
+            go.transform.localScale = new Vector3(1, 1, 1);
         }
         else
         {
