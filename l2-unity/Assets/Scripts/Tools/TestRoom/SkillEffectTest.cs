@@ -11,10 +11,10 @@ public class SkillEffectTest : MonoBehaviour
     {
         caster = GameObject.Find("Caster").GetComponent<Entity>();
         caster.Initialize();
-        caster.GetComponent<Gear>().Initialize(0, CharacterRaceAnimation.FDarkElf);
+        caster.GetComponent<Gear>().Initialize(0, CharacterModelType.FDarkElf);
         target = GameObject.Find("Target").GetComponent<Entity>();
         target.Initialize();
-        target.GetComponent<Gear>().Initialize(1, CharacterRaceAnimation.FDarkElf);
+        target.GetComponent<Gear>().Initialize(1, CharacterModelType.FDarkElf);
     }
 
     void Start()

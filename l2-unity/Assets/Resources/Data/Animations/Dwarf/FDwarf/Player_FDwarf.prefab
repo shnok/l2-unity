@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4661837340642020729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3534749183260093342}
+  m_Layer: 11
+  m_Name: model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3534749183260093342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661837340642020729}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2201293818743324380}
+  m_Father: {fileID: 8032377794756350704}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6373500069190494077
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,7 +68,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2201293818743324380}
+  - {fileID: 3534749183260093342}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -111, z: 0}
 --- !u!114 &5136009980192550727
@@ -219,7 +251,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6373500069190494077}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2e175ae1c7d2db47864ba360adcc743, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d0e32b4d4622cf44b8d1014fe1af7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rightHandWeapon:
@@ -310,6 +342,7 @@ MonoBehaviour:
   _shieldBone: {fileID: 0}
   _leftHand: {fileID: 0}
   _weaponAnim: 
+  _skinnedMeshSync: {fileID: 0}
   _torsoMeta:
     _id: 0
     _icon: 
@@ -510,7 +543,7 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
-  _container: {fileID: 0}
+  _bodypartsContainer: {fileID: 0}
   _torso: {fileID: 0}
   _fullarmor: {fileID: 0}
   _legs: {fileID: 0}
@@ -522,7 +555,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8032377794756350704}
+    m_TransformParent: {fileID: 3534749183260093342}
     m_Modifications:
     - target: {fileID: 1214898079268921873, guid: 4b2b8fc0171059f44b7875e4f052866c, type: 3}
       propertyPath: m_Name
@@ -546,15 +579,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1988339172662884523, guid: 4b2b8fc0171059f44b7875e4f052866c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1988339172662884523, guid: 4b2b8fc0171059f44b7875e4f052866c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1988339172662884523, guid: 4b2b8fc0171059f44b7875e4f052866c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1988339172662884523, guid: 4b2b8fc0171059f44b7875e4f052866c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

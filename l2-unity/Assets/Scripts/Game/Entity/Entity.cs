@@ -4,13 +4,14 @@ using UnityEngine;
 [System.Serializable]
 public class Entity : MonoBehaviour
 {
+    [Header("Entity")]
     [SerializeField] private bool _entityLoaded;
     [SerializeField] private NetworkIdentity _identity;
     [SerializeField] private Status _status;
     [SerializeField] private Stats _stats;
     [SerializeField] protected Appearance _appearance;
     [SerializeField] private CharacterRace _race;
-    [SerializeField] private CharacterRaceAnimation _raceId;
+    [SerializeField] private CharacterModelType _raceId;
     [SerializeField] private bool _running;
     [SerializeField] private bool _sitting;
 
@@ -21,7 +22,7 @@ public class Entity : MonoBehaviour
     [SerializeField] private long _stopAutoAttackTime;
     [SerializeField] private long _startAutoAttackTime;
 
-    protected NetworkAnimationController _networkAnimationReceive;
+    protected BaseAnimationController _animationController;
     protected NetworkTransformReceive _networkTransformReceive;
     protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
     protected Gear _gear;
@@ -37,7 +38,7 @@ public class Entity : MonoBehaviour
     public long StopAutoAttackTime { get { return _stopAutoAttackTime; } }
     public long StartAutoAttackTime { get { return _startAutoAttackTime; } }
     public CharacterRace Race { get { return _race; } set { _race = value; } }
-    public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
+    public CharacterModelType RaceId { get { return _raceId; } set { _raceId = value; } }
     public bool EntityLoaded { get { return _entityLoaded; } set { _entityLoaded = value; } }
     public Gear Gear { get { return _gear; } }
     public bool Running { get { return _running; } set { _running = value; } }
@@ -58,10 +59,17 @@ public class Entity : MonoBehaviour
     public virtual void Initialize()
     {
         // TODO: Pre-assign components in prefabs
-        TryGetComponent(out _networkAnimationReceive);
-        TryGetComponent(out _networkTransformReceive);
-        TryGetComponent(out _networkCharacterControllerReceive);
-        TryGetComponent(out _gear);
+        if (_gear == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Gear was not assigned, please pre-assign animator to avoid unecessary load.");
+            TryGetComponent(out _gear);
+        }
+
+        if (_animationController == null)
+        {
+            Debug.LogWarning($"[{transform.name}] AnimationController was not assigned, please pre-assign animator to avoid unecessary load.");
+            _animationController = GetComponentInChildren<BaseAnimationController>(true);
+        }
 
         UpdatePAtkSpeed(_stats.PAtkSpd);
         UpdateMAtkSpeed(_stats.MAtkSpd);
@@ -69,7 +77,11 @@ public class Entity : MonoBehaviour
         UpdateWalkSpeed(_stats.WalkSpeed);
 
         EquipAllWeapons();
+        EquipAllArmors();
     }
+
+    public void EquipAllWeapons() { _gear.EquipAllWeapons(Appearance); }
+    public void EquipAllArmors() { _gear.EquipAllArmors(Appearance); }
 
     // Called when ApplyDamage packet is received 
     public void ApplyDamage(int damage, bool criticalHit)
@@ -90,52 +102,13 @@ public class Entity : MonoBehaviour
         }
     }
 
-    public virtual void EquipAllWeapons()
-    {
-        if (_gear == null)
-        {
-            Debug.LogWarning("Gear script is not attached to entity");
-            return;
-        }
-        if (_appearance.LHand != 0)
-        {
-            _gear.EquipWeapon(_appearance.LHand, true);
-        }
-        else
-        {
-            _gear.UnequipWeapon(true);
-        }
-        if (_appearance.RHand != 0)
-        {
-            _gear.EquipWeapon(_appearance.RHand, false);
-        }
-        else
-        {
-            _gear.UnequipWeapon(false);
-        }
-    }
-
     /* Notify server that entity got attacked */
     public void InflictAttack(AttackType attackType)
     {
         GameClient.Instance.ClientPacketHandler.InflictAttack(_identity.Id, attackType);
     }
 
-    protected virtual void OnDeath()
-    {
-        if (_networkAnimationReceive != null)
-        {
-            _networkAnimationReceive.enabled = false;
-        }
-        if (_networkTransformReceive != null)
-        {
-            _networkTransformReceive.enabled = false;
-        }
-        if (_networkCharacterControllerReceive != null)
-        {
-            _networkCharacterControllerReceive.enabled = false;
-        }
-    }
+    protected virtual void OnDeath() { }
 
     protected virtual void OnHit(bool criticalHit)
     {
@@ -180,13 +153,21 @@ public class Entity : MonoBehaviour
     public virtual float UpdatePAtkSpeed(int pAtkSpd)
     {
         _stats.PAtkSpd = pAtkSpd;
-        return StatsConverter.Instance.ConvertStat(Stat.PHYS_ATTACK_SPEED, pAtkSpd);
+
+        float stat = StatsConverter.Instance.ConvertStat(Stat.PHYS_ATTACK_SPEED, pAtkSpd);
+        _animationController.SetPAtkSpd(stat);
+
+        return stat;
     }
 
     public virtual float UpdateMAtkSpeed(int mAtkSpd)
     {
         _stats.MAtkSpd = mAtkSpd;
-        return StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
+
+        float stat = StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
+        _animationController.SetMAtkSpd(stat);
+
+        return stat;
     }
 
     public virtual float UpdateRunSpeed(int speed)
@@ -194,7 +175,11 @@ public class Entity : MonoBehaviour
         float scaled = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
         _stats.RunSpeed = speed;
         _stats.ScaledRunSpeed = scaled;
-        return StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
+
+        float stat = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
+        _animationController.SetRunSpeed(stat);
+
+        return stat;
     }
 
     public virtual float UpdateWalkSpeed(int speed)
@@ -202,7 +187,12 @@ public class Entity : MonoBehaviour
         float scaled = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
         _stats.WalkSpeed = speed;
         _stats.ScaledWalkSpeed = scaled;
-        return StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
+
+        float stat = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
+
+        _animationController.SetWalkSpeed(stat);
+
+        return stat;
     }
 
     public bool IsDead()

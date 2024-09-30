@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Gear : MonoBehaviour
 {
-    protected NetworkAnimationController _networkAnimationReceive;
+    protected BaseAnimationController _animationController;
     protected int _ownerId;
-    protected CharacterRaceAnimation _raceId;
+    protected CharacterModelType _raceId;
 
     [Header("Weapons")]
     [Header("Meta")]
@@ -26,14 +26,14 @@ public class Gear : MonoBehaviour
     public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
     public string WeaponAnim { get { return _weaponAnim; } }
     public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
-    public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
+    public CharacterModelType RaceId { get { return _raceId; } set { _raceId = value; } }
 
     public Transform RightHandBone { get { return _rightHandBone; } }
     public Transform LeftHandBone { get { return _leftHandBone; } }
 
-    public virtual void Initialize(int ownderId, CharacterRaceAnimation raceId)
+    public virtual void Initialize(int ownderId, CharacterModelType raceId)
     {
-        TryGetComponent(out _networkAnimationReceive);
+        TryGetComponent(out _animationController);
         _ownerId = ownderId;
         _raceId = raceId;
 
@@ -65,6 +65,28 @@ public class Gear : MonoBehaviour
         }
     }
 
+    public virtual void EquipAllWeapons(Appearance appearance)
+    {
+        if (appearance.LHand != 0)
+        {
+            EquipWeapon(appearance.LHand, true);
+        }
+        else
+        {
+            UnequipWeapon(true);
+        }
+        if (appearance.RHand != 0)
+        {
+            EquipWeapon(appearance.RHand, false);
+        }
+        else
+        {
+            UnequipWeapon(false);
+        }
+    }
+
+    public virtual void EquipAllArmors(Appearance appearance) { }
+
     public virtual void EquipWeapon(int weaponId, bool leftSlot)
     {
         if (IsWeaponAlreadyEquipped(weaponId, leftSlot))
@@ -79,7 +101,7 @@ public class Gear : MonoBehaviour
             return;
         }
 
-        // Loading from database
+        // Loading from table
         Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
         if (weapon == null)
         {
@@ -140,32 +162,11 @@ public class Gear : MonoBehaviour
 
     public virtual void UpdateWeaponAnim(string value) { }
 
-    protected virtual Transform GetLeftHandBone()
-    {
-        if (_leftHandBone == null)
-        {
-            _leftHandBone = transform.FindRecursive("Bow Bone");
-        }
-        return _leftHandBone;
-    }
+    protected virtual Transform GetLeftHandBone() { return null; }
 
-    protected virtual Transform GetRightHandBone()
-    {
-        if (_rightHandBone == null)
-        {
-            _rightHandBone = transform.FindRecursive("Sword Bone");
-        }
-        return _rightHandBone;
-    }
+    protected virtual Transform GetRightHandBone() { return null; }
 
-    protected virtual Transform GetShieldBone()
-    {
-        if (_shieldBone == null)
-        {
-            _shieldBone = transform.FindRecursive("Shield Bone");
-        }
-        return _shieldBone;
-    }
+    protected virtual Transform GetShieldBone() { return null; }
 
     public virtual void UnequipWeapon(bool leftSlot)
     {

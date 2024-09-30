@@ -9,7 +9,7 @@ public struct CharSelectionInfoPackage
     [SerializeField] private int _id;
     [SerializeField] private Vector3 _position;
     [SerializeField] private PlayerAppearance _playerAppearance;
-    [SerializeField] private CharacterRaceAnimation _characterRaceAnimation;
+    [SerializeField] private CharacterModelType _characterRaceAnimation;
     [SerializeField] private PlayerStatus _playerStatus;
     [SerializeField] private PlayerStats _playerStats;
     [SerializeField] private bool _isMage;
@@ -25,7 +25,7 @@ public struct CharSelectionInfoPackage
     [SerializeField] private bool _selected;
 
     public PlayerAppearance PlayerAppearance { get => _playerAppearance; set => _playerAppearance = value; }
-    public CharacterRaceAnimation CharacterRaceAnimation { get => _characterRaceAnimation; set => _characterRaceAnimation = value; }
+    public CharacterModelType CharacterRaceAnimation { get => _characterRaceAnimation; set => _characterRaceAnimation = value; }
     public Vector3 Position { get => _position; set => _position = value; }
     public string Name { get => _name; set => _name = value; }
     public string Account { get => _account; set => _account = value; }

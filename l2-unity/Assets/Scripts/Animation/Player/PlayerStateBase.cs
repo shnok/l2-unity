@@ -1,47 +1,51 @@
 using UnityEngine;
 
-public class PlayerStateBase : StateMachineBehaviour {
-    protected CharacterAnimationAudioHandler _audioHandler;
+public class PlayerStateBase : StateMachineBehaviour
+{
+    protected HumanoidAudioHandler _audioHandler;
     protected Animator _animator;
     protected Entity _entity;
-    protected PlayerGear _gear;
-    [SerializeField] protected bool _enabled = true;
+    protected UserGear _gear;
 
-    public void LoadComponents(Animator animator) {
-        if (_entity == null) {
-            _entity = animator.transform.parent.GetComponent<Entity>();
+    public void LoadComponents(Animator animator)
+    {
+        if (_entity == null)
+        {
+            _entity = animator.transform.parent.parent.GetComponent<Entity>();
         }
-        if (_entity == null || _entity is UserEntity) {
-            _enabled = false;
-            return;
+        if (_gear == null)
+        {
+            _gear = _entity.GetComponent<UserGear>();
         }
-
-        if (_gear == null) {
-            _gear = _entity.GetComponent<PlayerGear>();
+        if (_audioHandler == null)
+        {
+            _audioHandler = animator.gameObject.GetComponent<HumanoidAudioHandler>();
         }
-
-        if (_audioHandler == null) {
-            _audioHandler = animator.gameObject.GetComponent<CharacterAnimationAudioHandler>();
-        }
-        if (_animator == null) {
+        if (_animator == null)
+        {
             _animator = animator;
         }
     }
 
-    public void PlaySoundAtRatio(CharacterSoundEvent soundEvent, float ratio) {
+    public void PlaySoundAtRatio(EntitySoundEvent soundEvent, float ratio)
+    {
         _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
-    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio) {
+    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio)
+    {
         _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
-    public void SetBool(string name, bool isWeaponAnim, bool value) {
+    public void SetBool(string name, bool isWeaponAnim, bool value)
+    {
         SetBool(name, isWeaponAnim, value, true);
     }
 
-    public void SetBool(string name, bool isWeaponAnim, bool value, bool share) {
-        if(isWeaponAnim) {
+    public void SetBool(string name, bool isWeaponAnim, bool value, bool share)
+    {
+        if (isWeaponAnim)
+        {
             name += "_" + _gear.WeaponAnim;
         }
 

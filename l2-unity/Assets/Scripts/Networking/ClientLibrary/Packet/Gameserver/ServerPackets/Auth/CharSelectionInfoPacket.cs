@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharSelectionInfoPacket : ServerPacket {
+public class CharSelectionInfoPacket : ServerPacket
+{
     private int _charCount;
     private int _maximumSlots;
     private List<CharSelectionInfoPackage> _characters;
@@ -12,18 +13,21 @@ public class CharSelectionInfoPacket : ServerPacket {
     public List<CharSelectionInfoPackage> Characters { get { return _characters; } }
     public int SelectedSlotId { get { return _selectedSlotId; } }
 
-    public CharSelectionInfoPacket(byte[] d) : base(d) {
+    public CharSelectionInfoPacket(byte[] d) : base(d)
+    {
         _characters = new List<CharSelectionInfoPackage>();
 
         Parse();
     }
 
-    public override void Parse() {
+    public override void Parse()
+    {
 
         _charCount = ReadB();
         _maximumSlots = ReadB();
 
-        for (int i = 0; i < _charCount; i++) {
+        for (int i = 0; i < _charCount; i++)
+        {
             CharSelectionInfoPackage character = new CharSelectionInfoPackage();
             PlayerAppearance appearance = new PlayerAppearance();
             PlayerStatus status = new PlayerStatus();
@@ -48,13 +52,13 @@ public class CharSelectionInfoPacket : ServerPacket {
 
             status.Hp = ReadI();
             status.Mp = ReadI();
-            
+
             character.Sp = ReadI();
             character.Exp = ReadI();
             character.ExpPercent = ReadF();
 
             stats.Level = ReadI();
-            
+
             character.Karma = ReadI();
             character.PkKills = ReadI();
             character.PvpKills = ReadI();
@@ -77,11 +81,12 @@ public class CharSelectionInfoPacket : ServerPacket {
 
             character.Selected = ReadB() == 1;
 
-            if(character.Selected) {
+            if (character.Selected)
+            {
                 _selectedSlotId = i;
             }
 
-            character.CharacterRaceAnimation = CharacterRaceAnimationParser.ParseRace((CharacterRace)appearance.Race, appearance.Sex, character.IsMage);
+            character.CharacterRaceAnimation = CharacterModelTypeParser.ParseRace((CharacterRace)appearance.Race, appearance.Sex, character.IsMage);
 
             character.PlayerAppearance = appearance;
             character.PlayerStatus = status;

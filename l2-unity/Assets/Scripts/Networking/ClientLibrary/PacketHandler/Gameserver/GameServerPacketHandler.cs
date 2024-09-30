@@ -301,7 +301,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         int animId = packet.AnimId;
         float value = packet.Value;
 
-        Debug.Log($"ID: {id} AnimId: {(PlayerAnimationEvent)animId} Value: {value}");
+        Debug.Log($"ID: {id} AnimId: {(HumanoidAnimationEvent)animId} Value: {value}");
 
         World.Instance.UpdateObjectAnimation(id, animId, value);
     }

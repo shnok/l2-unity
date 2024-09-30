@@ -7,25 +7,15 @@ public class PlayerStateJump : PlayerStateAction
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         LoadComponents(animator);
-        if (!_enabled)
-        {
-            return;
-        }
-
         _lastNormalizedTime = 0;
 
         SetBool("jump", false, false, false);
         SetBool("run_jump", false, false, false);
-        _audioHandler.PlaySound(CharacterSoundEvent.Jump_1);
+        _audioHandler.PlaySound(EntitySoundEvent.Jump_1);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!_enabled)
-        {
-            return;
-        }
-
         if (ShouldDie())
         {
             return;
@@ -51,13 +41,8 @@ public class PlayerStateJump : PlayerStateAction
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!_enabled)
-        {
-            return;
-        }
-
         CameraController.Instance.StickToBone = false;
-        _audioHandler.PlaySound(CharacterSoundEvent.Step);
-        _audioHandler.PlaySound(CharacterSoundEvent.Step);
+        _audioHandler.PlaySound(EntitySoundEvent.Step);
+        _audioHandler.PlaySound(EntitySoundEvent.Step);
     }
 }

@@ -57,7 +57,7 @@ public class CharacterCreator : MonoBehaviour
 
         for (var i = 8; i < pawnData.Count; i++)
         {
-            GameObject pawnObject = CreatePawn(CharacterRaceAnimation.FDarkElf, new PlayerAppearance());
+            GameObject pawnObject = CreatePawn(CharacterModelType.FDarkElf, new PlayerAppearance());
 
             pawns[i] = pawnObject;
 
@@ -69,7 +69,7 @@ public class CharacterCreator : MonoBehaviour
     {
         List<Logongrp> pawnData = LogongrpTable.Instance.Logongrps;
 
-        GameObject pawnObject = CreatePawn(CharacterRaceAnimation.FDarkElf, new PlayerAppearance());
+        GameObject pawnObject = CreatePawn(CharacterModelType.FDarkElf, new PlayerAppearance());
 
         PlacePawn(pawnObject, pawnData[id], "Pawn" + id, _pawnContainer);
     }
@@ -125,11 +125,13 @@ public class CharacterCreator : MonoBehaviour
     }
 
 
-    public GameObject CreatePawn(CharacterRaceAnimation raceId, PlayerAppearance appearance)
+    public GameObject CreatePawn(CharacterModelType raceId, PlayerAppearance appearance)
     {
         GameObject pawnObject = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, EntityType.Pawn);
 
         UserGear gear = pawnObject.GetComponent<UserGear>();
+        BaseAnimationController animController = pawnObject.GetComponent<BaseAnimationController>();
+        animController.Initialize();
 
         gear.Initialize(-1, raceId);
 
@@ -178,12 +180,12 @@ public class CharacterCreator : MonoBehaviour
             gear.EquipWeapon(appearance.RHand, false);
         }
 
+
         return pawnObject;
     }
 
     public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container)
     {
-
         UpdatePawnPosAndRot(pawnObject, pawnData);
         pawnObject.transform.name = name;
 
@@ -193,7 +195,6 @@ public class CharacterCreator : MonoBehaviour
 
         UserGear gear = pawnObject.GetComponent<UserGear>();
         BaseAnimationController animController = pawnObject.GetComponent<BaseAnimationController>();
-        animController.Initialize();
         animController.SetBool("wait_" + gear.WeaponAnim, true);
         animController.SetWalkSpeed(2.5f);
     }

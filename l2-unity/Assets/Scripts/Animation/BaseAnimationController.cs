@@ -14,7 +14,12 @@ public class BaseAnimationController : MonoBehaviour
 
     public virtual void Initialize()
     {
-        _animator = gameObject.GetComponentInChildren<Animator>(true);
+        if (_animator == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Animator was not assigned, please pre-assign animator to avoid unecessary load.");
+            _animator = gameObject.GetComponentInChildren<Animator>(true);
+        }
+
         _lastAnimationVariableName = "wait_hand";
     }
 
@@ -25,6 +30,7 @@ public class BaseAnimationController : MonoBehaviour
 
     public void SetWalkSpeed(float value)
     {
+        Debug.LogWarning("Set walk speed");
         _animator.SetFloat("walk_speed", value);
     }
 

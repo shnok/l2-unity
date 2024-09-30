@@ -133,7 +133,7 @@ public class World : MonoBehaviour
         identity.EntityType = EntityType.Player;
 
         CharacterRace race = (CharacterRace)appearance.Race;
-        CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
+        CharacterModelType raceId = CharacterModelTypeParser.ParseRace(race, appearance.Race, identity.IsMage);
 
         GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, identity.EntityType);
         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
@@ -182,7 +182,7 @@ public class World : MonoBehaviour
         entity.UpdateWalkSpeed(stats.WalkSpeed);
         entity.UpdateRunSpeed(stats.RunSpeed);
         entity.EquipAllWeapons();
-        ((PlayerEntity)entity).EquipAllArmors();
+        entity.EquipAllArmors();
 
         CharacterInfoWindow.Instance.UpdateValues();
     }
@@ -215,13 +215,13 @@ public class World : MonoBehaviour
         identity.EntityType = EntityType.User;
 
         CharacterRace race = (CharacterRace)appearance.Race;
-        CharacterRaceAnimation raceId = CharacterRaceAnimationParser.ParseRace(race, appearance.Race, identity.IsMage);
+        CharacterModelType raceId = CharacterModelTypeParser.ParseRace(race, appearance.Race, identity.IsMage);
 
         GameObject go = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, identity.EntityType);
         go.transform.position = identity.Position;
         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
 
-        UserEntity user = go.GetComponent<UserEntity>();
+        HumanoidNetworkEntity user = go.GetComponent<HumanoidNetworkEntity>();
 
         user.Status = status;
         user.Identity = identity;
@@ -249,7 +249,7 @@ public class World : MonoBehaviour
 
     public void UpdateUser(Entity entity, NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance, bool running)
     {
-        ((UserEntity)entity).Identity.UpdateEntity(identity);
+        ((HumanoidNetworkEntity)entity).Identity.UpdateEntity(identity);
         ((PlayerStatus)entity.Status).UpdateStatus(status);
         entity.Stats.UpdateStats(stats);
         entity.Running = running;
@@ -260,7 +260,7 @@ public class World : MonoBehaviour
         entity.UpdateWalkSpeed(stats.WalkSpeed);
         entity.UpdateRunSpeed(stats.RunSpeed);
         entity.EquipAllWeapons();
-        ((UserEntity)entity).EquipAllArmors();
+        ((HumanoidNetworkEntity)entity).EquipAllArmors();
     }
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status, Stats stats)
@@ -292,8 +292,8 @@ public class World : MonoBehaviour
         if (identity.EntityType == EntityType.NPC)
         {
             npcGo.transform.SetParent(_npcsContainer.transform);
-            npc = npcGo.GetComponent<NpcEntity>();
-            ((NpcEntity)npc).NpcData = npcData;
+            npc = npcGo.GetComponent<MonsterEntity>();
+            ((MonsterEntity)npc).NpcData = npcData;
         }
         else
         {

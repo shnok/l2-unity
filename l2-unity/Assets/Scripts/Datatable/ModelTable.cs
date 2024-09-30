@@ -81,7 +81,7 @@ public class ModelTable
         // Player Containers
         for (int r = 0; r < RACE_COUNT; r++)
         {
-            CharacterRaceAnimation raceId = (CharacterRaceAnimation)r;
+            CharacterModelType raceId = (CharacterModelType)r;
             CharacterRace race = CharacterRaceParser.ParseRace(raceId);
 
             string path = $"Data/Animations/{race}/{raceId}/Player_{raceId}";
@@ -92,7 +92,7 @@ public class ModelTable
         // User Containers
         for (int r = 0; r < RACE_COUNT; r++)
         {
-            CharacterRaceAnimation raceId = (CharacterRaceAnimation)r;
+            CharacterModelType raceId = (CharacterModelType)r;
             CharacterRace race = CharacterRaceParser.ParseRace(raceId);
 
             string path = $"Data/Animations/{race}/{raceId}/User_{raceId}";
@@ -103,7 +103,7 @@ public class ModelTable
         // Pawn Containers
         for (int r = 0; r < RACE_COUNT; r++)
         {
-            CharacterRaceAnimation raceId = (CharacterRaceAnimation)r;
+            CharacterModelType raceId = (CharacterModelType)r;
             CharacterRace race = CharacterRaceParser.ParseRace(raceId);
 
             string path = $"Data/Animations/{race}/{raceId}/Pawn_{raceId}";
@@ -119,7 +119,7 @@ public class ModelTable
         // Faces
         for (int r = 0; r < RACE_COUNT; r++)
         {
-            CharacterRaceAnimation raceId = (CharacterRaceAnimation)r;
+            CharacterModelType raceId = (CharacterModelType)r;
             CharacterRace race = CharacterRaceParser.ParseRace(raceId);
             for (int f = 0; f < FACE_COUNT; f++)
             {
@@ -137,7 +137,7 @@ public class ModelTable
         // Hair
         for (int r = 0; r < RACE_COUNT; r++)
         {
-            CharacterRaceAnimation raceId = (CharacterRaceAnimation)r;
+            CharacterModelType raceId = (CharacterModelType)r;
             CharacterRace race = CharacterRaceParser.ParseRace(raceId);
             for (int hs = 0; hs < HAIR_STYLE_COUNT; hs++)
             {
@@ -211,7 +211,7 @@ public class ModelTable
                 string model = kvp.Value.Armorgrp.Model[i];
                 if (model == null)
                 {
-                    Debug.LogWarning($"Model string is null for race {(CharacterRaceAnimation)i} in armor {kvp.Key}");
+                    Debug.LogWarning($"Model string is null for race {(CharacterModelType)i} in armor {kvp.Key}");
                     continue;
                 }
 
@@ -344,7 +344,7 @@ public class ModelTable
     // -------
     // Getters
     // -------
-    public L2ArmorPiece GetArmorPiece(Armor armor, CharacterRaceAnimation raceId)
+    public L2ArmorPiece GetArmorPiece(Armor armor, CharacterModelType raceId)
     {
         if (armor == null)
         {
@@ -391,7 +391,7 @@ public class ModelTable
         return armorModel;
     }
 
-    public L2ArmorPiece GetArmorPieceByItemId(int itemId, CharacterRaceAnimation raceId)
+    public L2ArmorPiece GetArmorPieceByItemId(int itemId, CharacterModelType raceId)
     {
         Armor armor = ItemTable.Instance.GetArmor(itemId);
 
@@ -427,7 +427,7 @@ public class ModelTable
         return go;
     }
 
-    public GameObject GetContainer(CharacterRaceAnimation raceId, EntityType entityType)
+    public GameObject GetContainer(CharacterModelType raceId, EntityType entityType)
     {
         GameObject go = null;
 
@@ -452,7 +452,7 @@ public class ModelTable
         return go;
     }
 
-    public GameObject GetFace(CharacterRaceAnimation raceId, byte face)
+    public GameObject GetFace(CharacterModelType raceId, byte face)
     {
         GameObject go = _faces[(byte)raceId, face];
         if (go == null)
@@ -463,7 +463,7 @@ public class ModelTable
         return go;
     }
 
-    public GameObject GetHair(CharacterRaceAnimation raceId, byte hairStyle, byte hairColor, bool bh)
+    public GameObject GetHair(CharacterModelType raceId, byte hairStyle, byte hairColor, bool bh)
     {
         byte index = (byte)(hairStyle * 8 + hairColor * 2);
 

@@ -4,22 +4,12 @@ public class PlayerStateAtkWait : PlayerStateAction
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!_enabled)
-        {
-            return;
-        }
-
         LoadComponents(animator);
         SetBool("atkwait", true, false, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!_enabled)
-        {
-            return;
-        }
-
         if (ShouldDie())
         {
             return;
@@ -64,11 +54,6 @@ public class PlayerStateAtkWait : PlayerStateAction
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!_enabled)
-        {
-            return;
-        }
-
         SetBool("atkwait", true, false, false);
     }
 }

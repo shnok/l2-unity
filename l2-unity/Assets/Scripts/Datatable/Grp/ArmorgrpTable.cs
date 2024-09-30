@@ -79,73 +79,73 @@ public class ArmorgrpTable
                             break;
                         case "m_HumnFigh": // {{[Fighter.MFighter_m002_g]};{[mfighter.mfighter_m002_t10_g]}}
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.MFighter] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.MFighter] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.MFighter] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.MFighter] = modTex[1];
                             break;
                         case "f_HumnFigh":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.FFighter] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.FFighter] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.FFighter] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.FFighter] = modTex[1];
                             break;
                         case "m_DarkElf":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.MDarkElf] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.MDarkElf] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.MDarkElf] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.MDarkElf] = modTex[1];
                             break;
                         case "f_DarkElf":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.FDarkElf] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.FDarkElf] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.FDarkElf] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.FDarkElf] = modTex[1];
                             break;
                         case "m_Dorf":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.MDwarf] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.MDwarf] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.MDwarf] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.MDwarf] = modTex[1];
                             break;
                         case "f_Dorf":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.FDwarf] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.FDwarf] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.FDwarf] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.FDwarf] = modTex[1];
                             break;
                         case "m_Elf":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.MElf] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.MElf] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.MElf] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.MElf] = modTex[1];
                             break;
                         case "f_Elf":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.FElf] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.FElf] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.FElf] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.FElf] = modTex[1];
                             break;
                         case "m_HumnMyst":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.MMagic] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.MMagic] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.MMagic] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.MMagic] = modTex[1];
                             break;
                         case "f_HumnMyst":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.FMagic] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.FMagic] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.FMagic] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.FMagic] = modTex[1];
                             break;
                         case "m_OrcFigh":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.MOrc] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.MOrc] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.MOrc] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.MOrc] = modTex[1];
                             break;
                         case "f_OrcFigh":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.FOrc] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.FOrc] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.FOrc] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.FOrc] = modTex[1];
                             break;
                         case "m_OrcMage":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.MShaman] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.MShaman] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.MShaman] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.MShaman] = modTex[1];
                             break;
                         case "f_OrcMage":
                             modTex = DatUtils.ParseArray(value);
-                            armorgrp.Model[(byte)CharacterRaceAnimation.FShaman] = modTex[0];
-                            armorgrp.Texture[(byte)CharacterRaceAnimation.FShaman] = modTex[1];
+                            armorgrp.Model[(byte)CharacterModelType.FShaman] = modTex[0];
+                            armorgrp.Texture[(byte)CharacterModelType.FShaman] = modTex[1];
                             break;
                         case "mp_bonus": //mp_bonus=0
                             armorgrp.MpBonus = int.Parse(value);

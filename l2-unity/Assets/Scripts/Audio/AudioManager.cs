@@ -26,17 +26,22 @@ public class AudioManager : MonoBehaviour
     private static AudioManager _instance;
     public static AudioManager Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
 
         SetBuses();
     }
 
-    private void SetBuses() {
+    private void SetBuses()
+    {
         _masterBus = RuntimeManager.GetBus("bus:/");
         _musicBus = RuntimeManager.GetBus("bus:/Music");
         _SFXBus = RuntimeManager.GetBus("bus:/SFX");
@@ -44,14 +49,18 @@ public class AudioManager : MonoBehaviour
         _ambientBus = RuntimeManager.GetBus("bus:/Ambient");
     }
 
-    private void Update() {
-        if(_muteWhenNotFocused && !Application.isFocused) {
+    private void Update()
+    {
+        if (_muteWhenNotFocused && !Application.isFocused)
+        {
             _masterBus.setVolume(0);
             _musicBus.setVolume(0);
             _SFXBus.setVolume(0);
             _UIBus.setVolume(0);
             _ambientBus.setVolume(0);
-        } else {
+        }
+        else
+        {
             _masterBus.setVolume(_masterVolume * 0.75f);
             _musicBus.setVolume(_musicVolume * 0.7f);
             _SFXBus.setVolume(_SFXVolume);
@@ -60,41 +69,51 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayMonsterSound(MonsterSoundEvent monsterSoundEvent, string npcClassName, Vector3 position) {
+    public void PlayMonsterSound(EntitySoundEvent monsterSoundEvent, string npcClassName, Vector3 position)
+    {
         string eventKey = monsterSoundEvent.ToString().ToLower();
         EventReference er = RuntimeManager.PathToEventReference("event:/MonSound/" + npcClassName + "/" + eventKey);
-        if(!er.IsNull) {
+        if (!er.IsNull)
+        {
             PlaySound(er, position);
         }
     }
 
-    public void PlayCharacterSound(CharacterSoundEvent characterSoundEvent, CharacterRaceSound characterRace, Vector3 position) {
+    public void PlayCharacterSound(EntitySoundEvent characterSoundEvent, CharacterModelSound characterRace, Vector3 position)
+    {
         string eventKey = characterSoundEvent.ToString();
         EventReference er = RuntimeManager.PathToEventReference("event:/ChrSound/" + characterRace + "/" + characterRace + "_" + eventKey);
-        if (!er.IsNull) {
+        if (!er.IsNull)
+        {
             PlaySound(er, position);
         }
     }
 
-    public void PlayUISound(string soundName) {
+    public void PlayUISound(string soundName)
+    {
         EventReference er = RuntimeManager.PathToEventReference("event:/InterfaceSound/" + soundName);
-        if (!er.IsNull) {
+        if (!er.IsNull)
+        {
             PlaySound(er);
         }
     }
 
-    public void PlayEquipSound(string soundName) {
+    public void PlayEquipSound(string soundName)
+    {
         EventReference er = RuntimeManager.PathToEventReference("event:/ItemSound/" + soundName);
-        if (!er.IsNull) {
+        if (!er.IsNull)
+        {
             PlaySound(er);
         }
     }
 
-    public void PlayStepSound(string surfaceTag, Vector3 position) {
+    public void PlayStepSound(string surfaceTag, Vector3 position)
+    {
         string eventKey;
         surfaceTag = surfaceTag.ToLower();
 
-        switch(surfaceTag) {
+        switch (surfaceTag)
+        {
             case "dirt":
                 eventKey = surfaceTag + "_run";
                 break;
@@ -111,39 +130,49 @@ public class AudioManager : MonoBehaviour
         }
 
         EventReference er = RuntimeManager.PathToEventReference("event:/StepSound/" + eventKey);
-        if(!er.IsNull) {
+        if (!er.IsNull)
+        {
             PlaySound(er, position);
         }
     }
 
-    public void PlayHitSound(bool criticalHit, Vector3 position) {
+    public void PlayHitSound(bool criticalHit, Vector3 position)
+    {
         EventReference er;
-        if (criticalHit) {
+        if (criticalHit)
+        {
             er = RuntimeManager.PathToEventReference("event:/SkillSound/critical_hit");
-        } else {
+        }
+        else
+        {
             er = RuntimeManager.PathToEventReference("event:/ItemSound/armor_hit_underwear");
         }
 
-        if (!er.IsNull) {
+        if (!er.IsNull)
+        {
             PlaySound(er, position);
         }
     }
 
-    public void PlayItemSound(ItemSoundEvent itemSoundEvent, Vector3 position) {
+    public void PlayItemSound(ItemSoundEvent itemSoundEvent, Vector3 position)
+    {
         EventReference er;
         er = RuntimeManager.PathToEventReference("event:/ItemSound/" + itemSoundEvent.ToString());
-       
 
-        if (!er.IsNull) {
+
+        if (!er.IsNull)
+        {
             PlaySound(er, position);
         }
     }
 
-    public void PlaySound(EventReference sound, Vector3 postition) {
+    public void PlaySound(EventReference sound, Vector3 postition)
+    {
         RuntimeManager.PlayOneShot(sound, postition);
     }
 
-    public void PlaySound(EventReference sound) {
+    public void PlaySound(EventReference sound)
+    {
         RuntimeManager.PlayOneShot(sound);
     }
 }

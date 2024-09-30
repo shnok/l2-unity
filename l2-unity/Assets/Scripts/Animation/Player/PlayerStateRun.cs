@@ -8,32 +8,22 @@ public class PlayerStateRun : PlayerStateAction
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         LoadComponents(animator);
-        if (!_enabled)
-        {
-            return;
-        }
-
         _hasStarted = true;
         _lastNormalizedTime = 0;
 
         foreach (var ratio in _audioHandler.RunStepRatios)
         {
-            _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
+            _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
         }
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!_enabled)
-        {
-            return;
-        }
-
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f)
         {
             if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance))
             {
-                _audioHandler.PlaySound(CharacterSoundEvent.Breath);
+                _audioHandler.PlaySound(EntitySoundEvent.Breath);
             }
             _hasStarted = false;
         }
@@ -47,7 +37,7 @@ public class PlayerStateRun : PlayerStateAction
             _lastNormalizedTime = stateInfo.normalizedTime;
             foreach (var ratio in _audioHandler.RunStepRatios)
             {
-                _audioHandler.PlaySoundAtRatio(CharacterSoundEvent.Step, ratio);
+                _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
             }
         }
 
@@ -90,11 +80,6 @@ public class PlayerStateRun : PlayerStateAction
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!_enabled)
-        {
-            return;
-        }
-
         SetBool("run", true, false, false);
     }
 }

@@ -1,4 +1,5 @@
-public enum MonsterAnimationEvent : int {
+public enum MonsterAnimationEvent : int
+{
     Wait,
     Walk,
     Run,

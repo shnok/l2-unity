@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class UserGear : HumanoidGear
+public class UserGear : Gear
 {
-    protected SkinnedMeshSync _skinnedMeshSync;
+    [SerializeField] private SkinnedMeshSync _skinnedMeshSync;
+
     [Header("Armors")]
     [Header("Meta")]
     [SerializeField] private Armor _torsoMeta;
@@ -10,34 +11,40 @@ public class UserGear : HumanoidGear
     [SerializeField] private Armor _legsMeta;
     [SerializeField] private Armor _glovesMeta;
     [SerializeField] private Armor _bootsMeta;
+
     [Header("Models")]
-    [SerializeField] private GameObject _container;
+    [SerializeField] private GameObject _bodypartsContainer;
     [SerializeField] private GameObject _torso;
     [SerializeField] private GameObject _fullarmor;
     [SerializeField] private GameObject _legs;
     [SerializeField] private GameObject _gloves;
     [SerializeField] private GameObject _boots;
 
-    public override void Initialize(int ownderId, CharacterRaceAnimation raceId)
+
+    public override void Initialize(int ownderId, CharacterModelType raceId)
     {
         base.Initialize(ownderId, raceId);
 
-        if (this is PlayerGear)
+        //UpdateWeaponAnim("hand");
+
+        if (_bodypartsContainer == null)
         {
-            _container = this.gameObject;
-        }
-        else
-        {
-            _container = transform.GetChild(0).gameObject;
+            Debug.LogWarning($"[{transform.name}] bodypartsContainer was not assigned, please pre-assign it to avoid unecessary load.");
+            _bodypartsContainer = transform.GetChild(0).gameObject;
         }
 
-        _skinnedMeshSync = _container.GetComponentInChildren<SkinnedMeshSync>();
+        if (_skinnedMeshSync == null)
+        {
+            Debug.LogWarning($"[{transform.name}] SkinnedMeshSync was not assigned, please pre-assign it to avoid unecessary load.");
+            _skinnedMeshSync = _bodypartsContainer.GetComponentInChildren<SkinnedMeshSync>();
+        }
     }
 
     protected override Transform GetLeftHandBone()
     {
         if (_leftHandBone == null)
         {
+            Debug.LogWarning($"[{transform.name}] Left hand bone was not assigned, please pre-assign it to avoid unecessary load.");
             _leftHandBone = transform.FindRecursive("Weapon_L_Bone");
         }
         return _leftHandBone;
@@ -47,6 +54,7 @@ public class UserGear : HumanoidGear
     {
         if (_rightHandBone == null)
         {
+            Debug.LogWarning($"[{transform.name}] Right hand bone was not assigned, please pre-assign it to avoid unecessary load.");
             _rightHandBone = transform.FindRecursive("Weapon_R_Bone");
         }
         return _rightHandBone;
@@ -56,6 +64,7 @@ public class UserGear : HumanoidGear
     {
         if (_shieldBone == null)
         {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign it to avoid unecessary load.");
             _shieldBone = transform.FindRecursive("Shield_L_Bone");
         }
         return _shieldBone;
@@ -80,6 +89,46 @@ public class UserGear : HumanoidGear
         }
 
         return true;
+    }
+
+    public override void EquipAllArmors(Appearance apr)
+    {
+        PlayerAppearance appearance = (PlayerAppearance)apr;
+        if (appearance.Chest != 0)
+        {
+            EquipArmor(appearance.Chest, ItemSlot.chest);
+        }
+        else
+        {
+            EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.chest);
+        }
+
+        if (appearance.Legs != 0)
+        {
+            EquipArmor(appearance.Legs, ItemSlot.legs);
+        }
+        else
+        {
+            EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.legs);
+        }
+
+        if (appearance.Gloves != 0)
+        {
+            EquipArmor(appearance.Gloves, ItemSlot.gloves);
+        }
+        else
+        {
+            EquipArmor(ItemTable.NAKED_GLOVES, ItemSlot.gloves);
+        }
+
+        if (appearance.Feet != 0)
+        {
+            EquipArmor(appearance.Feet, ItemSlot.feet);
+        }
+        else
+        {
+            EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.feet);
+        }
     }
 
     public void EquipArmor(int itemId, ItemSlot slot)
@@ -128,7 +177,7 @@ public class UserGear : HumanoidGear
                 }
                 _torso = armorPiece;
                 _torsoMeta = armor;
-                _torso.transform.SetParent(_container.transform, false);
+                _torso.transform.SetParent(_bodypartsContainer.transform, false);
                 break;
             case ItemSlot.fullarmor:
                 if (_torso != null)
@@ -143,7 +192,7 @@ public class UserGear : HumanoidGear
                 }
                 _fullarmor = armorPiece;
                 _fullarmorMeta = armor;
-                _fullarmor.transform.SetParent(_container.transform, false);
+                _fullarmor.transform.SetParent(_bodypartsContainer.transform, false);
                 break;
             case ItemSlot.legs:
                 if (_legs != null)
@@ -158,7 +207,7 @@ public class UserGear : HumanoidGear
                     EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.chest);
                 }
                 _legs = armorPiece;
-                _legs.transform.SetParent(_container.transform, false);
+                _legs.transform.SetParent(_bodypartsContainer.transform, false);
                 _legsMeta = armor;
                 break;
             case ItemSlot.gloves:
@@ -168,7 +217,7 @@ public class UserGear : HumanoidGear
                     _glovesMeta = null;
                 }
                 _gloves = armorPiece;
-                _gloves.transform.SetParent(_container.transform, false);
+                _gloves.transform.SetParent(_bodypartsContainer.transform, false);
                 _glovesMeta = armor;
                 break;
             case ItemSlot.feet:
@@ -178,11 +227,30 @@ public class UserGear : HumanoidGear
                     _bootsMeta = null;
                 }
                 _boots = armorPiece;
-                _boots.transform.SetParent(_container.transform, false);
+                _boots.transform.SetParent(_bodypartsContainer.transform, false);
                 _bootsMeta = armor;
                 break;
         }
 
         _skinnedMeshSync.SyncMesh();
+    }
+
+    protected override void UpdateWeaponType(WeaponType weaponType)
+    {
+        UpdateWeaponAnim(WeaponTypeParser.GetWeaponAnim(weaponType));
+    }
+
+    public override void UpdateWeaponAnim(string weaponAnim)
+    {
+        _weaponAnim = weaponAnim;
+        NotifyAnimator(_weaponAnim);
+    }
+
+    protected virtual void NotifyAnimator(string newWeaponAnim)
+    {
+        if (_animationController != null)
+        {
+            _animationController.WeaponAnimChanged(_weaponAnim);
+        }
     }
 }
