@@ -57,6 +57,7 @@ public class Entity : MonoBehaviour
 
     public virtual void Initialize()
     {
+        // TODO: Pre-assign components in prefabs
         TryGetComponent(out _networkAnimationReceive);
         TryGetComponent(out _networkTransformReceive);
         TryGetComponent(out _networkCharacterControllerReceive);

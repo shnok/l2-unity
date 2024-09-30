@@ -29,13 +29,68 @@ public class L2SkillEffectEmitterConverter : JsonConverter
             PawnLight = jObject["bPawnLight"]?.ToString().ToLower() == "true",
         };
 
+        if (emitter.EffectClass == null)
+        {
+            if (emitter.EtcEffect != EtcEffect.EET_NONE && emitter.EtcEffectInfo != EtcEffectInfo.EEP_NONE)
+            {
+                emitter.EffectClass = EtcEffectToEffectName(emitter.EtcEffect, emitter.EtcEffectInfo);
+            }
+        }
+
         if (jObject["PawnLightParam"] != null)
         {
             emitter.PawnLightParam = EffectPawnLightParam.Parse(jObject["PawnLightParam"].ToString());
         }
 
+        if (emitter.EffectClass == null)
+        {
+            Debug.LogError($"Skill emitter class is null.");
+        }
 
         return emitter;
+    }
+
+    private string EtcEffectToEffectName(EtcEffect etcEffect, EtcEffectInfo etcEffectInfo)
+    {
+        if (etcEffect == EtcEffect.EET_SOULSHOT)
+        {
+            switch (etcEffectInfo)
+            {
+                case EtcEffectInfo.EEP_GRADENONE:
+                    return "soul_N_stick";
+                case EtcEffectInfo.EEP_GRADED:
+                    return "soul_D_stick";
+                case EtcEffectInfo.EEP_GRADEC:
+                    return "soul_C_stick";
+                case EtcEffectInfo.EEP_GRADEB:
+                    return "soul_B_stick";
+                case EtcEffectInfo.EEP_GRADEA:
+                    return "soul_A_stick";
+                case EtcEffectInfo.EEP_GRADES:
+                    return "soul_S_stick";
+            }
+        }
+
+        if (etcEffect == EtcEffect.EET_SPIRITSHOT)
+        {
+            switch (etcEffectInfo)
+            {
+                case EtcEffectInfo.EEP_GRADENONE:
+                    return "spirit_N_stick";
+                case EtcEffectInfo.EEP_GRADED:
+                    return "spirit_D_stick";
+                case EtcEffectInfo.EEP_GRADEC:
+                    return "spirit_C_stick";
+                case EtcEffectInfo.EEP_GRADEB:
+                    return "spirit_B_stick";
+                case EtcEffectInfo.EEP_GRADEA:
+                    return "spirit_A_stick";
+                case EtcEffectInfo.EEP_GRADES:
+                    return "spirit_S_stick";
+            }
+        }
+
+        return null;
     }
 
     private AttachOnType ParseAttachOnType(string attachOn)

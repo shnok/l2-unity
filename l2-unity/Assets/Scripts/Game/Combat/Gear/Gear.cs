@@ -28,12 +28,20 @@ public class Gear : MonoBehaviour
     public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
     public CharacterRaceAnimation RaceId { get { return _raceId; } set { _raceId = value; } }
 
+    public Transform RightHandBone { get { return _rightHandBone; } }
+    public Transform LeftHandBone { get { return _leftHandBone; } }
+
     public virtual void Initialize(int ownderId, CharacterRaceAnimation raceId)
     {
         TryGetComponent(out _networkAnimationReceive);
         _ownerId = ownderId;
         _raceId = raceId;
+
+        GetLeftHandBone();
+        GetRightHandBone();
     }
+
+    // TODO: PRE-ASSIGN BONES IN PREFAB TO AVOID CPU LOAD
 
     public bool IsWeaponAlreadyEquipped(int itemId, bool leftSlot)
     {

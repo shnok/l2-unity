@@ -27,7 +27,7 @@ public class UserStateBase : StateMachineBehaviour
             }
             _entity = animator.transform.parent.parent.GetComponent<Entity>();
         }
-        if (_entity == null || _entity is PlayerEntity)
+        if (_entity == null || _entity is not UserEntity)
         {
             _enabled = false;
             return;

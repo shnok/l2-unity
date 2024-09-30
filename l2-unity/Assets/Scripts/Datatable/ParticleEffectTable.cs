@@ -35,20 +35,20 @@ public class ParticleEffectTable
 
         LoadSkillParticles();
 
-        // Soulshot cast particle effects
-        SoulshotCastParticles = new GameObject[12, 6];
-        SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADENONE] = LoadEffectByName("soul_N_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADED] = LoadEffectByName("soul_D_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADEC] = LoadEffectByName("soul_C_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADEB] = LoadEffectByName("soul_B_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADEA] = LoadEffectByName("soul_A_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADES] = LoadEffectByName("soul_S_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADENONE] = LoadEffectByName("spirit_N_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADED] = LoadEffectByName("spirit_D_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADEC] = LoadEffectByName("spirit_C_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADEB] = LoadEffectByName("spirit_B_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADEA] = LoadEffectByName("spirit_A_stick");
-        SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADES] = LoadEffectByName("spirit_S_stick");
+        // // Soulshot cast particle effects
+        // SoulshotCastParticles = new GameObject[12, 6];
+        // SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADENONE] = LoadEffectByName("soul_N_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADED] = LoadEffectByName("soul_D_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADEC] = LoadEffectByName("soul_C_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADEB] = LoadEffectByName("soul_B_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADEA] = LoadEffectByName("soul_A_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SOULSHOT, (int)EtcEffectInfo.EEP_GRADES] = LoadEffectByName("soul_S_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADENONE] = LoadEffectByName("spirit_N_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADED] = LoadEffectByName("spirit_D_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADEC] = LoadEffectByName("spirit_C_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADEB] = LoadEffectByName("spirit_B_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADEA] = LoadEffectByName("spirit_A_stick");
+        // SoulshotCastParticles[(int)EtcEffect.EET_SPIRITSHOT, (int)EtcEffectInfo.EEP_GRADES] = LoadEffectByName("spirit_S_stick");
 
         // Locator?
         LocatorParticle = LoadEffectByName("e_u093_a");
@@ -58,7 +58,7 @@ public class ParticleEffectTable
         DefaultHitParticles = new GameObject[2];
         DefaultHitParticles[0] = LoadEffectByName("p_u002_a"); // Load whenever any hit occurs (with and without crit)
         DefaultHitParticles[1] = LoadEffectByName("p_u004_a"); // Load when soulshot disabled and crit occurs
-        SoulshotCastParticles = new GameObject[12, 2];
+        SoulshotHitParticles = new GameObject[12, 2];
         SoulshotHitParticles[(int)EtcEffectInfo.EEP_GRADENONE, 0] = LoadEffectByName("shot_N_atk"); // SS No-Grade no-crit
         SoulshotHitParticles[(int)EtcEffectInfo.EEP_GRADENONE, 1] = LoadEffectByName("shot_N_crit"); // SS No-Grade crit
         SoulshotHitParticles[(int)EtcEffectInfo.EEP_GRADED, 0] = LoadEffectByName("shot_D_atk"); // SS D-Grade no-crit
@@ -86,6 +86,7 @@ public class ParticleEffectTable
                     if (particle != null)
                     {
                         ParticleEffects[emitter.EffectClass] = particle;
+                        Debug.Log($"Loaded particle effect {particle} in ParticleEffectTable.");
                     }
                 });
             }
@@ -97,6 +98,7 @@ public class ParticleEffectTable
                     if (particle != null)
                     {
                         ParticleEffects[emitter.EffectClass] = particle;
+                        Debug.Log($"Loaded particle effect {particle} in ParticleEffectTable.");
                     }
                 });
             }
