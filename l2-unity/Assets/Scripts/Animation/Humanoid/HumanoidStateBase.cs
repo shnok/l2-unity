@@ -8,20 +8,28 @@ public class HumanoidStateBase : StateMachineBehaviour
     protected NetworkAnimationController _networkAnimationController;
     protected Animator _animator;
     protected Entity _entity;
-    protected UserGear _gear;
+    protected Gear _gear;
     protected bool _cancelAction = false;
 
     public void LoadComponents(Animator animator)
     {
-        Transform entityTransform = animator.transform.parent.parent;
+        Transform entityTransform = animator.transform;
         if (_entity == null)
         {
             _entity = entityTransform.GetComponent<Entity>();
+
+            if (_entity == null)
+            {
+                entityTransform = animator.transform.parent.parent;
+                _entity = entityTransform.GetComponent<Entity>();
+            }
         }
+
         if (_gear == null)
         {
-            _gear = entityTransform.GetComponent<UserGear>();
+            _gear = entityTransform.GetComponent<Gear>();
         }
+
         if (_audioHandler == null)
         {
             _audioHandler = animator.gameObject.GetComponent<HumanoidAudioHandler>();
@@ -56,6 +64,7 @@ public class HumanoidStateBase : StateMachineBehaviour
 
         if (isWeaponAnim)
         {
+            Debug.Log(_gear);
             name += "_" + _gear.WeaponAnim;
         }
         //if (value != _animator.GetBool(name)) {

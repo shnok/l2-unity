@@ -266,8 +266,6 @@ public class World : MonoBehaviour
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status, Stats stats)
     {
-
-
         Npcgrp npcgrp = NpcgrpTable.Instance.GetNpcgrp(identity.NpcId);
         NpcName npcName = NpcNameTable.Instance.GetNpcName(identity.NpcId);
         if (npcName == null || npcgrp == null)
@@ -285,7 +283,7 @@ public class World : MonoBehaviour
 
         identity.SetPosY(GetGroundHeight(identity.Position));
         GameObject npcGo = Instantiate(go, identity.Position, Quaternion.identity);
-        NpcData npcData = new NpcData(npcName, npcgrp);
+        //NpcData npcData = new NpcData(npcName, npcgrp);
 
         identity.EntityType = EntityTypeParser.ParseEntityType(npcgrp.ClassName);
         Entity npc;
@@ -293,14 +291,14 @@ public class World : MonoBehaviour
         if (identity.EntityType == EntityType.NPC)
         {
             npcGo.transform.SetParent(_npcsContainer.transform);
-            npc = npcGo.GetComponent<MonsterEntity>();
-            ((MonsterEntity)npc).NpcData = npcData;
+            npc = npcGo.GetComponent<HumanoidNetworkEntity>();
+            // ((NetworkEntity)npc).NpcData = npcData;
         }
         else
         {
             npcGo.transform.SetParent(_monstersContainer.transform);
-            npc = npcGo.GetComponent<MonsterEntity>();
-            ((MonsterEntity)npc).NpcData = npcData;
+            npc = npcGo.GetComponent<MonsterNetworkEntity>();
+            //((MonsterEntity)npc).NpcData = npcData;
         }
 
         Appearance appearance = new Appearance();
@@ -335,7 +333,7 @@ public class World : MonoBehaviour
         npcGo.SetActive(true);
 
         npc.GetComponent<NetworkAnimationController>().Initialize();
-        npcGo.GetComponent<Gear>().Initialize(npc.Identity.Id, npc.RaceId);
+        npcGo.GetComponent<NpcGear>().Initialize(npc.Identity.Id, npc.RaceId);
         npc.Initialize();
 
         _npcs.Add(identity.Id, npc);

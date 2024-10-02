@@ -388,7 +388,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
       propertyPath: m_Name
-      value: a_common_peopleB_Fhuman_prefab
+      value: a_common_peopleB_Fhuman_m00
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
       propertyPath: m_Layer
@@ -638,9 +638,6 @@ PrefabInstance:
       addedObject: {fileID: 872904066108303515}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 624345556290098882}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 31854366463989866}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
       insertIndex: -1
@@ -656,7 +653,10 @@ PrefabInstance:
       addedObject: {fileID: 6855807083936002641}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -692618472168231019}
+      addedObject: {fileID: 7375905318557304077}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1463691174959926150}
   m_SourcePrefab: {fileID: 100100000, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
 --- !u!1 &139054725631164265 stripped
 GameObject:
@@ -665,7 +665,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &872904066108303515
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -679,55 +679,12 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &624345556290098882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 139054725631164265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c9a66a877afa74d92a0ebb9f03618a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _identity:
-    _entityType: 2
-    _id: 0
-    _name: 
-    _title: 
-    _type: 
-    _npcId: 0
-    _npcClass: 
-    _playerClass: 0
-    _isMage: 0
-    _position: {x: 0, y: 0, z: 0}
-    _heading: 0
-    _owned: 0
-  _status:
-    _hp: 0
-    _maxHp: 0
-    _level: 0
-  _stats:
-    _speed: 0
-    _scaledSpeed: 0
-    _pAtkSpd: 0
-    _mAtkSpd: 0
-  _appearance:
-    _collisonHeight: 0
-    _collisionRadius: 0
-    _lhand: 0
-    _rhand: 0
-  _targetId: 0
-  _target: {fileID: 0}
-  _attackTarget: {fileID: 0}
-  _stopAutoAttackTime: 0
-  _startAutoAttackTime: 0
 --- !u!114 &31854366463989866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -740,9 +697,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b37216beee5d6a4897e9224d4eedbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 872904066108303515}
   _resetStateOnReceive: 0
-  _atk01ClipLength: 1000
   _spAtk01ClipLength: 1000
 --- !u!114 &4628594081636746414
 MonoBehaviour:
@@ -758,14 +714,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _serverPosition: {x: 0, y: 0, z: 0}
   _positionSyncProtection: 1
-  _positionSyncNodesThreshold: 2
   _positionSynced: 0
   _positionSyncPaused: 0
-  _lerpDuration: 0.3
   _positionDelta: 0
   _lastDesyncTime: 0
   _lastDesyncDuration: 0
-  _maximumAllowedDesyncTimeMs: 300
 --- !u!143 &3804418293969174131
 CharacterController:
   m_ObjectHideFlags: 0
@@ -781,7 +734,6 @@ CharacterController:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -808,7 +760,6 @@ MonoBehaviour:
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
   _gravity: 28
-  _moveSpeedMultiplier: 1
 --- !u!114 &6855807083936002641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,7 +772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03160d09deb1df3479a66ba449c32ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 872904066108303515}
   _walkStepRatios:
   - 0.25
   - 0.75
@@ -837,7 +788,7 @@ MonoBehaviour:
   _runBreathChance: 5
   _race: 13
   _surfaceDetector: {fileID: 0}
---- !u!114 &-692618472168231019
+--- !u!114 &7375905318557304077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -846,19 +797,174 @@ MonoBehaviour:
   m_GameObject: {fileID: 139054725631164265}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4057a068ca79edd469897aa33319d243, type: 3}
+  m_Script: {fileID: 11500000, guid: 25601d56babf5a840a5535f5e9f0b6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationController: {fileID: 31854366463989866}
+  _gear: {fileID: 1463691174959926150}
+  _audioHandler: {fileID: 6855807083936002641}
+  _entityLoaded: 0
+  _identity:
+    _entityType: 0
+    _id: 0
+    _name: 
+    _title: 
+    _titleColor: 9CE8A9FF
+    _npcId: 0
+    _npcClass: 
+    _playerClass: 0
+    _isMage: 0
+    _position: {x: 0, y: 0, z: 0}
+    _heading: 0
+    _owned: 0
+  _status:
+    _hp: 0
+    _mp: 0
+  _stats:
+    _level: 0
+    _runSpeed: 0
+    _walkSpeed: 0
+    _scaledRunSpeed: 0
+    _scaledWalkSpeed: 0
+    _pAtkSpd: 0
+    _mAtkSpd: 0
+    _maxHp: 0
+    _maxMp: 0
+    _maxCp: 0
+  _appearance:
+    _collisonHeight: 0
+    _collisionRadius: 0
+    _lhand: 0
+    _rhand: 0
+  _race: 0
+  _raceId: 0
+  _running: 0
+  _sitting: 0
+  _targetId: 0
+  _target: {fileID: 0}
+  _attackTarget: {fileID: 0}
+  _stopAutoAttackTime: 0
+  _startAutoAttackTime: 0
+  _networkTransformReceive: {fileID: 4628594081636746414}
+  _networkCharacterControllerReceive: {fileID: 4401501528693305129}
+--- !u!114 &1463691174959926150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139054725631164265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b689d8e2a9537d04da408f5e3cc84219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationController: {fileID: 31854366463989866}
+  _rightHandBone: {fileID: 5691548978587511959}
+  _leftHandBone: {fileID: 1873584464329699283}
+  _shieldBone: {fileID: 4170435373356992551}
+  _rightHandWeapon:
+    _id: 0
+    _icon: 
+    _itemName:
+      _id: 0
+      _name: 
+      _description: 
+      _defaultAction: 
+      _tradeable: 0
+      _destructible: 0
+      _droppable: 0
+      _sellable: 0
+    _itemStatData:
+      _objectId: 0
+      _pDef: 0
+      _mDef: 0
+      _pAtk: 0
+      _mAtk: 0
+      _pAtkSpd: 0
+      _pHit: 0
+      _mHit: 0
+      _pCrit: 0
+      _mCrit: 0
+      _speed: 0
+      _shieldDef: 0
+      _shieldDefRate: 0
+      _pAvoid: 0
+      _mAvoid: 0
+    _itemgrp:
+      _objectId: 0
+      _dropModel: 
+      _dropTexture: 
+      _icon: 
+      _weight: 0
+      _material: 0
+      _dropSound: 
+      _grade: 0
+      _equipSound: 
+      _inventoryType: 
+      _crystallizable: 0
+  _leftHandWeapon:
+    _id: 0
+    _icon: 
+    _itemName:
+      _id: 0
+      _name: 
+      _description: 
+      _defaultAction: 
+      _tradeable: 0
+      _destructible: 0
+      _droppable: 0
+      _sellable: 0
+    _itemStatData:
+      _objectId: 0
+      _pDef: 0
+      _mDef: 0
+      _pAtk: 0
+      _mAtk: 0
+      _pAtkSpd: 0
+      _pHit: 0
+      _mHit: 0
+      _pCrit: 0
+      _mCrit: 0
+      _speed: 0
+      _shieldDef: 0
+      _shieldDefRate: 0
+      _pAvoid: 0
+      _mAvoid: 0
+    _itemgrp:
+      _objectId: 0
+      _dropModel: 
+      _dropTexture: 
+      _icon: 
+      _weight: 0
+      _material: 0
+      _dropSound: 
+      _grade: 0
+      _equipSound: 
+      _inventoryType: 
+      _crystallizable: 0
   _rightHandType: 0
-  _rightHandBone: {fileID: 0}
   _rightHand: {fileID: 0}
   _leftHandType: 0
-  _leftHandBone: {fileID: 0}
-  _shieldBone: {fileID: 0}
   _leftHand: {fileID: 0}
   _weaponAnim: 
 --- !u!4 &767253670170846675 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
+  m_PrefabInstance: {fileID: 950097174322512440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1873584464329699283 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1670593003948305899, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
+  m_PrefabInstance: {fileID: 950097174322512440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4170435373356992551 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -5418058255942137313, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
+  m_PrefabInstance: {fileID: 950097174322512440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5691548978587511959 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4887282991814586031, guid: 86e25e131b904f84b8bdda665a23e0ee, type: 3}
   m_PrefabInstance: {fileID: 950097174322512440}
   m_PrefabAsset: {fileID: 0}

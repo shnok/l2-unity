@@ -1,12 +1,7 @@
 using UnityEngine;
 
-public class MonsterEntity : NetworkEntity
+public class MonsterNetworkEntity : NetworkEntity
 {
-
-    [SerializeField] private NpcData _npcData;
-
-    public NpcData NpcData { get { return _npcData; } set { _npcData = value; } }
-
     public override void Initialize()
     {
         base.Initialize();

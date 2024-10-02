@@ -15,6 +15,18 @@ public class NpcGear : Gear
             Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
             _leftHandBone = transform.FindRecursive("Bow Bone");
         }
+
+        if (_leftHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _leftHandBone = transform.FindRecursive("bow_bone");
+        }
+
+        if (_leftHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _leftHandBone = transform.FindRecursive("Sword Bone01");
+        }
         return _leftHandBone;
     }
 
