@@ -5,6 +5,7 @@ public class NpcGear : Gear
     public override void Initialize(int ownderId, CharacterModelType raceId)
     {
         base.Initialize(ownderId, raceId);
+        UpdateWeaponAnim("hand");
     }
 
     protected override Transform GetLeftHandBone()

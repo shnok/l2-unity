@@ -9,6 +9,11 @@ public class MonsterAudioHandler : BaseAnimationAudioHandler
     {
         base.Initialize();
 
+        if (string.IsNullOrEmpty(_monsterName))
+        {
+            Debug.LogWarning($"[{transform.name}] Monster name was not assigned, please pre-assign it to avoid unecessary load.");
+        }
+
         string npcClassName = GetComponent<Entity>().Identity.NpcClass;
         if (!string.IsNullOrEmpty(npcClassName))
         {
@@ -26,29 +31,8 @@ public class MonsterAudioHandler : BaseAnimationAudioHandler
         }
     }
 
-    public void PlaySound(EntitySoundEvent soundEvent)
+    public override void PlaySound(EntitySoundEvent soundEvent)
     {
         AudioManager.Instance.PlayMonsterSound(soundEvent, _monsterName, transform.position);
-    }
-
-    public void PlaySoundAtRatio(EntitySoundEvent soundEvent, float ratio)
-    {
-        if (ratio == 0)
-        {
-            PlaySound(soundEvent);
-            return;
-        }
-
-        StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
-    }
-
-    public IEnumerator PlaySoundAtRatioCoroutine(EntitySoundEvent soundEvent, float ratio)
-    {
-        while ((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
-        {
-            yield return null;
-        }
-
-        PlaySound(soundEvent);
     }
 }

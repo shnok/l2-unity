@@ -8,7 +8,6 @@ public class BaseAnimationController : MonoBehaviour
     [SerializeField] protected float _spAtk01ClipLength = 1000;
     [SerializeField] protected Dictionary<string, float> _atkClipLengths;
 
-    private string _lastAnimationVariableName;
     private float _lastAtkClipLength;
     private float _pAtkSpd;
 
@@ -16,12 +15,12 @@ public class BaseAnimationController : MonoBehaviour
     {
         if (_animator == null)
         {
-            Debug.LogWarning($"[{transform.name}] Animator was not assigned, please pre-assign animator to avoid unecessary load.");
+            Debug.LogWarning($"[{transform.name}] Animator was not assigned, please pre-assign it to avoid unecessary load.");
             _animator = gameObject.GetComponentInChildren<Animator>(true);
         }
-
-        _lastAnimationVariableName = "wait_hand";
     }
+
+    public virtual void WeaponAnimChanged(string weapon) { }
 
     public void SetRunSpeed(float value)
     {
@@ -30,7 +29,6 @@ public class BaseAnimationController : MonoBehaviour
 
     public void SetWalkSpeed(float value)
     {
-        Debug.LogWarning("Set walk speed");
         _animator.SetFloat("walk_speed", value);
     }
 
@@ -69,44 +67,8 @@ public class BaseAnimationController : MonoBehaviour
         }
     }
 
-    public void WeaponAnimChanged(string newWeaponAnim)
+    public virtual void SetBool(string name, bool value)
     {
-        ClearAnimParams();
-
-        if (!_lastAnimationVariableName.Contains("_"))
-        {
-            Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationVariableName}");
-            // The last animation was not a weapon animation
-            return;
-        }
-
-        string[] parts = _lastAnimationVariableName.Split("_");
-        if (parts.Length < 1)
-        {
-            // Should not happen
-            Debug.LogWarning($"Error while parsing previous animation name: {_lastAnimationVariableName}");
-            return;
-        }
-
-        string newAnimation = parts[0] + "_" + newWeaponAnim;
-        Debug.Log($"New Weapon animation name: {newAnimation}");
-        SetBool(newAnimation, true);
-    }
-
-    public void SetBool(string name, bool value)
-    {
-        //if (value != _animator.GetBool(name)) {
-        //    Debug.LogWarning($"Set bool {name}={value}");
-        //}
-
-        // Debug.LogWarning($"Set bool {name}={value}");
-
-        // Save the last animation name
-        if (value == true)
-        {
-            _lastAnimationVariableName = name;
-        }
-
         _animator.SetBool(name, value);
     }
 

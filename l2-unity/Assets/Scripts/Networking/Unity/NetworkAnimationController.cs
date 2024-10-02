@@ -1,6 +1,9 @@
-public class NetworkAnimationController : BaseAnimationController {
-    public override void Initialize() {
-        if (World.Instance.OfflineMode) {
+public class NetworkAnimationController : HumanoidAnimationController
+{
+    public override void Initialize()
+    {
+        if (World.Instance.OfflineMode)
+        {
             this.enabled = false;
             return;
         }

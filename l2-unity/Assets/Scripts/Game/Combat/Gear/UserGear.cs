@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class UserGear : Gear
 {
+    [Header("References")]
     [SerializeField] private SkinnedMeshSync _skinnedMeshSync;
 
     [Header("Armors")]
@@ -25,7 +26,7 @@ public class UserGear : Gear
     {
         base.Initialize(ownderId, raceId);
 
-        //UpdateWeaponAnim("hand");
+        UpdateWeaponAnim("hand");
 
         if (_bodypartsContainer == null)
         {

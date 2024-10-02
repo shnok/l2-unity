@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(NetworkAnimationController), typeof(NetworkTransformReceive), typeof(CharacterController))]
+[RequireComponent(typeof(NetworkTransformReceive), typeof(CharacterController))]
 public class NetworkCharacterControllerReceive : MonoBehaviour
 {
     private CharacterController _characterController;

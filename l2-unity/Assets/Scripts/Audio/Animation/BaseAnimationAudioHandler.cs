@@ -23,16 +23,30 @@ public class BaseAnimationAudioHandler : MonoBehaviour
     public float DeathRatio { get { return _deathRatio; } }
     public float FallRatio { get { return _fallRatio; } }
 
-    private void Start() {
+    private void Start()
+    {
         Initialize();
     }
 
-    public void PlaySound(ItemSoundEvent soundEvent) {
-        AudioManager.Instance.PlayItemSound(soundEvent, transform.position);
+    protected virtual void Initialize()
+    {
+        if (_animator == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Animator was not assigned, please pre-assign it to avoid unecessary load.");
+            _animator = GetComponent<Animator>();
+        }
     }
 
-    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio) {
-        if (ratio == 0) {
+    // Entity sounds
+    public virtual void PlaySound(EntitySoundEvent soundEvent)
+    {
+    }
+
+
+    public void PlaySoundAtRatio(EntitySoundEvent soundEvent, float ratio)
+    {
+        if (ratio == 0)
+        {
             PlaySound(soundEvent);
             return;
         }
@@ -40,17 +54,41 @@ public class BaseAnimationAudioHandler : MonoBehaviour
         StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
     }
 
-    public IEnumerator PlaySoundAtRatioCoroutine(ItemSoundEvent soundEvent, float ratio) {
-        while ((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio) {
+    public IEnumerator PlaySoundAtRatioCoroutine(EntitySoundEvent soundEvent, float ratio)
+    {
+        while ((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
+        {
             yield return null;
         }
 
         PlaySound(soundEvent);
     }
 
-    protected virtual void Initialize() {
-        if (_animator == null) {
-            _animator = GetComponent<Animator>();
+    // Item sounds
+    public virtual void PlaySound(ItemSoundEvent soundEvent)
+    {
+        AudioManager.Instance.PlayItemSound(soundEvent, transform.position);
+    }
+
+    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio)
+    {
+        if (ratio == 0)
+        {
+            PlaySound(soundEvent);
+            return;
         }
+
+        StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
+    }
+
+
+    public IEnumerator PlaySoundAtRatioCoroutine(ItemSoundEvent soundEvent, float ratio)
+    {
+        while ((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
+        {
+            yield return null;
+        }
+
+        PlaySound(soundEvent);
     }
 }

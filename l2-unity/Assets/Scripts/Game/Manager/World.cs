@@ -148,7 +148,6 @@ public class World : MonoBehaviour
         player.Appearance = appearance;
         player.Race = race;
         player.RaceId = raceId;
-        player.UpdateMoveType(running);
 
         go.GetComponent<NetworkTransformShare>().enabled = true;
         go.GetComponent<PlayerController>().enabled = true;
@@ -162,6 +161,8 @@ public class World : MonoBehaviour
 
         CameraController.Instance.enabled = true;
         CameraController.Instance.SetTarget(go);
+
+        player.UpdateMoveType(running);
 
         CharacterInfoWindow.Instance.UpdateValues();
 

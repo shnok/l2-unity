@@ -119,9 +119,8 @@ GameObject:
   m_Component:
   - component: {fileID: 198945824199396250}
   - component: {fileID: 8320559729586774763}
-  - component: {fileID: 3808788841989169926}
-  - component: {fileID: 8742318803030968846}
   - component: {fileID: -883512877712383744}
+  - component: {fileID: 3808788841989169926}
   m_Layer: 6
   m_Name: Pawn_FDwarf
   m_TagString: User
@@ -171,6 +170,98 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &-883512877712383744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252958834938601816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee42b575f5d5b144787997be4c919052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterController: {fileID: 8320559729586774763}
+  _baseAnimationController: {fileID: 5561966603257868968}
+  _weaponAnim: 
+  _destination: {x: 0, y: 0, z: 0}
+  _destEulerAngles: {x: 0, y: 0, z: 0}
+  _characterInfo:
+    _slot: 0
+    _name: 
+    _account: 
+    _id: 0
+    _position: {x: 0, y: 0, z: 0}
+    _playerAppearance:
+      _collisonHeight: 0
+      _collisionRadius: 0
+      _lhand: 0
+      _rhand: 0
+      _race: 0
+      _sex: 0
+      _face: 0
+      _hairStyle: 0
+      _hairColor: 0
+      _chest: 0
+      _legs: 0
+      _gloves: 0
+      _feet: 0
+    _characterRaceAnimation: 4
+    _playerStatus:
+      _hp: 0
+      _mp: 0
+      _cp: 0
+      _pvpFlag: 0
+    _playerStats:
+      _level: 0
+      _runSpeed: 0
+      _walkSpeed: 0
+      _scaledRunSpeed: 0
+      _scaledWalkSpeed: 0
+      _pAtkSpd: 0
+      _mAtkSpd: 0
+      _maxHp: 0
+      _maxMp: 0
+      _maxCp: 0
+      _pAtk: 0
+      _mAtk: 0
+      _pEvasion: 0
+      _mEvasion: 0
+      _pAccuracy: 0
+      _mAccuracy: 0
+      _pCritical: 0
+      _mCritical: 0
+      _mDef: 0
+      _pDef: 0
+      _shieldDef: 0
+      _exp: 0
+      _maxExp: 0
+      _sp: 0
+      _currWeight: 0
+      _maxWeight: 0
+      _attackRange: 0
+      _con: 0
+      _dex: 0
+      _str: 0
+      _wit: 0
+      _men: 0
+      _int: 0
+      _karma: 0
+      _pvpKills: 0
+      _pkKills: 0
+    _isMage: 0
+    _classId: 0
+    _exp: 0
+    _sp: 0
+    _expPercent: 0
+    _karma: 0
+    _pvpKills: 0
+    _pkKills: 0
+    _deleteTimer: 0
+    _clanId: 0
+    _selected: 0
+  _walking: 0
 --- !u!114 &3808788841989169926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +274,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d0e32b4d4622cf44b8d1014fe1af7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationController: {fileID: 5561966603257868968}
+  _rightHandBone: {fileID: 4373226608465650533}
+  _leftHandBone: {fileID: 5187435929896129792}
+  _shieldBone: {fileID: 8805427869786549951}
   _rightHandWeapon:
     _id: 0
     _icon: 
@@ -264,14 +359,11 @@ MonoBehaviour:
       _inventoryType: 
       _crystallizable: 0
   _rightHandType: 0
-  _rightHandBone: {fileID: 0}
   _rightHand: {fileID: 0}
   _leftHandType: 0
-  _leftHandBone: {fileID: 0}
-  _shieldBone: {fileID: 0}
   _leftHand: {fileID: 0}
   _weaponAnim: 
-  _skinnedMeshSync: {fileID: 0}
+  _skinnedMeshSync: {fileID: 9114492453748825876}
   _torsoMeta:
     _id: 0
     _icon: 
@@ -472,117 +564,12 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
-  _bodypartsContainer: {fileID: 0}
+  _bodypartsContainer: {fileID: 6411853543172213777}
   _torso: {fileID: 0}
   _fullarmor: {fileID: 0}
   _legs: {fileID: 0}
   _gloves: {fileID: 0}
   _boots: {fileID: 0}
---- !u!114 &8742318803030968846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2252958834938601816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efd4a9855f473d341b91e146e95195d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
-  _resetStateOnReceive: 0
-  _spAtk01ClipLength: 1000
---- !u!114 &-883512877712383744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2252958834938601816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee42b575f5d5b144787997be4c919052, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _weaponAnim: 
-  _destination: {x: 0, y: 0, z: 0}
-  _destEulerAngles: {x: 0, y: 0, z: 0}
-  _characterInfo:
-    _slot: 0
-    _name: 
-    _account: 
-    _id: 0
-    _position: {x: 0, y: 0, z: 0}
-    _playerAppearance:
-      _collisonHeight: 0
-      _collisionRadius: 0
-      _lhand: 0
-      _rhand: 0
-      _race: 0
-      _sex: 0
-      _face: 0
-      _hairStyle: 0
-      _hairColor: 0
-      _chest: 0
-      _legs: 0
-      _gloves: 0
-      _feet: 0
-    _characterRaceAnimation: 0
-    _playerStatus:
-      _hp: 0
-      _mp: 0
-      _cp: 0
-      _pvpFlag: 0
-    _playerStats:
-      _level: 0
-      _runSpeed: 0
-      _walkSpeed: 0
-      _scaledRunSpeed: 0
-      _scaledWalkSpeed: 0
-      _pAtkSpd: 0
-      _mAtkSpd: 0
-      _maxHp: 0
-      _maxMp: 0
-      _maxCp: 0
-      _pAtk: 0
-      _mAtk: 0
-      _pEvasion: 0
-      _mEvasion: 0
-      _pAccuracy: 0
-      _mAccuracy: 0
-      _pCritical: 0
-      _mCritical: 0
-      _mDef: 0
-      _pDef: 0
-      _shieldDef: 0
-      _exp: 0
-      _maxExp: 0
-      _sp: 0
-      _currWeight: 0
-      _maxWeight: 0
-      _attackRange: 0
-      _con: 0
-      _dex: 0
-      _str: 0
-      _wit: 0
-      _men: 0
-      _int: 0
-      _karma: 0
-      _pvpKills: 0
-      _pkKills: 0
-    _isMage: 0
-    _classId: 0
-    _exp: 0
-    _sp: 0
-    _expPercent: 0
-    _karma: 0
-    _pvpKills: 0
-    _pkKills: 0
-    _deleteTimer: 0
-    _clanId: 0
-    _selected: 0
-  _walking: 0
 --- !u!1 &6411853543172213777
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,8 +663,45 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c26d74f1699f85a4d9ff0a785a0a8976, type: 3}
+--- !u!4 &4373226608465650533 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3136113963771849964, guid: c26d74f1699f85a4d9ff0a785a0a8976, type: 3}
+  m_PrefabInstance: {fileID: 1672354328991682441}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5187435929896129792 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5820933410711689865, guid: c26d74f1699f85a4d9ff0a785a0a8976, type: 3}
+  m_PrefabInstance: {fileID: 1672354328991682441}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5561966603257868968 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2736651117388120799, guid: c26d74f1699f85a4d9ff0a785a0a8976, type: 3}
+  m_PrefabInstance: {fileID: 1672354328991682441}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f11c36874c9e74a4aabfa2b520cd1a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6674089832850378362 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5452245277206708723, guid: c26d74f1699f85a4d9ff0a785a0a8976, type: 3}
   m_PrefabInstance: {fileID: 1672354328991682441}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &8805427869786549951 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7856050816918053174, guid: c26d74f1699f85a4d9ff0a785a0a8976, type: 3}
+  m_PrefabInstance: {fileID: 1672354328991682441}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9114492453748825876 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7586397127732859037, guid: c26d74f1699f85a4d9ff0a785a0a8976, type: 3}
+  m_PrefabInstance: {fileID: 1672354328991682441}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 466f0e7aad09a4b4b9d0c4fecc18ecb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

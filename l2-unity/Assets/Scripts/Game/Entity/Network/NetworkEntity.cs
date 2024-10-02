@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class NetworkEntity : Entity
 {
+    [Header("References")]
+    [SerializeField] protected NetworkTransformReceive _networkTransformReceive;
+    [SerializeField] protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
+
+    public NetworkCharacterControllerReceive networkCharacterController { get { return _networkCharacterControllerReceive; } }
+
     public override void Initialize()
     {
         base.Initialize();
@@ -16,6 +22,15 @@ public class NetworkEntity : Entity
             TryGetComponent(out _networkCharacterControllerReceive);
         }
     }
+
+    protected override void LookAtTarget()
+    {
+        if (AttackTarget != null && Status.Hp > 0)
+        {
+            _networkTransformReceive.LookAt(_attackTarget);
+        }
+    }
+
     protected override void OnDeath()
     {
         if (_animationController != null)

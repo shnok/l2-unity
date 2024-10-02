@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class MonsterEntity : NetworkEntity
 {
-    private HumanoidAudioHandler _npcAnimationAudioHandler;
 
     [SerializeField] private NpcData _npcData;
 
@@ -11,7 +10,6 @@ public class MonsterEntity : NetworkEntity
     public override void Initialize()
     {
         base.Initialize();
-        _npcAnimationAudioHandler = GetComponent<HumanoidAudioHandler>();
 
         EntityLoaded = true;
     }
@@ -25,7 +23,7 @@ public class MonsterEntity : NetworkEntity
     protected override void OnHit(bool criticalHit)
     {
         base.OnHit(criticalHit);
-        _npcAnimationAudioHandler.PlaySound(EntitySoundEvent.Dmg);
+        _audioHandler.PlaySound(EntitySoundEvent.Dmg);
     }
 
     public override void OnStopMoving()

@@ -1871,6 +1871,7 @@ GameObject:
   - component: {fileID: 27258672353021147}
   - component: {fileID: 8234502627090096150}
   - component: {fileID: 2498773764635942667}
+  - component: {fileID: 8772338063901424970}
   m_Layer: 6
   m_Name: FDarkElf_anim_user
   m_TagString: Untagged
@@ -1886,7 +1887,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4995080084529054619}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1907,11 +1908,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 466f0e7aad09a4b4b9d0c4fecc18ecb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootSkinnedRenderer: {fileID: 0}
+  _rootSkinnedRenderer: {fileID: 6403217200388833659}
   _destSkinnedRenderer: []
 --- !u!95 &27258672353021147
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1919,12 +1920,13 @@ Animator:
   m_GameObject: {fileID: 4995080084529054619}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 51f7c0fcd2fab0e4e904f623cefb73b2, type: 2}
+  m_Controller: {fileID: 22100000, guid: 03fcdc5461686dc41835a01b94000417, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -1942,7 +1944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03160d09deb1df3479a66ba449c32ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 27258672353021147}
   _walkStepRatios:
   - 0.25
   - 0.75
@@ -1957,7 +1959,7 @@ MonoBehaviour:
   _waitSoundChance: 5
   _runBreathChance: 5
   _race: 4
-  _surfaceDetector: {fileID: 0}
+  _surfaceDetector: {fileID: 2498773764635942667}
 --- !u!114 &2498773764635942667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1977,6 +1979,21 @@ MonoBehaviour:
     _objectScene: 
     _objectEntity: {fileID: 0}
     _objectTransform: {fileID: 0}
+--- !u!114 &8772338063901424970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4995080084529054619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f11c36874c9e74a4aabfa2b520cd1a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 27258672353021147}
+  _resetStateOnReceive: 0
+  _spAtk01ClipLength: 1000
 --- !u!1 &5026220274059062617
 GameObject:
   m_ObjectHideFlags: 0
@@ -2569,6 +2586,9 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

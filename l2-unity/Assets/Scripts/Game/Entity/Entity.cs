@@ -4,6 +4,11 @@ using UnityEngine;
 [System.Serializable]
 public class Entity : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] protected BaseAnimationController _animationController;
+    [SerializeField] protected Gear _gear;
+    [SerializeField] protected BaseAnimationAudioHandler _audioHandler;
+
     [Header("Entity")]
     [SerializeField] private bool _entityLoaded;
     [SerializeField] private NetworkIdentity _identity;
@@ -17,17 +22,11 @@ public class Entity : MonoBehaviour
 
     [Header("Combat")]
     [SerializeField] private int _targetId;
-    [SerializeField] private Transform _target;
-    [SerializeField] private Transform _attackTarget;
+    [SerializeField] protected Transform _target;
+    [SerializeField] protected Transform _attackTarget;
     [SerializeField] private long _stopAutoAttackTime;
     [SerializeField] private long _startAutoAttackTime;
 
-    protected BaseAnimationController _animationController;
-    protected NetworkTransformReceive _networkTransformReceive;
-    protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
-    protected Gear _gear;
-
-    public NetworkCharacterControllerReceive networkCharacterController { get { return _networkCharacterControllerReceive; } }
     public Status Status { get => _status; set => _status = value; }
     public Stats Stats { get => _stats; set => _stats = value; }
     public Appearance Appearance { get => _appearance; set { _appearance = value; } }
@@ -48,13 +47,7 @@ public class Entity : MonoBehaviour
         LookAtTarget();
     }
 
-    protected virtual void LookAtTarget()
-    {
-        if (AttackTarget != null && Status.Hp > 0)
-        {
-            _networkTransformReceive.LookAt(_attackTarget);
-        }
-    }
+    protected virtual void LookAtTarget() { }
 
     public virtual void Initialize()
     {
@@ -69,6 +62,12 @@ public class Entity : MonoBehaviour
         {
             Debug.LogWarning($"[{transform.name}] AnimationController was not assigned, please pre-assign animator to avoid unecessary load.");
             _animationController = GetComponentInChildren<BaseAnimationController>(true);
+        }
+
+        if (_audioHandler == null)
+        {
+            Debug.LogWarning($"[{transform.name}] AudioHandler was not assigned, please pre-assign animator to avoid unecessary load.");
+            _audioHandler = GetComponentInChildren<BaseAnimationAudioHandler>(true);
         }
 
         UpdatePAtkSpeed(_stats.PAtkSpd);

@@ -127,7 +127,7 @@ public class ParticleEffectTable
         GameObject prefab = Resources.Load<GameObject>(path);
         if (prefab == null)
         {
-            Debug.LogWarning($"Can't find particle effect {name} at path {path}.");
+            // Debug.LogWarning($"Can't find particle effect {name} at path {path}.");
             return null;
         }
 

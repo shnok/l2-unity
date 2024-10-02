@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NpcAnimationAudioHandler : HumanoidAudioHandler
+public class NpcAudioHandler : HumanoidAudioHandler
 {
     [SerializeField] private string _npcClassName;
 
@@ -10,6 +10,7 @@ public class NpcAnimationAudioHandler : HumanoidAudioHandler
 
         if (_race == CharacterModelSound.Default)
         {
+            Debug.LogWarning($"[{transform.name}] Character race was not selected, please pre-assign it to avoid unecessary load.");
             string[] raceParts = _npcClassName.Split("_");
             if (raceParts.Length > 1)
             {

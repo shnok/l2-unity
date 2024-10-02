@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class PlayerEntity : Entity
 {
-    private HumanoidAudioHandler _characterAnimationAudioHandler;
-
     private static PlayerEntity _instance;
     public static PlayerEntity Instance { get => _instance; }
 
@@ -28,8 +26,6 @@ public class PlayerEntity : Entity
     {
         base.Initialize();
 
-        _characterAnimationAudioHandler = GetComponentInChildren<HumanoidAudioHandler>();
-
         EntityLoaded = true;
     }
 
@@ -50,7 +46,7 @@ public class PlayerEntity : Entity
     protected override void OnHit(bool criticalHit)
     {
         base.OnHit(criticalHit);
-        _characterAnimationAudioHandler.PlaySound(EntitySoundEvent.Dmg);
+        _audioHandler.PlaySound(EntitySoundEvent.Dmg);
     }
 
     public override float UpdateRunSpeed(int speed)

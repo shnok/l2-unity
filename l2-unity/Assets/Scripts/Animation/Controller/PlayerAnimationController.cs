@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationController : BaseAnimationController
+public class PlayerAnimationController : HumanoidAnimationController
 {
     private static PlayerAnimationController _instance;
     public static PlayerAnimationController Instance { get { return _instance; } }

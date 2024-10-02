@@ -1,17 +1,12 @@
 using UnityEngine;
 
-[RequireComponent(typeof(NetworkAnimationController)),
-    RequireComponent(typeof(NetworkTransformReceive)),
+[RequireComponent(typeof(NetworkTransformReceive)),
     RequireComponent(typeof(NetworkCharacterControllerReceive))]
-
 public class HumanoidNetworkEntity : NetworkEntity
 {
-    private HumanoidAudioHandler _characterAnimationAudioHandler;
-
     public override void Initialize()
     {
         base.Initialize();
-        _characterAnimationAudioHandler = transform.GetChild(0).GetComponentInChildren<HumanoidAudioHandler>();
 
         EntityLoaded = true;
     }
@@ -49,7 +44,7 @@ public class HumanoidNetworkEntity : NetworkEntity
     protected override void OnHit(bool criticalHit)
     {
         base.OnHit(criticalHit);
-        _characterAnimationAudioHandler.PlaySound(EntitySoundEvent.Dmg);
+        _audioHandler.PlaySound(EntitySoundEvent.Dmg);
     }
 
     public override void UpdateWaitType(ChangeWaitTypePacket.WaitType moveType)

@@ -3,9 +3,14 @@ using UnityEngine;
 
 public class Gear : MonoBehaviour
 {
-    protected BaseAnimationController _animationController;
     protected int _ownerId;
     protected CharacterModelType _raceId;
+
+    [Header("References")]
+    [SerializeField] protected BaseAnimationController _animationController;
+    [SerializeField] protected Transform _rightHandBone;
+    [SerializeField] protected Transform _leftHandBone;
+    [SerializeField] protected Transform _shieldBone;
 
     [Header("Weapons")]
     [Header("Meta")]
@@ -14,12 +19,9 @@ public class Gear : MonoBehaviour
     [Header("Models")]
     [Header("Right hand")]
     [SerializeField] private WeaponType _rightHandType;
-    [SerializeField] protected Transform _rightHandBone;
     [SerializeField] protected Transform _rightHand;
     [Header("LeftHand")]
     [SerializeField] private WeaponType _leftHandType;
-    [SerializeField] protected Transform _leftHandBone;
-    [SerializeField] protected Transform _shieldBone;
     [SerializeField] protected Transform _leftHand;
     [SerializeField] protected string _weaponAnim;
 
@@ -33,7 +35,12 @@ public class Gear : MonoBehaviour
 
     public virtual void Initialize(int ownderId, CharacterModelType raceId)
     {
-        TryGetComponent(out _animationController);
+        if (_animationController == null)
+        {
+            TryGetComponent(out _animationController);
+            Debug.LogWarning($"[{transform.name}] BaseAnimationController was not assigned, please pre-assign it to avoid unecessary load.");
+        }
+
         _ownerId = ownderId;
         _raceId = raceId;
 
