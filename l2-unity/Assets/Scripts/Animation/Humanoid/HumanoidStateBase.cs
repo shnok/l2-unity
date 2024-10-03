@@ -64,7 +64,6 @@ public class HumanoidStateBase : StateMachineBehaviour
 
         if (isWeaponAnim)
         {
-            Debug.Log(_gear);
             name += "_" + _gear.WeaponAnim;
         }
         //if (value != _animator.GetBool(name)) {

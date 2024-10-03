@@ -1,11 +1,10 @@
 using UnityEngine;
 
-public class NpcGear : Gear
+public class NpcGear : HumanoidGear
 {
     public override void Initialize(int ownderId, CharacterModelType raceId)
     {
         base.Initialize(ownderId, raceId);
-        UpdateWeaponAnim("hand");
     }
 
     protected override Transform GetLeftHandBone()
