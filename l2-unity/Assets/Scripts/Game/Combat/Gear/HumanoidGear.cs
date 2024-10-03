@@ -12,7 +12,6 @@ public class HumanoidGear : Gear
         UpdateWeaponAnim("hand");
     }
 
-
     protected override void UpdateWeaponType(WeaponType weaponType)
     {
         UpdateWeaponAnim(WeaponTypeParser.GetWeaponAnim(weaponType));
@@ -26,9 +25,9 @@ public class HumanoidGear : Gear
 
     protected virtual void NotifyAnimator(string newWeaponAnim)
     {
-        if (_animationController != null)
+        if (AnimationController != null)
         {
-            _animationController.WeaponAnimChanged(_weaponAnim);
+            AnimationController.WeaponAnimChanged(_weaponAnim);
         }
     }
 }

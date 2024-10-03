@@ -118,12 +118,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 198945824199396250}
+  - component: {fileID: 5260096589666407564}
   - component: {fileID: 8320559729586774763}
   - component: {fileID: 8234728174252591980}
+  - component: {fileID: 1676536850558291780}
   - component: {fileID: -2046524599472184396}
   - component: {fileID: 5733643542121449354}
   - component: {fileID: 3478450228567174879}
-  - component: {fileID: 4463289532557031153}
   m_Layer: 6
   m_Name: User_FDarkElf
   m_TagString: User
@@ -148,6 +149,25 @@ Transform:
   - {fileID: 3581779933488531090}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5260096589666407564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252958834938601816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51570350e2b1cc045bac51fd66cc0f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entity: {fileID: 8234728174252591980}
+  _gear: {fileID: -2046524599472184396}
+  _combat: {fileID: 1676536850558291780}
+  _animationController: {fileID: 542478748652216259}
+  _audioHandler: {fileID: 899607164516008607}
+  _networkTransformReceive: {fileID: 5733643542121449354}
+  _networkCharacterControllerReceive: {fileID: 3478450228567174879}
 --- !u!143 &8320559729586774763
 CharacterController:
   m_ObjectHideFlags: 0
@@ -185,9 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25601d56babf5a840a5535f5e9f0b6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationController: {fileID: 542478748652216259}
-  _gear: {fileID: -2046524599472184396}
-  _audioHandler: {fileID: 899607164516008607}
+  _referenceHolder: {fileID: 5260096589666407564}
   _entityLoaded: 0
   _identity:
     _entityType: 0
@@ -225,13 +243,24 @@ MonoBehaviour:
   _raceId: 3
   _running: 0
   _sitting: 0
+--- !u!114 &1676536850558291780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252958834938601816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b39dd0c1799e094b9b68411168ed7cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _referenceHolder: {fileID: 5260096589666407564}
   _targetId: 0
   _target: {fileID: 0}
   _attackTarget: {fileID: 0}
   _stopAutoAttackTime: 0
   _startAutoAttackTime: 0
-  _networkTransformReceive: {fileID: 5733643542121449354}
-  _networkCharacterControllerReceive: {fileID: 3478450228567174879}
 --- !u!114 &-2046524599472184396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d0e32b4d4622cf44b8d1014fe1af7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationController: {fileID: 542478748652216259}
+  _referenceHolder: {fileID: 5260096589666407564}
   _rightHandBone: {fileID: 9202796185684391692}
   _leftHandBone: {fileID: 5597152907015575636}
   _shieldBone: {fileID: 7627950161130467807}
@@ -333,7 +362,6 @@ MonoBehaviour:
   _leftHandType: 0
   _leftHand: {fileID: 0}
   _weaponAnim: 
-  _skinnedMeshSync: {fileID: 3194268215504217069}
   _torsoMeta:
     _id: 0
     _icon: 
@@ -534,6 +562,7 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _skinnedMeshSync: {fileID: 3194268215504217069}
   _bodypartsContainer: {fileID: 6411853543172213777}
   _torso: {fileID: 0}
   _fullarmor: {fileID: 0}
@@ -575,21 +604,6 @@ MonoBehaviour:
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
   _gravity: 28
---- !u!114 &4463289532557031153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2252958834938601816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b37216beee5d6a4897e9224d4eedbc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 9104599422649560658}
-  _resetStateOnReceive: 0
-  _spAtk01ClipLength: 1000
 --- !u!1 &6411853543172213777
 GameObject:
   m_ObjectHideFlags: 0

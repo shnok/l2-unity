@@ -42,8 +42,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8032377794756350704}
   - component: {fileID: 2707339679680748419}
+  - component: {fileID: 4737926542357803258}
   - component: {fileID: 6719039449346300144}
   - component: {fileID: 6158534783003311445}
+  - component: {fileID: 286808273353709975}
   - component: {fileID: 5136009980192550727}
   - component: {fileID: 3064332933061382819}
   - component: {fileID: 5186500308137901694}
@@ -96,6 +98,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &4737926542357803258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373500069190494077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dd4f9edcbe7ab14f8115e8d1cf5e2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entity: {fileID: 6719039449346300144}
+  _gear: {fileID: 6158534783003311445}
+  _combat: {fileID: 286808273353709975}
+  _animationController: {fileID: 4100174000170496931}
+  _audioHandler: {fileID: 2516484563463167159}
 --- !u!114 &6719039449346300144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,9 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d00e5a138b0f04598f7c9cf63c621c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationController: {fileID: 4100174000170496931}
-  _gear: {fileID: 6158534783003311445}
-  _audioHandler: {fileID: 2516484563463167159}
+  _referenceHolder: {fileID: 4737926542357803258}
   _entityLoaded: 0
   _identity:
     _entityType: 0
@@ -148,11 +165,6 @@ MonoBehaviour:
   _raceId: 4
   _running: 0
   _sitting: 0
-  _targetId: 0
-  _target: {fileID: 0}
-  _attackTarget: {fileID: 0}
-  _stopAutoAttackTime: 0
-  _startAutoAttackTime: 0
 --- !u!114 &6158534783003311445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d0e32b4d4622cf44b8d1014fe1af7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationController: {fileID: 4100174000170496931}
+  _referenceHolder: {fileID: 4737926542357803258}
   _rightHandBone: {fileID: 9125245199046611907}
   _leftHandBone: {fileID: 427500262889629094}
   _shieldBone: {fileID: 4044401488306445849}
@@ -254,7 +266,6 @@ MonoBehaviour:
   _leftHandType: 0
   _leftHand: {fileID: 0}
   _weaponAnim: 
-  _skinnedMeshSync: {fileID: 1671375252654941337}
   _torsoMeta:
     _id: 0
     _icon: 
@@ -455,12 +466,31 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _skinnedMeshSync: {fileID: 1671375252654941337}
   _bodypartsContainer: {fileID: 4661837340642020729}
   _torso: {fileID: 0}
   _fullarmor: {fileID: 0}
   _legs: {fileID: 0}
   _gloves: {fileID: 0}
   _boots: {fileID: 0}
+--- !u!114 &286808273353709975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373500069190494077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c382dae2a366b9c40bf92815a1f9f9a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _referenceHolder: {fileID: 4737926542357803258}
+  _targetId: 0
+  _target: {fileID: 0}
+  _attackTarget: {fileID: 0}
+  _stopAutoAttackTime: 0
+  _startAutoAttackTime: 0
 --- !u!114 &5136009980192550727
 MonoBehaviour:
   m_ObjectHideFlags: 0

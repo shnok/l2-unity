@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class Gear : MonoBehaviour
 {
+    [SerializeField] protected EntityReferenceHolder _referenceHolder;
+
     protected int _ownerId;
     protected CharacterModelType _raceId;
 
-    [Header("References")]
-    [SerializeField] protected BaseAnimationController _animationController;
+    [Header("Bones")]
     [SerializeField] protected Transform _rightHandBone;
     [SerializeField] protected Transform _leftHandBone;
     [SerializeField] protected Transform _shieldBone;
@@ -24,6 +25,7 @@ public class Gear : MonoBehaviour
     [SerializeField] private WeaponType _leftHandType;
     [SerializeField] protected Transform _leftHand;
 
+    protected BaseAnimationController AnimationController { get { return _referenceHolder.AnimationController; } }
     public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
     public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
     public CharacterModelType RaceId { get { return _raceId; } set { _raceId = value; } }
@@ -33,10 +35,10 @@ public class Gear : MonoBehaviour
 
     public virtual void Initialize(int ownderId, CharacterModelType raceId)
     {
-        if (_animationController == null)
+        if (_referenceHolder == null)
         {
-            TryGetComponent(out _animationController);
-            Debug.LogWarning($"[{transform.name}] BaseAnimationController was not assigned, please pre-assign it to avoid unecessary load.");
+            TryGetComponent(out _referenceHolder);
+            Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
         }
 
         _ownerId = ownderId;

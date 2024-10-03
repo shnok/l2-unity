@@ -42,6 +42,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8032377794756350704}
   - component: {fileID: 2707339679680748419}
+  - component: {fileID: 2347079168247092500}
+  - component: {fileID: 796319120674189268}
   - component: {fileID: 6719039449346300144}
   - component: {fileID: 498144083810351663}
   - component: {fileID: 5136009980192550727}
@@ -96,6 +98,41 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &2347079168247092500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373500069190494077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dd4f9edcbe7ab14f8115e8d1cf5e2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entity: {fileID: 6719039449346300144}
+  _gear: {fileID: 498144083810351663}
+  _combat: {fileID: 796319120674189268}
+  _animationController: {fileID: 3694997632091312099}
+  _audioHandler: {fileID: 4897019031558258616}
+--- !u!114 &796319120674189268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373500069190494077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c382dae2a366b9c40bf92815a1f9f9a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _referenceHolder: {fileID: 2347079168247092500}
+  _targetId: 0
+  _target: {fileID: 0}
+  _attackTarget: {fileID: 0}
+  _stopAutoAttackTime: 0
+  _startAutoAttackTime: 0
 --- !u!114 &6719039449346300144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,9 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16d00e5a138b0f04598f7c9cf63c621c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationController: {fileID: 3694997632091312099}
-  _gear: {fileID: 498144083810351663}
-  _audioHandler: {fileID: 4897019031558258616}
+  _referenceHolder: {fileID: 2347079168247092500}
   _entityLoaded: 0
   _identity:
     _entityType: 0
@@ -148,11 +183,6 @@ MonoBehaviour:
   _raceId: 3
   _running: 0
   _sitting: 0
-  _targetId: 0
-  _target: {fileID: 0}
-  _attackTarget: {fileID: 0}
-  _stopAutoAttackTime: 0
-  _startAutoAttackTime: 0
 --- !u!114 &498144083810351663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d0e32b4d4622cf44b8d1014fe1af7ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationController: {fileID: 3694997632091312099}
+  _referenceHolder: {fileID: 2347079168247092500}
   _rightHandBone: {fileID: 6122276322696620594}
   _leftHandBone: {fileID: 8828354388283111226}
   _shieldBone: {fileID: 7838394744171324074}
@@ -254,7 +284,6 @@ MonoBehaviour:
   _leftHandType: 0
   _leftHand: {fileID: 0}
   _weaponAnim: 
-  _skinnedMeshSync: {fileID: 8397434805990870063}
   _torsoMeta:
     _id: 0
     _icon: 
@@ -455,6 +484,7 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _skinnedMeshSync: {fileID: 8397434805990870063}
   _bodypartsContainer: {fileID: 2245044142333175270}
   _torso: {fileID: 0}
   _fullarmor: {fileID: 0}

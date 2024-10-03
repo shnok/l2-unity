@@ -81,6 +81,9 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
@@ -831,7 +834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 466f0e7aad09a4b4b9d0c4fecc18ecb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootSkinnedRenderer: {fileID: 0}
+  _rootSkinnedRenderer: {fileID: 97388110815913109}
   _destSkinnedRenderer: []
 --- !u!114 &4466955543580358100
 MonoBehaviour:
@@ -845,9 +848,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852945e8ec9a0cc44ba24c5a4b57f2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 4699494789948962233}
   _resetStateOnReceive: 1
-  _atk01ClipLength: 1000
   _spAtk01ClipLength: 1000
 --- !u!114 &2879831515126831808
 MonoBehaviour:
@@ -861,7 +863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03160d09deb1df3479a66ba449c32ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 4699494789948962233}
   _walkStepRatios:
   - 0.25
   - 0.75
@@ -876,7 +878,7 @@ MonoBehaviour:
   _waitSoundChance: 5
   _runBreathChance: 5
   _race: 5
-  _surfaceDetector: {fileID: 0}
+  _surfaceDetector: {fileID: 6383603171889543485}
 --- !u!114 &6383603171889543485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,7 +900,7 @@ MonoBehaviour:
     _objectTransform: {fileID: 0}
 --- !u!95 &4699494789948962233
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -912,6 +914,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1

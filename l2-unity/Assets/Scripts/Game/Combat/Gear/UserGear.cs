@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class UserGear : HumanoidGear
 {
-    [Header("References")]
-    [SerializeField] private SkinnedMeshSync _skinnedMeshSync;
-
     [Header("Armors")]
     [Header("Meta")]
     [SerializeField] private Armor _torsoMeta;
@@ -14,6 +11,7 @@ public class UserGear : HumanoidGear
     [SerializeField] private Armor _bootsMeta;
 
     [Header("Models")]
+    [SerializeField] private SkinnedMeshSync _skinnedMeshSync;
     [SerializeField] private GameObject _bodypartsContainer;
     [SerializeField] private GameObject _torso;
     [SerializeField] private GameObject _fullarmor;
