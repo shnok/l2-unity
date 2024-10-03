@@ -4,10 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class Entity : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] protected BaseAnimationController _animationController;
-    [SerializeField] protected Gear _gear;
-    [SerializeField] protected BaseAnimationAudioHandler _audioHandler;
+    [SerializeField] protected EntityReferenceHolder _referenceHolder;
 
     [Header("Entity")]
     [SerializeField] private bool _entityLoaded;
@@ -20,27 +17,27 @@ public class Entity : MonoBehaviour
     [SerializeField] private bool _running;
     [SerializeField] private bool _sitting;
 
-    [Header("Combat")]
-    [SerializeField] private int _targetId;
-    [SerializeField] protected Transform _target;
-    [SerializeField] protected Transform _attackTarget;
-    [SerializeField] private long _stopAutoAttackTime;
-    [SerializeField] private long _startAutoAttackTime;
-
     public Status Status { get => _status; set => _status = value; }
     public Stats Stats { get => _stats; set => _stats = value; }
     public Appearance Appearance { get => _appearance; set { _appearance = value; } }
     public NetworkIdentity Identity { get => _identity; set => _identity = value; }
-    public int TargetId { get => _targetId; set => _targetId = value; }
-    public Transform Target { get { return _target; } set { _target = value; } }
-    public Transform AttackTarget { get { return _attackTarget; } set { _attackTarget = value; } }
-    public long StopAutoAttackTime { get { return _stopAutoAttackTime; } }
-    public long StartAutoAttackTime { get { return _startAutoAttackTime; } }
+
     public CharacterRace Race { get { return _race; } set { _race = value; } }
     public CharacterModelType RaceId { get { return _raceId; } set { _raceId = value; } }
     public bool EntityLoaded { get { return _entityLoaded; } set { _entityLoaded = value; } }
-    public Gear Gear { get { return _gear; } }
     public bool Running { get { return _running; } set { _running = value; } }
+    public BaseAnimationController AnimationController { get { return _referenceHolder.AnimationController; } }
+    public Gear Gear { get { return _referenceHolder.Gear; } }
+    public Combat Combat { get { return _referenceHolder.Combat; } }
+
+    private void Awake()
+    {
+        if (_referenceHolder == null)
+        {
+            Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
+            _referenceHolder = GetComponent<EntityReferenceHolder>();
+        }
+    }
 
     public void FixedUpdate()
     {
@@ -51,23 +48,10 @@ public class Entity : MonoBehaviour
 
     public virtual void Initialize()
     {
-        // TODO: Pre-assign components in prefabs
-        if (_gear == null)
+        if (_referenceHolder == null)
         {
-            Debug.LogWarning($"[{transform.name}] Gear was not assigned, please pre-assign animator to avoid unecessary load.");
-            TryGetComponent(out _gear);
-        }
-
-        if (_animationController == null)
-        {
-            Debug.LogWarning($"[{transform.name}] AnimationController was not assigned, please pre-assign animator to avoid unecessary load.");
-            _animationController = GetComponentInChildren<BaseAnimationController>(true);
-        }
-
-        if (_audioHandler == null)
-        {
-            Debug.LogWarning($"[{transform.name}] AudioHandler was not assigned, please pre-assign animator to avoid unecessary load.");
-            _audioHandler = GetComponentInChildren<BaseAnimationAudioHandler>(true);
+            Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
+            _referenceHolder = GetComponent<EntityReferenceHolder>();
         }
 
         UpdatePAtkSpeed(_stats.PAtkSpd);
@@ -79,41 +63,8 @@ public class Entity : MonoBehaviour
         EquipAllArmors();
     }
 
-    public void EquipAllWeapons() { _gear.EquipAllWeapons(Appearance); }
-    public void EquipAllArmors() { _gear.EquipAllArmors(Appearance); }
-
-    // Called when ApplyDamage packet is received 
-    public void ApplyDamage(int damage, bool criticalHit)
-    {
-        if (_status.Hp <= 0)
-        {
-            Debug.LogWarning("Trying to apply damage to a dead entity");
-            return;
-        }
-
-        _status.Hp = Mathf.Max(_status.Hp - damage, 0);
-
-        OnHit(criticalHit);
-
-        if (_status.Hp <= 0)
-        {
-            OnDeath();
-        }
-    }
-
-    /* Notify server that entity got attacked */
-    public void InflictAttack(AttackType attackType)
-    {
-        GameClient.Instance.ClientPacketHandler.InflictAttack(_identity.Id, attackType);
-    }
-
-    protected virtual void OnDeath() { }
-
-    protected virtual void OnHit(bool criticalHit)
-    {
-        // TODO: Add armor type for more hit sounds
-        AudioManager.Instance.PlayHitSound(criticalHit, transform.position);
-    }
+    public void EquipAllWeapons() { Gear.EquipAllWeapons(Appearance); }
+    public void EquipAllArmors() { Gear.EquipAllArmors(Appearance); }
 
     public virtual void OnStopMoving() { }
 
@@ -122,39 +73,12 @@ public class Entity : MonoBehaviour
         UpdateMoveType(!walking);
     }
 
-    public virtual bool StartAutoAttacking()
-    {
-        if (_target == null)
-        {
-            Debug.LogWarning("Trying to attack a null target");
-            return false;
-        }
-
-        _startAutoAttackTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        _attackTarget = _target;
-
-        return true;
-    }
-
-    public virtual bool StopAutoAttacking()
-    {
-        Debug.Log($"[{Identity.Name}] Stop autoattacking");
-        if (_attackTarget == null)
-        {
-            return false;
-        }
-
-        _stopAutoAttackTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        _attackTarget = null;
-        return true;
-    }
-
     public virtual float UpdatePAtkSpeed(int pAtkSpd)
     {
         _stats.PAtkSpd = pAtkSpd;
 
         float stat = StatsConverter.Instance.ConvertStat(Stat.PHYS_ATTACK_SPEED, pAtkSpd);
-        _animationController.SetPAtkSpd(stat);
+        AnimationController.SetPAtkSpd(stat);
 
         return stat;
     }
@@ -164,7 +88,7 @@ public class Entity : MonoBehaviour
         _stats.MAtkSpd = mAtkSpd;
 
         float stat = StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
-        _animationController.SetMAtkSpd(stat);
+        AnimationController.SetMAtkSpd(stat);
 
         return stat;
     }
@@ -176,7 +100,7 @@ public class Entity : MonoBehaviour
         _stats.ScaledRunSpeed = scaled;
 
         float stat = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
-        _animationController.SetRunSpeed(stat);
+        AnimationController.SetRunSpeed(stat);
 
         return stat;
     }
@@ -189,14 +113,9 @@ public class Entity : MonoBehaviour
 
         float stat = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
 
-        _animationController.SetWalkSpeed(stat);
+        AnimationController.SetWalkSpeed(stat);
 
         return stat;
-    }
-
-    public bool IsDead()
-    {
-        return Status.Hp <= 0;
     }
 
     public virtual void UpdateWaitType(ChangeWaitTypePacket.WaitType moveType)

@@ -12,10 +12,11 @@ public class TargetData
     public Status Status { get { return _status; } }
     public Stats Stats { get { return _stats; } }
     public NetworkIdentity Identity { get { return _identity; } }
-    public ObjectData Data { get { return _data; }}
+    public ObjectData Data { get { return _data; } }
     public float Distance { get { return _distance; } set { _distance = value; } }
 
-    public TargetData(ObjectData target) {
+    public TargetData(ObjectData target)
+    {
         _data = target;
         Entity e = _data.ObjectTransform.GetComponent<Entity>();
 

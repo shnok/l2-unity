@@ -172,8 +172,8 @@ public class TargetManager : MonoBehaviour
 
         _target = new TargetData(target);
 
-        PlayerEntity.Instance.TargetId = _target.Identity.Id;
-        PlayerEntity.Instance.Target = _target.Data.ObjectTransform;
+        PlayerCombat.Instance.TargetId = _target.Identity.Id;
+        PlayerCombat.Instance.Target = _target.Data.ObjectTransform;
         GameClient.Instance.ClientPacketHandler.SendRequestSetTarget(_target.Identity.Id);
     }
 
@@ -206,11 +206,11 @@ public class TargetManager : MonoBehaviour
     {
         if (HasTarget())
         {
-            if (PlayerEntity.Instance.TargetId != -1)
+            if (PlayerCombat.Instance.TargetId != -1)
             {
                 GameClient.Instance.ClientPacketHandler.SendRequestSetTarget(-1);
-                PlayerEntity.Instance.TargetId = -1;
-                PlayerEntity.Instance.Target = null;
+                PlayerCombat.Instance.TargetId = -1;
+                PlayerCombat.Instance.Target = null;
             }
 
             _target = null;

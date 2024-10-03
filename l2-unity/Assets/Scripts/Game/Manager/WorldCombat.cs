@@ -46,7 +46,7 @@ public class WorldCombat : MonoBehaviour
         if (entity != null)
         {
             // Apply damage to target
-            entity.ApplyDamage(damage, criticalHit);
+            entity.Combat.ApplyDamage(damage, criticalHit);
         }
     }
 
@@ -58,7 +58,7 @@ public class WorldCombat : MonoBehaviour
         }
         else
         {
-            entity.StartAutoAttacking();
+            entity.Combat.StartAutoAttacking();
         }
     }
 
@@ -70,7 +70,7 @@ public class WorldCombat : MonoBehaviour
         }
         else
         {
-            entity.StopAutoAttacking();
+            entity.Combat.StopAutoAttacking();
         }
     }
 

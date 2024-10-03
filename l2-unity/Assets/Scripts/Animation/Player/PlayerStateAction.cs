@@ -119,9 +119,9 @@ public class PlayerStateAction : PlayerStateBase
     {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         if (PlayerStateMachine.Instance.State == PlayerState.IDLE
-             && now - _entity.StopAutoAttackTime < 5000)
+             && now - PlayerCombat.Instance.StopAutoAttackTime < 5000)
         {
-            if (PlayerEntity.Instance.AttackTarget == null)
+            if (PlayerCombat.Instance.AttackTarget == null)
             {
                 SetBool("atkwait", true, true, false);
                 return true;

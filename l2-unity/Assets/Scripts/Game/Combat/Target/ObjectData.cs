@@ -1,7 +1,8 @@
 using UnityEngine;
 
 [System.Serializable]
-public class ObjectData {
+public class ObjectData
+{
     [SerializeField] private string _objectLayerName;
     [SerializeField] private int _objectLayer;
     [SerializeField] private string _objectTag;
@@ -16,8 +17,8 @@ public class ObjectData {
     public Transform ObjectTransform { get { return _objectTransform; } }
     public Entity Entity { get { return _objectEntity; } }
 
-
-    public ObjectData(GameObject gameObject) {
+    public ObjectData(GameObject gameObject)
+    {
         _objectTransform = gameObject.transform;
         _objectTag = gameObject.tag;
         _objectLayerName = LayerMask.LayerToName(gameObject.layer);

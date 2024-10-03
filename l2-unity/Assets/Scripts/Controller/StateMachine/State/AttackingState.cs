@@ -4,7 +4,7 @@ public class AttackingState : StateBase
 
     public override void Enter()
     {
-        if (PlayerEntity.Instance.StartAutoAttacking())
+        if (PlayerCombat.Instance.StartAutoAttacking())
         {
             PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
         }
@@ -65,7 +65,7 @@ public class AttackingState : StateBase
 
     public override void Exit()
     {
-        PlayerEntity.Instance.StopAutoAttacking();
+        PlayerCombat.Instance.StopAutoAttacking();
         PlayerController.Instance.StopLookAt();
     }
 }

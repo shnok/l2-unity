@@ -15,11 +15,6 @@ public class PlayerEntity : Entity
         {
             Destroy(this);
         }
-
-        if (_instance == null)
-        {
-            _instance = this;
-        }
     }
 
     public override void Initialize()
@@ -35,19 +30,6 @@ public class PlayerEntity : Entity
     }
 
     protected override void LookAtTarget() { }
-
-    protected override void OnDeath()
-    {
-        base.OnDeath();
-        Debug.Log("Player on death _networkAnimationReceive:" + _animationController);
-        PlayerStateMachine.Instance.NotifyEvent(Event.DEAD);
-    }
-
-    protected override void OnHit(bool criticalHit)
-    {
-        base.OnHit(criticalHit);
-        _audioHandler.PlaySound(EntitySoundEvent.Dmg);
-    }
 
     public override float UpdateRunSpeed(int speed)
     {

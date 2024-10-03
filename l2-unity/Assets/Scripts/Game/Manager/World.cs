@@ -222,7 +222,7 @@ public class World : MonoBehaviour
         go.transform.position = identity.Position;
         go.transform.eulerAngles = new Vector3(transform.eulerAngles.x, identity.Heading, transform.eulerAngles.z);
 
-        HumanoidNetworkEntity user = go.GetComponent<HumanoidNetworkEntity>();
+        NetworkHumanoidEntity user = go.GetComponent<NetworkHumanoidEntity>();
 
         user.Status = status;
         user.Identity = identity;
@@ -250,7 +250,7 @@ public class World : MonoBehaviour
 
     public void UpdateUser(Entity entity, NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance, bool running)
     {
-        ((HumanoidNetworkEntity)entity).Identity.UpdateEntity(identity);
+        ((NetworkHumanoidEntity)entity).Identity.UpdateEntity(identity);
         ((PlayerStatus)entity.Status).UpdateStatus(status);
         entity.Stats.UpdateStats(stats);
         entity.Running = running;
@@ -261,7 +261,7 @@ public class World : MonoBehaviour
         entity.UpdateWalkSpeed(stats.WalkSpeed);
         entity.UpdateRunSpeed(stats.RunSpeed);
         entity.EquipAllWeapons();
-        ((HumanoidNetworkEntity)entity).EquipAllArmors();
+        ((NetworkHumanoidEntity)entity).EquipAllArmors();
     }
 
     public void SpawnNpc(NetworkIdentity identity, NpcStatus status, Stats stats)
@@ -291,13 +291,13 @@ public class World : MonoBehaviour
         if (identity.EntityType == EntityType.NPC)
         {
             npcGo.transform.SetParent(_npcsContainer.transform);
-            npc = npcGo.GetComponent<HumanoidNetworkEntity>();
+            npc = npcGo.GetComponent<NetworkHumanoidEntity>();
             // ((NetworkEntity)npc).NpcData = npcData;
         }
         else
         {
             npcGo.transform.SetParent(_monstersContainer.transform);
-            npc = npcGo.GetComponent<MonsterNetworkEntity>();
+            npc = npcGo.GetComponent<NetworkMonsterEntity>();
             //((MonsterEntity)npc).NpcData = npcData;
         }
 
@@ -430,8 +430,8 @@ public class World : MonoBehaviour
     {
         return ExecuteWithEntitiesAsync(id, targetId, (targeter, targeted) =>
         {
-            targeter.TargetId = targetId;
-            targeter.Target = targeted.transform;
+            targeter.Combat.TargetId = targetId;
+            targeter.Combat.Target = targeted.transform;
         });
     }
 
