@@ -333,7 +333,7 @@ public class World : MonoBehaviour
         npcGo.SetActive(true);
 
         npc.GetComponent<NetworkAnimationController>().Initialize();
-        npcGo.GetComponent<NpcGear>().Initialize(npc.Identity.Id, npc.RaceId);
+        npcGo.GetComponent<Gear>().Initialize(npc.Identity.Id, npc.RaceId);
         npc.Initialize();
 
         _npcs.Add(identity.Id, npc);

@@ -59,6 +59,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -179,7 +182,7 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8142867701948070882, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: ba37614ddd0a69d43aa40f1240a21a6b, type: 2}
     - target: {fileID: -8129737542298860517, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
@@ -276,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
       propertyPath: m_Name
-      value: keltir_prefab
+      value: keltir_m00
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
       propertyPath: m_Layer
@@ -402,6 +405,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -6957038487279800056}
   m_SourcePrefab: {fileID: 100100000, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
+--- !u!4 &1344916805757735377 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -6359384639352847119, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
+  m_PrefabInstance: {fileID: 3824954562149143840}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3647439153703269067 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 30b842d5630516b419b0c1c3be32bb9d, type: 3}
@@ -424,13 +432,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b37216beee5d6a4897e9224d4eedbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 3023934457491091865}
   _resetStateOnReceive: 1
-  _atk01ClipLength: 1000
   _spAtk01ClipLength: 1000
 --- !u!95 &3023934457491091865
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -444,6 +451,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -464,7 +472,6 @@ CharacterController:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -489,14 +496,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _serverPosition: {x: 0, y: 0, z: 0}
   _positionSyncProtection: 1
-  _positionSyncNodesThreshold: 2
   _positionSynced: 0
   _positionSyncPaused: 0
-  _lerpDuration: 0.3
   _positionDelta: 0
   _lastDesyncTime: 0
   _lastDesyncDuration: 0
-  _maximumAllowedDesyncTimeMs: 300
 --- !u!114 &2351095843022271990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,7 +517,6 @@ MonoBehaviour:
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
   _gravity: 28
-  _moveSpeedMultiplier: 1
 --- !u!114 &8889694809834475436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,7 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b171cd31a29e44a957f2c850e56144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 3023934457491091865}
   _walkStepRatios:
   - 0
   - 0.45
@@ -554,15 +557,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4167410998973950065}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89e8f6bf2a22cde488eee1ee4f91bd94, type: 3}
+  m_Script: {fileID: 11500000, guid: 99c9a66a877afa74d92a0ebb9f03618a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationController: {fileID: 7645189869255393070}
+  _gear: {fileID: -6957038487279800056}
+  _audioHandler: {fileID: 8889694809834475436}
+  _entityLoaded: 0
   _identity:
-    _entityType: 3
+    _entityType: 0
     _id: 0
     _name: 
     _title: 
-    _type: 
+    _titleColor: 9CE8A9FF
     _npcId: 0
     _npcClass: 
     _playerClass: 0
@@ -572,23 +579,34 @@ MonoBehaviour:
     _owned: 0
   _status:
     _hp: 0
-    _maxHp: 0
-    _level: 0
+    _mp: 0
   _stats:
-    _speed: 0
-    _scaledSpeed: 0
+    _level: 0
+    _runSpeed: 0
+    _walkSpeed: 0
+    _scaledRunSpeed: 0
+    _scaledWalkSpeed: 0
     _pAtkSpd: 0
     _mAtkSpd: 0
+    _maxHp: 0
+    _maxMp: 0
+    _maxCp: 0
   _appearance:
     _collisonHeight: 0
     _collisionRadius: 0
     _lhand: 0
     _rhand: 0
+  _race: 5
+  _raceId: 0
+  _running: 0
+  _sitting: 0
   _targetId: 0
   _target: {fileID: 0}
   _attackTarget: {fileID: 0}
   _stopAutoAttackTime: 0
   _startAutoAttackTime: 0
+  _networkTransformReceive: {fileID: 4267637028313744003}
+  _networkCharacterControllerReceive: {fileID: 2351095843022271990}
 --- !u!114 &-6957038487279800056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,11 +619,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4057a068ca79edd469897aa33319d243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationController: {fileID: 7645189869255393070}
+  _rightHandBone: {fileID: 1344916805757735377}
+  _leftHandBone: {fileID: 1344916805757735377}
+  _shieldBone: {fileID: 1344916805757735377}
+  _rightHandWeapon:
+    _id: 0
+    _icon: 
+    _itemName:
+      _id: 0
+      _name: 
+      _description: 
+      _defaultAction: 
+      _tradeable: 0
+      _destructible: 0
+      _droppable: 0
+      _sellable: 0
+    _itemStatData:
+      _objectId: 0
+      _pDef: 0
+      _mDef: 0
+      _pAtk: 0
+      _mAtk: 0
+      _pAtkSpd: 0
+      _pHit: 0
+      _mHit: 0
+      _pCrit: 0
+      _mCrit: 0
+      _speed: 0
+      _shieldDef: 0
+      _shieldDefRate: 0
+      _pAvoid: 0
+      _mAvoid: 0
+    _itemgrp:
+      _objectId: 0
+      _dropModel: 
+      _dropTexture: 
+      _icon: 
+      _weight: 0
+      _material: 0
+      _dropSound: 
+      _grade: 0
+      _equipSound: 
+      _inventoryType: 
+      _crystallizable: 0
+  _leftHandWeapon:
+    _id: 0
+    _icon: 
+    _itemName:
+      _id: 0
+      _name: 
+      _description: 
+      _defaultAction: 
+      _tradeable: 0
+      _destructible: 0
+      _droppable: 0
+      _sellable: 0
+    _itemStatData:
+      _objectId: 0
+      _pDef: 0
+      _mDef: 0
+      _pAtk: 0
+      _mAtk: 0
+      _pAtkSpd: 0
+      _pHit: 0
+      _mHit: 0
+      _pCrit: 0
+      _mCrit: 0
+      _speed: 0
+      _shieldDef: 0
+      _shieldDefRate: 0
+      _pAvoid: 0
+      _mAvoid: 0
+    _itemgrp:
+      _objectId: 0
+      _dropModel: 
+      _dropTexture: 
+      _icon: 
+      _weight: 0
+      _material: 0
+      _dropSound: 
+      _grade: 0
+      _equipSound: 
+      _inventoryType: 
+      _crystallizable: 0
   _rightHandType: 0
-  _rightHandBone: {fileID: 0}
   _rightHand: {fileID: 0}
   _leftHandType: 0
-  _leftHandBone: {fileID: 0}
-  _shieldBone: {fileID: 0}
   _leftHand: {fileID: 0}
   _weaponAnim: 

@@ -21,7 +21,7 @@ public class HumanoidNetworkEntity : NetworkEntity
     {
         if (base.StartAutoAttacking())
         {
-            _animationController.SetBool("atk01_" + _gear.WeaponAnim, true);
+            _animationController.SetBool("atk01_" + ((HumanoidGear)_gear).WeaponAnim, true);
         }
 
         return true;
@@ -31,10 +31,10 @@ public class HumanoidNetworkEntity : NetworkEntity
     {
         if (base.StopAutoAttacking())
         {
-            _animationController.SetBool("atk01_" + _gear.WeaponAnim, false);
+            _animationController.SetBool("atk01_" + ((HumanoidGear)_gear).WeaponAnim, false);
             if (!_networkCharacterControllerReceive.IsMoving() && !IsDead())
             {
-                _animationController.SetBool("atkwait_" + _gear.WeaponAnim, true);
+                _animationController.SetBool("atkwait_" + ((HumanoidGear)_gear).WeaponAnim, true);
             }
         }
 

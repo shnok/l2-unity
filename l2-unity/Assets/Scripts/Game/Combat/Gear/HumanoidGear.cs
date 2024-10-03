@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class HumanoidGear : Gear
 {
+    [SerializeField] protected string _weaponAnim;
+
+    public string WeaponAnim { get { return _weaponAnim; } }
+
     public override void Initialize(int ownderId, CharacterModelType raceId)
     {
         base.Initialize(ownderId, raceId);

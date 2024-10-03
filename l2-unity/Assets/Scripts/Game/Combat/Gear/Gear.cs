@@ -23,10 +23,8 @@ public class Gear : MonoBehaviour
     [Header("LeftHand")]
     [SerializeField] private WeaponType _leftHandType;
     [SerializeField] protected Transform _leftHand;
-    [SerializeField] protected string _weaponAnim;
 
     public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
-    public string WeaponAnim { get { return _weaponAnim; } }
     public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
     public CharacterModelType RaceId { get { return _raceId; } set { _raceId = value; } }
 
@@ -169,11 +167,47 @@ public class Gear : MonoBehaviour
 
     public virtual void UpdateWeaponAnim(string value) { }
 
-    protected virtual Transform GetLeftHandBone() { return null; }
+    protected virtual Transform GetLeftHandBone()
+    {
+        if (_leftHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _leftHandBone = transform.FindRecursive("Bow Bone");
+        }
 
-    protected virtual Transform GetRightHandBone() { return null; }
+        if (_leftHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _leftHandBone = transform.FindRecursive("bow_bone");
+        }
 
-    protected virtual Transform GetShieldBone() { return null; }
+        if (_leftHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _leftHandBone = transform.FindRecursive("Sword Bone01");
+        }
+        return _leftHandBone;
+    }
+
+    protected virtual Transform GetRightHandBone()
+    {
+        if (_rightHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _rightHandBone = transform.FindRecursive("Sword Bone");
+        }
+        return _rightHandBone;
+    }
+
+    protected virtual Transform GetShieldBone()
+    {
+        if (_shieldBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _shieldBone = transform.FindRecursive("Shield Bone");
+        }
+        return _shieldBone;
+    }
 
     public virtual void UnequipWeapon(bool leftSlot)
     {

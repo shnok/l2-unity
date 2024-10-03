@@ -8,7 +8,7 @@ public class HumanoidStateBase : StateMachineBehaviour
     protected NetworkAnimationController _networkAnimationController;
     protected Animator _animator;
     protected Entity _entity;
-    protected Gear _gear;
+    protected HumanoidGear _gear;
     protected bool _cancelAction = false;
 
     public void LoadComponents(Animator animator)
@@ -27,7 +27,7 @@ public class HumanoidStateBase : StateMachineBehaviour
 
         if (_gear == null)
         {
-            _gear = entityTransform.GetComponent<Gear>();
+            _gear = entityTransform.GetComponent<HumanoidGear>();
         }
 
         if (_audioHandler == null)
