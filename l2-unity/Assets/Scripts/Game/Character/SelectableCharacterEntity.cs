@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class SelectableCharacterEntity : MonoBehaviour
 {
-    [Header("References")]
+    [SerializeField] private EntityReferenceHolder _referenceHolder;
+    public HumanoidAnimationController AnimationController { get { return (HumanoidAnimationController)_referenceHolder.AnimationController; } }
+
     [SerializeField] private CharacterController _characterController;
-    [SerializeField] private BaseAnimationController _baseAnimationController;
 
     [Header("Attributes")]
-    [SerializeField] private string _weaponAnim;
     [SerializeField] private Vector3 _destination;
     [SerializeField] private Vector3 _destEulerAngles;
     [SerializeField] private CharSelectionInfoPackage _characterInfo;
@@ -17,7 +17,6 @@ public class SelectableCharacterEntity : MonoBehaviour
 
     public CharSelectionInfoPackage CharacterInfo { get { return _characterInfo; } set { _characterInfo = value; } }
 
-    public string WeaponAnim { get { return _weaponAnim; } set { _weaponAnim = value; } }
 
     private void Awake()
     {
@@ -25,13 +24,12 @@ public class SelectableCharacterEntity : MonoBehaviour
         {
             _characterController = GetComponent<CharacterController>();
             Debug.LogWarning($"[{transform.name}] CharacterController was not assigned, please pre-assign it to avoid unecessary load.");
-
         }
 
-        if (_baseAnimationController == null)
+        if (_referenceHolder == null)
         {
-            _baseAnimationController = transform.GetChild(0).GetChild(0).GetComponent<BaseAnimationController>();
-            Debug.LogWarning($"[{transform.name}] BaseAnimationController was not assigned, please pre-assign it to avoid unecessary load.");
+            _referenceHolder = GetComponent<EntityReferenceHolder>();
+            Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
         }
 
         _destination = transform.position;
@@ -59,15 +57,15 @@ public class SelectableCharacterEntity : MonoBehaviour
     private void StartWalking()
     {
         _walking = true;
-        _baseAnimationController.SetBool("wait_" + WeaponAnim, false);
-        _baseAnimationController.SetBool("walk_" + WeaponAnim, true);
+        AnimationController.SetBool(HumanoidAnimType.wait, false);
+        AnimationController.SetBool(HumanoidAnimType.walk, true);
     }
 
     private void StopWalking()
     {
         _walking = false;
-        _baseAnimationController.SetBool("walk_" + WeaponAnim, false);
-        _baseAnimationController.SetBool("wait_" + WeaponAnim, true);
+        AnimationController.SetBool(HumanoidAnimType.walk, false);
+        AnimationController.SetBool(HumanoidAnimType.wait, true);
         transform.eulerAngles = _destEulerAngles;
     }
 

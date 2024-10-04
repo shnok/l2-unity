@@ -1,3 +1,5 @@
+
+// Used by NPCS and USERS
 public class NetworkHumanoidCombat : NetworkCombat
 {
     public HumanoidGear Gear { get { return (HumanoidGear)_referenceHolder.Gear; } }

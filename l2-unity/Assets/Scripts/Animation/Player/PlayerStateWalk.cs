@@ -34,7 +34,7 @@ public class PlayerStateWalk : PlayerStateAction
 
         if (ShouldAttack())
         {
-            SetBool("atk01", true, true, false);
+            SetBool(HumanoidAnimType.atk01, true, false);
             return;
         }
 
@@ -66,6 +66,6 @@ public class PlayerStateWalk : PlayerStateAction
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("walk", true, false, false);
+        SetBool(HumanoidAnimType.walk, false, false);
     }
 }

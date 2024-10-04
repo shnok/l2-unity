@@ -48,7 +48,7 @@ public class PlayerStateRun : PlayerStateAction
 
         if (ShouldAttack())
         {
-            SetBool("atk01", true, true, false);
+            SetBool(HumanoidAnimType.atk01, true, false);
             return;
         }
 
@@ -80,6 +80,6 @@ public class PlayerStateRun : PlayerStateAction
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("run", true, false, false);
+        SetBool(HumanoidAnimType.run, false, false);
     }
 }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-public class Combat : MonoBehaviour
+public abstract class Combat : MonoBehaviour
 {
     [SerializeField] protected EntityReferenceHolder _referenceHolder;
 

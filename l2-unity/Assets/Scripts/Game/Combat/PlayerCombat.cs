@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+// Used by LOCAL PLAYER
 [System.Serializable]
 public class PlayerCombat : Combat
 {

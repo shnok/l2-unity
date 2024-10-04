@@ -16,9 +16,9 @@ public class HumanoidStateAtk : HumanoidStateBase
 
         _networkAnimationController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
-        SetBool("wait", true, false);
-        SetBool("atkwait", true, false);
-        SetBool("atk01", true, false);
+        SetBool(HumanoidAnimType.wait, false);
+        SetBool(HumanoidAnimType.atkwait, false);
+        SetBool(HumanoidAnimType.atk01, false);
 
         PlaySoundAtRatio(EntitySoundEvent.Atk_1H, _audioHandler.AtkRatio);
         PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
@@ -29,7 +29,7 @@ public class HumanoidStateAtk : HumanoidStateBase
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("atk01", true, false);
+        SetBool(HumanoidAnimType.atk01, false);
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
             _lastNormalizedTime = stateInfo.normalizedTime;

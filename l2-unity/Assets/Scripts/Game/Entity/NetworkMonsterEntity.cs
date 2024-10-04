@@ -1,3 +1,5 @@
+
+// Used by MONSTERS
 public class NetworkMonsterEntity : NetworkEntity
 {
     public override void Initialize()

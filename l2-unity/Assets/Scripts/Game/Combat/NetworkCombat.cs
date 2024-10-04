@@ -1,4 +1,4 @@
-public class NetworkCombat : Combat
+public abstract class NetworkCombat : Combat
 {
     protected NetworkEntityReferenceHolder ReferenceHolder { get { return (NetworkEntityReferenceHolder)_referenceHolder; } }
     protected NetworkTransformReceive NetworkTransformReceive { get { return ReferenceHolder.NetworkTransformReceive; } }

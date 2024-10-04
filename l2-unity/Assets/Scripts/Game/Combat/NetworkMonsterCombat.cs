@@ -1,3 +1,4 @@
+// Used by MONSTERS
 public class NetworkMonsterCombat : NetworkCombat
 {
     protected override void OnDeath()

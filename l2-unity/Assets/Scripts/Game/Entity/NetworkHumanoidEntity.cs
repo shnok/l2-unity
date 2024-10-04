@@ -2,6 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(NetworkTransformReceive)),
     RequireComponent(typeof(NetworkCharacterControllerReceive))]
+// Used by NPCS and USERS
 public class NetworkHumanoidEntity : NetworkEntity
 {
     public override void Initialize()

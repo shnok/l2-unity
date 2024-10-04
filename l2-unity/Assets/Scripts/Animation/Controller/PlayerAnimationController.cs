@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Used by LOCAL PLAYER
 public class PlayerAnimationController : HumanoidAnimationController
 {
     private static PlayerAnimationController _instance;
@@ -26,35 +27,25 @@ public class PlayerAnimationController : HumanoidAnimationController
         _instance = null;
     }
 
-    public void SetBool(string name, bool value, bool share)
+    public void SetBool(HumanoidAnimType animType, bool value, bool share)
     {
-        if (_animator.GetBool(name) != value)
+        int paramId = GetParameterId(animType, _weaponAnim);
+
+        if (_animator.GetBool(paramId) != value)
         {
             //Debug.LogWarning($"Set bool {name}={value}");
-            SetBool(name, value);
+            SetBool(paramId, value);
+
             if (!World.Instance.OfflineMode && share)
             {
-                EmitAnimatorInfo(name, value ? 1 : 0);
+                EmitAnimatorInfo(paramId, value ? 1 : 0);
             }
         }
     }
 
-    private int SerializeAnimatorInfo(string name)
+    private void EmitAnimatorInfo(int paramId, float value)
     {
-        List<AnimatorControllerParameter> parameters = new List<AnimatorControllerParameter>(_animator.parameters);
-
-        int index = parameters.FindIndex(a => a.name == name);
-
-        return index;
-    }
-
-    private void EmitAnimatorInfo(string name, float value)
-    {
-        int index = SerializeAnimatorInfo(name);
-        if (index != -1)
-        {
-            NetworkTransformShare.Instance.ShareAnimation((byte)index, value);
-        }
+        NetworkTransformShare.Instance.ShareAnimation((byte)paramId, value);
     }
 }
 

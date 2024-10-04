@@ -5,7 +5,7 @@ public class PlayerStateBase : StateMachineBehaviour
     protected HumanoidAudioHandler _audioHandler;
     protected Animator _animator;
     protected Entity _entity;
-    protected UserGear _gear;
+    // protected UserGear _gear;
 
     public void LoadComponents(Animator animator)
     {
@@ -13,10 +13,10 @@ public class PlayerStateBase : StateMachineBehaviour
         {
             _entity = animator.transform.parent.parent.GetComponent<Entity>();
         }
-        if (_gear == null)
-        {
-            _gear = _entity.GetComponent<UserGear>();
-        }
+        // if (_gear == null)
+        // {
+        //     _gear = _entity.GetComponent<UserGear>();
+        // }
         if (_audioHandler == null)
         {
             _audioHandler = animator.gameObject.GetComponent<HumanoidAudioHandler>();
@@ -37,20 +37,20 @@ public class PlayerStateBase : StateMachineBehaviour
         _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
-    public void SetBool(string name, bool isWeaponAnim, bool value)
+    public void SetBool(HumanoidAnimType animation, bool value)
     {
-        SetBool(name, isWeaponAnim, value, true);
+        SetBool(animation, value, true);
     }
 
-    public void SetBool(string name, bool isWeaponAnim, bool value, bool share)
+    public void SetBool(HumanoidAnimType animation, bool value, bool share)
     {
-        if (isWeaponAnim)
-        {
-            name += "_" + _gear.WeaponAnim;
-        }
+        // if (isWeaponAnim)
+        // {
+        //     name += "_" + _gear.WeaponAnim;
+        // }
 
         //Debug.Log("Set bool: " + name);
 
-        PlayerAnimationController.Instance.SetBool(name, value, share);
+        PlayerAnimationController.Instance.SetBool(animation, value, share);
     }
 }

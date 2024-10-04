@@ -69,16 +69,18 @@ public class CharacterSelector : MonoBehaviour
     {
         GameObject pawnObject = CharacterCreator.Instance.CreatePawn(_characters[id].CharacterRaceAnimation, _characters[id].PlayerAppearance);
 
-        BaseAnimationController animController;
-        if (!pawnObject.transform.GetChild(0).GetChild(0).TryGetComponent(out animController))
+        EntityReferenceHolder referenceHolder = pawnObject.GetComponent<EntityReferenceHolder>();
+        HumanoidAnimationController animController = (HumanoidAnimationController)referenceHolder.AnimationController;
+
+        if (animController == null)
         {
             Debug.LogError("Pawn object animation controller is null");
         }
 
         animController.Initialize();
 
-        UserGear gear;
-        if (!pawnObject.TryGetComponent(out gear))
+        UserGear gear = (UserGear)referenceHolder.Gear;
+        if (gear == null)
         {
             Debug.LogError("Pawn object UserGear is null");
         }
@@ -88,7 +90,6 @@ public class CharacterSelector : MonoBehaviour
         CharacterCreator.Instance.GearUpPawn(_characters[id].PlayerAppearance, gear);
 
         pawnObject.GetComponent<SelectableCharacterEntity>().CharacterInfo = _characters[id];
-        pawnObject.GetComponent<SelectableCharacterEntity>().WeaponAnim = gear.WeaponAnim;
 
         CharacterCreator.Instance.PlacePawn(pawnObject, _pawnData[id], _characters[id].Name, _container, animController, gear);
 

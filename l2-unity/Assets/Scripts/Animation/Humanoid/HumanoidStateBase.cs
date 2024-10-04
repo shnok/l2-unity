@@ -6,9 +6,7 @@ public class HumanoidStateBase : StateMachineBehaviour
     protected HumanoidAudioHandler _audioHandler;
     protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
     protected NetworkAnimationController _networkAnimationController;
-    protected Animator _animator;
     protected Entity _entity;
-    protected HumanoidGear _gear;
     protected bool _cancelAction = false;
 
     public void LoadComponents(Animator animator)
@@ -25,18 +23,9 @@ public class HumanoidStateBase : StateMachineBehaviour
             }
         }
 
-        if (_gear == null)
-        {
-            _gear = entityTransform.GetComponent<HumanoidGear>();
-        }
-
         if (_audioHandler == null)
         {
             _audioHandler = animator.gameObject.GetComponent<HumanoidAudioHandler>();
-        }
-        if (_animator == null)
-        {
-            _animator = animator;
         }
         if (_networkCharacterControllerReceive == null)
         {
@@ -58,18 +47,15 @@ public class HumanoidStateBase : StateMachineBehaviour
         _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
-    public void SetBool(string name, bool isWeaponAnim, bool value)
+    public void SetBool(HumanoidAnimType animation, bool value)
     {
         _cancelAction = true;
 
-        if (isWeaponAnim)
-        {
-            name += "_" + _gear.WeaponAnim;
-        }
-        //if (value != _animator.GetBool(name)) {
-        //    Debug.LogWarning($"Set bool {name}={value}");
-        //}
+        _networkAnimationController.SetBool(animation, value);
+    }
 
-        _networkAnimationController.SetBool(name, value);
+    public bool GetBool(HumanoidAnimType animation)
+    {
+        return _networkAnimationController.GetBool(animation);
     }
 }

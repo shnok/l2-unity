@@ -167,7 +167,7 @@ public class Gear : MonoBehaviour
 
     protected virtual void UpdateWeaponType(WeaponType weaponType) { }
 
-    public virtual void UpdateWeaponAnim(string value) { }
+    public virtual void UpdateWeaponAnim(WeaponAnimType value) { }
 
     protected virtual Transform GetLeftHandBone()
     {
@@ -229,7 +229,7 @@ public class Gear : MonoBehaviour
             else
             {
                 _rightHandWeapon = null;
-                UpdateWeaponAnim("hand");
+                UpdateWeaponAnim(WeaponAnimType.hand);
             }
         }
     }

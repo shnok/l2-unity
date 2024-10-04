@@ -5,13 +5,13 @@ public class PlayerStateSit : PlayerStateAction
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         LoadComponents(animator);
-        SetBool("sit", false, false, false);
+        SetBool(HumanoidAnimType.sit, false, false);
         _audioHandler.PlaySound(EntitySoundEvent.Sitdown);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("sit", false, false, false);
+        SetBool(HumanoidAnimType.sit, false, false);
 
         if (ShouldDie())
         {

@@ -1,47 +1,70 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Used by NPCS and USERS
 public class HumanoidAnimationController : BaseAnimationController
 {
-    private string _lastAnimationVariableName;
+    [SerializeField] protected HumanoidAnimType _lastAnimationType;
+    [SerializeField] protected WeaponAnimType _weaponAnim;
+
+    public WeaponAnimType WeaponAnim { get { return _weaponAnim; } }
+    public HumanoidAnimType LastAnim { get { return _lastAnimationType; } }
 
     public override void Initialize()
     {
         base.Initialize();
-        _lastAnimationVariableName = "wait_hand";
+        _lastAnimationType = HumanoidAnimType.wait;
     }
 
-    public override void WeaponAnimChanged(string newWeaponAnim)
+    public override void WeaponAnimChanged(WeaponAnimType newWeaponAnim)
     {
         ClearAnimParams();
 
-        if (!_lastAnimationVariableName.Contains("_"))
+        _weaponAnim = newWeaponAnim;
+
+        if (!((int)_lastAnimationType < (int)HumanoidAnimType.wait_hit))
         {
-            Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationVariableName}");
+            Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationType}");
             // The last animation was not a weapon animation
             return;
         }
 
-        string[] parts = _lastAnimationVariableName.Split("_");
-        if (parts.Length < 1)
-        {
-            // Should not happen
-            Debug.LogWarning($"Error while parsing previous animation name: {_lastAnimationVariableName}");
-            return;
-        }
+        int newAnimationIndex = GetParameterId(_lastAnimationType, _weaponAnim);
 
-        string newAnimation = parts[0] + "_" + newWeaponAnim;
-        Debug.Log($"New Weapon animation name: {newAnimation}");
-        SetBool(newAnimation, true);
+        Debug.Log($"New Weapon animation index: {newAnimationIndex}");
+
+        SetBool(newAnimationIndex, true);
     }
 
-    public override void SetBool(string name, bool value)
+    // public override void SetBool(string name, bool value)
+    // {
+    //     if (value == true)
+    //     {
+    //         _lastAnimationVariableName = name;
+    //     }
+
+    //     base.SetBool(name, value);
+    // }
+
+    public void SetBool(HumanoidAnimType animType, bool value)
     {
-        if (value == true)
+        base.SetBool(GetParameterId(animType, _weaponAnim), value);
+    }
+
+
+    public bool GetBool(HumanoidAnimType animType)
+    {
+        return base.GetBool(GetParameterId(animType, _weaponAnim));
+    }
+
+    protected int GetParameterId(HumanoidAnimType animType, WeaponAnimType weaponAnimType)
+    {
+        int index = (int)animType;
+        if ((int)animType < (int)HumanoidAnimType.wait_hit)
         {
-            _lastAnimationVariableName = name;
+            index = (int)animType + (int)weaponAnimType;
         }
 
-        base.SetBool(name, value);
+        return AnimatorParameterHashTable.GetHumanoidParameterHash(index);
     }
 }

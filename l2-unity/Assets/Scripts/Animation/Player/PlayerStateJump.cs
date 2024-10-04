@@ -9,8 +9,8 @@ public class PlayerStateJump : PlayerStateAction
         LoadComponents(animator);
         _lastNormalizedTime = 0;
 
-        SetBool("jump", false, false, false);
-        SetBool("run_jump", false, false, false);
+        SetBool(HumanoidAnimType.jump, false, false);
+        SetBool(HumanoidAnimType.runjump, false, false);
         _audioHandler.PlaySound(EntitySoundEvent.Jump_1);
     }
 
@@ -35,7 +35,7 @@ public class PlayerStateJump : PlayerStateAction
                 return;
             }
 
-            SetBool("wait", true, true);
+            SetBool(HumanoidAnimType.wait, true);
         }
     }
 

@@ -9,7 +9,7 @@ public class HumanoidStateWalk : HumanoidStateAction
         LoadComponents(animator);
 
         _lastNormalizedTime = 0;
-        SetBool("walk", true, false);
+        SetBool(HumanoidAnimType.walk, false);
         foreach (var ratio in _audioHandler.WalkStepRatios)
         {
             _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
@@ -18,7 +18,7 @@ public class HumanoidStateWalk : HumanoidStateAction
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("walk", true, false);
+        SetBool(HumanoidAnimType.walk, false);
 
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
@@ -37,14 +37,14 @@ public class HumanoidStateWalk : HumanoidStateAction
             }
             if (ShouldAtkWait())
             {
-                SetBool("atkwait", true, true);
+                SetBool(HumanoidAnimType.atkwait, true);
                 return;
             }
-            SetBool("wait", true, true);
+            SetBool(HumanoidAnimType.wait, true);
         }
         else if (_entity.Running)
         {
-            SetBool("run", true, true);
+            SetBool(HumanoidAnimType.run, true);
             return;
         }
     }

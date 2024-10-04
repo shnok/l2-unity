@@ -8,16 +8,16 @@ public class HumanoidStateWaitAtk : HumanoidStateAction
         LoadComponents(animator);
         _cancelAction = false;
 
-        SetBool("atkwait", true, false);
+        SetBool(HumanoidAnimType.atkwait, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("atkwait", true, false);
+        SetBool(HumanoidAnimType.atkwait, false);
 
         if (IsMoving())
         {
-            SetBool("run", true, true);
+            SetBool(HumanoidAnimType.run, true);
         }
 
         if (!_cancelAction)
@@ -25,13 +25,13 @@ public class HumanoidStateWaitAtk : HumanoidStateAction
             if (!ShouldAtkWait())
             {
                 Debug.Log("Wait now");
-                SetBool("wait", true, true);
+                SetBool(HumanoidAnimType.wait, true);
             }
         }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("atkwait", true, false);
+        SetBool(HumanoidAnimType.atkwait, false);
     }
 }

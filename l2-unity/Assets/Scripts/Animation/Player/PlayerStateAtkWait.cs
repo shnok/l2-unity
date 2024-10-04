@@ -5,7 +5,7 @@ public class PlayerStateAtkWait : PlayerStateAction
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         LoadComponents(animator);
-        SetBool("atkwait", true, false, false);
+        SetBool(HumanoidAnimType.atkwait, false, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,7 +17,7 @@ public class PlayerStateAtkWait : PlayerStateAction
 
         if (ShouldAttack())
         {
-            SetBool("atk01", true, true, false);
+            SetBool(HumanoidAnimType.atk01, true, false);
             return;
         }
 
@@ -54,6 +54,6 @@ public class PlayerStateAtkWait : PlayerStateAction
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("atkwait", true, false, false);
+        SetBool(HumanoidAnimType.atkwait, false, false);
     }
 }

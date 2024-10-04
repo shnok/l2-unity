@@ -9,8 +9,9 @@ public class HumanoidStateAction : HumanoidStateBase
 
     public bool IsAttacking()
     {
-        return _animator.GetBool("atk01_" + _gear.WeaponAnim) ||
-        _animator.GetNextAnimatorStateInfo(0).IsName("atk01_" + _gear.WeaponAnim);
+        // return _animator.GetBool("atk01_" + _gear.WeaponAnim) ||
+        // _animator.GetNextAnimatorStateInfo(0).IsName("atk01_" + _gear.WeaponAnim);
+        return _networkAnimationController.LastAnim == HumanoidAnimType.atk01;
     }
 
     protected bool ShouldAtkWait()

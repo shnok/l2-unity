@@ -1,3 +1,5 @@
+using System;
+
 public class NetworkAnimationController : HumanoidAnimationController
 {
     public override void Initialize()

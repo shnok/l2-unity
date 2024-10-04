@@ -1,12 +1,25 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Used by MONSTERS
 public class BaseAnimationController : MonoBehaviour
 {
     [SerializeField] protected Animator _animator;
     [SerializeField] protected bool _resetStateOnReceive = false;
     [SerializeField] protected float _spAtk01ClipLength = 1000;
     [SerializeField] protected Dictionary<string, float> _atkClipLengths;
+
+    private AnimatorParameterHashTable _animatorParameterHashTable;
+    public AnimatorParameterHashTable AnimatorParameterHashTable
+    {
+        get
+        {
+            _animatorParameterHashTable ??= AnimatorParameterHashTable.Instance;
+
+            return _animatorParameterHashTable;
+        }
+    }
 
     private float _lastAtkClipLength;
     private float _pAtkSpd;
@@ -20,7 +33,7 @@ public class BaseAnimationController : MonoBehaviour
         }
     }
 
-    public virtual void WeaponAnimChanged(string weapon) { }
+    public virtual void WeaponAnimChanged(WeaponAnimType weapon) { }
 
     public void SetRunSpeed(float value)
     {
@@ -72,6 +85,11 @@ public class BaseAnimationController : MonoBehaviour
         _animator.SetBool(name, value);
     }
 
+    public virtual void SetBool(int parameterId, bool value)
+    {
+        _animator.SetBool(parameterId, value);
+    }
+
     // Update animator variable based on Animation Id
     public void SetAnimationProperty(int animId, float value)
     {
@@ -79,33 +97,35 @@ public class BaseAnimationController : MonoBehaviour
     }
 
     // Update animator variable based on Animation Id
-    public void SetAnimationProperty(int animId, float value, bool forceReset)
+    public void SetAnimationProperty(int parameterId, float value, bool forceReset)
     {
         //Debug.Log("animId " + animId + "/" + _animator.parameters.Length);
-        if (animId >= 0 && animId < _animator.parameters.Length)
+        if (parameterId >= 0 && parameterId < _animator.parameters.Length)
         {
             if (_resetStateOnReceive || forceReset)
             {
                 ClearAnimParams();
             }
 
-            AnimatorControllerParameter anim = _animator.parameters[animId];
+            SetBool(parameterId, value == 1f);
 
-            switch (anim.type)
-            {
-                case AnimatorControllerParameterType.Float:
-                    _animator.SetFloat(anim.name, value);
-                    break;
-                case AnimatorControllerParameterType.Int:
-                    _animator.SetInteger(anim.name, (int)value);
-                    break;
-                case AnimatorControllerParameterType.Bool:
-                    SetBool(anim.name, value == 1f);
-                    break;
-                case AnimatorControllerParameterType.Trigger:
-                    _animator.SetTrigger(anim.name);
-                    break;
-            }
+            // AnimatorControllerParameter anim = _animator.parameters[animId];
+
+            // switch (anim.type)
+            // {
+            //     case AnimatorControllerParameterType.Float:
+            //         _animator.SetFloat(anim.name, value);
+            //         break;
+            //     case AnimatorControllerParameterType.Int:
+            //         _animator.SetInteger(anim.name, (int)value);
+            //         break;
+            //     case AnimatorControllerParameterType.Bool:
+            //         SetBool(anim.name, value == 1f);
+            //         break;
+            //     case AnimatorControllerParameterType.Trigger:
+            //         _animator.SetTrigger(anim.name);
+            //         break;
+            // }
         }
     }
 
@@ -128,5 +148,10 @@ public class BaseAnimationController : MonoBehaviour
         }
 
         return 0f;
+    }
+
+    public bool GetBool(int parameterId)
+    {
+        return _animator.GetBool(parameterId);
     }
 }

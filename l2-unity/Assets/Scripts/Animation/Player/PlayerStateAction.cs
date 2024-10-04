@@ -6,8 +6,8 @@ public class PlayerStateAction : PlayerStateBase
     {
         if (PlayerStateMachine.Instance.State == PlayerState.SITTING)
         {
-            SetBool("sit", false, true, false); //Do not share sit animation (shared by server with ChangeWaitType)
-                                                // At some point need to get rid of the ShareAnimation packet 
+            SetBool(HumanoidAnimType.sit, true, false); //Do not share sit animation (shared by server with ChangeWaitType)
+                                                        // At some point need to get rid of the ShareAnimation packet 
             return true;
         }
 
@@ -23,11 +23,11 @@ public class PlayerStateAction : PlayerStateBase
                 CameraController.Instance.StickToBone = true;
                 if (run)
                 {
-                    SetBool("run_jump", false, true);
+                    SetBool(HumanoidAnimType.runjump, false, true);
                 }
                 else
                 {
-                    SetBool("jump", false, true);
+                    SetBool(HumanoidAnimType.jump, false, true);
                 }
                 return true;
             }
@@ -40,7 +40,7 @@ public class PlayerStateAction : PlayerStateBase
     {
         if (PlayerStateMachine.Instance.State == PlayerState.RUNNING)
         {
-            SetBool("run", true, true);
+            SetBool(HumanoidAnimType.run, true, true);
             return true;
         }
 
@@ -51,7 +51,7 @@ public class PlayerStateAction : PlayerStateBase
     {
         if (PlayerStateMachine.Instance.State == PlayerState.WALKING)
         {
-            SetBool("walk", true, true);
+            SetBool(HumanoidAnimType.walk, true, true);
             return true;
         }
 
@@ -62,7 +62,7 @@ public class PlayerStateAction : PlayerStateBase
     {
         if (PlayerStateMachine.Instance.State == PlayerState.IDLE)
         {
-            SetBool("wait", true, true);
+            SetBool(HumanoidAnimType.wait, true);
             return true;
         }
 
@@ -84,7 +84,7 @@ public class PlayerStateAction : PlayerStateBase
     {
         if (PlayerStateMachine.Instance.State == PlayerState.DEAD)
         {
-            SetBool("death", false, true);
+            SetBool(HumanoidAnimType.death, true);
             return true;
         }
 
@@ -108,7 +108,7 @@ public class PlayerStateAction : PlayerStateBase
     {
         if (PlayerStateMachine.Instance.State == PlayerState.STANDING)
         {
-            SetBool("stand", false, true, false);
+            SetBool(HumanoidAnimType.stand, true, false);
             return true;
         }
 
@@ -123,7 +123,7 @@ public class PlayerStateAction : PlayerStateBase
         {
             if (PlayerCombat.Instance.AttackTarget == null)
             {
-                SetBool("atkwait", true, true, false);
+                SetBool(HumanoidAnimType.atkwait, true, false);
                 return true;
             }
         }

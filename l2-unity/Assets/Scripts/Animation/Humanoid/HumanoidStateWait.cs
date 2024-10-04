@@ -5,22 +5,22 @@ public class HumanoidStateWait : HumanoidStateAction
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         LoadComponents(animator);
-        SetBool("wait", true, false);
+        SetBool(HumanoidAnimType.wait, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("wait", true, false);
+        SetBool(HumanoidAnimType.wait, false);
 
         if (IsMoving())
         {
             if (_entity.Running)
             {
-                SetBool("run", true, true);
+                SetBool(HumanoidAnimType.run, true);
             }
             else
             {
-                SetBool("walk", true, true);
+                SetBool(HumanoidAnimType.walk, true);
             }
         }
     }

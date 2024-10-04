@@ -70,16 +70,18 @@ public class CharacterCreator : MonoBehaviour
 
         GameObject pawnObject = CreatePawn(raceId, appearance);
 
-        BaseAnimationController animController;
-        if (!pawnObject.transform.GetChild(0).GetChild(0).TryGetComponent(out animController))
+        EntityReferenceHolder referenceHolder = pawnObject.GetComponent<EntityReferenceHolder>();
+        HumanoidAnimationController animController = (HumanoidAnimationController)referenceHolder.AnimationController;
+
+        if (animController == null)
         {
             Debug.LogError("Pawn object animation controller is null");
         }
 
         animController.Initialize();
 
-        UserGear gear;
-        if (!pawnObject.TryGetComponent(out gear))
+        UserGear gear = (UserGear)referenceHolder.Gear;
+        if (gear == null)
         {
             Debug.LogError("Pawn object UserGear is null");
         }
@@ -196,7 +198,7 @@ public class CharacterCreator : MonoBehaviour
         }
     }
 
-    public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container, BaseAnimationController animController, UserGear gear)
+    public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container, HumanoidAnimationController animController, UserGear gear)
     {
         UpdatePawnPosAndRot(pawnObject, pawnData);
         pawnObject.transform.name = name;
@@ -205,7 +207,7 @@ public class CharacterCreator : MonoBehaviour
 
         pawnObject.SetActive(true);
 
-        animController.SetBool("wait_" + gear.WeaponAnim, true);
+        animController.SetBool(HumanoidAnimType.wait, true);
         animController.SetWalkSpeed(2.5f);
     }
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Used by LOCAL PLAYER
 public class PlayerEntity : Entity
 {
     private static PlayerEntity _instance;

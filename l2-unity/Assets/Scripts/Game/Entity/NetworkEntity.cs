@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NetworkEntity : Entity
+public abstract class NetworkEntity : Entity
 {
 
     public override void Initialize()

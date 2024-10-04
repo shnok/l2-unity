@@ -13,8 +13,8 @@ public class PlayerStateAtk : PlayerStateAction
 
         PlayerAnimationController.Instance.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
-        SetBool("atkwait", true, false, false);
-        SetBool("atk01", true, false, false);
+        SetBool(HumanoidAnimType.atkwait, false, false);
+        SetBool(HumanoidAnimType.atk01, false, false);
 
         PlaySoundAtRatio(EntitySoundEvent.Atk_1H, _audioHandler.AtkRatio);
         PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
@@ -22,8 +22,8 @@ public class PlayerStateAtk : PlayerStateAction
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("atkwait", true, false, false);
-        SetBool("atk01", true, false, false);
+        SetBool(HumanoidAnimType.atkwait, false, false);
+        SetBool(HumanoidAnimType.atk01, false, false);
 
         if (ShouldDie())
         {

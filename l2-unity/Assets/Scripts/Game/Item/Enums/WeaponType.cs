@@ -1,4 +1,5 @@
-public enum WeaponType : byte {
+public enum WeaponType : byte
+{
     none, //shield
     hand,
     sword,
@@ -16,35 +17,12 @@ public enum WeaponType : byte {
 // hands: 244 Elven fighter fists
 
 
-public class WeaponTypeParser {
-    public static string GetWeaponAnim(WeaponType weaponType) {
-        switch (weaponType) {
-            case WeaponType.none:
-                return "shield";
-            case WeaponType.fist:
-            case WeaponType.hand:
-                return "hand";
-            case WeaponType.sword:
-            case WeaponType.blunt:
-            case WeaponType.dagger:
-                return "1HS";
-            case WeaponType.bigword:
-            case WeaponType.bigblunt:
-                return "2HS";
-            case WeaponType.dual:
-            case WeaponType.dualfist:
-                return "dual";
-            case WeaponType.pole:
-                return "pole";
-            case WeaponType.bow:
-                return "bow";
-            default:
-                return "hand";
-        }
-    }
-
-    public static WeaponType Parse(string type) {
-        switch (type) {
+public class WeaponTypeParser
+{
+    public static WeaponType Parse(string type)
+    {
+        switch (type)
+        {
             case "sword": // For 2H sword check at handness
                 return WeaponType.sword;
             case "twohandsword":
@@ -68,8 +46,10 @@ public class WeaponTypeParser {
         }
     }
 
-    public static WeaponType ParseByHandness(int handness) {
-        switch (handness) {
+    public static WeaponType ParseByHandness(int handness)
+    {
+        switch (handness)
+        {
             case 0:
                 return WeaponType.none;
             case 1:
@@ -92,13 +72,12 @@ public class WeaponTypeParser {
                 return WeaponType.hand;
             case 10: // dualdagger
                 return WeaponType.hand;
-            case 12: 
+            case 12:
                 return WeaponType.dagger;
             case 14: //staff
                 return WeaponType.pole;
             default:
                 return WeaponType.hand;
-
         }
     }
 }

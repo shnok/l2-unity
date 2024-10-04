@@ -16,7 +16,7 @@ public class PlayerStateWait : PlayerStateAction
 
         if (ShouldAttack())
         {
-            SetBool("atk01", true, true, false);
+            SetBool(HumanoidAnimType.atk01, true, false);
             return;
         }
 
@@ -48,6 +48,6 @@ public class PlayerStateWait : PlayerStateAction
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool("wait", true, false, false);
+        SetBool(HumanoidAnimType.wait, false, false);
     }
 }
