@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Used by MONSTERS
-public class BaseAnimationController : MonoBehaviour
+public abstract class BaseAnimationController : MonoBehaviour
 {
     [SerializeField] protected Animator _animator;
     [SerializeField] protected bool _resetStateOnReceive = false;
-    [SerializeField] protected float _spAtk01ClipLength = 1000;
+    protected float _spAtk01ClipLength = 1000;
     [SerializeField] protected Dictionary<string, float> _atkClipLengths;
 
     private AnimatorParameterHashTable _animatorParameterHashTable;
@@ -21,8 +20,8 @@ public class BaseAnimationController : MonoBehaviour
         }
     }
 
-    private float _lastAtkClipLength;
-    private float _pAtkSpd;
+    protected float _lastAtkClipLength;
+    protected float _pAtkSpd;
 
     public virtual void Initialize()
     {
@@ -35,15 +34,9 @@ public class BaseAnimationController : MonoBehaviour
 
     public virtual void WeaponAnimChanged(WeaponAnimType weapon) { }
 
-    public void SetRunSpeed(float value)
-    {
-        _animator.SetFloat("run_speed", value);
-    }
+    public abstract void SetRunSpeed(float value);
 
-    public void SetWalkSpeed(float value)
-    {
-        _animator.SetFloat("walk_speed", value);
-    }
+    public abstract void SetWalkSpeed(float value);
 
     public void SetPAtkSpd(float value)
     {
@@ -54,18 +47,9 @@ public class BaseAnimationController : MonoBehaviour
         }
     }
 
-    public void UpdateAnimatorAtkSpdMultiplier(float clipLength)
-    {
-        float newAtkSpd = clipLength * 1000f / _pAtkSpd;
-        _animator.SetFloat("patkspd", newAtkSpd);
-    }
+    public abstract void UpdateAnimatorAtkSpdMultiplier(float clipLength);
 
-    public void SetMAtkSpd(float value)
-    {
-        //TODO: update for cast animation
-        float newMAtkSpd = _spAtk01ClipLength / value;
-        _animator.SetFloat("matkspd", newMAtkSpd);
-    }
+    public abstract void SetMAtkSpd(float value);
 
     // Set all animation variables to false
     public void ClearAnimParams()
@@ -107,25 +91,24 @@ public class BaseAnimationController : MonoBehaviour
                 ClearAnimParams();
             }
 
-            SetBool(parameterId, value == 1f);
+            Debug.Log("Obsolete: Please move away from straight animation id sharing.");
+            AnimatorControllerParameter anim = _animator.parameters[parameterId];
 
-            // AnimatorControllerParameter anim = _animator.parameters[animId];
-
-            // switch (anim.type)
-            // {
-            //     case AnimatorControllerParameterType.Float:
-            //         _animator.SetFloat(anim.name, value);
-            //         break;
-            //     case AnimatorControllerParameterType.Int:
-            //         _animator.SetInteger(anim.name, (int)value);
-            //         break;
-            //     case AnimatorControllerParameterType.Bool:
-            //         SetBool(anim.name, value == 1f);
-            //         break;
-            //     case AnimatorControllerParameterType.Trigger:
-            //         _animator.SetTrigger(anim.name);
-            //         break;
-            // }
+            switch (anim.type)
+            {
+                case AnimatorControllerParameterType.Float:
+                    _animator.SetFloat(anim.name, value);
+                    break;
+                case AnimatorControllerParameterType.Int:
+                    _animator.SetInteger(anim.name, (int)value);
+                    break;
+                case AnimatorControllerParameterType.Bool:
+                    SetBool(anim.name, value == 1f);
+                    break;
+                case AnimatorControllerParameterType.Trigger:
+                    _animator.SetTrigger(anim.name);
+                    break;
+            }
         }
     }
 

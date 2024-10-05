@@ -1,11 +1,14 @@
 public enum MonsterAnimationEvent : int
 {
-    Wait,
-    Walk,
-    Run,
-    Death,
-    Atk01,
-    AtkWait,
-    DeathWait,
-    SpWait
+    wait,
+    walk,
+    run,
+    death,
+    atk01,
+    atkwait,
+    deathwait,
+    spwait,
+    patkspd,
+    speed,
+    matkspd
 }

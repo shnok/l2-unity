@@ -5,6 +5,7 @@ using UnityEngine;
 // Used by NPCS and USERS
 public class NetworkHumanoidEntity : NetworkEntity
 {
+    public HumanoidAnimationController HumanoidAnimationController { get { return (HumanoidAnimationController)_referenceHolder.AnimationController; } }
     public override void Initialize()
     {
         base.Initialize();
@@ -18,15 +19,15 @@ public class NetworkHumanoidEntity : NetworkEntity
 
         if (moveType == ChangeWaitTypePacket.WaitType.WT_SITTING)
         {
-            AnimationController.SetBool("sit", true);
+            HumanoidAnimationController.SetBool(HumanoidAnimType.sit, true);
         }
         else if (moveType == ChangeWaitTypePacket.WaitType.WT_STANDING)
         {
-            AnimationController.SetBool("stand", true);
+            HumanoidAnimationController.SetBool(HumanoidAnimType.stand, true);
         }
         else if (moveType == ChangeWaitTypePacket.WaitType.WT_START_FAKEDEATH)
         {
-            AnimationController.SetBool("death", true);
+            HumanoidAnimationController.SetBool(HumanoidAnimType.death, true);
         }
         else if (moveType == ChangeWaitTypePacket.WaitType.WT_STOP_FAKEDEATH)
         {

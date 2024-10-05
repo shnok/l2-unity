@@ -12,9 +12,14 @@ public class HumanoidStateWait : HumanoidStateAction
     {
         SetBool(HumanoidAnimType.wait, false);
 
+        if (Entity.IsDead)
+        {
+            return;
+        }
+
         if (IsMoving())
         {
-            if (_entity.Running)
+            if (Entity.Running)
             {
                 SetBool(HumanoidAnimType.run, true);
             }

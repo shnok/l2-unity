@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MonsterStateAtk : MonsterStateBase
 {
-    private float _lastNormalizedTime = 0;
+    private float _lastNormalizedTime;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -14,22 +14,27 @@ public class MonsterStateAtk : MonsterStateBase
             clipInfos = animator.GetCurrentAnimatorClipInfo(0);
         }
 
-        _networkAnimationController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
+        AnimController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
-        PlaySoundAtRatio(EntitySoundEvent.Atk, audioHandler.AtkRatio);
-        PlaySoundAtRatio(EntitySoundEvent.Swish, audioHandler.SwishRatio);
+        SetBool(MonsterAnimationEvent.wait, false);
+        SetBool(MonsterAnimationEvent.atkwait, false);
+        SetBool(MonsterAnimationEvent.atk01, false);
+
+        PlaySoundAtRatio(EntitySoundEvent.Atk, AudioHandler.AtkRatio);
+        PlaySoundAtRatio(EntitySoundEvent.Swish, AudioHandler.SwishRatio);
+
         _lastNormalizedTime = 0;
+
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Check if the state has looped (re-entered)
+        SetBool(MonsterAnimationEvent.atk01, false);
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
-            // This block will be executed once when the state is re-entered after completion
             _lastNormalizedTime = stateInfo.normalizedTime;
-            PlaySoundAtRatio(EntitySoundEvent.Atk, audioHandler.AtkRatio);
-            PlaySoundAtRatio(EntitySoundEvent.Swish, audioHandler.SwishRatio);
+            PlaySoundAtRatio(EntitySoundEvent.Atk, AudioHandler.AtkRatio);
+            PlaySoundAtRatio(EntitySoundEvent.Swish, AudioHandler.SwishRatio);
         }
     }
 

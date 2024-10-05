@@ -6,12 +6,12 @@ public class HumanoidStateDead : HumanoidStateBase
     {
         LoadComponents(animator);
         SetBool(HumanoidAnimType.death, false);
-        PlaySoundAtRatio(EntitySoundEvent.Death, _audioHandler.DeathRatio);
+        PlaySoundAtRatio(EntitySoundEvent.Death, AudioHandler.DeathRatio);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool(HumanoidAnimType.death, false);
+        // SetBool(HumanoidAnimType.death, false);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

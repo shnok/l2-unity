@@ -6,6 +6,8 @@ public class HumanoidAnimationController : BaseAnimationController
 {
     [SerializeField] protected HumanoidAnimType _lastAnimationType;
     [SerializeField] protected WeaponAnimType _weaponAnim;
+    private int _lastAnimIndex = -1;
+    private bool _lastValue = false;
 
     public WeaponAnimType WeaponAnim { get { return _weaponAnim; } }
     public HumanoidAnimType LastAnim { get { return _lastAnimationType; } }
@@ -36,21 +38,43 @@ public class HumanoidAnimationController : BaseAnimationController
         SetBool(newAnimationIndex, true);
     }
 
-    // public override void SetBool(string name, bool value)
-    // {
-    //     if (value == true)
-    //     {
-    //         _lastAnimationVariableName = name;
-    //     }
+    public override void UpdateAnimatorAtkSpdMultiplier(float clipLength)
+    {
+        float newAtkSpd = clipLength * 1000f / _pAtkSpd;
+        _animator.SetFloat(GetParameterId(HumanoidAnimationEvent.patkspd), newAtkSpd);
+    }
 
-    //     base.SetBool(name, value);
-    // }
+    public override void SetMAtkSpd(float value)
+    {
+        //TODO: update for cast animation
+        float newMAtkSpd = _spAtk01ClipLength / value;
+        _animator.SetFloat(GetParameterId(HumanoidAnimationEvent.matkspd), newMAtkSpd);
+    }
+
+    public override void SetRunSpeed(float value)
+    {
+        _animator.SetFloat(GetParameterId(HumanoidAnimationEvent.run_speed), value);
+    }
+
+    public override void SetWalkSpeed(float value)
+    {
+        _animator.SetFloat(GetParameterId(HumanoidAnimationEvent.walk_speed), value);
+    }
 
     public void SetBool(HumanoidAnimType animType, bool value)
     {
+        int paramId = GetParameterId(animType, _weaponAnim);
+        if (paramId == _lastAnimIndex && value == _lastValue)
+        {
+            return;
+        }
+
+        _lastAnimIndex = paramId;
+        _lastValue = value;
+        _lastAnimationType = animType;
+
         base.SetBool(GetParameterId(animType, _weaponAnim), value);
     }
-
 
     public bool GetBool(HumanoidAnimType animType)
     {
@@ -66,5 +90,10 @@ public class HumanoidAnimationController : BaseAnimationController
         }
 
         return AnimatorParameterHashTable.GetHumanoidParameterHash(index);
+    }
+
+    protected int GetParameterId(HumanoidAnimationEvent animType)
+    {
+        return AnimatorParameterHashTable.GetHumanoidParameterHash((int)animType);
     }
 }

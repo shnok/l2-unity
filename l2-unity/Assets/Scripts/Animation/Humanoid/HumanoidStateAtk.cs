@@ -14,14 +14,14 @@ public class HumanoidStateAtk : HumanoidStateBase
             clipInfos = animator.GetCurrentAnimatorClipInfo(0);
         }
 
-        _networkAnimationController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
+        AnimationController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
         SetBool(HumanoidAnimType.wait, false);
         SetBool(HumanoidAnimType.atkwait, false);
         SetBool(HumanoidAnimType.atk01, false);
 
-        PlaySoundAtRatio(EntitySoundEvent.Atk_1H, _audioHandler.AtkRatio);
-        PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
+        PlaySoundAtRatio(EntitySoundEvent.Atk_1H, AudioHandler.AtkRatio);
+        PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
 
         _lastNormalizedTime = 0;
 
@@ -33,8 +33,8 @@ public class HumanoidStateAtk : HumanoidStateBase
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            PlaySoundAtRatio(EntitySoundEvent.Atk_1H, _audioHandler.AtkRatio);
-            PlaySoundAtRatio(ItemSoundEvent.sword_small, _audioHandler.SwishRatio);
+            PlaySoundAtRatio(EntitySoundEvent.Atk_1H, AudioHandler.AtkRatio);
+            PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
         }
     }
 

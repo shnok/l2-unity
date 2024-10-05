@@ -308,9 +308,7 @@ public class World : MonoBehaviour
         appearance.CollisionHeight = npcgrp.CollisionHeight;
 
         npc.Status = status;
-
         npc.Stats = stats;
-
         npc.Identity = identity;
         npc.Identity.NpcClass = npcgrp.ClassName;
         npc.Identity.Name = npcName.Name;
@@ -332,7 +330,7 @@ public class World : MonoBehaviour
 
         npcGo.SetActive(true);
 
-        npc.GetComponent<NetworkAnimationController>().Initialize();
+        npc.GetComponent<BaseAnimationController>().Initialize();
         npcGo.GetComponent<Gear>().Initialize(npc.Identity.Id, npc.RaceId);
         npc.Initialize();
 

@@ -2,12 +2,13 @@
 // Used by NPCS and USERS
 public class NetworkHumanoidCombat : NetworkCombat
 {
+    public HumanoidAnimationController HumanoidAnimationController { get { return (HumanoidAnimationController)_referenceHolder.AnimationController; } }
     public HumanoidGear Gear { get { return (HumanoidGear)_referenceHolder.Gear; } }
 
     protected override void OnDeath()
     {
         base.OnDeath();
-        AnimationController.SetAnimationProperty((int)HumanoidAnimationEvent.death, 1f, true);
+        HumanoidAnimationController.SetBool(HumanoidAnimType.death, true);
     }
 
     protected override void OnHit(bool criticalHit)
@@ -20,7 +21,7 @@ public class NetworkHumanoidCombat : NetworkCombat
     {
         if (base.StartAutoAttacking())
         {
-            AnimationController.SetBool("atk01_" + Gear.WeaponAnim, true);
+            HumanoidAnimationController.SetBool(HumanoidAnimType.atk01, true);
         }
 
         return true;
@@ -30,10 +31,10 @@ public class NetworkHumanoidCombat : NetworkCombat
     {
         if (base.StopAutoAttacking())
         {
-            AnimationController.SetBool("atk01_" + Gear.WeaponAnim, false);
+            HumanoidAnimationController.SetBool(HumanoidAnimType.atk01, false);
             if (!NetworkCharacterControllerReceive.IsMoving() && !IsDead())
             {
-                AnimationController.SetBool("atkwait_" + Gear.WeaponAnim, true);
+                HumanoidAnimationController.SetBool(HumanoidAnimType.atkwait, true);
             }
         }
 

@@ -10,9 +10,9 @@ public class HumanoidStateWalk : HumanoidStateAction
 
         _lastNormalizedTime = 0;
         SetBool(HumanoidAnimType.walk, false);
-        foreach (var ratio in _audioHandler.WalkStepRatios)
+        foreach (var ratio in AudioHandler.WalkStepRatios)
         {
-            _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
+            AudioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
         }
     }
 
@@ -20,12 +20,17 @@ public class HumanoidStateWalk : HumanoidStateAction
     {
         SetBool(HumanoidAnimType.walk, false);
 
+        if (Entity.IsDead)
+        {
+            return;
+        }
+
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            foreach (var ratio in _audioHandler.WalkStepRatios)
+            foreach (var ratio in AudioHandler.WalkStepRatios)
             {
-                _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
+                AudioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
             }
         }
 
@@ -42,7 +47,7 @@ public class HumanoidStateWalk : HumanoidStateAction
             }
             SetBool(HumanoidAnimType.wait, true);
         }
-        else if (_entity.Running)
+        else if (Entity.Running)
         {
             SetBool(HumanoidAnimType.run, true);
             return;

@@ -9,9 +9,9 @@ public class MonsterStateWait : MonsterStateBase
         LoadComponents(animator);
         if (RandomUtils.ShouldEventHappen(playBreatheSoundChancePercent))
         {
-            audioHandler.PlaySound(EntitySoundEvent.Wait);
+            AudioHandler.PlaySound(EntitySoundEvent.Wait);
         }
-        SetBool("spwait", false);
+        SetBool(MonsterAnimationEvent.spwait, false);
         started = true;
     }
 
@@ -20,7 +20,7 @@ public class MonsterStateWait : MonsterStateBase
         if ((stateInfo.normalizedTime % 1) >= 0.90f && started)
         {
             started = false;
-            SetBool("wait", true);
+            SetBool(MonsterAnimationEvent.wait, true);
         }
     }
 

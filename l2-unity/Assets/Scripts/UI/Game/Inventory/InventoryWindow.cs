@@ -29,8 +29,8 @@ public class InventoryWindow : L2PopupWindow
 
     [SerializeField] private int _usedSlots;
     [SerializeField] private int _slotCount;
-    [SerializeField] private int _currentWeight;
-    [SerializeField] private int _maximumWeight;
+    // [SerializeField] private int _currentWeight;
+    // [SerializeField] private int _maximumWeight;
     [SerializeField] private int _adenaCount;
 
     private Label _inventoryCountLabel;
@@ -321,8 +321,8 @@ public class InventoryWindow : L2PopupWindow
         //Adena
         _adenaCountLabel.text = _adenaCount.ToString();
 
-        _currentWeight = 0;
-        _maximumWeight = 10000;
+        // _currentWeight = 0;
+        // _maximumWeight = 10000;
         _weightLabel.text = "00.00%";
 
         // Tabs

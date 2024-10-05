@@ -1,10 +1,15 @@
 // Used by MONSTERS
+using UnityEngine;
+
 public class NetworkMonsterCombat : NetworkCombat
 {
+    public MonsterAnimationController MonsterAnimationController { get { return (MonsterAnimationController)_referenceHolder.AnimationController; } }
+
     protected override void OnDeath()
     {
         base.OnDeath();
-        AnimationController.SetAnimationProperty((int)MonsterAnimationEvent.Death, 1f, true);
+        Debug.LogWarning("DEAD");
+        MonsterAnimationController.SetBool(MonsterAnimationEvent.death, true);
     }
 
     protected override void OnHit(bool criticalHit)
@@ -17,7 +22,7 @@ public class NetworkMonsterCombat : NetworkCombat
     {
         if (base.StartAutoAttacking())
         {
-            AnimationController.SetAnimationProperty((int)MonsterAnimationEvent.Atk01, 1f);
+            MonsterAnimationController.SetBool(MonsterAnimationEvent.atk01, true);
         }
 
         if (NetworkCharacterControllerReceive != null)
@@ -35,7 +40,7 @@ public class NetworkMonsterCombat : NetworkCombat
         {
             if (!IsDead())
             {
-                AnimationController.SetAnimationProperty((int)MonsterAnimationEvent.AtkWait, 1f);
+                MonsterAnimationController.SetBool(MonsterAnimationEvent.atkwait, true);
             }
         }
 

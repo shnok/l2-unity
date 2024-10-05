@@ -29,6 +29,7 @@ public abstract class Entity : MonoBehaviour
     public BaseAnimationController AnimationController { get { return _referenceHolder.AnimationController; } }
     public Gear Gear { get { return _referenceHolder.Gear; } }
     public Combat Combat { get { return _referenceHolder.Combat; } }
+    public bool IsDead { get { return _referenceHolder.Combat.IsDead(); } }
 
     private void Awake()
     {
@@ -66,7 +67,10 @@ public abstract class Entity : MonoBehaviour
     public void EquipAllWeapons() { Gear.EquipAllWeapons(Appearance); }
     public void EquipAllArmors() { Gear.EquipAllArmors(Appearance); }
 
-    public virtual void OnStopMoving() { }
+    public virtual void OnStopMoving()
+    {
+        Debug.LogWarning("On stop moving base");
+    }
 
     public virtual void OnStartMoving(bool walking)
     {

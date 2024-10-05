@@ -1,6 +1,6 @@
 using System;
 
-public class HumanoidStateAction : HumanoidStateBase
+public class MonsterStateAction : MonsterStateBase
 {
     public bool IsMoving()
     {
@@ -9,7 +9,7 @@ public class HumanoidStateAction : HumanoidStateBase
 
     public bool IsAttacking()
     {
-        return AnimationController.LastAnim == HumanoidAnimType.atk01;
+        return AnimController.LastAnim == MonsterAnimationEvent.atk01;
     }
 
     protected bool ShouldAtkWait()

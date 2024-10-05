@@ -83,8 +83,6 @@ public class GameManager : MonoBehaviour
         SkillgrpTable.Instance.Initialize();
         LogongrpTable.Instance.Initialize();
         SystemMessageTable.Instance.Initialize();
-        IconTable.Instance.Initialize();
-        KeyImageTable.Instance.Initialize();
 
         // Caching
         ItemTable.Instance.CacheItems();
@@ -92,6 +90,8 @@ public class GameManager : MonoBehaviour
         ModelTable.Instance.Initialize();
         SkillEffectTable.Instance.Initialize();
         ParticleEffectTable.Instance.Initialize();
+        IconTable.Instance.Initialize();
+        KeyImageTable.Instance.Initialize();
 
         // Memory cleanup
         ArmorgrpTable.Instance.ClearTable();

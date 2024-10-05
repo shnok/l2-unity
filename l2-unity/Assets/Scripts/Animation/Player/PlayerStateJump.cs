@@ -10,7 +10,7 @@ public class PlayerStateJump : PlayerStateAction
         _lastNormalizedTime = 0;
 
         SetBool(HumanoidAnimType.jump, false, false);
-        SetBool(HumanoidAnimType.runjump, false, false);
+        SetBool(HumanoidAnimType.run_jump, false, false);
         _audioHandler.PlaySound(EntitySoundEvent.Jump_1);
     }
 

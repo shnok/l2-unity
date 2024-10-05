@@ -4,7 +4,6 @@ using UnityEngine;
 public class NetworkCharacterControllerReceive : MonoBehaviour
 {
     private CharacterController _characterController;
-    private NetworkAnimationController _animationReceive;
     private NetworkTransformReceive _networkTransformReceive;
     private Entity _entity;
     [SerializeField] private Vector3 _direction;
@@ -14,7 +13,6 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     private float _moveSpeedMultiplier = 1f;
 
     public Vector3 MoveDirection { get { return _direction; } set { _direction = value; } }
-    public NetworkAnimationController NetworkAnimationController { get { return _animationReceive; } }
 
     void Start()
     {
@@ -24,7 +22,6 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         }
         _entity = GetComponent<Entity>();
         _networkTransformReceive = GetComponent<NetworkTransformReceive>();
-        _animationReceive = GetComponent<NetworkAnimationController>();
         _characterController = GetComponent<CharacterController>();
 
         //adjust movespeed for player entities
@@ -32,11 +29,6 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         if (_entity.Identity.EntityType == EntityType.User)
         {
             _moveSpeedMultiplier = 1.1f;
-        }
-
-        if (_characterController == null || World.Instance.OfflineMode || _animationReceive == null)
-        {
-            this.enabled = false;
         }
 
         _direction = Vector3.zero;
@@ -92,6 +84,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         {
             if (_direction != Vector3.zero)
             {
+                Debug.LogWarning("Stopped");
                 _entity.OnStopMoving();
                 //TODO check if has target and is attacking
             }

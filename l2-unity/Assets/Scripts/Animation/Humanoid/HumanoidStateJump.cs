@@ -9,21 +9,21 @@ public class HumanoidStateJump : HumanoidStateBase
     {
         LoadComponents(animator);
 
-        if (GetBool(HumanoidAnimType.runjump) == true)
+        if (GetBool(HumanoidAnimType.run_jump) == true)
         {
             _wasRunning = true;
         }
 
         SetBool(HumanoidAnimType.jump, false);
-        SetBool(HumanoidAnimType.runjump, false);
-        _audioHandler.PlaySound(EntitySoundEvent.Jump_1);
+        SetBool(HumanoidAnimType.run_jump, false);
+        AudioHandler.PlaySound(EntitySoundEvent.Jump_1);
         _lastNormalizedTime = 0;
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetBool(HumanoidAnimType.jump, false);
-        SetBool(HumanoidAnimType.runjump, false);
+        SetBool(HumanoidAnimType.run_jump, false);
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
             _lastNormalizedTime = stateInfo.normalizedTime;
@@ -40,7 +40,7 @@ public class HumanoidStateJump : HumanoidStateBase
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _audioHandler.PlaySound(EntitySoundEvent.Step);
-        _audioHandler.PlaySound(EntitySoundEvent.Step);
+        AudioHandler.PlaySound(EntitySoundEvent.Step);
+        AudioHandler.PlaySound(EntitySoundEvent.Step);
     }
 }

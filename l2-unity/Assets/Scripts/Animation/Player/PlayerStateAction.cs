@@ -23,11 +23,11 @@ public class PlayerStateAction : PlayerStateBase
                 CameraController.Instance.StickToBone = true;
                 if (run)
                 {
-                    SetBool(HumanoidAnimType.runjump, false, true);
+                    SetBool(HumanoidAnimType.run_jump, true, true);
                 }
                 else
                 {
-                    SetBool(HumanoidAnimType.jump, false, true);
+                    SetBool(HumanoidAnimType.jump, true, true);
                 }
                 return true;
             }

@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PlayerStateStand : PlayerStateAction
 {
-    private float _lastNormalizedTime = 0;
+    // private float _lastNormalizedTime = 0;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         LoadComponents(animator);
         SetBool(HumanoidAnimType.stand, false, false);
-        _lastNormalizedTime = 0;
+        // _lastNormalizedTime = 0;
         _audioHandler.PlaySound(EntitySoundEvent.Standup);
     }
 

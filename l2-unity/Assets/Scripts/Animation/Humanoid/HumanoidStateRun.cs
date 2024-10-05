@@ -12,9 +12,9 @@ public class HumanoidStateRun : HumanoidStateAction
         _hasStarted = true;
         _lastNormalizedTime = 0;
         SetBool(HumanoidAnimType.run, false);
-        foreach (var ratio in _audioHandler.RunStepRatios)
+        foreach (var ratio in AudioHandler.RunStepRatios)
         {
-            _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
+            AudioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
         }
     }
 
@@ -22,11 +22,16 @@ public class HumanoidStateRun : HumanoidStateAction
     {
         SetBool(HumanoidAnimType.run, false);
 
+        if (Entity.IsDead)
+        {
+            return;
+        }
+
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f)
         {
-            if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance))
+            if (RandomUtils.ShouldEventHappen(AudioHandler.RunBreathChance))
             {
-                _audioHandler.PlaySound(EntitySoundEvent.Breath);
+                AudioHandler.PlaySound(EntitySoundEvent.Breath);
             }
             _hasStarted = false;
         }
@@ -38,9 +43,9 @@ public class HumanoidStateRun : HumanoidStateAction
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            foreach (var ratio in _audioHandler.RunStepRatios)
+            foreach (var ratio in AudioHandler.RunStepRatios)
             {
-                _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
+                AudioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
             }
         }
 
@@ -57,7 +62,7 @@ public class HumanoidStateRun : HumanoidStateAction
             }
             SetBool(HumanoidAnimType.wait, true);
         }
-        else if (!_entity.Running)
+        else if (!Entity.Running)
         {
             SetBool(HumanoidAnimType.walk, true);
             return;

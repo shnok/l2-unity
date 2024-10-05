@@ -1,7 +1,11 @@
 
 // Used by MONSTERS
+using UnityEngine;
+
 public class NetworkMonsterEntity : NetworkEntity
 {
+    public MonsterAnimationController MonsterAnimationController { get { return (MonsterAnimationController)_referenceHolder.AnimationController; } }
+
     public override void Initialize()
     {
         base.Initialize();
@@ -11,15 +15,17 @@ public class NetworkMonsterEntity : NetworkEntity
 
     public override void OnStopMoving()
     {
-        if (AnimationController.GetAnimationProperty((int)MonsterAnimationEvent.Atk01) == 0f)
-        {
-            AnimationController.SetAnimationProperty((int)MonsterAnimationEvent.Wait, 1f);
-        }
+        // if (MonsterAnimationController.GetBool(MonsterAnimationEvent.atk01) == false)
+        // {
+        //     Debug.LogWarning("On stop moving valid monster");
+        //     MonsterAnimationController.SetBool(MonsterAnimationEvent.wait, true);
+        // }
+        Debug.LogWarning("On stop moving monster");
     }
 
     public override void OnStartMoving(bool walking)
     {
         base.OnStartMoving(walking);
-        AnimationController.SetAnimationProperty(walking ? (int)MonsterAnimationEvent.Walk : (int)MonsterAnimationEvent.Run, 1f);
+        // MonsterAnimationController.SetBool(walking ? MonsterAnimationEvent.walk : MonsterAnimationEvent.run, true);
     }
 }

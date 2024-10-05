@@ -3,59 +3,49 @@ using UnityEngine;
 
 public class HumanoidStateBase : StateMachineBehaviour
 {
-    protected HumanoidAudioHandler _audioHandler;
-    protected NetworkCharacterControllerReceive _networkCharacterControllerReceive;
-    protected NetworkAnimationController _networkAnimationController;
-    protected Entity _entity;
+    protected NetworkEntityReferenceHolder _referenceHolder;
+
+    protected HumanoidAudioHandler AudioHandler { get { return (HumanoidAudioHandler)_referenceHolder.AudioHandler; } }
+    protected NetworkCharacterControllerReceive CharacterController { get { return (NetworkCharacterControllerReceive)_referenceHolder.NetworkCharacterControllerReceive; } }
+    protected NetworkAnimationController AnimationController { get { return (NetworkAnimationController)_referenceHolder.AnimationController; } }
+    protected Entity Entity { get { return _referenceHolder.Entity; } }
+
     protected bool _cancelAction = false;
 
     public void LoadComponents(Animator animator)
     {
-        Transform entityTransform = animator.transform;
-        if (_entity == null)
+        if (_referenceHolder == null)
         {
-            _entity = entityTransform.GetComponent<Entity>();
+            Transform entityTransform = animator.transform;
+            _referenceHolder = entityTransform.GetComponent<NetworkEntityReferenceHolder>();
 
-            if (_entity == null)
+            if (_referenceHolder == null)
             {
                 entityTransform = animator.transform.parent.parent;
-                _entity = entityTransform.GetComponent<Entity>();
+                _referenceHolder = entityTransform.GetComponent<NetworkEntityReferenceHolder>();
             }
-        }
-
-        if (_audioHandler == null)
-        {
-            _audioHandler = animator.gameObject.GetComponent<HumanoidAudioHandler>();
-        }
-        if (_networkCharacterControllerReceive == null)
-        {
-            _networkCharacterControllerReceive = entityTransform.GetComponent<NetworkCharacterControllerReceive>();
-        }
-        if (_networkAnimationController == null)
-        {
-            _networkAnimationController = entityTransform.GetComponent<NetworkAnimationController>();
         }
     }
 
     public void PlaySoundAtRatio(EntitySoundEvent soundEvent, float ratio)
     {
-        _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
+        AudioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
     public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio)
     {
-        _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
+        AudioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
     public void SetBool(HumanoidAnimType animation, bool value)
     {
         _cancelAction = true;
 
-        _networkAnimationController.SetBool(animation, value);
+        AnimationController.SetBool(animation, value);
     }
 
     public bool GetBool(HumanoidAnimType animation)
     {
-        return _networkAnimationController.GetBool(animation);
+        return AnimationController.GetBool(animation);
     }
 }

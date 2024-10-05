@@ -10,7 +10,7 @@ public enum HumanoidAnimType
     wait_hit = 38,
     pickup = 39,
     jump = 40,
-    runjump = 41,
+    run_jump = 41,
     social01 = 42,
     social02 = 43,
     death = 44,

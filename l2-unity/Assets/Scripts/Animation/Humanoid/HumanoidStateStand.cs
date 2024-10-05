@@ -9,7 +9,7 @@ public class HumanoidStateStand : HumanoidStateBase
         LoadComponents(animator);
         SetBool(HumanoidAnimType.stand, false);
         _lastNormalizedTime = 0;
-        _audioHandler.PlaySound(EntitySoundEvent.Standup);
+        AudioHandler.PlaySound(EntitySoundEvent.Standup);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
