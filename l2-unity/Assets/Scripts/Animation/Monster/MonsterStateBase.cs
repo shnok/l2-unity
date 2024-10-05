@@ -28,13 +28,11 @@ public class MonsterStateBase : StateMachineBehaviour
 
     public void PlaySoundAtRatio(EntitySoundEvent soundEvent, float ratio)
     {
-        Debug.LogWarning("PlaySoundAtRatio " + soundEvent);
         AudioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
     public void SetBool(MonsterAnimationEvent animationEvent, bool value)
     {
-        Debug.LogWarning("SetBool " + animationEvent + "=" + value);
         AnimController.SetBool(animationEvent, value);
     }
 }

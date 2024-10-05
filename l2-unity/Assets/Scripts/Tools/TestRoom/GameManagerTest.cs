@@ -18,28 +18,30 @@ public class GameManagerTest : MonoBehaviour
         WeapongrpTable.Instance.Initialize();
         NpcgrpTable.Instance.Initialize();
         NpcNameTable.Instance.Initialize();
-        ActionNameTable.Instance.Initialize();
-        SysStringTable.Instance.Initialize();
-        SkillNameTable.Instance.Initialize();
-        SkillgrpTable.Instance.Initialize();
-        LogongrpTable.Instance.Initialize();
-        SystemMessageTable.Instance.Initialize();
-        IconTable.Instance.Initialize();
-        KeyImageTable.Instance.Initialize();
+        // ActionNameTable.Instance.Initialize();
+        // SysStringTable.Instance.Initialize();
+        // SkillNameTable.Instance.Initialize();
+        // SkillgrpTable.Instance.Initialize();
+        // LogongrpTable.Instance.Initialize();
+        // SystemMessageTable.Instance.Initialize();
+        // IconTable.Instance.Initialize();
+        // KeyImageTable.Instance.Initialize();
 
-        // Caching
+        // // Caching
         ItemTable.Instance.CacheItems();
-        SkillTable.Instance.CacheSkills();
+        // SkillTable.Instance.CacheSkills();
+        ChargrpTable.Instance.Initialize();
         ModelTable.Instance.Initialize();
-        SkillEffectTable.Instance.Initialize();
-        ParticleEffectTable.Instance.Initialize();
+        // SkillEffectTable.Instance.Initialize();
+        // ParticleEffectTable.Instance.Initialize();
 
-        // Memory cleanup
-        ArmorgrpTable.Instance.ClearTable();
-        EtcItemgrpTable.Instance.ClearTable();
-        ItemNameTable.Instance.ClearTable();
-        SkillgrpTable.Instance.ClearTable();
-        SkillNameTable.Instance.ClearTable();
+        // // Memory cleanup
+        // ArmorgrpTable.Instance.ClearTable();
+        // EtcItemgrpTable.Instance.ClearTable();
+        // ItemNameTable.Instance.ClearTable();
+        // SkillgrpTable.Instance.ClearTable();
+        // SkillNameTable.Instance.ClearTable();
+
     }
 
 }
