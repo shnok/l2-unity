@@ -24,9 +24,9 @@ public class CharacterBuilder : MonoBehaviour
         //Debug.Log($"Building character: Race:{raceId} Sex:{appearance.Sex} Face:{appearance.Face} Hair:{appearance.HairStyle} HairC:{appearance.HairColor}");
 
         GameObject entity = Instantiate(ModelTable.Instance.GetContainer(raceId, entityType));
-        GameObject face = Instantiate(ModelTable.Instance.GetFace(raceId, appearance.Face));
-        GameObject hair1 = Instantiate(ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, false));
-        GameObject hair2 = Instantiate(ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, true));
+        GameObject face = ModelTable.Instance.GetFace(raceId, appearance.Face);
+        GameObject hair1 = ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, false);
+        GameObject hair2 = ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, true);
 
         Transform container = entity.transform.GetChild(0);
 

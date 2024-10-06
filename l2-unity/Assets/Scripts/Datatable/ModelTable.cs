@@ -25,8 +25,10 @@ public class ModelTable
     private GameObject[] _playerContainers;
     private GameObject[] _userContainers;
     private GameObject[] _pawnContainers;
-    private GameObject[,] _faces;
-    private GameObject[,] _hair;
+    private Material[,] _faceMaterials;
+    private GameObject[] _faceModels;
+    private Material[,,] _hairMaterials;
+    private GameObject[,] _hairModels;
     private Dictionary<string, GameObject> _weapons;
     private Dictionary<string, GameObject> _npcs;
     private Dictionary<string, L2Armor> _armors;
@@ -114,7 +116,8 @@ public class ModelTable
 
     private void CacheFaces()
     {
-        _faces = new GameObject[RACE_COUNT, FACE_COUNT]; // there is 14 races, each race has 6 faces
+        _faceModels = new GameObject[RACE_COUNT]; // there is 14 races, each race has 1 face model
+        _faceMaterials = new Material[RACE_COUNT, FACE_COUNT]; // there is 14 races, each race has 6 face materials
 
         // Faces
         for (int r = 0; r < RACE_COUNT; r++)
@@ -124,22 +127,17 @@ public class ModelTable
 
             if (ChargrpTable.Instance.CharGrps.TryGetValue(raceId, out Chargrp chargrp))
             {
+                GameObject faceModel = LoadFaceModel(chargrp.FaceMesh);
+                if (faceModel == null)
+                {
+                    continue;
+                }
+
+                _faceModels[r] = faceModel;
+
                 for (int i = 0; i < chargrp.FaceTextures.Length; i++)
                 {
-                    GameObject faceModel = LoadFaceModel(chargrp.FaceMesh);
-                    if (faceModel == null)
-                    {
-                        break;
-                    }
-
-                    Material[] faceMat = { LoadFaceMaterial(chargrp.FaceTextures[i]) };
-                    if (faceMat == null)
-                    {
-                        break;
-                    }
-
-                    faceModel.GetComponentInChildren<SkinnedMeshRenderer>().materials = faceMat;
-                    _faces[r, i] = faceModel;
+                    _faceMaterials[r, i] = LoadFaceMaterial(chargrp.FaceTextures[i]);
                 }
             }
         }
@@ -161,7 +159,7 @@ public class ModelTable
         }
         else
         {
-            Debug.Log($"Successfully loaded face model at {modelPath}");
+            // Debug.Log($"Successfully loaded face model at {modelPath}");
         }
 
         return face;
@@ -178,11 +176,11 @@ public class ModelTable
         Material material = (Material)Resources.Load(materialPath);
         if (material == null)
         {
-            Debug.LogWarning($"Can't find face material at {materialPath}");
+            // Debug.LogWarning($"Can't find face material at {materialPath}");
         }
         else
         {
-            Debug.Log($"Successfully loaded face material at {materialPath}");
+            // Debug.Log($"Successfully loaded face material at {materialPath}");
         }
 
         return material;
@@ -191,7 +189,8 @@ public class ModelTable
 
     private void CacheHair()
     {
-        _hair = new GameObject[RACE_COUNT, HAIR_STYLE_COUNT * HAIR_COLOR_COUNT * 2]; // there is 14 races, each race has 6 hairstyle (2 models each) of 4 colors
+        _hairModels = new GameObject[RACE_COUNT, HAIR_STYLE_COUNT * 2]; // there is 14 races, each race has 6 hairstyle (2 models each) of 4 colors
+        _hairMaterials = new Material[RACE_COUNT, HAIR_STYLE_COUNT * 2, HAIR_COLOR_COUNT]; // there is 14 races, each race has 6 hairstyle (2 models each) of 4 colors
 
         // Hair
         for (int r = 0; r < RACE_COUNT; r++)
@@ -202,52 +201,23 @@ public class ModelTable
 
             if (ChargrpTable.Instance.CharGrps.TryGetValue(raceId, out Chargrp chargrp))
             {
-                //     for (int hs = 0; hs < HAIR_STYLE_COUNT; hs++)
-                // {
-                //     for (int hc = 0; hc < HAIR_COLOR_COUNT; hc++)
-                //     {
-                //         int index = hs * HAIR_STYLE_COUNT + (hc * 2);
-                //         // string path = $"Data/Animations/{race}/{raceId}/Hair/{raceId}_h_{hs}_{hc}_ah";
-                //         // _hair[r, index] = Resources.Load<GameObject>(path);
-                //         // //Debug.Log($"Loading hair {hs} color {hc} at {index} for race {raceId} [{path}]");
-
-                //         // path = $"Data/Animations/{race}/{raceId}/Hair/{raceId}_h_{hs}_{hc}_bh";
-                //         // _hair[r, index + 1] = Resources.Load<GameObject>(path);
-                //         // //Debug.Log($"Loading hair {hs} color {hc} at {index + 1} for race {raceId} [{path}]");
-                //     }
-                // }
-
                 for (int hs = 0; hs < HAIR_STYLE_COUNT; hs++)
                 {
+                    GameObject ahModel = LoadHairModel(chargrp.HairStyles[hs].AhModel);
+                    GameObject bhModel = LoadHairModel(chargrp.HairStyles[hs].BhModel);
+
+                    if (ahModel == null && bhModel == null)
+                    {
+                        continue;
+                    }
+
+                    _hairModels[r, hs * 2] = ahModel;
+                    _hairModels[r, hs * 2 + 1] = bhModel;
+
                     for (int hc = 0; hc < HAIR_COLOR_COUNT; hc++)
                     {
-                        GameObject ahModel = LoadHairModel(chargrp.HairStyles[hs].AhModel);
-                        GameObject bhModel = LoadHairModel(chargrp.HairStyles[hs].BhModel);
-
-                        if (ahModel == null && bhModel == null)
-                        {
-                            break;
-                        }
-
-                        Debug.Log("======");
-                        Debug.Log(chargrp.HairStyles[hs].AhTextures[hc]);
-                        Debug.Log(chargrp.HairStyles[hs].BhTextures[hc]);
-                        Material[] ahMaterial = { LoadHairMaterial(chargrp.HairStyles[hs].AhTextures[hc]) };
-                        Material[] bhMaterial = { LoadHairMaterial(chargrp.HairStyles[hs].BhTextures[hc]) };
-
-                        if (ahModel != null)
-                        {
-                            ahModel.GetComponentInChildren<SkinnedMeshRenderer>().materials = ahMaterial;
-                        }
-
-                        if (bhModel != null)
-                        {
-                            bhModel.GetComponentInChildren<SkinnedMeshRenderer>().materials = bhMaterial;
-                        }
-
-                        int index = hs * HAIR_STYLE_COUNT + (hc * 2);
-                        _hair[r, index] = ahModel;
-                        _hair[r, index + 1] = bhModel;
+                        _hairMaterials[r, hs * 2, hc] = LoadHairMaterial(chargrp.HairStyles[hs].AhTextures[hc]);
+                        _hairMaterials[r, hs * 2 + 1, hc] = LoadHairMaterial(chargrp.HairStyles[hs].BhTextures[hc]);
                     }
                 }
             }
@@ -275,7 +245,7 @@ public class ModelTable
         }
         else
         {
-            Debug.Log($"Successfully loaded hair model at {modelPath}");
+            // Debug.Log($"Successfully loaded hair model at {modelPath}");
         }
 
         return face;
@@ -297,11 +267,11 @@ public class ModelTable
         Material material = (Material)Resources.Load(materialPath);
         if (material == null)
         {
-            Debug.LogWarning($"Can't find hair material at {materialPath}");
+            // Debug.LogWarning($"Can't find hair material at {materialPath}");
         }
         else
         {
-            Debug.Log($"Successfully loaded hair material at {materialPath}");
+            // Debug.Log($"Successfully loaded hair material at {materialPath}");
         }
 
         return material;
@@ -605,31 +575,56 @@ public class ModelTable
 
     public GameObject GetFace(CharacterModelType raceId, byte face)
     {
-        GameObject go = _faces[(byte)raceId, face];
-        if (go == null)
+        face = (byte)Mathf.Min(face, FACE_COUNT - 1);
+
+        Debug.Log($"Loading Face[{face}] Race:{raceId}");
+        GameObject prefab = _faceModels[(byte)raceId];
+        if (prefab == null)
         {
-            Debug.LogError($"Can't find face {face} for race {raceId} at index {raceId},{face}");
+            Debug.LogError($"Can't find face model for race {raceId} at index {raceId},{face}");
         }
+
+        Material material = _faceMaterials[(byte)raceId, face];
+        if (material == null)
+        {
+            Debug.LogError($"Can't find face material {face} for race {raceId} at index {raceId},{face}");
+        }
+
+        GameObject go = GameObject.Instantiate(prefab);
+        go.GetComponentInChildren<SkinnedMeshRenderer>().material = material;
 
         return go;
     }
 
     public GameObject GetHair(CharacterModelType raceId, byte hairStyle, byte hairColor, bool bh)
     {
-        byte index = (byte)(hairStyle * 8 + hairColor * 2);
+        hairStyle = (byte)Mathf.Min(hairStyle, HAIR_STYLE_COUNT - 1);
+        hairColor = (byte)Mathf.Min(hairColor, HAIR_COLOR_COUNT - 1);
+
+        hairStyle = (byte)(hairStyle * 2);
 
         if (bh)
         {
-            index += 1;
+            hairStyle += 1;
         }
 
-        //Debug.Log($"Loading hair[{index}] Race:{raceId} Model:{hairStyle}_{hairColor}_{(bh ? "bh" : "ah")}");
+        // Debug.Log($"Loading hair[{hairStyle}:{hairColor}] Race:{raceId} Model:{hairStyle}_{hairColor}_{(bh ? "bh" : "ah")}");
 
-        GameObject go = _hair[(byte)raceId, index];
-        if (go == null)
+        GameObject prefab = _hairModels[(byte)raceId, hairStyle];
+        if (prefab == null)
         {
-            Debug.LogError($"Can't find hairstyle {hairStyle} haircolor {hairColor} for race {raceId} at index {raceId},{index}");
+            Debug.LogError($"Can't find hairstyle model {hairStyle} haircolor {hairColor} for race {raceId} at index {raceId},{hairStyle}");
         }
+
+        Material material = _hairMaterials[(byte)raceId, hairStyle, hairColor];
+
+        if (material == null)
+        {
+            Debug.LogError($"Can't find hairstyle material {hairStyle} haircolor {hairColor} for race {raceId} at index {raceId},{hairColor}");
+        }
+
+        GameObject go = GameObject.Instantiate(prefab);
+        go.GetComponentInChildren<SkinnedMeshRenderer>().material = material;
 
         return go;
     }
