@@ -809,6 +809,9 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2472,6 +2475,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8589996567616174635}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6265359090527958917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8309814528943177086}
+  m_Layer: 11
+  m_Name: Bodyparts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8309814528943177086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6265359090527958917}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6095430670160201432}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6274383899046263157
 GameObject:
   m_ObjectHideFlags: 0
@@ -2730,6 +2764,7 @@ Transform:
   m_Children:
   - {fileID: 1674543035899714351}
   - {fileID: 8614159606107037076}
+  - {fileID: 8309814528943177086}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8358534741043453301
@@ -2746,6 +2781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rootSkinnedRenderer: {fileID: 6051833166114314374}
   _destSkinnedRenderer: []
+  _bodyPartsContainer: {fileID: 0}
 --- !u!114 &3760947408314834617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2760,8 +2796,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 3636995414673506186}
   _resetStateOnReceive: 1
-  _atk01ClipLength: 1000
-  _spAtk01ClipLength: 1000
+  _lastAnimationType: 0
+  _weaponAnim: 0
 --- !u!114 &4936896974392995554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2811,7 +2847,7 @@ MonoBehaviour:
     _objectTransform: {fileID: 0}
 --- !u!95 &3636995414673506186
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2825,6 +2861,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1

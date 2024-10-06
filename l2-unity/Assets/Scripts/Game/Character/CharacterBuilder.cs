@@ -28,7 +28,7 @@ public class CharacterBuilder : MonoBehaviour
         GameObject hair1 = ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, false);
         GameObject hair2 = ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, true);
 
-        Transform container = entity.transform.GetChild(0);
+        Transform container = entity.transform.GetChild(0).GetChild(0).GetChild(2);
 
         face.transform.SetParent(container.transform, false);
         hair1.transform.SetParent(container.transform, false);

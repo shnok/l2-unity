@@ -46,10 +46,10 @@ GameObject:
   - component: {fileID: 6719039449346300144}
   - component: {fileID: 6158534783003311445}
   - component: {fileID: 286808273353709975}
-  - component: {fileID: 5136009980192550727}
   - component: {fileID: 3064332933061382819}
   - component: {fileID: 5186500308137901694}
   - component: {fileID: 2816631728359154816}
+  - component: {fileID: 5136009980192550727}
   m_Layer: 11
   m_Name: Player_FDwarf
   m_TagString: Player
@@ -265,7 +265,7 @@ MonoBehaviour:
   _rightHand: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
-  _weaponAnim: 
+  _weaponAnim: 0
   _torsoMeta:
     _id: 0
     _icon: 
@@ -467,7 +467,7 @@ MonoBehaviour:
       _inventoryType: 
       _crystallizable: 0
   _skinnedMeshSync: {fileID: 1671375252654941337}
-  _bodypartsContainer: {fileID: 4661837340642020729}
+  _bodypartsContainer: {fileID: 1680675254067426313}
   _torso: {fileID: 0}
   _fullarmor: {fileID: 0}
   _legs: {fileID: 0}
@@ -491,29 +491,6 @@ MonoBehaviour:
   _attackTarget: {fileID: 0}
   _stopAutoAttackTime: 0
   _startAutoAttackTime: 0
---- !u!114 &5136009980192550727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6373500069190494077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6dd7d6ef87a0c640b45fe5ff487286d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveDirection: {x: 0, y: 0, z: 0}
-  _currentSpeed: 0
-  _defaultRunSpeed: 4
-  _defaultWalkSpeed: 4
-  _running: 1
-  _measuredSpeed: 0
-  _jumpForce: 10
-  _gravity: 28
-  _targetPosition: {x: 0, y: 0, z: 0}
-  _runningToDestination: 0
-  _lookAtTarget: {fileID: 0}
 --- !u!114 &3064332933061382819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,6 +560,29 @@ MonoBehaviour:
   _sharingLoopDelayMs: 100
   _lastDirection: {x: 0, y: 0, z: 0}
   _lastSharingTimestamp: 0
+--- !u!114 &5136009980192550727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373500069190494077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6dd7d6ef87a0c640b45fe5ff487286d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveDirection: {x: 0, y: 0, z: 0}
+  _currentSpeed: 0
+  _defaultRunSpeed: 4
+  _defaultWalkSpeed: 4
+  _running: 1
+  _measuredSpeed: 0
+  _jumpForce: 10
+  _gravity: 28
+  _targetPosition: {x: 0, y: 0, z: 0}
+  _runningToDestination: 0
+  _lookAtTarget: {fileID: 0}
 --- !u!1001 &368009711232337527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -677,6 +677,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 466f0e7aad09a4b4b9d0c4fecc18ecb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1680675254067426313 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1317755738442936958, guid: 4b2b8fc0171059f44b7875e4f052866c, type: 3}
+  m_PrefabInstance: {fileID: 368009711232337527}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2201293818743324380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1988339172662884523, guid: 4b2b8fc0171059f44b7875e4f052866c, type: 3}

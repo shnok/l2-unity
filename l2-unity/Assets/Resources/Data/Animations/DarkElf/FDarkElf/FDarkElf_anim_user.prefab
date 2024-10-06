@@ -445,6 +445,37 @@ Transform:
   - {fileID: 1280151280196961912}
   m_Father: {fileID: 3885517578395446118}
   m_LocalEulerAnglesHint: {x: 0.6092169, y: -4.8779616, z: 5.573952}
+--- !u!1 &1071711386273729558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4367513314204199165}
+  m_Layer: 6
+  m_Name: Bodyparts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4367513314204199165
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071711386273729558}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2178271400092677819}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1095881731511582514
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,6 +1925,7 @@ Transform:
   m_Children:
   - {fileID: 1182428725896554679}
   - {fileID: 3803566905081084580}
+  - {fileID: 4367513314204199165}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5939840494037451108
@@ -1910,6 +1942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rootSkinnedRenderer: {fileID: 6403217200388833659}
   _destSkinnedRenderer: []
+  _bodyPartsContainer: {fileID: 0}
 --- !u!95 &27258672353021147
 Animator:
   serializedVersion: 7
@@ -1993,7 +2026,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 27258672353021147}
   _resetStateOnReceive: 0
-  _spAtk01ClipLength: 1000
+  _lastAnimationType: 0
+  _weaponAnim: 0
 --- !u!1 &5026220274059062617
 GameObject:
   m_ObjectHideFlags: 0
