@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BaseAnimationAudioHandler : MonoBehaviour
 {
-    [SerializeField] protected Animator _animator;
+    [SerializeField] protected EntityReferenceHolder _entityReferenceHolder;
     [SerializeField] protected float[] _walkStepRatios = new float[] { 0.25f, 0.75f };
     [SerializeField] protected float[] _runStepRatios = new float[] { 0.25f, 0.75f };
     [SerializeField] protected float _swishRatio = 0.25f;
@@ -22,6 +22,7 @@ public class BaseAnimationAudioHandler : MonoBehaviour
     public float AtkRatio { get { return _atkRatio; } }
     public float DeathRatio { get { return _deathRatio; } }
     public float FallRatio { get { return _fallRatio; } }
+    public Animator Animator { get { return _entityReferenceHolder.Animator; } }
 
     private void Start()
     {
@@ -30,10 +31,10 @@ public class BaseAnimationAudioHandler : MonoBehaviour
 
     protected virtual void Initialize()
     {
-        if (_animator == null)
+        if (_entityReferenceHolder == null)
         {
-            Debug.LogWarning($"[{transform.name}] Animator was not assigned, please pre-assign it to avoid unecessary load.");
-            _animator = GetComponent<Animator>();
+            Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
+            _entityReferenceHolder = GetComponent<EntityReferenceHolder>();
         }
     }
 
@@ -56,7 +57,7 @@ public class BaseAnimationAudioHandler : MonoBehaviour
 
     public IEnumerator PlaySoundAtRatioCoroutine(EntitySoundEvent soundEvent, float ratio)
     {
-        while ((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
+        while ((Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
         {
             yield return null;
         }
@@ -84,7 +85,7 @@ public class BaseAnimationAudioHandler : MonoBehaviour
 
     public IEnumerator PlaySoundAtRatioCoroutine(ItemSoundEvent soundEvent, float ratio)
     {
-        while ((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
+        while ((Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
         {
             yield return null;
         }

@@ -693,7 +693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b171cd31a29e44a957f2c850e56144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 2730926279133337347}
+  _entityReferenceHolder: {fileID: 5588688570491646378}
   _walkStepRatios:
   - 0.25
   - 0.75
@@ -875,6 +875,7 @@ MonoBehaviour:
   _combat: {fileID: 4504644219758913754}
   _animationController: {fileID: 1318142390958055407}
   _audioHandler: {fileID: 1167209409920888712}
+  _animator: {fileID: 2730926279133337347}
   _networkTransformReceive: {fileID: 6674336735786612990}
   _networkCharacterControllerReceive: {fileID: 5946025211663629625}
 --- !u!114 &1318142390958055407
@@ -889,8 +890,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338484d3f45eee84881eb77639612ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 2730926279133337347}
+  _entityReferenceHolder: {fileID: 5588688570491646378}
   _resetStateOnReceive: 1
+  _lastAnim: 0
 --- !u!114 &4504644219758913754
 MonoBehaviour:
   m_ObjectHideFlags: 0

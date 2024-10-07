@@ -11,9 +11,9 @@ public class PlayerStateRun : PlayerStateAction
         _hasStarted = true;
         _lastNormalizedTime = 0;
 
-        foreach (var ratio in _audioHandler.RunStepRatios)
+        foreach (var ratio in AudioHandler.RunStepRatios)
         {
-            _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
+            AudioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
         }
     }
 
@@ -21,9 +21,9 @@ public class PlayerStateRun : PlayerStateAction
     {
         if (_hasStarted && (stateInfo.normalizedTime % 1) < 0.5f)
         {
-            if (RandomUtils.ShouldEventHappen(_audioHandler.RunBreathChance))
+            if (RandomUtils.ShouldEventHappen(AudioHandler.RunBreathChance))
             {
-                _audioHandler.PlaySound(EntitySoundEvent.Breath);
+                AudioHandler.PlaySound(EntitySoundEvent.Breath);
             }
             _hasStarted = false;
         }
@@ -35,9 +35,9 @@ public class PlayerStateRun : PlayerStateAction
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            foreach (var ratio in _audioHandler.RunStepRatios)
+            foreach (var ratio in AudioHandler.RunStepRatios)
             {
-                _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
+                AudioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
             }
         }
 

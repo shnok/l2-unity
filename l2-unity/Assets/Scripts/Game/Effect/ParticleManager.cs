@@ -59,7 +59,7 @@ public class ParticleManager : MonoBehaviour
         }
     }
 
-    public void CastSkill(Entity caster, Skill skill)
+    public void SpawnSkillParticles(Entity caster, Skill skill)
     {
         List<EffectEmitter> castingActions = skill.SkillEffect.CastingActions;
         if (castingActions == null)
@@ -73,7 +73,27 @@ public class ParticleManager : MonoBehaviour
             Debug.Log(caster);
             Debug.Log(caster.Gear);
             Debug.Log(caster.Gear.RightHandBone);
-            SpawnEffect(action.EffectClass, caster.Gear.RightHandBone);
+
+            AttachOnType attachOn = action.AttachOn;
+            Transform attachTo;
+            switch (attachOn)
+            {
+                case AttachOnType.AM_NONE:
+                    attachTo = caster.transform;
+                    break;
+                case AttachOnType.AM_RH:
+                    attachTo = caster.Gear.RightHandBone;
+                    break;
+                case AttachOnType.AM_LH:
+                    attachTo = caster.Gear.LeftHandBone;
+                    break;
+                default:
+                    Debug.LogWarning($"Unhandled AttachOn: {attachOn}.");
+                    attachTo = caster.transform;
+                    break;
+            }
+
+            SpawnEffect(action.EffectClass, attachTo);
         });
     }
 

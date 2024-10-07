@@ -9,12 +9,18 @@ public class SkillEffectTest : MonoBehaviour
 
     void Awake()
     {
-        caster = GameObject.Find("Caster").GetComponent<Entity>();
-        caster.Initialize();
-        caster.GetComponent<Gear>().Initialize(0, CharacterModelType.FDarkElf);
-        target = GameObject.Find("Target").GetComponent<Entity>();
-        target.Initialize();
-        target.GetComponent<Gear>().Initialize(1, CharacterModelType.FDarkElf);
+        if (caster == null)
+        {
+            caster = GameObject.Find("Caster").GetComponent<Entity>();
+            //caster.Initialize();
+            caster.GetComponent<Gear>().Initialize(0, CharacterModelType.FDarkElf);
+        }
+        if (target == null)
+        {
+            target = GameObject.Find("Caster").GetComponent<Entity>();
+            //caster.Initialize();
+            target.GetComponent<Gear>().Initialize(0, CharacterModelType.FDarkElf);
+        }
     }
 
     void Start()
@@ -28,7 +34,7 @@ public class SkillEffectTest : MonoBehaviour
         Debug.Log(skill);
         while (true)
         {
-            ParticleManager.Instance.CastSkill(caster, skill);
+            ParticleManager.Instance.SpawnSkillParticles(caster, skill);
             //  SpawnSkillCast()
             yield return new WaitForSeconds(1);
         }

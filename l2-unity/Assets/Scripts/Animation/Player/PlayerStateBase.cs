@@ -2,39 +2,34 @@ using UnityEngine;
 
 public class PlayerStateBase : StateMachineBehaviour
 {
-    protected HumanoidAudioHandler _audioHandler;
     protected Animator _animator;
-    protected Entity _entity;
-    // protected UserGear _gear;
+    protected EntityReferenceHolder _referenceHolder;
+    protected HumanoidAudioHandler AudioHandler { get { return (HumanoidAudioHandler)_referenceHolder.AudioHandler; } }
+    protected PlayerAnimationController AnimationController { get { return (PlayerAnimationController)_referenceHolder.AnimationController; } }
+    protected Entity Entity { get { return _referenceHolder.Entity; } }
 
     public void LoadComponents(Animator animator)
     {
-        if (_entity == null)
+        if (_referenceHolder == null)
         {
-            _entity = animator.transform.parent.parent.GetComponent<Entity>();
+            Transform entityTransform = animator.transform.parent.parent;
+            _referenceHolder = entityTransform.GetComponent<EntityReferenceHolder>();
         }
-        // if (_gear == null)
-        // {
-        //     _gear = _entity.GetComponent<UserGear>();
-        // }
-        if (_audioHandler == null)
+
+        if (_referenceHolder == null)
         {
-            _audioHandler = animator.gameObject.GetComponent<HumanoidAudioHandler>();
-        }
-        if (_animator == null)
-        {
-            _animator = animator;
+            Debug.LogError("Reference holder is null");
         }
     }
 
     public void PlaySoundAtRatio(EntitySoundEvent soundEvent, float ratio)
     {
-        _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
+        AudioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
     public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio)
     {
-        _audioHandler.PlaySoundAtRatio(soundEvent, ratio);
+        AudioHandler.PlaySoundAtRatio(soundEvent, ratio);
     }
 
     public void SetBool(HumanoidAnimType animation, bool value)

@@ -9,7 +9,11 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
     protected override void Initialize()
     {
         base.Initialize();
-        _surfaceDetector = GetComponent<SurfaceDetector>();
+        if (_surfaceDetector == null)
+        {
+            Debug.LogWarning($"[{transform.name}] SurfaceDetector was not assigned, please pre-assign it to avoid unecessary load.");
+            _surfaceDetector = GetComponent<SurfaceDetector>();
+        }
     }
 
     public override void PlaySound(EntitySoundEvent soundEvent)

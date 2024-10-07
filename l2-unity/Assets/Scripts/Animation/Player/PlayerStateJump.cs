@@ -11,7 +11,7 @@ public class PlayerStateJump : PlayerStateAction
 
         SetBool(HumanoidAnimType.jump, false, false);
         SetBool(HumanoidAnimType.run_jump, false, false);
-        _audioHandler.PlaySound(EntitySoundEvent.Jump_1);
+        AudioHandler.PlaySound(EntitySoundEvent.Jump_1);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -42,7 +42,7 @@ public class PlayerStateJump : PlayerStateAction
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         CameraController.Instance.StickToBone = false;
-        _audioHandler.PlaySound(EntitySoundEvent.Step);
-        _audioHandler.PlaySound(EntitySoundEvent.Step);
+        AudioHandler.PlaySound(EntitySoundEvent.Step);
+        AudioHandler.PlaySound(EntitySoundEvent.Step);
     }
 }

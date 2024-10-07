@@ -41,24 +41,24 @@ public class HumanoidAnimationController : BaseAnimationController
     public override void UpdateAnimatorAtkSpdMultiplier(float clipLength)
     {
         float newAtkSpd = clipLength * 1000f / _pAtkSpd;
-        _animator.SetFloat(GetParameterId(HumanoidAnimationEvent.patkspd), newAtkSpd);
+        Animator.SetFloat(GetParameterId(HumanoidAnimationEvent.patkspd), newAtkSpd);
     }
 
     public override void SetMAtkSpd(float value)
     {
         //TODO: update for cast animation
         float newMAtkSpd = _spAtk01ClipLength / value;
-        _animator.SetFloat(GetParameterId(HumanoidAnimationEvent.matkspd), newMAtkSpd);
+        Animator.SetFloat(GetParameterId(HumanoidAnimationEvent.matkspd), newMAtkSpd);
     }
 
     public override void SetRunSpeed(float value)
     {
-        _animator.SetFloat(GetParameterId(HumanoidAnimationEvent.run_speed), value);
+        Animator.SetFloat(GetParameterId(HumanoidAnimationEvent.run_speed), value);
     }
 
     public override void SetWalkSpeed(float value)
     {
-        _animator.SetFloat(GetParameterId(HumanoidAnimationEvent.walk_speed), value);
+        Animator.SetFloat(GetParameterId(HumanoidAnimationEvent.walk_speed), value);
     }
 
     public void SetBool(HumanoidAnimType animType, bool value)

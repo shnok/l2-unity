@@ -6,7 +6,7 @@ public class PlayerStateSit : PlayerStateAction
     {
         LoadComponents(animator);
         SetBool(HumanoidAnimType.sit, false, false);
-        _audioHandler.PlaySound(EntitySoundEvent.Sitdown);
+        AudioHandler.PlaySound(EntitySoundEvent.Sitdown);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

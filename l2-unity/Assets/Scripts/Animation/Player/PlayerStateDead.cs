@@ -7,7 +7,7 @@ public class PlayerStateDead : PlayerStateBase
         LoadComponents(animator);
         SetBool(HumanoidAnimType.death, false, false);
         //PlayerController.Instance.SetCanMove(false);
-        PlaySoundAtRatio(EntitySoundEvent.Death, _audioHandler.DeathRatio);
+        PlaySoundAtRatio(EntitySoundEvent.Death, AudioHandler.DeathRatio);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

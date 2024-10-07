@@ -40,22 +40,22 @@ public class MonsterAnimationController : BaseAnimationController
     {
         //TODO: update for cast animation
         float newMAtkSpd = _spAtk01ClipLength / value;
-        _animator.SetFloat(GetParameterId(MonsterAnimationEvent.matkspd), newMAtkSpd);
+        Animator.SetFloat(GetParameterId(MonsterAnimationEvent.matkspd), newMAtkSpd);
     }
 
     public override void SetRunSpeed(float value)
     {
-        _animator.SetFloat(GetParameterId(MonsterAnimationEvent.speed), value);
+        Animator.SetFloat(GetParameterId(MonsterAnimationEvent.speed), value);
     }
 
     public override void SetWalkSpeed(float value)
     {
-        _animator.SetFloat(GetParameterId(MonsterAnimationEvent.speed), value);
+        Animator.SetFloat(GetParameterId(MonsterAnimationEvent.speed), value);
     }
 
     public override void UpdateAnimatorAtkSpdMultiplier(float clipLength)
     {
         float newAtkSpd = clipLength * 1000f / _pAtkSpd;
-        _animator.SetFloat(GetParameterId(MonsterAnimationEvent.patkspd), newAtkSpd);
+        Animator.SetFloat(GetParameterId(MonsterAnimationEvent.patkspd), newAtkSpd);
     }
 }

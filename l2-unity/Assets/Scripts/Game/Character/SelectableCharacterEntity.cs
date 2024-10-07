@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class SelectableCharacterEntity : MonoBehaviour
+public class SelectableCharacterEntity : Entity
 {
-    [SerializeField] private EntityReferenceHolder _referenceHolder;
-    public HumanoidAnimationController AnimationController { get { return (HumanoidAnimationController)_referenceHolder.AnimationController; } }
+    private HumanoidAnimationController _AnimationController { get { return (HumanoidAnimationController)_referenceHolder.AnimationController; } }
 
     [SerializeField] private CharacterController _characterController;
 
@@ -57,15 +56,15 @@ public class SelectableCharacterEntity : MonoBehaviour
     private void StartWalking()
     {
         _walking = true;
-        AnimationController.SetBool(HumanoidAnimType.wait, false);
-        AnimationController.SetBool(HumanoidAnimType.walk, true);
+        _AnimationController.SetBool(HumanoidAnimType.wait, false);
+        _AnimationController.SetBool(HumanoidAnimType.walk, true);
     }
 
     private void StopWalking()
     {
         _walking = false;
-        AnimationController.SetBool(HumanoidAnimType.walk, false);
-        AnimationController.SetBool(HumanoidAnimType.wait, true);
+        _AnimationController.SetBool(HumanoidAnimType.walk, false);
+        _AnimationController.SetBool(HumanoidAnimType.wait, true);
         transform.eulerAngles = _destEulerAngles;
     }
 

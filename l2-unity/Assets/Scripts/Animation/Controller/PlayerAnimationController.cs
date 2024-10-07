@@ -31,7 +31,7 @@ public class PlayerAnimationController : HumanoidAnimationController
     {
         int paramId = GetParameterId(animType, _weaponAnim);
 
-        if (_animator.GetBool(paramId) != value)
+        if (Animator.GetBool(paramId) != value)
         {
             //Debug.LogWarning($"Set bool {name}={value}");
             SetBool(paramId, value);

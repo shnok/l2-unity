@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class BaseAnimationController : MonoBehaviour
 {
-    [SerializeField] protected Animator _animator;
+    [SerializeField] protected EntityReferenceHolder _entityReferenceHolder;
+    protected Animator Animator { get { return _entityReferenceHolder.Animator; } }
     [SerializeField] protected bool _resetStateOnReceive = false;
     protected float _spAtk01ClipLength = 1000;
     [SerializeField] protected Dictionary<string, float> _atkClipLengths;
@@ -25,10 +26,10 @@ public abstract class BaseAnimationController : MonoBehaviour
 
     public virtual void Initialize()
     {
-        if (_animator == null)
+        if (_entityReferenceHolder == null)
         {
-            Debug.LogWarning($"[{transform.name}] Animator was not assigned, please pre-assign it to avoid unecessary load.");
-            _animator = gameObject.GetComponentInChildren<Animator>(true);
+            Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
+            _entityReferenceHolder = gameObject.GetComponent<EntityReferenceHolder>();
         }
     }
 
@@ -54,24 +55,24 @@ public abstract class BaseAnimationController : MonoBehaviour
     // Set all animation variables to false
     public void ClearAnimParams()
     {
-        for (int i = 0; i < _animator.parameters.Length; i++)
+        for (int i = 0; i < Animator.parameters.Length; i++)
         {
-            AnimatorControllerParameter anim = _animator.parameters[i];
+            AnimatorControllerParameter anim = Animator.parameters[i];
             if (anim.type == AnimatorControllerParameterType.Bool)
             {
-                _animator.SetBool(anim.name, false);
+                Animator.SetBool(anim.name, false);
             }
         }
     }
 
     public virtual void SetBool(string name, bool value)
     {
-        _animator.SetBool(name, value);
+        Animator.SetBool(name, value);
     }
 
     public virtual void SetBool(int parameterId, bool value)
     {
-        _animator.SetBool(parameterId, value);
+        Animator.SetBool(parameterId, value);
     }
 
     // Update animator variable based on Animation Id
@@ -84,7 +85,7 @@ public abstract class BaseAnimationController : MonoBehaviour
     public void SetAnimationProperty(int parameterId, float value, bool forceReset)
     {
         //Debug.Log("animId " + animId + "/" + _animator.parameters.Length);
-        if (parameterId >= 0 && parameterId < _animator.parameters.Length)
+        if (parameterId >= 0 && parameterId < Animator.parameters.Length)
         {
             if (_resetStateOnReceive || forceReset)
             {
@@ -92,21 +93,21 @@ public abstract class BaseAnimationController : MonoBehaviour
             }
 
             Debug.Log("Obsolete: Please move away from straight animation id sharing.");
-            AnimatorControllerParameter anim = _animator.parameters[parameterId];
+            AnimatorControllerParameter anim = Animator.parameters[parameterId];
 
             switch (anim.type)
             {
                 case AnimatorControllerParameterType.Float:
-                    _animator.SetFloat(anim.name, value);
+                    Animator.SetFloat(anim.name, value);
                     break;
                 case AnimatorControllerParameterType.Int:
-                    _animator.SetInteger(anim.name, (int)value);
+                    Animator.SetInteger(anim.name, (int)value);
                     break;
                 case AnimatorControllerParameterType.Bool:
                     SetBool(anim.name, value == 1f);
                     break;
                 case AnimatorControllerParameterType.Trigger:
-                    _animator.SetTrigger(anim.name);
+                    Animator.SetTrigger(anim.name);
                     break;
             }
         }
@@ -115,18 +116,18 @@ public abstract class BaseAnimationController : MonoBehaviour
     // Return an animator variable based on its ID
     public float GetAnimationProperty(int animId)
     {
-        if (animId >= 0 && animId < _animator.parameters.Length)
+        if (animId >= 0 && animId < Animator.parameters.Length)
         {
-            AnimatorControllerParameter anim = _animator.parameters[animId];
+            AnimatorControllerParameter anim = Animator.parameters[animId];
 
             switch (anim.type)
             {
                 case AnimatorControllerParameterType.Float:
-                    return _animator.GetFloat(anim.name);
+                    return Animator.GetFloat(anim.name);
                 case AnimatorControllerParameterType.Int:
-                    return (int)_animator.GetFloat(anim.name);
+                    return (int)Animator.GetFloat(anim.name);
                 case AnimatorControllerParameterType.Bool:
-                    return _animator.GetBool(anim.name) == true ? 1f : 0;
+                    return Animator.GetBool(anim.name) == true ? 1f : 0;
             }
         }
 
@@ -135,6 +136,6 @@ public abstract class BaseAnimationController : MonoBehaviour
 
     public bool GetBool(int parameterId)
     {
-        return _animator.GetBool(parameterId);
+        return Animator.GetBool(parameterId);
     }
 }

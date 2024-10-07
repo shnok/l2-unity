@@ -10,9 +10,9 @@ public class PlayerStateWalk : PlayerStateAction
 
         _lastNormalizedTime = 0;
 
-        foreach (var ratio in _audioHandler.WalkStepRatios)
+        foreach (var ratio in AudioHandler.WalkStepRatios)
         {
-            _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
+            AudioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
         }
     }
 
@@ -21,9 +21,9 @@ public class PlayerStateWalk : PlayerStateAction
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            foreach (var ratio in _audioHandler.WalkStepRatios)
+            foreach (var ratio in AudioHandler.WalkStepRatios)
             {
-                _audioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
+                AudioHandler.PlaySoundAtRatio(EntitySoundEvent.Step, ratio);
             }
         }
 

@@ -1,20 +1,33 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
 public class SkinnedMeshSync : MonoBehaviour
 {
+    [SerializeField] private Transform _bodyPartsContainer;
     [SerializeField] private SkinnedMeshRenderer _rootSkinnedRenderer;
     [SerializeField] private SkinnedMeshRenderer[] _destSkinnedRenderer;
-    [SerializeField] private Transform _bodyPartsContainer;
+    [SerializeField] private Transform[] _bones;
 
     void Start()
     {
         SyncMesh();
     }
 
+    void Update()
+    {
+#if (UNITY_EDITOR)
+        if (!EditorApplication.isPlaying)
+        {
+            SyncMesh();
+        }
+#endif
+    }
+
     public void SyncMesh()
     {
+        // Only refresh once the entity is enabled
         if (this.gameObject.activeSelf && this.gameObject.activeInHierarchy)
         {
             StartCoroutine(SyncTask());
@@ -25,7 +38,7 @@ public class SkinnedMeshSync : MonoBehaviour
     {
         if (_bodyPartsContainer == null)
         {
-            _bodyPartsContainer = transform.GetChild(2);
+            _bodyPartsContainer = transform.parent.GetChild(1);
         }
         if (_rootSkinnedRenderer == null)
         {
@@ -33,7 +46,7 @@ public class SkinnedMeshSync : MonoBehaviour
         }
 
         float startTime = Time.time;
-        while (transform.parent.childCount > 8)
+        while (_bodyPartsContainer.childCount > 7)
         {
             yield return new WaitForEndOfFrame();
             if (Time.time - startTime < 1.0f)
@@ -42,6 +55,14 @@ public class SkinnedMeshSync : MonoBehaviour
                 yield break;
             }
         }
+
+        DoSync();
+    }
+
+    private void DoSync()
+    {
+        // Debug.LogWarning($"[{transform.name}] SyncMesh");
+        _bodyPartsContainer.gameObject.SetActive(true);
 
         // Retrieving SkinnedMeshRenderers
         _destSkinnedRenderer = new SkinnedMeshRenderer[8];
@@ -54,13 +75,15 @@ public class SkinnedMeshSync : MonoBehaviour
 
         // Updating body parts bones and bounds
         Bounds bounds = new Bounds();
-        bounds.center = new Vector3(0, 0, 0.5f);
-        bounds.extents = new Vector3(0.25f, 0.2f, 0.4f);
-        bounds.size = new Vector3(0.5f, 0.4f, 0.8f);
+        bounds.center = new Vector3(0, 0, 0f);
+        bounds.extents = new Vector3(0.0025f, 0.002f, 0.004f);
+        bounds.size = bounds.extents * 2f;
         foreach (var renderer in _destSkinnedRenderer)
         {
             if (renderer != null)
             {
+                _bones = _rootSkinnedRenderer.bones;
+                renderer.rootBone = _rootSkinnedRenderer.rootBone;
                 renderer.transform.localScale = Vector3.one;
                 renderer.bones = _rootSkinnedRenderer.bones;
                 renderer.localBounds = bounds;

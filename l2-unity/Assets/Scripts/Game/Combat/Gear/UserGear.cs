@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class UserGear : HumanoidGear
 {
+    [Header("References")]
+    [SerializeField] private SkinnedMeshSync _skinnedMeshSync;
+    [SerializeField] private GameObject _bodypartsContainer;
+
     [Header("Armors")]
     [Header("Meta")]
     [SerializeField] private Armor _torsoMeta;
@@ -11,8 +15,6 @@ public class UserGear : HumanoidGear
     [SerializeField] private Armor _bootsMeta;
 
     [Header("Models")]
-    [SerializeField] private SkinnedMeshSync _skinnedMeshSync;
-    [SerializeField] private GameObject _bodypartsContainer;
     [SerializeField] private GameObject _torso;
     [SerializeField] private GameObject _fullarmor;
     [SerializeField] private GameObject _legs;
@@ -27,7 +29,7 @@ public class UserGear : HumanoidGear
         if (_bodypartsContainer == null)
         {
             Debug.LogWarning($"[{transform.name}] bodypartsContainer was not assigned, please pre-assign it to avoid unecessary load.");
-            _bodypartsContainer = transform.GetChild(0).gameObject;
+            _bodypartsContainer = transform.GetChild(0).GetChild(1).gameObject;
         }
 
         if (_skinnedMeshSync == null)
