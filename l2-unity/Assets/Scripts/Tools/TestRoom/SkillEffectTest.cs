@@ -6,6 +6,7 @@ public class SkillEffectTest : MonoBehaviour
 
     public Entity caster;
     public Entity target;
+    public float spawnDelay = 1f;
 
     void Awake()
     {
@@ -30,13 +31,14 @@ public class SkillEffectTest : MonoBehaviour
 
     private IEnumerator DebugCoroutine()
     {
-        Skill skill = SkillTable.Instance.GetSkill(2039);
-        Debug.Log(skill);
+        Skill ss = SkillTable.Instance.GetSkill(2039);
+        Skill sps = SkillTable.Instance.GetSkill(2047);
         while (true)
         {
-            ParticleManager.Instance.SpawnSkillParticles(caster, skill);
+            ParticleManager.Instance.SpawnSkillParticles(caster, ss);
+            ParticleManager.Instance.SpawnSkillParticles(target, sps);
             //  SpawnSkillCast()
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(spawnDelay);
         }
     }
 }

@@ -1319,14 +1319,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6033790313294197086}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 242fa2b9291ecca4c9f8f123c8a3d4e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
-  surfaceNormal: {x: 0, y: 0, z: 0}
+  _owner: {fileID: 0}
+  _surfaceNormal: {x: 0, y: 0, z: 0}
+  _pooledEffect:
+    _startTime: 0
+    _effectDurationSec: 2
+    _maximumInactiveTimeSec: 10
+    _gameObject: {fileID: 0}
   _particles: []
+  playOnEnable: 0
 --- !u!1 &6129860499696293947
 GameObject:
   m_ObjectHideFlags: 0
