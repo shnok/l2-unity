@@ -3,7 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class EffectEmitter
 {
-    [SerializeField] private AttachOnType _attachOn;
+    [SerializeField] private AttachMethod _attachOn;
     [SerializeField] private bool _spawnOnTarget;
     [SerializeField] private bool _relativeToCylinder;
     [SerializeField] private string _effectClass;
@@ -15,7 +15,7 @@ public class EffectEmitter
     [SerializeField] private bool _pawnLight;
     [SerializeField] private EffectPawnLightParam _pawnLightParam;
 
-    public AttachOnType AttachOn { get { return _attachOn; } set { _attachOn = value; } }
+    public AttachMethod AttachOn { get { return _attachOn; } set { _attachOn = value; } }
     public bool SpawnOnTarget { get { return _spawnOnTarget; } set { _spawnOnTarget = value; } }
     public bool RelativeToCylinder { get { return _relativeToCylinder; } set { _relativeToCylinder = value; } }
     public string EffectClass { get { return _effectClass; } set { _effectClass = value; } }

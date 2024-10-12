@@ -76,6 +76,7 @@ public class WorldCombat : MonoBehaviour
 
     private void ParticleImpact(Transform attacker, Transform target)
     {
+        // OBSOLETE
         // Calculate the position and rotation based on attacker
         var heading = attacker.position - target.position;
         float angle = Vector3.Angle(heading, target.forward);

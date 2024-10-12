@@ -93,14 +93,14 @@ public class L2SkillEffectEmitterConverter : JsonConverter
         return null;
     }
 
-    private AttachOnType ParseAttachOnType(string attachOn)
+    private AttachMethod ParseAttachOnType(string attachOn)
     {
         if (attachOn == null)
         {
-            return AttachOnType.AM_NONE;
+            return AttachMethod.AM_NONE;
         }
 
-        return (AttachOnType)Enum.Parse(typeof(AttachOnType), attachOn.ToUpper());
+        return (AttachMethod)Enum.Parse(typeof(AttachMethod), attachOn.ToUpper());
     }
 
 
