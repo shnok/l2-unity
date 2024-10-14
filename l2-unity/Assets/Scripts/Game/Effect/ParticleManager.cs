@@ -337,18 +337,25 @@ public class ParticleManager : MonoBehaviour
     #region Hit Particles
     public void SpawnHitParticle(Entity attacker, Entity target, bool crit, bool soulshot, int soulshotGrade)
     {
-        // Spawn default hit particle from pool at index 0
-        PooledEffect baseHitParticle = SpawnSingleHitParticle(false, false, soulshotGrade);
-
-        PooledEffect hitParticle = SpawnSingleHitParticle(crit, soulshot, soulshotGrade);
-
         Vector3 particlePosition = CalculateParticlePosition(attacker, target);
 
-        PlaceHitParticle(baseHitParticle, attacker, particlePosition);
-        PlaceHitParticle(hitParticle, attacker, particlePosition);
+        if (soulshot) // Always spawn base hit particle with the soulshot particle
+        {
+            PooledEffect basecritParticle = SpawnSingleHitParticle(false, false, soulshotGrade);
+            PlaceHitParticle(basecritParticle, attacker, particlePosition, 1.25f);
+            ActiveHitEffects.Enqueue(basecritParticle);
 
-        ActiveHitEffects.Enqueue(baseHitParticle);
-        ActiveHitEffects.Enqueue(hitParticle);
+            PooledEffect hitParticle = SpawnSingleHitParticle(crit, true, soulshotGrade);
+            PlaceHitParticle(hitParticle, attacker, particlePosition, 1f);
+            ActiveHitEffects.Enqueue(hitParticle);
+        }
+        else
+        {
+            // Spawn default hit or crit particle 
+            PooledEffect baseHitParticle = SpawnSingleHitParticle(crit, false, soulshotGrade);
+            PlaceHitParticle(baseHitParticle, attacker, particlePosition, 1.25f);
+            ActiveHitEffects.Enqueue(baseHitParticle);
+        }
     }
 
     private Vector3 CalculateParticlePosition(Entity attacker, Entity target)
@@ -364,21 +371,20 @@ public class ParticleManager : MonoBehaviour
         return position;
     }
 
-    private void PlaceHitParticle(PooledEffect effect, Entity attacker, Vector3 position)
+    private void PlaceHitParticle(PooledEffect effect, Entity attacker, Vector3 position, float scale)
     {
         effect.GameObject.SetActive(true);
         effect.GameObject.transform.parent = _effectContainer.transform;
         effect.StartTime = Time.time;
         effect.GameObject.transform.position = position;
+        effect.GameObject.transform.localScale = Vector3.one * scale;
         effect.GameObject.transform.LookAt(attacker.transform);
         effect.GameObject.transform.eulerAngles = new Vector3(0, effect.GameObject.transform.eulerAngles.y - 90f, 0);
     }
 
     private PooledEffect SpawnSingleHitParticle(bool crit, bool soulshot, int soulshotGrade)
     {
-        int hitIndex = (!soulshot && crit) ? 1 : 0;
-        int ssIndex = soulshotGrade * 2 + (crit ? 1 : 0);
-        int index = ssIndex > 0 ? ssIndex : hitIndex;
+        int index = soulshot ? (soulshotGrade * 2 + (crit ? 1 : 0) + 2) : (crit ? 1 : 0);
 
         Queue<PooledEffect> queue = HitEffectPool[index];
         if (queue.Count > 0)

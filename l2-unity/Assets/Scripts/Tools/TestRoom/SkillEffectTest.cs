@@ -32,16 +32,16 @@ public class SkillEffectTest : MonoBehaviour
     private IEnumerator DebugCoroutine()
     {
         yield return new WaitForSeconds(2f);
-        Skill ss = SkillTable.Instance.GetSkill(2039);
-        Skill sps = SkillTable.Instance.GetSkill(2047);
+        // Skill ss = SkillTable.Instance.GetSkill(2039);
+        // Skill sps = SkillTable.Instance.GetSkill(2047);
         while (true)
         {
-            ParticleManager.Instance.SpawnSkillParticles(caster, ss);
-            ParticleManager.Instance.SpawnSkillParticles(target, sps);
+            // ParticleManager.Instance.SpawnSkillParticles(caster, ss);
+            // ParticleManager.Instance.SpawnSkillParticles(target, sps);
 
             // ParticleManager.Instance.SpawnHitParticle(caster, target, true, true, (int)EtcEffectInfo.EEP_GRADENONE);
             ParticleManager.Instance.SpawnHitParticle(target, caster, true, true, (int)EtcEffectInfo.EEP_GRADENONE);
-            ParticleManager.Instance.SpawnHitParticle(caster, target, false, false, (int)EtcEffectInfo.EEP_GRADENONE);
+            // ParticleManager.Instance.SpawnHitParticle(caster, target, false, true, (int)EtcEffectInfo.EEP_GRADENONE);
             //  SpawnSkillCast()
             yield return new WaitForSeconds(spawnDelay);
         }
