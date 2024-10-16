@@ -7,11 +7,13 @@ public class Skill
     public SkillNameData[] SkillNameDatas { get; private set; }
     public Skillgrp[] Skillgrps { get; private set; }
     public L2SkillEffect SkillEffect { get; set; }
+    public SkillSoundgrp SkillSoundgrp { get; private set; }
 
-    public Skill(int skillId, SkillNameData[] skillNameDatas, Skillgrp[] skillgrps)
+    public Skill(int skillId, SkillNameData[] skillNameDatas, Skillgrp[] skillgrps, SkillSoundgrp skillSoundgrp)
     {
         SkillId = skillId;
         SkillNameDatas = skillNameDatas;
         Skillgrps = skillgrps;
+        SkillSoundgrp = skillSoundgrp;
     }
 }

@@ -1,3 +1,5 @@
+using System;
+
 public enum CharacterModelType : byte
 {
     FElf = 0,
@@ -49,5 +51,10 @@ public static class CharacterModelTypeParser
             default:
                 return CharacterModelType.FDwarf;
         }
+    }
+
+    public static CharacterModelType ParseRace(string value)
+    {
+        return (CharacterModelType)Enum.Parse(typeof(CharacterModelType), value, ignoreCase: true);
     }
 }

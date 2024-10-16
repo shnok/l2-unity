@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadTables()
     {
+        SkillSoundgrpTable.Instance.Initialize();
         SkillTable.Instance.Initialize();
         ItemTable.Instance.Initialize();
         ItemNameTable.Instance.Initialize();

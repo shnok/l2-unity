@@ -137,7 +137,9 @@ public class SkillTable
                 skillgrpArray[i] = skillgrp[i + 1];
             }
 
-            Skill skill = new Skill(kvp.Key, skillNameArray, skillgrpArray);
+            SkillSoundgrp skillSoundgrp = SkillSoundgrpTable.Instance.GetSkillSoundGrp(kvp.Key);
+
+            Skill skill = new Skill(kvp.Key, skillNameArray, skillgrpArray, skillSoundgrp);
             Skills.Add(kvp.Key, skill);
 
             Debug.LogWarning($"ID:{skill.SkillNameDatas[0].Id} Name:{skill.SkillNameDatas[0].Name} Effect:{skill.EffectId}");

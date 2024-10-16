@@ -9,6 +9,7 @@ public class GameManagerTest : MonoBehaviour
 
     private void LoadTables()
     {
+        SkillSoundgrpTable.Instance.Initialize();
         SkillTable.Instance.Initialize();
         ItemTable.Instance.Initialize();
         ItemNameTable.Instance.Initialize();
