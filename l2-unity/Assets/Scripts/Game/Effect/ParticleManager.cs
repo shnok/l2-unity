@@ -335,24 +335,24 @@ public class ParticleManager : MonoBehaviour
 
 
     #region Hit Particles
-    public void SpawnHitParticle(Entity attacker, Entity target, bool crit, bool soulshot, int soulshotGrade)
+    public void SpawnHitParticle(Entity attacker, Entity target, Hit hit)
     {
         Vector3 particlePosition = CalculateParticlePosition(attacker, target);
 
-        if (soulshot) // Always spawn base hit particle with the soulshot particle
+        if (hit.hasSoulshot()) // Always spawn base hit particle with the soulshot particle
         {
-            PooledEffect basecritParticle = SpawnSingleHitParticle(false, false, soulshotGrade);
+            PooledEffect basecritParticle = SpawnSingleHitParticle(false, false, hit.getSsGrade());
             PlaceHitParticle(basecritParticle, attacker, particlePosition, 1.25f);
             ActiveHitEffects.Enqueue(basecritParticle);
 
-            PooledEffect hitParticle = SpawnSingleHitParticle(crit, true, soulshotGrade);
+            PooledEffect hitParticle = SpawnSingleHitParticle(hit.isCrit(), true, hit.getSsGrade());
             PlaceHitParticle(hitParticle, attacker, particlePosition, 1f);
             ActiveHitEffects.Enqueue(hitParticle);
         }
         else
         {
             // Spawn default hit or crit particle 
-            PooledEffect baseHitParticle = SpawnSingleHitParticle(crit, false, soulshotGrade);
+            PooledEffect baseHitParticle = SpawnSingleHitParticle(hit.isCrit(), false, hit.getSsGrade());
             PlaceHitParticle(baseHitParticle, attacker, particlePosition, 1.25f);
             ActiveHitEffects.Enqueue(baseHitParticle);
         }

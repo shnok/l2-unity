@@ -1,3 +1,4 @@
+#if (UNITY_EDITOR) 
 using System.Collections;
 using UnityEngine;
 
@@ -40,10 +41,11 @@ public class SkillEffectTest : MonoBehaviour
             // ParticleManager.Instance.SpawnSkillParticles(target, sps);
 
             // ParticleManager.Instance.SpawnHitParticle(caster, target, true, true, (int)EtcEffectInfo.EEP_GRADENONE);
-            ParticleManager.Instance.SpawnHitParticle(target, caster, true, true, (int)EtcEffectInfo.EEP_GRADENONE);
+            // ParticleManager.Instance.SpawnHitParticle(target, caster, true, true, (int)EtcEffectInfo.EEP_GRADENONE);
             // ParticleManager.Instance.SpawnHitParticle(caster, target, false, true, (int)EtcEffectInfo.EEP_GRADENONE);
             //  SpawnSkillCast()
             yield return new WaitForSeconds(spawnDelay);
         }
     }
 }
+#endif

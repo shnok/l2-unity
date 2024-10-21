@@ -11,10 +11,10 @@ public class NetworkHumanoidCombat : NetworkCombat
         HumanoidAnimationController.SetBool(HumanoidAnimType.death, true);
     }
 
-    protected override void OnHit(bool criticalHit)
+    protected override void OnHit(Hit hit)
     {
-        base.OnHit(criticalHit);
-        AudioHandler.PlaySound(EntitySoundEvent.Dmg);
+        base.OnHit(hit);
+        //AudioHandler.PlaySound(EntitySoundEvent.Dmg);
     }
 
     public override bool StartAutoAttacking()

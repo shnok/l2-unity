@@ -1,3 +1,4 @@
+#if (UNITY_EDITOR) 
 using UnityEngine;
 
 public class GameManagerTest : MonoBehaviour
@@ -45,3 +46,4 @@ public class GameManagerTest : MonoBehaviour
     }
 
 }
+#endif

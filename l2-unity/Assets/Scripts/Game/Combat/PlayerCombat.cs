@@ -26,9 +26,9 @@ public class PlayerCombat : Combat
         PlayerStateMachine.Instance.NotifyEvent(Event.DEAD);
     }
 
-    protected override void OnHit(bool criticalHit)
+    protected override void OnHit(Hit hit)
     {
-        base.OnHit(criticalHit);
-        AudioHandler.PlaySound(EntitySoundEvent.Dmg);
+        base.OnHit(hit);
+        //AudioHandler.PlaySound(EntitySoundEvent.Dmg);
     }
 }

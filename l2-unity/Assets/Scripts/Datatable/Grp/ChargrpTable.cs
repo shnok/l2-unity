@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using FMODUnity;
 using UnityEngine;
 
 public class ChargrpTable
@@ -129,13 +130,16 @@ public class ChargrpTable
                             grp.AttackEffect = value;
                             break;
                         case "damage_sound":
-                            grp.DanageSounds = value.Split(";");
+                            grp.DamageSounds = DatUtils.ParseArray(value);
+                            GetSoundReference(grp.ClassId, grp.DamageSoundsEvents, grp.DamageSounds);
                             break;
                         case "defense_sound":
-                            grp.DefenseSounds = value.Split(";");
+                            grp.DefenseSounds = DatUtils.ParseArray(value);
+                            GetSoundReference(grp.ClassId, grp.DefenseSoundsEvents, grp.DefenseSounds);
                             break;
                         case "attack_sound":
-                            grp.AttackSounds = value.Split(";");
+                            grp.AttackSounds = DatUtils.ParseArray(value);
+                            GetSoundReference(grp.ClassId, grp.AttackSoundsEvents, grp.AttackSounds);
                             break;
                     }
 
@@ -151,6 +155,24 @@ public class ChargrpTable
             }
 
             Debug.Log($"Successfully imported {CharGrps.Count} chargrps(s)");
+        }
+    }
+
+    private void GetSoundReference(int raceId, List<EventReference> eventList, string[] eventNames)
+    {
+        eventList = new List<EventReference>();
+        foreach (var sound in eventNames)
+        {
+            string updatedPath = sound.Replace(".", "/");
+            EventReference er = RuntimeManager.PathToEventReference("event:/" + updatedPath);
+            if (er.IsNull)
+            {
+                Debug.LogWarning($"Missing sound: {sound} for chargrp: {raceId}.");
+            }
+            else
+            {
+                eventList.Add(er);
+            }
         }
     }
 

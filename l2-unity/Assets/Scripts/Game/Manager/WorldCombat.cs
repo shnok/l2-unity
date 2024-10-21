@@ -27,27 +27,29 @@ public class WorldCombat : MonoBehaviour
     }
 
 
-    public void InflictAttack(Transform target, int damage, bool criticalHit)
+    public void InflictAttack(Entity target, Hit hit)
     {
-        ApplyDamage(target, damage, criticalHit);
+        ApplyDamage(target, hit);
     }
 
-    public void InflictAttack(Transform attacker, Transform target, int damage, bool criticalHit)
+    public void InflictAttack(Entity attacker, Entity target, Hit hit)
     {
-        ApplyDamage(target, damage, criticalHit);
+        ApplyDamage(target, hit);
+
+        if (hit.isMiss())
+        {
+            attacker.ReferenceHolder.AudioHandler.PlaySwishSound();
+            return;
+        }
 
         // Instantiate hit particle
-        ParticleImpact(attacker, target);
+        ParticleManager.Instance.SpawnHitParticle(attacker, target, hit);
     }
 
-    private void ApplyDamage(Transform target, int damage, bool criticalHit)
+    private void ApplyDamage(Entity target, Hit hit)
     {
-        Entity entity = target.GetComponent<Entity>();
-        if (entity != null)
-        {
-            // Apply damage to target
-            entity.Combat.ApplyDamage(damage, criticalHit);
-        }
+        // Apply damage to target
+        target.Combat.ApplyDamage(hit);
     }
 
     public void EntityStartAutoAttacking(Entity entity)
@@ -74,25 +76,25 @@ public class WorldCombat : MonoBehaviour
         }
     }
 
-    private void ParticleImpact(Transform attacker, Transform target)
-    {
-        // OBSOLETE
-        // Calculate the position and rotation based on attacker
-        var heading = attacker.position - target.position;
-        float angle = Vector3.Angle(heading, target.forward);
-        Vector3 cross = Vector3.Cross(heading, target.forward);
-        if (cross.y >= 0) angle = -angle;
-        Vector3 direction = Quaternion.Euler(0, angle, 0) * target.forward;
+    // OBSOLETE
+    // private void ParticleImpact(Transform attacker, Transform target)
+    // {
+    //     // Calculate the position and rotation based on attacker
+    //     var heading = attacker.position - target.position;
+    //     float angle = Vector3.Angle(heading, target.forward);
+    //     Vector3 cross = Vector3.Cross(heading, target.forward);
+    //     if (cross.y >= 0) angle = -angle;
+    //     Vector3 direction = Quaternion.Euler(0, angle, 0) * target.forward;
 
-        float particleHeight = target.GetComponent<Entity>().Appearance.CollisionHeight * 1.25f;
-        GameObject go = (GameObject)Instantiate(
-            _impactParticle,
-            target.position + direction * 0.15f + Vector3.up * particleHeight,
-            Quaternion.identity);
+    //     float particleHeight = target.GetComponent<Entity>().Appearance.CollisionHeight * 1.25f;
+    //     GameObject go = (GameObject)Instantiate(
+    //         _impactParticle,
+    //         target.position + direction * 0.15f + Vector3.up * particleHeight,
+    //         Quaternion.identity);
 
-        go.transform.LookAt(attacker);
-        go.transform.eulerAngles = new Vector3(0, go.transform.eulerAngles.y + 180f, 0);
-    }
+    //     go.transform.LookAt(attacker);
+    //     go.transform.eulerAngles = new Vector3(0, go.transform.eulerAngles.y + 180f, 0);
+    // }
 
     public void StatusUpdate(Entity entity, List<Attribute> attributes)
     {

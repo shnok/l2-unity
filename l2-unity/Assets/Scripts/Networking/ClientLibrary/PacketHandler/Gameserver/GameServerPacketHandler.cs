@@ -315,7 +315,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         {
             if (hits[i] != null && !hits[i].isMiss())
             {
-                World.Instance.InflictDamageTo(packet.SenderId, hits[i].TargetId, hits[i].Damage, hits[i].isCrit());
+                World.Instance.InflictDamageTo(packet.SenderId, hits[i]);
             }
         }
     }

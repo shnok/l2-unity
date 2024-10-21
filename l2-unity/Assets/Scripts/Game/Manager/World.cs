@@ -392,17 +392,17 @@ public class World : MonoBehaviour
         });
     }
 
-    public Task InflictDamageTo(int sender, int target, int damage, bool criticalHit)
+    public Task InflictDamageTo(int sender, Hit hit)
     {
-        return ExecuteWithEntitiesAsync(sender, target, (senderEntity, targetEntity) =>
+        return ExecuteWithEntitiesAsync(sender, hit.TargetId, (senderEntity, targetEntity) =>
         {
             if (senderEntity != null)
             {
-                WorldCombat.Instance.InflictAttack(senderEntity.transform, targetEntity.transform, damage, criticalHit);
+                WorldCombat.Instance.InflictAttack(senderEntity, targetEntity, hit);
             }
             else
             {
-                WorldCombat.Instance.InflictAttack(targetEntity.transform, damage, criticalHit);
+                WorldCombat.Instance.InflictAttack(targetEntity, hit);
             }
         });
     }

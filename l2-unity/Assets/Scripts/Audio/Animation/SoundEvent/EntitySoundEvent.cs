@@ -16,6 +16,8 @@ public enum EntitySoundEvent : int
     Standup,
     Atk_1H,
     Atk_1H_S,
+    Atk_2H,
+    Atk_2H_S,
     Jump_1,
     Fall,
     Breathe

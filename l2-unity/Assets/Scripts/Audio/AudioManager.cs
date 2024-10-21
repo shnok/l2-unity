@@ -1,3 +1,4 @@
+using System;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
@@ -23,6 +24,8 @@ public class AudioManager : MonoBehaviour
     private Bus _UIBus;
     private Bus _ambientBus;
 
+    private EventReference[] _weaponSwishes;
+
     private static AudioManager _instance;
     public static AudioManager Instance { get { return _instance; } }
 
@@ -38,6 +41,7 @@ public class AudioManager : MonoBehaviour
         }
 
         SetBuses();
+        CacheEvents();
     }
 
     private void SetBuses()
@@ -47,6 +51,23 @@ public class AudioManager : MonoBehaviour
         _SFXBus = RuntimeManager.GetBus("bus:/SFX");
         _UIBus = RuntimeManager.GetBus("bus:/UI");
         _ambientBus = RuntimeManager.GetBus("bus:/Ambient");
+    }
+
+    private void CacheEvents()
+    {
+        _weaponSwishes = new EventReference[12];
+        _weaponSwishes[(int)WeaponType.none] = RuntimeManager.PathToEventReference("event:/ItemSound/fist");
+        _weaponSwishes[(int)WeaponType.hand] = RuntimeManager.PathToEventReference("event:/ItemSound/fist");
+        _weaponSwishes[(int)WeaponType.sword] = RuntimeManager.PathToEventReference("event:/ItemSound/sword_mid");
+        _weaponSwishes[(int)WeaponType.bigword] = RuntimeManager.PathToEventReference("event:/ItemSound/sword_geat");
+        _weaponSwishes[(int)WeaponType.blunt] = RuntimeManager.PathToEventReference("event:/ItemSound/axe");
+        _weaponSwishes[(int)WeaponType.bigblunt] = RuntimeManager.PathToEventReference("event:/ItemSound/hammer");
+        _weaponSwishes[(int)WeaponType.bow] = RuntimeManager.PathToEventReference("event:/ItemSound/bow_small");
+        _weaponSwishes[(int)WeaponType.dagger] = RuntimeManager.PathToEventReference("event:/ItemSound/dagger");
+        _weaponSwishes[(int)WeaponType.fist] = RuntimeManager.PathToEventReference("event:/ItemSound/fist");
+        _weaponSwishes[(int)WeaponType.dual] = RuntimeManager.PathToEventReference("event:/ItemSound/sword_mid");
+        _weaponSwishes[(int)WeaponType.dualfist] = RuntimeManager.PathToEventReference("event:/ItemSound/fist");
+        _weaponSwishes[(int)WeaponType.pole] = RuntimeManager.PathToEventReference("event:/ItemSound/spear");
     }
 
     private void Update()
@@ -66,6 +87,15 @@ public class AudioManager : MonoBehaviour
             _SFXBus.setVolume(_SFXVolume);
             _UIBus.setVolume(_UIVolume);
             _ambientBus.setVolume(_ambientVolume * 0.45f);
+        }
+    }
+
+    public void Play3DSoundByReferenceName(string referenceName, Vector3 position)
+    {
+        EventReference er = RuntimeManager.PathToEventReference("event:/" + referenceName);
+        if (!er.IsNull)
+        {
+            PlaySound(er, position);
         }
     }
 
@@ -136,24 +166,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayHitSound(bool criticalHit, Vector3 position)
-    {
-        EventReference er;
-        if (criticalHit)
-        {
-            er = RuntimeManager.PathToEventReference("event:/SkillSound/critical_hit");
-        }
-        else
-        {
-            er = RuntimeManager.PathToEventReference("event:/ItemSound/armor_hit_underwear");
-        }
-
-        if (!er.IsNull)
-        {
-            PlaySound(er, position);
-        }
-    }
-
     public void PlayItemSound(ItemSoundEvent itemSoundEvent, Vector3 position)
     {
         EventReference er;
@@ -168,11 +180,30 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(EventReference sound, Vector3 postition)
     {
-        RuntimeManager.PlayOneShot(sound, postition);
+        if (!sound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(sound, postition);
+        }
+        else
+        {
+            Debug.LogWarning("Trying to play a null EventReference sound.");
+        }
     }
 
     public void PlaySound(EventReference sound)
     {
-        RuntimeManager.PlayOneShot(sound);
+        if (!sound.IsNull)
+        {
+            RuntimeManager.PlayOneShot(sound);
+        }
+        else
+        {
+            Debug.LogWarning("Trying to play a null EventReference sound.");
+        }
+    }
+
+    public void PlaySwishSound(WeaponType weaponType, Vector3 position)
+    {
+        PlaySound(_weaponSwishes[(int)weaponType], position);
     }
 }

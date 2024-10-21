@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerStateAtk : PlayerStateAction
@@ -16,8 +17,9 @@ public class PlayerStateAtk : PlayerStateAction
         SetBool(HumanoidAnimType.atkwait, false, false);
         SetBool(HumanoidAnimType.atk01, false, false);
 
-        PlaySoundAtRatio(EntitySoundEvent.Atk_1H, AudioHandler.AtkRatio);
-        PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
+        PlayAtkSoundAtRatio(AudioHandler.AtkRatio);
+        // PlaySoundAtRatio(EntitySoundEvent.Atk_1H, AudioHandler.AtkRatio);
+        // PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

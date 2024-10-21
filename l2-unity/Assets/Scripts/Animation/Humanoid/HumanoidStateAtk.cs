@@ -20,8 +20,8 @@ public class HumanoidStateAtk : HumanoidStateBase
         SetBool(HumanoidAnimType.atkwait, false);
         SetBool(HumanoidAnimType.atk01, false);
 
-        PlaySoundAtRatio(EntitySoundEvent.Atk_1H, AudioHandler.AtkRatio);
-        PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
+        PlayAtkSoundAtRatio(AudioHandler.AtkRatio);
+        // PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
 
         _lastNormalizedTime = 0;
 
@@ -30,12 +30,12 @@ public class HumanoidStateAtk : HumanoidStateBase
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetBool(HumanoidAnimType.atk01, false);
-        if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
-        {
-            _lastNormalizedTime = stateInfo.normalizedTime;
-            PlaySoundAtRatio(EntitySoundEvent.Atk_1H, AudioHandler.AtkRatio);
-            PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
-        }
+        // if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
+        // {
+        //     _lastNormalizedTime = stateInfo.normalizedTime;
+        //     PlaySoundAtRatio(EntitySoundEvent.Atk_1H, AudioHandler.AtkRatio);
+        //     // PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
+        // }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

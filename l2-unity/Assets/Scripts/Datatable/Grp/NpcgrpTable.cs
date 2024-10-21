@@ -1,13 +1,18 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using FMODUnity;
 using UnityEngine;
 
-public class NpcgrpTable {
+public class NpcgrpTable
+{
     private static NpcgrpTable _instance;
-    public static NpcgrpTable Instance {
-        get {
-            if (_instance == null) {
+    public static NpcgrpTable Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 _instance = new NpcgrpTable();
             }
 
@@ -19,27 +24,34 @@ public class NpcgrpTable {
 
     public Dictionary<int, Npcgrp> Npcgrps { get { return _npcgrps; } }
 
-    public void Initialize() {
+    public void Initialize()
+    {
         ReadNpcgrps();
     }
 
-    private void ReadNpcgrps() {
+    private void ReadNpcgrps()
+    {
         _npcgrps = new Dictionary<int, Npcgrp>();
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/Npcgrp_Classic.txt");
-        if (!File.Exists(dataPath)) {
+        if (!File.Exists(dataPath))
+        {
             Debug.LogWarning("File not found: " + dataPath);
             return;
         }
 
-        using (StreamReader reader = new StreamReader(dataPath)) {
+        using (StreamReader reader = new StreamReader(dataPath))
+        {
             string line;
-            while ((line = reader.ReadLine()) != null) {
+            while ((line = reader.ReadLine()) != null)
+            {
                 Npcgrp npcgrp = new Npcgrp();
 
                 string[] keyvals = line.Split('\t');
 
-                for (int i = 0; i < keyvals.Length; i++) {
-                    if (!keyvals[i].Contains("=")) {
+                for (int i = 0; i < keyvals.Length; i++)
+                {
+                    if (!keyvals[i].Contains("="))
+                    {
                         continue;
                     }
 
@@ -47,9 +59,10 @@ public class NpcgrpTable {
                     string key = keyval[0];
                     string value = keyval[1];
 
-                    switch (key) {
-                        case "npc_id": 
-                            npcgrp.NpcId = int.Parse(value); 
+                    switch (key)
+                    {
+                        case "npc_id":
+                            npcgrp.NpcId = int.Parse(value);
                             break;
                         case "class_name": //[LineageNPC.e_warehouse_keeper_FDwarf]	
                             npcgrp.ClassName = DatUtils.CleanupString(value);
@@ -62,12 +75,15 @@ public class NpcgrpTable {
                             break;
                         case "attack_sound1": //{[ItemSound.fist_1];[ItemSound.fist_2];[ItemSound.fist_3]}	
                             npcgrp.AttackSounds = DatUtils.ParseArray(value);
+                            GetNpcSoundReference(npcgrp.NpcId, npcgrp.AttackSoundsEvents, npcgrp.AttackSounds);
                             break;
                         case "defense_sound1": //{[ItemSound.armor_underwear_1];[ItemSound.armor_underwear_2];[ItemSound.armor_underwear_3];[ItemSound.armor_underwear_4];[ItemSound.armor_leather_7]}
                             npcgrp.DefenseSounds = DatUtils.ParseArray(value);
+                            GetNpcSoundReference(npcgrp.NpcId, npcgrp.DefenseSoundsEvents, npcgrp.DefenseSounds);
                             break;
                         case "damage_sound": //{[ChrSound.FNpc_Young_Dmg_1];[ChrSound.FNpc_Young_Dmg_2];[ChrSound.FNpc_Young_Dmg_3]}
                             npcgrp.DamageSounds = DatUtils.ParseArray(value);
+                            GetNpcSoundReference(npcgrp.NpcId, npcgrp.DamageSoundsEvents, npcgrp.DamageSounds);
                             break;
                         case "attack_effect": //[LineageEffect.p_u002_a]
                             npcgrp.AttackEffect = DatUtils.CleanupString(value);
@@ -94,8 +110,8 @@ public class NpcgrpTable {
                             npcgrp.Lhand = int.Parse(value);
                             break;
                         case "org_hp":
-                           // npcgrp.MaxHp = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
-                           npcgrp.MaxHp = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
+                            // npcgrp.MaxHp = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
+                            npcgrp.MaxHp = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                         case "org_mp":
                             npcgrp.MaxMp = float.Parse(value, CultureInfo.InvariantCulture.NumberFormat);
@@ -110,11 +126,31 @@ public class NpcgrpTable {
         }
     }
 
-    public Npcgrp GetNpcgrp(int id) {
+    private void GetNpcSoundReference(int npcId, List<EventReference> eventList, string[] eventNames)
+    {
+        eventList = new List<EventReference>();
+        foreach (var sound in eventNames)
+        {
+            string updatedPath = sound.Replace(".", "/");
+            EventReference er = RuntimeManager.PathToEventReference("event:/" + updatedPath);
+            if (er.IsNull)
+            {
+                Debug.LogWarning($"Missing sound: {sound} for npcId: {npcId}.");
+            }
+            else
+            {
+                eventList.Add(er);
+            }
+        }
+    }
+
+    public Npcgrp GetNpcgrp(int id)
+    {
         Npcgrp npcgrp = null;
         _npcgrps.TryGetValue(id, out npcgrp);
 
-        if(npcgrp == null) {
+        if (npcgrp == null)
+        {
             Debug.LogWarning($"Npcgrp not found for id [{id}]");
         }
 

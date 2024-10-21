@@ -22,6 +22,11 @@ public class PlayerStateBase : StateMachineBehaviour
         }
     }
 
+    public void PlayAtkSoundAtRatio(float ratio)
+    {
+        AudioHandler.PlayAtkSoundAtRatio(ratio);
+    }
+
     public void PlaySoundAtRatio(EntitySoundEvent soundEvent, float ratio)
     {
         AudioHandler.PlaySoundAtRatio(soundEvent, ratio);

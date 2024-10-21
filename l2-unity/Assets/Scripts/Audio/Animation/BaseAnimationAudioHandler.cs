@@ -1,4 +1,7 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class BaseAnimationAudioHandler : MonoBehaviour
@@ -65,6 +68,32 @@ public class BaseAnimationAudioHandler : MonoBehaviour
         PlaySound(soundEvent);
     }
 
+    public void PlaySoundAtRatio(EventReference soundEvent, float ratio)
+    {
+        if (ratio == 0)
+        {
+            PlaySound(soundEvent);
+            return;
+        }
+
+        StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
+    }
+
+    public IEnumerator PlaySoundAtRatioCoroutine(EventReference soundEvent, float ratio)
+    {
+        while ((Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
+        {
+            yield return null;
+        }
+
+        PlaySound(soundEvent);
+    }
+
+    public virtual void PlaySound(EventReference soundEvent)
+    {
+        AudioManager.Instance.PlaySound(soundEvent, transform.position);
+    }
+
     // Item sounds
     public virtual void PlaySound(ItemSoundEvent soundEvent)
     {
@@ -91,5 +120,38 @@ public class BaseAnimationAudioHandler : MonoBehaviour
         }
 
         PlaySound(soundEvent);
+    }
+
+
+    public virtual void PlayCritSound()
+    {
+        AudioManager.Instance.Play3DSoundByReferenceName("SkillSound/critical_hit", transform.position);
+    }
+
+    public virtual void PlaySoulshotSound()
+    {
+        AudioManager.Instance.Play3DSoundByReferenceName("SkillSound/soul_shot_shot", transform.position);
+    }
+
+    public virtual void PlayDefenseSound()
+    {
+    }
+
+    public virtual void PlayDamageSound()
+    {
+    }
+
+    public virtual void PlaySwishSound()
+    {
+    }
+
+    protected EventReference GetRandomEvent(List<EventReference> events)
+    {
+        if (events == null)
+        {
+            return new EventReference();
+        }
+
+        return events[UnityEngine.Random.Range(0, events.Count)];
     }
 }

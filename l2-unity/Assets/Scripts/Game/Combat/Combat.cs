@@ -68,7 +68,7 @@ public abstract class Combat : MonoBehaviour
     }
 
     // Called when ApplyDamage packet is received 
-    public void ApplyDamage(int damage, bool criticalHit)
+    public void ApplyDamage(Hit hit)
     {
         if (Status.Hp <= 0)
         {
@@ -76,9 +76,9 @@ public abstract class Combat : MonoBehaviour
             return;
         }
 
-        Status.Hp = Mathf.Max(Status.Hp - damage, 0);
+        Status.Hp = Mathf.Max(Status.Hp - hit.Damage, 0);
 
-        OnHit(criticalHit);
+        OnHit(hit);
 
         if (Status.Hp <= 0)
         {
@@ -96,9 +96,37 @@ public abstract class Combat : MonoBehaviour
 
     protected virtual void OnDeath() { }
 
-    protected virtual void OnHit(bool criticalHit)
+    protected virtual void OnHit(Hit hit)
     {
-        // TODO: Add armor type for more hit sounds
-        AudioManager.Instance.PlayHitSound(criticalHit, transform.position);
+        if (hit.isMiss())
+        {
+            // AudioHandler.PlaySwishSound(); //TODO: Play on attacker instead ?
+        }
+        else
+        {
+            AudioHandler.PlayDamageSound();
+
+            if (hit.hasSoulshot())
+            {
+                if (hit.isCrit())
+                {
+                    AudioHandler.PlayCritSound();
+                }
+                AudioHandler.PlaySoulshotSound();
+            }
+            else if (hit.isCrit())
+            {
+                AudioHandler.PlayCritSound();
+            }
+            else
+            {
+                AudioHandler.PlayDefenseSound();
+            }
+        }
+
+
+        // voice_sound_weapon -> play voice based on current weapon equiped (random)
+        // defense sound -> only when soulshot is not activated
+        // Swish sound -> only when attack missed (attacker)
     }
 }
