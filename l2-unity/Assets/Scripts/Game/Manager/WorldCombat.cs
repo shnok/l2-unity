@@ -1,11 +1,10 @@
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 using static StatusUpdatePacket;
 
 public class WorldCombat : MonoBehaviour
 {
-    [SerializeField] private GameObject _impactParticle;
-
     private static WorldCombat _instance;
     public static WorldCombat Instance { get { return _instance; } }
 
@@ -74,6 +73,33 @@ public class WorldCombat : MonoBehaviour
         {
             entity.Combat.StopAutoAttacking();
         }
+    }
+
+    public void EntityCastSkill(Entity entity, int skillId)
+    {
+        Skill skill = SkillTable.Instance.GetSkill(skillId);
+        CastSkill(entity, skill);
+    }
+
+    public void EntityCastSkill(Entity entity, Skill skill)
+    {
+        CastSkill(entity, skill);
+    }
+
+    private void CastSkill(Entity entity, Skill skill)
+    {
+        // Spawn particle
+        ParticleManager.Instance.SpawnSkillParticles(entity, skill);
+
+        // Cast skill sound
+        if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length == 0)
+        {
+            Debug.LogWarning("Skill {} doesnt have any SoundGrp or can't find sound EventReference.");
+            return;
+        }
+
+        EventReference soundReference = skill.SkillSoundgrp.SpellEffectSounds[0].SoundEvent;
+        AudioManager.Instance.PlaySound(soundReference, entity.transform.position);
     }
 
     // OBSOLETE

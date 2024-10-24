@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using FMODUnity;
 using UnityEngine;
 
 public class SkillSoundgrpTable
@@ -71,7 +72,7 @@ public class SkillSoundgrpTable
                             {
                                 int index = int.Parse(key.Replace("spelleffect_sound_", ""), CultureInfo.InvariantCulture);
                                 grp.SpellEffectSounds[--index] = new SkillSound();
-                                grp.SpellEffectSounds[index].SoundEvent = value;
+                                grp.SpellEffectSounds[index].SoundEventName = value;
                             }
                             break;
                         case "spelleffect_sound_vol_1":
@@ -111,7 +112,7 @@ public class SkillSoundgrpTable
                             {
                                 int index = int.Parse(key.Replace("shoteffect_sound_", ""), CultureInfo.InvariantCulture);
                                 grp.ShotEffectSounds[--index] = new SkillSound();
-                                grp.ShotEffectSounds[index].SoundEvent = value;
+                                grp.ShotEffectSounds[index].SoundEventName = value;
                             }
                             break;
                         case "shoteffect_sound_vol_1":
@@ -201,9 +202,35 @@ public class SkillSoundgrpTable
                     }
                 }
 
+                UpdateSoundReferences(grp.SkillId, grp.SpellEffectSounds);
+                UpdateSoundReferences(grp.SkillId, grp.ShotEffectSounds);
+
                 _data.TryAdd(grp.SkillId, grp);
             }
             Debug.Log($"Successfully imported {_data.Count} SkillSoundGrp(s)");
+        }
+    }
+
+    private void UpdateSoundReferences(int skillId, SkillSound[] skillSounds)
+    {
+        foreach (SkillSound skillSound in skillSounds)
+        {
+            if (skillSound == null || skillSound.SoundEventName == null || skillSound.SoundEventName.Length == 0)
+            {
+                continue;
+            }
+
+            string updatedPath = skillSound.SoundEventName.Replace(".", "/");
+            EventReference er = RuntimeManager.PathToEventReference("event:/" + updatedPath);
+            Debug.LogWarning($"Getting sound reference for sound: {skillSound.SoundEventName}");
+            if (er.IsNull)
+            {
+                Debug.LogWarning($"Missing sound: {updatedPath} for skill: {skillId}.");
+            }
+            else
+            {
+                skillSound.SoundEvent = er;
+            }
         }
     }
 

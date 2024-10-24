@@ -33,6 +33,7 @@ public class SkillEffectTest : MonoBehaviour
 
     private int flags = 0;
     public bool soulshot = false;
+    public bool spiritshot = false;
     public bool crit = true;
     public int shld = 0;
     public bool miss = false;
@@ -77,7 +78,8 @@ public class SkillEffectTest : MonoBehaviour
             Hit hit = new Hit(target.Identity.Id, 10, flags);
             Debug.Log($"Inflicting attack with flags: {flags} ss:{hit.hasSoulshot()} miss:{hit.isMiss()} crit:{hit.isCrit()}");
             WorldCombat.Instance.InflictAttack(caster, target, new Hit(target.Identity.Id, 10, flags));
-            //  SpawnSkillCast()
+
+            WorldCombat.Instance.EntityCastSkill(caster, spiritshot ? 2047 : 2039);
             yield return new WaitForSeconds(spawnDelay);
         }
     }
