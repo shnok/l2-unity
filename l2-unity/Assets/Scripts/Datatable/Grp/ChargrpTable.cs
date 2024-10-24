@@ -131,15 +131,15 @@ public class ChargrpTable
                             break;
                         case "damage_sound":
                             grp.DamageSounds = DatUtils.ParseArray(value);
-                            GetSoundReference(grp.ClassId, grp.DamageSoundsEvents, grp.DamageSounds);
+                            grp.DamageSoundsEvents = GetSoundReference(grp.ClassId, grp.DamageSounds);
                             break;
                         case "defense_sound":
                             grp.DefenseSounds = DatUtils.ParseArray(value);
-                            GetSoundReference(grp.ClassId, grp.DefenseSoundsEvents, grp.DefenseSounds);
+                            grp.DefenseSoundsEvents = GetSoundReference(grp.ClassId, grp.DefenseSounds);
                             break;
                         case "attack_sound":
                             grp.AttackSounds = DatUtils.ParseArray(value);
-                            GetSoundReference(grp.ClassId, grp.AttackSoundsEvents, grp.AttackSounds);
+                            grp.AttackSoundsEvents = GetSoundReference(grp.ClassId, grp.AttackSounds);
                             break;
                     }
 
@@ -158,13 +158,14 @@ public class ChargrpTable
         }
     }
 
-    private void GetSoundReference(int raceId, List<EventReference> eventList, string[] eventNames)
+    private List<EventReference> GetSoundReference(int raceId, string[] eventNames)
     {
-        eventList = new List<EventReference>();
+        List<EventReference> eventList = new List<EventReference>();
         foreach (var sound in eventNames)
         {
             string updatedPath = sound.Replace(".", "/");
             EventReference er = RuntimeManager.PathToEventReference("event:/" + updatedPath);
+            Debug.LogWarning($"Getting sound reference for sound: {sound} - {er.IsNull}");
             if (er.IsNull)
             {
                 Debug.LogWarning($"Missing sound: {sound} for chargrp: {raceId}.");
@@ -174,6 +175,8 @@ public class ChargrpTable
                 eventList.Add(er);
             }
         }
+
+        return eventList;
     }
 
     public CharacterModelType FromIndexToModelType(int index)

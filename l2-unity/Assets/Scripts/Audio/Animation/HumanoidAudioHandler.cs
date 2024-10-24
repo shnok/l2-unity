@@ -52,16 +52,13 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
 
     public override void PlayDamageSound()
     {
-        EventReference soundEvent = GetRandomEvent(_chargrp.DamageSoundsEvents);
-        if (!soundEvent.IsNull)
-        {
-            AudioManager.Instance.PlaySound(soundEvent, transform.position);
-        }
+        PlaySound(EntitySoundEvent.Dmg);
     }
 
     public override void PlayDefenseSound()
     {
         EventReference soundEvent = GetRandomEvent(_chargrp.DefenseSoundsEvents);
+        //TODO: Adapt based on armor type (heavy light robe)
         if (!soundEvent.IsNull)
         {
             AudioManager.Instance.PlaySound(soundEvent, transform.position);

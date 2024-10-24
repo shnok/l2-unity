@@ -70,6 +70,8 @@ public abstract class Combat : MonoBehaviour
     // Called when ApplyDamage packet is received 
     public void ApplyDamage(Hit hit)
     {
+        OnHit(hit);
+
         if (Status.Hp <= 0)
         {
             Debug.LogWarning("Trying to apply damage to a dead entity");
@@ -78,7 +80,6 @@ public abstract class Combat : MonoBehaviour
 
         Status.Hp = Mathf.Max(Status.Hp - hit.Damage, 0);
 
-        OnHit(hit);
 
         if (Status.Hp <= 0)
         {

@@ -75,15 +75,15 @@ public class NpcgrpTable
                             break;
                         case "attack_sound1": //{[ItemSound.fist_1];[ItemSound.fist_2];[ItemSound.fist_3]}	
                             npcgrp.AttackSounds = DatUtils.ParseArray(value);
-                            GetNpcSoundReference(npcgrp.NpcId, npcgrp.AttackSoundsEvents, npcgrp.AttackSounds);
+                            npcgrp.AttackSoundsEvents = GetSoundReference(npcgrp.NpcId, npcgrp.AttackSounds);
                             break;
                         case "defense_sound1": //{[ItemSound.armor_underwear_1];[ItemSound.armor_underwear_2];[ItemSound.armor_underwear_3];[ItemSound.armor_underwear_4];[ItemSound.armor_leather_7]}
                             npcgrp.DefenseSounds = DatUtils.ParseArray(value);
-                            GetNpcSoundReference(npcgrp.NpcId, npcgrp.DefenseSoundsEvents, npcgrp.DefenseSounds);
+                            npcgrp.DefenseSoundsEvents = GetSoundReference(npcgrp.NpcId, npcgrp.DefenseSounds);
                             break;
                         case "damage_sound": //{[ChrSound.FNpc_Young_Dmg_1];[ChrSound.FNpc_Young_Dmg_2];[ChrSound.FNpc_Young_Dmg_3]}
                             npcgrp.DamageSounds = DatUtils.ParseArray(value);
-                            GetNpcSoundReference(npcgrp.NpcId, npcgrp.DamageSoundsEvents, npcgrp.DamageSounds);
+                            npcgrp.DamageSoundsEvents = GetSoundReference(npcgrp.NpcId, npcgrp.DamageSounds);
                             break;
                         case "attack_effect": //[LineageEffect.p_u002_a]
                             npcgrp.AttackEffect = DatUtils.CleanupString(value);
@@ -126,22 +126,25 @@ public class NpcgrpTable
         }
     }
 
-    private void GetNpcSoundReference(int npcId, List<EventReference> eventList, string[] eventNames)
+    private List<EventReference> GetSoundReference(int npcId, string[] eventNames)
     {
-        eventList = new List<EventReference>();
+        List<EventReference> eventList = new List<EventReference>();
         foreach (var sound in eventNames)
         {
             string updatedPath = sound.Replace(".", "/");
             EventReference er = RuntimeManager.PathToEventReference("event:/" + updatedPath);
+            Debug.LogWarning($"Getting sound reference for sound: {sound} - {er.IsNull}");
             if (er.IsNull)
             {
-                Debug.LogWarning($"Missing sound: {sound} for npcId: {npcId}.");
+                Debug.LogWarning($"Missing sound: {sound} for npc: {npcId}.");
             }
             else
             {
                 eventList.Add(er);
             }
         }
+
+        return eventList;
     }
 
     public Npcgrp GetNpcgrp(int id)
