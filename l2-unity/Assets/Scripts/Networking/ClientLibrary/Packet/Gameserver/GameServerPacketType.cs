@@ -26,6 +26,7 @@ public enum GameServerPacketType : int
     EntityTargetUnset = 0x2a,
     AutoAttackStart = 0x2b,
     AutoAttackStop = 0x2c,
+    SocialAction = 0x2d,
     ChangeMoveType = 0x2e,
     ChangeWaitType = 0x2f,
     ShortcutRegister = 0x44,
@@ -34,6 +35,7 @@ public enum GameServerPacketType : int
     StopMove = 0x47,
     MagicSkillUse = 0x48,
     CreatureSay = 0x4a,
+    SkillList = 0x58,
     RestartReponse = 0x5F,
     ValidateLocation = 0x61,
     SystemMessage = 0x64,
@@ -49,8 +51,6 @@ public enum GameServerPacketType : int
     ObjectRotation = 0xFF9,
     ObjectAnimation = 0xFFA,
     GameTime = 0xFD0,
-
-    SocialAction = 0xFDE,
 
     Ping = 0xFE1,
 

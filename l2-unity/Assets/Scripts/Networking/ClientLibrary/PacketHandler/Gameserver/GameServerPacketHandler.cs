@@ -134,6 +134,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.UserInfo:
                 OnUserInfoReceived(data);
                 break;
+            case GameServerPacketType.SocialAction:
+                OnSocialActionReceived(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -507,5 +510,11 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         ExAutoSoulshotPacket packet = new ExAutoSoulshotPacket(data);
         WorldCombat.Instance.ExAutoSoulshotReceived(packet.ItemId, packet.Enable);
+    }
+
+    private void OnSocialActionReceived(byte[] data)
+    {
+        SocialActionPacket packet = new SocialActionPacket(data);
+        World.Instance.SocialActionReceived(packet.ObjectId, packet.Action);
     }
 }

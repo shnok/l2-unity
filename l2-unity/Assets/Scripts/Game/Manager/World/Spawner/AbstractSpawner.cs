@@ -46,13 +46,4 @@ public abstract class EntitySpawnStrategy<TAppearance, TStats, TStatus> where TA
         TStatus status, TStats stats, TAppearance appearance, bool running);
 
     protected abstract void AddEntity(NetworkIdentity identity, Entity entity);
-
-    protected void CheckAndHandleLevelUp(Entity entity, Stats stats)
-    {
-        if (entity.Stats.Level != 0 && stats.Level > entity.Stats.Level)
-        {
-            Debug.LogWarning("Entity level up!");
-            WorldCombat.Instance.EntityCastSkill(entity, 2122);
-        }
-    }
 }

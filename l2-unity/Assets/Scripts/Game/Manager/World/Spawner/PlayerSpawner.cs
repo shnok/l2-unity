@@ -96,7 +96,6 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
     PlayerStats stats, PlayerAppearance appearance, bool running)
     {
         UpdateIdentityAndStatus(entity, identity, status);
-        CheckAndHandleLevelUp(entity, stats);
         UpdateStatsAndAppearance(entity, stats, appearance, running);
     }
 

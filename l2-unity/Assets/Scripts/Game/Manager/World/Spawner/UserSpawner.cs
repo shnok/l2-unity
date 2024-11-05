@@ -69,12 +69,6 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
     #endregion
 
     #region Update
-    protected override void FindAndUpdateEntity(NetworkIdentity identity, PlayerStatus status, Stats stats,
-    PlayerAppearance appearance, bool running)
-    {
-        UpdateEntity(PlayerEntity.Instance, identity, status, stats, appearance, running);
-    }
-
     protected override void UpdateEntity(Entity entity, NetworkIdentity identity,
         PlayerStatus status, Stats stats, PlayerAppearance appearance, bool running)
     {
@@ -88,7 +82,6 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
     {
         Debug.LogWarning("UpdateEntityComponents");
         UpdateIdentityAndStatus(entity, identity, status);
-        CheckAndHandleLevelUp(entity, stats);
         UpdateStatsAndAppearance(entity, stats, appearance, running);
     }
 

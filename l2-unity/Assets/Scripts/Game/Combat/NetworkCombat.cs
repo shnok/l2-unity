@@ -51,7 +51,7 @@ public abstract class NetworkCombat : Combat
     public void LookAtTarget()
     {
         Debug.LogWarning(AttackTarget);
-        if (AttackTarget != null && Status.Hp > 0)
+        if (AttackTarget != null && !Status.IsDead)
         {
             NetworkTransformReceive.LookAt(_attackTarget.transform);
         }

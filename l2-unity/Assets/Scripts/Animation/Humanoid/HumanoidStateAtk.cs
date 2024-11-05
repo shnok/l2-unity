@@ -73,7 +73,7 @@ public class HumanoidStateAtk : HumanoidStateAction
         if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
         {
             _lastNormalizedTime = stateInfo.normalizedTime;
-            PlaySoundAtRatio(EntitySoundEvent.Atk, AudioHandler.AtkRatio);
+            PlayAtkSoundAtRatio(AudioHandler.AtkRatio);
         }
     }
 

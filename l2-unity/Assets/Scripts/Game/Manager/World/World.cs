@@ -244,4 +244,19 @@ public class World : MonoBehaviour
             e.Identity.Position = teleportTo;
         });
     }
+
+    public Task SocialActionReceived(int objectId, int action)
+    {
+        if (action != SocialActionPacket.LEVELUP_ACTION)
+        {
+            Debug.LogWarning("REGULAR SOCIAL ACTIONS ARE NOT YET HANDLED");
+            return null;
+        }
+
+        return _worldSpawner.ExecuteWithEntityAsync(objectId, e =>
+        {
+            Debug.LogWarning("Entity level up!");
+            WorldCombat.Instance.EntityCastSkill(e, 2122);
+        });
+    }
 }
