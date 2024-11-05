@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HumanoidStateAtk : HumanoidStateBase
+public class HumanoidStateAtk : HumanoidStateAction
 {
     private float _lastNormalizedTime;
 
@@ -14,11 +14,11 @@ public class HumanoidStateAtk : HumanoidStateBase
             clipInfos = animator.GetCurrentAnimatorClipInfo(0);
         }
 
-        AnimationController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
+        AnimController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
         SetBool(HumanoidAnimType.wait, false);
         SetBool(HumanoidAnimType.atkwait, false);
-        SetBool(HumanoidAnimType.atk01, false);
+        // SetBool(HumanoidAnimType.atk01, false);
 
         PlayAtkSoundAtRatio(AudioHandler.AtkRatio);
         // PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
@@ -36,6 +36,45 @@ public class HumanoidStateAtk : HumanoidStateBase
         //     PlaySoundAtRatio(EntitySoundEvent.Atk_1H, AudioHandler.AtkRatio);
         //     // PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
         // }
+        if (stateInfo.normalizedTime > 0.25f)
+        {
+            SetBool(HumanoidAnimType.atk01, false);
+        }
+
+        if (IsDead())
+        {
+            SetBool(HumanoidAnimType.atk01, false);
+            SetBool(HumanoidAnimType.death, true);
+            return;
+        }
+
+        if (IsMoving())
+        {
+            if (Entity.Running)
+            {
+                SetBool(HumanoidAnimType.atk01, false);
+                SetBool(HumanoidAnimType.run, true);
+            }
+            else
+            {
+                SetBool(HumanoidAnimType.atk01, false);
+                SetBool(HumanoidAnimType.walk, true);
+            }
+
+            return;
+        }
+
+        if (DidAttackTimeout())
+        {
+            SetBool(HumanoidAnimType.atk01, false);
+            SetBool(HumanoidAnimType.atkwait, true);
+        }
+
+        if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
+        {
+            _lastNormalizedTime = stateInfo.normalizedTime;
+            PlaySoundAtRatio(EntitySoundEvent.Atk, AudioHandler.AtkRatio);
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -52,6 +52,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     // Player move direction packets
     public void UpdateMoveDirection(Vector3 direction)
     {
+        Debug.LogWarning("UpdateMoveDirection: " + direction);
         _speed = _entity.Running ? _entity.Stats.ScaledRunSpeed : _entity.Stats.ScaledWalkSpeed;
         _direction = direction;
 
@@ -69,6 +70,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     // Move to destination packets
     public void SetDestination(Vector3 destination, float stopAtRange)
     {
+        Debug.LogWarning("Set destination: " + destination);
         if (_lastDestination == destination)
         {
             return;

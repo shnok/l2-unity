@@ -81,6 +81,7 @@ public class GameClientPacketHandler : ClientPacketHandler
 
     public void UpdateMoveDirection(Vector3 direction, int heading)
     {
+        Debug.LogWarning("Sharing move direction: " + direction);
         RequestMoveDirectionPacket packet = new RequestMoveDirectionPacket(direction, heading);
         SendPacket(packet);
     }

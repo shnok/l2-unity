@@ -200,7 +200,12 @@ public class WorldCombat : MonoBehaviour
 
                 Debug.LogWarning("Attacker position: " + attackerPosition);
                 referenceHolder.NetworkTransformReceive.SetNewPosition(attackerPosition, false);
-                referenceHolder.NetworkCharacterControllerReceive.ResetDestination();
+
+                // User destination does not matter, only move direction does
+                if (senderEntity.Identity.EntityType != EntityType.User)
+                {
+                    referenceHolder.NetworkCharacterControllerReceive.ResetDestination();
+                }
             }
             else
             {

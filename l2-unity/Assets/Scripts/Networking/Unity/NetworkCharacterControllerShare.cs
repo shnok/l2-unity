@@ -6,7 +6,11 @@ public class NetworkCharacterControllerShare : MonoBehaviour
 {
     private CharacterController _characterController;
     [SerializeField] private int _sharingLoopDelayMs = 100;
+
     [SerializeField] private Vector3 _lastDirection;
+    [SerializeField] private Vector3 _lastForcedDirection;
+    [SerializeField] private float _lastDirectionAngle;
+
     [SerializeField] private long _lastSharingTimestamp = 0;
     [SerializeField] private int _heading;
 
@@ -25,6 +29,8 @@ public class NetworkCharacterControllerShare : MonoBehaviour
         {
             Destroy(this);
         }
+
+        _lastDirectionAngle = -99999;
     }
 
     private void OnDestroy()
@@ -97,31 +103,55 @@ public class NetworkCharacterControllerShare : MonoBehaviour
         return false;
     }
 
+    public void ForceShareMoveDirection()
+    {
+        ShareMoveDirection(PlayerController.Instance.MoveDirection.normalized, true);
+    }
+
     public void ShareMoveDirection(Vector3 moveDirection)
     {
-        if (_lastDirection.x == moveDirection.x && _lastDirection.z == moveDirection.z)
+        ShareMoveDirection(moveDirection, false);
+    }
+
+    public void ShareMoveDirection(Vector3 moveDirection, bool isForced)
+    {
+        Vector3 previousDirection = isForced ? _lastForcedDirection : _lastDirection;
+        if (previousDirection.x == moveDirection.x && previousDirection.z == moveDirection.z)
         {
+            // The direction hasnt changed
             return;
         }
 
-        if (!VectorUtils.IsVectorZero2D(moveDirection))
+        float directionAngle = VectorUtils.CalculateMoveDirectionAngle(moveDirection.x, moveDirection.z);
+        if (Math.Abs(Math.Abs(directionAngle) - Math.Abs(_lastDirectionAngle)) < 2f)
         {
-            Heading = CalculateHeading(moveDirection);
+            Debug.Log("The direction change is too small to share");
+            // The direction change is too small to share
+            return;
         }
 
-        _lastDirection = moveDirection;
+        _lastDirectionAngle = directionAngle;
+
+        if (!VectorUtils.IsVectorZero2D(moveDirection))
+        {
+            Heading = CalculateHeading(directionAngle);
+        }
+
+        if (!isForced)
+        {
+            _lastForcedDirection = Vector3.one;
+            _lastDirection = moveDirection;
+        }
+        else
+        {
+            _lastForcedDirection = moveDirection;
+        }
 
         GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(moveDirection, Heading);
     }
 
-    private int CalculateHeading(Vector3 moveDirection)
+    private int CalculateHeading(float directionAngle)
     {
-        float directionAngle = VectorUtils.CalculateMoveDirectionAngle(moveDirection.x, moveDirection.z);
         return (int)VectorUtils.ConvertRotToUnreal(directionAngle);
-    }
-
-    public void ForceShareMoveDirection()
-    {
-        ShareMoveDirection(PlayerController.Instance.MoveDirection.normalized);
     }
 }

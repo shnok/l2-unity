@@ -31,7 +31,7 @@ public class MoveToIntention : IntentionBase
         else if (!_stateMachine.WaitingForServerReply)
         {
             _stateMachine.SetWaitingForServerReply(true);
-            NetworkCharacterControllerShare.Instance.ShareMoveDirection(PlayerController.Instance.MoveDirection.normalized);
+            NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
         }
         else
         {

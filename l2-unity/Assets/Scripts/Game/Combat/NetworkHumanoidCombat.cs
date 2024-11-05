@@ -1,5 +1,7 @@
 
 // Used by NPCS and USERS
+using UnityEngine;
+
 public class NetworkHumanoidCombat : NetworkCombat
 {
     public HumanoidAnimationController HumanoidAnimationController { get { return (HumanoidAnimationController)_referenceHolder.AnimationController; } }
@@ -38,4 +40,17 @@ public class NetworkHumanoidCombat : NetworkCombat
     //         HumanoidAnimationController.SetBool(HumanoidAnimType.atkwait, true);
     //     }
     // }
+    public override bool AttackOnce()
+    {
+        Debug.LogWarning("AttackOnce");
+        if (base.AttackOnce())
+        {
+            HumanoidAnimationController.SetBool(HumanoidAnimType.atk01, true);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

@@ -180,19 +180,17 @@ public class World : MonoBehaviour
 
             if (id == GameClient.Instance.CurrentPlayerId)
             {
-                // Debug.LogWarning("Should not happen");
                 PlayerTransformReceive.Instance.SetNewPosition(position);
-                // NetworkCharacterControllerShare.Instance.Heading = heading;
-
-                //Verify position on server
-                // NetworkTransformShare.Instance.SharePosition();
+            }
+            else if (e.Identity.EntityType == EntityType.User)
+            {
+                ((NetworkEntityReferenceHolder)e.ReferenceHolder).NetworkTransformReceive.SetNewPosition(position);
             }
             else
             {
                 ((NetworkEntityReferenceHolder)e.ReferenceHolder).NetworkTransformReceive.SetFinalRotation(rotation);
                 ((NetworkEntityReferenceHolder)e.ReferenceHolder).NetworkTransformReceive.SetNewPosition(position);
                 ((NetworkEntityReferenceHolder)e.ReferenceHolder).NetworkCharacterControllerReceive.ResetDestination();
-                e.OnStopMoving();
             }
         });
     }
