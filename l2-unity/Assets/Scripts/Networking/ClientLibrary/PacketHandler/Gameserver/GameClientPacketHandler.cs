@@ -143,12 +143,6 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
-    public void UnEquipItem(int position)
-    {
-        RequestUnEquipPacket packet = new RequestUnEquipPacket(position);
-        SendPacket(packet);
-    }
-
     public void UpdateInventoryOrder(List<InventoryOrder> orders)
     {
         RequestInventoryUpdateOrderPacket packet = new RequestInventoryUpdateOrderPacket(orders);

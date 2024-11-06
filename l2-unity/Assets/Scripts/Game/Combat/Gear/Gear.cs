@@ -102,7 +102,6 @@ public class Gear : MonoBehaviour
             return;
         }
 
-        UnequipWeapon(leftSlot);
         if (weaponId == 0)
         {
             return;
@@ -115,6 +114,8 @@ public class Gear : MonoBehaviour
             Debug.LogWarning($"Could find weapon {weaponId} in DB for entity {_ownerId}.");
             return;
         }
+
+        UnequipWeapon(leftSlot);
 
         GameObject weaponPrefab = ModelTable.Instance.GetWeaponById(weaponId);
         if (weaponPrefab == null)

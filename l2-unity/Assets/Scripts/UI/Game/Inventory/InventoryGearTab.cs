@@ -5,8 +5,8 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class InventoryGearTab : L2Tab
 {
-    private Dictionary<ItemSlot, GearSlot> _gearSlots;
-    private Dictionary<ItemSlot, VisualElement> _gearAnchors;
+    private Dictionary<Paperdoll, GearSlot> _gearSlots;
+    private Dictionary<Paperdoll, VisualElement> _gearAnchors;
     [SerializeField] private int _selectedSlot = -1;
 
     public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader)
@@ -17,20 +17,20 @@ public class InventoryGearTab : L2Tab
 
         _gearAnchors?.Clear();
 
-        _gearAnchors = new Dictionary<ItemSlot, VisualElement>
+        _gearAnchors = new Dictionary<Paperdoll, VisualElement>
         {
-            { ItemSlot.SLOT_HEAD, _windowEle.Q<VisualElement>("Helmet") },
-            { ItemSlot.SLOT_GLOVES, _windowEle.Q<VisualElement>("Gloves") },
-            { ItemSlot.SLOT_CHEST, _windowEle.Q<VisualElement>("Torso") },
-            { ItemSlot.SLOT_FEET, _windowEle.Q<VisualElement>("Boots") },
-            { ItemSlot.SLOT_LEGS, _windowEle.Q<VisualElement>("Legs") },
-            { ItemSlot.SLOT_R_HAND, _windowEle.Q<VisualElement>("Rhand") },
-            { ItemSlot.SLOT_L_HAND, _windowEle.Q<VisualElement>("Lhand") },
-            { ItemSlot.SLOT_NECK, _windowEle.Q<VisualElement>("Neck") },
-            { ItemSlot.SLOT_R_EAR, _windowEle.Q<VisualElement>("Rear") },
-            { ItemSlot.SLOT_L_EAR, _windowEle.Q<VisualElement>("Lear") },
-            { ItemSlot.SLOT_R_FINGER, _windowEle.Q<VisualElement>("Rring") },
-            { ItemSlot.SLOT_L_FINGER, _windowEle.Q<VisualElement>("Lring") }
+            { Paperdoll.HEAD, _windowEle.Q<VisualElement>("Helmet") },
+            { Paperdoll.GLOVES, _windowEle.Q<VisualElement>("Gloves") },
+            { Paperdoll.CHEST, _windowEle.Q<VisualElement>("Torso") },
+            { Paperdoll.FEET, _windowEle.Q<VisualElement>("Boots") },
+            { Paperdoll.LEGS, _windowEle.Q<VisualElement>("Legs") },
+            { Paperdoll.RHAND, _windowEle.Q<VisualElement>("Rhand") },
+            { Paperdoll.LHAND, _windowEle.Q<VisualElement>("Lhand") },
+            { Paperdoll.NECK, _windowEle.Q<VisualElement>("Neck") },
+            { Paperdoll.REAR, _windowEle.Q<VisualElement>("Rear") },
+            { Paperdoll.LEAR, _windowEle.Q<VisualElement>("Lear") },
+            { Paperdoll.RFINGER, _windowEle.Q<VisualElement>("Rring") },
+            { Paperdoll.LFINGER, _windowEle.Q<VisualElement>("Lring") }
         };
     }
 
@@ -41,7 +41,7 @@ public class InventoryGearTab : L2Tab
         // Clean up slot callbacks and manipulators
         if (_gearSlots != null)
         {
-            foreach (KeyValuePair<ItemSlot, GearSlot> kvp in _gearSlots)
+            foreach (KeyValuePair<Paperdoll, GearSlot> kvp in _gearSlots)
             {
                 if (kvp.Value != null)
                 {
@@ -52,9 +52,9 @@ public class InventoryGearTab : L2Tab
             _gearSlots.Clear();
         }
 
-        _gearSlots = new Dictionary<ItemSlot, GearSlot>();
+        _gearSlots = new Dictionary<Paperdoll, GearSlot>();
         // Clean up gear anchors from any child visual element
-        foreach (KeyValuePair<ItemSlot, VisualElement> kvp in _gearAnchors)
+        foreach (KeyValuePair<Paperdoll, VisualElement> kvp in _gearAnchors)
         {
             if (kvp.Value == null)
             {
@@ -78,22 +78,30 @@ public class InventoryGearTab : L2Tab
             if (item.Equipped)
             {
                 //Debug.Log("Equip item: " + item);
-                if (item.BodyPart == ItemSlot.SLOT_LR_HAND)
+                if ((item.Slot == (int)Paperdoll.LHAND || item.Slot == (int)Paperdoll.RHAND) && item.BodyPart == ItemSlot.SLOT_LR_HAND) //Todo verify
                 {
-                    _gearSlots[ItemSlot.SLOT_L_HAND].AssignItem(item);
-                    _gearSlots[ItemSlot.SLOT_R_HAND].AssignItem(item);
+                    if (item.Type1 == ItemType1.TYPE1_ITEM_QUESTITEM_ADENA)
+                    {
+                        _gearSlots[(Paperdoll)item.Slot].AssignItem(item);
+                    }
+                    else
+                    {
+                        _gearSlots[Paperdoll.LHAND].AssignItem(item);
+                        _gearSlots[Paperdoll.RHAND].AssignItem(item);
+                    }
                 }
-                else if (item.BodyPart == ItemSlot.SLOT_FULL_ARMOR)
+                else
+                if (item.Slot == (int)Paperdoll.CHEST && item.BodyPart == ItemSlot.SLOT_FULL_ARMOR)
                 {
-                    _gearSlots[ItemSlot.SLOT_CHEST].AssignItem(item);
-                    _gearSlots[ItemSlot.SLOT_LEGS].AssignItem(item);
+                    _gearSlots[Paperdoll.CHEST].AssignItem(item);
+                    _gearSlots[Paperdoll.LEGS].AssignItem(item);
                 }
                 else
                 {
-                    ItemSlot slot = (ItemSlot)item.BodyPart;
-                    if (slot != ItemSlot.SLOT_NONE)
+                    Paperdoll slot = (Paperdoll)item.Slot;
+                    if (slot != Paperdoll.NULL)
                     {
-                        _gearSlots[(ItemSlot)item.BodyPart].AssignItem(item);
+                        _gearSlots[slot].AssignItem(item);
                     }
                     else
                     {
@@ -113,9 +121,9 @@ public class InventoryGearTab : L2Tab
     {
         if (_selectedSlot != -1)
         {
-            _gearSlots[(ItemSlot)_selectedSlot].UnSelect();
+            _gearSlots[(Paperdoll)_selectedSlot].UnSelect();
         }
-        _gearSlots[(ItemSlot)slotPosition].SetSelected();
+        _gearSlots[(Paperdoll)slotPosition].SetSelected();
         _selectedSlot = slotPosition;
     }
 }

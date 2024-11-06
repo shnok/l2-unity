@@ -10,25 +10,6 @@ public class HumanoidStateWait : HumanoidStateAction
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // SetBool(HumanoidAnimType.wait, false);
-
-        // if (Entity.IsDead)
-        // {
-        //     return;
-        // }
-
-        // if (IsMoving())
-        // {
-        //     if (Entity.Running)
-        //     {
-        //         SetBool(HumanoidAnimType.run, true);
-        //     }
-        //     else
-        //     {
-        //         SetBool(HumanoidAnimType.walk, true);
-        //     }
-        // }
-
         if (IsDead())
         {
             SetBool(HumanoidAnimType.death, true);

@@ -10,12 +10,4 @@ public class GearSlot : InventorySlot
     {
         UseItem();
     }
-
-    public override void UseItem()
-    {
-        if (!_empty)
-        {
-            GameClient.Instance.ClientPacketHandler.UnEquipItem(_position);
-        }
-    }
 }
