@@ -182,7 +182,18 @@ public class WorldCombat : MonoBehaviour
             Debug.LogWarning("ENTITY ATTACK SUCCESS");
             hit.Attacker = senderEntity;
             hit.Target = targetEntity;
-            hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
+
+            if (senderEntity.Gear.WeaponType == WeaponType.bow)
+            {
+                float timeToReachTarget = Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 10f * 0.5f;
+                hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f + timeToReachTarget;
+            }
+            else
+            {
+                //TODO: Maybe change hit time based on other weapon types
+                hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
+            }
+
             _hits.Add(hit);
 
             // Debug.Log($"Hit scheduled in {senderEntity.AnimationController.PAtkSpd / 2f} ms - Now: {Time.time} - HitTime: {hit.HitTime}");
