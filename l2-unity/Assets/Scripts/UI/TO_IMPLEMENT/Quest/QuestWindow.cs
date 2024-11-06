@@ -54,7 +54,7 @@ public class QuestWindow : L2PopupWindow
         _button.RegisterButtonCloseWindow(rootWindow, "btn-close-frame");
         // _button.RegisterClickWindow(boxContent, boxHeader);
 
-        DragManipulator drag = new DragManipulator(boxHeader, _windowEle);
+        DragManipulator drag = new DragManipulator(boxHeader, _windowEle, this);
         boxHeader.AddManipulator(drag);
         HideWindow();
     }

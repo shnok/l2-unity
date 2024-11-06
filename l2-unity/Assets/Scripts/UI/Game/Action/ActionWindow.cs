@@ -44,7 +44,7 @@ public class ActionWindow : L2PopupWindow
         base.InitWindow(root);
 
         VisualElement dragArea = GetElementByClass("drag-area");
-        DragManipulator drag = new DragManipulator(dragArea, _windowEle);
+        DragManipulator drag = new DragManipulator(dragArea, _windowEle, this);
         dragArea.AddManipulator(drag);
 
         RegisterCloseWindowEvent("btn-close-frame");

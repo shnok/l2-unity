@@ -15,6 +15,7 @@ public class NetworkHumanoidCombat : NetworkCombat
 
     public override void OnRevive()
     {
+        base.OnRevive();
         HumanoidAnimationController.SetBool(HumanoidAnimType.wait, true);
     }
 

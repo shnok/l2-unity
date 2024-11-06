@@ -29,8 +29,6 @@ public class HumanoidStateWait : HumanoidStateAction
         //     }
         // }
 
-        SetBool(HumanoidAnimType.wait, false);
-
         if (IsDead())
         {
             SetBool(HumanoidAnimType.death, true);

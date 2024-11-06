@@ -60,7 +60,7 @@ public class ExitWindow : L2PopupWindow
 
 
         var _boxHeader = GetElementByClass("drag-area");
-        DragManipulator drag = new DragManipulator(_boxHeader, _windowEle);
+        DragManipulator drag = new DragManipulator(_boxHeader, _windowEle, this);
         _boxHeader.AddManipulator(drag);
 
         yield return new WaitForEndOfFrame();

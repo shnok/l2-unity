@@ -12,7 +12,7 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
 
     #region Spawn
     protected override void SpawnEntity(NetworkIdentity identity, PlayerStatus status,
-        Stats stats, PlayerAppearance appearance, bool running)
+        Stats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
         Debug.Log("Spawn User");
         identity.SetPosY(World.Instance.GetGroundHeight(identity.Position));
@@ -25,12 +25,12 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
         InitializeGameObject(go, identity);
 
         NetworkHumanoidEntity user = go.GetComponent<NetworkHumanoidEntity>();
-        InitializeUser(user, identity, status, stats, appearance, race, raceId, running);
+        InitializeUser(user, identity, status, stats, appearance, race, raceId);
 
         go.SetActive(true);
         go.transform.SetParent(_usersContainer.transform);
 
-        UpdateEntityComponents(user, identity, status, stats, appearance, running);
+        UpdateEntityComponents(user, identity, status, stats, appearance, actionInfo);
 
         AddEntity(identity, user);
     }
@@ -44,7 +44,7 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
     }
 
     private void InitializeUser(NetworkHumanoidEntity user, NetworkIdentity identity, PlayerStatus status,
-        Stats stats, PlayerAppearance appearance, CharacterRace race, CharacterModelType raceId, bool running)
+        Stats stats, PlayerAppearance appearance, CharacterRace race, CharacterModelType raceId)
     {
         user.Status = status;
         user.Identity = identity;
@@ -52,7 +52,8 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
         user.Stats = stats;
         user.Race = race;
         user.RaceId = raceId;
-        user.UpdateMoveType(running);
+
+        // user.UpdateMoveType(running);
 
         ((NetworkEntityReferenceHolder)user.ReferenceHolder).NetworkTransformReceive.enabled = true;
 
@@ -70,19 +71,19 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
 
     #region Update
     protected override void UpdateEntity(Entity entity, NetworkIdentity identity,
-        PlayerStatus status, Stats stats, PlayerAppearance appearance, bool running)
+        PlayerStatus status, Stats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
         Debug.LogWarning("[" + Thread.CurrentThread.ManagedThreadId + "] UPDATE ENTITY FUNC");
 
-        UpdateEntityComponents((NetworkHumanoidEntity)entity, identity, status, stats, appearance, running);
+        UpdateEntityComponents((NetworkHumanoidEntity)entity, identity, status, stats, appearance, actionInfo);
     }
 
     private void UpdateEntityComponents(NetworkHumanoidEntity entity, NetworkIdentity identity, PlayerStatus status,
-    Stats stats, PlayerAppearance appearance, bool running)
+    Stats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
         Debug.LogWarning("UpdateEntityComponents");
         UpdateIdentityAndStatus(entity, identity, status);
-        UpdateStatsAndAppearance(entity, stats, appearance, running);
+        UpdateStatsAndAppearance(entity, stats, appearance, actionInfo);
     }
 
     private void UpdateIdentityAndStatus(NetworkHumanoidEntity entity, NetworkIdentity identity, PlayerStatus status)
@@ -94,10 +95,10 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
     }
 
     private void UpdateStatsAndAppearance(NetworkHumanoidEntity entity, Stats stats,
-        PlayerAppearance appearance, bool running)
+        PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
         entity.Stats.UpdateStats(stats);
-        entity.Running = running;
+
         ((PlayerAppearance)entity.Appearance).UpdateAppearance(appearance);
 
         Debug.LogWarning("===");
@@ -106,7 +107,9 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
         entity.UpdateWalkSpeed(stats.WalkSpeed);
         entity.UpdateRunSpeed(stats.RunSpeed);
         entity.EquipAllWeapons();
-        ((NetworkHumanoidEntity)entity).EquipAllArmors();
+        entity.EquipAllArmors();
+
+        UpdateAction(entity, actionInfo);
     }
     #endregion
 }

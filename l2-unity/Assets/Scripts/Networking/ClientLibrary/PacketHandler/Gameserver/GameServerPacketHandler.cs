@@ -293,7 +293,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
         if (packet.Identity.Owned)
         {
-            WorldSpawner.Instance.OnReceivePlayerInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.Running);
+            WorldSpawner.Instance.OnReceivePlayerInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo);
 
             // Additional player information received, only now is the right time to show the UI/World to avoid visual bugs
             GameManager.Instance.OnPlayerInfoReceive();
@@ -309,7 +309,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         UserInfoPacket packet = new UserInfoPacket(data);
 
-        WorldSpawner.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.Running);
+        WorldSpawner.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo);
     }
 
     private void OnUpdatePosition(byte[] data)
@@ -352,7 +352,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnNpcInfoReceive(byte[] data)
     {
         NpcInfoPacket packet = new NpcInfoPacket(data);
-        _eventProcessor.QueueEvent(() => WorldSpawner.Instance.OnReceiveNpcInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.Running));
+        _eventProcessor.QueueEvent(() => WorldSpawner.Instance.OnReceiveNpcInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo));
     }
 
     private void OnObjectMoveTo(byte[] data)

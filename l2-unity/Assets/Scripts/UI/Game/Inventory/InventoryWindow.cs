@@ -103,7 +103,7 @@ public class InventoryWindow : L2PopupWindow
         _windowName.text = "Inventory";
 
         var dragArea = GetElementByClass("drag-area");
-        DragManipulator drag = new DragManipulator(dragArea, _windowEle);
+        DragManipulator drag = new DragManipulator(dragArea, _windowEle, this);
         dragArea.AddManipulator(drag);
 
         RegisterCloseWindowEvent("btn-close-frame");
@@ -209,7 +209,7 @@ public class InventoryWindow : L2PopupWindow
         _minimizedInventoryBtn.style.top = new StyleLength(Screen.height / 2);
 
         _minimizedInventoryBtn.RegisterCallback<ClickEvent>(OnMinimizedInventoryClick, TrickleDown.TrickleDown);
-        _minimizedInventoryDragManipulator = new DragManipulator(_minimizedInventoryBtn, _minimizedInventoryBtn);
+        _minimizedInventoryDragManipulator = new DragManipulator(_minimizedInventoryBtn, _minimizedInventoryBtn, this);
         _minimizedInventoryBtn.AddManipulator(_minimizedInventoryDragManipulator);
 
         _root.Add(_minimizedInventoryBtn);

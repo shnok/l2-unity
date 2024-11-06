@@ -34,6 +34,8 @@ public abstract class NetworkCombat : Combat
 
     public override void OnRevive()
     {
+        base.OnRevive();
+
         if (AnimationController != null)
         {
             AnimationController.enabled = true;

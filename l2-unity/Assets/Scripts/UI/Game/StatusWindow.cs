@@ -55,7 +55,7 @@ public class StatusWindow : L2Window
         yield return new WaitForEndOfFrame();
 
         var statusWindowDragArea = GetElementByClass("drag-area");
-        DragManipulator drag = new DragManipulator(statusWindowDragArea, _windowEle);
+        DragManipulator drag = new DragManipulator(statusWindowDragArea, _windowEle, this);
         statusWindowDragArea.AddManipulator(drag);
 
         var horizontalResizeHandle = GetElementByClass("hor-resize-handle");
@@ -250,5 +250,11 @@ public class StatusWindow : L2Window
     {
         base.HideWindow();
         AudioManager.Instance.PlayUISound("window_close");
+    }
+
+    public override void OnClick()
+    {
+        ObjectData data = new ObjectData(PlayerEntity.Instance.transform.gameObject);
+        TargetManager.Instance.SetTarget(data);
     }
 }

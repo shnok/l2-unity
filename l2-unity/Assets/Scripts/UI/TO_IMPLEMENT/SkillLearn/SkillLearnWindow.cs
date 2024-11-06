@@ -211,7 +211,7 @@ public class SkillLearn : L2PopupWindow
 
         //DragAndDropManager.getInstance().RegisterList(list_Drop);
 
-        DragManipulator drag = new DragManipulator(_boxHeader, _windowEle);
+        DragManipulator drag = new DragManipulator(_boxHeader, _windowEle, this);
         _boxHeader.AddManipulator(drag);
         ChangeMenuSelect(0);
 

@@ -30,7 +30,7 @@ public class PlayerCombat : Combat
 
     public override void OnRevive()
     {
-        base.OnDeath();
+        base.OnRevive();
         PlayerStateMachine.Instance.NotifyEvent(Event.REVIVED);
     }
 

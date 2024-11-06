@@ -4,7 +4,7 @@ public class HumanoidStateDeadWait : HumanoidStateAction
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        SetBool(HumanoidAnimType.death, false);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

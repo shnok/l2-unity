@@ -17,6 +17,7 @@ public class InputManager : MonoBehaviour
     private InputAction _jumpAction;
     private InputAction _attackAction;
     private InputAction _nextTargetAction;
+    private InputAction _targetSelfAction;
     private InputAction _sitAction;
     private InputAction _ctrlAction;
     // UI
@@ -53,6 +54,7 @@ public class InputManager : MonoBehaviour
     [field: SerializeField] public bool Jump { get; private set; }
     [field: SerializeField] public bool Attack { get; private set; }
     [field: SerializeField] public bool NextTarget { get; private set; }
+    [field: SerializeField] public bool TargetSelf { get; private set; }
     [field: SerializeField] public bool Sit { get; private set; }
     [field: SerializeField] public bool Ctrl { get; private set; }
 
@@ -102,6 +104,7 @@ public class InputManager : MonoBehaviour
         _moveAction = _playerInput.actions["Move"];
         _jumpAction = _playerInput.actions["Jump"];
         _nextTargetAction = _playerInput.actions["NextTarget"];
+        _targetSelfAction = _playerInput.actions["TargetSelf"];
         _attackAction = _playerInput.actions["Attack"];
         _sitAction = _playerInput.actions["Sit"];
         _ctrlAction = _playerInput.actions["Ctrl"];
@@ -169,6 +172,7 @@ public class InputManager : MonoBehaviour
             Jump = _jumpAction.WasPerformedThisFrame();
             Attack = _attackAction.WasPerformedThisFrame();
             NextTarget = _nextTargetAction.WasPerformedThisFrame();
+            TargetSelf = _targetSelfAction.WasPerformedThisFrame();
             Sit = _sitAction.WasPerformedThisFrame();
 
             OpenCharacerStatus = _characterStatusAction.WasPerformedThisFrame();

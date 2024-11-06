@@ -12,7 +12,7 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
 
     #region Spawn
     protected override void SpawnEntity(NetworkIdentity identity, PlayerStatus status,
-        PlayerStats stats, PlayerAppearance appearance, bool running)
+        PlayerStats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
         identity.SetPosY(World.Instance.GetGroundHeight(identity.Position));
         identity.EntityType = EntityType.Player;
@@ -25,7 +25,7 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         InitializeGameObject(go, identity);
 
         PlayerEntity player = go.GetComponent<PlayerEntity>();
-        InitializePlayer(player, identity, status, stats, appearance, race, raceId, running);
+        InitializePlayer(player, identity, status, stats, appearance, race, raceId, actionInfo);
 
         AddEntity(identity, player);
     }
@@ -40,7 +40,7 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
     }
 
     private void InitializePlayer(PlayerEntity player, NetworkIdentity identity, Status status,
-        Stats stats, PlayerAppearance appearance, CharacterRace race, CharacterModelType raceId, bool running)
+        Stats stats, PlayerAppearance appearance, CharacterRace race, CharacterModelType raceId, EntityActionInfo actionInfo)
     {
         player.Status = status;
         player.Identity = identity;
@@ -59,7 +59,7 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         go.GetComponent<Gear>().Initialize(player.Identity.Id, player.RaceId);
 
         player.Initialize();
-        player.UpdateMoveType(running);
+        player.UpdateMoveType(actionInfo.Running);
 
         CameraController.Instance.enabled = true;
         CameraController.Instance.SetTarget(go);
@@ -73,17 +73,17 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
 
     #region Update
     protected override void FindAndUpdateEntity(NetworkIdentity identity, PlayerStatus status, PlayerStats stats,
-    PlayerAppearance appearance, bool running)
+    PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
-        UpdateEntity(PlayerEntity.Instance, identity, status, stats, appearance, running);
+        UpdateEntity(PlayerEntity.Instance, identity, status, stats, appearance, actionInfo);
     }
 
     protected override void UpdateEntity(Entity entity, NetworkIdentity identity,
-        PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, bool running)
+        PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
         entity.gameObject.layer = LayerMask.NameToLayer("Player");
 
-        UpdateEntityComponents((PlayerEntity)entity, identity, status, stats, appearance, running);
+        UpdateEntityComponents((PlayerEntity)entity, identity, status, stats, appearance, actionInfo);
 
         // Player-specific updates
         CharacterInfoWindow.Instance.UpdateValues();
@@ -93,10 +93,10 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
     }
 
     private void UpdateEntityComponents(PlayerEntity entity, NetworkIdentity identity, PlayerStatus status,
-    PlayerStats stats, PlayerAppearance appearance, bool running)
+    PlayerStats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
         UpdateIdentityAndStatus(entity, identity, status);
-        UpdateStatsAndAppearance(entity, stats, appearance, running);
+        UpdateStatsAndAppearance(entity, stats, appearance, actionInfo);
     }
 
     private void UpdateIdentityAndStatus(PlayerEntity entity, NetworkIdentity identity, PlayerStatus status)
@@ -106,10 +106,10 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
     }
 
     private void UpdateStatsAndAppearance(PlayerEntity entity, PlayerStats stats,
-        PlayerAppearance appearance, bool running)
+        PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
         ((PlayerStats)entity.Stats).UpdateStats(stats);
-        entity.UpdateMoveType(running);
+        entity.UpdateMoveType(actionInfo.Running);
 
         ((PlayerAppearance)entity.Appearance).UpdateAppearance(appearance);
 
@@ -119,6 +119,8 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         entity.UpdateRunSpeed(stats.RunSpeed);
         entity.EquipAllWeapons();
         entity.EquipAllArmors();
+
+        UpdateAction(entity, actionInfo);
     }
     #endregion
 }

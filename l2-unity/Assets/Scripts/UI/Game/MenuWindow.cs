@@ -71,7 +71,7 @@ public class MenuWindow : L2Window
         yield return new WaitForEndOfFrame();
 
         var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
-        DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle);
+        DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle, this);
         dragAreaEle.AddManipulator(drag);
     }
 

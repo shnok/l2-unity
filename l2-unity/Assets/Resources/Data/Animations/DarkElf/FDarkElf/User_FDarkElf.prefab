@@ -171,6 +171,7 @@ MonoBehaviour:
   _animationController: {fileID: 5589578930897216477}
   _audioHandler: {fileID: 3841290180541257485}
   _animator: {fileID: 1192131085231929996}
+  _clickArea: {fileID: 3581779933488531090}
   _networkTransformReceive: {fileID: 5733643542121449354}
   _networkCharacterControllerReceive: {fileID: 3478450228567174879}
 --- !u!143 &8320559729586774763
@@ -228,17 +229,22 @@ MonoBehaviour:
   _status:
     _hp: 0
     _mp: 0
+    _dead: 0
   _stats:
     _level: 0
     _runSpeed: 0
+    _moveSpeedMultiplier: 0
     _walkSpeed: 0
     _scaledRunSpeed: 0
     _scaledWalkSpeed: 0
+    _attackSpeedMultiplier: 0
+    _attackRange: 0
     _pAtkSpd: 0
     _mAtkSpd: 0
     _maxHp: 0
     _maxMp: 0
     _maxCp: 0
+    _karma: 0
   _appearance:
     _collisonHeight: 0
     _collisionRadius: 0
@@ -264,8 +270,8 @@ MonoBehaviour:
   _targetId: 0
   _target: {fileID: 0}
   _attackTarget: {fileID: 0}
-  _stopAutoAttackTime: 0
-  _startAutoAttackTime: 0
+  _combatTimestamp: 0
+  _attackStance: 0
 --- !u!114 &-2046524599472184396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,9 +612,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _direction: {x: 0, y: 0, z: 0}
+  _distanceToDestination: 0
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
+  _lastDestination: {x: 0, y: 0, z: 0}
   _gravity: 28
+  _moveSpeedMultiplier: 1
+  _stopAtRange: 0
+  _stopAtRangeDefault: 0.05
 --- !u!114 &5589578930897216477
 MonoBehaviour:
   m_ObjectHideFlags: 0

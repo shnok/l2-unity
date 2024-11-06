@@ -54,7 +54,7 @@ public class NpcHtmlWindow : L2PopupWindow
         base.InitWindow(root);
 
         var dragArea = GetElementByClass("drag-area");
-        DragManipulator drag = new DragManipulator(dragArea, _windowEle);
+        DragManipulator drag = new DragManipulator(dragArea, _windowEle, this);
         dragArea.AddManipulator(drag);
 
         RegisterCloseWindowEvent("btn-close-frame");

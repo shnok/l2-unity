@@ -129,4 +129,6 @@ public abstract class L2Window : MonoBehaviour
     {
         return _mouseOverDetection.MouseOver;
     }
+
+    public virtual void OnClick() { }
 }

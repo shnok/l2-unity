@@ -13,6 +13,7 @@ public class NetworkMonsterCombat : NetworkCombat
 
     public override void OnRevive()
     {
+        base.OnRevive();
         MonsterAnimationController.SetBool(MonsterAnimationEvent.wait, true);
     }
 

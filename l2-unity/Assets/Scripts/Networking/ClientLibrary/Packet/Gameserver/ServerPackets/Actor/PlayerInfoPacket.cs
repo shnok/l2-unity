@@ -7,7 +7,7 @@ public class PlayerInfoPacket : ServerPacket
     public PlayerStatus Status { get; private set; }
     public PlayerStats Stats { get; private set; }
     public PlayerAppearance Appearance { get; private set; }
-    public bool Running { get; set; }
+    public EntityActionInfo EntityActionInfo { get; set; }
 
     public PlayerInfoPacket(byte[] d) : base(d)
     {
@@ -15,6 +15,7 @@ public class PlayerInfoPacket : ServerPacket
         Status = new PlayerStatus();
         Stats = new PlayerStats();
         Appearance = new PlayerAppearance();
+        EntityActionInfo = new EntityActionInfo();
         Parse();
     }
 
@@ -177,7 +178,7 @@ public class PlayerInfoPacket : ServerPacket
             ReadI(); // Fishing Loc Y
             ReadI(); // Fishing Loc Z
             ReadI(); //NameColor
-            Running = ReadB() == 1;
+            EntityActionInfo.Running = ReadB() == 1;
             ReadI(); //Pledge class
             ReadI(); //Pledge type
             ReadI(); //Title Color
@@ -248,6 +249,6 @@ public class PlayerInfoPacket : ServerPacket
                $"  CurrWeight: {Stats.CurrWeight}, MaxWeight: {Stats.MaxWeight}\n\n" +
 
                $"Other:\n" +
-               $"  Running: {Running}\n";
+               $"  Running: {EntityActionInfo.Running}\n";
     }
 }

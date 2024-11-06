@@ -43,7 +43,7 @@ public class TargetWindow : L2PopupWindow
         yield return new WaitForEndOfFrame();
 
         var statusWindowDragArea = GetElementByClass("drag-area");
-        DragManipulator drag = new DragManipulator(statusWindowDragArea, _windowEle);
+        DragManipulator drag = new DragManipulator(statusWindowDragArea, _windowEle, this);
         statusWindowDragArea.AddManipulator(drag);
 
         var horizontalResizeHandle = GetElementByClass("hor-resize-handle");

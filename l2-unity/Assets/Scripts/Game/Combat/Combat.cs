@@ -82,11 +82,15 @@ public abstract class Combat : MonoBehaviour
         Status.IsDead = true;
     }
 
-    public virtual void OnRevive() { }
+    public virtual void OnRevive()
+    {
+        Debug.LogWarning("OnRevive: " + transform.name);
+        Status.IsDead = false;
+    }
 
     protected virtual void OnHit(Hit hit)
     {
-        _combatTimestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        RefreshCombatTimestamp();
 
         if (!hit.isMiss())
         {
@@ -115,6 +119,11 @@ public abstract class Combat : MonoBehaviour
         // Swish sound -> only when attack missed (attacker)
     }
 
+    public void RefreshCombatTimestamp()
+    {
+        _combatTimestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+    }
+
     public virtual void OnStopMoving()
     {
     }
@@ -126,7 +135,7 @@ public abstract class Combat : MonoBehaviour
             return false;
         }
 
-        _combatTimestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        RefreshCombatTimestamp();
 
         if (_target != null)
         {

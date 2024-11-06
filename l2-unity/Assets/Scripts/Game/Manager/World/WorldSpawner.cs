@@ -249,18 +249,18 @@ public class WorldSpawner : MonoBehaviour
         }
     }
 
-    public void OnReceivePlayerInfo(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, bool running)
+    public void OnReceivePlayerInfo(NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
-        _playerSpawner.OnReceiveEntityInfo(identity, status, stats, appearance, running);
+        _playerSpawner.OnReceiveEntityInfo(identity, status, stats, appearance, actionInfo);
     }
 
-    public void OnReceiveNpcInfo(NetworkIdentity identity, NpcStatus status, Stats stats, Appearance appearance, bool running)
+    public void OnReceiveNpcInfo(NetworkIdentity identity, NpcStatus status, Stats stats, Appearance appearance, EntityActionInfo actionInfo)
     {
-        _npcSpawner.OnReceiveEntityInfo(identity, status, stats, appearance, running);
+        _npcSpawner.OnReceiveEntityInfo(identity, status, stats, appearance, actionInfo);
     }
 
-    public void OnReceiveUserInfo(NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance, bool running)
+    public void OnReceiveUserInfo(NetworkIdentity identity, PlayerStatus status, Stats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
-        _userSpawner.OnReceiveEntityInfo(identity, status, stats, appearance, running);
+        _userSpawner.OnReceiveEntityInfo(identity, status, stats, appearance, actionInfo);
     }
 }

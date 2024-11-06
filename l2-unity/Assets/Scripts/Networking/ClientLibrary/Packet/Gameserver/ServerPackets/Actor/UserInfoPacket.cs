@@ -7,11 +7,7 @@ public class UserInfoPacket : ServerPacket
     public PlayerStatus Status { get; private set; }
     public Stats Stats { get; private set; }
     public PlayerAppearance Appearance { get; private set; }
-    public bool Running { get; set; }
-    public bool Sitting { get; set; }
-    public bool InCombat { get; set; }
-    public bool AlikeDead { get; set; }
-    public bool Invisible { get; set; }
+    public EntityActionInfo EntityActionInfo { get; set; }
 
     public UserInfoPacket(byte[] d) : base(d)
     {
@@ -19,6 +15,7 @@ public class UserInfoPacket : ServerPacket
         Status = new PlayerStatus();
         Stats = new Stats();
         Appearance = new PlayerAppearance();
+        EntityActionInfo = new EntityActionInfo();
         Parse();
     }
 
@@ -101,11 +98,11 @@ public class UserInfoPacket : ServerPacket
 
             ReadI();
 
-            Sitting = ReadB() == 0;
-            Running = ReadB() == 1;
-            InCombat = ReadB() == 1;
-            AlikeDead = ReadB() == 1;
-            Invisible = ReadB() == 1;
+            EntityActionInfo.Sitting = ReadB() == 0;
+            EntityActionInfo.Running = ReadB() == 1;
+            EntityActionInfo.InCombat = ReadB() == 1;
+            EntityActionInfo.AlikeDead = ReadB() == 1;
+            EntityActionInfo.Invisible = ReadB() == 1;
 
             ReadB(); //MountType
             ReadB(); //OperateType
@@ -178,7 +175,7 @@ public class UserInfoPacket : ServerPacket
                $"Face: {Appearance.Face}, CollisionRadius: {Appearance.CollisionRadius}, CollisionHeight: {Appearance.CollisionHeight}, " +
                $"RHand: {Appearance.RHand}, LHand: {Appearance.LHand}, Gloves: {Appearance.Gloves}, Chest: {Appearance.Chest}, " +
                $"Legs: {Appearance.Legs}, Feet: {Appearance.Feet} }}, " +
-               $"Running: {Running}, Sitting: {Sitting}, InCombat: {InCombat}, AlikeDead: {AlikeDead}, Invisible: {Invisible} " +
+               $"Running: {EntityActionInfo.Running}, Sitting: {EntityActionInfo.Sitting}, InCombat: {EntityActionInfo.InCombat}, AlikeDead: {EntityActionInfo.AlikeDead}, Invisible: {EntityActionInfo.Invisible} " +
                $"}}";
     }
 }

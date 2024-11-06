@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
 
         WorldClock.Instance.SynchronizeClock(playerInfo.CurrentGameTime);
 
-        WorldSpawner.Instance.OnReceivePlayerInfo(playerInfo.Identity, playerInfo.Status, playerInfo.Stats, playerInfo.Appearance, playerInfo.Running);
+        WorldSpawner.Instance.OnReceivePlayerInfo(playerInfo.Identity, playerInfo.Status, playerInfo.Stats, playerInfo.Appearance, playerInfo.EntityActionInfo);
 
         PlayerStateMachine.Instance.enabled = true;
 

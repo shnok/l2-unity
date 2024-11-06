@@ -67,7 +67,7 @@ public class RestartLocationWindow : L2PopupWindow
         HideWindow();
 
         var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
-        DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle);
+        DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle, this);
         dragAreaEle.AddManipulator(drag);
     }
 
@@ -85,11 +85,6 @@ public class RestartLocationWindow : L2PopupWindow
 
     public void ShowWindowWithParams(bool toVillageAllowed, bool toClanHallAllowed, bool toCastleAllowed, bool toSiegeHQAllowed, bool fixedResAllowed)
     {
-        Debug.LogWarning(toVillageAllowed);
-        Debug.LogWarning(toClanHallAllowed);
-        Debug.LogWarning(toCastleAllowed);
-        Debug.LogWarning(toSiegeHQAllowed);
-        Debug.LogWarning(fixedResAllowed);
         _toVillageButton.style.display = toVillageAllowed ? DisplayStyle.Flex : DisplayStyle.None;
         _toClanHallButton.style.display = toClanHallAllowed ? DisplayStyle.Flex : DisplayStyle.None;
         _toCastleButton.style.display = toCastleAllowed ? DisplayStyle.Flex : DisplayStyle.None;

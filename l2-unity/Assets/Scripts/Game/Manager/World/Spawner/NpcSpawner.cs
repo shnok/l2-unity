@@ -24,7 +24,7 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
 
     #region Spawn
     protected override void SpawnEntity(NetworkIdentity identity, NpcStatus status,
-        Stats stats, Appearance appearance, bool running)
+        Stats stats, Appearance appearance, EntityActionInfo actionInfo)
     {
         var npcgrp = NpcgrpTable.Instance.GetNpcgrp(identity.NpcId);
         var npcName = NpcNameTable.Instance.GetNpcName(identity.NpcId);
@@ -42,7 +42,7 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         var npc = InitializeNpcEntity(npcGo, identity);
         if (npc == null) return;
 
-        ConfigureNpcComponents(npc, identity, status, stats, appearance, npcgrp, npcName, running);
+        ConfigureNpcComponents(npc, identity, status, stats, appearance, npcgrp, npcName, actionInfo);
 
         AddEntity(identity, npc);
     }
@@ -92,14 +92,14 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         Appearance appearance,
         Npcgrp npcgrp,
         NpcName npcName,
-        bool running)
+        EntityActionInfo actionInfo)
     {
         ConfigureAppearance(appearance, npcgrp);
         ConfigureIdentity(npc, identity, npcgrp, npcName);
         ConfigureStats(npc, status, stats, npcgrp);
 
         npc.Appearance = appearance;
-        npc.Running = running;
+        npc.Running = actionInfo.Running;
 
         var npcGo = npc.gameObject;
         npcGo.transform.name = identity.Name;
@@ -165,9 +165,9 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
 
     #region Update
     protected override void UpdateEntity(Entity entity, NetworkIdentity identity,
-        NpcStatus status, Stats stats, Appearance appearance, bool running)
+        NpcStatus status, Stats stats, Appearance appearance, EntityActionInfo actionInfo)
     {
-        UpdateNpcComponents(entity, identity, status, stats, appearance, running);
+        UpdateNpcComponents(entity, identity, status, stats, appearance, actionInfo);
     }
 
     private void UpdateNpcComponents(
@@ -176,24 +176,24 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         NpcStatus status,
         Stats stats,
         Appearance appearance,
-        bool running)
+        EntityActionInfo actionInfo)
     {
         entity.Identity.UpdateEntityPartial(identity);
 
         var networkTransform = ((NetworkEntityReferenceHolder)entity.ReferenceHolder).NetworkTransformReceive;
         networkTransform.SetNewPosition(identity.Position);
 
-        // float rotation = VectorUtils.ConvertRotToUnity(identity.Heading);
-        // networkTransform.SetFinalRotation(rotation);
-
         entity.Stats.UpdateStats(stats);
-        entity.Running = running;
+        entity.Running = actionInfo.Running;
 
         entity.UpdatePAtkSpeed(stats.PAtkSpd);
         entity.UpdateMAtkSpeed(stats.MAtkSpd);
         entity.UpdateWalkSpeed(stats.WalkSpeed);
         entity.UpdateRunSpeed(stats.RunSpeed);
         entity.EquipAllWeapons();
+
+        UpdateAction(entity, actionInfo);
     }
+
     #endregion
 }

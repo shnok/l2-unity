@@ -35,7 +35,7 @@ public abstract class AbstractSkillbar
         yield return new WaitForEndOfFrame();
 
         VisualElement dragArea = _windowEle.Q<VisualElement>("DragArea");
-        dragArea.AddManipulator(new DragManipulator(dragArea, _skillbarWindow));
+        dragArea.AddManipulator(new DragManipulator(dragArea, _skillbarWindow, null));
 
         for (int i = 1; i <= 12; i++)
         {

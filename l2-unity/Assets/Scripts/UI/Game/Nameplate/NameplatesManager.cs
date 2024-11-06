@@ -235,10 +235,7 @@ public class NameplatesManager : MonoBehaviour
 
     private void UpdateNameplateStyle(Nameplate nameplate)
     {
-        if (nameplate.Entity.IsDead)
-        {
-            nameplate.NameplateOffsetHeight = nameplate.Entity.Appearance.CollisionHeight;
-        }
+        nameplate.NameplateOffsetHeight = nameplate.Entity.IsDead ? nameplate.Entity.Appearance.CollisionHeight : nameplate.Entity.Appearance.CollisionHeight * 2.1f;
 
         if (TargetManager.Instance.HasTarget() && TargetManager.Instance.Target.Data.ObjectTransform == nameplate.Target)
         {

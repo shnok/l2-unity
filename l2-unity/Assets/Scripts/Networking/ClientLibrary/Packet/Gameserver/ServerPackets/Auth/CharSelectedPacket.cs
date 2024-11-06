@@ -10,7 +10,7 @@ public class CharSelectedPacket : ServerPacket
         public PlayerStatus Status { get; set; }
         public PlayerStats Stats { get; set; }
         public PlayerAppearance Appearance { get; set; }
-        public bool Running { get; set; }
+        public EntityActionInfo EntityActionInfo { get; set; }
     }
 
     private PlayerInfo _info;
@@ -24,7 +24,8 @@ public class CharSelectedPacket : ServerPacket
         _info.Status = new PlayerStatus();
         _info.Stats = new PlayerStats();
         _info.Appearance = new PlayerAppearance();
-        _info.Appearance = new PlayerAppearance();
+        _info.EntityActionInfo = new EntityActionInfo();
+
         Parse();
     }
 

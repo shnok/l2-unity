@@ -7,7 +7,7 @@ public class NpcInfoPacket : ServerPacket
     public NpcStatus Status { get; private set; }
     public Stats Stats { get; private set; }
     public Appearance Appearance { get; private set; }
-    public bool Running { get; set; }
+    public EntityActionInfo EntityActionInfo { get; set; }
 
     public NpcInfoPacket(byte[] d) : base(d)
     {
@@ -15,6 +15,7 @@ public class NpcInfoPacket : ServerPacket
         Status = new NpcStatus();
         Appearance = new Appearance();
         Stats = new Stats();
+        EntityActionInfo = new EntityActionInfo();
         Parse();
     }
 
@@ -56,9 +57,9 @@ public class NpcInfoPacket : ServerPacket
             Appearance.LHand = ReadI(); //lhand
 
             ReadB();
-            Running = ReadB() == 1;
-            ReadB(); //in combat -> Better handled client side
-            ReadB(); //dead
+            EntityActionInfo.Running = ReadB() == 1;
+            EntityActionInfo.InCombat = ReadB() == 1; //in combat -> Better handled client side
+            EntityActionInfo.AlikeDead = ReadB() == 1; //dead
             ReadB(); //summoned? always 2
 
             Identity.Name = ReadS();
@@ -123,6 +124,6 @@ public class NpcInfoPacket : ServerPacket
                $"LHand = {Appearance.LHand} }}\n" +
 
                $"Other: {{ " +
-               $"Running = {Running} }}";
+               $"Running = {EntityActionInfo.Running} InCombat = {EntityActionInfo.InCombat} AlikeDead = {EntityActionInfo.AlikeDead} }}";
     }
 }
