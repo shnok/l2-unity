@@ -137,6 +137,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.SocialAction:
                 OnSocialActionReceived(data);
                 break;
+            case GameServerPacketType.SetupGauge:
+                OnSetupGauge(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -516,5 +519,11 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         SocialActionPacket packet = new SocialActionPacket(data);
         World.Instance.SocialActionReceived(packet.ObjectId, packet.Action);
+    }
+
+    private void OnSetupGauge(byte[] data)
+    {
+        SetupGaugePacket packet = new SetupGaugePacket(data);
+        WorldCombat.Instance.SetupGauge(packet.Color, packet.Time, packet.MaxTime);
     }
 }

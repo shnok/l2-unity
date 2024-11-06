@@ -39,6 +39,7 @@ public enum GameServerPacketType : int
     RestartReponse = 0x5F,
     ValidateLocation = 0x61,
     SystemMessage = 0x64,
+    SetupGauge = 0x6d,
     LeaveWorld = 0x7e,
     MyTargetSet = 0xA6,
     ObjectMoveDirection = 0xC6,

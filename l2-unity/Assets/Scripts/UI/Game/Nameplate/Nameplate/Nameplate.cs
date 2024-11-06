@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[System.Serializable]
 public class Nameplate
 {
-
-    private VisualElement _nameplateEle;
+    protected VisualElement _nameplateEle;
     private VisualElement _leftBubbleEle;
     private VisualElement _rightBubbleEle;
     private Label _nameplateEntityName;
@@ -16,12 +14,15 @@ public class Nameplate
     [SerializeField] private bool _visible;
     [SerializeField] private Entity _entity;
 
+    private bool _isStyleVisible;
+
     public VisualElement NameplateEle { get { return _nameplateEle; } set { _nameplateEle = value; } }
     public bool Visible { get { return _visible; } set { _visible = value; } }
     public Transform Target { get { return _target; } }
     public float NameplateOffsetHeight { get { return _nameplateOffsetHeight; } set { _nameplateOffsetHeight = value; } }
     public Entity Entity { get { return _entity; } }
 
+    // Char select only
     public Nameplate(
         VisualElement visualElement, Label entityName, Label entityTitle, Transform target, Entity entity,
         string title, string titleColor, float nameplateHeight, string name)
@@ -30,15 +31,15 @@ public class Nameplate
         _nameplateEntityName = entityName;
         _nameplateEntityTitle = entityTitle;
         _target = target;
-        _nameplateOffsetHeight = nameplateHeight;
         _visible = true;
         _entity = entity;
-
+        _nameplateOffsetHeight = nameplateHeight;
         _nameplateEntityName.text = name;
         _nameplateEntityTitle.text = title;
         _nameplateEntityTitle.style.color = StringUtils.HexToColor(titleColor);
     }
 
+    // Default
     public Nameplate(VisualElement visualElement, Label entityName, Label entityTitle, Entity entity)
     {
         _nameplateEle = visualElement;
@@ -49,7 +50,6 @@ public class Nameplate
         _nameplateEntityName.text = entity.Identity.Name;
         _nameplateEntityTitle.text = entity.Identity.Title;
         _nameplateEntityTitle.style.color = StringUtils.HexToColor(entity.Identity.TitleColor);
-        _nameplateOffsetHeight = entity.Appearance.CollisionHeight * 2.1f;
         _visible = true;
     }
 
@@ -93,7 +93,7 @@ public class Nameplate
         }
     }
 
-    private void SetClassName(VisualElement element, string className)
+    protected void SetClassName(VisualElement element, string className)
     {
         if (!element.ClassListContains(className))
         {
@@ -101,11 +101,29 @@ public class Nameplate
         }
     }
 
-    private void RemoveClassName(VisualElement element, string className)
+    protected void RemoveClassName(VisualElement element, string className)
     {
         if (element.ClassListContains(className))
         {
             element.RemoveFromClassList(className);
+        }
+    }
+
+    public void Show()
+    {
+        if (!_isStyleVisible)
+        {
+            RemoveClassName(_nameplateEle, "hidden");
+            _isStyleVisible = true;
+        }
+    }
+
+    public void Hide()
+    {
+        if (_isStyleVisible)
+        {
+            SetClassName(_nameplateEle, "hidden");
+            _isStyleVisible = false;
         }
     }
 }

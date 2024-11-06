@@ -66,7 +66,7 @@
                         <ui:VisualElement name="BGCenter" class="center bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Center&apos;);" />
                         <ui:VisualElement name="BGRight" class="right bar-height" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Right&apos;);" />
                     </ui:GroupBox>
-                    <ui:VisualElement name="Delimiters" style="flex-grow: 1; flex-direction: row; position: absolute; flex-shrink: 0; width: 100%; height: 100%;">
+                    <ui:VisualElement name="Delimiters" style="flex-grow: 1; flex-direction: row; position: absolute; flex-shrink: 0; width: 100%; height: 100%; display: none;">
                         <ui:VisualElement name="Spacer" style="flex-grow: 1; flex-shrink: 0; height: 100%; background-image: none;" />
                         <ui:VisualElement name="Divider" style="flex-grow: 0; flex-shrink: 0; height: 100%; width: 5px; background-image: resource(&apos;Data/UI/Assets/CharInfo/Divider_DF_Ver&apos;);" />
                         <ui:VisualElement name="Spacer" style="flex-grow: 1; flex-shrink: 0; height: 100%; background-image: none;" />
@@ -75,8 +75,8 @@
                         <ui:VisualElement name="Divider" style="flex-grow: 0; flex-shrink: 0; height: 100%; width: 5px; background-image: resource(&apos;Data/UI/Assets/CharInfo/Divider_DF_Ver&apos;);" />
                         <ui:VisualElement name="Spacer" style="flex-grow: 1; flex-shrink: 0; height: 100%; background-image: none;" />
                     </ui:VisualElement>
-                    <ui:Label text="XP" name="BarLabel" class="bar-label bar-label-name" style="align-items: flex-start; flex-direction: column; flex-shrink: 0;" />
-                    <ui:Label text="00.00%" name="XPText" double-click-selects-word="true" class="bar-label bar-label-numbers" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; width: auto; position: relative; left: auto;" />
+                    <ui:Label text="XP" name="BarLabel" class="bar-label bar-label-name" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; display: none;" />
+                    <ui:Label text="00.00%" name="XPText" double-click-selects-word="true" class="bar-label bar-label-numbers" style="align-items: flex-start; flex-direction: column; flex-shrink: 0; width: auto; position: relative; left: auto; display: flex;" />
                 </ui:VisualElement>
             </ui:GroupBox>
         </ui:GroupBox>

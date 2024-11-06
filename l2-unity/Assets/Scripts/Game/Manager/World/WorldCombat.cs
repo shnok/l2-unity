@@ -347,4 +347,12 @@ public class WorldCombat : MonoBehaviour
     {
         _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.ToggleShortcutItem(itemId, enable));
     }
+
+    public void SetupGauge(SetupGaugePacket.GaugeColor color, int time, int maxTime)
+    {
+        _eventProcessor.QueueEvent(() =>
+        {
+            NameplatesManager.Instance.StartCasting(color, maxTime != time ? maxTime - time : time);
+        });
+    }
 }
