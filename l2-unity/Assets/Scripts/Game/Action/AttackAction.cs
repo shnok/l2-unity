@@ -13,8 +13,20 @@ public class AttackAction : L2Action
         {
             Debug.LogWarning("Use attack action.");
 
-            PlayerCombat.Instance.IsForcedAction = InputManager.Instance.Ctrl;
-            PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_ATTACK);
+            Entity targetEntity = TargetManager.Instance.Target.Data.Entity;
+            EntityType targetType = targetEntity.Identity.EntityType;
+
+            if ((targetType == EntityType.Player || targetType == EntityType.NPC) && InputManager.Instance.Ctrl || targetType == EntityType.Monster)
+            {
+                //Todo: Check if the target is flagged or has karma too
+                TargetManager.Instance.SetAttackTarget();
+                PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_ATTACK);
+            }
+            else
+            {
+                TargetManager.Instance.ClearAttackTarget();
+                PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_INTERACT);
+            }
         }
     }
 }

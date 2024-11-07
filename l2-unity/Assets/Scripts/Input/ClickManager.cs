@@ -137,6 +137,7 @@ public class ClickManager : MonoBehaviour
 
         if (TargetManager.Instance != null)
         {
+            //TODO: Do it in attackstate exit
             TargetManager.Instance.ClearAttackTarget();
         }
 

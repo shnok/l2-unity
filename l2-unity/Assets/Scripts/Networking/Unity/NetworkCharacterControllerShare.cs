@@ -123,11 +123,14 @@ public class NetworkCharacterControllerShare : MonoBehaviour
         }
 
         float directionAngle = VectorUtils.CalculateMoveDirectionAngle(moveDirection.x, moveDirection.z);
-        if (Math.Abs(Math.Abs(directionAngle) - Math.Abs(_lastDirectionAngle)) < 2f)
+        if (!isForced)
         {
-            Debug.Log("The direction change is too small to share");
-            // The direction change is too small to share
-            return;
+            if (Math.Abs(Math.Abs(directionAngle) - Math.Abs(_lastDirectionAngle)) < 2f)
+            {
+                Debug.Log("The direction change is too small to share");
+                // The direction change is too small to share
+                return;
+            }
         }
 
         _lastDirectionAngle = directionAngle;

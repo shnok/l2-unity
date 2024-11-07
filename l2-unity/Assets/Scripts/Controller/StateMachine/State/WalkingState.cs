@@ -37,6 +37,12 @@ public class WalkingState : StateBase
         }
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        PlayerController.Instance.IntentionToRun = false;
+    }
+
     public override void Update()
     {
         //Arrived to destination

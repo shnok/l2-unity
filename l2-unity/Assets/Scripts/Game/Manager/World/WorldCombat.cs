@@ -354,6 +354,13 @@ public class WorldCombat : MonoBehaviour
         return attacker.Stats.AttackRange;
     }
 
+    public float GetInteractRange(Entity attacker, Entity target)
+    {
+        return Mathf.Min(
+            attacker.Appearance.CollisionRadius + target.Appearance.CollisionRadius + 0.4f, // added extra distance to not be too close
+            2.857142857142857f); // hardcoded maximum interaction distance in the server
+    }
+
     public void ExAutoSoulshotReceived(int itemId, bool enable)
     {
         _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.ToggleShortcutItem(itemId, enable));

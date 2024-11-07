@@ -57,11 +57,16 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ChangeState(PlayerState newState)
     {
+        ChangeState(newState, null);
+    }
+
+    public void ChangeState(PlayerState newState, object arg0)
+    {
         if (_enableLogs) Debug.Log("[StateMachine][STATE] " + newState);
         _stateInstance?.Exit();
         _currentState = newState;
         InitializeState();
-        _stateInstance?.Enter();
+        _stateInstance?.Enter(arg0);
     }
 
     public void ChangeIntention(Intention intention)
@@ -107,9 +112,11 @@ public class PlayerStateMachine : MonoBehaviour
             Intention.INTENTION_IDLE => new IdleIntention(this),
             Intention.INTENTION_MOVE_TO => new MoveToIntention(this),
             Intention.INTENTION_ATTACK => new AttackIntention(this),
+            Intention.INTENTION_INTERACT => new InteractIntention(this),
             Intention.INTENTION_FOLLOW => new FollowIntention(this),
             Intention.INTENTION_SIT => new SitIntention(this),
             Intention.INTENTION_STAND => new StandIntention(this),
+            Intention.INTENTION_MOVE => new MoveIntention(this),
             _ => throw new ArgumentException("Invalid intention")
         };
     }

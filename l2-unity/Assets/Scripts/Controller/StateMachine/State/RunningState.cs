@@ -1,7 +1,10 @@
+using UnityEngine;
 using static AttackingState;
 
 public class RunningState : StateBase
 {
+    private MoveReason _moveReason = MoveReason.DEFAULT;
+
     public RunningState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void HandleEvent(Event evt)
@@ -9,10 +12,13 @@ public class RunningState : StateBase
         switch (evt)
         {
             case Event.ARRIVED:
-                if (TargetManager.Instance.HasAttackTarget())
+                if (_moveReason == MoveReason.ATTACK)
                 {
-                    // _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.TargetReached);
                     _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK);
+                }
+                else if (_moveReason == MoveReason.INTERACT)
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_INTERACT);
                 }
                 else
                 {
@@ -37,10 +43,33 @@ public class RunningState : StateBase
         }
     }
 
+    public override void Enter(object arg0)
+    {
+        if (arg0 == null || arg0 is Vector3)
+        {
+            _moveReason = MoveReason.DEFAULT;
+        }
+        else
+        {
+            _moveReason = (MoveReason)arg0;
+        }
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        PlayerController.Instance.IntentionToRun = false;
+    }
+
     public override void Update()
     {
+        if (InputManager.Instance.Move)
+        {
+            _moveReason = MoveReason.DEFAULT;
+        }
+
         //Arrived to destination
-        if (!InputManager.Instance.Move && !PlayerController.Instance.RunningToDestination)
+        if (!InputManager.Instance.Move && !PlayerController.Instance.RunningToDestination && !PlayerController.Instance.IntentionToRun)
         {
             _stateMachine.NotifyEvent(Event.ARRIVED);
         }

@@ -18,7 +18,7 @@ public class StandingState : StateBase
     }
 
     private float _enterTime;
-    public override void Enter()
+    public override void Enter(object obj0)
     {
         _sitting = true;
         _enterTime = Time.time;

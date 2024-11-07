@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -119,11 +120,21 @@ public class PathFinderController : MonoBehaviour
 
     public void MoveTo(Vector3 destination)
     {
+        MoveTo(destination, _defaultDestinationThreshold, null);
+    }
+
+    public void MoveTo(Vector3 destination, Action callback)
+    {
         _currentDestinationThreshold = _defaultDestinationThreshold;
-        MoveTo(destination, _defaultDestinationThreshold);
+        MoveTo(destination, _defaultDestinationThreshold, callback);
     }
 
     public void MoveTo(Vector3 destination, float stopAtRange)
+    {
+        MoveTo(destination, stopAtRange, null);
+    }
+
+    public void MoveTo(Vector3 destination, float stopAtRange, Action moveCallback)
     {
         _currentDestinationThreshold = stopAtRange;
         _targetDestination = destination;
@@ -139,7 +150,7 @@ public class PathFinderController : MonoBehaviour
         {
             _targetNode = node;
 
-            PathFinderFactory.Instance.RequestPathfind(_startNode, _targetNode, (callback) =>
+            PathFinderFactory.Instance.RequestPathfind(_startNode, _targetNode, async (callback) =>
             {
                 if (callback == null || callback.Count == 0)
                 {
@@ -156,6 +167,12 @@ public class PathFinderController : MonoBehaviour
                     {
                         _path = callback;
                     }
+                }
+
+                if (moveCallback != null)
+                {
+                    await Task.Delay((int)(Time.fixedDeltaTime * 1000));
+                    moveCallback();
                 }
             });
 

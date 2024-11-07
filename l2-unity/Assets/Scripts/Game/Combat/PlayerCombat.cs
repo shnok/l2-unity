@@ -5,8 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerCombat : Combat
 {
-    public bool IsForcedAction { get; set; }
-
     private static PlayerCombat _instance;
     public static PlayerCombat Instance { get => _instance; }
 

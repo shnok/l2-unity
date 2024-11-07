@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class FollowIntention : IntentionBase
+public class MoveIntention : IntentionBase
 {
-    public FollowIntention(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public MoveIntention(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter(object arg0)
     {
@@ -12,11 +12,9 @@ public class FollowIntention : IntentionBase
             return;
         }
 
-        PlayerController.Instance.IntentionToRun = true;
-
         if (_stateMachine.IsInMovableState())
         {
-            RunOrWalk((MoveReason)arg0);
+            RunOrWalk(MoveReason.DEFAULT);
         }
         else if (!_stateMachine.WaitingForServerReply)
         {
@@ -44,13 +42,13 @@ public class FollowIntention : IntentionBase
     public override void Exit() { }
     public override void Update()
     {
-        // if (_stateMachine.WaitingForServerReply)
-        // {
-        //     if (InputManager.Instance.Move)
-        //     {
-        //         NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
-        //     }
-        //     PlayerController.Instance.StopMoving();
-        // }
+        if (_stateMachine.WaitingForServerReply)
+        {
+            if (InputManager.Instance.Move)
+            {
+                NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
+            }
+            PlayerController.Instance.StopMoving();
+        }
     }
 }

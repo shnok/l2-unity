@@ -9,6 +9,7 @@ public enum Event
     FORGET_OBJECT,
     READY_TO_ACT,
     READY_TO_ATTACK,
+    READY_TO_INTERACT,
     CANCEL,
     TARGET_REACHED,
     ACTION_ALLOWED,

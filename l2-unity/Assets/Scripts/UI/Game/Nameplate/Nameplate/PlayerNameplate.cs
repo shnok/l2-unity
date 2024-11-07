@@ -41,7 +41,7 @@ public class PlayerNameplate : Nameplate
         if (_isGaugeVisible)
         {
             float gaugeRatio = (currentTime - GaugeStartTime) / (GaugeEndTime - GaugeStartTime);
-            Debug.LogWarning($"currentTime: {currentTime} GaugeStartTime: {GaugeStartTime} GaugeEndTime: {GaugeEndTime} Ratio: {gaugeRatio}");
+            // Debug.LogWarning($"currentTime: {currentTime} GaugeStartTime: {GaugeStartTime} GaugeEndTime: {GaugeEndTime} Ratio: {gaugeRatio}");
             gaugeRatio = Mathf.Clamp(gaugeRatio, 0f, 1f);
             _gauge.style.width = gaugeRatio * GAUGE_WIDTH;
         }

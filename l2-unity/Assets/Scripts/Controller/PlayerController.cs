@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     /* Target */
     [SerializeField] private Vector3 _targetPosition;
     [SerializeField] private bool _runningToDestination = false;
+    [SerializeField] private bool _intentionToRun = false;
     [SerializeField] private Transform _lookAtTarget;
     private float _stopAtRange;
     private Vector3 _flatTransformPos;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
     public float DefaultRunSpeed { get { return _defaultRunSpeed; } set { _defaultRunSpeed = value; } }
     public float DefaultWalkSpeed { get { return _defaultWalkSpeed; } set { _defaultWalkSpeed = value; } }
     public bool RunningToDestination { get { return _runningToDestination; } }
+    public bool IntentionToRun { get { return _intentionToRun; } set { _intentionToRun = value; } }
     public bool Running { get { return _running; } set { _running = value; } }
     public Vector3 MoveDirection { get { return _moveDirection; } }
 
@@ -68,13 +70,13 @@ public class PlayerController : MonoBehaviour
     {
         _flatTransformPos = new Vector3(transform.position.x, 0, transform.position.z);
 
+        if (InputManager.Instance.Move)
+        {
+            ResetDestination(false);
+        }
+
         if (_runningToDestination)
         {
-            if (InputManager.Instance.Move)
-            {
-                ResetDestination(false);
-            }
-
             if (ShouldRunToDestination(_stopAtRange))
             {
                 MoveToTargetPosition();
@@ -115,6 +117,7 @@ public class PlayerController : MonoBehaviour
     public void SetDestination(Vector3 position, float distance)
     {
         //Debug.Log($"Set destination: {position}");
+        _intentionToRun = true;
         _runningToDestination = true;
         _stopAtRange = distance;
         _targetPosition = VectorUtils.To2D(position);
@@ -122,6 +125,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetDestination(bool targetReached)
     {
+        _intentionToRun = false;
         _runningToDestination = false;
         _targetPosition = _flatTransformPos;
         ClickManager.Instance.HideLocator(targetReached);

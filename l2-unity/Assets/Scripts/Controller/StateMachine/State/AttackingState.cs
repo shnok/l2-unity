@@ -1,8 +1,10 @@
+using UnityEngine.InputSystem;
+
 public class AttackingState : StateBase
 {
     public AttackingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Enter()
+    public override void Enter(object obj0)
     {
         // PlayerCombat.Instance.StartAttackStance();
         PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
@@ -10,11 +12,13 @@ public class AttackingState : StateBase
 
     public override void Update()
     {
-        if (InputManager.Instance.Move || PlayerController.Instance.RunningToDestination && !TargetManager.Instance.HasAttackTarget())
+        if (InputManager.Instance.Move)
+        // if (InputManager.Instance.Move || PlayerController.Instance.RunningToDestination && !TargetManager.Instance.HasAttackTarget())
         {
-            _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO);
+            _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
         }
-        else if (!TargetManager.Instance.HasAttackTarget() || TargetManager.Instance.HasAttackTarget() && TargetManager.Instance.AttackTarget.Status.IsDead)
+        // else if (!TargetManager.Instance.HasAttackTarget() || TargetManager.Instance.HasAttackTarget() && TargetManager.Instance.AttackTarget.Status.IsDead)
+        else if (TargetManager.Instance.HasAttackTarget() && TargetManager.Instance.AttackTarget.Status.IsDead)
         {
             _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
         }
@@ -25,8 +29,15 @@ public class AttackingState : StateBase
         switch (evt)
         {
             case Event.ACTION_ALLOWED:
-                if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
+                NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
+                if (_stateMachine.Intention == Intention.INTENTION_MOVE)
                 {
+                    if (!InputManager.Instance.Move)
+                    {
+                        _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+                        return;
+                    }
+
                     if (PlayerEntity.Instance.Running)
                     {
                         _stateMachine.ChangeState(PlayerState.RUNNING);
@@ -35,6 +46,30 @@ public class AttackingState : StateBase
                     {
                         _stateMachine.ChangeState(PlayerState.WALKING);
                     }
+                }
+                if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
+                {
+                    if (!PlayerController.Instance.IntentionToRun)
+                    {
+                        _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+                        return;
+                    }
+
+                    //Set state as running first to change to movable state
+                    if (PlayerEntity.Instance.Running)
+                    {
+                        _stateMachine.ChangeState(PlayerState.RUNNING);
+                    }
+                    else
+                    {
+                        _stateMachine.ChangeState(PlayerState.WALKING);
+                    }
+
+                    _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO); //not giving an argument will use last position as destination
+                }
+                if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
+                {
+
                 }
                 if (_stateMachine.Intention == Intention.INTENTION_IDLE)
                 {

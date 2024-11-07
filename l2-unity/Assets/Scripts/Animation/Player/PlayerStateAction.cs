@@ -118,7 +118,7 @@ public class PlayerStateAction : PlayerStateBase
     protected bool DidAttackTimeout()
     {
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        if (now > ((long)_referenceHolder.AnimationController.PAtkSpd) + _referenceHolder.Combat.CombatTimestamp + 150) //150 for acceptable ping delay
+        if (now > ((long)_referenceHolder.AnimationController.PAtkSpd) + _referenceHolder.Combat.CombatTimestamp + 150) //50 for acceptable ping delay
         {
             // Debug.LogWarning("Should ATK WAIT! (StopAttack)");
             return true;
