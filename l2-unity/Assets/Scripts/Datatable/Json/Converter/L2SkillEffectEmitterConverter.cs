@@ -34,6 +34,7 @@ public class L2SkillEffectEmitterConverter : JsonConverter
             if (emitter.EtcEffect != EtcEffect.EET_NONE && emitter.EtcEffectInfo != EtcEffectInfo.EEP_NONE)
             {
                 emitter.EffectClass = EtcEffectToEffectName(emitter.EtcEffect, emitter.EtcEffectInfo);
+                emitter.SecondaryEffectClass = emitter.EffectClass.Replace("stick", "book");
             }
         }
 

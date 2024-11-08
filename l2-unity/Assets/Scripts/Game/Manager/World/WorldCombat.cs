@@ -84,12 +84,8 @@ public class WorldCombat : MonoBehaviour
 
     public void EntityCastSkill(Entity entity, int skillId)
     {
+        Debug.LogWarning($"EntityCastSkill: {entity.transform.name} Skill: {skillId}");
         Skill skill = SkillTable.Instance.GetSkill(skillId);
-        CastSkill(entity, skill);
-    }
-
-    public void EntityCastSkill(Entity entity, Skill skill)
-    {
         CastSkill(entity, skill);
     }
 

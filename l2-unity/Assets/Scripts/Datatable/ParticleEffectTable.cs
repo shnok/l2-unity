@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class ParticleEffectTable
 {
@@ -66,22 +67,40 @@ public class ParticleEffectTable
             {
                 kvp.Value.CastingActions.ForEach((emitter) =>
                 {
-                    GameObject particle = LoadEffectEmitter(emitter);
+                    string effectClass = emitter.EffectClass;
+
+                    GameObject particle = LoadEffectEmitter(effectClass);
                     if (particle != null)
                     {
-                        ParticleEffects[emitter.EffectClass] = particle;
+                        ParticleEffects[effectClass] = particle;
                         Debug.Log($"Loaded particle effect {particle} in ParticleEffectTable.");
+                    }
+
+
+                    effectClass = emitter.SecondaryEffectClass;
+
+                    if (effectClass != null)
+                    {
+                        particle = LoadEffectEmitter(effectClass);
+                        if (particle != null)
+                        {
+                            ParticleEffects[effectClass] = particle;
+                            Debug.Log($"Loaded secondary particle effect {particle} in ParticleEffectTable.");
+                        }
                     }
                 });
             }
+
             if (kvp.Value.ShotActions != null && kvp.Value.ShotActions.Count > 0)
             {
                 kvp.Value.ShotActions.ForEach((emitter) =>
                 {
-                    GameObject particle = LoadEffectEmitter(emitter);
+                    string effectClass = emitter.EffectClass;
+
+                    GameObject particle = LoadEffectEmitter(effectClass);
                     if (particle != null)
                     {
-                        ParticleEffects[emitter.EffectClass] = particle;
+                        ParticleEffects[effectClass] = particle;
                         Debug.Log($"Loaded particle effect {particle} in ParticleEffectTable.");
                     }
                 });
@@ -89,19 +108,19 @@ public class ParticleEffectTable
         }
     }
 
-    private GameObject LoadEffectEmitter(EffectEmitter emitter)
+    private GameObject LoadEffectEmitter(string effectClass)
     {
-        if (emitter.EffectClass == null || emitter.EffectClass.Length == 0)
+        if (effectClass == null || effectClass.Length == 0)
         {
             return null;
         }
 
-        if (ParticleEffects.ContainsKey(emitter.EffectClass))
+        if (ParticleEffects.ContainsKey(effectClass))
         {
             return null;
         }
 
-        return LoadEffectByName(emitter.EffectClass);
+        return LoadEffectByName(effectClass);
     }
 
     private GameObject LoadEffectByName(string name)

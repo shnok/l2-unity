@@ -7,6 +7,7 @@ public class EffectEmitter
     [SerializeField] private bool _spawnOnTarget;
     [SerializeField] private bool _relativeToCylinder;
     [SerializeField] private string _effectClass;
+    [SerializeField] private string _secondaryEffectClass;
     [SerializeField] private float _scaleSize;
     [SerializeField] private bool _onMultiTarget;
     [SerializeField] private Vector3 _offset;
@@ -19,6 +20,7 @@ public class EffectEmitter
     public bool SpawnOnTarget { get { return _spawnOnTarget; } set { _spawnOnTarget = value; } }
     public bool RelativeToCylinder { get { return _relativeToCylinder; } set { _relativeToCylinder = value; } }
     public string EffectClass { get { return _effectClass; } set { _effectClass = value; } }
+    public string SecondaryEffectClass { get { return _secondaryEffectClass; } set { _secondaryEffectClass = value; } }
     public float ScaleSize { get { return _scaleSize; } set { _scaleSize = value; } }
     public bool OnMultiTarget { get { return _onMultiTarget; } set { _onMultiTarget = value; } }
     public Vector3 Offset { get { return _offset; } set { _offset = value; } }

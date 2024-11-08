@@ -232,14 +232,25 @@ public class ParticleManager : MonoBehaviour
 
         castingActions.ForEach((action) =>
         {
-            PooledEffect effect = SpawnEffect(action.EffectClass);
+            AttachMethod attachOn = action.AttachOn;
+            string effectClass = action.EffectClass;
+
+            if (action.EtcEffect == EtcEffect.EET_SOULSHOT)
+            {
+                if (caster.Gear?.WeaponType == WeaponType.bow || caster.Gear?.WeaponType == WeaponType.fist)
+                {
+                    effectClass = action.SecondaryEffectClass;
+                    attachOn = AttachMethod.AM_LH;
+                }
+            }
+
+            PooledEffect effect = SpawnEffect(effectClass);
             if (effect == null || effect.GameObject == null)
             {
                 Debug.LogError($"Can't spawn skill effect {skill.EffectId} for skill {skill.SkillId}.");
                 return;
             }
 
-            AttachMethod attachOn = action.AttachOn;
             Transform attachTo;
             switch (attachOn)
             {

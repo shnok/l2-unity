@@ -13,7 +13,6 @@ public class MoveToIntention : IntentionBase
         if (arg0 != null && arg0 is Vector3)
         {
             _lastClickToMoveLocation = (Vector3)arg0;
-            Debug.LogWarning("State UPDATING CLICKTOMOVE=" + _lastClickToMoveLocation);
         }
 
         if (_stateMachine.State == PlayerState.SITTING || _stateMachine.State == PlayerState.SIT_WAIT || _stateMachine.State == PlayerState.STANDING)
@@ -26,7 +25,6 @@ public class MoveToIntention : IntentionBase
 
         if (_stateMachine.IsInMovableState())
         {
-            Debug.LogWarning("State LASTCLICKTMOVELOCATION=" + _lastClickToMoveLocation);
             //Vector3 is given when using click to move
             if (_lastClickToMoveLocation != Vector3.zero)
             {
