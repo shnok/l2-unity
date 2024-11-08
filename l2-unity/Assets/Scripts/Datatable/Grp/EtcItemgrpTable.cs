@@ -82,7 +82,6 @@ public class EtcItemgrpTable
                     }
                 }
 
-
                 if (!ItemTable.Instance.ShouldLoadItem(etcItemgrp.ObjectId))
                 {
                     continue;

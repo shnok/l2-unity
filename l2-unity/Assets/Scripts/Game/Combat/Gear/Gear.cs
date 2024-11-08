@@ -17,6 +17,7 @@ public class Gear : MonoBehaviour
     [Header("Meta")]
     [SerializeField] private Weapon _rightHandWeapon;
     [SerializeField] private Weapon _leftHandWeapon;
+    [SerializeField] private float _weaponSizeRatio;
     [Header("Models")]
     [Header("Right hand")]
     [SerializeField] private WeaponType _rightHandType;
@@ -109,9 +110,24 @@ public class Gear : MonoBehaviour
 
         _arrow = go.transform;
         _arrow.parent = RightHandBone;
-        _arrow.localPosition = Vector3.zero;
+        _arrow.localPosition = new Vector3(-0.0005f, 0, 0);
         _arrow.localRotation = new Quaternion(0, 0, 0, 0);
-        _arrow.localScale = Vector3.one;
+        _arrow.localScale = Vector3.one * GetWeaponSizeRatio();
+    }
+
+    private float GetWeaponSizeRatio()
+    {
+        if (_weaponSizeRatio == 0)
+        {
+            float collisionHeight = _referenceHolder.Entity.Appearance.CollisionHeight;
+            float ratio = 1 + (collisionHeight - 0.533f) / 0.533f;
+
+            Debug.Log("WeaponSizeRatio: " + ratio);
+
+            _weaponSizeRatio = ratio;
+        }
+
+        return _weaponSizeRatio;
     }
 
     public virtual void UnEquipArrow()
@@ -209,6 +225,8 @@ public class Gear : MonoBehaviour
         }
 
         go.SetActive(true);
+
+        go.transform.localScale *= GetWeaponSizeRatio();
 
         if (WeaponType == WeaponType.bow)
         {
