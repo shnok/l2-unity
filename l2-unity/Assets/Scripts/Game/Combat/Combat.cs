@@ -144,4 +144,18 @@ public abstract class Combat : MonoBehaviour
 
         return true;
     }
+
+    public virtual void NockArrow()
+    {
+        Debug.Log($"[{transform.name}] Nock arrow");
+        _referenceHolder.Gear.ShowArrow();
+        WorldCombat.Instance.EntityNockArrow(_referenceHolder.Entity);
+    }
+
+    public virtual void ShootArrow()
+    {
+        Debug.Log($"[{transform.name}] Shoot arrow");
+        _referenceHolder.Gear.HideArrow();
+        WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity);
+    }
 }

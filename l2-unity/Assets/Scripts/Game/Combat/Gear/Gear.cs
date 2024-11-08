@@ -21,6 +21,7 @@ public class Gear : MonoBehaviour
     [Header("Right hand")]
     [SerializeField] private WeaponType _rightHandType;
     [SerializeField] protected Transform _rightHand;
+    [SerializeField] protected Transform _arrow;
     [Header("LeftHand")]
     [SerializeField] private WeaponType _leftHandType;
     [SerializeField] protected Transform _leftHand;
@@ -90,6 +91,50 @@ public class Gear : MonoBehaviour
         {
             UnequipWeapon(false);
         }
+    }
+
+    public virtual void EquipArrow()
+    {
+        Debug.Log($"[{transform.name}] Equip arrow");
+        GameObject arrowPrefab = ModelTable.Instance.GetItemModelById(17);
+        if (arrowPrefab == null)
+        {
+            Debug.LogWarning($"Could load arrow prefab in DB for entity {_ownerId}.");
+            return;
+        }
+
+        GameObject go = GameObject.Instantiate(arrowPrefab);
+        go.SetActive(false);
+        go.transform.name = "arrow";
+
+        _arrow = go.transform;
+        _arrow.parent = RightHandBone;
+        _arrow.localPosition = Vector3.zero;
+        _arrow.localRotation = new Quaternion(0, 0, 0, 0);
+        _arrow.localScale = Vector3.one;
+    }
+
+    public virtual void UnEquipArrow()
+    {
+        Debug.Log($"[{transform.name}] Unequip arrow");
+        GameObject.DestroyImmediate(_arrow);
+    }
+
+    public virtual void ShowArrow()
+    {
+        if (_arrow == null)
+        {
+            EquipArrow();
+        }
+
+        Debug.Log($"[{transform.name}] Show arrow");
+        _arrow?.gameObject.SetActive(true);
+    }
+
+    public virtual void HideArrow()
+    {
+        Debug.Log($"[{transform.name}] Hide arrow");
+        _arrow?.gameObject.SetActive(false);
     }
 
     public virtual void EquipAllArmors(Appearance appearance) { }
@@ -164,6 +209,11 @@ public class Gear : MonoBehaviour
         }
 
         go.SetActive(true);
+
+        if (WeaponType == WeaponType.bow)
+        {
+            EquipArrow();
+        }
     }
 
     protected virtual void UpdateWeaponType(WeaponType weaponType) { }
@@ -226,6 +276,12 @@ public class Gear : MonoBehaviour
         {
             Debug.LogWarning("Unequip weapon");
             Destroy(weapon.gameObject);
+
+            if (WeaponType == WeaponType.bow)
+            {
+                UnEquipArrow();
+            }
+
             if (leftSlot) _leftHandWeapon = null;
             else
             {

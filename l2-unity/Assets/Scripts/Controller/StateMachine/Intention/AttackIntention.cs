@@ -21,7 +21,7 @@ public class AttackIntention : IntentionBase
             }
             else
             {
-                _stateMachine.ChangeIntention(Intention.INTENTION_FOLLOW, MoveReason.ATTACK); //TODO CHANGE
+                _stateMachine.ChangeIntention(Intention.INTENTION_FOLLOW, MoveReason.ATTACK);
                 return;
             }
         }

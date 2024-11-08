@@ -7,6 +7,7 @@ public class PlayerStateAtk : PlayerStateAction
     private float _lastNormalizedTime = 0;
     private bool _nockedArrow = false;
     private bool _shotArrow = false;
+    public const float SHOOT_ARROW_RATIO = 0.6f; //TODO: Change based on race
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -49,35 +50,16 @@ public class PlayerStateAtk : PlayerStateAction
 
         if (_referenceHolder.Gear.WeaponType == WeaponType.bow)
         {
-            float normalizedRatio = stateInfo.normalizedTime - _lastNormalizedTime;
-
-            if (normalizedRatio >= 1f)
-            {
-                Debug.LogWarning("Reset atk animation state");
-                _nockedArrow = false;
-                _shotArrow = false;
-                _lastNormalizedTime = stateInfo.normalizedTime;
-            }
-            else if (normalizedRatio >= 0.95f)
-            {
-                if (!_shotArrow)
-                {
-                    Debug.LogWarning("Shoot arrow");
-                    _shotArrow = true;
-                }
-            }
-            else if (normalizedRatio >= 0.2f)
-            {
-                if (!_nockedArrow)
-                {
-                    Debug.LogWarning("Nock arrow");
-                    _nockedArrow = true;
-                }
-            }
+            ManageArrow(stateInfo);
         }
 
         if (ShouldAttack())
         {
+            if (_referenceHolder.Gear.WeaponType == WeaponType.bow)
+            {
+                // Lock on the target while attacking
+                PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
+            }
             return;
         }
 
@@ -99,6 +81,35 @@ public class PlayerStateAtk : PlayerStateAction
         if (ShouldIdle())
         {
             return;
+        }
+    }
+
+    private void ManageArrow(AnimatorStateInfo stateInfo)
+    {
+        float normalizedRatio = stateInfo.normalizedTime - _lastNormalizedTime;
+
+        if (normalizedRatio >= 1f)
+        {
+            Debug.LogWarning("Reset atk animation state");
+            _nockedArrow = false;
+            _shotArrow = false;
+            _lastNormalizedTime = stateInfo.normalizedTime;
+        }
+        else if (normalizedRatio >= SHOOT_ARROW_RATIO)
+        {
+            if (!_shotArrow)
+            {
+                _shotArrow = true;
+                _referenceHolder.Combat.ShootArrow();
+            }
+        }
+        else if (normalizedRatio >= 0.2f)
+        {
+            if (!_nockedArrow)
+            {
+                _nockedArrow = true;
+                _referenceHolder.Combat.NockArrow();
+            }
         }
     }
 

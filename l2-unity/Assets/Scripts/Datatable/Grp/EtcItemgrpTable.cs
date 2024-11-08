@@ -72,6 +72,13 @@ public class EtcItemgrpTable
                         case "etcitem_type":
                             etcItemgrp.EtcItemType = value;
                             break;
+                        case "mesh":
+                            if (!value.Contains("None"))
+                            {
+                                string[] arr = DatUtils.ParseArray(value);
+                                etcItemgrp.Mesh = arr[0];
+                            }
+                            break;
                     }
                 }
 

@@ -30,6 +30,7 @@ public class ModelTable
     private Material[,,] _hairMaterials;
     private GameObject[,] _hairModels;
     private Dictionary<string, GameObject> _weapons;
+    private Dictionary<string, GameObject> _items;
     private Dictionary<string, GameObject> _npcs;
     private Dictionary<string, L2Armor> _armors;
     private class L2Armor
@@ -58,6 +59,7 @@ public class ModelTable
         CacheWeapons();
         CacheArmors();
         CacheNpcs();
+        CacheItemModels();
     }
 
     // private void OnDestroy() {
@@ -143,7 +145,6 @@ public class ModelTable
         }
     }
 
-
     private GameObject LoadFaceModel(string model)
     {
         string[] folderFile = model.Split(".");
@@ -185,7 +186,6 @@ public class ModelTable
 
         return material;
     }
-
 
     private void CacheHair()
     {
@@ -310,7 +310,7 @@ public class ModelTable
         GameObject weapon = (GameObject)Resources.Load(modelPath);
         if (weapon == null)
         {
-            //Debug.LogWarning($"Can't find weapon model at {modelPath}");
+            Debug.LogWarning($"Can't find weapon model at {modelPath}");
         }
         else
         {
@@ -318,6 +318,31 @@ public class ModelTable
         }
 
         return weapon;
+    }
+
+    private void CacheItemModels()
+    {
+        _items = new Dictionary<string, GameObject>();
+        int success = 0;
+        foreach (KeyValuePair<int, EtcItem> kvp in ItemTable.Instance.EtcItems)
+        {
+            if (kvp.Value.EtcItemgrp.Mesh != null)
+            {
+                if (_weapons.ContainsKey(kvp.Value.EtcItemgrp.Mesh))
+                {
+                    continue;
+                }
+
+                GameObject itemMesh = LoadWeaponModel(kvp.Value.EtcItemgrp.Mesh);
+                if (itemMesh != null)
+                {
+                    success++;
+                    _items[kvp.Value.EtcItemgrp.Mesh] = itemMesh;
+                }
+            }
+        }
+
+        Debug.Log($"Successfully loaded {success} item model(s).");
     }
 
     private void CacheArmors()
@@ -532,20 +557,39 @@ public class ModelTable
 
     public GameObject GetWeapon(string model)
     {
-        if (!_weapons.ContainsKey(model))
+        if (_weapons.TryGetValue(model, out GameObject go))
+        {
+            return go;
+        }
+        else
         {
             Debug.LogWarning($"Can't find weapon model {model} in ModelTable");
             return null;
         }
+    }
 
-        GameObject go = _weapons[model];
-        if (go == null)
+    public GameObject GetItemModelById(int itemId)
+    {
+        EtcItem item = ItemTable.Instance.GetEtcItem(itemId);
+        if (item == null)
+        {
+            Debug.LogWarning($"Can't find etcitem {itemId} in ItemTable");
+        }
+
+        return GetItemModel(item.EtcItemgrp.Mesh);
+    }
+
+    public GameObject GetItemModel(string model)
+    {
+        if (_items.TryGetValue(model, out GameObject go))
+        {
+            return go;
+        }
+        else
         {
             Debug.LogWarning($"Can't find weapon model {model} in ModelTable");
             return null;
         }
-
-        return go;
     }
 
     public GameObject GetContainer(CharacterModelType raceId, EntityType entityType)

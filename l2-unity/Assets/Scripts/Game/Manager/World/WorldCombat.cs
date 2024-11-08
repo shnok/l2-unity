@@ -366,4 +366,14 @@ public class WorldCombat : MonoBehaviour
             NameplatesManager.Instance.StartCasting(color, maxTime != time ? maxTime - time : time);
         });
     }
+
+    public void EntityNockArrow(Entity entity)
+    {
+
+    }
+
+    public void EntityShootArrow(Entity entity)
+    {
+
+    }
 }
