@@ -294,6 +294,11 @@ public class PlayerController : MonoBehaviour
 
     public void LookForward(bool followCamera)
     {
+        if (!PlayerStateMachine.Instance.CanMove())
+        {
+            return;
+        }
+
         if (followCamera)
         {
             _finalAngle = _mainCamera.transform.eulerAngles.y;

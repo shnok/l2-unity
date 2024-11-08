@@ -170,12 +170,9 @@ public class WorldCombat : MonoBehaviour
 
     public Task EntityAttacks(Vector3 attackerPosition, int sender, Hit hit)
     {
-        Debug.LogWarning("ENTITY ATTACK?");
         return _worldSpawner.ExecuteWithEntitiesAsync(sender, hit.TargetId, (senderEntity, targetEntity) =>
         {
             //TODO: Handle AOE
-
-            Debug.LogWarning("ENTITY ATTACK SUCCESS");
             hit.Attacker = senderEntity;
             hit.Target = targetEntity;
 
