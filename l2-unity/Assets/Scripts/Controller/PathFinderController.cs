@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -150,7 +151,7 @@ public class PathFinderController : MonoBehaviour
         {
             _targetNode = node;
 
-            PathFinderFactory.Instance.RequestPathfind(_startNode, _targetNode, async (callback) =>
+            PathFinderFactory.Instance.RequestPathfind(_startNode, _targetNode, (callback) =>
             {
                 if (callback == null || callback.Count == 0)
                 {
@@ -169,11 +170,7 @@ public class PathFinderController : MonoBehaviour
                     }
                 }
 
-                if (moveCallback != null)
-                {
-                    await Task.Delay((int)(Time.fixedDeltaTime * 1000));
-                    moveCallback();
-                }
+                StartCoroutine(WaitForFixedUpdate(moveCallback));
             });
 
         }
@@ -181,6 +178,17 @@ public class PathFinderController : MonoBehaviour
         {
             _targetNode = null;
             PlayerController.Instance.SetDestination(_targetDestination, _currentDestinationThreshold);
+
+            StartCoroutine(WaitForFixedUpdate(moveCallback));
+        }
+    }
+
+    private IEnumerator WaitForFixedUpdate(Action moveCallback)
+    {
+        yield return new WaitForFixedUpdate();
+        if (moveCallback != null)
+        {
+            moveCallback();
         }
     }
 
