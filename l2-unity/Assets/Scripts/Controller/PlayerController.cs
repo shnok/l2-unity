@@ -299,6 +299,18 @@ public class PlayerController : MonoBehaviour
             _finalAngle = _mainCamera.transform.eulerAngles.y;
         }
 
+        if (InputManager.Instance.Move)
+        {
+            if (InputManager.Instance.MoveInput.x > 0)
+            {
+                _finalAngle += 45;
+            }
+            else if (InputManager.Instance.MoveInput.x < 0)
+            {
+                _finalAngle -= 45;
+            }
+        }
+
         transform.rotation = Quaternion.Euler(Vector3.up * _finalAngle);
     }
 
