@@ -323,9 +323,20 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        float angle = Mathf.Atan2(target.position.x - transform.position.x, target.position.z - transform.position.z) * Mathf.Rad2Deg;
-        angle = Mathf.Round(angle / 45f);
-        angle *= 45f;
+        // float angle = Mathf.Atan2(target.position.x - transform.position.x, target.position.z - transform.position.z) * Mathf.Rad2Deg;
+        // angle = Mathf.Round(angle / 45f);
+        // angle *= 45f;
+        // _finalAngle = angle;
+
+
+        // Calculate direction vector in XZ plane (ignoring Y)
+        float deltaX = target.position.x - transform.position.x;
+        float deltaZ = target.position.z - transform.position.z;
+
+        // For Euler Y rotation, we use Atan2(x, z)
+        // This will give you the correct angle to use directly as transform.eulerAngles.y
+        float angle = Mathf.Atan2(deltaX, deltaZ) * Mathf.Rad2Deg;
+
         _finalAngle = angle;
     }
 
