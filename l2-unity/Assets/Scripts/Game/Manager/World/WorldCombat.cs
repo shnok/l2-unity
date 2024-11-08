@@ -178,8 +178,9 @@ public class WorldCombat : MonoBehaviour
 
             if (senderEntity.Gear.WeaponType == WeaponType.bow)
             {
-                float timeToReachTarget = Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 50f; //50 meters per second
-                hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f + timeToReachTarget;
+                float timeToReachTarget = Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 20f; //20 meters per second
+                float shootTime = senderEntity.AnimationController.PAtkSpd / 1000f * 0.6f;
+                hit.HitTime = Time.time + shootTime + timeToReachTarget;
             }
             else
             {

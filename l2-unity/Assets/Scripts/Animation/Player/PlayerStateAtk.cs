@@ -28,7 +28,10 @@ public class PlayerStateAtk : PlayerStateAction
         SetBool(HumanoidAnimType.atkwait, false, false);
         SetBool(HumanoidAnimType.atk01, false, false);
 
-        PlayAtkSoundAtRatio(AudioHandler.AtkRatio);
+        if (_referenceHolder.Gear.WeaponType != WeaponType.bow)
+        {
+            PlayAtkSoundAtRatio(AudioHandler.AtkRatio);
+        }
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -101,6 +104,7 @@ public class PlayerStateAtk : PlayerStateAction
             {
                 _shotArrow = true;
                 _referenceHolder.Combat.ShootArrow();
+                AudioHandler.PlayArrowShootSound();
             }
         }
         else if (normalizedRatio >= 0.2f)
@@ -109,6 +113,7 @@ public class PlayerStateAtk : PlayerStateAction
             {
                 _nockedArrow = true;
                 _referenceHolder.Combat.NockArrow();
+                AudioHandler.PlayBowBendSound();
             }
         }
     }

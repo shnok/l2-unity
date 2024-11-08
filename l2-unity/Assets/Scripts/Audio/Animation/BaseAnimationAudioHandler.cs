@@ -145,6 +145,16 @@ public class BaseAnimationAudioHandler : MonoBehaviour
     {
     }
 
+    public virtual void PlayBowBendSound()
+    {
+        AudioManager.Instance.Play3DSoundByReferenceName("ChrSound/Bow_Draw", transform.position);
+    }
+
+    public virtual void PlayArrowShootSound()
+    {
+        AudioManager.Instance.PlayItemSound(ItemSoundEvent.bow_small, transform.position);
+    }
+
     protected EventReference GetRandomEvent(List<EventReference> events)
     {
         if (events == null)
