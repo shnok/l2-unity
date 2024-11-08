@@ -34,6 +34,7 @@ public class Gear : MonoBehaviour
 
     public Transform RightHandBone { get { return _rightHandBone; } }
     public Transform LeftHandBone { get { return _leftHandBone; } }
+    public Transform Arrow { get { return _arrow; } }
 
     public virtual void Initialize(int ownderId, CharacterModelType raceId)
     {

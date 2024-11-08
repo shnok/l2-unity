@@ -321,6 +321,11 @@ public class PlayerController : MonoBehaviour
 
     public void StartLookAt(Transform target)
     {
+        if (target == null)
+        {
+            return;
+        }
+
         UpdateFinalAngleToLookAt(target);
 
         // Wait for a small delay to lock on to target

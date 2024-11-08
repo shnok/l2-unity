@@ -105,9 +105,9 @@ public abstract class NetworkCombat : Combat
     //     // _attackStance = false;
     // }
 
-    public override bool AttackOnce()
+    public override bool AttackOnce(float hitTime)
     {
-        if (base.AttackOnce())
+        if (base.AttackOnce(hitTime))
         {
             Debug.Log("Look At Target");
             LookAtTarget();

@@ -39,10 +39,10 @@ public class NetworkMonsterCombat : NetworkCombat
     //     // }
     // }
 
-    public override bool AttackOnce()
+    public override bool AttackOnce(float hitTime)
     {
         Debug.LogWarning("AttackOnce");
-        if (base.AttackOnce())
+        if (base.AttackOnce(hitTime))
         {
             MonsterAnimationController.SetBool(MonsterAnimationEvent.atk01, true);
             return true;

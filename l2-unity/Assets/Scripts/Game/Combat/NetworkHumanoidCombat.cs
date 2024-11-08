@@ -41,10 +41,10 @@ public class NetworkHumanoidCombat : NetworkCombat
     //         HumanoidAnimationController.SetBool(HumanoidAnimType.atkwait, true);
     //     }
     // }
-    public override bool AttackOnce()
+    public override bool AttackOnce(float hitTime)
     {
         Debug.LogWarning("AttackOnce");
-        if (base.AttackOnce())
+        if (base.AttackOnce(hitTime))
         {
             HumanoidAnimationController.SetBool(HumanoidAnimType.atk01, true);
             return true;

@@ -61,7 +61,7 @@ public class PlayerStateAtk : PlayerStateAction
             if (_referenceHolder.Gear.WeaponType == WeaponType.bow)
             {
                 // Lock on the target while attacking
-                PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
+                PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget?.Data.ObjectTransform);
             }
             return;
         }

@@ -136,9 +136,4 @@ public abstract class Entity : MonoBehaviour
     {
         Running = running;
     }
-
-    public virtual void AttackTargetOnce()
-    {
-        Combat.AttackOnce();
-    }
 }

@@ -81,7 +81,6 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
-
     public void EntityCastSkill(Entity entity, int skillId)
     {
         Debug.LogWarning($"EntityCastSkill: {entity.transform.name} Skill: {skillId}");
@@ -92,7 +91,7 @@ public class WorldCombat : MonoBehaviour
     private void CastSkill(Entity entity, Skill skill)
     {
         // Spawn particle
-        ParticleManager.Instance.SpawnSkillParticles(entity, skill);
+        ParticleManager.Instance.SpawnCastParticles(entity, skill);
 
         // Cast skill sound
         if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length == 0)
@@ -178,7 +177,7 @@ public class WorldCombat : MonoBehaviour
 
             if (senderEntity.Gear.WeaponType == WeaponType.bow)
             {
-                float timeToReachTarget = Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 20f; //20 meters per second
+                float timeToReachTarget = CalculateTimeToHitTarget(senderEntity, targetEntity);
                 float shootTime = senderEntity.AnimationController.PAtkSpd / 1000f * 0.6f;
                 hit.HitTime = Time.time + shootTime + timeToReachTarget;
             }
@@ -229,8 +228,7 @@ public class WorldCombat : MonoBehaviour
             }
 
             senderEntity.OnStopMoving();
-            senderEntity.AttackTargetOnce();
-            // InflictAttack(senderEntity, targetEntity, hit);
+            senderEntity.Combat.AttackOnce(hit.HitTime);
         });
     }
 
@@ -341,6 +339,11 @@ public class WorldCombat : MonoBehaviour
         }
     }
 
+    #region Maths
+    public float CalculateTimeToHitTarget(Entity senderEntity, Entity targetEntity)
+    {
+        return Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 20f; //20 meters per second
+    }
     public float GetRealAttackRange(Entity attacker, Entity target)
     {
         // return attacker.Appearance.CollisionRadius + target.Appearance.CollisionRadius + attacker.Stats.AttackRange;
@@ -354,6 +357,7 @@ public class WorldCombat : MonoBehaviour
             attacker.Appearance.CollisionRadius + target.Appearance.CollisionRadius + 0.4f, // added extra distance to not be too close
             2.857142857142857f); // hardcoded maximum interaction distance in the server
     }
+    #endregion
 
     public void ExAutoSoulshotReceived(int itemId, bool enable)
     {
@@ -368,13 +372,8 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
-    public void EntityNockArrow(Entity entity)
+    public void EntityShootArrow(Entity caster, Entity target, Transform arrowObject, float hitTime)
     {
-
-    }
-
-    public void EntityShootArrow(Entity entity)
-    {
-
+        ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTime);
     }
 }

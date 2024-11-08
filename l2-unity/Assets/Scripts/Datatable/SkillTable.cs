@@ -33,7 +33,7 @@ public class SkillTable
     private void FillDataToLoad()
     {
         _skillToLoad = new List<int> {
-            16, 56, 3, 1216, 1177, 1012, 1011, 1168, 4345, 1040, 1027, 1015,
+            16, 56, 3, 1216, 1236, 1177, 1012, 1011, 1168, 4345, 1040, 1027, 1015,
             1147, 1164, 91, 77, 70, 29, 1090, 1100, 1097, 1010, 1095,
             2039, 2150, 2151, 2152, 2153, 2154, // Soulshots
             2061, 2160, 2161, 2162, 2163, 2164, // Blessed Spiritshots
@@ -47,6 +47,7 @@ public class SkillTable
     Power Shot 56
     Power Strike 3
     Self Heal 1216
+    Frost bolt 1236
     Wind Strike 1177
     Cure Poison 1012
     Heal 1011

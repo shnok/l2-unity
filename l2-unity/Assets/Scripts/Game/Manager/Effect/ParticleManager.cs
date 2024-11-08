@@ -18,6 +18,8 @@ public class ParticleManager : MonoBehaviour
 
     [SerializeField] private float _globalEffectScaling = 1f;
 
+    private GameObject _arrowPrefab;
+
     public Dictionary<string, Queue<PooledEffect>> EffectPool
     {
         get
@@ -109,6 +111,7 @@ public class ParticleManager : MonoBehaviour
     private void Start()
     {
         PrepareEffectPool();
+        _arrowPrefab = ModelTable.Instance.GetItemModelById(17);
     }
 
     private void PrepareEffectPool()
@@ -123,6 +126,8 @@ public class ParticleManager : MonoBehaviour
             Debug.Log("Prepared effect pool: " + kvp.Key);
             EffectPool.Add(kvp.Key, new Queue<PooledEffect>());
         }
+
+        EffectPool.Add("arrow", new Queue<PooledEffect>());
 
         Array enums = Enum.GetValues(typeof(EtcEffectInfo));
         foreach (int item in enums)
@@ -218,58 +223,95 @@ public class ParticleManager : MonoBehaviour
             }
         }
     }
-
     #endregion
 
-    public void SpawnSkillParticles(Entity caster, Skill skill)
+    #region Skill Particles
+    public void SpawnCastParticles(Entity caster, Skill skill)
     {
         List<EffectEmitter> castingActions = skill.SkillEffect.CastingActions;
-        if (castingActions == null)
+        if (castingActions == null || castingActions.Count == 0)
         {
             Debug.Log("Skill doesn't have any casting action.");
             return;
         }
 
-        castingActions.ForEach((action) =>
+        EffectEmitter action = castingActions[0];
+
+        AttachMethod attachOn = action.AttachOn;
+        string effectClass = action.EffectClass;
+
+        if (action.EtcEffect == EtcEffect.EET_SOULSHOT)
+        {
+            if (caster.Gear?.WeaponType == WeaponType.bow || caster.Gear?.WeaponType == WeaponType.fist)
+            {
+                effectClass = action.SecondaryEffectClass;
+                attachOn = AttachMethod.AM_LH;
+            }
+        }
+
+        PooledEffect effect = SpawnEffect(effectClass);
+        if (effect == null || effect.GameObject == null)
+        {
+            Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
+            return;
+        }
+
+        effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
+
+        UpdateSkillEffectTransform(action, effect.GameObject.transform, effect, attachOn);
+        ActiveEffects.Enqueue(effect);
+    }
+
+    public void SpawnProjectileParticles(Entity caster, Entity target, Skill skill)
+    {
+        List<EffectEmitter> castingActions = skill.SkillEffect.CastingActions;
+        if (castingActions == null || castingActions.Count < 2)
+        {
+            Debug.Log("Skill doesn't have any projectile action.");
+            return;
+        }
+
+        EffectEmitter action = castingActions[1];
+
+        AttachMethod attachOn = action.AttachOn;
+
+        string effectClass = action.EffectClass;
+
+        PooledEffect effect = SpawnEffect(effectClass);
+        if (effect == null || effect.GameObject == null)
+        {
+            Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
+            return;
+        }
+
+        effect.GameObject.transform.parent = _effectContainer.transform;
+
+        UpdateSkillEffectTransform(action, effect.GameObject.transform, effect, attachOn);
+        ActiveEffects.Enqueue(effect);
+    }
+
+    public void SpawnHitParticles(Entity caster, Entity target, Skill skill)
+    {
+        List<EffectEmitter> shotActions = skill.SkillEffect.ShotActions;
+        if (shotActions == null || shotActions.Count == 0)
+        {
+            Debug.Log("Skill doesn't have any shot action.");
+            return;
+        }
+
+        shotActions.ForEach((action) =>
         {
             AttachMethod attachOn = action.AttachOn;
             string effectClass = action.EffectClass;
 
-            if (action.EtcEffect == EtcEffect.EET_SOULSHOT)
-            {
-                if (caster.Gear?.WeaponType == WeaponType.bow || caster.Gear?.WeaponType == WeaponType.fist)
-                {
-                    effectClass = action.SecondaryEffectClass;
-                    attachOn = AttachMethod.AM_LH;
-                }
-            }
-
             PooledEffect effect = SpawnEffect(effectClass);
             if (effect == null || effect.GameObject == null)
             {
-                Debug.LogError($"Can't spawn skill effect {skill.EffectId} for skill {skill.SkillId}.");
+                Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
                 return;
             }
 
-            Transform attachTo;
-            switch (attachOn)
-            {
-                case AttachMethod.AM_NONE:
-                    attachTo = caster.transform;
-                    break;
-                case AttachMethod.AM_RH:
-                    attachTo = caster.Gear.RightHandBone;
-                    break;
-                case AttachMethod.AM_LH:
-                    attachTo = caster.Gear.LeftHandBone;
-                    break;
-                default:
-                    Debug.LogWarning($"Unhandled AttachOn: {attachOn}.");
-                    attachTo = caster.transform;
-                    break;
-            }
-
-            effect.GameObject.transform.parent = attachTo;
+            effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
 
             UpdateSkillEffectTransform(action, effect.GameObject.transform, effect, attachOn);
             ActiveEffects.Enqueue(effect);
@@ -344,6 +386,30 @@ public class ParticleManager : MonoBehaviour
 
         return null;
     }
+
+    public Transform GetAttachTransform(Entity entity, AttachMethod attachMethod)
+    {
+        Transform attachTo;
+        switch (attachMethod)
+        {
+            case AttachMethod.AM_NONE:
+                attachTo = entity.transform;
+                break;
+            case AttachMethod.AM_RH:
+                attachTo = entity.Gear.RightHandBone;
+                break;
+            case AttachMethod.AM_LH:
+                attachTo = entity.Gear.LeftHandBone;
+                break;
+            default:
+                Debug.LogWarning($"Unhandled AttachOn: {attachMethod}.");
+                attachTo = entity.transform;
+                break;
+        }
+
+        return attachTo;
+    }
+    #endregion
 
 
     #region Hit Particles
@@ -432,6 +498,71 @@ public class ParticleManager : MonoBehaviour
 
             return effect;
         }
+    }
+    #endregion
+
+    #region Arrow
+    public void SpawnArrowProjectile(Entity caster, Entity target, Transform entityArrow, float hitTime)
+    {
+        PooledEffect arrowEffect = SpawnArrow();
+        arrowEffect.GameObject.SetActive(true);
+
+        arrowEffect.StartTime = Time.time;
+        arrowEffect.Caster = caster;
+        arrowEffect.Target = target;
+        arrowEffect.HitTime = hitTime;
+
+        arrowEffect.GameObject.transform.position = entityArrow.position;
+        arrowEffect.GameObject.transform.rotation = entityArrow.rotation;
+        arrowEffect.StartingPosition = arrowEffect.GameObject.transform.position;
+        arrowEffect.GameObject.transform.localScale = Vector3.one * 100f;
+
+        arrowEffect.GameObject.transform.parent = _effectContainer.transform;
+
+        ActiveEffects.Enqueue(arrowEffect);
+
+        ProjectileManager.Instance.AddProjectile(arrowEffect);
+    }
+
+    private PooledEffect SpawnArrow()
+    {
+        if (EffectPool.TryGetValue("arrow", out Queue<PooledEffect> effects))
+        {
+            if (effects.Count > 0)
+            {
+                PooledEffect readyEffect = effects.Dequeue();
+                readyEffect.StartTime = Time.time;
+                Debug.Log($"Retrieving effect arrow from pool.");
+                if (readyEffect.GameObject != null)
+                {
+                    return readyEffect;
+                }
+                else
+                {
+                    Debug.LogError($"Effect arrow from pool doesn't have a gameobject!");
+                }
+            }
+            else
+            {
+                GameObject arrow = GameObject.Instantiate(_arrowPrefab);
+                PooledEffect arrowEffect = new PooledEffect()
+                {
+                    EffectClass = "arrow",
+                    EffectDurationSec = 10,
+                    StartTime = Time.time,
+                    MaximumInactiveTimeSec = 120,
+                    GameObject = arrow
+                };
+
+                return arrowEffect;
+            }
+        }
+        else
+        {
+            Debug.LogError($"Trying to spawn an unknown effect with class: arrow.");
+        }
+
+        return null;
     }
     #endregion
 }
