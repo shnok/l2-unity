@@ -179,6 +179,14 @@ public class InputManager : MonoBehaviour
             OpenInventory = _inventoryAction.WasPerformedThisFrame();
             OpenSystemMenu = _systemMenuAction.WasPerformedThisFrame();
             OpenActions = _actionsAction.WasPerformedThisFrame();
+
+            for (int skillbar = 0; skillbar < 5; skillbar++)
+            {
+                for (int i = 0; i < 12; i++)
+                {
+                    SkillbarInputs[skillbar, i] = SkillbarActions[skillbar, i].WasPerformedThisFrame();
+                }
+            }
         }
         else
         {
@@ -187,14 +195,6 @@ public class InputManager : MonoBehaviour
 
         MoveForward = LeftClickHeld && RightClickHeld;
         Move = MoveInput.y != 0 || MoveInput.x != 0 || MoveForward;
-
-        for (int skillbar = 0; skillbar < 5; skillbar++)
-        {
-            for (int i = 0; i < 12; i++)
-            {
-                SkillbarInputs[skillbar, i] = SkillbarActions[skillbar, i].WasPerformedThisFrame();
-            }
-        }
     }
 
     void OnDestroy()
