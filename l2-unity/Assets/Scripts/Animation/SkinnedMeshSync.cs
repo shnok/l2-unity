@@ -8,7 +8,9 @@ public class SkinnedMeshSync : MonoBehaviour
     [SerializeField] private Transform _bodyPartsContainer;
     [SerializeField] private SkinnedMeshRenderer _rootSkinnedRenderer;
     [SerializeField] private SkinnedMeshRenderer[] _destSkinnedRenderer;
-    [SerializeField] private Transform[] _bones;
+    [SerializeField] private Transform _rootBone;
+
+    public Transform RootBone { get { return _rootBone; } }
 
     void Start()
     {
@@ -82,7 +84,8 @@ public class SkinnedMeshSync : MonoBehaviour
         {
             if (renderer != null)
             {
-                _bones = _rootSkinnedRenderer.bones;
+                // _bones = _rootSkinnedRenderer.bones;
+                _rootBone = _rootSkinnedRenderer.rootBone;
                 renderer.rootBone = _rootSkinnedRenderer.rootBone;
                 renderer.transform.localScale = Vector3.one;
                 renderer.bones = _rootSkinnedRenderer.bones;

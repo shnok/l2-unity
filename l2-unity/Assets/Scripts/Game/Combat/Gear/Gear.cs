@@ -176,6 +176,11 @@ public class Gear : MonoBehaviour
 
     public virtual void UnEquipArrow()
     {
+        if (_arrow == null)
+        {
+            return;
+        }
+
         Debug.Log($"[{transform.name}] Unequip arrow");
         GameObject.DestroyImmediate(_arrow.gameObject);
     }
@@ -269,7 +274,7 @@ public class Gear : MonoBehaviour
 
         go.transform.localScale *= GetWeaponSizeRatio();
 
-        if (WeaponType == WeaponType.bow)
+        if (weaponType == WeaponType.bow)
         {
             EquipArrow();
         }
@@ -341,11 +346,17 @@ public class Gear : MonoBehaviour
                 UnEquipArrow();
             }
 
-            if (leftSlot) _leftHandWeapon = null;
+            if (leftSlot)
+            {
+                _leftHandWeapon = null;
+                _leftHandType = WeaponType.hand;
+                UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_rightHandType));
+            }
             else
             {
                 _rightHandWeapon = null;
-                UpdateWeaponAnim(WeaponAnimType.hand);
+                _rightHandType = WeaponType.hand;
+                UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_leftHandType));
             }
         }
     }

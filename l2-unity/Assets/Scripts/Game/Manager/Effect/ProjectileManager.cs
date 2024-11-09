@@ -75,7 +75,8 @@ public class ProjectileManager : MonoBehaviour
             if (lerpRatio >= 1)
             {
                 ActiveProjectiles.Dequeue();
-                effect.GameObject?.SetActive(false);
+                // effect.GameObject?.SetActive(false);
+                effect.GameObject.transform.parent = effect.Target.transform.GetChild(0).GetChild(0); //rootbone
             }
         }
     }

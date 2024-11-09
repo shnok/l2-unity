@@ -548,7 +548,7 @@ public class ParticleManager : MonoBehaviour
                 PooledEffect arrowEffect = new PooledEffect()
                 {
                     EffectClass = "arrow",
-                    EffectDurationSec = 10,
+                    EffectDurationSec = 12,
                     StartTime = Time.time,
                     MaximumInactiveTimeSec = 120,
                     GameObject = arrow
