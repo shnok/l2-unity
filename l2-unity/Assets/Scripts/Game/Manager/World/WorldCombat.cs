@@ -228,7 +228,7 @@ public class WorldCombat : MonoBehaviour
             }
 
             senderEntity.OnStopMoving();
-            senderEntity.Combat.AttackOnce(hit.HitTime);
+            senderEntity.Combat.AttackOnce(hit.HitTime, !hit.isMiss());
         });
     }
 
@@ -372,8 +372,8 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
-    public void EntityShootArrow(Entity caster, Entity target, Transform arrowObject, float hitTime)
+    public void EntityShootArrow(Entity caster, Entity target, Transform arrowObject, float hitTime, bool hitSuccess)
     {
-        ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTime);
+        ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTime, hitSuccess);
     }
 }

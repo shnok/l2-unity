@@ -502,7 +502,7 @@ public class ParticleManager : MonoBehaviour
     #endregion
 
     #region Arrow
-    public void SpawnArrowProjectile(Entity caster, Entity target, Transform entityArrow, float hitTime)
+    public void SpawnArrowProjectile(Entity caster, Entity target, Transform entityArrow, float hitTime, bool hitSuccess)
     {
         PooledEffect arrowEffect = SpawnArrow();
         arrowEffect.GameObject.SetActive(true);
@@ -511,6 +511,7 @@ public class ParticleManager : MonoBehaviour
         arrowEffect.Caster = caster;
         arrowEffect.Target = target;
         arrowEffect.HitTime = hitTime;
+        arrowEffect.HitSuccess = hitSuccess;
 
         arrowEffect.GameObject.transform.position = entityArrow.position;
         arrowEffect.GameObject.transform.rotation = entityArrow.rotation;

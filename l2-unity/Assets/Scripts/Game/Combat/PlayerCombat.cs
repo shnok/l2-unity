@@ -37,9 +37,9 @@ public class PlayerCombat : Combat
         base.OnHit(hit);
     }
 
-    public override bool AttackOnce(float hitTime)
+    public override bool AttackOnce(float hitTime, bool hitSuccess)
     {
-        if (base.AttackOnce(hitTime))
+        if (base.AttackOnce(hitTime, hitSuccess))
         {
             Debug.LogWarning("Attack Once");
             PlayerStateMachine.Instance.OnAttackAllowed();

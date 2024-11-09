@@ -15,6 +15,7 @@ public abstract class Combat : MonoBehaviour
     // [SerializeField] private long _stopAutoAttackTime;
     [SerializeField] private long _combatTimestamp;
     [SerializeField] private float _hitTime;
+    [SerializeField] private bool _hitSuccess;
 
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Entity Target { get { return _target; } set { _target = value; } }
@@ -129,7 +130,7 @@ public abstract class Combat : MonoBehaviour
     {
     }
 
-    public virtual bool AttackOnce(float hitTime)
+    public virtual bool AttackOnce(float hitTime, bool hitSuccess)
     {
         if (IsDead())
         {
@@ -137,6 +138,7 @@ public abstract class Combat : MonoBehaviour
         }
 
         _hitTime = hitTime;
+        _hitSuccess = hitSuccess;
 
         RefreshCombatTimestamp();
 
@@ -158,7 +160,7 @@ public abstract class Combat : MonoBehaviour
     public virtual void ShootArrow()
     {
         Debug.Log($"[{transform.name}] Shoot arrow");
-        WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity, AttackTarget, _referenceHolder.Gear.Arrow, _hitTime);
+        WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity, AttackTarget, _referenceHolder.Gear.Arrow, _hitTime, _hitSuccess);
         _referenceHolder.Gear.HideArrow();
     }
 }

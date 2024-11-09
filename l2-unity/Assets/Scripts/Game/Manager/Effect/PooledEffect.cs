@@ -15,6 +15,7 @@ public class PooledEffect
     [SerializeField] private Entity _target;
     [SerializeField] private Vector3 _startingPosition;
     [SerializeField] private float _hitTime;
+    [SerializeField] private bool _hitSuccess;
 
     public float StartTime { get { return _startTime; } set { _startTime = value; } }
     public float EffectDurationSec { get { return _effectDurationSec; } set { _effectDurationSec = value; } }
@@ -26,5 +27,6 @@ public class PooledEffect
     public Entity Caster { get { return _caster; } set { _caster = value; } }
     public Entity Target { get { return _target; } set { _target = value; } }
     public float HitTime { get { return _hitTime; } set { _hitTime = value; } }
+    public bool HitSuccess { get { return _hitSuccess; } set { _hitSuccess = value; } }
     public Vector3 StartingPosition { get { return _startingPosition; } set { _startingPosition = value; } }
 }

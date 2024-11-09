@@ -7,15 +7,15 @@ public class ProjectileManager : MonoBehaviour
     private static ProjectileManager _instance;
     public static ProjectileManager Instance { get { return _instance; } }
 
-    private Queue<PooledEffect> _activeProjectiles;
+    private List<PooledEffect> _activeProjectiles;
 
-    public Queue<PooledEffect> ActiveProjectiles
+    public List<PooledEffect> ActiveProjectiles
     {
         get
         {
             if (_activeProjectiles == null)
             {
-                _activeProjectiles = new Queue<PooledEffect>();
+                _activeProjectiles = new List<PooledEffect>();
             }
 
             return _activeProjectiles;
@@ -55,28 +55,45 @@ public class ProjectileManager : MonoBehaviour
     {
         if (ActiveProjectiles.Count > 0)
         {
-            PooledEffect effect = ActiveProjectiles.Peek();
-
-            if (effect.Caster == null || effect.Target == null)
+            for (int i = ActiveProjectiles.Count - 1; i >= 0; i--)
             {
-                Debug.LogWarning("Projectile doesn't have a caster or target.");
-                ActiveProjectiles.Dequeue();
-                return;
-            }
+                PooledEffect effect = ActiveProjectiles[i];
 
-            float particleHeight = effect.Target.Appearance.CollisionHeight * 1.25f;
-            Vector3 targetPosition = effect.Target.transform.position + Vector3.up * particleHeight;
+                if (effect.Caster == null || effect.Target == null)
+                {
+                    Debug.LogWarning("Projectile doesn't have a caster or target.");
+                    ActiveProjectiles.RemoveAt(i);
+                    continue;
+                }
 
-            float lerpRatio = (Time.time - effect.StartTime) / (effect.HitTime - effect.StartTime);
-            lerpRatio = Mathf.Min(1, lerpRatio);
+                Vector3 targetPosition = effect.Target.transform.position; // shoot at the ground if missed
 
-            effect.GameObject.transform.position = Vector3.Lerp(effect.StartingPosition, targetPosition, lerpRatio);
+                if (effect.HitSuccess)
+                {
+                    targetPosition += Vector3.up * effect.Target.Appearance.CollisionHeight * 1.25f;
+                }
 
-            if (lerpRatio >= 1)
-            {
-                ActiveProjectiles.Dequeue();
-                // effect.GameObject?.SetActive(false);
-                effect.GameObject.transform.parent = effect.Target.transform.GetChild(0).GetChild(0); //rootbone
+                float lerpRatio = (Time.time - effect.StartTime) / (effect.HitTime - effect.StartTime);
+                lerpRatio = Mathf.Min(1, lerpRatio);
+
+                effect.GameObject.transform.position = Vector3.Lerp(effect.StartingPosition, targetPosition, lerpRatio);
+
+                if (lerpRatio >= 1)
+                {
+                    ActiveProjectiles.RemoveAt(i);
+
+                    if (effect.HitSuccess)
+                    {
+                        // Pierce target
+                        effect.GameObject.transform.parent = effect.Target.transform.GetChild(0).GetChild(0); //rootbone
+                    }
+                    else
+                    {
+                        // Pierce the ground
+                        effect.GameObject.transform.position += Vector3.up * 0.2f;
+                        effect.GameObject.transform.eulerAngles = new Vector3(effect.GameObject.transform.eulerAngles.x, effect.GameObject.transform.eulerAngles.y, effect.GameObject.transform.eulerAngles.z + 50);
+                    }
+                }
             }
         }
     }
@@ -84,6 +101,6 @@ public class ProjectileManager : MonoBehaviour
 
     public void AddProjectile(PooledEffect effect)
     {
-        ActiveProjectiles.Enqueue(effect);
+        ActiveProjectiles.Add(effect);
     }
 }
