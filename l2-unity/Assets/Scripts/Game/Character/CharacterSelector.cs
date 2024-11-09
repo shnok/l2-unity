@@ -75,6 +75,8 @@ public class CharacterSelector : MonoBehaviour
         referenceHolder.Entity.Appearance = _characters[id].PlayerAppearance;
         referenceHolder.Entity.Stats = _characters[id].PlayerStats;
         referenceHolder.Entity.Status = _characters[id].PlayerStatus;
+        referenceHolder.Entity.Identity.Name = _characters[id].Name;
+        referenceHolder.Entity.Identity.Id = id;
 
         if (animController == null)
         {

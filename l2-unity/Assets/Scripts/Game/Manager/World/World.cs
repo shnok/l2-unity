@@ -54,7 +54,7 @@ public class World : MonoBehaviour
 
     void UpdateMasks()
     {
-        NameplatesManager.Instance.SetMask(_entityMask);
+        NameplatesManagerGame.Instance.SetMask(_entityMask);
         Geodata.Instance.ObstacleMask = _obstacleMask;
         ClickManager.Instance.SetMasks(_entityClickAreaMask, _clickThroughMask);
         CameraController.Instance.SetMask(_obstacleMask);

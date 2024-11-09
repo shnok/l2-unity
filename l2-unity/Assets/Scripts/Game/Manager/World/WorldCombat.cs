@@ -368,7 +368,7 @@ public class WorldCombat : MonoBehaviour
     {
         _eventProcessor.QueueEvent(() =>
         {
-            NameplatesManager.Instance.StartCasting(color, maxTime != time ? maxTime - time : time);
+            NameplatesManagerGame.Instance.StartCasting(color, maxTime != time ? maxTime - time : time);
         });
     }
 

@@ -124,12 +124,12 @@ public class LoginCameraManager : MonoBehaviour
 
             if (camera == "CharSelect")
             {
-                LobbyNameplatesManager.Instance.Camera = obj;
+                NameplatesManagerLobby.Instance.SetActiveCamera(obj);
                 CharacterSelector.Instance.Camera = obj;
             }
             else
             {
-                LobbyNameplatesManager.Instance.Camera = null;
+                NameplatesManagerLobby.Instance.SetActiveCamera(null);
                 CharacterSelector.Instance.Camera = null;
             }
 

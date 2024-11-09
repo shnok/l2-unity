@@ -113,7 +113,7 @@ public class WorldSpawner : MonoBehaviour
 
                 Debug.LogWarning("Gameobject destroyed : " + e.gameObject.name);
 
-                NameplatesManager.Instance.RemoveNameplate(id);
+                NameplatesManagerGame.Instance.RemoveNameplate(id);
 
                 Destroy(e.gameObject);
             });
