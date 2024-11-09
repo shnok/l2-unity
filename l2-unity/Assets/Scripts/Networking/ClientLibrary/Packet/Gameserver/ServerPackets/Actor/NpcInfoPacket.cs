@@ -90,7 +90,7 @@ public class NpcInfoPacket : ServerPacket
 
             Stats.AttackRange = ReadI() / 52.5f;
 
-            // Debug.LogWarning(ToString());
+            Debug.LogWarning(ToString());
         }
         catch (Exception e)
         {

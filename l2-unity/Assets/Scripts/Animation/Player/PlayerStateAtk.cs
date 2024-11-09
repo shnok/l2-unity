@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class PlayerStateAtk : PlayerStateAction
 {
-    private float _lastNormalizedTime = 0;
+    private float _lastArrowNormalizedTime = 0;
     private bool _nockedArrow = false;
     private bool _shotArrow = false;
     public const float SHOOT_ARROW_RATIO = 0.6f; //TODO: Change based on race
@@ -13,7 +13,7 @@ public class PlayerStateAtk : PlayerStateAction
     {
         LoadComponents(animator);
 
-        _lastNormalizedTime = 0;
+        _lastArrowNormalizedTime = 0;
         _nockedArrow = false;
         _shotArrow = false;
 
@@ -89,14 +89,14 @@ public class PlayerStateAtk : PlayerStateAction
 
     private void ManageArrow(AnimatorStateInfo stateInfo)
     {
-        float normalizedRatio = stateInfo.normalizedTime - _lastNormalizedTime;
+        float normalizedRatio = stateInfo.normalizedTime - _lastArrowNormalizedTime;
 
         if (normalizedRatio >= 1f)
         {
             Debug.LogWarning("Reset atk animation state");
             _nockedArrow = false;
             _shotArrow = false;
-            _lastNormalizedTime = stateInfo.normalizedTime;
+            _lastArrowNormalizedTime = stateInfo.normalizedTime;
         }
         else if (normalizedRatio >= SHOOT_ARROW_RATIO)
         {
@@ -120,6 +120,9 @@ public class PlayerStateAtk : PlayerStateAction
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        if (_nockedArrow)
+        {
+            _referenceHolder.Gear.HideArrow();
+        }
     }
 }

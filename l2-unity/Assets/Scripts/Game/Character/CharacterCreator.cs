@@ -188,14 +188,7 @@ public class CharacterCreator : MonoBehaviour
             gear.EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.SLOT_FEET);
         }
 
-        if (appearance.LHand != 0)
-        {
-            gear.EquipWeapon(appearance.LHand, true);
-        }
-        if (appearance.RHand != 0)
-        {
-            gear.EquipWeapon(appearance.RHand, false);
-        }
+        gear.EquipAllWeapons(appearance);
     }
 
     public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container, HumanoidAnimationController animController, UserGear gear)

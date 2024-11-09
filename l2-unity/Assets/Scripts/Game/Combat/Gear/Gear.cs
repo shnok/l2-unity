@@ -55,43 +55,86 @@ public class Gear : MonoBehaviour
 
     public bool IsWeaponAlreadyEquipped(int itemId, bool leftSlot)
     {
-        //Debug.Log($"IsWeaponAlreadyEquipped ({itemId},{leftSlot})");
+        Debug.Log($"IsWeaponAlreadyEquipped ({itemId},{leftSlot})");
 
         if (leftSlot)
         {
             if (_leftHandWeapon == null)
             {
+                Debug.Log("Left hand metadata is null, weapon not equiped.");
                 return false;
             }
-            return itemId == _leftHandWeapon.Id;
+
+            bool idMatch = itemId == _leftHandWeapon.Id;
+            if (!idMatch)
+            {
+                Debug.Log("Left hand weapon id did not match, weapon not equiped.");
+            }
+
+            return idMatch;
         }
         else
         {
             if (_rightHandWeapon == null)
             {
+                Debug.Log("Right hand metadata is null, weapon not equiped.");
                 return false;
             }
-            return itemId == _rightHandWeapon.Id;
+
+            bool idMatch = itemId == _rightHandWeapon.Id;
+            if (!idMatch)
+            {
+                Debug.Log("Right hand weapon id did not match, weapon not equiped.");
+            }
+
+            return idMatch;
         }
     }
 
     public virtual void EquipAllWeapons(Appearance appearance)
     {
-        if (appearance.LHand != 0)
-        {
-            EquipWeapon(appearance.LHand, true);
-        }
-        else
-        {
-            UnequipWeapon(true);
-        }
         if (appearance.RHand != 0)
         {
-            EquipWeapon(appearance.RHand, false);
+            // Loading from table
+            Weapon weapon = ItemTable.Instance.GetWeapon(appearance.RHand);
+            if (weapon == null)
+            {
+                Debug.LogWarning($"Could find weapon {appearance.RHand} in DB for entity {_ownerId}.");
+                return;
+            }
+
+            if (weapon.Weapongrp.WeaponType == WeaponType.bow)
+            {
+                appearance.LHand = appearance.RHand;
+                appearance.RHand = 0;
+                UnequipWeapon(false);
+            }
+            else
+            {
+                EquipWeapon(appearance.RHand, weapon, false);
+            }
         }
         else
         {
             UnequipWeapon(false);
+        }
+
+
+        if (appearance.LHand != 0)
+        {
+            // Loading from table
+            Weapon weapon = ItemTable.Instance.GetWeapon(appearance.LHand);
+            if (weapon == null)
+            {
+                Debug.LogWarning($"Could find weapon {appearance.LHand} in DB for entity {_ownerId}.");
+                return;
+            }
+
+            EquipWeapon(appearance.LHand, weapon, true);
+        }
+        else
+        {
+            UnequipWeapon(true);
         }
     }
 
@@ -134,7 +177,7 @@ public class Gear : MonoBehaviour
     public virtual void UnEquipArrow()
     {
         Debug.Log($"[{transform.name}] Unequip arrow");
-        GameObject.DestroyImmediate(_arrow);
+        GameObject.DestroyImmediate(_arrow.gameObject);
     }
 
     public virtual void ShowArrow()
@@ -156,25 +199,22 @@ public class Gear : MonoBehaviour
 
     public virtual void EquipAllArmors(Appearance appearance) { }
 
-    public virtual void EquipWeapon(int weaponId, bool leftSlot)
+    public virtual void EquipWeapon(int weaponId, Weapon weapon, bool leftSlot)
     {
-        if (IsWeaponAlreadyEquipped(weaponId, leftSlot))
-        {
-            Debug.Log($"Weapon {weaponId} is already equipped.");
-            return;
-        }
-
         if (weaponId == 0)
         {
             return;
         }
 
-        // Loading from table
-        Weapon weapon = ItemTable.Instance.GetWeapon(weaponId);
-        if (weapon == null)
+        WeaponType weaponType = weapon.Weapongrp.WeaponType;
+        if (IsWeaponAlreadyEquipped(weaponId, leftSlot))
         {
-            Debug.LogWarning($"Could find weapon {weaponId} in DB for entity {_ownerId}.");
+            Debug.Log($"Weapon {weaponId} of type {weaponType} is already equipped in {(leftSlot ? "left" : "right")} slot.");
             return;
+        }
+        else
+        {
+            Debug.Log($"Weapon {weaponId} of type {weaponType} was not equipped in {(leftSlot ? "left" : "right")} slot.");
         }
 
         UnequipWeapon(leftSlot);
@@ -293,7 +333,7 @@ public class Gear : MonoBehaviour
 
         if (weapon != null)
         {
-            Debug.LogWarning("Unequip weapon");
+            Debug.LogWarning("Unequip weapon: " + weapon);
             Destroy(weapon.gameObject);
 
             if (WeaponType == WeaponType.bow)

@@ -3,6 +3,10 @@ using UnityEngine;
 public class HumanoidStateAtk : HumanoidStateAction
 {
     private float _lastNormalizedTime;
+    private float _lastArrowNormalizedTime;
+    private bool _nockedArrow = false;
+    private bool _shotArrow = false;
+    public const float SHOOT_ARROW_RATIO = 0.6f;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -14,6 +18,11 @@ public class HumanoidStateAtk : HumanoidStateAction
             clipInfos = animator.GetCurrentAnimatorClipInfo(0);
         }
 
+        _lastNormalizedTime = 0;
+        _lastArrowNormalizedTime = 0;
+        _nockedArrow = false;
+        _shotArrow = false;
+
         AnimController.UpdateAnimatorAtkSpdMultiplier(clipInfos[0].clip.length);
 
         SetBool(HumanoidAnimType.wait, false);
@@ -23,19 +32,10 @@ public class HumanoidStateAtk : HumanoidStateAction
         PlayAtkSoundAtRatio(AudioHandler.AtkRatio);
         // PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
 
-        _lastNormalizedTime = 0;
-
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        SetBool(HumanoidAnimType.atk01, false);
-        // if ((stateInfo.normalizedTime - _lastNormalizedTime) >= 1f)
-        // {
-        //     _lastNormalizedTime = stateInfo.normalizedTime;
-        //     PlaySoundAtRatio(EntitySoundEvent.Atk_1H, AudioHandler.AtkRatio);
-        //     // PlaySoundAtRatio(ItemSoundEvent.sword_small, AudioHandler.SwishRatio);
-        // }
         if (stateInfo.normalizedTime > 0.25f)
         {
             SetBool(HumanoidAnimType.atk01, false);
@@ -46,6 +46,11 @@ public class HumanoidStateAtk : HumanoidStateAction
             SetBool(HumanoidAnimType.atk01, false);
             SetBool(HumanoidAnimType.death, true);
             return;
+        }
+
+        if (_referenceHolder.Gear.WeaponType == WeaponType.bow)
+        {
+            ManageArrow(stateInfo);
         }
 
         if (IsMoving())
@@ -77,8 +82,42 @@ public class HumanoidStateAtk : HumanoidStateAction
         }
     }
 
+    private void ManageArrow(AnimatorStateInfo stateInfo)
+    {
+        float normalizedRatio = stateInfo.normalizedTime - _lastArrowNormalizedTime;
+
+        if (normalizedRatio >= 1f)
+        {
+            Debug.LogWarning("Reset atk animation state");
+            _nockedArrow = false;
+            _shotArrow = false;
+            _lastArrowNormalizedTime = stateInfo.normalizedTime;
+        }
+        else if (normalizedRatio >= SHOOT_ARROW_RATIO)
+        {
+            if (!_shotArrow)
+            {
+                _shotArrow = true;
+                _referenceHolder.Combat.ShootArrow();
+                AudioHandler.PlayArrowShootSound();
+            }
+        }
+        else if (normalizedRatio >= 0.2f)
+        {
+            if (!_nockedArrow)
+            {
+                _nockedArrow = true;
+                _referenceHolder.Combat.NockArrow();
+                AudioHandler.PlayBowBendSound();
+            }
+        }
+    }
+
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        if (_nockedArrow)
+        {
+            _referenceHolder.Gear.HideArrow();
+        }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public class PlayerStateAction : PlayerStateBase
 {
@@ -90,19 +89,6 @@ public class PlayerStateAction : PlayerStateBase
 
         return false;
     }
-
-    //protected bool ShouldAtkWait() {
-    //    long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-    //    if ((!InputManager.Instance.IsInputPressed(InputType.Move) && !PlayerController.Instance.RunningToDestination || !PlayerController.Instance.CanMove)
-    //         && now - _entity.StopAutoAttackTime < 5000) {
-    //        if (PlayerEntity.Instance.AttackTarget == null) {
-    //            SetBool("atkwait_" + _weaponAnim, true, false);
-    //            return true;
-    //        }
-    //    }
-
-    //    return false;
-    //}
 
     protected bool ShouldStand()
     {
