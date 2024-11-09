@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -48,7 +49,6 @@ public class CharSelectionInfoPacket : ServerPacket
             appearance.Sex = (byte)ReadI();
             appearance.Race = (byte)ReadI();
             character.BaseClassId = (byte)ReadI();
-            //character.IsMage = ReadB() == 1;
 
             ReadI();
 
@@ -63,6 +63,7 @@ public class CharSelectionInfoPacket : ServerPacket
 
             character.Sp = ReadI();
             character.Exp = (int)ReadL();
+            character.ExpPercent = (float)ReadD();
             stats.Level = ReadI();
             // character.ExpPercent = ReadF();
 
@@ -134,8 +135,8 @@ public class CharSelectionInfoPacket : ServerPacket
             }
 
             character.IsMage = CharacterClassParser.IsMage((CharacterClass)character.ClassId);
-
             character.CharacterRaceAnimation = CharacterModelTypeParser.ParseRace((CharacterRace)appearance.Race, appearance.Sex, character.IsMage);
+            appearance.CollisionHeight = CharacterModelHelper.GetColHeight(character.CharacterRaceAnimation);
 
             character.PlayerAppearance = appearance;
             character.PlayerStatus = status;
@@ -172,6 +173,7 @@ public class CharSelectionInfoPacket : ServerPacket
             sb.AppendLine($"    Race Animation: {character.CharacterRaceAnimation}");
             sb.AppendLine($"    Stats:");
             sb.AppendLine($"      Level: {character.PlayerStats.Level}");
+            sb.AppendLine($"      EXP %: {character.PlayerStats.ExpPercent}");
             sb.AppendLine($"      Max HP: {character.PlayerStats.MaxHp}");
             sb.AppendLine($"      Max MP: {character.PlayerStats.MaxMp}");
             sb.AppendLine($"    Status:");
@@ -189,6 +191,7 @@ public class CharSelectionInfoPacket : ServerPacket
             sb.AppendLine($"      Sex: {character.PlayerAppearance.Sex}");
             sb.AppendLine($"      Hair Style: {character.PlayerAppearance.HairStyle}");
             sb.AppendLine($"      Hair Color: {character.PlayerAppearance.HairColor}");
+            sb.AppendLine($"      Col Height: {character.PlayerAppearance.CollisionHeight}");
             sb.AppendLine($"      Face: {character.PlayerAppearance.Face}");
             sb.AppendLine($"      Equipment: RHand={character.PlayerAppearance.RHand}, LHand={character.PlayerAppearance.LHand}, Gloves={character.PlayerAppearance.Gloves}, Chest={character.PlayerAppearance.Chest}, Legs={character.PlayerAppearance.Legs}, Feet={character.PlayerAppearance.Feet}");
         }

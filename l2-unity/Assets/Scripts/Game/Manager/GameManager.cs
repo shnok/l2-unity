@@ -238,7 +238,7 @@ public class GameManager : MonoBehaviour
         }
 
         StopLoading();
-        CharacterCreator.Instance.SpawnAllPawns();
+        PawnCreator.Instance.SpawnAllPawns();
     }
 
     internal void OnCharSelectAllowed()

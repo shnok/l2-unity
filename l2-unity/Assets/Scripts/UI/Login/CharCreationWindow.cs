@@ -73,22 +73,22 @@ public class CharCreationWindow : L2Window
 
         pawnRotateLeftButton.RegisterCallback<PointerDownEvent>((evt) =>
         {
-            CharacterCreator.Instance.RotatePawn(true);
+            PawnCreator.Instance.RotatePawn(true);
         }, TrickleDown.TrickleDown);
 
         pawnRotateRightButton.RegisterCallback<PointerDownEvent>((evt) =>
         {
-            CharacterCreator.Instance.RotatePawn(false);
+            PawnCreator.Instance.RotatePawn(false);
         }, TrickleDown.TrickleDown);
 
         pawnRotateLeftButton.RegisterCallback<PointerUpEvent>((evt) =>
         {
-            CharacterCreator.Instance.StopRotatingPawn();
+            PawnCreator.Instance.StopRotatingPawn();
         });
 
         pawnRotateRightButton.RegisterCallback<PointerUpEvent>((evt) =>
         {
-            CharacterCreator.Instance.StopRotatingPawn();
+            PawnCreator.Instance.StopRotatingPawn();
         });
 
         pawnZoominButton.RegisterCallback<ClickEvent>((evt) =>
@@ -106,7 +106,7 @@ public class CharCreationWindow : L2Window
 
         hairstyleManipulator = new ArrowInputManipulator(hairstyleInput, "Hairstyle", new string[] { "Type A", "Type B", "Type C", "Type D", "Type E" }, -1, (index, value) =>
         {
-            if (CharacterCreator.Instance.PawnIndex == -1)
+            if (PawnCreator.Instance.PawnIndex == -1)
             {
                 hairstyleManipulator.ClearInput();
                 return;
@@ -116,7 +116,7 @@ public class CharCreationWindow : L2Window
 
         hairColorManipulator = new ArrowInputManipulator(hairColorInput, "Hair Color", new string[] { "Type A", "Type B", "Type C", "Type D" }, -1, (index, value) =>
         {
-            if (CharacterCreator.Instance.PawnIndex == -1)
+            if (PawnCreator.Instance.PawnIndex == -1)
             {
                 hairColorManipulator.ClearInput();
                 return;
@@ -126,7 +126,7 @@ public class CharCreationWindow : L2Window
 
         faceManipulator = new ArrowInputManipulator(faceInput, "Face", new string[] { "Type A", "Type B", "Type C" }, -1, (index, value) =>
         {
-            if (CharacterCreator.Instance.PawnIndex == -1)
+            if (PawnCreator.Instance.PawnIndex == -1)
             {
                 faceManipulator.ClearInput();
                 return;
@@ -153,8 +153,8 @@ public class CharCreationWindow : L2Window
             faceManipulator.ResetInput();
 
             ShowRotatePawnWindow();
-            CharacterCreator.Instance.ResetPawnSelection();
-            CharacterCreator.Instance.SelectPawn(raceManipulator.Value, classManipulator.Value, value);
+            PawnCreator.Instance.ResetPawnSelection();
+            PawnCreator.Instance.SelectPawn(raceManipulator.Value, classManipulator.Value, value);
         });
         genderInput.AddManipulator(genderManipulator);
 
@@ -184,7 +184,7 @@ public class CharCreationWindow : L2Window
             faceManipulator.ClearInput();
 
             HideRotatePawnWindow();
-            CharacterCreator.Instance.ResetPawnSelection();
+            PawnCreator.Instance.ResetPawnSelection();
         });
         classInput.AddManipulator(classManipulator);
 
@@ -198,7 +198,7 @@ public class CharCreationWindow : L2Window
             faceManipulator.ClearInput();
 
             HideRotatePawnWindow();
-            CharacterCreator.Instance.ResetPawnSelection();
+            PawnCreator.Instance.ResetPawnSelection();
         });
         raceInput.AddManipulator(raceManipulator);
 

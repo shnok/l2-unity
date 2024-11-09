@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterCreator : MonoBehaviour
+public class PawnCreator : MonoBehaviour
 {
     [SerializeField] private GameObject[] pawns = new GameObject[26];
     [SerializeField] private int currentPawnIndex = -1;
@@ -13,8 +13,8 @@ public class CharacterCreator : MonoBehaviour
     private GameObject _pawnContainer;
     public int PawnIndex { get { return currentPawnIndex; } }
 
-    private static CharacterCreator _instance;
-    public static CharacterCreator Instance { get { return _instance; } }
+    private static PawnCreator _instance;
+    public static PawnCreator Instance { get { return _instance; } }
 
     void Awake()
     {
