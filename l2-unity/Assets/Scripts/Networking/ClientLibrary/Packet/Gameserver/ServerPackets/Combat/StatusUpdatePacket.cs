@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class StatusUpdatePacket : ServerPacket
@@ -83,5 +84,24 @@ public class StatusUpdatePacket : ServerPacket
 
             _attributes.Add(new Attribute(attributeId, attributeValue));
         }
+
+        Debug.LogWarning(ToString());
+    }
+
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"StatusUpdatePacket:");
+        sb.AppendLine($"ObjectId: {_objectId}");
+        sb.AppendLine($"AttributeCount: {_attributeCount}");
+
+        sb.AppendLine("Attributes:");
+        foreach (var attribute in _attributes)
+        {
+            var attributeName = (AttributeType)attribute.id;
+            sb.AppendLine($"  - {attributeName} (0x{attribute.id:X2}): {attribute.value}");
+        }
+
+        return sb.ToString();
     }
 }

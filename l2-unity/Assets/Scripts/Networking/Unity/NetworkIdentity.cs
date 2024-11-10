@@ -5,6 +5,7 @@ public class NetworkIdentity
 {
     [SerializeField] private EntityType _entityType;
     [SerializeField] private int _id;
+    [SerializeField] private bool _isHpShowable;
     [SerializeField] private string _name;
     [SerializeField] private string _title;
     [SerializeField] private string _titleColor = "9CE8A9FF"; // default color
@@ -35,6 +36,7 @@ public class NetworkIdentity
     public bool Owned { get => _owned; set => _owned = value; }
     public byte PlayerClass { get => _playerClass; set => _playerClass = value; }
     public bool IsMage { get => _isMage; set => _isMage = value; }
+    public bool IsHpShowable { get => _isHpShowable; set => _isHpShowable = value; }
 
     public NetworkIdentity() { }
 

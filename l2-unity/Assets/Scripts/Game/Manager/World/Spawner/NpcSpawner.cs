@@ -127,6 +127,7 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
     {
         npc.Identity = identity;
         npc.Identity.NpcClass = npcgrp.ClassName;
+        npc.Identity.IsHpShowable = npcgrp.HpVisible;
 
         if (string.IsNullOrEmpty(npc.Identity.Name))
             npc.Identity.Name = npcName.Name;
@@ -144,9 +145,10 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
     private void ConfigureStats(Entity npc, Status status, Stats stats, Npcgrp npcgrp)
     {
         npc.Status = status;
-        npc.Status.Hp = (int)npcgrp.MaxHp;
         npc.Stats = stats;
-        npc.Stats.MaxHp = (int)npcgrp.MaxHp;
+        // npc.Stats.MaxHp = (int)npcgrp.MaxHp; //Now shared by server
+        // npc.Status.Hp = (int)npcgrp.MaxHp;
+        npc.Status.Hp = npc.Stats.MaxHp;
     }
 
     private void InitializeNpcComponents(Entity npc)

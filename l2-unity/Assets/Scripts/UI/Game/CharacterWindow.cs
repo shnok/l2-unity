@@ -227,8 +227,8 @@ public class CharacterInfoWindow : L2PopupWindow
 
     private void UpdateSocial(PlayerStats stats)
     {
-        _repLabel.text = "0";
-        _pvpLabel.text = "0 / 0";
+        _repLabel.text = stats.Karma.ToString();
+        _pvpLabel.text = $"{stats.PvpKills} / {stats.PkKills}";
         _recLabel.text = "0 / 0";
         _raidLabel.text = "0";
     }

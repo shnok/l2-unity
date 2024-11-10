@@ -89,6 +89,7 @@ public class NpcInfoPacket : ServerPacket
             Stats.WalkSpeed = (int)(Stats.MoveSpeedMultiplier > 0 ? Stats.WalkSpeed * Stats.MoveSpeedMultiplier : Stats.WalkSpeed);
 
             Stats.AttackRange = ReadI() / 52.5f;
+            Stats.MaxHp = ReadI();
 
             Debug.LogWarning(ToString());
         }

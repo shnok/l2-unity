@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 public class TargetWindow : L2PopupWindow
 {
     private Label _nameLabel;
+    private VisualElement _HPBarContainer;
     private VisualElement _HPBar;
     private VisualElement _HPBarBG;
 
@@ -75,7 +76,13 @@ public class TargetWindow : L2PopupWindow
         _HPBarBG = GetElementById("HPBarBG");
         if (_HPBarBG == null)
         {
-            Debug.LogError("Target window HPBarBG is null");
+            Debug.LogError("Target window _HPBarBG is null");
+        }
+
+        _HPBarContainer = GetElementById("HPBarContainer");
+        if (_HPBarContainer == null)
+        {
+            Debug.LogError("Target window _HPBarContainer is null");
         }
 
         _windowEle.style.position = Position.Absolute;
@@ -102,14 +109,34 @@ public class TargetWindow : L2PopupWindow
             {
                 _nameLabel.text = targetData.Identity.Name;
             }
-            if (_HPBarBG != null && _HPBar != null)
+
+            if (_HPBarContainer != null)
             {
-                float hpRatio = (float)targetData.Status.Hp / targetData.Stats.MaxHp;
-                float bgWidth = _HPBarBG.resolvedStyle.width;
-                float barWidth = bgWidth * hpRatio;
-                _HPBar.style.width = barWidth;
+                if (targetData.Identity.IsHpShowable)
+                {
+                    if (!_HPBarContainer.ClassListContains("visible"))
+                    {
+                        _HPBarContainer.AddToClassList("visible");
+                    }
+
+                    if (_HPBarBG != null && _HPBar != null)
+                    {
+                        float hpRatio = (float)targetData.Status.Hp / targetData.Stats.MaxHp;
+                        float bgWidth = _HPBarBG.resolvedStyle.width;
+                        float barWidth = bgWidth * hpRatio;
+                        _HPBar.style.width = barWidth;
+                    }
+                }
+                else
+                {
+                    if (_HPBarContainer.ClassListContains("visible"))
+                    {
+                        _HPBarContainer.RemoveFromClassList("visible");
+                    }
+                }
             }
         }
+
         else if (!_isWindowHidden)
         {
             HideWindow();
