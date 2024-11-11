@@ -139,10 +139,7 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
                 npc.Identity.Title = npcName.Title;
         }
 
-        Debug.LogWarning("======== ");
-        Debug.LogWarning(npcName.TitleColor);
         npc.Appearance.ServerTitleColor = npcName.TitleColor;
-        Debug.LogWarning(npc.Appearance.ServerTitleColor);
     }
 
     private void ConfigureStats(Entity npc, Status status, Stats stats, Npcgrp npcgrp)

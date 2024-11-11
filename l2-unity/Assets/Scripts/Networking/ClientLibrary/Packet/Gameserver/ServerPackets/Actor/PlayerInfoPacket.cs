@@ -114,7 +114,7 @@ public class PlayerInfoPacket : ServerPacket
             Stats.MAtkSpd = ReadI();
             Stats.PAtkSpd = ReadI();
             Stats.MDef = ReadI();
-            Identity.FlagTime = ReadI(); // pvp flag
+            Identity.PvpFlag = ReadI(); // pvp flag
             Stats.Karma = ReadI(); // karma
 
             Stats.RunSpeed = ReadI();
@@ -212,7 +212,7 @@ public class PlayerInfoPacket : ServerPacket
                $"  Title: {Identity.Title}\n" +
                $"  TitleColor: {Appearance.ServerTitleColor}\n" +
                $"  PlayerClass: {Identity.PlayerClass} (Mage: {Identity.IsMage})\n" +
-               $"  FlagTime: {Identity.FlagTime}\n" +
+               $"  Flag: {Identity.PvpFlag}\n" +
                $"  Owned: {Identity.Owned}\n\n" +
 
                $"Appearance:\n" +

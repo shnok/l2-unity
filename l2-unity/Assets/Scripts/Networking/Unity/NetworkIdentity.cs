@@ -5,10 +5,12 @@ public class NetworkIdentity
 {
     [SerializeField] private EntityType _entityType;
     [SerializeField] private int _id;
-    [SerializeField] private bool _isHpShowable;
     [SerializeField] private string _name;
     [SerializeField] private string _title;
-    [SerializeField] private int _flagTime;
+
+    [Header("Relation")]
+    [SerializeField] private bool _isHpShowable;
+    [SerializeField] private int _pvpFlag;
 
     [Header("Npc")]
     [SerializeField] private int _npcId;
@@ -36,7 +38,7 @@ public class NetworkIdentity
     public byte PlayerClass { get => _playerClass; set => _playerClass = value; }
     public bool IsMage { get => _isMage; set => _isMage = value; }
     public bool IsHpShowable { get => _isHpShowable; set => _isHpShowable = value; }
-    public int FlagTime { get => _flagTime; set => _flagTime = value; }
+    public int PvpFlag { get => _pvpFlag; set => _pvpFlag = value; }
 
     public NetworkIdentity() { }
 
@@ -53,6 +55,7 @@ public class NetworkIdentity
         _owned = identity.Owned;
         _playerClass = identity.PlayerClass;
         _isMage = identity.IsMage;
+        _pvpFlag = identity.PvpFlag;
     }
 
     public void UpdateForNpcs(NetworkIdentity identity)

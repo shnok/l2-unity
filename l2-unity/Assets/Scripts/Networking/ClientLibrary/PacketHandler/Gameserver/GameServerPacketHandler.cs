@@ -140,6 +140,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.SetupGauge:
                 OnSetupGauge(data);
                 break;
+            case GameServerPacketType.RelationChanged:
+                OnRelationChanged(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -525,5 +528,11 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         SetupGaugePacket packet = new SetupGaugePacket(data);
         WorldCombat.Instance.SetupGauge(packet.Color, packet.Time, packet.MaxTime);
+    }
+
+    private void OnRelationChanged(byte[] data)
+    {
+        RelationChangedPacket packet = new RelationChangedPacket(data);
+        WorldCombat.Instance.RelationChanged(packet.Owner, packet.Karma, packet.PvpFlag);
     }
 }

@@ -61,13 +61,13 @@ public class UserInfoPacket : ServerPacket
             ReadI();
             ReadI();
 
-            Identity.FlagTime = ReadI(); // pvp flag
+            Identity.PvpFlag = ReadI(); // pvp flag
             Stats.Karma = ReadI(); // karma
 
             Stats.MAtkSpd = ReadI();
             Stats.PAtkSpd = ReadI();
 
-            Identity.FlagTime = ReadI(); // pvp flag
+            Identity.PvpFlag = ReadI(); // pvp flag
             Stats.Karma = ReadI(); // karma
 
             Stats.RunSpeed = ReadI();
@@ -170,7 +170,7 @@ public class UserInfoPacket : ServerPacket
                $"  NameColor: {Appearance.ServerNameColor}\n" +
                $"  Title: {Identity.Title}\n" +
                $"  TitleColor: {Appearance.ServerTitleColor}\n" +
-               $"  FlagTime: {Identity.FlagTime}\n" +
+               $"  FlagTime: {Identity.PvpFlag}\n" +
                $"Class: {Identity.PlayerClass}, IsMage: {Identity.IsMage}, Heading: {Identity.Heading} }}, " +
                $"Status: {{ CP: {Status.Cp} }}, " +
                $"Stats: {{ Karma: {Stats.Karma}, PAtkSpd: {Stats.PAtkSpd}, MAtkSpd: {Stats.MAtkSpd}, RunSpeed: {Stats.RunSpeed}, " +

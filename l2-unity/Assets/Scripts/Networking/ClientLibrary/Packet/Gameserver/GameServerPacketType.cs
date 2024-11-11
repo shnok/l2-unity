@@ -43,11 +43,12 @@ public enum GameServerPacketType : int
     LeaveWorld = 0x7e,
     MyTargetSet = 0xA6,
     ObjectMoveDirection = 0xC6,
+    RelationChanged = 0xCE,
     ExAutoSoulshot = 0xFE,
 
 
 
-    // Deprecated / need to implement
+    // Deprecated / need to implement or removed
     ObjectPosition = 0xFF7,
     ObjectRotation = 0xFF9,
     ObjectAnimation = 0xFFA,

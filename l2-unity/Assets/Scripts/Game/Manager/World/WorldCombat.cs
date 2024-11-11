@@ -376,4 +376,13 @@ public class WorldCombat : MonoBehaviour
     {
         ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTime, hitSuccess);
     }
+
+    public Task RelationChanged(int owner, int karma, int pvpFlag)
+    {
+        return _worldSpawner.ExecuteWithEntityAsync(owner, e =>
+        {
+            e.Stats.Karma = karma;
+            e.Identity.PvpFlag = pvpFlag;
+        });
+    }
 }
