@@ -18,7 +18,7 @@ public class ChatWindow : L2Window
     [SerializeField] private float _chatWindowMaxHeight = 600.0f;
     [SerializeField] public List<ChatTab> _tabs;
     [SerializeField] private bool _chatOpened = false;
-    [SerializeField] private int _chatInputCharacterLimit = 64;
+    [SerializeField] private int _chatInputCharacterLimit = 100;
 
     public bool ChatOpened { get { return _chatOpened; } }
 
@@ -246,9 +246,38 @@ public class ChatWindow : L2Window
             {
                 GameClient.Instance.ClientPacketHandler.SendGMCommand(text.Replace("//", ""));
             }
-            else
+            else if (text.Length > 0)
             {
-                GameClient.Instance.ClientPacketHandler.SendMessage(text);
+                MessageType messageType = MessageType.ALL;
+                string target = null;
+
+                switch (text[0])
+                {
+                    case '+':
+                        messageType = MessageType.TRADE;
+                        break;
+                    case '!':
+                        messageType = MessageType.SHOUT;
+                        break;
+                    case '#':
+                        messageType = MessageType.PARTY;
+                        break;
+                    case '@':
+                        messageType = MessageType.CLAN;
+                        break;
+                    case '$':
+                        messageType = MessageType.ALLIANCE;
+                        break;
+                    case '"':
+                        string[] s = text[1..].Split(" ");
+                        target = (s.Length > 0) ? s[0] : "";
+                        messageType = MessageType.TELL;
+                        break;
+                    default:
+                        break;
+                }
+
+                GameClient.Instance.ClientPacketHandler.SendMessage(text, messageType, target);
             }
         }
     }

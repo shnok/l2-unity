@@ -1,15 +1,16 @@
 using UnityEditor;
+using UnityEngine;
 
 public class SendMessagePacket : ClientPacket
 {
-    public SendMessagePacket(string text, MessageType messageType, int pmTarget) : base((byte)GameClientPacketType.SendMessage)
+    public SendMessagePacket(string text, MessageType messageType, string pmTarget) : base((byte)GameClientPacketType.SendMessage)
     {
-        WriteS(text);
+        WriteS(text.Substring(0, Mathf.Min(100, text.Length)));
         WriteI((int)messageType);
 
         if (messageType == MessageType.TELL)
         {
-            WriteI(pmTarget);
+            WriteS(pmTarget == null ? "" : pmTarget);
         }
 
         BuildPacket();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class GameClientPacketHandler : ClientPacketHandler
@@ -43,9 +44,9 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(authPacket);
     }
 
-    public void SendMessage(string message)
+    public void SendMessage(string message, MessageType messageType, string pmTarget)
     {
-        SendMessagePacket packet = new SendMessagePacket(message, MessageType.ALL, 0);
+        SendMessagePacket packet = new SendMessagePacket(message, messageType, pmTarget);
         SendPacket(packet);
     }
 
