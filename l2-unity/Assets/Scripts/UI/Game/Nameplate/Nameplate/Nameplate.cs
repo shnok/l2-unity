@@ -14,6 +14,10 @@ public class Nameplate
     [SerializeField] private bool _visible;
     [SerializeField] private Entity _entity;
 
+    private int _previousServerTitleColor = -1;
+    private int _previousServerNameColor = -1;
+    private int _previousKarmaAmount = 0;
+    private int _flagTimestamp = 0;
     private bool _isStyleVisible;
 
     public VisualElement NameplateEle { get { return _nameplateEle; } set { _nameplateEle = value; } }
@@ -21,23 +25,6 @@ public class Nameplate
     public Transform Target { get { return _target; } }
     public float NameplateOffsetHeight { get { return _nameplateOffsetHeight; } set { _nameplateOffsetHeight = value; } }
     public Entity Entity { get { return _entity; } }
-
-    // Char select only
-    public Nameplate(
-        VisualElement visualElement, Label entityName, Label entityTitle, Transform target, Entity entity,
-        string title, string titleColor, float nameplateHeight, string name)
-    {
-        _nameplateEle = visualElement;
-        _nameplateEntityName = entityName;
-        _nameplateEntityTitle = entityTitle;
-        _target = target;
-        _visible = true;
-        _entity = entity;
-        _nameplateOffsetHeight = nameplateHeight;
-        _nameplateEntityName.text = name;
-        _nameplateEntityTitle.text = title;
-        _nameplateEntityTitle.style.color = StringUtils.HexToColor(titleColor);
-    }
 
     // Default
     public Nameplate(VisualElement visualElement, Label entityName, Label entityTitle, Entity entity)
@@ -49,8 +36,46 @@ public class Nameplate
         _entity = entity;
         _nameplateEntityName.text = entity.Identity.Name;
         _nameplateEntityTitle.text = entity.Identity.Title;
-        _nameplateEntityTitle.style.color = StringUtils.HexToColor(entity.Identity.TitleColor);
+        _nameplateEntityTitle.style.color = entity.Identity.TitleColor;
         _visible = true;
+    }
+
+    public void ManageColors()
+    {
+        if (_previousServerNameColor != _entity.Identity.ServerNameColor)
+        {
+
+            Debug.LogWarning($"Name color changed: Old:{_previousServerNameColor} New:{_entity.Identity.ServerNameColor}");
+            _previousServerNameColor = _entity.Identity.ServerNameColor;
+
+            if (_previousServerNameColor == 0)
+            {
+                // keep default value
+                // _nameplateEntityName.style.color = _entity.Identity.TitleColor;
+            }
+            else
+            {
+                _nameplateEntityName.style.color = ColorUtils.IntegerToColor(_previousServerNameColor);
+            }
+        }
+
+        if (_previousServerTitleColor != _entity.Identity.ServerTitleColor)
+        {
+            Debug.LogWarning($"Title color changed: Old:{_previousServerTitleColor} New:{_entity.Identity.ServerTitleColor}");
+            _previousServerTitleColor = _entity.Identity.ServerTitleColor;
+
+            if (_previousServerTitleColor == 0)
+            {
+                if (_entity.Identity.EntityType == EntityType.Monster || _entity.Identity.EntityType == EntityType.NPC)
+                {
+                    _nameplateEntityTitle.style.color = _entity.Identity.TitleColor;
+                }
+            }
+            else
+            {
+                _nameplateEntityTitle.style.color = ColorUtils.IntegerToColor(_previousServerTitleColor);
+            }
+        }
     }
 
     public void SetStyle(string className)

@@ -8,7 +8,9 @@ public class NetworkIdentity
     [SerializeField] private bool _isHpShowable;
     [SerializeField] private string _name;
     [SerializeField] private string _title;
-    [SerializeField] private string _titleColor = "9CE8A9FF"; // default color
+    [SerializeField] private int _serverNameColor;
+    [SerializeField] private int _serverTitleColor;
+    [SerializeField] private Color _titleColor; //= "9CE8A9FF"; // default color
 
     [Header("Npc")]
     [SerializeField] private int _npcId;
@@ -29,8 +31,10 @@ public class NetworkIdentity
     public int NpcId { get => _npcId; set => _npcId = value; }
     public string NpcClass { get => _npcClass; set => _npcClass = value; }
     public string Name { get => _name; set => _name = value; }
+    public int ServerNameColor { get => _serverNameColor; set => _serverNameColor = value; }
     public string Title { get => _title; set => _title = value; }
-    public string TitleColor { get => _titleColor; set => _titleColor = value; }
+    public int ServerTitleColor { get => _serverTitleColor; set => _serverTitleColor = value; }
+    public Color TitleColor { get => _titleColor; set => _titleColor = value; }
     public Vector3 Position { get => _position; set => _position = value; }
     public float Heading { get => _heading; set => _heading = value; }
     public bool Owned { get => _owned; set => _owned = value; }
@@ -54,13 +58,14 @@ public class NetworkIdentity
         _owned = identity.Owned;
         _playerClass = identity.PlayerClass;
         _isMage = identity.IsMage;
+        _serverTitleColor = identity.ServerTitleColor;
+        _serverNameColor = identity.ServerNameColor;
     }
 
-    public void UpdateEntityPartial(NetworkIdentity identity)
+    public void UpdateForNpcs(NetworkIdentity identity)
     {
         _position = identity.Position;
         _heading = identity.Heading;
-        _isMage = identity.IsMage;
     }
 
     public void SetPosX(float x)

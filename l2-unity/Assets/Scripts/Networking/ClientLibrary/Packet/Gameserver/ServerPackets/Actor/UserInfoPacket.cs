@@ -135,14 +135,14 @@ public class UserInfoPacket : ServerPacket
             ReadI(); // Fishing Loc Y
             ReadI(); // Fishing Loc Z
 
-            ReadI(); //NameColor
+            Identity.ServerNameColor = ReadI(); //NameColor
 
             Identity.Heading = ReadI();
 
             ReadI(); //Pledge class
             ReadI(); //Pledge type
 
-            ReadI(); //Title Color
+            Identity.ServerTitleColor = ReadI(); //Title Color
 
             ReadI(); //Cursed weapon
 
@@ -165,8 +165,12 @@ public class UserInfoPacket : ServerPacket
     public override string ToString()
     {
         return $"UserInfoPacket: {{ " +
-               $"Identity: {{ ID: {Identity.Id}, Name: {Identity.Name}, Position: {Identity.Position}, " +
-               $"Class: {Identity.PlayerClass}, Title: {Identity.Title}, IsMage: {Identity.IsMage}, Heading: {Identity.Heading} }}, " +
+               $"Identity: {{ ID: {Identity.Id},, Position: {Identity.Position},\n " +
+               $"  Name: {Identity.Name}\n" +
+               $"  NameColor: {Identity.ServerNameColor}\n" +
+               $"  Title: {Identity.Title}\n" +
+               $"  TitleColor: {Identity.ServerTitleColor}\n" +
+               $"Class: {Identity.PlayerClass}, IsMage: {Identity.IsMage}, Heading: {Identity.Heading} }}, " +
                $"Status: {{ CP: {Status.Cp} }}, " +
                $"Stats: {{ Karma: {Stats.Karma}, PAtkSpd: {Stats.PAtkSpd}, MAtkSpd: {Stats.MAtkSpd}, RunSpeed: {Stats.RunSpeed}, " +
                $"WalkSpeed: {Stats.WalkSpeed}, MoveSpeedMultiplier: {Stats.MoveSpeedMultiplier}, AttackSpeedMultiplier: {Stats.AttackSpeedMultiplier}, " +

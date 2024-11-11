@@ -2,11 +2,15 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class NpcNameTable {
+public class NpcNameTable
+{
     private static NpcNameTable _instance;
-    public static NpcNameTable Instance {
-        get {
-            if (_instance == null) {
+    public static NpcNameTable Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 _instance = new NpcNameTable();
             }
 
@@ -18,27 +22,34 @@ public class NpcNameTable {
 
     public Dictionary<int, NpcName> NpcNames { get { return _npcNames; } }
 
-    public void Initialize() {
+    public void Initialize()
+    {
         ReadNpcgrps();
     }
 
-    private void ReadNpcgrps() {
+    private void ReadNpcgrps()
+    {
         _npcNames = new Dictionary<int, NpcName>();
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/NpcName_Classic-eu.txt");
-        if (!File.Exists(dataPath)) {
+        if (!File.Exists(dataPath))
+        {
             Debug.LogWarning("File not found: " + dataPath);
             return;
         }
 
-        using (StreamReader reader = new StreamReader(dataPath)) {
+        using (StreamReader reader = new StreamReader(dataPath))
+        {
             string line;
-            while ((line = reader.ReadLine()) != null) {
+            while ((line = reader.ReadLine()) != null)
+            {
                 NpcName npcName = new NpcName();
 
                 string[] keyvals = line.Split('\t');
 
-                for (int i = 0; i < keyvals.Length; i++) {
-                    if (!keyvals[i].Contains("=")) {
+                for (int i = 0; i < keyvals.Length; i++)
+                {
+                    if (!keyvals[i].Contains("="))
+                    {
                         continue;
                     }
 
@@ -46,7 +57,8 @@ public class NpcNameTable {
                     string key = keyval[0];
                     string value = keyval[1];
 
-                    switch (key) {
+                    switch (key)
+                    {
                         case "id":
                             npcName.Id = int.Parse(value);
                             break;
@@ -57,8 +69,10 @@ public class NpcNameTable {
                             npcName.Title = DatUtils.CleanupString(value);
                             break;
                         case "nickcolor":
-                            npcName.TitleColor = DatUtils.CleanupString(value);
-                            break;                      
+                            string colorString = DatUtils.CleanupString(value);
+                            colorString = DatUtils.ReorderColorBytes(colorString);
+                            npcName.TitleColor = ColorUtils.HexToColor(colorString);
+                            break;
                     }
                 }
 
@@ -69,11 +83,13 @@ public class NpcNameTable {
         }
     }
 
-    public NpcName GetNpcName(int id) {
+    public NpcName GetNpcName(int id)
+    {
         NpcName npcName = null;
         _npcNames.TryGetValue(id, out npcName);
 
-        if (npcName == null) {
+        if (npcName == null)
+        {
             Debug.LogWarning($"NpcName not found for id [{id}]");
         }
 

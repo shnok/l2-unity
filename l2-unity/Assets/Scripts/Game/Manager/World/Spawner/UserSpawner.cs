@@ -81,15 +81,13 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
     private void UpdateEntityComponents(NetworkHumanoidEntity entity, NetworkIdentity identity, PlayerStatus status,
     Stats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
-        Debug.LogWarning("UpdateEntityComponents");
         UpdateIdentityAndStatus(entity, identity, status);
         UpdateStatsAndAppearance(entity, stats, appearance, actionInfo);
     }
 
     private void UpdateIdentityAndStatus(NetworkHumanoidEntity entity, NetworkIdentity identity, PlayerStatus status)
     {
-        Debug.LogWarning("UpdateIdentityAndStatus");
-        entity.Identity.UpdateEntityPartial(identity);
+        entity.Identity.UpdateEntity(identity);
         ((NetworkEntityReferenceHolder)entity.ReferenceHolder).NetworkTransformReceive.SetNewPosition(identity.Position);
         ((PlayerStatus)entity.Status).UpdateStatus(status);
     }
@@ -101,7 +99,6 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
 
         ((PlayerAppearance)entity.Appearance).UpdateAppearance(appearance);
 
-        Debug.LogWarning("===");
         entity.UpdatePAtkSpeed(stats.PAtkSpd);
         entity.UpdateMAtkSpeed(stats.MAtkSpd);
         entity.UpdateWalkSpeed(stats.WalkSpeed);

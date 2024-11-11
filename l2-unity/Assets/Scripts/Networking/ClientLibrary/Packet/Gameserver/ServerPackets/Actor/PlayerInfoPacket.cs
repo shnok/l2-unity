@@ -177,11 +177,11 @@ public class PlayerInfoPacket : ServerPacket
             ReadI(); // Fishing Loc X
             ReadI(); // Fishing Loc Y
             ReadI(); // Fishing Loc Z
-            ReadI(); //NameColor
+            Identity.ServerNameColor = ReadI(); //NameColor
             EntityActionInfo.Running = ReadB() == 1;
             ReadI(); //Pledge class
             ReadI(); //Pledge type
-            ReadI(); //Title Color
+            Identity.ServerTitleColor = ReadI(); //Title Color
             ReadI(); //Cursed weapon
 
 
@@ -208,7 +208,9 @@ public class PlayerInfoPacket : ServerPacket
                $"  Position: ({Identity.Position})\n" +
                $"  Heading: {Identity.Heading}\n" +
                $"  Name: {Identity.Name}\n" +
+               $"  NameColor: {Identity.ServerNameColor}\n" +
                $"  Title: {Identity.Title}\n" +
+               $"  TitleColor: {Identity.ServerTitleColor}\n" +
                $"  PlayerClass: {Identity.PlayerClass} (Mage: {Identity.IsMage})\n" +
                $"  Owned: {Identity.Owned}\n\n" +
 

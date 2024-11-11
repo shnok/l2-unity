@@ -180,7 +180,7 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         Appearance appearance,
         EntityActionInfo actionInfo)
     {
-        entity.Identity.UpdateEntityPartial(identity);
+        entity.Identity.UpdateForNpcs(identity);
 
         var networkTransform = ((NetworkEntityReferenceHolder)entity.ReferenceHolder).NetworkTransformReceive;
         networkTransform.SetNewPosition(identity.Position);

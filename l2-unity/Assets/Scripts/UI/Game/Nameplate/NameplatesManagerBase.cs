@@ -123,6 +123,8 @@ public class NameplatesManagerBase : MonoBehaviour
         nameplate.NameplateOffsetHeight = nameplate.Entity.IsDead ?
             nameplate.Entity.Appearance.CollisionHeight * 0.85f :
             nameplate.Entity.Appearance.CollisionHeight * nameplateHeightMultiplier;
+
+        nameplate.ManageColors();
     }
 
     protected void UpdateNameplatePosition(Nameplate nameplate)

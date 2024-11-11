@@ -1,24 +1,42 @@
-﻿public class DatUtils {
+﻿public class DatUtils
+{
 
-    public static string CleanupString(string name) {
+    public static string CleanupString(string name)
+    {
         return name.Replace("[", string.Empty).Replace("]", string.Empty);
     }
 
-    public static string[] ParseArray(string value) {
+    public static string[] ParseArray(string value)
+    {
         return SplitJSON(value);
     }
 
-    public static string ParseIcon(string value) {
+    public static string ParseIcon(string value)
+    {
         return SplitJSON(value)[0];
     }
 
-    public static string[] SplitJSON(string value) {
+    public static string[] SplitJSON(string value)
+    {
         return value.Replace("{", string.Empty).Replace("}", string.Empty).Replace("[", string.Empty).Replace("]", string.Empty).Split(";");
     }
 
-    public static bool ParseBaseAbstractItemGrpDat(Abstractgrp abstractgrp, string key, string value) {
+    public static string ReorderColorBytes(string colorString)
+    {
+        string r = colorString.Substring(0, 2);
+        string g = colorString.Substring(2, 2);
+        string b = colorString.Substring(4, 2);
+        string a = colorString.Substring(6, 2);
+        colorString = b + g + r + "B0";
 
-        switch (key) {
+        return colorString;
+    }
+
+    public static bool ParseBaseAbstractItemGrpDat(Abstractgrp abstractgrp, string key, string value)
+    {
+
+        switch (key)
+        {
             case "object_id":
                 abstractgrp.ObjectId = int.Parse(value);
                 break;
