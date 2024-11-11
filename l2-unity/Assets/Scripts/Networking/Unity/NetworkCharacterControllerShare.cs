@@ -46,6 +46,9 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             this.enabled = false;
             return;
         }
+
+        _lastForcedDirection = new Vector3(-1, -1, -1);
+        _lastDirection = new Vector3(-1, -1, -1);
     }
 
     private void FixedUpdate()

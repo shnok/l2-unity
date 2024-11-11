@@ -471,14 +471,14 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnChangeWaitType(byte[] data)
     {
         ChangeWaitTypePacket packet = new ChangeWaitTypePacket(data);
-        Debug.Log("ChangeWaitType: " + packet.Owner + " " + packet.MoveType);
+        // Debug.Log("ChangeWaitType: " + packet.Owner + " " + packet.MoveType);
         World.Instance.ChangeWaitType(packet.Owner, packet.MoveType, packet.EntityPosition);
     }
 
     private void OnChangeMoveType(byte[] data)
     {
         ChangeMoveTypePacket packet = new ChangeMoveTypePacket(data);
-        Debug.Log("ChangeMoveType: " + packet.Owner + " running? " + packet.Running);
+        // Debug.Log("ChangeMoveType: " + packet.Owner + " running? " + packet.Running);
         World.Instance.ChangeMoveType(packet.Owner, packet.Running);
     }
 
