@@ -33,7 +33,7 @@ public class HumanoidAnimationController : BaseAnimationController
 
         int newAnimationIndex = GetParameterId(_lastAnimationType, _weaponAnim);
 
-        // Debug.Log($"New Weapon animation index: {newAnimationIndex}");
+        // Debug.Log($"New Weapon animation index: {newAnimationIndex} Last animation type: {_lastAnimationType} Weapon anim: {_weaponAnim}");
 
         SetBool(newAnimationIndex, true);
     }

@@ -33,7 +33,7 @@ public class PlayerAnimationController : HumanoidAnimationController
 
         if (Animator.GetBool(paramId) != value)
         {
-            //Debug.LogWarning($"Set bool {name}={value}");
+            // Debug.LogWarning($"Set bool {name}={value}");
             SetBool(paramId, value);
         }
     }

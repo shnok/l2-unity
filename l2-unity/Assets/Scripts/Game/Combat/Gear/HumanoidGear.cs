@@ -19,6 +19,7 @@ public class HumanoidGear : Gear
 
     public override void UpdateWeaponAnim(WeaponAnimType weaponAnim)
     {
+        Debug.LogWarning("UpdateWeaponAnim: " + weaponAnim);
         _weaponAnim = weaponAnim;
         NotifyAnimator(_weaponAnim);
     }

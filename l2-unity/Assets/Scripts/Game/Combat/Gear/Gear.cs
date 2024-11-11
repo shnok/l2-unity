@@ -350,13 +350,13 @@ public class Gear : MonoBehaviour
             {
                 _leftHandWeapon = null;
                 _leftHandType = WeaponType.hand;
-                UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_rightHandType));
+                UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_rightHandType == WeaponType.none ? WeaponType.hand : _rightHandType));
             }
             else
             {
                 _rightHandWeapon = null;
                 _rightHandType = WeaponType.hand;
-                UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_leftHandType));
+                UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_leftHandType == WeaponType.none ? WeaponType.hand : _leftHandType));
             }
         }
     }

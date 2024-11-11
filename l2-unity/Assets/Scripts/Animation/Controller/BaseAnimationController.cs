@@ -74,67 +74,9 @@ public abstract class BaseAnimationController : MonoBehaviour
 
     public virtual void SetBool(int parameterId, bool value)
     {
+        // Debug.LogWarning($"Set bool {parameterId}={value}");
         Animator.SetBool(parameterId, value);
     }
-
-    // // Update animator variable based on Animation Id
-    // public void SetAnimationProperty(int animId, float value)
-    // {
-    //     SetAnimationProperty(animId, value, false);
-    // }
-
-    // // Update animator variable based on Animation Id
-    // public void SetAnimationProperty(int parameterId, float value, bool forceReset)
-    // {
-    //     //Debug.Log("animId " + animId + "/" + _animator.parameters.Length);
-    //     if (parameterId >= 0 && parameterId < Animator.parameters.Length)
-    //     {
-    //         if (_resetStateOnReceive || forceReset)
-    //         {
-    //             ClearAnimParams();
-    //         }
-
-    //         Debug.Log("Obsolete: Please move away from straight animation id sharing.");
-    //         AnimatorControllerParameter anim = Animator.parameters[parameterId];
-
-    //         switch (anim.type)
-    //         {
-    //             case AnimatorControllerParameterType.Float:
-    //                 Animator.SetFloat(anim.name, value);
-    //                 break;
-    //             case AnimatorControllerParameterType.Int:
-    //                 Animator.SetInteger(anim.name, (int)value);
-    //                 break;
-    //             case AnimatorControllerParameterType.Bool:
-    //                 SetBool(anim.name, value == 1f);
-    //                 break;
-    //             case AnimatorControllerParameterType.Trigger:
-    //                 Animator.SetTrigger(anim.name);
-    //                 break;
-    //         }
-    //     }
-    // }
-
-    // // Return an animator variable based on its ID
-    // public float GetAnimationProperty(int animId)
-    // {
-    //     if (animId >= 0 && animId < Animator.parameters.Length)
-    //     {
-    //         AnimatorControllerParameter anim = Animator.parameters[animId];
-
-    //         switch (anim.type)
-    //         {
-    //             case AnimatorControllerParameterType.Float:
-    //                 return Animator.GetFloat(anim.name);
-    //             case AnimatorControllerParameterType.Int:
-    //                 return (int)Animator.GetFloat(anim.name);
-    //             case AnimatorControllerParameterType.Bool:
-    //                 return Animator.GetBool(anim.name) == true ? 1f : 0;
-    //         }
-    //     }
-
-    //     return 0f;
-    // }
 
     public bool GetBool(int parameterId)
     {
