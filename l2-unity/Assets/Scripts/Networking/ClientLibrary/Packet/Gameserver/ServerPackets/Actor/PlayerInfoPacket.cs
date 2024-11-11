@@ -114,7 +114,7 @@ public class PlayerInfoPacket : ServerPacket
             Stats.MAtkSpd = ReadI();
             Stats.PAtkSpd = ReadI();
             Stats.MDef = ReadI();
-            ReadI(); // pvp flag
+            Identity.FlagTime = ReadI(); // pvp flag
             Stats.Karma = ReadI(); // karma
 
             Stats.RunSpeed = ReadI();
@@ -177,11 +177,11 @@ public class PlayerInfoPacket : ServerPacket
             ReadI(); // Fishing Loc X
             ReadI(); // Fishing Loc Y
             ReadI(); // Fishing Loc Z
-            Identity.ServerNameColor = ReadI(); //NameColor
+            Appearance.ServerNameColor = ReadI(); //NameColor
             EntityActionInfo.Running = ReadB() == 1;
             ReadI(); //Pledge class
             ReadI(); //Pledge type
-            Identity.ServerTitleColor = ReadI(); //Title Color
+            Appearance.ServerTitleColor = ReadI(); //Title Color
             ReadI(); //Cursed weapon
 
 
@@ -208,10 +208,11 @@ public class PlayerInfoPacket : ServerPacket
                $"  Position: ({Identity.Position})\n" +
                $"  Heading: {Identity.Heading}\n" +
                $"  Name: {Identity.Name}\n" +
-               $"  NameColor: {Identity.ServerNameColor}\n" +
+               $"  NameColor: {Appearance.ServerNameColor}\n" +
                $"  Title: {Identity.Title}\n" +
-               $"  TitleColor: {Identity.ServerTitleColor}\n" +
+               $"  TitleColor: {Appearance.ServerTitleColor}\n" +
                $"  PlayerClass: {Identity.PlayerClass} (Mage: {Identity.IsMage})\n" +
+               $"  FlagTime: {Identity.FlagTime}\n" +
                $"  Owned: {Identity.Owned}\n\n" +
 
                $"Appearance:\n" +

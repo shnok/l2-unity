@@ -8,9 +8,7 @@ public class NetworkIdentity
     [SerializeField] private bool _isHpShowable;
     [SerializeField] private string _name;
     [SerializeField] private string _title;
-    [SerializeField] private int _serverNameColor;
-    [SerializeField] private int _serverTitleColor;
-    [SerializeField] private Color _titleColor; //= "9CE8A9FF"; // default color
+    [SerializeField] private int _flagTime;
 
     [Header("Npc")]
     [SerializeField] private int _npcId;
@@ -31,16 +29,14 @@ public class NetworkIdentity
     public int NpcId { get => _npcId; set => _npcId = value; }
     public string NpcClass { get => _npcClass; set => _npcClass = value; }
     public string Name { get => _name; set => _name = value; }
-    public int ServerNameColor { get => _serverNameColor; set => _serverNameColor = value; }
     public string Title { get => _title; set => _title = value; }
-    public int ServerTitleColor { get => _serverTitleColor; set => _serverTitleColor = value; }
-    public Color TitleColor { get => _titleColor; set => _titleColor = value; }
     public Vector3 Position { get => _position; set => _position = value; }
     public float Heading { get => _heading; set => _heading = value; }
     public bool Owned { get => _owned; set => _owned = value; }
     public byte PlayerClass { get => _playerClass; set => _playerClass = value; }
     public bool IsMage { get => _isMage; set => _isMage = value; }
     public bool IsHpShowable { get => _isHpShowable; set => _isHpShowable = value; }
+    public int FlagTime { get => _flagTime; set => _flagTime = value; }
 
     public NetworkIdentity() { }
 
@@ -52,14 +48,11 @@ public class NetworkIdentity
         _npcClass = identity.NpcClass;
         _name = identity.Name;
         _title = identity.Title;
-        _titleColor = identity.TitleColor;
         _position = identity.Position;
         _heading = identity.Heading;
         _owned = identity.Owned;
         _playerClass = identity.PlayerClass;
         _isMage = identity.IsMage;
-        _serverTitleColor = identity.ServerTitleColor;
-        _serverNameColor = identity.ServerNameColor;
     }
 
     public void UpdateForNpcs(NetworkIdentity identity)

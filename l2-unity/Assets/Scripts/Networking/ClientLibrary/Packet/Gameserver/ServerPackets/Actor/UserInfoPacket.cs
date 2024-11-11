@@ -61,13 +61,13 @@ public class UserInfoPacket : ServerPacket
             ReadI();
             ReadI();
 
-            ReadI(); // pvp flag
+            Identity.FlagTime = ReadI(); // pvp flag
             Stats.Karma = ReadI(); // karma
 
             Stats.MAtkSpd = ReadI();
             Stats.PAtkSpd = ReadI();
 
-            ReadI(); // pvp flag
+            Identity.FlagTime = ReadI(); // pvp flag
             Stats.Karma = ReadI(); // karma
 
             Stats.RunSpeed = ReadI();
@@ -135,14 +135,14 @@ public class UserInfoPacket : ServerPacket
             ReadI(); // Fishing Loc Y
             ReadI(); // Fishing Loc Z
 
-            Identity.ServerNameColor = ReadI(); //NameColor
+            Appearance.ServerNameColor = ReadI(); //NameColor
 
             Identity.Heading = ReadI();
 
             ReadI(); //Pledge class
             ReadI(); //Pledge type
 
-            Identity.ServerTitleColor = ReadI(); //Title Color
+            Appearance.ServerTitleColor = ReadI(); //Title Color
 
             ReadI(); //Cursed weapon
 
@@ -167,9 +167,10 @@ public class UserInfoPacket : ServerPacket
         return $"UserInfoPacket: {{ " +
                $"Identity: {{ ID: {Identity.Id},, Position: {Identity.Position},\n " +
                $"  Name: {Identity.Name}\n" +
-               $"  NameColor: {Identity.ServerNameColor}\n" +
+               $"  NameColor: {Appearance.ServerNameColor}\n" +
                $"  Title: {Identity.Title}\n" +
-               $"  TitleColor: {Identity.ServerTitleColor}\n" +
+               $"  TitleColor: {Appearance.ServerTitleColor}\n" +
+               $"  FlagTime: {Identity.FlagTime}\n" +
                $"Class: {Identity.PlayerClass}, IsMage: {Identity.IsMage}, Heading: {Identity.Heading} }}, " +
                $"Status: {{ CP: {Status.Cp} }}, " +
                $"Stats: {{ Karma: {Stats.Karma}, PAtkSpd: {Stats.PAtkSpd}, MAtkSpd: {Stats.MAtkSpd}, RunSpeed: {Stats.RunSpeed}, " +

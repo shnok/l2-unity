@@ -71,7 +71,7 @@ public class NpcNameTable
                         case "nickcolor":
                             string colorString = DatUtils.CleanupString(value);
                             colorString = DatUtils.ReorderColorBytes(colorString);
-                            npcName.TitleColor = ColorUtils.HexToColor(colorString);
+                            npcName.TitleColor = ColorUtils.HexToInteger(colorString);
                             break;
                     }
                 }

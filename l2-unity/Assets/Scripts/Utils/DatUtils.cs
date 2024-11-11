@@ -23,6 +23,9 @@
 
     public static string ReorderColorBytes(string colorString)
     {
+        //9CE8A9FF
+
+        //156 238 156
         string r = colorString.Substring(0, 2);
         string g = colorString.Substring(2, 2);
         string b = colorString.Substring(4, 2);

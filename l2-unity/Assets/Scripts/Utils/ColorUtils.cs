@@ -19,6 +19,18 @@ public class ColorUtils
         return new Color(rf, gf, bf, 1f);
     }
 
+    public static int HexToInteger(string hex)
+    {
+        // Remove the alpha channel from the string (last two characters)
+        hex = hex.Substring(0, 6);
+
+        byte r = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+        byte g = byte.Parse(hex.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+        byte b = byte.Parse(hex.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+
+        return (r & 0xFF) + ((g & 0xFF) << 8) + ((b & 0xFF) << 16);
+    }
+
     public static Color IntegerToColor(int value)
     {
         // Extract the RGB components from the integer

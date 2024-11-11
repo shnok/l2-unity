@@ -36,42 +36,29 @@ public class Nameplate
         _entity = entity;
         _nameplateEntityName.text = entity.Identity.Name;
         _nameplateEntityTitle.text = entity.Identity.Title;
-        _nameplateEntityTitle.style.color = entity.Identity.TitleColor;
         _visible = true;
     }
 
     public void ManageColors()
     {
-        if (_previousServerNameColor != _entity.Identity.ServerNameColor)
+        if (_previousServerNameColor != _entity.Appearance.ServerNameColor)
         {
 
-            Debug.LogWarning($"Name color changed: Old:{_previousServerNameColor} New:{_entity.Identity.ServerNameColor}");
-            _previousServerNameColor = _entity.Identity.ServerNameColor;
+            Debug.LogWarning($"Name color changed: Old:{_previousServerNameColor} New:{_entity.Appearance.ServerNameColor}");
+            _previousServerNameColor = _entity.Appearance.ServerNameColor;
 
-            if (_previousServerNameColor == 0)
-            {
-                // keep default value
-                // _nameplateEntityName.style.color = _entity.Identity.TitleColor;
-            }
-            else
+            if (_previousServerNameColor != 0)
             {
                 _nameplateEntityName.style.color = ColorUtils.IntegerToColor(_previousServerNameColor);
             }
         }
 
-        if (_previousServerTitleColor != _entity.Identity.ServerTitleColor)
+        if (_previousServerTitleColor != _entity.Appearance.ServerTitleColor)
         {
-            Debug.LogWarning($"Title color changed: Old:{_previousServerTitleColor} New:{_entity.Identity.ServerTitleColor}");
-            _previousServerTitleColor = _entity.Identity.ServerTitleColor;
+            Debug.LogWarning($"Title color changed: Old:{_previousServerTitleColor} New:{_entity.Appearance.ServerTitleColor}");
+            _previousServerTitleColor = _entity.Appearance.ServerTitleColor;
 
-            if (_previousServerTitleColor == 0)
-            {
-                if (_entity.Identity.EntityType == EntityType.Monster || _entity.Identity.EntityType == EntityType.NPC)
-                {
-                    _nameplateEntityTitle.style.color = _entity.Identity.TitleColor;
-                }
-            }
-            else
+            if (_previousServerTitleColor != 0)
             {
                 _nameplateEntityTitle.style.color = ColorUtils.IntegerToColor(_previousServerTitleColor);
             }
