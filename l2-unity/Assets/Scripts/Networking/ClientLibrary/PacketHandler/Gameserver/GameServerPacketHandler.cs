@@ -258,7 +258,41 @@ public class GameServerPacketHandler : ServerPacketHandler
         String text = packet.Text;
 
         //TODO: Handle message channel colors
-        ChatMessage message = new ChatMessage(sender, text);
+        ChatMessage message;
+        switch (packet.MessageType)
+        {
+            case MessageType.TRADE:
+                message = new TradeMessage(sender, text);
+                break;
+            case MessageType.SHOUT:
+                message = new ShoutMessage(sender, text);
+                break;
+            case MessageType.PARTY:
+                message = new PartyMessage(sender, text);
+                break;
+            case MessageType.CLAN:
+                message = new ClanMessage(sender, text);
+                break;
+            case MessageType.ALLIANCE:
+                message = new AllianceMessage(sender, text);
+                break;
+            case MessageType.HERO_VOICE:
+                message = new HeroMessage(sender, text);
+                break;
+            case MessageType.TELL:
+                message = new TellMessage(sender, text);
+                break;
+            case MessageType.CRITICAL_ANNOUNCE:
+                message = new CriticalAnnounceMesasge(sender, text);
+                break;
+            case MessageType.ANNOUNCEMENT:
+                message = new AnnounceMesasge(sender, text);
+                break;
+            default:
+                message = new NormalMessage(sender, text);
+                break;
+        }
+
         _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveChatMessage(message));
     }
 
@@ -278,7 +312,6 @@ public class GameServerPacketHandler : ServerPacketHandler
         {
             _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(new UnhandledMessage()));
         }
-
     }
 
     private void OnInitialPlayerInfoReceived(byte[] data)

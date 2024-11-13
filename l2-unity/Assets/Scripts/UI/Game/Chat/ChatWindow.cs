@@ -268,6 +268,9 @@ public class ChatWindow : L2Window
                     case '$':
                         messageType = MessageType.ALLIANCE;
                         break;
+                    case '%':
+                        messageType = MessageType.HERO_VOICE;
+                        break;
                     case '"':
                         string[] s = text[1..].Split(" ");
                         target = (s.Length > 0) ? s[0] : "";
@@ -275,6 +278,11 @@ public class ChatWindow : L2Window
                         break;
                     default:
                         break;
+                }
+
+                if (messageType != MessageType.ALL)
+                {
+                    text = text[1..];
                 }
 
                 GameClient.Instance.ClientPacketHandler.SendMessage(text, messageType, target);
@@ -291,12 +299,15 @@ public class ChatWindow : L2Window
 
         for (int i = 0; i < _tabs.Count; i++)
         {
-            //if(_tabs[i].FilteredMessages.Count > 0) {
-            //    if(_tabs[i].FilteredMessages.Contains(message.MessageType)) {
-            //        ConcatMessage(_tabs[i].Content, message.ToString());
-            //    }
-            //}
-            _tabs[i].AddMessage(message.ToString());
+            if (_tabs[i].FilteredMessages.Count > 0)
+            {
+                if (_tabs[i].FilteredMessages.Contains(message.MessageType))
+                {
+                    _tabs[i].AddMessage(message.ToString());
+                    // ConcatMessage(_tabs[i].Content, message.ToString());
+                }
+            }
+            // _tabs[i].AddMessage(message.ToString());
         }
     }
 
@@ -309,12 +320,17 @@ public class ChatWindow : L2Window
 
         for (int i = 0; i < _tabs.Count; i++)
         {
+            if (_tabs[i].FilteredMessages.Contains(MessageType.SYSTEM_MESSAGE))
+            {
+                _tabs[i].AddMessage(message.ToString());
+                // ConcatMessage(_tabs[i].Content, message.ToString());
+            }
             //if(_tabs[i].FilteredMessages.Count > 0) {
             //    if(_tabs[i].FilteredMessages.Contains(message.MessageType)) {
             //        ConcatMessage(_tabs[i].Content, message.ToString());
             //    }
             //}
-            _tabs[i].AddMessage(message.ToString());
+            // _tabs[i].AddMessage(message.ToString());
         }
     }
 

@@ -18,5 +18,6 @@ public enum MessageType : int
     PARTYROOM_COMMANDER, // (Yellow)
     PARTYROOM_ALL, // (Red)
     HERO_VOICE,
-    CRITICAL_ANNOUNCE
+    CRITICAL_ANNOUNCE,
+    SYSTEM_MESSAGE
 }
