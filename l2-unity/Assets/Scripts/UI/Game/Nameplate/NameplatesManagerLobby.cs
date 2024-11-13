@@ -240,7 +240,11 @@ public class NameplatesManagerLobby : NameplatesManagerBase
 
     private void FixedUpdate()
     {
-        if (!IsSystemReady()) return;
+        if (!IsSystemReady())
+        {
+            ClearNameplates();
+            return;
+        }
 
         ScanForEntities();
         ProcessNameplateVisibility();

@@ -94,7 +94,7 @@ public class NameplatesManagerBase : MonoBehaviour
     protected void ProcessNameplateVisibility()
     {
         var nameplateIds = nameplates.Keys.ToList();
-        foreach (var id in nameplateIds)
+        foreach (int id in nameplateIds)
         {
             if (nameplates.TryGetValue(id, out var nameplate))
             {
@@ -107,9 +107,20 @@ public class NameplatesManagerBase : MonoBehaviour
         }
     }
 
+    protected void ClearNameplates()
+    {
+        foreach (int id in nameplates.Keys.ToList())
+        {
+            if (nameplates.TryGetValue(id, out var nameplate))
+            {
+                RemoveNameplate(id);
+            }
+        }
+    }
+
     protected void UpdateNameplateSystem()
     {
-        foreach (var nameplate in nameplates.Values)
+        foreach (Nameplate nameplate in nameplates.Values)
         {
             if (nameplate.Target == null) continue;
 
@@ -155,8 +166,8 @@ public class NameplatesManagerBase : MonoBehaviour
     // Factory methods for creating nameplates
     protected Nameplate CreateNameplate(Entity entity)
     {
-        var element = nameplateTemplate.Instantiate()[0];
-        var nameplate = new Nameplate(
+        VisualElement element = nameplateTemplate.Instantiate()[0];
+        Nameplate nameplate = new Nameplate(
             element,
             element.Q<Label>("EntityName"),
             element.Q<Label>("EntityTitle"),
@@ -168,7 +179,7 @@ public class NameplatesManagerBase : MonoBehaviour
 
     public void RemoveNameplate(int id)
     {
-        if (nameplates.TryRemove(id, out var removed))
+        if (nameplates.TryRemove(id, out Nameplate removed))
         {
             rootElement.Remove(removed.NameplateEle);
         }
