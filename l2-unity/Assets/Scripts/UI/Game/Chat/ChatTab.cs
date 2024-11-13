@@ -7,6 +7,7 @@ public class ChatTab : L2Tab
 {
     [SerializeField] private List<MessageType> _filteredMessages;
     public List<MessageType> FilteredMessages { get { return _filteredMessages; } }
+    private int _messageCount = 0;
 
     private Label _content;
     public Label Content { get { return _content; } }
@@ -47,6 +48,17 @@ public class ChatTab : L2Tab
             _content.text += "\r\n";
         }
         _content.text += message;
+
+        if (_messageCount++ >= ChatWindow.MAXIMUM_MESSAGE_COUNT)
+        {
+            int firstLineBreak = _content.text.IndexOf("\r\n");
+            if (firstLineBreak >= 0)
+            {
+                _content.text = _content.text[(firstLineBreak + 2)..];  // +2 to skip the delimiter itself
+            }
+
+            _messageCount = ChatWindow.MAXIMUM_MESSAGE_COUNT;
+        }
 
         if (_autoscroll)
         {

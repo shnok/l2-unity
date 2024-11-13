@@ -5,12 +5,17 @@ using UnityEngine.UIElements;
 
 public class ChatWindow : L2Window
 {
+    public static int MAXIMUM_INPUT_HISTORY = 25;
+    public static int MAXIMUM_MESSAGE_COUNT = 100;
+
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
     private TextField _chatInput;
     private VisualElement _chatInputContainer;
     private VisualElement _chatTabView;
     private ChatTab _activeTab;
+    private List<string> _history;
+    private int _historyIndex = 0;
 
     [SerializeField] private float _chatWindowMinWidth = 225.0f;
     [SerializeField] private float _chatWindowMaxWidth = 500.0f;
@@ -35,6 +40,8 @@ public class ChatWindow : L2Window
         {
             Destroy(this);
         }
+
+        _history = new List<string>();
     }
 
     private void OnDestroy()
@@ -161,7 +168,30 @@ public class ChatWindow : L2Window
             }
             else
             {
+                _historyIndex = _history.Count;
                 StartCoroutine(OpenChat());
+            }
+        }
+
+        if (InputManager.Instance.ArrowDown)
+        {
+            if (_chatOpened && _history.Count > 0)
+            {
+                _historyIndex = Mathf.Min(_historyIndex + 1, _history.Count);
+
+                _chatInput.value = _historyIndex < _history.Count ? _history[_historyIndex] : "";
+                _chatInput.cursorIndex = _chatInput.value.Length;
+            }
+        }
+
+        if (InputManager.Instance.ArrowUp)
+        {
+            if (_chatOpened && _history.Count > 0)
+            {
+                _historyIndex = Mathf.Max(_historyIndex - 1, 0);
+
+                _chatInput.value = _history[_historyIndex];
+                _chatInput.cursorIndex = _chatInput.value.Length;
             }
         }
     }
@@ -185,6 +215,17 @@ public class ChatWindow : L2Window
             if (_chatInput.text.Length > 0)
             {
                 SendChatMessage(_chatInput.text);
+
+                _history.Add(_chatInput.text);
+
+                // Limit history to 25 messages
+                if (_history.Count > MAXIMUM_INPUT_HISTORY)
+                {
+                    _history.RemoveAt(0);  // Remove oldest entry
+                }
+
+                _historyIndex = _history.Count; // Set to end of history
+
                 _chatInput.value = "";
             }
         }
@@ -304,10 +345,8 @@ public class ChatWindow : L2Window
                 if (_tabs[i].FilteredMessages.Contains(message.MessageType))
                 {
                     _tabs[i].AddMessage(message.ToString());
-                    // ConcatMessage(_tabs[i].Content, message.ToString());
                 }
             }
-            // _tabs[i].AddMessage(message.ToString());
         }
     }
 
@@ -323,14 +362,7 @@ public class ChatWindow : L2Window
             if (_tabs[i].FilteredMessages.Contains(MessageType.SYSTEM_MESSAGE))
             {
                 _tabs[i].AddMessage(message.ToString());
-                // ConcatMessage(_tabs[i].Content, message.ToString());
             }
-            //if(_tabs[i].FilteredMessages.Count > 0) {
-            //    if(_tabs[i].FilteredMessages.Contains(message.MessageType)) {
-            //        ConcatMessage(_tabs[i].Content, message.ToString());
-            //    }
-            //}
-            // _tabs[i].AddMessage(message.ToString());
         }
     }
 

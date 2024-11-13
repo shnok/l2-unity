@@ -14,6 +14,8 @@ public class InputManager : MonoBehaviour
     private InputAction _zoomAxisAction;
     // Movements
     private InputAction _moveAction;
+    private InputAction _arrowUpAction;
+    private InputAction _arrowDownAction;
     private InputAction _jumpAction;
     private InputAction _attackAction;
     private InputAction _nextTargetAction;
@@ -49,6 +51,8 @@ public class InputManager : MonoBehaviour
     // Movements
     [field: Header("Movements")]
     [field: SerializeField] public Vector2 MoveInput { get; private set; }
+    [field: SerializeField] public bool ArrowUp { get; private set; }
+    [field: SerializeField] public bool ArrowDown { get; private set; }
     [field: SerializeField] public bool Move { get; private set; }
     [field: SerializeField] public bool MoveForward { get; private set; }
     [field: SerializeField] public bool Jump { get; private set; }
@@ -102,6 +106,8 @@ public class InputManager : MonoBehaviour
         _zoomAxisAction = _playerInput.actions["ZoomAxis"];
 
         _moveAction = _playerInput.actions["Move"];
+        _arrowUpAction = _playerInput.actions["ArrowUp"];
+        _arrowDownAction = _playerInput.actions["ArrowDown"];
         _jumpAction = _playerInput.actions["Jump"];
         _nextTargetAction = _playerInput.actions["NextTarget"];
         _targetSelfAction = _playerInput.actions["TargetSelf"];
@@ -192,6 +198,9 @@ public class InputManager : MonoBehaviour
         {
             MoveInput = Vector2.zero;
         }
+
+        ArrowUp = _arrowUpAction.WasPerformedThisFrame();
+        ArrowDown = _arrowDownAction.WasPerformedThisFrame();
 
         MoveForward = LeftClickHeld && RightClickHeld;
         Move = MoveInput.y != 0 || MoveInput.x != 0 || MoveForward;

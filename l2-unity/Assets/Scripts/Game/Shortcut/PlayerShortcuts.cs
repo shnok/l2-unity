@@ -55,6 +55,11 @@ public class PlayerShortcuts : MonoBehaviour
 
     private void VerifySkillbarInputs()
     {
+        if (InputManager.Instance == null || InputManager.Instance.SkillbarInputs.Length == 0)
+        {
+            return;
+        }
+
         foreach (Shortcut shortcut in _shortcuts.Values)
         {
             for (int i = 0; i < _pageMap.Length; i++)
