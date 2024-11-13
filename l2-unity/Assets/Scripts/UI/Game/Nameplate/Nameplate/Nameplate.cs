@@ -50,7 +50,7 @@ public class Nameplate
     {
         if (_previousServerTitleColor != _entity.Appearance.ServerTitleColor)
         {
-            Debug.LogWarning($"Title color changed: Old:{_previousServerTitleColor} New:{_entity.Appearance.ServerTitleColor}");
+            // Debug.LogWarning($"Title color changed: Old:{_previousServerTitleColor} New:{_entity.Appearance.ServerTitleColor}");
             _previousServerTitleColor = _entity.Appearance.ServerTitleColor;
 
             if (_previousServerTitleColor != 0)
@@ -96,7 +96,7 @@ public class Nameplate
                 _lastFlag = 0;
                 _previousKarmaAmount = 0;
 
-                Debug.LogWarning($"Name color changed: Old:{_previousServerNameColor} New:{_entity.Appearance.ServerNameColor}");
+                // Debug.LogWarning($"Name color changed: Old:{_previousServerNameColor} New:{_entity.Appearance.ServerNameColor}");
                 _previousServerNameColor = _entity.Appearance.ServerNameColor;
 
                 if (_previousServerNameColor != 0)

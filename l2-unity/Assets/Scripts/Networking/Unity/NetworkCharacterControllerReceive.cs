@@ -70,7 +70,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     // Move to destination packets
     public void SetDestination(Vector3 destination, float stopAtRange)
     {
-        Debug.LogWarning("Set destination: " + destination);
+        // Debug.LogWarning("Set destination: " + destination);
         if (_lastDestination == destination)
         {
             return;
