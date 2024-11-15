@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 [System.Serializable]
@@ -130,7 +131,7 @@ public abstract class Combat : MonoBehaviour
     {
     }
 
-    public virtual bool AttackOnce(float hitTime, bool hitSuccess)
+    public virtual bool AttackOnce(float hitTime, bool hitSuccess, Entity attackTarget)
     {
         if (IsDead())
         {
@@ -140,26 +141,35 @@ public abstract class Combat : MonoBehaviour
         _hitTime = hitTime;
         _hitSuccess = hitSuccess;
 
-        RefreshCombatTimestamp();
+        SetAttackTarget(attackTarget);
 
-        if (_target != null)
-        {
-            _attackTarget = _target;
-        }
+        LookAtTarget();
+
+        RefreshCombatTimestamp();
 
         return true;
     }
 
+    protected virtual void SetAttackTarget(Entity attackTarget)
+    {
+        _attackTarget = attackTarget;
+    }
+
+    protected virtual void LookAtTarget()
+    {
+
+    }
+
     public virtual void NockArrow()
     {
-        Debug.Log($"[{transform.name}] Nock arrow");
+        // Debug.Log($"[{transform.name}] Nock arrow");
         _referenceHolder.Gear.ShowArrow();
         // WorldCombat.Instance.EntityNockArrow(_referenceHolder.Entity);
     }
 
     public virtual void ShootArrow()
     {
-        Debug.Log($"[{transform.name}] Shoot arrow");
+        // Debug.Log($"[{transform.name}] Shoot arrow");
         WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity, AttackTarget, _referenceHolder.Gear.Arrow, _hitTime, _hitSuccess);
         _referenceHolder.Gear.HideArrow();
     }

@@ -3,6 +3,8 @@ using UnityEngine;
 // Click to move intention
 public class MoveToIntention : IntentionBase
 {
+    public static MoveReason MoveReason { get; private set; }
+
     // Last click to move desired location
     public static Vector3 _lastClickToMoveLocation;
 
@@ -10,6 +12,8 @@ public class MoveToIntention : IntentionBase
 
     public override void Enter(object arg0)
     {
+        MoveReason = MoveReason.CLICK_TO_MOVE;
+
         if (arg0 != null && arg0 is Vector3)
         {
             _lastClickToMoveLocation = (Vector3)arg0;
@@ -30,8 +34,7 @@ public class MoveToIntention : IntentionBase
             {
                 PathFinderController.Instance.MoveTo(_lastClickToMoveLocation, () =>
                 {
-                    Debug.LogWarning("PathFinder callback");
-                    RunOrWalk(MoveReason.CLICK_TO_MOVE);
+                    RunOrWalk(MoveReason);
                 });
             }
             else

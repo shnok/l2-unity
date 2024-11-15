@@ -60,7 +60,7 @@ public class PlayerInventory : MonoBehaviour
     {
         for (int i = 0; i < items.Length; i++)
         {
-            Debug.Log(items[i]);
+            // Debug.Log(items[i]);
             ItemInstance item = items[i];
             if (item.LastChange == (int)InventoryChange.ADDED)
             {

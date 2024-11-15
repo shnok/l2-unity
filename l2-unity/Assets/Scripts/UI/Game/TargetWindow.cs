@@ -104,7 +104,7 @@ public class TargetWindow : L2PopupWindow
                 ShowWindow();
             }
 
-            TargetData targetData = TargetManager.Instance.Target;
+            Entity targetData = TargetManager.Instance.Target;
             if (_nameLabel != null)
             {
                 _nameLabel.text = targetData.Identity.Name;

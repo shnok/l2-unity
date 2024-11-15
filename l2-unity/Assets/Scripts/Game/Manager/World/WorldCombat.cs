@@ -228,13 +228,19 @@ public class WorldCombat : MonoBehaviour
             }
 
             senderEntity.OnStopMoving();
-            senderEntity.Combat.AttackOnce(hit.HitTime, !hit.isMiss());
+            senderEntity.Combat.AttackOnce(hit.HitTime, !hit.isMiss(), targetEntity);
         });
     }
 
     public void StatusUpdate(Entity entity, List<Attribute> attributes)
     {
-        Debug.Log("Word combat: Status update");
+        // Debug.Log("Word combat: Status update");
+        if (entity == null || entity.Status == null || entity.Stats == null)
+        {
+            Debug.LogWarning("Trying to update a not ready entity.");
+            return;
+        }
+
         Status status = entity.Status;
         Stats stats = entity.Stats;
 

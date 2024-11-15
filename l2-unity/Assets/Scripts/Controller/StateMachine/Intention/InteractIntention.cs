@@ -6,14 +6,14 @@ public class InteractIntention : IntentionBase
 
     public override void Enter(object arg0)
     {
-        Transform target = TargetManager.Instance.Target.Data.ObjectTransform;
+        Transform target = TargetManager.Instance.Target.transform;
 
         if (target == null)
         {
             return;
         }
 
-        Entity targetEntity = TargetManager.Instance.Target.Data.Entity;
+        Entity targetEntity = TargetManager.Instance.Target;
         float interactRange = WorldCombat.Instance.GetInteractRange(PlayerEntity.Instance, targetEntity);
         Vector3 targetPos = targetEntity.transform.position;
         float distance = Vector3.Distance(PlayerEntity.Instance.transform.position, targetPos);

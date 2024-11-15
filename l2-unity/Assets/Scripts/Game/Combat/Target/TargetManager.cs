@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class TargetManager : MonoBehaviour
 {
-    private TargetData _target = null;
-    private TargetData _attackTarget = null;
+    private Entity _target = null;
+    private Entity _attackTarget = null;
     private Transform _playerTransform;
 
     [SerializeField] private float _maximumTargetDistance = 15f;
@@ -14,8 +15,8 @@ public class TargetManager : MonoBehaviour
     [SerializeField] private List<Transform> _visibleEntities;
     [SerializeField] private int _nextTargetIndex;
 
-    public TargetData Target { get { return _target; } }
-    public TargetData AttackTarget { get { return _attackTarget; } }
+    public Entity Target { get { return _target; } }
+    public Entity AttackTarget { get { return _attackTarget; } }
 
     private static TargetManager _instance;
     public static TargetManager Instance { get { return _instance; } }
@@ -110,7 +111,7 @@ public class TargetManager : MonoBehaviour
         }
 
         // Is our target visible
-        if (HasTarget() && !IsTransformVisible(_target.Data.ObjectTransform))
+        if (HasTarget() && !IsTransformVisible(_target.transform))
         {
             _nextTargetIndex = 0;
             return;
@@ -121,7 +122,7 @@ public class TargetManager : MonoBehaviour
         {
             for (int i = 0; i < _visibleEntities.Count; i++)
             {
-                if (_visibleEntities[i] == _target.Data.ObjectTransform)
+                if (_visibleEntities[i] == _target.transform)
                 {
                     if (i != _nextTargetIndex)
                     {
@@ -148,7 +149,7 @@ public class TargetManager : MonoBehaviour
             index = 0;
         }
 
-        if (HasTarget() && _visibleEntities[index] == _target.Data.ObjectTransform)
+        if (HasTarget() && _visibleEntities[index] == _target.transform)
         {
             index++;
         }
@@ -181,16 +182,12 @@ public class TargetManager : MonoBehaviour
             return;
         }
 
-        _target = new TargetData(target);
+        _target = target.ObjectTransform.GetComponent<Entity>();
 
         PlayerCombat.Instance.TargetId = _target.Identity.Id;
-        PlayerCombat.Instance.Target = _target.Data.Entity;
-        GameClient.Instance.ClientPacketHandler.SendRequestSetTarget(_target.Identity.Id);
-    }
+        PlayerCombat.Instance.Target = _target;
 
-    public void SetAttackTarget()
-    {
-        _attackTarget = _target;
+        GameClient.Instance.ClientPacketHandler.SendRequestSetTarget(_target.Identity.Id);
     }
 
     public void ClearAttackTarget()
@@ -200,12 +197,12 @@ public class TargetManager : MonoBehaviour
 
     public bool IsAttackTargetSet()
     {
-        return _target != null && _attackTarget != null && _target == _attackTarget;
+        return _target != null && _attackTarget != null && _target.Identity.Id == _attackTarget.Identity.Id;
     }
 
     public bool HasTarget()
     {
-        return _target != null && _target.Data.ObjectTransform != null;
+        return _target != null && _target.transform != null;
     }
 
     public bool HasAttackTarget()
@@ -238,13 +235,18 @@ public class TargetManager : MonoBehaviour
 
         if (HasTarget())
         {
-            _target.Distance = Vector3.Distance(
-                PlayerController.Instance.transform.position,
-                _target.Data.ObjectTransform.position);
+            // _target.Distance = Vector3.Distance(
+            //     PlayerController.Instance.transform.position,
+            //     _target.Data.ObjectTransform.position);
         }
         else
         {
             ClearTarget();
         }
+    }
+
+    internal void SetAttackTarget(Entity attackTarget)
+    {
+        _attackTarget = attackTarget;
     }
 }

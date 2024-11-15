@@ -59,7 +59,7 @@ public class ProjectileManager : MonoBehaviour
             {
                 PooledEffect effect = ActiveProjectiles[i];
 
-                if (effect.Caster == null || effect.Target == null)
+                if (effect == null || effect.Caster == null || effect.Target == null || effect.GameObject == null)
                 {
                     Debug.LogWarning("Projectile doesn't have a caster or target.");
                     ActiveProjectiles.RemoveAt(i);

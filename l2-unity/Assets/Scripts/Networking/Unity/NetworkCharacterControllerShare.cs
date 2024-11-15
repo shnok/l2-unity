@@ -130,7 +130,7 @@ public class NetworkCharacterControllerShare : MonoBehaviour
         {
             if (Math.Abs(Math.Abs(directionAngle) - Math.Abs(_lastDirectionAngle)) < 2f)
             {
-                Debug.Log("The direction change is too small to share");
+                // Debug.Log("The direction change is too small to share");
                 // The direction change is too small to share
                 return;
             }

@@ -7,7 +7,7 @@ public class AttackingState : StateBase
     public override void Enter(object obj0)
     {
         // PlayerCombat.Instance.StartAttackStance();
-        PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
+        // PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
     }
 
     public override void Update()
@@ -69,7 +69,14 @@ public class AttackingState : StateBase
                 }
                 if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
                 {
-
+                    if (PlayerEntity.Instance.Running)
+                    {
+                        _stateMachine.ChangeState(PlayerState.RUNNING, FollowIntention.MoveReason);
+                    }
+                    else
+                    {
+                        _stateMachine.ChangeState(PlayerState.WALKING, FollowIntention.MoveReason);
+                    }
                 }
                 if (_stateMachine.Intention == Intention.INTENTION_IDLE)
                 {

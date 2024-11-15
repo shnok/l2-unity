@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class FollowIntention : IntentionBase
 {
+    public static MoveReason MoveReason { get; private set; }
+
     public FollowIntention(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter(object arg0)
@@ -12,11 +14,13 @@ public class FollowIntention : IntentionBase
             return;
         }
 
+        MoveReason = (MoveReason)arg0;
+
         PlayerController.Instance.IntentionToRun = true;
 
         if (_stateMachine.IsInMovableState())
         {
-            RunOrWalk((MoveReason)arg0);
+            RunOrWalk(MoveReason);
         }
         else if (!_stateMachine.WaitingForServerReply)
         {
@@ -29,7 +33,7 @@ public class FollowIntention : IntentionBase
         }
     }
 
-    private void RunOrWalk(MoveReason moveReason)
+    public void RunOrWalk(MoveReason moveReason)
     {
         if (PlayerEntity.Instance.Running)
         {

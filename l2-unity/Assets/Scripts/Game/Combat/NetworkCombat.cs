@@ -50,7 +50,7 @@ public abstract class NetworkCombat : Combat
         }
     }
 
-    public void LookAtTarget()
+    protected override void LookAtTarget()
     {
         Debug.LogWarning(AttackTarget);
         if (AttackTarget != null && !Status.IsDead)
@@ -105,12 +105,11 @@ public abstract class NetworkCombat : Combat
     //     // _attackStance = false;
     // }
 
-    public override bool AttackOnce(float hitTime, bool hitSuccess)
+    public override bool AttackOnce(float hitTime, bool hitSuccess, Entity attackTarget)
     {
-        if (base.AttackOnce(hitTime, hitSuccess))
+        if (base.AttackOnce(hitTime, hitSuccess, attackTarget))
         {
             Debug.Log("Look At Target");
-            LookAtTarget();
             return true;
         }
         else

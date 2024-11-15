@@ -61,7 +61,7 @@ public class PlayerStateAtk : PlayerStateAction
             if (_referenceHolder.Gear.WeaponType == WeaponType.bow)
             {
                 // Lock on the target while attacking
-                PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget?.Data.ObjectTransform);
+                PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget?.transform);
             }
             return;
         }
@@ -93,7 +93,7 @@ public class PlayerStateAtk : PlayerStateAction
 
         if (normalizedRatio >= 1f)
         {
-            Debug.LogWarning("Reset atk animation state");
+            // Debug.LogWarning("Reset atk animation state");
             _nockedArrow = false;
             _shotArrow = false;
             _lastArrowNormalizedTime = stateInfo.normalizedTime;

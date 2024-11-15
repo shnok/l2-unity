@@ -89,7 +89,7 @@ public class NameplatesManagerGame : NameplatesManagerBase
     {
         if (!TargetManager.Instance.HasTarget()) return;
 
-        var targetTransform = TargetManager.Instance.Target.Data.ObjectTransform;
+        var targetTransform = TargetManager.Instance.Target.transform;
         if (targetTransform.TryGetComponent<Entity>(out var entity) &&
             entity.Identity.Id != GameClient.Instance.CurrentPlayerId)
         {
@@ -144,7 +144,7 @@ public class NameplatesManagerGame : NameplatesManagerBase
         if (isHovered) return true;
 
         var isTarget = TargetManager.Instance.HasTarget() &&
-                      TargetManager.Instance.Target.Data.ObjectTransform == target;
+                      TargetManager.Instance.Target.transform == target;
         var isTooFar = Vector3.Distance(playerTransform.position, target.position) > nameplateViewDistance;
 
         return (!isTooFar || isTarget) && CameraController.Instance.IsObjectVisible(target);
@@ -155,7 +155,7 @@ public class NameplatesManagerGame : NameplatesManagerBase
         base.UpdateNameplateStyle(nameplate);
 
         var target = TargetManager.Instance;
-        var isCurrentTarget = target.HasTarget() && target.Target.Data.ObjectTransform == nameplate.Target;
+        var isCurrentTarget = target.HasTarget() && target.Target.transform == nameplate.Target;
 
         if (isCurrentTarget)
         {

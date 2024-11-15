@@ -155,8 +155,8 @@ public class ClickManager : MonoBehaviour
 
     public void OnClickOnEntity()
     {
-        Debug.Log("Click on entity");
-        if (TargetManager.Instance.HasTarget() && TargetManager.Instance.Target.Data.ObjectTransform == _targetObjectData.ObjectTransform)
+        // Debug.Log("Click on entity");
+        if (TargetManager.Instance.HasTarget() && TargetManager.Instance.Target.transform == _targetObjectData.ObjectTransform)
         {
             PlayerActions.Instance.UseAction(ActionType.Attack);
         }

@@ -192,13 +192,13 @@ public class Gear : MonoBehaviour
             EquipArrow();
         }
 
-        Debug.Log($"[{transform.name}] Show arrow");
+        // Debug.Log($"[{transform.name}] Show arrow");
         _arrow?.gameObject.SetActive(true);
     }
 
     public virtual void HideArrow()
     {
-        Debug.Log($"[{transform.name}] Hide arrow");
+        // Debug.Log($"[{transform.name}] Hide arrow");
         _arrow?.gameObject.SetActive(false);
     }
 

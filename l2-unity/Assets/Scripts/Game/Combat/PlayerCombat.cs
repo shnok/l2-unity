@@ -37,9 +37,9 @@ public class PlayerCombat : Combat
         base.OnHit(hit);
     }
 
-    public override bool AttackOnce(float hitTime, bool hitSuccess)
+    public override bool AttackOnce(float hitTime, bool hitSuccess, Entity attackTarget)
     {
-        if (base.AttackOnce(hitTime, hitSuccess))
+        if (base.AttackOnce(hitTime, hitSuccess, attackTarget))
         {
             Debug.LogWarning("Attack Once");
             PlayerStateMachine.Instance.OnAttackAllowed();
@@ -49,5 +49,19 @@ public class PlayerCombat : Combat
         {
             return false;
         }
+    }
+
+    protected override void LookAtTarget()
+    {
+        if (AttackTarget != null && !Status.IsDead)
+        {
+            PlayerController.Instance.UpdateFinalAngleToLookAt(_attackTarget.transform);
+        }
+    }
+
+    protected override void SetAttackTarget(Entity attackTarget)
+    {
+        base.SetAttackTarget(attackTarget);
+        TargetManager.Instance.SetAttackTarget(attackTarget);
     }
 }

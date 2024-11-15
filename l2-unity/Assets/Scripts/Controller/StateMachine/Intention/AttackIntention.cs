@@ -6,29 +6,22 @@ public class AttackIntention : IntentionBase
 
     public override void Enter(object arg0)
     {
-        Transform target = TargetManager.Instance.Target.Data.ObjectTransform;
+        Transform target = TargetManager.Instance.Target.transform;
 
         if (target == null)
         {
             return;
         }
 
-        if (_stateMachine.State == PlayerState.ATTACKING)
+        if (_stateMachine.State == PlayerState.ATTACKING && TargetManager.Instance.IsAttackTargetSet())
         {
-            if (TargetManager.Instance.IsAttackTargetSet())
-            {
-                return;
-            }
-            else
-            {
-                _stateMachine.ChangeIntention(Intention.INTENTION_FOLLOW, MoveReason.ATTACK);
-                return;
-            }
+            Debug.LogWarning("Attacking target is target");
+            return;
         }
 
-        Entity targetEntity = TargetManager.Instance.Target.Data.Entity;
+        Entity targetEntity = TargetManager.Instance.Target;
 
-        TargetManager.Instance.SetAttackTarget();
+        // TargetManager.Instance.SetAttackTarget();
         float attackRange = WorldCombat.Instance.GetRealAttackRange(PlayerEntity.Instance, targetEntity);
 
         Vector3 targetPos = targetEntity.transform.position;
@@ -39,7 +32,9 @@ public class AttackIntention : IntentionBase
         // Is close enough? Is player already waiting for server reply?
         if (distance <= attackRange * 0.95f && !_stateMachine.WaitingForServerReply && !targetEntity.IsDead)
         {
-            PlayerController.Instance.UpdateFinalAngleToLookAt(targetEntity.transform);
+            // PlayerController.Instance.UpdateFinalAngleToLookAt(targetEntity.transform); -> Update angle once attack is allowed instead
+
+            Debug.LogWarning("Attacking a new target");
 
             _stateMachine.ChangeState(PlayerState.IDLE);
 

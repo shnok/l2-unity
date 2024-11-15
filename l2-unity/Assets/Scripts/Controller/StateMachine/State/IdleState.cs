@@ -40,15 +40,17 @@ public class IdleState : StateBase
             case Event.READY_TO_ATTACK:
                 if (!_stateMachine.WaitingForServerReply)
                 {
+                    // TargetManager.Instance.SetAttackTarget();
+
                     PathFinderController.Instance.ClearPath();
                     PlayerController.Instance.ResetDestination(false);
                     NetworkTransformShare.Instance.SharePosition();
                     NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero);
 
-                    if (TargetManager.Instance.IsAttackTargetSet())
-                    {
-                        GameClient.Instance.ClientPacketHandler.RequestAttackForce(TargetManager.Instance.AttackTarget.Identity.Id);
-                    }
+                    // if (TargetManager.Instance.IsAttackTargetSet())
+                    // {
+                    GameClient.Instance.ClientPacketHandler.RequestAttackForce(TargetManager.Instance.Target.Identity.Id);
+                    // }
 
                     _stateMachine.SetWaitingForServerReply(true);
                 }
