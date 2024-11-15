@@ -30,7 +30,13 @@ public class AttackIntention : IntentionBase
         // Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
 
         // Is close enough? Is player already waiting for server reply?
-        if (distance <= attackRange * 0.95f && !_stateMachine.WaitingForServerReply && !targetEntity.IsDead)
+
+        if (targetEntity.IsDead)
+        {
+            attackRange = WorldCombat.Instance.GetInteractRange(PlayerEntity.Instance, targetEntity);
+        }
+
+        if (distance <= attackRange * 0.95f && !_stateMachine.WaitingForServerReply)
         {
             // PlayerController.Instance.UpdateFinalAngleToLookAt(targetEntity.transform); -> Update angle once attack is allowed instead
 
@@ -38,7 +44,10 @@ public class AttackIntention : IntentionBase
 
             _stateMachine.ChangeState(PlayerState.IDLE);
 
-            _stateMachine.NotifyEvent(Event.READY_TO_ATTACK);
+            if (!targetEntity.IsDead)
+            {
+                _stateMachine.NotifyEvent(Event.READY_TO_ATTACK);
+            }
         }
         else
         {
@@ -48,7 +57,6 @@ public class AttackIntention : IntentionBase
 
             if (targetEntity.IsDead)
             {
-                attackRange = WorldCombat.Instance.GetInteractRange(PlayerEntity.Instance, targetEntity);
                 reason = MoveReason.DEFAULT;
             }
 
