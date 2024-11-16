@@ -174,6 +174,7 @@ public class WorldCombat : MonoBehaviour
             //TODO: Handle AOE
             hit.Attacker = senderEntity;
             hit.Target = targetEntity;
+            float atkEndTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f;
 
             if (senderEntity.Gear.WeaponType == WeaponType.bow)
             {
@@ -228,7 +229,7 @@ public class WorldCombat : MonoBehaviour
             }
 
             senderEntity.OnStopMoving();
-            senderEntity.Combat.AttackOnce(hit.HitTime, !hit.isMiss(), targetEntity);
+            senderEntity.Combat.AttackOnce(hit.HitTime, atkEndTime, !hit.isMiss(), targetEntity);
         });
     }
 

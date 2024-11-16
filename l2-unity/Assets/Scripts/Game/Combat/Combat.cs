@@ -16,16 +16,17 @@ public abstract class Combat : MonoBehaviour
     // [SerializeField] private long _stopAutoAttackTime;
     [SerializeField] private long _combatTimestamp;
     [SerializeField] private float _hitTime;
+    [SerializeField] private float _attackEndTime;
     [SerializeField] private bool _hitSuccess;
 
     public int TargetId { get => _targetId; set => _targetId = value; }
-    public Entity Target { get { return _target; } set { _target = value; } }
-    public Entity AttackTarget { get { return _attackTarget; } set { _attackTarget = value; } }
-    // public long StopAutoAttackTime { get { return _stopAutoAttackTime; } }
-    public long CombatTimestamp { get { return _combatTimestamp; } }
-    protected Status Status { get { return _referenceHolder.Entity.Status; } }
-    protected BaseAnimationAudioHandler AudioHandler { get { return _referenceHolder.AudioHandler; } }
-    protected BaseAnimationController AnimationController { get { return _referenceHolder.AnimationController; } }
+    public Entity Target { get => _target; set => _target = value; }
+    public Entity AttackTarget { get => _attackTarget; set => _attackTarget = value; }
+    public float AttackEndTime { get => _attackEndTime; }
+    public long CombatTimestamp { get => _combatTimestamp; }
+    protected Status Status { get => _referenceHolder.Entity.Status; }
+    protected BaseAnimationAudioHandler AudioHandler { get => _referenceHolder.AudioHandler; }
+    protected BaseAnimationController AnimationController { get => _referenceHolder.AnimationController; }
 
     private void Awake()
     {
@@ -44,22 +45,6 @@ public abstract class Combat : MonoBehaviour
             _referenceHolder = GetComponent<EntityReferenceHolder>();
         }
     }
-
-    // public virtual void StartAttackStance()
-    // {
-    //     _startAutoAttackTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-
-    //     if (_target != null)
-    //     {
-    //         _attackTarget = _target;
-    //     }
-    // }
-
-    // public virtual void StopAttackStance()
-    // {
-    //     _stopAutoAttackTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-    //     _attackTarget = null;
-    // }
 
     // Called when ApplyDamage packet is received 
     public void ApplyDamage(Hit hit)
@@ -131,7 +116,7 @@ public abstract class Combat : MonoBehaviour
     {
     }
 
-    public virtual bool AttackOnce(float hitTime, bool hitSuccess, Entity attackTarget)
+    public virtual bool AttackOnce(float hitTime, float atkEndTime, bool hitSuccess, Entity attackTarget)
     {
         if (IsDead())
         {
@@ -140,6 +125,7 @@ public abstract class Combat : MonoBehaviour
 
         _hitTime = hitTime;
         _hitSuccess = hitSuccess;
+        _attackEndTime = atkEndTime;
 
         SetAttackTarget(attackTarget);
 
