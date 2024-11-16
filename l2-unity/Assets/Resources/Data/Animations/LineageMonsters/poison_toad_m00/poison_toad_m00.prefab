@@ -463,9 +463,11 @@ MonoBehaviour:
   _distanceToDestination: 0
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
+  _lastDestination: {x: 0, y: 0, z: 0}
   _gravity: 28
   _moveSpeedMultiplier: 1
   _stopAtRange: 0
+  _stopAtRangeDefault: 0.05
 --- !u!114 &3496454899018306551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,7 +536,8 @@ MonoBehaviour:
     _id: 0
     _name: 
     _title: 
-    _titleColor: 9CE8A9FF
+    _isHpShowable: 0
+    _pvpFlag: 0
     _npcId: 0
     _npcClass: 
     _playerClass: 0
@@ -560,11 +563,14 @@ MonoBehaviour:
     _maxHp: 0
     _maxMp: 0
     _maxCp: 0
+    _karma: 0
   _appearance:
     _collisonHeight: 0
     _collisionRadius: 0
     _lhand: 0
     _rhand: 0
+    _serverNameColor: 0
+    _serverTitleColor: 0
   _race: 5
   _raceId: 0
   _running: 0
@@ -665,8 +671,10 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _weaponSizeRatio: 0
   _rightHandType: 0
   _rightHand: {fileID: 0}
+  _arrow: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
 --- !u!114 &646628385846528431
@@ -681,6 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338484d3f45eee84881eb77639612ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rootBone: {fileID: 6793876538904736555}
   _entityReferenceHolder: {fileID: 835046437577659082}
   _resetStateOnReceive: 1
   _lastAnim: 0
@@ -701,6 +710,9 @@ MonoBehaviour:
   _target: {fileID: 0}
   _attackTarget: {fileID: 0}
   _combatTimestamp: 0
+  _hitTime: 0
+  _attackEndTime: 0
+  _hitSuccess: 0
   _attackStance: 0
 --- !u!114 &835046437577659082
 MonoBehaviour:
@@ -720,10 +732,16 @@ MonoBehaviour:
   _animationController: {fileID: 646628385846528431}
   _audioHandler: {fileID: 3496454899018306551}
   _animator: {fileID: 2883078449225306254}
+  _clickArea: {fileID: 0}
   _networkTransformReceive: {fileID: 760182437772622041}
   _networkCharacterControllerReceive: {fileID: 8145496239761288963}
 --- !u!4 &4454447597198055145 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bdb671c21cf39cb4d95189321c9f365b, type: 3}
+  m_PrefabInstance: {fileID: 4205193272498876674}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6793876538904736555 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2012146174136516055, guid: bdb671c21cf39cb4d95189321c9f365b, type: 3}
   m_PrefabInstance: {fileID: 4205193272498876674}
   m_PrefabAsset: {fileID: 0}

@@ -153,6 +153,7 @@ MonoBehaviour:
   _animationController: {fileID: 6223171918188403751}
   _audioHandler: {fileID: 7789503678066825442}
   _animator: {fileID: 5890334503443029626}
+  _clickArea: {fileID: 0}
 --- !u!114 &6719039449346300144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +173,8 @@ MonoBehaviour:
     _id: 0
     _name: 
     _title: 
-    _titleColor: 9CE8A9FF
+    _isHpShowable: 0
+    _pvpFlag: 0
     _npcId: 0
     _npcClass: 
     _playerClass: 0
@@ -183,6 +185,7 @@ MonoBehaviour:
   _status:
     _hp: 0
     _mp: 0
+    _dead: 0
   _stats:
     _level: 0
     _runSpeed: 0
@@ -191,16 +194,20 @@ MonoBehaviour:
     _scaledRunSpeed: 0
     _scaledWalkSpeed: 0
     _attackSpeedMultiplier: 0
+    _attackRange: 0
     _pAtkSpd: 0
     _mAtkSpd: 0
     _maxHp: 0
     _maxMp: 0
     _maxCp: 0
+    _karma: 0
   _appearance:
     _collisonHeight: 0
     _collisionRadius: 0
     _lhand: 0
     _rhand: 0
+    _serverNameColor: 0
+    _serverTitleColor: 0
   _race: 4
   _raceId: 4
   _running: 0
@@ -301,8 +308,10 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _weaponSizeRatio: 0
   _rightHandType: 0
   _rightHand: {fileID: 0}
+  _arrow: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
   _weaponAnim: 0
@@ -529,8 +538,10 @@ MonoBehaviour:
   _targetId: 0
   _target: {fileID: 0}
   _attackTarget: {fileID: 0}
-  _stopAutoAttackTime: 0
-  _startAutoAttackTime: 0
+  _combatTimestamp: 0
+  _hitTime: 0
+  _attackEndTime: 0
+  _hitSuccess: 0
 --- !u!114 &3064332933061382819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,6 +610,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sharingLoopDelayMs: 100
   _lastDirection: {x: 0, y: 0, z: 0}
+  _lastForcedDirection: {x: 0, y: 0, z: 0}
+  _lastDirectionAngle: 0
   _lastSharingTimestamp: 0
   _heading: 0
 --- !u!114 &5136009980192550727
@@ -623,6 +636,7 @@ MonoBehaviour:
   _gravity: 28
   _targetPosition: {x: 0, y: 0, z: 0}
   _runningToDestination: 0
+  _intentionToRun: 0
   _lookAtTarget: {fileID: 0}
 --- !u!114 &8501221508298381683
 MonoBehaviour:
@@ -639,7 +653,7 @@ MonoBehaviour:
   _bodyPartsContainer: {fileID: 5484018681619218061}
   _rootSkinnedRenderer: {fileID: 6656235256214479691}
   _destSkinnedRenderer: []
-  _bones: []
+  _rootBone: {fileID: 0}
 --- !u!114 &7789503678066825442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,6 +713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852945e8ec9a0cc44ba24c5a4b57f2b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rootBone: {fileID: 5479286923392898938}
   _entityReferenceHolder: {fileID: 4737926542357803258}
   _resetStateOnReceive: 1
   _lastAnimationType: 0
@@ -796,6 +811,11 @@ Transform:
 --- !u!4 &2501961852599239095 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6188836239713335783, guid: b4888cecb95916847b7b78c5b6fe2540, type: 3}
+  m_PrefabInstance: {fileID: 8600723866080049232}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5479286923392898938 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4274407135144193834, guid: b4888cecb95916847b7b78c5b6fe2540, type: 3}
   m_PrefabInstance: {fileID: 8600723866080049232}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5667232163731310797 stripped

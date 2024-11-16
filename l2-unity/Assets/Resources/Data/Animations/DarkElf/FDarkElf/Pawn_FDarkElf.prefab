@@ -213,7 +213,8 @@ MonoBehaviour:
     _id: 0
     _name: 
     _title: 
-    _titleColor: 9CE8A9FF
+    _isHpShowable: 0
+    _pvpFlag: 0
     _npcId: 0
     _npcClass: 
     _playerClass: 0
@@ -245,6 +246,8 @@ MonoBehaviour:
     _collisionRadius: 0
     _lhand: 0
     _rhand: 0
+    _serverNameColor: 0
+    _serverTitleColor: 0
   _race: 0
   _raceId: 0
   _running: 0
@@ -263,6 +266,8 @@ MonoBehaviour:
       _collisionRadius: 0
       _lhand: 0
       _rhand: 0
+      _serverNameColor: 0
+      _serverTitleColor: 0
       _race: 0
       _sex: 0
       _face: 0
@@ -427,8 +432,10 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _weaponSizeRatio: 0
   _rightHandType: 0
   _rightHand: {fileID: 0}
+  _arrow: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
   _weaponAnim: 0
@@ -651,6 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f11c36874c9e74a4aabfa2b520cd1a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rootBone: {fileID: 1043913814993416653}
   _entityReferenceHolder: {fileID: 1640291941892263099}
   _resetStateOnReceive: 0
   _lastAnimationType: 0
@@ -717,7 +725,7 @@ MonoBehaviour:
   _bodyPartsContainer: {fileID: 8629173525741012222}
   _rootSkinnedRenderer: {fileID: 5144325316941881243}
   _destSkinnedRenderer: []
-  _bones: []
+  _rootBone: {fileID: 0}
 --- !u!1 &6396944929130550864
 GameObject:
   m_ObjectHideFlags: 0
@@ -839,6 +847,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}
+--- !u!4 &1043913814993416653 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1173960283076727529, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}
+  m_PrefabInstance: {fileID: 2176932680279171876}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &4392915537440326359 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2504214514373124595, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}

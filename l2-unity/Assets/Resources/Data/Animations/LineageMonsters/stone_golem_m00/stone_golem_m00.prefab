@@ -827,6 +827,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5195688982786757457}
   m_SourcePrefab: {fileID: 100100000, guid: 23e248e52e14dea47aa553c7abbcea39, type: 3}
+--- !u!4 &296735971431766889 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3749160660972303622, guid: 23e248e52e14dea47aa553c7abbcea39, type: 3}
+  m_PrefabInstance: {fileID: 5757423267311112595}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4838854075626351810 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 23e248e52e14dea47aa553c7abbcea39, type: 3}
@@ -914,9 +919,11 @@ MonoBehaviour:
   _distanceToDestination: 0
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
+  _lastDestination: {x: 0, y: 0, z: 0}
   _gravity: 28
   _moveSpeedMultiplier: 1
   _stopAtRange: 0
+  _stopAtRangeDefault: 0.05
 --- !u!114 &513104410504783462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,8 +1069,10 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _weaponSizeRatio: 0
   _rightHandType: 0
   _rightHand: {fileID: 0}
+  _arrow: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
 --- !u!114 &1020750948165091060
@@ -1085,7 +1094,8 @@ MonoBehaviour:
     _id: 0
     _name: 
     _title: 
-    _titleColor: 9CE8A9FF
+    _isHpShowable: 0
+    _pvpFlag: 0
     _npcId: 0
     _npcClass: 
     _playerClass: 0
@@ -1111,11 +1121,14 @@ MonoBehaviour:
     _maxHp: 0
     _maxMp: 0
     _maxCp: 0
+    _karma: 0
   _appearance:
     _collisonHeight: 0
     _collisionRadius: 0
     _lhand: 0
     _rhand: 0
+    _serverNameColor: 0
+    _serverTitleColor: 0
   _race: 5
   _raceId: 0
   _running: 0
@@ -1132,6 +1145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338484d3f45eee84881eb77639612ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rootBone: {fileID: 296735971431766889}
   _entityReferenceHolder: {fileID: 5195688982786757457}
   _resetStateOnReceive: 1
   _lastAnim: 0
@@ -1152,6 +1166,9 @@ MonoBehaviour:
   _target: {fileID: 0}
   _attackTarget: {fileID: 0}
   _combatTimestamp: 0
+  _hitTime: 0
+  _attackEndTime: 0
+  _hitSuccess: 0
   _attackStance: 0
 --- !u!114 &5195688982786757457
 MonoBehaviour:
@@ -1171,6 +1188,7 @@ MonoBehaviour:
   _animationController: {fileID: 1215858657762262202}
   _audioHandler: {fileID: 513104410504783462}
   _animator: {fileID: 5979145637729925236}
+  _clickArea: {fileID: 0}
   _networkTransformReceive: {fileID: 1439208792558858034}
   _networkCharacterControllerReceive: {fileID: 544973393521764557}
 --- !u!4 &5218757760226211448 stripped

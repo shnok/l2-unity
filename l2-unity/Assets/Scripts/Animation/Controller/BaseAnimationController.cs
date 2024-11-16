@@ -4,12 +4,14 @@ using UnityEngine;
 
 public abstract class BaseAnimationController : MonoBehaviour
 {
+    [SerializeField] protected Transform _rootBone;
     [SerializeField] protected EntityReferenceHolder _entityReferenceHolder;
     protected Animator Animator { get { return _entityReferenceHolder.Animator; } }
     [SerializeField] protected bool _resetStateOnReceive = false;
     protected float _spAtk01ClipLength = 1000;
     [SerializeField] protected Dictionary<string, float> _atkClipLengths;
 
+    public Transform RootBone { get => _rootBone; }
     private AnimatorParameterHashTable _animatorParameterHashTable;
     public AnimatorParameterHashTable AnimatorParameterHashTable
     {
@@ -32,6 +34,12 @@ public abstract class BaseAnimationController : MonoBehaviour
         {
             Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
             _entityReferenceHolder = gameObject.GetComponent<EntityReferenceHolder>();
+        }
+
+        if (_rootBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] RootBone was not assigned, please pre-assign it to avoid unecessary load.");
+            _rootBone = transform.FindRecursive("bip01");
         }
     }
 

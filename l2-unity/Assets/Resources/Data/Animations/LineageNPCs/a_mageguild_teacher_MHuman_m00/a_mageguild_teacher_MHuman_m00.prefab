@@ -770,7 +770,8 @@ MonoBehaviour:
     _id: 0
     _name: 
     _title: 
-    _titleColor: 9CE8A9FF
+    _isHpShowable: 0
+    _pvpFlag: 0
     _npcId: 0
     _npcClass: 
     _playerClass: 0
@@ -802,6 +803,8 @@ MonoBehaviour:
     _collisionRadius: 0
     _lhand: 0
     _rhand: 0
+    _serverNameColor: 0
+    _serverTitleColor: 0
   _race: 0
   _raceId: 13
   _running: 0
@@ -902,8 +905,10 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _weaponSizeRatio: 0
   _rightHandType: 0
   _rightHand: {fileID: 0}
+  _arrow: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
   _weaponAnim: 0
@@ -924,6 +929,9 @@ MonoBehaviour:
   _target: {fileID: 0}
   _attackTarget: {fileID: 0}
   _combatTimestamp: 0
+  _hitTime: 0
+  _attackEndTime: 0
+  _hitSuccess: 0
   _attackStance: 0
 --- !u!114 &1097327820342860347
 MonoBehaviour:
@@ -1029,13 +1037,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f11c36874c9e74a4aabfa2b520cd1a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entityReferenceHolder: {fileID: 0}
+  _rootBone: {fileID: 2270344817650330577}
+  _entityReferenceHolder: {fileID: 3382357125908726141}
   _resetStateOnReceive: 0
   _lastAnimationType: 0
   _weaponAnim: 0
 --- !u!4 &2107483544631801439 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2da5dc88f4bf1db48a8f107a35136801, type: 3}
+  m_PrefabInstance: {fileID: 1924708725130465716}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2270344817650330577 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8848426518413739419, guid: 2da5dc88f4bf1db48a8f107a35136801, type: 3}
   m_PrefabInstance: {fileID: 1924708725130465716}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2586181150463083644 stripped

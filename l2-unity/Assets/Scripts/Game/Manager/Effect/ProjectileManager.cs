@@ -39,10 +39,6 @@ public class ProjectileManager : MonoBehaviour
             Destroy(this);
         }
     }
-
-    private void Start()
-    {
-    }
     #endregion
 
     #region Projectile Management tasks
@@ -85,7 +81,14 @@ public class ProjectileManager : MonoBehaviour
                     if (effect.HitSuccess)
                     {
                         // Pierce target
-                        effect.GameObject.transform.parent = effect.Target.transform.GetChild(0).GetChild(0); //rootbone
+                        if (effect.Target.AnimationController.RootBone != null)
+                        {
+                            effect.GameObject.transform.parent = effect.Target.AnimationController.RootBone; //rootbone
+                        }
+                        else
+                        {
+                            effect.GameObject.transform.parent = effect.Target.transform;
+                        }
                     }
                     else
                     {

@@ -168,6 +168,7 @@ MonoBehaviour:
   _animationController: {fileID: 1914266932831311347}
   _audioHandler: {fileID: 203159445196188832}
   _animator: {fileID: 5879991909848940350}
+  _clickArea: {fileID: 0}
 --- !u!143 &8320559729586774763
 CharacterController:
   m_ObjectHideFlags: 0
@@ -212,7 +213,8 @@ MonoBehaviour:
     _id: 0
     _name: 
     _title: 
-    _titleColor: 9CE8A9FF
+    _isHpShowable: 0
+    _pvpFlag: 0
     _npcId: 0
     _npcClass: 
     _playerClass: 0
@@ -223,22 +225,29 @@ MonoBehaviour:
   _status:
     _hp: 0
     _mp: 0
+    _dead: 0
   _stats:
     _level: 0
     _runSpeed: 0
+    _moveSpeedMultiplier: 0
     _walkSpeed: 0
     _scaledRunSpeed: 0
     _scaledWalkSpeed: 0
+    _attackSpeedMultiplier: 0
+    _attackRange: 0
     _pAtkSpd: 0
     _mAtkSpd: 0
     _maxHp: 0
     _maxMp: 0
     _maxCp: 0
+    _karma: 0
   _appearance:
     _collisonHeight: 0
     _collisionRadius: 0
     _lhand: 0
     _rhand: 0
+    _serverNameColor: 0
+    _serverTitleColor: 0
   _race: 0
   _raceId: 0
   _running: 0
@@ -257,6 +266,8 @@ MonoBehaviour:
       _collisionRadius: 0
       _lhand: 0
       _rhand: 0
+      _serverNameColor: 0
+      _serverTitleColor: 0
       _race: 0
       _sex: 0
       _face: 0
@@ -270,19 +281,24 @@ MonoBehaviour:
     _playerStatus:
       _hp: 0
       _mp: 0
+      _dead: 0
       _cp: 0
       _pvpFlag: 0
     _playerStats:
       _level: 0
       _runSpeed: 0
+      _moveSpeedMultiplier: 0
       _walkSpeed: 0
       _scaledRunSpeed: 0
       _scaledWalkSpeed: 0
+      _attackSpeedMultiplier: 0
+      _attackRange: 0
       _pAtkSpd: 0
       _mAtkSpd: 0
       _maxHp: 0
       _maxMp: 0
       _maxCp: 0
+      _karma: 0
       _pAtk: 0
       _mAtk: 0
       _pEvasion: 0
@@ -295,22 +311,21 @@ MonoBehaviour:
       _pDef: 0
       _shieldDef: 0
       _exp: 0
-      _maxExp: 0
+      _expPercent: 0
       _sp: 0
       _currWeight: 0
       _maxWeight: 0
-      _attackRange: 0
       _con: 0
       _dex: 0
       _str: 0
       _wit: 0
       _men: 0
       _int: 0
-      _karma: 0
       _pvpKills: 0
       _pkKills: 0
     _isMage: 0
     _classId: 0
+    _baseClassId: 0
     _exp: 0
     _sp: 0
     _expPercent: 0
@@ -417,8 +432,10 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _weaponSizeRatio: 0
   _rightHandType: 0
   _rightHand: {fileID: 0}
+  _arrow: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
   _weaponAnim: 0
@@ -644,7 +661,7 @@ MonoBehaviour:
   _bodyPartsContainer: {fileID: 4137127916833057896}
   _rootSkinnedRenderer: {fileID: 6663343705344033295}
   _destSkinnedRenderer: []
-  _bones: []
+  _rootBone: {fileID: 0}
 --- !u!114 &203159445196188832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,6 +721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f11c36874c9e74a4aabfa2b520cd1a12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rootBone: {fileID: 5489068903722350142}
   _entityReferenceHolder: {fileID: 3871749847610267574}
   _resetStateOnReceive: 0
   _lastAnimationType: 0
@@ -846,6 +864,11 @@ Transform:
 --- !u!4 &2494853955373506803 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6188836239713335783, guid: b4888cecb95916847b7b78c5b6fe2540, type: 3}
+  m_PrefabInstance: {fileID: 8609943167072557332}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5489068903722350142 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4274407135144193834, guid: b4888cecb95916847b7b78c5b6fe2540, type: 3}
   m_PrefabInstance: {fileID: 8609943167072557332}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5656887100295489929 stripped

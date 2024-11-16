@@ -584,6 +584,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5823231093218809585, guid: 24fd61ab19cca1f44b1d18bc9c2491e7, type: 3}
   m_PrefabInstance: {fileID: 5777178802284956579}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1770072824054097237 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3982265802609021194, guid: 24fd61ab19cca1f44b1d18bc9c2491e7, type: 3}
+  m_PrefabInstance: {fileID: 5777178802284956579}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2470158697386008386 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8244804199109645537, guid: 24fd61ab19cca1f44b1d18bc9c2491e7, type: 3}
@@ -681,9 +686,11 @@ MonoBehaviour:
   _distanceToDestination: 0
   _speed: 0
   _destination: {x: 0, y: 0, z: 0}
+  _lastDestination: {x: 0, y: 0, z: 0}
   _gravity: 28
   _moveSpeedMultiplier: 1
   _stopAtRange: 0
+  _stopAtRangeDefault: 0.05
 --- !u!114 &1167209409920888712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -752,7 +759,8 @@ MonoBehaviour:
     _id: 0
     _name: 
     _title: 
-    _titleColor: 9CE8A9FF
+    _isHpShowable: 0
+    _pvpFlag: 0
     _npcId: 0
     _npcClass: 
     _playerClass: 0
@@ -778,11 +786,14 @@ MonoBehaviour:
     _maxHp: 0
     _maxMp: 0
     _maxCp: 0
+    _karma: 0
   _appearance:
     _collisonHeight: 0
     _collisionRadius: 0
     _lhand: 0
     _rhand: 0
+    _serverNameColor: 0
+    _serverTitleColor: 0
   _race: 3
   _raceId: 0
   _running: 0
@@ -883,8 +894,10 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
+  _weaponSizeRatio: 0
   _rightHandType: 0
   _rightHand: {fileID: 0}
+  _arrow: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
 --- !u!114 &5588688570491646378
@@ -905,6 +918,7 @@ MonoBehaviour:
   _animationController: {fileID: 1318142390958055407}
   _audioHandler: {fileID: 1167209409920888712}
   _animator: {fileID: 2730926279133337347}
+  _clickArea: {fileID: 0}
   _networkTransformReceive: {fileID: 6674336735786612990}
   _networkCharacterControllerReceive: {fileID: 5946025211663629625}
 --- !u!114 &1318142390958055407
@@ -919,6 +933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338484d3f45eee84881eb77639612ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rootBone: {fileID: 1770072824054097237}
   _entityReferenceHolder: {fileID: 5588688570491646378}
   _resetStateOnReceive: 1
   _lastAnim: 0
@@ -939,6 +954,9 @@ MonoBehaviour:
   _target: {fileID: 0}
   _attackTarget: {fileID: 0}
   _combatTimestamp: 0
+  _hitTime: 0
+  _attackEndTime: 0
+  _hitSuccess: 0
   _attackStance: 0
 --- !u!4 &8370567475129230605 stripped
 Transform:
