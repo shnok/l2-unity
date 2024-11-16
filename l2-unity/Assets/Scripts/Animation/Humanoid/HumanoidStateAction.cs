@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class HumanoidStateAction : HumanoidStateBase
 {
@@ -34,14 +35,11 @@ public class HumanoidStateAction : HumanoidStateBase
 
     protected bool DidAttackTimeout()
     {
-        long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-
-        // Check if AtkOnce was called, otherwise switch to AtkWait state
-        // Add the attack duration and the last auto attack packet timestamp
-        if (now > ((long)_referenceHolder.AnimationController.PAtkSpd) + _referenceHolder.Combat.CombatTimestamp + 150) //150 for acceptable ping delay
+        float now = Time.time;
+        if (now > _referenceHolder.Combat.AttackEndTime) // + 150) //50 for acceptable ping delay
         {
-            return true;
             // Debug.LogWarning("Should ATK WAIT! (StopAttack)");
+            return true;
         }
 
         return false;
