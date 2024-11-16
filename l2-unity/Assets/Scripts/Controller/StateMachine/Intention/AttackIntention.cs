@@ -13,11 +13,11 @@ public class AttackIntention : IntentionBase
             return;
         }
 
-        if (_stateMachine.State == PlayerState.ATTACKING && TargetManager.Instance.IsAttackTargetSet())
-        {
-            Debug.LogWarning("Attacking target is target");
-            return;
-        }
+        // if (_stateMachine.State == PlayerState.ATTACKING && TargetManager.Instance.IsAttackTargetSet())
+        // {
+        //     Debug.LogWarning("Attacking target is target");
+        //     return;
+        // }
 
         Entity targetEntity = TargetManager.Instance.Target;
 
@@ -30,16 +30,16 @@ public class AttackIntention : IntentionBase
         // Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
 
         // Is close enough? Is player already waiting for server reply?
-
         if (targetEntity.IsDead)
         {
             attackRange = WorldCombat.Instance.GetInteractRange(PlayerEntity.Instance, targetEntity);
         }
 
+        //TODO: Maybe avoid sending too many attack requests if already attacking and in range?
+
         if (distance <= attackRange * 0.95f && !_stateMachine.WaitingForServerReply)
         {
             // PlayerController.Instance.UpdateFinalAngleToLookAt(targetEntity.transform); -> Update angle once attack is allowed instead
-
             Debug.LogWarning("Attacking a new target");
 
             _stateMachine.ChangeState(PlayerState.IDLE);

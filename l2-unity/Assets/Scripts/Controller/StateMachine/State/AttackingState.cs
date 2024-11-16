@@ -1,4 +1,5 @@
-using UnityEngine.InputSystem;
+
+using UnityEngine;
 
 public class AttackingState : StateBase
 {
@@ -21,6 +22,29 @@ public class AttackingState : StateBase
         else if (TargetManager.Instance.HasAttackTarget() && TargetManager.Instance.AttackTarget.Status.IsDead)
         {
             _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+        }
+        else
+        {
+            // Automatically follow target if it moved
+            Entity target = PlayerCombat.Instance.AttackTarget;
+            Entity player = PlayerEntity.Instance;
+
+            if (target == null || target.IsDead)
+            {
+                return;
+            }
+
+            float attackRange = WorldCombat.Instance.GetRealAttackRange(player, target);
+            float distance = Vector3.Distance(player.transform.position, target.transform.position);
+
+            if (distance > attackRange * 0.95f && !_stateMachine.WaitingForServerReply)
+            {
+                // Move to target with a 5% error margin
+                PathFinderController.Instance.MoveTo(target.transform.position, attackRange * 0.95f, () =>
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_FOLLOW, MoveReason.ATTACK);
+                });
+            }
         }
     }
 
