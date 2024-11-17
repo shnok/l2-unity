@@ -53,4 +53,15 @@ public class StringUtils
         }
         return sb.ToString();
     }
+
+    public static string Base64Encode(string plainText)
+    {
+        if (plainText == null)
+        {
+            return "";
+        }
+
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+        return System.Convert.ToBase64String(plainTextBytes);
+    }
 }

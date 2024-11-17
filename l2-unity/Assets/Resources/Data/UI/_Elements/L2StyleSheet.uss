@@ -3635,9 +3635,6 @@
     border-right-width: 0;
     border-bottom-width: 0;
     border-left-width: 0;
-    align-items: stretch;
-    justify-content: flex-start;
-    align-self: flex-start;
     margin-left: 0;
 }
 
@@ -3851,4 +3848,45 @@
 
 .target-bar-container.visible {
     opacity: 100;
+}
+
+.l2-input {
+    flex-grow: 0;
+    height: 18px;
+}
+
+.l2-input-field {
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
+    background-color: rgba(0, 0, 0, 0);
+    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBox_Scaled');
+    -unity-font-definition: initial;
+    font-size: 12px;
+    margin-left: 6px;
+    letter-spacing: 0;
+    padding-top: 0;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
+    border-width: 0;
+    -unity-text-align: middle-center;
+}
+
+.l2-input-field #unity-text-input {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: none;
+    border-width: 0;
+    margin: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    color: white;
+}
+
+.l2-input-field {
+    -unity-slice-left: 10;
+    -unity-slice-top: 10;
+    -unity-slice-right: 10;
+    -unity-slice-bottom: 10;
 }
