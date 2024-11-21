@@ -1,0 +1,42 @@
+if SHADER_NAME_CONTAINS Plant
+{
+	Material SET_SHADER_BY_NAME BOXOPHOBIC/The Vegetation Engine/Geometry/Plant Standard Lit
+	
+	if SHADER_NAME_CONTAINS Subsurface Lit
+	{
+		Material SET_SHADER_BY_NAME BOXOPHOBIC/The Vegetation Engine/Geometry/Plant Subsurface Lit
+	}
+}
+
+if SHADER_NAME_CONTAINS Prop
+{
+	Material SET_SHADER_BY_NAME BOXOPHOBIC/The Vegetation Engine/Geometry/Prop Standard Lit
+	
+	f SHADER_NAME_CONTAINS Subsurface Lit
+	{
+		Material SET_SHADER_BY_NAME BOXOPHOBIC/The Vegetation Engine/Geometry/Prop Subsurface Lit
+	}
+}
+
+// Legacy
+if SHADER_NAME_CONTAINS Cross
+{
+	Material SET_SHADER_BY_NAME BOXOPHOBIC/The Vegetation Engine/Geometry/Plant Subsurface Lit
+}
+
+if SHADER_NAME_CONTAINS Grass
+{
+	Material SET_SHADER_BY_NAME BOXOPHOBIC/The Vegetation Engine/Geometry/Plant Subsurface Lit
+}
+
+if SHADER_NAME_CONTAINS Leaf
+{
+	Material SET_SHADER_BY_NAME BOXOPHOBIC/The Vegetation Engine/Geometry/Plant Subsurface Lit
+}
+
+if SHADER_NAME_CONTAINS Bark
+{
+	Material SET_SHADER_BY_NAME BOXOPHOBIC/The Vegetation Engine/Geometry/Plant Standard Lit
+}
+
+

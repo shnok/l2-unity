@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Get Global Overlay Data
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor v1.9.2.2\n// Available at the
+    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19202\nNode;AmplifyShaderEditor.SwizzleNode;34;-768,-896;Inherit;False;FLOAT3;0;1;2;3;1;0;COLOR;0,0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SamplerNode;30;-1152,-896;Inherit;True;Global;TVE_OverlayAlbedoTex;TVE_OverlayAlbedoTex;1;0;Create;True;0;0;0;False;0;False;-1;None;296bed1b8098d1440b85ac8ad5f42c2c;True;0;False;black;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.ColorNode;42;-1152,-1152;Half;False;Global;TVE_OverlayColor;TVE_OverlayColor;2;1;[HDR];Create;True;0;0;0;False;0;False;0,0,0,0;1,1,1,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.SamplerNode;33;-1152,-640;Inherit;True;Global;TVE_OverlayNormalTex;TVE_OverlayNormalTex;0;0;Create;True;0;0;0;False;0;False;-1;None;ed918fb735a938d48af5196ac25da56c;True;0;False;gray;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.SwizzleNode;44;-768,-1152;Inherit;False;FLOAT3;0;1;2;3;1;0;COLOR;0,0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;68;-384,-256;Inherit;False;False;-1;Intensity;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;85;-384,-1152;Inherit;False;False;-1;Color;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;31;-384,-896;Inherit;False;False;-1;Albedo;2;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionNode;103;-864,-640;Inherit;False;Normal
+    Unpack;-1;;1;df37adbedb35afa4fb58bcd7fbd4afd2;1,64,0;1;35;FLOAT4;0,0,0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;104;-640,-640;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionOutput;32;-384,-640;Inherit;False;False;-1;Normal;3;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionOutput;105;-384,-448;Inherit;False;False;-1;Normal
+    Scale;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;46;-1152,-448;Half;False;Global;TVE_OverlayNormalValue;TVE_OverlayNormalValue;0;0;Create;True;0;0;0;False;0;False;0;0.5;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;19;-1152,-128;Half;False;Global;TVE_OverlaySmoothness;TVE_OverlaySmoothness;0;0;Create;True;0;0;0;False;0;False;0;0.5;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;-384,-128;Inherit;False;True;-1;Smoothness;5;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;106;-1152,0;Half;False;Global;TVE_OverlaySubsurface;TVE_OverlaySubsurface;0;0;Create;True;0;0;0;False;0;False;0;0.5;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;107;-384,0;Inherit;False;False;-1;Subsurface;6;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;69;-1152,-256;Half;False;Global;TVE_OverlayValue;TVE_OverlayValue;0;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;95;-2176,-896;Inherit;False;Position;3;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;38;-1792,-896;Inherit;False;2;2;0;FLOAT2;1,0;False;1;FLOAT;0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.Vector4Node;108;-2176,-640;Half;False;Global;TVE_OverlayUVs;TVE_OverlayUVs;2;0;Create;True;0;0;0;False;0;False;0,0,0,0;1,1,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.SwizzleNode;96;-2048,-896;Inherit;False;FLOAT2;0;2;2;3;1;0;FLOAT3;0,0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.SwizzleNode;109;-1920,-640;Inherit;False;FLOAT2;0;2;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.SwizzleNode;111;-1920,-576;Inherit;False;FLOAT2;2;3;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;110;-1536,-896;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.SamplerStateNode;102;-1536,-640;Inherit;False;0;0;0;1;-1;None;1;0;SAMPLER2D;;False;1;SAMPLERSTATE;0\nNode;AmplifyShaderEditor.RangedFloatNode;36;-2176,-768;Half;False;Global;TVE_OverlayScale;TVE_OverlayScale;0;0;Create;True;0;0;0;False;0;False;0;1;0;0;0;1;FLOAT;0\nWireConnection;34;0;30;0\nWireConnection;30;1;38;0\nWireConnection;30;7;102;0\nWireConnection;33;1;38;0\nWireConnection;33;7;102;0\nWireConnection;44;0;42;0\nWireConnection;68;0;69;0\nWireConnection;85;0;44;0\nWireConnection;31;0;34;0\nWireConnection;103;35;33;0\nWireConnection;104;0;103;0\nWireConnection;104;1;46;0\nWireConnection;32;0;104;0\nWireConnection;105;0;46;0\nWireConnection;0;0;19;0\nWireConnection;107;0;106;0\nWireConnection;38;0;96;0\nWireConnection;38;1;36;0\nWireConnection;96;0;95;0\nWireConnection;109;0;108;0\nWireConnection;111;0;108;0\nWireConnection;110;0;38;0\nWireConnection;110;1;111;0\nASEEND*/\n//CHKSM=2917D4736A5D944FAB9BD1BBE417804FFA75C7EF"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_headerStyle: 2
+  m_headerColor: {r: 1, g: 0.62734854, b: 0, a: 1}
+  m_customNodeCategory: The Vegetation Engine
+  m_previewPosition: 0
+  m_hidden: 0
+  m_url: 

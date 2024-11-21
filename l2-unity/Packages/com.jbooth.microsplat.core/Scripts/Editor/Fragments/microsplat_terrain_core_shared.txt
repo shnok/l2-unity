@@ -1,0 +1,41 @@
+﻿
+
+
+      Input DescToInput(ShaderData IN)
+      {
+        Input s = (Input)0;
+        s.shaderData = IN;
+        s.TBN = IN.TBNMatrix;
+        s.worldNormal = IN.worldSpaceNormal;
+        s.worldPos = IN.worldSpacePosition;
+        s.viewDir = IN.tangentSpaceViewDir;
+        s.uv_Control0 = IN.texcoord0.xy;
+
+        s.worldUpVector = float3(0,1,0);
+        s.worldHeight = IN.worldSpacePosition.y;
+  
+        #if _PLANETVECTORS
+            float3 rwp = mul(_PQSToLocal, float4(IN.worldSpacePosition, 1));
+            s.worldHeight = distance(rwp, float3(0,0,0));
+            s.worldUpVector = normalize(rwp);
+        #endif
+
+        #if _MICROMESH && _MESHUV2
+            s.uv2_Diffuse = IN.texcoord1.xy;
+        #endif
+
+        #if _MEGASPLAT
+           UnpackMegaSplat(s, IN);
+        #endif
+   
+        #if _MICROVERTEXMESH || _MICRODIGGERMESH
+            UnpackVertexWorkflow(s, IN);
+        #endif
+
+        #if _PLANETVECTORS
+           DoPlanetDataInputCopy(s, IN);
+        #endif
+        
+        return s;
+     }
+     

@@ -1,0 +1,24 @@
+if MATERIAL_HAS_KEYWORD _ALPHATEST_ON
+{
+	if !MATERIAL_KEYWORD_ENABLED _ALPHATEST_ON
+	{
+		Include Use Default Bark Settings
+	}
+}
+
+if MATERIAL_HAS_PROP _AlphaCutoffEnabled
+{
+	if MATERIAL_FLOAT_EQUALS _AlphaCutoffEnabled 1
+	{
+		Include Use Default Bark Settings
+	}
+}
+
+if MATERIAL_HAS_PROP _AlphaCutoff
+{
+	if MATERIAL_FLOAT_EQUALS _AlphaCutoff 0
+	{
+		Include Use Default Bark Settings
+	}
+}
+

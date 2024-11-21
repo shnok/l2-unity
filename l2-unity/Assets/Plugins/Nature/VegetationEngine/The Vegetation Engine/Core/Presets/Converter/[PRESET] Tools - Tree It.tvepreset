@@ -1,0 +1,45 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Tree It
+InfoPreset Use this preset to convert Tree It(free softwere) vegetation. The preset will convert the materials only if the Standard/Lit shaders are used!
+InfoStatus ● ● ● ● ●
+InfoOnline https://www.evolved-software.com/treeit/treeit
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Grass/Vegetation 1
+OutputTransforms USE_ORIGINAL_TRANSFORMS
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	Mesh SetVariation GET_MASK_FROM_CHANNEL 1
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 6
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 0
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+Include Unity Lit Commons
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Settings
+}

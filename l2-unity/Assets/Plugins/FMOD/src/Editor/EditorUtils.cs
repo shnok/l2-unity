@@ -168,19 +168,24 @@ namespace FMODUnity
             }
         }
 
-        public static string SeriesString(string separator, string finalSeparator, IEnumerable<string> elements)
+        public static string SeriesString(string separator, string finalSeparator, string[] elements)
         {
-            if (!elements.Any())
+            if (elements.Length == 0)
             {
                 return string.Empty;
             }
-            else if (!elements.Skip(1).Any())
+            else if (elements.Length == 1)
             {
-                return elements.First();
+                return elements[0];
+            }
+            else if (elements.Length == 2)
+            {
+                return elements[0] + finalSeparator + elements[1];
             }
             else
             {
-                return string.Join(separator, elements.Take(elements.Count() - 1)) + finalSeparator + elements.Last();
+                return string.Join(separator, elements, 0, elements.Length - 1)
+                    + finalSeparator + elements[elements.Length - 1];
             }
         }
 
@@ -191,7 +196,7 @@ namespace FMODUnity
 
         public static Texture2D LoadImage(string filename)
         {
-            Texture2D texture = EditorGUIUtility.Load($"{RuntimeUtils.PluginBasePath}/images/{filename}") as Texture2D;
+            Texture2D texture = EditorGUIUtility.Load($"Assets/{RuntimeUtils.PluginBasePath}/images/{filename}") as Texture2D;
 
             if (texture == null)
             {
@@ -358,14 +363,7 @@ namespace FMODUnity
             EditorApplication.playModeStateChanged += HandleOnPlayModeChanged;
             EditorApplication.pauseStateChanged += HandleOnPausedModeChanged;
 
-            if (Application.isBatchMode)
-            {
-                BuildStatusWatcher.Startup();
-            }
-            else
-            {
-                EditorApplication.update += CallStartupMethodsWhenReady;
-            }
+            EditorApplication.update += CallStartupMethodsWhenReady;
         }
 
         private static void HandleBeforeAssemblyReload()
@@ -399,7 +397,7 @@ namespace FMODUnity
             {
                 CheckResult(system.update());
 
-                if (speakerMode != Settings.Instance.PlayInEditorPlatform.SpeakerMode)
+                if (speakerMode != Settings.Instance.GetEditorSpeakerMode())
                 {
                     RecreateSystem();
                 }
@@ -439,7 +437,6 @@ namespace FMODUnity
 
             // Explicitly initialize Settings so that both it and EditorSettings will work.
             Settings.Initialize();
-            Settings.EditorSettings.CheckActiveBuildTarget();
 
             CheckBaseFolderGUID();
             CheckMacLibraries();
@@ -466,7 +463,7 @@ namespace FMODUnity
                         paramValues[param.Name] = param.Value;
                     }
 
-                    args.eventInstance = PreviewEvent(eventRef, paramValues, behavior.CurrentVolume, behavior.ClipStartTime);
+                    args.eventInstance = PreviewEvent(eventRef, paramValues, behavior.CurrentVolume);
                 }
             };
 
@@ -483,18 +480,6 @@ namespace FMODUnity
             FMODEventPlayableBehavior.GraphStop += (sender, args) =>
             {
                 PreviewStop(args.eventInstance);
-            };
-
-            FMODEventPlayable.OnCreatePlayable += (sender, args) =>
-            {
-                FMODEventPlayable playable = sender as FMODEventPlayable;
-                if (playable.Parameters.Length > 0 || playable.Template.ParameterLinks.Count > 0)
-                {
-                    LoadPreviewBanks();
-                    FMOD.Studio.EventDescription eventDescription;
-                    system.getEventByID(playable.EventReference.Guid, out eventDescription);
-                    playable.LinkParameters(eventDescription);
-                }
             };
 #endif
 
@@ -540,7 +525,7 @@ namespace FMODUnity
             CheckResult(system.getCoreSystem(out lowlevel));
 
             // Use play-in-editor speaker mode for event browser preview and metering
-            speakerMode = Settings.Instance.PlayInEditorPlatform.SpeakerMode;
+            speakerMode = Settings.Instance.GetEditorSpeakerMode();
             CheckResult(lowlevel.setSoftwareFormat(0, speakerMode, 0));
 
             encryptionKey = Settings.Instance.EncryptionKey;
@@ -651,7 +636,7 @@ namespace FMODUnity
 
         public static void OpenOnlineDocumentation(string section, string page = null, string anchor = null)
         {
-            const string Prefix = "https://fmod.com/docs/";
+            const string Prefix = "https://fmod.com/resources/documentation-";
             string version = string.Format("{0:X}.{1:X}", FMOD.VERSION.number >> 16, (FMOD.VERSION.number >> 8) & 0xFF);
             string url;
 
@@ -659,18 +644,18 @@ namespace FMODUnity
             {
                 if (!string.IsNullOrEmpty(anchor))
                 {
-                    url = string.Format("{0}/{1}/{2}/{3}.html#{4}", Prefix, version, section, page, anchor);
+                    url = string.Format("{0}{1}?version={2}&page={3}.html#{4}", Prefix, section, version, page, anchor);
                 }
                 else
                 {
-                    url = string.Format("{0}/{1}/{2}/{3}.html", Prefix, version, section, page);
+                    url = string.Format("{0}{1}?version={2}&page={3}.html", Prefix, section, version, page);
                 }
             }
             else
             {
-                url = string.Format("{0}/{1}/{2}", Prefix, version, section);
+                url = string.Format("{0}{1}?version={2}", Prefix, section, version);
             }
-
+                
             Application.OpenURL(url);
         }
 
@@ -684,7 +669,7 @@ namespace FMODUnity
             CheckResult(lowlevel.getVersion(out version));
 
             string text = string.Format(
-                "Version: {0}\n\nCopyright \u00A9 Firelight Technologies Pty, Ltd. 2014-2023 \n\n" +
+                "Version: {0}\n\nCopyright \u00A9 Firelight Technologies Pty, Ltd. 2014-2022 \n\n" +
                 "See LICENSE.TXT for additional license information.",
                 VersionString(version));
 
@@ -728,7 +713,7 @@ namespace FMODUnity
             loadedPreviewBanks.Clear();
         }
 
-        public static FMOD.Studio.EventInstance PreviewEvent(EditorEventRef eventRef, Dictionary<string, float> previewParamValues, float volume = 1, float startTime = 0.0f)
+        public static FMOD.Studio.EventInstance PreviewEvent(EditorEventRef eventRef, Dictionary<string, float> previewParamValues, float volume = 1)
         {
             FMOD.Studio.EventDescription eventDescription;
             FMOD.Studio.EventInstance eventInstance;
@@ -739,30 +724,19 @@ namespace FMODUnity
             foreach (EditorParamRef param in eventRef.Parameters)
             {
                 FMOD.Studio.PARAMETER_DESCRIPTION paramDesc;
-                if (param.IsGlobal)
-                {
-                    CheckResult(System.getParameterDescriptionByName(param.Name, out paramDesc));
-                }
-                else
-                {
-                    CheckResult(eventDescription.getParameterDescriptionByName(param.Name, out paramDesc));
-                }
-
-                float value = previewParamValues.ContainsKey(param.Name) ? previewParamValues[param.Name] : param.Default;
+                CheckResult(eventDescription.getParameterDescriptionByName(param.Name, out paramDesc));
                 param.ID = paramDesc.id;
-
                 if (param.IsGlobal)
                 {
-                    CheckResult(System.setParameterByID(param.ID, value));
+                    CheckResult(System.setParameterByID(param.ID, previewParamValues[param.Name]));
                 }
                 else
                 {
-                    CheckResult(eventInstance.setParameterByID(param.ID, value));
+                    CheckResult(eventInstance.setParameterByID(param.ID, previewParamValues[param.Name]));
                 }
             }
 
             CheckResult(eventInstance.setVolume(volume));
-            CheckResult(eventInstance.setTimelinePosition((int)(startTime * 1000.0f)));
             CheckResult(eventInstance.start());
 
             previewEventInstances.Add(eventInstance);
@@ -1063,7 +1037,7 @@ namespace FMODUnity
         {
             if (string.IsNullOrEmpty(AssetDatabase.GUIDToAssetPath(RuntimeUtils.BaseFolderGUID)))
             {
-                string folderPath = RuntimeUtils.PluginBasePathDefault;
+                string folderPath = $"Assets/{RuntimeUtils.PluginBasePathDefault}";
 
                 if (!Directory.Exists(folderPath))
                 {
@@ -1232,7 +1206,7 @@ namespace FMODUnity
                 return;
             }
 
-            string obsoleteFolder = $"{RuntimeUtils.PluginBasePath}/obsolete";
+            string obsoleteFolder = $"Assets/{RuntimeUtils.PluginBasePath}/obsolete";
 
             if (AssetDatabase.IsValidFolder(obsoleteFolder))
             {
@@ -1259,8 +1233,8 @@ namespace FMODUnity
 
     public class StagingSystem
     {
-        private static string PlatformsFolder => $"{RuntimeUtils.PluginBasePath}/platforms";
-        private static string StagingFolder => $"{RuntimeUtils.PluginBasePath}/staging";
+        private static string PlatformsFolder => $"Assets/{RuntimeUtils.PluginBasePath}/platforms";
+        private static string StagingFolder => $"Assets/{RuntimeUtils.PluginBasePath}/staging";
         private const string AnyCPU = "AnyCPU";
 
         private static readonly LibInfo[] LibrariesToUpdate = {
@@ -1342,7 +1316,7 @@ namespace FMODUnity
 
         public class UpdateStep
         {
-            internal Settings.SharedLibraryUpdateStages Stage;
+            public Settings.SharedLibraryUpdateStages Stage;
             public string Name;
             public string Description;
             public string Details;
@@ -1355,7 +1329,7 @@ namespace FMODUnity
 
             private Func<string> GetDetails;
 
-            internal static UpdateStep Create(Settings.SharedLibraryUpdateStages stage, string name, string description,
+            public static UpdateStep Create(Settings.SharedLibraryUpdateStages stage, string name, string description,
                 Func<string> details, Action execute)
             {
                 return new UpdateStep() {
@@ -1541,13 +1515,9 @@ namespace FMODUnity
 
         private static void ResetUpdateStage()
         {
-            if (Settings.Instance.SharedLibraryUpdateStage != Settings.SharedLibraryUpdateStages.Start ||
-                Settings.Instance.SharedLibraryTimeSinceStart != 0)
-            {
-                Settings.Instance.SharedLibraryUpdateStage = Settings.SharedLibraryUpdateStages.Start;
-                Settings.Instance.SharedLibraryTimeSinceStart = 0;
-                EditorUtility.SetDirty(Settings.Instance);
-            }
+            Settings.Instance.SharedLibraryUpdateStage = Settings.SharedLibraryUpdateStages.Start;
+            Settings.Instance.SharedLibraryTimeSinceStart = 0;
+            EditorUtility.SetDirty(Settings.Instance);
         }
 
         public static UpdateStep Startup()

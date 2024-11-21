@@ -1,5 +1,27 @@
 {
   "dependencies": {
+    "com.jbooth.microsplat.core": {
+      "version": "file:com.jbooth.microsplat.core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.jbooth.microsplat.triplanar": {
+      "version": "file:com.jbooth.microsplat.triplanar",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.jbooth.microsplat.core": "3.9.0"
+      }
+    },
+    "com.jbooth.microsplat.urp2022": {
+      "version": "file:com.jbooth.microsplat.urp2022",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.jbooth.microsplat.core": "3.9.0"
+      }
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -7,7 +29,7 @@
       "dependencies": {}
     },
     "com.unity.burst": {
-      "version": "1.8.17",
+      "version": "1.8.15",
       "depth": 2,
       "source": "registry",
       "dependencies": {
@@ -55,15 +77,15 @@
       "source": "builtin",
       "dependencies": {
         "com.unity.ide.visualstudio": "2.0.22",
-        "com.unity.ide.rider": "3.0.31",
+        "com.unity.ide.rider": "3.0.28",
         "com.unity.editorcoroutines": "1.0.0",
         "com.unity.performance.profile-analyzer": "1.2.2",
-        "com.unity.test-framework": "1.4.5",
-        "com.unity.testtools.codecoverage": "1.2.6"
+        "com.unity.test-framework": "1.4.4",
+        "com.unity.testtools.codecoverage": "1.2.5"
       }
     },
     "com.unity.ide.rider": {
-      "version": "3.0.31",
+      "version": "3.0.28",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -198,7 +220,7 @@
       }
     },
     "com.unity.test-framework": {
-      "version": "1.4.5",
+      "version": "1.4.4",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -219,7 +241,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.testtools.codecoverage": {
-      "version": "1.2.6",
+      "version": "1.2.5",
       "depth": 1,
       "source": "registry",
       "dependencies": {

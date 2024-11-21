@@ -14,17 +14,17 @@ namespace FMODUnity
         [SerializeField]
         private Legacy.Platform legacyIdentifier;
 
-        internal override string DisplayName { get { return displayName; } }
-        internal override void DeclareRuntimePlatforms(Settings settings) { }
+        public override string DisplayName { get { return displayName; } }
+        public override void DeclareRuntimePlatforms(Settings settings) { }
 #if UNITY_EDITOR
-        internal override IEnumerable<BuildTarget> GetBuildTargets()
+        public override IEnumerable<BuildTarget> GetBuildTargets()
         {
             yield break;
         }
 
-        internal override Legacy.Platform LegacyIdentifier { get { return legacyIdentifier; } }
+        public override Legacy.Platform LegacyIdentifier { get { return legacyIdentifier; } }
 
-        internal static PlatformGroup Create(string displayName, Legacy.Platform legacyIdentifier)
+        public static PlatformGroup Create(string displayName, Legacy.Platform legacyIdentifier)
         {
             PlatformGroup group = CreateInstance<PlatformGroup>();
             group.Identifier = GUID.Generate().ToString();
@@ -45,7 +45,7 @@ namespace FMODUnity
             yield break;
         }
 
-        internal override OutputType[] ValidOutputTypes { get { return null; } }
+        public override OutputType[] ValidOutputTypes { get { return null; } }
 #endif
     }
 }

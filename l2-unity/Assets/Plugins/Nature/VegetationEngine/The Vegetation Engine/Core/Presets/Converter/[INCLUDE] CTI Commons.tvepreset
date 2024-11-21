@@ -1,0 +1,83 @@
+
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoPreset Use this preset to convert vegetation powered by CTI.
+InfoStatus ● ● ● ● ○
+InfoWarning CTI uses an unpacked normal map (green), make sure you uncheck sRGB for it to work correctly. Texture Arrays are not supported, you will need to add a new bark texture after conversion! Billboards are not supported!
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputTransforms KEEP_ORIGINAL_TRANSFORMS
+
+Mesh SetVariation GET_MASK_3RD_PARTY 1 ACTION_REMAP_01
+Mesh SetOcclusion GET_MASK_PROCEDURAL 16
+Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+Mesh SetHeight GET_MASK_PROCEDURAL 4
+Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+Mesh SetMotion3 GET_MASK_3RD_PARTY 0
+
+Mesh SetPivots NONE
+
+*******************************************************************
+
+// Set Features for Bark
+if SHADER_NAME_CONTAINS Bark
+{
+	Include Use Default Bark Settings
+}
+
+*******************************************************************
+
+// Enable Material Features
+Material SET_FLOAT _GlobalSize 0
+Material SET_FLOAT _SizeFadeMode 0
+Material SET_FLOAT _GlobalLeaves 0
+
+Material COPY_FLOAT _Culling _RenderCull
+
+*******************************************************************
+
+// Copy Standard Pipeline Material Properties
+Material SET_FLOAT _AlphaClipValue 0.3
+
+Material COPY_TEX _MainTex _MainAlbedoTex
+Material COPY_ST_AS_VECTOR _MainTex _MainUVs
+
+Material COPY_TEX _BumpSpecMap _MainNormalTex
+Material COPY_TEX _BumpSpecAOMap _MainNormalTex
+
+Material COPY_TEX _TranslucencyMap _MainMaskTex
+Material SET_FLOAT _MainMetallicValue 0
+Material SET_FLOAT _MainOcclusionValue 1
+Material SET_FLOAT _MainSmoothnessValue 0
+
+
+Material SET_VECTOR _MainColor 0.5 0.5 0.5 1
+
+*******************************************************************
+
+//SRP Setup
+Material COPY_TEX _BumpMap _MainNormalTex
+
+Material COPY_FLOAT _Smoothness _MainSmoothnessValue
+Material COPY_FLOAT _BumpScale _MainNormalValue
+
+*******************************************************************
+
+//if SHADER_NAME_CONTAINS Leaves
+
+// Combine Texture Channels
+Texture SetRed NONE
+Texture SetGreen GET_BLUE _BumpSpecAOMap
+Texture SetBlue GET_ALPHA _DispTex
+Texture SetAlpha GET_ALPHA _MainTex
+
+Utility START_TEXTURE_PACKING
+
+//endif

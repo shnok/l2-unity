@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Get Mesh Data
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor v1.9.1.5\n// Available at the
+    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19105\nNode;AmplifyShaderEditor.CustomExpressionNode;26;-128,2176;Float;False;
+    float3 result @$  result.x = ((enc >> 0) & 0xFF) / 255.0f@$  result.y = ((enc
+    >> 8) & 0xFF) / 255.0@$  result.z = ((enc >>16) & 0xFF) / 255.0@$  //result.w
+    = ((enc >> 32) & 0xFF) / 255.0@$  return result@;3;Create;1;True;enc;INT;0;In;uint;Float;False;DecodeFloatToVector3;False;False;0;;False;1;0;INT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.ScaleAndOffsetNode;43;128,1920;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT;2;False;2;FLOAT;-1;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;45;384,1920;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.TexCoordVertexDataNode;16;-512,1408;Inherit;False;3;4;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.BreakToComponentsNode;17;128,1408;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15\nNode;AmplifyShaderEditor.GetLocalVarNode;47;128,2304;Inherit;False;-1;;1;0;OBJECT;;False;1;FLOAT;0\nNode;AmplifyShaderEditor.ScaleAndOffsetNode;31;128,1664;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT;2;False;2;FLOAT;-1;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CustomExpressionNode;15;-128,1408;Float;False;
+    float3 result @$  result.x = ((enc >> 0) & 0xFF) / 255.0f@$  result.y = ((enc
+    >> 8) & 0xFF) / 255.0@$  result.z = ((enc >>16) & 0xFF) / 255.0@$  //result.w
+    = ((enc >> 32) & 0xFF) / 255.0@$  return result@;3;Create;1;True;enc;INT;0;In;uint;Float;False;DecodeFloatToVector3;False;False;0;;False;1;0;INT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;48;384,2176;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;44;128,2048;Inherit;False;-1;;1;0;OBJECT;;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;24;-128,1664;Float;False;
+    float3 result @$  result.x = ((enc >> 0) & 0xFF) / 255.0f@$  result.y = ((enc
+    >> 8) & 0xFF) / 255.0@$  result.z = ((enc >>16) & 0xFF) / 255.0@$  //result.w
+    = ((enc >> 32) & 0xFF) / 255.0@$  return result@;3;Create;1;True;enc;INT;0;In;uint;Float;False;DecodeFloatToVector3;False;False;0;;False;1;0;INT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;32;384,1664;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.ScaleAndOffsetNode;46;128,2176;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT;2;False;2;FLOAT;-1;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.VertexColorNode;6;-512,-1536;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.CustomExpressionNode;25;-128,1920;Float;False;
+    float3 result @$  result.x = ((enc >> 0) & 0xFF) / 255.0f@$  result.y = ((enc
+    >> 8) & 0xFF) / 255.0@$  result.z = ((enc >>16) & 0xFF) / 255.0@$  //result.w
+    = ((enc >> 32) & 0xFF) / 255.0@$  return result@;3;Create;1;True;enc;INT;0;In;uint;Float;False;DecodeFloatToVector3;False;False;0;;False;1;0;INT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;42;128,1792;Inherit;False;-1;;1;0;OBJECT;;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;13;256,-1472;Inherit;False;True;-1;Mesh
+    Occlusion;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;58;256,-1344;Inherit;False;False;-1;Mesh
+    Height;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;23;256,-1408;Inherit;False;False;-1;Mesh
+    Detail;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;9;256,-1536;Inherit;False;False;-1;Mesh
+    Variation;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.OneMinusNode;99;-256,-1280;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;100;-96,-1280;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.OneMinusNode;101;48,-1280;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;98;256,-1280;Inherit;False;False;-1;Mesh
+    Motion 10;5;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.TexCoordVertexDataNode;60;-512,-768;Inherit;False;0;4;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.BreakToComponentsNode;61;-48,-768;Inherit;False;FLOAT2;1;0;FLOAT2;0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15\nNode;AmplifyShaderEditor.TexCoordVertexDataNode;19;-512,-1024;Inherit;False;1;4;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.BreakToComponentsNode;63;80,-512;Inherit;False;FLOAT2;1;0;FLOAT2;0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15\nNode;AmplifyShaderEditor.CustomExpressionNode;59;-256,-768;Float;False;float2
+    result @$result.y = enc % 2048@$result.x = floor(enc / 2048)@$return result /
+    (2048 - 1)@;2;Create;1;True;enc;FLOAT;0;In;uint;Float;False;DecodeFloatToVector2;False;False;0;;False;1;0;FLOAT;0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.RangedFloatNode;67;-256,-448;Float;False;Constant;_Float0;Float
+    0;0;0;Create;True;0;0;0;False;0;False;100;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;66;-48,-512;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.CustomExpressionNode;62;-256,-512;Float;False;float2
+    result @$result.y = enc % 2048@$result.x = floor(enc / 2048)@$return result /
+    (2048 - 1)@;2;Create;1;True;enc;FLOAT;0;In;uint;Float;False;DecodeFloatToVector2;False;False;0;;False;1;0;FLOAT;0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.DynamicAppendNode;21;-256,-1024;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionOutput;96;256,-512;Inherit;False;False;-1;Bounds
+    Height;8;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;22;256,-1024;Inherit;False;False;-1;Coord
+    Detail;3;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionOutput;8;256,-704;Inherit;False;False;-1;Mesh
+    Motion 30;7;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;97;256,-448;Inherit;False;False;-1;Bounds
+    Radius;9;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;7;256,-768;Inherit;False;False;-1;Mesh
+    Motion 20;6;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;26;0;16;4\nWireConnection;43;0;25;0\nWireConnection;45;0;43;0\nWireConnection;45;1;44;0\nWireConnection;17;0;15;0\nWireConnection;31;0;24;0\nWireConnection;15;0;16;1\nWireConnection;48;0;46;0\nWireConnection;48;1;47;0\nWireConnection;24;0;16;2\nWireConnection;32;0;31;0\nWireConnection;32;1;42;0\nWireConnection;46;0;26;0\nWireConnection;25;0;16;3\nWireConnection;13;0;6;2\nWireConnection;58;0;6;4\nWireConnection;23;0;6;3\nWireConnection;9;0;6;1\nWireConnection;99;0;6;4\nWireConnection;100;0;99;0\nWireConnection;100;1;99;0\nWireConnection;101;0;100;0\nWireConnection;98;0;6;4\nWireConnection;61;0;59;0\nWireConnection;63;0;66;0\nWireConnection;59;0;60;3\nWireConnection;66;0;62;0\nWireConnection;66;1;67;0\nWireConnection;62;0;60;4\nWireConnection;21;0;19;3\nWireConnection;21;1;19;4\nWireConnection;96;0;63;0\nWireConnection;22;0;21;0\nWireConnection;8;0;61;1\nWireConnection;97;0;63;1\nWireConnection;7;0;61;0\nASEEND*/\n//CHKSM=877A6CF4E3F928D4CD0E5B143AADE39E0B1B169E"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_headerStyle: 2
+  m_headerColor: {r: 1, g: 0.62734854, b: 0, a: 1}
+  m_customNodeCategory: The Vegetation Engine
+  m_previewPosition: 0
+  m_hidden: 0
+  m_url: 

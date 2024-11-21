@@ -1,0 +1,137 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle MTree
+InfoPreset Use this preset to convert MTree assets. MTree is in preview mode, better motion quality will come with future updates! MTree assets must be saved as prefabs to be able to convert them.
+InfoStatus ● ● ● ● ○
+InfoOnline https://assetstore.unity.com/packages/tools/modeling/mtree-tree-creation-132433
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+Mesh SetVariation GET_MASK_FROM_CHANNEL 1
+Mesh SetOcclusion GET_MASK_FROM_CHANNEL 3
+Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+Mesh SetHeight GET_MASK_PROCEDURAL 4
+Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+Mesh SetMotion3 GET_MASK_FROM_CHANNEL 2 ACTION_REMAP_01
+
+Mesh SetPivots NONE
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Leafs
+{
+	Material COPY_FLOAT _CutoffHDRP _AlphaClipValue
+
+	Material COPY_COLOR _Color _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_ST_AS_VECTOR _MainTex _MainUVs
+
+	Material COPY_TEX _BumpMap _MainNormalTex
+	Material COPY_FLOAT _BumpScale _MainNormalValue
+
+	Material COPY_FLOAT _Glossiness _MainSmoothnessValue
+
+	Material SET_COLOR _VertexOcclusionColor 0 0 0 0
+
+	Material COPY_FLOAT _DiffusionProfile _SubsurfaceDiffusion
+	Material COPY_VECTOR _DiffusionProfile_asset _SubsurfaceDiffusion_asset
+	Material COPY_VECTOR _DiffusionProfile_asset _SubsurfaceDiffusion_Asset
+
+	Material COPY_FLOAT _CullMode _RenderCull
+	Material COPY_FLOAT _DoubleSidedNormalMode _RenderNormals
+}
+
+if SHADER_NAME_CONTAINS Bark
+{
+	Material SET_SHADER SHADER_STANDARD_PLANT
+	Material SET_FLOAT _RenderClip 0
+	Material SET_FLOAT _RenderCull 2
+
+	// Standard RP
+	Material COPY_COLOR _Color _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_ST_AS_VECTOR _MainTex _MainUVs
+	Material COPY_TEX _BumpMap _MainNormalTex
+	Material COPY_FLOAT _BumpScale _MainNormalValue
+	Material COPY_FLOAT _Glossiness _MainSmoothnessValue
+
+	// SRP
+	Material COPY_COLOR _Color1 _MainColor
+	Material COPY_TEX _MainTex1 _MainAlbedoTex
+	Material COPY_ST_AS_VECTOR _MainTex1 _MainUVs
+	Material COPY_TEX _BumpMap1 _MainNormalTex
+	Material COPY_FLOAT _BumpScale1 _MainNormalValue
+	Material COPY_FLOAT _Glossiness1 _MainSmoothnessValue
+	
+	Material SET_COLOR _VertexOcclusionColor 0 0 0 0
+	
+	//Standard RP
+	if MATERIAL_FLOAT_EQUALS _BaseDetail1 0
+	{
+		Material SET_FLOAT _DetailMode 1
+		Material SET_FLOAT _DetailBlendMode 1
+		Material SET_FLOAT _DetailMeshMode 0
+		Material SET_FLOAT _SecondUVsMode 1
+		Material SET_FLOAT _DetailMaskMode 0
+
+		Material SET_FLOAT _DetailBlendMinValue 0.4
+		Material SET_FLOAT _DetailBlendMaxValue 0.6
+		
+		// Copy Bark Base Props
+		Material COPY_COLOR _DetailColor1 _SecondColor
+		Material COPY_TEX _DetailAlbedoMap1 _SecondAlbedoTex
+		Material COPY_ST_AS_VECTOR _DetailAlbedoMap1 _SecondUVs
+		Material COPY_TEX _DetailNormalMap1 _SecondNormalTex
+		Material COPY_FLOAT _Smooth1 _SecondSmoothnessValue
+	}
+	
+	// SRP
+	if MATERIAL_FLOAT_EQUALS _BaseDetail 0
+	{
+		Material SET_FLOAT _DetailMode 1
+		Material SET_FLOAT _DetailBlendMode 1
+		Material SET_FLOAT _DetailMaskMode 0
+
+		Material SET_FLOAT _DetailBlendMinValue 0.4
+		Material SET_FLOAT _DetailBlendMaxValue 0.6
+		
+		// Copy Bark Base Props
+		Material COPY_COLOR _DetailColor _SecondColor
+		Material COPY_TEX _DetailAlbedoMap _SecondAlbedoTex
+		Material COPY_ST_AS_VECTOR _DetailAlbedoMap _SecondUVs
+
+		Material COPY_TEX _DetailNormalMap _SecondNormalTex
+		
+		Material COPY_FLOAT _Smooth _SecondSmoothnessValue
+	}
+}
+
+if SHADER_NAME_CONTAINS Billboard
+{
+	Include Use Default Cross Settings
+	
+	Material COPY_FLOAT _CutoffHDRP _AlphaClipValue
+
+	Material COPY_COLOR _Color _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_ST_AS_VECTOR _MainTex _MainUVs
+
+	Material COPY_TEX _BumpMap _MainNormalTex
+	Material COPY_FLOAT _BumpScale _MainNormalValue
+
+	Material COPY_FLOAT _Metallic _MainMetallicValue
+	Material COPY_FLOAT _Glossiness _MainSmoothnessValue
+	Material COPY_FLOAT _OcclusionStrength _MainOcclusionValue
+
+	Material COPY_FLOAT _DiffusionProfile _SubsurfaceDiffusion
+	Material COPY_VECTOR _DiffusionProfile_asset _SubsurfaceDiffusion_asset
+
+	Material COPY_FLOAT _CullMode _RenderCull
+	Material COPY_FLOAT _DoubleSidedNormalMode _RenderNormals
+}

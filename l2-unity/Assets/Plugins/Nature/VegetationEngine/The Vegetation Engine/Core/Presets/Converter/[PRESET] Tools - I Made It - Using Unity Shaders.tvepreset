@@ -1,0 +1,111 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle I Made It
+InfoPreset Use this preset to convert custom made assets using Standard/Lit shaders. Check the documentation for more details!
+InfoStatus ○ ○ ○ ○ ○
+InfoOnline https://docs.google.com/document/d/145JOVlJ1tE-WODW45YoJ6Ixg23mFc56EnB_8Tbwloz8/edit#heading=h.ltnk8tq0d4cg
+InfoWarning The automatic conversion might not work as expected! The preset will convert the materials only if the Standard/Lit shaders are used!
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputMeshes DEFAULT
+OutputMaterials DEFAULT
+
+OutputOptions Use Baked Mesh Masks/Props/Grass/Flowers/Plants/Conifers/Trees 0
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Use Baked Mesh Masks
+{
+		// Get the variation mask from Vertex Color R
+	Mesh SetVariation GET_MASK_FROM_CHANNEL 0
+
+	// Get the occlusion mask from Vertex Color A
+	Mesh SetOcclusion GET_MASK_FROM_CHANNEL 3
+
+	// Set a procedural height mask for detail blending
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+
+	// Use UV0 texture coord as detail UVs
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+
+	// Get the squash motion mask from Vertex Color G
+	Mesh SetMotion2 GET_MASK_FROM_CHANNEL 1
+
+	// Get the flutter motion mask from Vertex Color B
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 2
+
+	Mesh SetPivots NONE
+
+	// Use masks from the additional texture using UV4 channel for example
+	// Mesh SetDetailMask GET_MASK_FROM_TEXTURE GET_RED _AdditionalTex3 GET_COORD 3
+	// Mesh SetMotion2 GET_MASK_FROM_TEXTURE GET_RED _AdditionalTex1 GET_COORD 3
+	// Mesh SetMotion3 GET_MASK_FROM_TEXTURE GET_RED _AdditionalTex2 GET_COORD 3
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Use Default Props Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Include Use Default Flower Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Plants
+{
+	Mesh SetVariation GET_MASK_PROCEDURAL 3
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 5
+	Mesh SetDetailMask NONE
+	Mesh SetDetailCoord NONE
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 15
+	Mesh SetMotion3 GET_MASK_PROCEDURAL 15
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Conifers
+{
+	Mesh SetVariation GET_MASK_PROCEDURAL 3
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 6
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 5
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Trees
+{
+	Mesh SetVariation GET_MASK_PROCEDURAL 3
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 6
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 5
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+Include Unity Lit Commons

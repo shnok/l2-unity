@@ -1,0 +1,38 @@
+﻿// This contains functions that the MicroSplat compiler explicitly strips so that we
+// don't add more cruft to the v2f structure. I'm not crazy about the way this is done,
+// but without BS having a proper code parser this works.. Note that in most cases,
+// the module system naturally doesn't add code it's not using to the shader, so
+// the only stuff that has to go here is stuff that happens in the vertex stage.
+
+
+   void UnpackVertexWorkflow(inout Input i, ShaderData d)
+   {
+      i.w0.xy = d.texcoord0.zw;
+      i.w0.zw = d.texcoord1.zw;
+      %MAX8% i.w1 = d.vertexColor;
+      %MAX12% i.w2 = d.extraV2F0;
+      %MAX16% i.w3 = d.extraV2F1;
+      %MAX20% i.w4 = d.extraV2F2;
+      %MAX24% i.w5 = d.extraV2F3;
+      %MAX28% i.w6 = d.extraV2F4;
+      %FX%    i.fx = d.extraV2F5;
+   }
+
+   void EncodeVertexWorkflow(inout VertexData i, inout ExtraV2F d)
+   {
+      float4 data0 = DecodeToFloat4(i.vertexColor.r);
+      
+      
+      %MAX12% d.extraV2F0 = DecodeToFloat4(i.vertexColor.b);
+      %MAX16% d.extraV2F1 = DecodeToFloat4(i.vertexColor.a);
+      %MAX8%  i.vertexColor = DecodeToFloat4(i.vertexColor.g);
+
+      %MAX20% d.extraV2F2 = DecodeToFloat4(i.texcoord1.z);
+      %MAX24% d.extraV2F3 = DecodeToFloat4(i.texcoord1.w);
+      %MAX28% d.extraV2F4 = DecodeToFloat4(i.texcoord2.z);
+      %FX%    d.extraV2F5 = DecodeToFloat4(i.texcoord2.w);
+
+      i.texcoord0.zw = data0.xy;
+      i.texcoord1.zw = data0.zw;
+   }
+

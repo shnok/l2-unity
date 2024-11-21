@@ -1,0 +1,77 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Toon Fantasy Nature
+InfoPreset Use this preset to convert SICS Games - Toon Fantasy Nature assets.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/packages/3d/environments/landscapes/toon-fantasy-nature-215197
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Grass/Conifer/Vegetation 3
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Conifer
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_PROCEDURAL 7
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	Mesh SetExtraCoord NONE
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_PROCEDURAL 1
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	Mesh SetExtraCoord NONE
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+Include Default Leaf Settings
+
+Material SET_FLOAT _RenderCull 2
+
+Material COPY_TEX_FIRST_VALID _MainAlbedoTex
+
+if SHADER_NAME_CONTAINS ToonOutline
+{
+	Include Default Bark Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Settings
+
+	Material SET_FLOAT _GradientIntensityValue 1
+	Material COPY_COLOR _Color1 _GradientColorOne 
+	Material COPY_COLOR _Color2 _GradientColorTwo
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	Material SET_FLOAT _FadeGlancingValue 1
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Settings
+}
+

@@ -1,0 +1,94 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+ 
+InfoTitle Automatic
+InfoPreset Use this preset to convert prefabs with in an automatic way.
+InfoWarning The automatic conversion might not work as expected! The preset will convert the materials only if the Unity Standard/Lit shaders are used!
+InfoStatus ○ ○ ○ ○ ○
+InfoOnline https://docs.google.com/document/d/145JOVlJ1tE-WODW45YoJ6Ixg23mFc56EnB_8Tbwloz8/edit#heading=h.1fsztsnbzbgj
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Grass/Flowers/Plants/Conifers/Trees 5
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Use Default Props Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Include Use Default Flower Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Plants
+{
+	Mesh SetVariation GET_MASK_PROCEDURAL 3
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 5
+	Mesh SetDetailMask NONE
+	Mesh SetDetailCoord NONE
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 15
+	Mesh SetMotion3 GET_MASK_PROCEDURAL 15
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Conifers
+{
+	Mesh SetVariation GET_MASK_PROCEDURAL 3
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 6
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 5
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Trees
+{
+	Mesh SetVariation GET_MASK_PROCEDURAL 3
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 6
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 5
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+// Include Unity Default Features
+Include Unity Lit Commons
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Use Default Props Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Include Use Default Flower Settings
+}

@@ -1,0 +1,287 @@
+*******************************************************************
+*                             INCLUDE                             *
+*******************************************************************
+
+// Try to copy main tex
+Material COPY_TEX_FIRST_VALID _MainAlbedoTex
+
+// Try to copy generic props
+Material COPY_COLOR _Color _MainColor
+Material COPY_COLOR _MainColor _MainColor
+Material COPY_COLOR _BaseColor _MainColor
+
+Material COPY_TEX _MainTex _MainAlbedoTex
+Material COPY_TEX _MainTexture _MainAlbedoTex
+Material COPY_TEX _BaseMap _MainAlbedoTex
+Material COPY_TEX _BaseTexure _MainAlbedoTex
+Material COPY_TEX _BaseColorMap _MainAlbedoTex
+Material COPY_TEX _Texture _MainAlbedoTex
+Material COPY_TEX _Albedo _MainAlbedoTex
+Material COPY_TEX _AlbedoMap _MainAlbedoTex
+Material COPY_TEX _AlbedoTexture _MainAlbedoTex
+Material COPY_TEX _ColorTexture _MainAlbedoTex
+
+Material COPY_TEX _BumpMap _MainNormalTex
+Material COPY_TEX _Normal _MainNormalTex
+Material COPY_TEX _NormalMap _MainNormalTex
+Material COPY_TEX _NormalTexture _MainNormalTex
+
+Material COPY_TEX _Mask _MainMaskTex
+Material COPY_TEX _MaskMap _MainMaskTex
+Material COPY_TEX _MaskTexture _MainMaskTex
+
+*******************************************************************
+
+Material SET_FLOAT _MainMaskMinValue 0
+Material SET_FLOAT _MainMaskMaxValue 1
+
+*******************************************************************
+
+Include Try Get Bark Shaders
+
+*******************************************************************
+
+// Copy Standard Pipeline Material Properties
+if SHADER_PIPELINE_IS_STANDARD
+{
+	Material COPY_FLOAT _Cutoff _AlphaClipValue
+	Material COPY_FLOAT _AlphaCutoff _AlphaClipValue
+
+	Material COPY_COLOR _Color _MainColor
+	Material COPY_COLOR _Color _MainColorVariation
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_ST_AS_VECTOR _MainTex _MainUVs
+
+	Material COPY_TEX _BumpMap _MainNormalTex
+	Material COPY_FLOAT _BumpScale _MainNormalValue
+
+	Material COPY_TEX _MetallicGlossMap _MainMaskTex
+	Material COPY_FLOAT _Metallic _MainMetallicValue
+	Material COPY_FLOAT _OcclusionStrength _MainOcclusionValue
+	Material COPY_FLOAT _Glossiness _MainSmoothnessValue
+	
+	Material COPY_VECTOR _EmissionColor _EmissiveColor
+	Material COPY_TEX _EmissionMap _EmissiveTex
+	
+	if MATERIAL_KEYWORD_ENABLED _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+	{
+		Material COPY_FLOAT _GlossMapScale _MainSmoothnessValue
+	}
+	
+	Texture PropName _MainMaskTex
+	Texture ImportType DEFAULT
+	Texture SetRed GET_RED _MetallicGlossMap
+	Texture SetGreen GET_MAX _OcclusionMap
+	Texture SetBlue GET_MAX _ParallaxMap
+	Texture SetBlue GET_MAX _DetailMask
+	Texture SetAlpha GET_ALPHA _MetallicGlossMap
+
+	if MATERIAL_KEYWORD_ENABLED _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+	{
+		Texture SetAlpha GET_ALPHA _MainTex
+	}	
+	
+	Utility START_TEXTURE_PACKING
+}
+
+*******************************************************************
+
+// Copy Universal Pipeline Material Properties
+if SHADER_PIPELINE_IS_UNIVERSAL
+{
+	Material COPY_FLOAT __Cull _RenderCull
+
+	Material COPY_FLOAT _Cutoff _AlphaClipValue
+	Material COPY_FLOAT _AlphaCutoff _AlphaClipValue
+
+	Material COPY_COLOR _BaseColor _MainColor
+	Material COPY_COLOR _BaseColor _MainColorVariation
+	Material COPY_TEX _BaseMap _MainAlbedoTex
+	Material COPY_ST_AS_VECTOR _BaseMap _MainUVs
+
+	Material COPY_TEX _BumpMap _MainNormalTex
+	Material COPY_FLOAT _BumpScale _MainNormalValue
+
+	Material COPY_TEX _MetallicGlossMap _MainMaskTex
+	Material COPY_FLOAT _Metallic _MainMetallicValue
+	Material COPY_FLOAT _OcclusionStrength _MainOcclusionValue
+	Material COPY_FLOAT _Glossiness _MainSmoothnessValue
+	
+	Material COPY_VECTOR _EmissionColor _EmissiveColor
+	Material COPY_TEX _EmissionMap _EmissiveTex
+	
+	if MATERIAL_KEYWORD_ENABLED _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+	{
+		Material COPY_FLOAT _GlossMapScale _MainSmoothnessValue
+	}
+
+	Material COPY_FLOAT _QueueOffset _render_priority
+	
+	Texture PropName _MainMaskTex
+	Texture ImportType DEFAULT
+	Texture SetRed GET_RED _MetallicGlossMap
+	Texture SetGreen GET_MAX _OcclusionMap
+	Texture SetBlue GET_MAX _ParallaxMap
+	Texture SetBlue GET_MAX _DetailMask
+	Texture SetAlpha GET_ALPHA _MetallicGlossMap
+
+	if MATERIAL_KEYWORD_ENABLED _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+	{
+		Texture SetAlpha GET_ALPHA _BaseMap
+	}
+	
+	Utility START_TEXTURE_PACKING
+}
+
+*******************************************************************
+
+// Copy HD Pipeline Material Properties
+if SHADER_PIPELINE_IS_HD
+{
+	if MATERIAL_FLOAT_EQUALS _DoubleSidedEnable 1
+	{
+		Material SET_FLOAT _RenderCull 0
+	}
+	
+		if MATERIAL_FLOAT_EQUALS _DoubleSidedEnable 0
+	{
+		Material SET_FLOAT _RenderCull 2
+	}
+
+	Material COPY_FLOAT _DoubleSidedNormalMode _RenderNormals
+	
+	Material COPY_FLOAT _Cutoff _AlphaClipValue
+	Material COPY_FLOAT _AlphaCutoff _AlphaClipValue
+	
+	Material COPY_COLOR _BaseColor _MainColor
+	Material COPY_TEX _BaseColorMap _MainAlbedoTex
+	Material COPY_ST_AS_VECTOR _BaseColorMap _MainUVs
+
+	Material COPY_TEX _NormalMap _MainNormalTex
+	Material COPY_FLOAT _NormalScale _MainNormalValue
+
+	Material COPY_TEX _MaskMap _MainMaskTex
+	
+	if MATERIAL_HAS_TEX _MaskMap
+	{
+		Material SET_FLOAT _MainSmoothnessValue 1
+	}
+	
+	if !MATERIAL_HAS_TEX _MaskMap
+	{
+		Material COPY_FLOAT _Smoothness _MainSmoothnessValue
+	}
+
+	Material COPY_FLOAT _Thickness _SubsurfaceThicknessValue
+
+	Material COPY_FLOAT _DiffusionProfileHash _SubsurfaceDiffusion
+	Material COPY_VECTOR _DiffusionProfileAsset _SubsurfaceDiffusion_asset
+	Material COPY_VECTOR _DiffusionProfileAsset _SubsurfaceDiffusion_Asset
+
+	Material COPY_FLOAT _TransparentSortPriority _render_priority
+	
+	Texture PropName _MainMaskTex
+	Texture ImportType DEFAULT
+	Texture SetRed GET_RED _MaskMap
+	Texture SetGreen GET_GREEN _MaskMap
+	Texture SetBlue GET_MAX _HeightMap
+	Texture SetBlue GET_MAX _ThicknessMap ACTION_ONE_MINUS
+	Texture SetBlue GET_MAX _TransmissionMaskMap
+
+	Texture SetAlpha GET_ALPHA _MaskMap
+	Utility START_TEXTURE_PACKING
+	
+	if MATERIAL_FLOAT_EQUALS _NormalMapSpace 1
+	{
+		Texture PropName _MainNormalTex
+		Texture TransformSpace OBJECT_TO_TANGENT
+		Texture ImportType NORMALMAP
+		Texture SetRed GET_RED _NormalMapOS
+		Texture SetGreen GET_GREEN _NormalMapOS
+		Texture SetBlue GET_BLUE _NormalMapOS
+		Utility START_TEXTURE_PACKING
+	}
+}
+
+if SHADER_PIPELINE_IS_HD
+{
+	if SHADER_NAME_CONTAINS Layered
+	{
+		if MATERIAL_FLOAT_EQUALS _DoubleSidedEnable 1
+		{
+			Material SET_FLOAT _RenderCull 0
+		}
+
+		Material COPY_FLOAT _DoubleSidedNormalMode _RenderNormals
+	
+		Material COPY_VECTOR _BaseColor0 _MainColor
+		Material COPY_TEX _BaseColorMap0 _MainAlbedoTex
+		Material COPY_ST_AS_VECTOR _BaseColorMap0 _MainUVs
+		Material COPY_TEX _NormalMap0 _MainNormalTex
+		Material COPY_FLOAT _NormalScale0 _MainNormalValue
+		Material COPY_TEX _MaskMap0 _MainMaskTex
+
+		Material COPY_VECTOR _BaseColor1 _SecondColor
+		Material COPY_TEX _BaseColorMap1 _SecondAlbedoTex
+		Material COPY_ST_AS_VECTOR _BaseColorMap1 _SecondUVs
+		Material COPY_TEX _NormalMap1 _SecondNormalTex
+		Material COPY_FLOAT _NormalScale1 _SecondNormalValue
+		Material COPY_TEX _MaskMap1 _SecondMaskTex
+		
+		Material SET_FLOAT _DetailNormalValue 0
+		
+		Material SET_FLOAT _DetailMode 1
+		Material SET_FLOAT _DetailBlendMode 1
+		
+		if MATERIAL_FLOAT_EQUALS _Base2UsePlanarUV 1
+		{
+			Material SET_FLOAT _DetailMeshMode 1
+			Material SET_FLOAT _SecondUVsMode 2
+		}
+		
+		Material SET_FLOAT _DetailMaskMode 0
+		
+		Material SET_FLOAT _DetailBlendMinValue 0.45
+		Material SET_FLOAT _DetailBlendMaxValue 0.55
+		
+		Texture PropName _MainMaskTex
+		Texture ImportType DEFAULT
+		Texture SetRed GET_RED _MaskMap0
+		Texture SetGreen GET_GREEN _MaskMap0
+		Texture SetBlue GET_RED _LayerMaskMap
+		Texture SetAlpha GET_ALPHA _MaskMap0
+		Utility START_TEXTURE_PACKING
+	}
+}
+
+// Copy Autodesk Material Properties
+if SHADER_NAME_CONTAINS Autodesk
+{
+	if MATERIAL_FLOAT_EQUALS _DoubleSidedEnable 1
+	{
+		Material SET_FLOAT _RenderCull 0
+	}
+
+	if SHADER_NAME_CONTAINS Masked
+	{
+		Material SET_FLOAT _RenderClip 1
+	}
+
+	Material COPY_FLOAT _DoubleSidedNormalMode _RenderNormals
+
+	Material COPY_COLOR _Color _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_TEX _BumpMap _MainNormalTex
+	
+	Material COPY_COLOR _Emissive _EmissiveColor
+	Material COPY_TEX _EmissionMap _EmissiveTex
+	
+	Texture PropName _MainMaskTex
+	Texture ImportType DEFAULT
+	Texture SetRed GET_RED _MetallicGlossMap
+	Texture SetGreen GET_MAX _OcclusionMap
+	Texture SetAlpha GET_ALPHA _SpecGlossMap ACTION_ONE_MINUS
+	Utility START_TEXTURE_PACKING
+}
+
+

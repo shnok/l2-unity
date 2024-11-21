@@ -1,0 +1,87 @@
+// Detect opaque for ST8 HDRP
+
+if MATERIAL_HAS_PROP _SubsurfaceTex
+{
+	if !MATERIAL_HAS_TEX _SubsurfaceTex
+	{
+		Include Use Default Bark Settings
+	}
+}
+
+*******************************************************************
+
+if MATERIAL_KEYWORD_ENABLED GEOM_TYPE_BRANCH
+{
+	Include Use Default Bark Settings
+}
+
+*******************************************************************
+
+if MATERIAL_KEYWORD_ENABLED GEOM_TYPE_BRANCH_DETAIL
+{
+	Include Use Default Bark Settings
+}
+
+*******************************************************************
+
+if MATERIAL_KEYWORD_ENABLED GEOM_TYPE_BRANCH_BLEND
+{
+	Include Use Default Bark Settings
+}
+
+*******************************************************************
+
+if MATERIAL_FLOAT_EQUALS _SubsurfaceKwToggle 0
+{
+	Include Use Default Bark Settings
+}
+
+*******************************************************************
+
+if MATERIAL_KEYWORD_ENABLED EFFECT_BILLBOARD
+{
+	Include Use Default Cross Settings
+	Material SET_FLOAT _RenderCull 2
+}
+
+*******************************************************************
+
+// Caps can have alpha blending so enable clipping
+if MATERIAL_NAME_CONTAINS Cap
+{
+	Include Use Default Bark Settings
+
+	Material SET_FLOAT _RenderClip 1
+}
+
+*******************************************************************
+
+// Set default settings
+Material SET_FLOAT _GlobalSize 0
+Material SET_FLOAT _SizeFadeMode 0
+Material SET_FLOAT _AlphaClipValue 0.1
+
+*******************************************************************
+
+// Copy Material Properties
+Material COPY_COLOR _Color _MainColor
+Material COPY_TEX _MainTex _MainAlbedoTex
+Material COPY_ST_AS_VECTOR _MainTex _MainUVs
+Material COPY_TEX _BumpMap _MainNormalTex
+Material COPY_FLOAT _Metallic _MainMetallicValue
+// Set Smoothness for SpeedTree 7
+Material SET_FLOAT _MainSmoothnessValue 0.25
+// Set Smoothness for SpeedTree 8
+Material COPY_FLOAT _Glossiness _MainSmoothnessValue
+
+Material SET_COLOR _VertexOcclusionColor 0 0 0 1
+
+Material SET_FLOAT _MainMaskMinValue 0
+Material SET_FLOAT _MainMaskMaxValue 1
+
+*******************************************************************
+
+// Has proper branch variation
+Material SET_FLOAT _MotionVariation_20 10
+
+*******************************************************************

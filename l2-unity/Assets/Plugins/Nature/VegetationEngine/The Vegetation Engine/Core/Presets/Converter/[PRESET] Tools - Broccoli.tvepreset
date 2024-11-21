@@ -1,0 +1,54 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Broccoli (Preview)
+InfoPreset Use this preset to convert Broccoli Tree Creator vegetation.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/packages/tools/modeling/broccoli-tree-creator-121853
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Grass/Vegetation 1
+OutputTransforms KEEP_ORIGINAL_TRANSFORMS
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	Mesh SetVariation GET_MASK_FROM_CHANNEL 7 ACTION_REMAP_01
+	Mesh SetOcclusion GET_MASK_FROM_CHANNEL 0
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_3RD_PARTY 2
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+// Set Material Shader
+Include SpeedTree Commons
+
+// Combine Texture Channels
+Texture SetRed GET_GREEN _ExtraTex
+Texture SetGreen GET_BLUE _ExtraTex
+Texture SetBlue GET_GREEN _SubsurfaceTex
+Texture SetAlpha GET_RED _ExtraTex
+
+Utility START_TEXTURE_PACKING
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Settings
+}

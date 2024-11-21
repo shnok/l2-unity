@@ -1,0 +1,24 @@
+Material SET_SHADER SHADER_STANDARD_PLANT
+Material SET_FLOAT _RenderCull 2
+Material SET_FLOAT _RenderClip 0
+
+Material SET_FLOAT _GlobalColors 0
+Material SET_FLOAT _GlobalAlpha 0
+Material SET_FLOAT _SubsurfaceValue 0
+Material SET_FLOAT _MotionAmplitude_32 0
+
+Material SET_FLOAT _MainMaskMinValue 1
+Material SET_FLOAT _MainMaskMaxValue 1
+Material SET_FLOAT _SecondMaskMinValue 1
+Material SET_FLOAT _SecondMaskMaxValue 1
+
+Material LOCK_PROP _GlobalColors
+Material LOCK_PROP _GlobalAlpha
+Material LOCK_PROP _SubsurfaceValue
+Material LOCK_PROP _MotionAmplitude_32
+
+// Set Flutter Mask to black
+Mesh SetMotion3 GET_MASK_PROCEDURAL 0
+
+// Legacy
+Material SET_FLOAT _MotionValue_30 0

@@ -1,0 +1,54 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+ 
+InfoTitle Fantasy Tree Creator
+InfoPreset Use this preset to convert Fantasy Tree Creator trees.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/packages/tools/modeling/fantasy-tree-creator-259490
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+Mesh SetVariation GET_MASK_FROM_CHANNEL 0
+Mesh SetOcclusion GET_MASK_PROCEDURAL 6
+Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+Mesh SetHeight GET_MASK_PROCEDURAL 4
+Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+Mesh SetMotion3 GET_MASK_FROM_CHANNEL 5
+
+Mesh SetPivots NONE
+
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Bark
+{
+	Include Use Default Bark Settings
+}
+
+Material SET_FLOAT _RenderNormals 2
+
+Material COPY_FLOAT _Alpha_Threshold _AlphaClipValue
+
+Material COPY_TEX _Base_Map _MainAlbedoTex
+Material COPY_TEX _Normal_Map _MainNormalTex
+Material COPY_TEX _Mask_Map _MainMaskTex
+
+Material COPY_ST_AS_VECTOR _Base_Map _MainUVs
+
+Material COPY_COLOR _Color _MainColor
+Material COPY_FLOAT _Normal_Intensity _MainNormalValue
+Material COPY_FLOAT _Metallic _MainMetallicValue
+Material COPY_FLOAT _Smoothness _MainSmoothnessValue
+
+Material COPY_FLOAT _Occlusion_Mask_Green _MainOcclusionValue
+Material COPY_FLOAT _Smoothness_Mask_Alpha _MainSmoothnessValue
+
+if MATERIAL_NAME_CONTAINS Billboard
+{
+	Include Use Default Cross Settings
+}

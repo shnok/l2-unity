@@ -1,0 +1,185 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Synty Biomes
+InfoPreset Use this preset to convert Synty Biomes assets.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/publishers/5217
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Grass/Flowers/Vegetation 3
+OutputPipelines Standard/Universal
+OutputTransforms USE_ORIGINAL_TRANSFORMS
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	InfoMessage Please note, the converter will use the Albedo texture instead of Synty's flat shading and the color will be different!
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	InfoMessage Please note, the converter will use the Albedo texture instead of Synty's flat shading. In order to achieve a similar result, set the Main Albedo to 0 and adjust the Main Color.
+}
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_FROM_CHANNEL 0
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 0
+	Mesh SetAlpha GET_MASK_FROM_CHANNEL 0
+	Mesh SetExtraCoord NONE
+	
+	Mesh SetPivots GET_PIVOTS_PROCEDURAL 0
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_FROM_CHANNEL 0
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 0
+	Mesh SetAlpha GET_MASK_FROM_CHANNEL 0
+	Mesh SetExtraCoord NONE
+	
+	Mesh SetPivots GET_PIVOTS_PROCEDURAL 0
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_FROM_CHANNEL 1
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 2
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	Mesh SetExtraCoord NONE
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+Include Unity Lit Commons
+
+Material SET_FLOAT _RenderNormal 2
+
+if SHADER_NAME_CONTAINS Basic_LOD_Shader
+{
+	Include Default Prop Settings
+
+	Material COPY_TEX _Albedo _MainAlbedoTex
+	Material COPY_TEX _NormalMap _MainNormalTex
+
+	Material COPY_VECTOR _AlbedoColour _MainColor
+	Material COPY_FLOAT _NormalAmount _MainNormalValue
+	Material COPY_FLOAT _Metallic _MainMetallicValue
+	Material COPY_FLOAT _Smoothness _MainSmoothnessValue
+}
+
+if SHADER_NAME_CONTAINS Triplanar
+{
+	Include Default Prop Settings
+
+	Material COPY_TEX _Sides _MainAlbedoTex
+	Material COPY_TEX _SidesNormal _MainNormalTex
+	
+	Material SET_FLOAT _MainSampleMode 3
+	Material COPY_FLOAT_AS_VECTOR_X _Tiling _MainCoordValue
+	Material COPY_FLOAT_AS_VECTOR_Y _Tiling _MainCoordValue
+
+	Material COPY_TEX _Top _SecondAlbedoTex
+	Material COPY_TEX _TopNormal _SecondNormalTex
+
+	Material SET_FLOAT _SecondIntensityValue 1
+	
+	Material SET_FLOAT _SecondSampleMode 3
+	Material COPY_FLOAT_AS_VECTOR_X _Tiling _SecondCoordValue
+	Material COPY_FLOAT_AS_VECTOR_Y _Tiling _SecondCoordValue
+	
+	Material SET_FLOAT _SecondMaskValue 0
+	Material SET_FLOAT _SecondMeshValue 0
+	Material SET_FLOAT _SecondProjValue 1
+	
+	Material SET_VECTOR _SecondMaskRemap 0 1 0 0
+	Material SET_VECTOR _SecondMeshRemap 0 1 0 0
+	Material SET_VECTOR _SecondProjRemap 0 1 0 0
+	Material SET_VECTOR _SecondBlendRemap 0 1 0 0
+}
+
+if SHADER_NAME_CONTAINS VegitationShader
+{
+	Include Default Leaf Settings
+
+	// Main Layer
+	Material SET_FLOAT _MainAlphaClipValue 0.5
+
+	Material COPY_TEX _LeafTex _MainAlbedoTex
+	Material COPY_TEX _LeafNormalMap _MainNormalTex
+	Material COPY_ST_AS_VECTOR _LeafTex _MainCoordValue
+
+	Material COPY_FLOAT _LeafNormalScale _MainNormalValue
+	Material COPY_FLOAT _LeafMetallic _MainMetallicValue
+	Material COPY_FLOAT _LeafSmoothness _MainSmoothnessValue
+
+	Material SET_VECTOR _MainMultiRemap 0 0 0 0
+
+	if MATERIAL_HAS_TEX _TunkTex
+	{
+		// Second Layer
+		Material SET_FLOAT _SecondIntensityValue 1
+
+		Material COPY_TEX _TunkTex _SecondAlbedoTex
+		Material COPY_TEX _TrunkNormalMap _SecondNormalTex
+		Material COPY_TEX _CoverMaskMap _SecondSampleMode
+		Material COPY_ST_AS_VECTOR _TunkTex _SecondCoordValue
+
+		Material SET_FLOAT _SecondAlphaClipValue 0
+
+		Material COPY_FLOAT _TrunkNormalScale _SecondNormalValue
+		Material COPY_FLOAT _TrunkMetallic _SecondMetallicValue
+		Material COPY_FLOAT _TrunkSmoothness _SecondSmoothnessValue
+
+		Material SET_VECTOR _SecondMultiRemap 1 1 0 0
+
+		Material SET_FLOAT _SecondMaskValue 0
+		Material SET_FLOAT _SecondMeshValue 1
+		Material SET_FLOAT _SecondProjValue 0
+
+		Material SET_VECTOR _SecondMaskRemap 0 1 0 0
+		Material SET_VECTOR _SecondMeshRemap 1 0 0 1
+		Material SET_VECTOR _SecondProjRemap 0 1 0 0
+		Material SET_VECTOR _SecondBlendRemap 0 1 0 0
+	}
+
+	if MATERIAL_NAME_CONTAINS Card
+	{
+		Include Default Cross Settings
+	}
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Settings
+	
+	Material SET_FLOAT _RenderNormal 2
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Include Default Grass Settings
+}

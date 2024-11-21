@@ -1,0 +1,204 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle I Made It
+InfoPreset Use this preset to convert custom made assets using the I Made It shader to set up your maps for the converter to pack them. Check the documentation for more details!
+InfoStatus ○ ○ ○ ○ ○
+InfoOnline https://docs.google.com/document/d/145JOVlJ1tE-WODW45YoJ6Ixg23mFc56EnB_8Tbwloz8/edit#heading=h.ltnk8tq0d4cg
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputMeshes DEFAULT
+OutputMaterials DEFAULT
+
+OutputOptions Use Baked Mesh Masks/Props/Grass/Flowers/Plants/Conifers/Trees 0
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Use Baked Mesh Masks
+{
+		// Get the variation mask from Vertex Color R
+	Mesh SetVariation GET_MASK_FROM_CHANNEL 0
+
+	// Get the occlusion mask from Vertex Color A
+	Mesh SetOcclusion GET_MASK_FROM_CHANNEL 3
+
+	// Set a procedural height mask for detail blending
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+
+	// Use UV0 texture coord as detail UVs
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+
+	// Get the squash motion mask from Vertex Color G
+	Mesh SetMotion2 GET_MASK_FROM_CHANNEL 1
+
+	// Get the flutter motion mask from Vertex Color B
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 2
+
+	Mesh SetPivots NONE
+
+	// Use masks from the additional texture using UV4 channel for example
+	// Mesh SetDetailMask GET_MASK_FROM_TEXTURE GET_RED _AdditionalTex3 GET_COORD 3
+	// Mesh SetMotion2 GET_MASK_FROM_TEXTURE GET_RED _AdditionalTex1 GET_COORD 3
+	// Mesh SetMotion3 GET_MASK_FROM_TEXTURE GET_RED _AdditionalTex2 GET_COORD 3
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Use Default Props Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Include Use Default Flower Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Plants
+{
+	Mesh SetVariation GET_MASK_PROCEDURAL 3
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 5
+	Mesh SetDetailMask NONE
+	Mesh SetDetailCoord NONE
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 15
+	Mesh SetMotion3 GET_MASK_PROCEDURAL 15
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Conifers
+{
+	Mesh SetVariation GET_MASK_PROCEDURAL 3
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 6
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 5
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Trees
+{
+	Mesh SetVariation GET_MASK_PROCEDURAL 3
+	Mesh SetOcclusion GET_MASK_PROCEDURAL 6
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 5
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+if MATERIAL_FLOAT_EQUALS _MaterialMode 0
+{
+	Material SET_SHADER SHADER_STANDARD_PLANT
+}
+
+if MATERIAL_FLOAT_EQUALS _MaterialMode 1
+{
+	Material SET_SHADER SHADER_SUBSURFACE_PLANT
+}
+
+if MATERIAL_FLOAT_EQUALS _MaterialMode 2
+{
+	Material SET_SHADER SHADER_STANDARD_PROP
+}
+
+*******************************************************************
+
+if MATERIAL_FLOAT_EQUALS _SubsurfaceMode 1
+{
+	Material SET_FLOAT _MainMaskMinValue 1
+	Material SET_FLOAT _MainMaskMaxValue 0
+}
+
+*******************************************************************
+
+// Copy Textures
+Material COPY_TEX _MainAlbedoTex _MainAlbedoTex
+Material COPY_TEX _MainNormalTex _MainNormalTex
+Material COPY_TEX _MainMaskTex _MainMaskTexTex
+
+// Properties
+Material COPY_FLOAT _RenderClip _RenderClip
+Material COPY_FLOAT _AlphaClipValue _AlphaClipValue
+Material COPY_VECTOR _MainColor _MainColor
+Material COPY_VECTOR _MainUVs _MainUVs
+Material COPY_FLOAT _MainMetallicValue _MainMetallicValue
+Material COPY_FLOAT _MainOcclusionValue _MainOcclusionValue
+Material COPY_FLOAT _MainSmoothnessValue _MainSmoothnessValue
+
+
+if MATERIAL_FLOAT_EQUALS _MasksMode 1
+{
+	Texture PropName _MainMaskTex
+	Texture ImportType DEFAULT
+
+	Texture SetRed GET_GRAY _MainMetallicTex
+	Texture SetGreen GET_GRAY _MainOcclusionTex
+
+	if MATERIAL_FLOAT_EQUALS _SmoothnessMode 0
+	{
+		Texture SetAlpha GET_GRAY _MainSmoothnessTex
+	}
+	
+	if MATERIAL_FLOAT_EQUALS _SmoothnessMode 1
+	{
+		Texture SetAlpha GET_GRAY _MainSmoothnessTex ACTION_ONE_MINUS
+	}
+
+	Texture SetBlue GET_GRAY _MainSubsurfaceTex
+	Texture SetBlue GET_GRAY _MainHeightTex
+	
+	Utility START_TEXTURE_PACKING
+}
+
+if MATERIAL_FLOAT_EQUALS _MainNormalXMode 1
+{
+	Texture PropName _MainNormalTex
+	Texture ImportType NORMALMAP
+	Texture SetRed GET_RED _MainNormalTex ACTION_ONE_MINUS
+	Texture SetGreen GET_GREEN _MainNormalTex
+
+	Texture SetBlue GET_BLUE _MainNormalTex
+	Utility START_TEXTURE_PACKING
+}
+
+if MATERIAL_FLOAT_EQUALS _MainNormalYMode 1
+{
+	Texture PropName _MainNormalTex
+	Texture ImportType NORMALMAP
+	Texture SetGreen GET_RED _MainNormalTex
+	Texture SetRed GET_GREEN _MainNormalTex ACTION_ONE_MINUS
+	Texture SetBlue GET_BLUE _MainNormalTex
+	Utility START_TEXTURE_PACKING
+}
+
+Material COPY_TEX _EmissiveTex _EmissiveTex
+Material COPY_VECTOR _EmissiveUVs _EmissiveUVs
+Material COPY_FLOAT _EmissiveFlagMode _EmissiveFlagMode
+Material COPY_VECTOR _EmissiveColor _EmissiveColor
+Material COPY_VECTOR _EmissiveIntensityMode_EmissiveIntensityMode
+Material COPY_VECTOR _EmissiveIntensityValue _EmissiveIntensityValue
+Material COPY_FLOAT _EmissiveExposureValue _EmissiveExposureValue
+
+
+

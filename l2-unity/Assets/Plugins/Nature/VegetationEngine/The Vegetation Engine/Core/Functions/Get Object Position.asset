@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Get Object Position
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor v1.9.1.5\n// Available at the
+    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19105\nNode;AmplifyShaderEditor.ObjectToWorldTransfNode;68;0,-1920;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.ObjectToWorldMatrixNode;18;-1152,-768;Inherit;False;0;1;FLOAT4x4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;33;-1152,384;Inherit;False;28;ObjectPositionWithPivots;1;0;OBJECT;;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.ObjectToWorldMatrixNode;110;-256,-1280;Inherit;False;0;1;FLOAT4x4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;112;-512,-512;Inherit;False;105;PivotsOnly;1;0;OBJECT;;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CustomExpressionNode;14;-1152,128;Float;False;return
+    float3(UNITY_MATRIX_M[0].w, UNITY_MATRIX_M[1].w, UNITY_MATRIX_M[2].w )@;3;Create;0;ObjectPosition_UNITY_MATRIX_M;False;False;0;;False;0;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;108;-1152,256;Inherit;False;105;PivotsOnly;1;0;OBJECT;;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;111;-320,-640;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionSwitch;116;128,-768;Inherit;False;Pivots
+    Mode;False;0;2;-1;Off;On;Object;-1;9;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionSubtitle;120;-512,128;Inherit;False;Object
+    Position;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionSubtitle;121;-512,256;Inherit;False;Pivots
+    Position;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionSwitch;119;-256,128;Inherit;False;Pivots
+    Mode;False;0;2;-1;Off;On;Instance;116;9;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;122;-768,-1408;Inherit;False;Pivots;3;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionSubtitle;117;-128,-768;Inherit;False;Object
+    Position;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionSubtitle;118;-128,-640;Inherit;False;Pivots
+    Position;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.StaticSwitch;13;128,128;Inherit;False;Property;_Keyword0;Keyword
+    0;0;0;Create;True;0;0;0;False;0;False;0;0;0;False;SHADEROPTIONS_CAMERA_RELATIVE_RENDERING;Toggle;2;Key0;Key1;Fetch;False;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WorldSpaceCameraPos;15;-512,384;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.BreakToComponentsNode;19;-896,-768;Inherit;False;FLOAT4x4;1;0;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15\nNode;AmplifyShaderEditor.SwizzleNode;106;256,-1408;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SwizzleNode;69;256,-1920;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;107;-768,224;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionSwitchByPipeline;11;512,-768;Inherit;False;4;0;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;16;-16,256;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionNode;113;-1152,-1408;Inherit;False;Get
+    Mesh Pivots;-1;;53099;0f3b48865aa51a547adcea4651179431;0;0;1;FLOAT3;53\nNode;AmplifyShaderEditor.SimpleSubtractOpNode;57;-256,-1664;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;28;768,-1920;Inherit;False;ObjectPositionWithPivots;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.ObjectToWorldTransfNode;62;0,-1664;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.PosVertexDataNode;67;-1152,-1920;Inherit;False;1;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;109;0,-1408;Inherit;False;2;2;0;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.DynamicAppendNode;20;-512,-768;Inherit;False;FLOAT3;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;29;-512,-448;Inherit;False;28;ObjectPositionWithPivots;1;0;OBJECT;;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.PosVertexDataNode;56;-1152,-1664;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.RegisterLocalVarNode;105;768,-1408;Inherit;False;PivotsOnly;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleSubtractOpNode;55;512,-1920;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SwizzleNode;64;256,-1664;Inherit;False;FLOAT3;0;1;2;3;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.BreakToComponentsNode;9;1536,-912;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15\nNode;AmplifyShaderEditor.FunctionOutput;7;1792,-1024;Inherit;False;False;-1;XYZ;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;4;1792,-848;Inherit;False;False;-1;Y;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;1792,-912;Inherit;False;True;-1;X;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;5;1792,-784;Inherit;False;False;-1;Z;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;114;896,-1024;Inherit;False;Is
+    Batched;-1;;53100;5b40b68a21d90f04d8788ac1d606d090;0;2;7;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionNode;123;496,-1024;Inherit;False;Get
+    World Position;-1;;53101;d00cb116922076641937081616e659e2;0;0;4;FLOAT3;7;FLOAT;0;FLOAT;4;FLOAT;5\nWireConnection;68;0;67;0\nWireConnection;111;0;20;0\nWireConnection;111;1;112;0\nWireConnection;116;0;117;0\nWireConnection;116;1;118;0\nWireConnection;120;0;14;0\nWireConnection;121;0;107;0\nWireConnection;119;0;120;0\nWireConnection;119;1;121;0\nWireConnection;122;0;113;53\nWireConnection;117;0;20;0\nWireConnection;118;0;111;0\nWireConnection;13;1;119;0\nWireConnection;13;0;16;0\nWireConnection;19;0;18;0\nWireConnection;106;0;109;0\nWireConnection;69;0;68;0\nWireConnection;107;0;14;0\nWireConnection;107;1;108;0\nWireConnection;11;0;116;0\nWireConnection;11;3;116;0\nWireConnection;11;1;116;0\nWireConnection;11;2;13;0\nWireConnection;16;0;119;0\nWireConnection;16;1;15;0\nWireConnection;57;0;56;0\nWireConnection;57;1;122;0\nWireConnection;28;0;55;0\nWireConnection;62;0;57;0\nWireConnection;109;0;110;0\nWireConnection;109;1;122;0\nWireConnection;20;0;19;3\nWireConnection;20;1;19;7\nWireConnection;20;2;19;11\nWireConnection;105;0;106;0\nWireConnection;55;0;69;0\nWireConnection;55;1;64;0\nWireConnection;64;0;62;0\nWireConnection;9;0;114;0\nWireConnection;7;0;114;0\nWireConnection;4;0;9;1\nWireConnection;0;0;9;0\nWireConnection;5;0;9;2\nWireConnection;114;7;11;0\nWireConnection;114;6;123;7\nASEEND*/\n//CHKSM=266A0DAF8B9E63A9CB18A755FD7DC883164E80B1"
+  m_functionName: 
+  m_description: Object Base position in World Space.
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_headerStyle: 2
+  m_headerColor: {r: 1, g: 0.62734854, b: 0, a: 1}
+  m_customNodeCategory: The Vegetation Engine
+  m_previewPosition: 0
+  m_hidden: 0
+  m_url: 

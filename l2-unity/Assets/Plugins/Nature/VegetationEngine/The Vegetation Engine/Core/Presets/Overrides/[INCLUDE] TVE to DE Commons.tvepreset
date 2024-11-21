@@ -1,0 +1,66 @@
+// Updated 27.12.2021
+
+*******************************************************************
+*                             INCLUDE                             *
+*******************************************************************
+
+Material COPY_FLOAT _RenderCull _CullMode
+Material COPY_FLOAT _AlphaCutoffValue _AlphaCutoff
+Material COPY_FLOAT _AlphaCutoffValue _AlphaCutoffShadow
+Material COPY_FLOAT _AlphaCutoffValue _Cutoff
+
+if MATERIAL_FLOAT_EQUALS _RenderClip 1
+{
+	Material SET_FLOAT _AlphaCutoffEnable 1
+	Material ENABLE_KEYWORD _ALPHATEST_ON
+}
+
+Material COPY_FLOAT _RenderNormals _DoubleSidedNormalMode 0
+
+Material COPY_VECTOR _MainColor _Color
+Material COPY_TEX _MainAlbedoTex _MainTex
+Material COPY_TEX _MainNormalTex _BumpMap
+//Material COPY_TEX _MainMaskTex _MaskMap
+
+Material COPY_VECTOR_X_AS_FLOAT _MainUVs _TilingX
+Material COPY_VECTOR_Y_AS_FLOAT _MainUVs _TilingY
+Material COPY_VECTOR_Z_AS_FLOAT _MainUVs _OffsetX
+Material COPY_VECTOR_W_AS_FLOAT _MainUVs _OffsetY
+
+Material COPY_FLOAT _MainNormalValue _NormalStrength
+Material COPY_FLOAT _MainMetallicValue _MetallicStrength
+Material COPY_FLOAT _MainOcclusionValue _OcclusionStrengthAO
+Material COPY_FLOAT _MainSmoothnessValue _Smoothness
+
+Material COPY_VECTOR _SubsurfaceColor _TranslucencyTint
+Material COPY_VECTOR _SubsurfaceColor _TransmissionTint
+
+*******************************************************************
+
+Material COPY_FLOAT _SubsurfaceDiffusion _DiffusionProfileHash
+Material COPY_VECTOR _SubsurfaceDiffusion_asset _DiffusionProfileHash_Asset
+
+*******************************************************************
+
+Material SET_FLOAT _EnableTranslucency 1
+Material SET_FLOAT _TranslucencyThickness 0.5
+Material SET_FLOAT _WindMode 1
+
+*******************************************************************
+
+Texture PropName _MaskMap
+Texture SetRed GET_GREEN _MainMaskTex
+Texture SetGreen GET_ALPHA _MainMaskTex
+Texture SetBlue GET_RED _MainMaskTex
+Utility START_TEXTURE_PACKING
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Plant
+{
+	Texture PropName _TranslucencyMap
+	Texture SetRed GET_BLUE _MainMaskTex
+	Texture SetGreen GET_BLUE _MainMaskTex
+	Texture SetBlue GET_BLUE _MainMaskTex
+	Utility START_TEXTURE_PACKING
+}

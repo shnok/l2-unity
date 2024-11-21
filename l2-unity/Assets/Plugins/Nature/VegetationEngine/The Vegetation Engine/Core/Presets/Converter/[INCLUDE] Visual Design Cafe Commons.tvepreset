@@ -1,0 +1,61 @@
+// Copy Material Properties
+Material COPY_COLOR _Tint _MainColor
+Material COPY_COLOR _TintVariation _MainColorVariation
+Material COPY_TEX _Albedo _MainAlbedoTex
+
+Material COPY_TEX _NormalMap _MainNormalTex
+Material COPY_FLOAT _NormalMapScale _MainNormalValue
+
+Material COPY_TEX _PackedMap _MainMaskTex
+
+Material COPY_FLOAT _Metallic _MainMetallicValue
+Material COPY_FLOAT _Glossiness _MainSmoothnessValue
+Material SET_FLOAT _MainOcclusionValue 0.5
+
+if MATERIAL_HAS_TEX _EmissionMap
+{
+	Material COPY_TEX _EmissionMap _EmissiveTex
+	Material COPY_VECTOR _EmissionColor _EmissiveColor
+	Material COPY_FLOAT _EmissionIntensity _EmissionIntensityvALUE
+	
+	Texture PropName _EmissiveTex
+	Texture SetRed GET_GRAY _EmissionMap
+	Texture SetGreen GET_GRAY _EmissionMap
+	Texture SetBlue GET_GRAY _EmissionMap
+	Texture SetAlpha NONE
+	Utility START_TEXTURE_PACKING
+}
+
+Material SET_FLOAT _MainMaskMinValue 1
+Material SET_FLOAT _MainMaskMaxValue 0
+
+*******************************************************************
+
+// Default values
+Material SET_FLOAT _RenderNormals 2
+
+*******************************************************************
+
+// Set Bark Settings
+if SHADER_NAME_CONTAINS Bark
+{
+	Material SET_SHADER SHADER_DEFAULT_BARK
+	Material SET_FLOAT _RenderClip 0
+	Material SET_FLOAT _RenderCull 2
+}
+
+*******************************************************************
+
+// Combine Texture Channels for Metallic Gloss Setup
+Texture SetRed GET_RED _MetallicGlossMap
+Texture SetGreen GET_GREEN _OcclusionMap
+Texture SetBlue GET_GRAY _ThicknessMap
+Texture SetAlpha GET_ALPHA _MetallicGlossMap
+
+// Combine Texture Channels for Mask Setup
+Texture SetRed GET_RED _PackedMap
+Texture SetGreen GET_GREEN _PackedMap
+Texture SetBlue GET_GRAY _ThicknessMap
+Texture SetAlpha GET_ALPHA _PackedMap
+
+Utility START_TEXTURE_PACKING

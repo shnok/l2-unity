@@ -1,0 +1,107 @@
+// 22.03.2022 - Preset created
+// 05.04.2022 - Preset updated
+
+*******************************************************************
+*                             INCLUDE                             *
+*******************************************************************
+
+OutputOptions Prop/Vegetation 1
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Prop
+{
+	Include Use Default Props Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	Mesh SetVariation GET_MASK_FROM_CHANNEL 1
+	Mesh SetOcclusion GET_MASK_FROM_CHANNEL 3
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 2
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+if MATERIAL_KEYWORD_ENABLED _SPECULARHIGHLIGHTS_OFF
+{
+	Material SET_FLOAT _RenderSpecular 0
+}
+
+Material COPY_FLOAT _CullMode _RenderCull
+Material COPY_FLOAT _Cull _RenderCull
+Material COPY_FLOAT _DoubleSidedNormalMode _RenderNormals
+Material SET_FLOAT _AlphaClipValue 0.2
+
+if MATERIAL_KEYWORD_ENABLED _ALPHATEST_ON
+{
+	Material SET_FLOAT _AlphaClip 1
+}
+
+Material COPY_VECTOR _Color _MainColor
+Material COPY_VECTOR _BaseColor _MainColor
+Material COPY_TEX _MainTex _MainAlbedoTex
+Material COPY_TEX _BumpMap _MainNormalTex
+
+Material COPY_FLOAT_AS_VECTOR_X _TilingX _MainUVs
+Material COPY_FLOAT_AS_VECTOR_Y _TilingY _MainUVs
+Material COPY_FLOAT_AS_VECTOR_Z _OffsetX _MainUVs
+Material COPY_FLOAT_AS_VECTOR_W _OffsetY _MainUVs
+
+Material COPY_FLOAT _NormalStrength _MainNormalValue
+Material SET_FLOAT _MainMetallicValue 0
+Material SET_FLOAT _MainOcclusionValue 1
+Material SET_FLOAT _MainSmoothnessValue 0
+
+Material COPY_VECTOR _TranslucencyTint _SubsurfaceColor
+Material COPY_VECTOR _TransmissionTint _SubsurfaceColor
+
+*******************************************************************
+
+Material COPY_FLOAT _DiffusionProfileHash _SubsurfaceDiffusion
+Material COPY_VECTOR _DiffusionProfileHash_Asset _SubsurfaceDiffusion_asset
+Material COPY_VECTOR _DiffusionProfileHash_Asset _SubsurfaceDiffusion_Asset
+
+*******************************************************************
+
+if !SHADER_NAME_CONTAINS DEC
+{
+	Texture PropName _MainMaskTex
+	Texture SetRed GET_BLUE _MaskMap
+	Texture SetGreen GET_RED _MaskMap
+	Texture SetBlue GET_GREEN _ParallaxMap
+	Texture SetBlue GET_GREEN _TranslucencyMap
+	Texture SetAlpha GET_GREEN _MaskMap
+	Utility START_TEXTURE_PACKING
+}
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS DEC
+{
+	Texture PropName _MainMaskTex
+	Texture SetRed GET_RED _MetallicGlossMap
+	Texture SetGreen GET_GREEN _OcclusionMap
+	Texture SetBlue GET_RED _TranslucencyMap
+	Texture SetAlpha GET_ALPHA _MetallicGlossMap
+	Utility START_TEXTURE_PACKING
+}
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Surface
+{
+	Include Use Default Bark Settings
+}
+
+if SHADER_NAME_CONTAINS Billboard
+{
+	Include Use Default Bark Settings
+}

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Compute Terrain Passes
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor v1.9.2.2\n// Available at the
+    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19202\nNode;AmplifyShaderEditor.FunctionInput;8;-384,-896;Inherit;False;Layer
+    04;4;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionInput;9;-384,-832;Inherit;False;Layer
+    08;4;1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;5;-128,-896;Half;False;Layer_04;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;10;-128,-832;Half;False;Layer_08;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionInput;41;-384,-768;Inherit;False;Layer
+    12;4;2;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;43;-128,-768;Half;False;Layer_12;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionInput;42;-384,-704;Inherit;False;Layer
+    16;4;3;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;44;-128,-704;Half;False;Layer_16;-1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;17;-384,-384;Inherit;False;5;Layer_04;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;45;-384,-256;Inherit;False;5;Layer_04;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;46;-384,-192;Inherit;False;10;Layer_08;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;37;-128,-256;Inherit;False;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;47;-384,-64;Inherit;False;5;Layer_04;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;49;-128,-64;Inherit;False;3;3;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;48;-384,0;Inherit;False;10;Layer_08;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;50;-384,64;Inherit;False;43;Layer_12;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;51;-384,192;Inherit;False;5;Layer_04;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;52;-128,192;Inherit;False;4;4;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT4;0,0,0,0;False;3;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;53;-384,256;Inherit;False;10;Layer_08;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;54;-384,320;Inherit;False;43;Layer_12;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.GetLocalVarNode;55;-384,384;Inherit;False;44;Layer_16;1;0;OBJECT;;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionOutput;0;1024,-384;Inherit;False;True;-1;;0;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.StaticSwitch;40;256,-384;Inherit;False;Property;TVE_TERRAIN;TVE_TERRAIN;113;0;Create;False;0;0;0;False;0;False;0;0;0;False;TVE_TERRAIN_08_LAYERS;KeywordEnum;4;_04;_08;_12;_16;Create;True;True;Fragment;9;1;FLOAT4;0,0,0,0;False;0;FLOAT4;0,0,0,0;False;2;FLOAT4;0,0,0,0;False;3;FLOAT4;0,0,0,0;False;4;FLOAT4;0,0,0,0;False;5;FLOAT4;0,0,0,0;False;6;FLOAT4;0,0,0,0;False;7;FLOAT4;0,0,0,0;False;8;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nWireConnection;5;0;8;0\nWireConnection;10;0;9;0\nWireConnection;43;0;41;0\nWireConnection;44;0;42;0\nWireConnection;37;0;45;0\nWireConnection;37;1;46;0\nWireConnection;49;0;47;0\nWireConnection;49;1;48;0\nWireConnection;49;2;50;0\nWireConnection;52;0;51;0\nWireConnection;52;1;53;0\nWireConnection;52;2;54;0\nWireConnection;52;3;55;0\nWireConnection;0;0;40;0\nWireConnection;40;1;17;0\nWireConnection;40;0;37;0\nWireConnection;40;2;49;0\nWireConnection;40;3;52;0\nASEEND*/\n//CHKSM=F1212CB09563445354223C9220F2C9B71006BC36"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_headerStyle: 2
+  m_headerColor: {r: 1, g: 0.62734854, b: 0, a: 1}
+  m_customNodeCategory: The Vegetation Engine
+  m_previewPosition: 0
+  m_hidden: 0
+  m_url: 

@@ -1,0 +1,69 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Aquarius Max
+InfoPreset Use this preset to convert Aquarius Max Stylized Trees and Foliage.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/packages/3d/vegetation/trees/stylized-trees-and-foliage-190601
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Grass/Plants/Trees 2
+
+InfoWarning Please note, Aquarius Max colors cannot be copied, a default color will be applied! You can adjust the occlusion color to get a better result!
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Plants
+{
+	Include Default Plant Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Trees
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 5
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	Mesh SetExtraCoord NONE
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Leaves
+{
+	Include Default Leaf Settings
+
+	Material SET_FLOAT _RenderCull 0
+	Material SET_FLOAT _RenderNormal 2
+	Material SET_FLOAT _RenderSpecular 0
+	Material SET_FLOAT _MainAlphaClipValue 0.2
+
+	Material COPY_TEX_FIRST_VALID _MainAlbedoTex
+	Material COPY_VECTOR Vector2_37718045 _MainCoordValue
+	
+	Material SET_COLOR _MainColor 0.4 0.4 0.1 1.0
+
+	Material SET_FLOAT _MainSmoothnessValue 0
+}
+
+if SHADER_IS_UNITY_LIT
+{
+	Include Default Bark Settings
+	Include Unity Lit Commons
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Settings
+	Material SET_VECTOR _MainCoordValue 1.0 0.8 0.0 0.0
+}

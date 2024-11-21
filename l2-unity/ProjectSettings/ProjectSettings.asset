@@ -82,6 +82,7 @@ PlayerSettings:
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
   runInBackground: 1
+  captureSingleScreen: 0
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
   Force IOS Speakers When Recording: 0
@@ -290,7 +291,7 @@ PlayerSettings:
   m_BuildTargetPlatformIcons: []
   m_BuildTargetBatching:
   - m_BuildTarget: Standalone
-    m_StaticBatching: 1
+    m_StaticBatching: 0
     m_DynamicBatching: 0
   - m_BuildTarget: tvOS
     m_StaticBatching: 1
@@ -660,7 +661,7 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   scriptingDefineSymbols:
-    Standalone: UNITY_PIPELINE_URP
+    Standalone: UNITY_PIPELINE_URP;__MICROSPLAT__;__MICROSPLAT_TRIPLANAR__
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

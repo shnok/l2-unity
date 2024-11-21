@@ -1,0 +1,206 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle TriForge Valley Forrest
+InfoPreset Use this preset to convert TriForge Valley Forest assets.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/packages/3d/environments/real-landscapes-valley-forest-194338
+
+InfoMessage When converting Valley Forest assets, only the base textures will be copied because the snow is achieved via the Global Overlay. 
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Grass/Trees 2
+OutputTransforms USE_ORIGINAL_TRANSFORMS
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Trees
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	
+	if SHADER_NAME_CONTAINS Leaf
+	{
+		Mesh SetBlue GET_MASK_FROM_CHANNEL 1
+	}
+	
+	if SHADER_NAME_CONTAINS Bark
+	{
+		Mesh SetBlue GET_MASK_FROM_CHANNEL 0
+	}
+	
+	Mesh SetExtraCoord GET_COORD_FROM_CHANNEL 2
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Standard Snow
+{
+	Include Default Prop Settings
+
+	if SHADER_NAME_CONTAINS Cutout
+	{
+		Material SET_FLOAT _RenderClip 1
+	}
+
+	Material COPY_FLOAT _Cutoff _MainAlphaClipValue
+	Material COPY_FLOAT _AlphaCutoff _MainAlphaClipValue
+
+	// Copy Main props
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_TEX _Albedo _MainAlbedoTex
+	Material COPY_TEX _BaseColor _MainAlbedoTex
+	Material COPY_TEX _Normal _MainNormalTex
+	Material COPY_ST_AS_VECTOR _MainTex _MainCoordValue
+	Material COPY_FLOAT _NormalStrength _MainNormalValue
+	Material COPY_FLOAT _Smoothness _MainSmoothnessValue
+	Material SET_FLOAT _MainOcclusionValue 1
+
+	// Pack textures for mask
+	Texture PropName _MainShaderTex
+	Texture SetRed GET_RED _MetallicRSmoothnessA
+	Texture SetGreen GET_GREEN _AmbientOcclusionG
+	Texture SetBlue GET_GREEN _AmbientOcclusionG
+	Texture SetAlpha GET_ALPHA _MetallicRSmoothnessA
+	
+	if MATERIAL_KEYWORD_ENABLED _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+	{
+		Texture SetAlpha GET_ALPHA _BaseColor
+	}
+	
+	Utility START_TEXTURE_PACKING
+}
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Leaf
+{
+	Include Default Leaf Settings
+
+	// Set Render Settings
+	Material SET_FLOAT _RenderCull 0
+	Material SET_FLOAT _RenderNormal 2
+	Material SET_FLOAT _RenderSpecular 0
+	Material SET_FLOAT _FadeGlancingValue 0
+
+	Material COPY_FLOAT _Cutoff _MainAlphaClipValue
+	Material COPY_FLOAT _AlphaCutoff _MainAlphaClipValue
+
+	// Copy Main props
+	Material COPY_VECTOR _Color _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_TEX _Albedo _MainAlbedoTex
+	Material COPY_TEX _BaseColor _MainAlbedoTex
+	Material COPY_TEX _Normal _MainNormalTex
+	Material COPY_ST_AS_VECTOR _MainTex _MainCoordValue
+	Material COPY_FLOAT _NormalScale _MainNormalValue
+	Material COPY_FLOAT _Smoothness _MainSmoothnessValue
+
+	Material COPY_FLOAT _DiffusionProfile _SubsurfaceDiffusion
+	Material COPY_FLOAT _DiffusionProfile_Asset _SubsurfaceDiffusion_Asset
+
+	Material SET_FLOAT _OcclusionIntensityValue 1
+	Material SET_FLOAT _OcclusionMeshMode 2
+	Material SET_VECTOR _OcclusionColorTwo 0.5 0.5 0.5 1
+	Material SET_FLOAT _SubsurfaceIntensityValue 0.5
+
+	if PREFAB_PATH_CONTAINS Oak
+	{
+		Material SET_FLOAT _SubsurfaceIntensityValue 0
+	}
+
+	if MATERIAL_NAME_CONTAINS Cross
+	{
+		Include Default Cross Settings
+		Material SET_FLOAT _FadeHorizontalValue 1
+	}
+
+	// Pack textures for mask
+	Texture PropName _MainShaderTex
+	Texture SetRed NONE
+	Texture SetGreen NONE
+	Texture SetBlue GET_GREEN _MaskMap
+	Texture SetAlpha GET_ALPHA _MaskMap
+	Utility START_TEXTURE_PACKING
+}
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Bark
+{
+	// Set Render Settings
+	Include Default Bark Settings
+
+	// Copy Main props
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_TEX _Albedo _MainAlbedoTex
+	Material COPY_TEX _BaseColor _MainAlbedoTex
+	Material COPY_TEX _Normal _MainNormalTex
+	Material COPY_ST_AS_VECTOR _Albedo _MainCoordValue
+	Material COPY_FLOAT _Smoothness _MainSmoothnessValue
+
+	// Pack textures for mask
+	Texture PropName _MainShaderTex
+	Texture SetRed NONE
+	Texture SetGreen GET_GREEN _Mask
+	Texture SetBlue GET_ALPHA _Mask
+	Texture SetAlpha GET_RED _Mask
+	Utility START_TEXTURE_PACKING
+	
+	if SHADER_NAME_CONTAINS Bark Double
+	{
+		// Set Detail props
+		Material SET_FLOAT _SecondIntensityValue 1
+		Material SET_FLOAT _SecondSampleMode 1
+
+		// Copy Main props
+		Material COPY_TEX _BottomAlbedo _SecondAlbedoTex
+		Material COPY_TEX _BottomNormal _SecondNormalTex
+		Material COPY_ST_AS_VECTOR _BottomAlbedo _SecondCoordValue
+		Material COPY_FLOAT _BottomSmoothness _SecondSmoothnessValue
+
+		Material SET_FLOAT _SecondBlendAlbedoValue 0
+		Material SET_FLOAT _SecondBlendNormalValue 0
+		Material SET_FLOAT _SecondBlendShaderValue 0
+
+		//Material SET_TEX _SecondMaskTex Internal__NoiseTex
+
+		Material SET_FLOAT _SecondMaskValue 0
+		Material SET_FLOAT _SecondMeshValue 1
+		Material SET_FLOAT _SecondProjValue 0
+
+		Material SET_VECTOR _SecondMaskRemap 0 1 0 0
+		Material SET_VECTOR _SecondMeshRemap 0 1 0 0
+		Material SET_VECTOR _SecondProjRemap 0 1 0 0
+		Material SET_VECTOR _SecondBlendRemap 0 1 0 0
+
+		// Pack textures for mask
+		Texture PropName _SecondShaderTex
+		Texture SetRed NONE
+		Texture SetGreen GET_GREEN _BottomMask
+		Texture SetBlue GET_ALPHA _BottomMask
+		Texture SetAlpha GET_RED _BottomMask
+		Utility START_TEXTURE_PACKING
+	}
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Settings
+}

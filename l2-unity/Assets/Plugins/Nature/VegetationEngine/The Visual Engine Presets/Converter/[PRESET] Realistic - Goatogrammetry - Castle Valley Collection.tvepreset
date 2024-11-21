@@ -1,0 +1,107 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Goatogrammetry
+InfoPreset Use this preset to convert Goatogrammetry Castle Valley assets.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/publishers/47093
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Vegetation 1
+
+*******************************************************************
+
+if ANY_PREFAB_ATTRIBUTE_CONTAINS Formation
+{
+	InfoWarning Converting Goatogrammetry's Formation individual prefabs is recommended to better organize the conversions!
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	OutputTransforms USE_ORIGINAL_TRANSFORMS
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	OutputTransforms TRANSFORM_TO_WORLD_SPACE
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	InfoMessage When converting Goatogrammetry props, the detail maps are ignored to optimize 3 texture while keeping the result almost identical to the original shading!
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 5
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	Mesh SetExtraCoord NONE
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+Include Unity Lit Commons
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Amplify
+{
+	Include Default Leaf Settings
+
+	// BIRP shader
+	if SHADER_PIPELINE_IS_STANDARD
+	{
+		Material COPY_COLOR _Tint _MainColor
+		Material COPY_TEX _Albedo _MainAlbedoTex
+		Material COPY_TEX _Normals _MainNormalTex
+		Material COPY_TEX _Occlusion _MainShaderTex
+		Material COPY_FLOAT _Roughness _MainSmoothnessValue
+		Material COPY_FLOAT _Metallic _MainMetallicValue
+		Material COPY_ST_AS_VECTOR _Albedo _MainCoordValue
+	}
+
+	// HDRP Shader
+	if SHADER_PIPELINE_IS_HD
+	{
+		Material COPY_TEX _ColorTexture _MainAlbedoTex
+		Material COPY_TEX _NormalTexture _MainNormalTex
+		Material COPY_TEX _MaskTexture _MainShaderTex
+
+		Material COPY_FLOAT _DiffusionProfile _SubsurfaceDiffusion
+		Material COPY_VECTOR _DiffusionProfile_asset _SubsurfaceDiffusion_Asset
+	}
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	if SHADER_IS_UNITY_LIT
+	{
+		Include Default Bark Settings
+		
+		// Fix last LOD using the Lit shader
+		if MATERIAL_KEYWORD_ENABLED _ALPHATEST_ON
+		{
+			Include Default Leaf Settings
+		}
+	}
+}
+
+
+

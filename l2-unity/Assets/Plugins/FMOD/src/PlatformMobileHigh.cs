@@ -17,14 +17,14 @@ namespace FMODUnity
             Settings.AddPlatformTemplate<PlatformMobileHigh>("fd7c55dab0fce234b8c25f6ffca523c1");
         }
 
-        internal override string DisplayName { get { return "High-End Mobile"; } }
+        public override string DisplayName { get { return "High-End Mobile"; } }
 #if UNITY_EDITOR
-        internal override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.MobileHigh; } }
+        public override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.MobileHigh; } }
 #endif
 
-        internal override float Priority { get { return base.Priority + 1; } }
+        public override float Priority { get { return base.Priority + 1; } }
 
-        internal override bool MatchesCurrentEnvironment
+        public override bool MatchesCurrentEnvironment
         {
             get
             {

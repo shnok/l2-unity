@@ -1,0 +1,42 @@
+// Updated 27.12.2021
+
+*******************************************************************
+*                            OVERRIDE                             *
+*******************************************************************
+
+InfoStatus Mesh and materials conversion will be set for DE ENVIRONMENT compatibility!
+
+*******************************************************************
+
+// Set outputs
+OutputMeshes CUSTOM
+OutputMaterials DEFAULT
+OutputBase CONVERTROOT/BASENAME
+OutputData CONVERTROOT/Prefabs Data/DATATYPEs/DATANAME DATAGUID (DE DATATYPE)
+
+*******************************************************************
+
+Utility USE_CONVERTED_MATERIAL_AS_BASE
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Plant
+{
+	Material SET_SHADER_BY_NAME DE/Cutout Wind/Cutout Wind Translucency
+}
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Bark
+{
+	Material SET_SHADER_BY_NAME DE/Surface Wind/Surface Wind Simple
+}
+
+*******************************************************************
+
+Include TVE to DE Commons
+
+*******************************************************************
+
+//Utility DELETE_FILES_BY_NAME MainMaskTex
+

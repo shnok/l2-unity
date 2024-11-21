@@ -1,0 +1,278 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle SeedMesh Studio
+InfoPreset Use this preset to convert SeedMesh Studio assets.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/publishers/49875
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Grass/Cacti/Vines/Dead Trees/Trees 5
+OutputTransforms USE_ORIGINAL_TRANSFORMS
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Cacti
+{
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Vines
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_FROM_CHANNEL 0
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 0
+	Mesh SetAlpha GET_MASK_PROCEDURAL 0
+	
+	Mesh SetExtraCoord NONE
+	Mesh SetPivots NONE
+}
+
+// Not used
+if OUTPUT_OPTION_CONTAINS Plants
+{
+	Mesh SetRed GET_MASK_FROM_CHANNEL 2
+	Mesh SetGreen GET_MASK_PROCEDURAL 0
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 1
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	
+	Mesh SetExtraCoord NONE
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Dead Trees
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 0
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 0
+	Mesh SetAlpha GET_MASK_PROCEDURAL 0
+	
+	if SHADER_NAME_CONTAINS Tree_Bark
+	{
+		Mesh SetBlue GET_MASK_FROM_CHANNEL 2
+		Mesh SetExtraCoord GET_COORD_FROM_CHANNEL 1
+	}	
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Trees
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 0
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	
+	if SHADER_NAME_CONTAINS Tree_Bark
+	{
+		Mesh SetBlue GET_MASK_FROM_CHANNEL 2
+		Mesh SetExtraCoord GET_COORD_FROM_CHANNEL 1
+	}	
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+if SHADER_IS_UNITY_LIT
+{
+	Include Unity Lit Commons
+}
+
+if SHADER_NAME_CONTAINS Tree_leaves
+{
+	Include Default Leaf Settings
+
+	Material COPY_FLOAT _cutoff _MainAlphaClipValue
+
+	Material COPY_COLOR _Color _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_TEX Normal_vegetation _MainNormalTex
+	Material COPY_TEX mask_vegetation _MainShaderTex
+	
+	Material COPY_FLOAT Normal_intensity_vegetation _MainNormalValue
+	Material SET_FLOAT _MainOcclusionValue 1
+	Material SET_FLOAT _MainSmoothnessValue 1
+	
+	Material COPY_FLOAT _DiffusionProfileHash _SubsurfaceDiffusion
+	Material COPY_VECTOR _DiffusionProfileAsset _SubsurfaceDiffusion_Asset
+	
+	// Pack textures for mask
+	Texture PropName _MainShaderTex
+	Texture SetRed GET_RED mask_vegetation
+	Texture SetGreen GET_GREEN mask_vegetation
+	Texture SetBlue GET_BLUE _Transmission
+	Texture SetAlpha GET_ALPHA mask_vegetation
+	Utility START_TEXTURE_PACKING
+}
+
+if SHADER_NAME_CONTAINS Tree_Bark
+{
+	Include Default Bark Settings
+
+	Material COPY_FLOAT _cutoff _MainAlphaClipValue
+
+	Material COPY_COLOR _Color _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_TEX Normal_vegetation _MainNormalTex
+	Material COPY_TEX mask_vegetation _MainShaderTex
+	
+	Material COPY_FLOAT Normal_intensity_vegetation _MainNormalValue
+	Material SET_FLOAT _MainOcclusionValue 1
+	Material SET_FLOAT _MainSmoothnessValue 1
+
+	if SHADER_NAME_CONTAINS Double
+	{
+		Material COPY_COLOR Color_479d2f6f2b79422db47e958052f9d90c _SecondColor
+		Material COPY_TEX Texture2D_5d0fdf34fd554c06a83357eec40107a3 _SecondAlbedoTex
+		Material COPY_TEX Texture2D_93feb20a286f4ca39552fd9263358244 _SecondNormalTex
+		Material COPY_TEX Texture2D_e6dec9f120f04e59a77ff603a7999190 _SecondShaderTex
+		
+		Material SET_FLOAT _SecondSampleMode 1
+		Material COPY_VECTOR _Texture_Tiling_B _SecondCoordValue
+
+		Material COPY_FLOAT Vector1_4c79da0480814be5aee9322c1a0bbb84 _SecondNormalValue
+		Material SET_FLOAT _SecondOcclusionValue 1
+		Material SET_FLOAT _SecondSmoothnessValue 1
+
+		Material SET_FLOAT _SecondIntensityValue 1
+		Material SET_FLOAT _SecondMaskValue 0
+		Material SET_FLOAT _SecondMeshValue 1
+		Material SET_FLOAT _SecondProjValue 0
+
+		Material SET_VECTOR _SecondMaskRemap 0 1 0 0
+		Material SET_VECTOR _SecondMeshRemap 0 1 0 0
+		Material SET_VECTOR _SecondProjRemap 0 1 0 0
+		Material SET_VECTOR _SecondBlendRemap 0 1 0 0
+	}
+}
+
+if SHADER_NAME_CONTAINS Static_Objects
+{
+	Include Default Prop Settings
+
+	Material COPY_FLOAT _cutoff _MainAlphaClipValue
+
+	Material COPY_COLOR _Color _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_TEX Normal_vegetation _MainNormalTex
+	Material COPY_TEX mask_vegetation _MainShaderTex
+	
+	Material COPY_FLOAT Normal_intensity_vegetation _MainNormalValue
+	Material SET_FLOAT _MainOcclusionValue 1
+	Material SET_FLOAT _MainSmoothnessValue 1
+}
+
+if SHADER_NAME_CONTAINS Moss
+{
+	Include Default Prop Settings
+	
+	// Copy Bark Pros
+	Material COPY_COLOR Color_DC4D13CB _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_TEX normal_moss _MainNormalTex
+	Material COPY_TEX mask_moss _MainShaderTex
+	Material COPY_VECTOR Vector2_6949761 _MainCoordValue
+
+	Material COPY_FLOAT Vector1_A25F1614 _MainNormalValue
+
+	// Copy Moss Props
+	Material COPY_COLOR Color_C0E779C7 _SecondColor
+	Material COPY_TEX moss_base_color_moss _SecondAlbedoTex
+	Material COPY_TEX moss_normal_moss _SecondNormalTex
+	Material COPY_TEX moss_mask_moss _SecondShaderTex
+	Material COPY_VECTOR Vector2_75851924 _SecondCoordValue
+
+	Material COPY_FLOAT Vector1_67B71C2E _SecondNormalValue
+
+	// Enable Blending
+	Material SET_FLOAT _SecondIntensityValue 1
+	Material SET_FLOAT _SecondMaskValue 0
+	Material SET_FLOAT _SecondMeshValue 0
+	Material SET_FLOAT _SecondProjValue 1
+
+	Material SET_VECTOR _SecondMaskRemap 0 1 0 0
+	Material SET_VECTOR _SecondMeshRemap 0 1 0 0
+	Material SET_VECTOR _SecondProjRemap 0 1 0 0
+	Material SET_VECTOR _SecondBlendRemap 0.7 0.8 0 0
+	
+	// Pack textures for mask
+	Texture PropName _MainShaderTex
+	Texture SetRed GET_RED mask_moss
+	Texture SetGreen GET_GREEN mask_moss
+	Texture SetBlue GET_BLUE Texture2D_54A821A8
+	Texture SetAlpha GET_ALPHA mask_moss
+	Utility START_TEXTURE_PACKING
+}
+
+if SHADER_NAME_CONTAINS Vegetation
+{
+	Include Default Leaf Settings
+
+	Material COPY_FLOAT _cutoff _MainAlphaClipValue
+
+	Material COPY_COLOR _Color _MainColor
+	Material COPY_TEX _MainTex _MainAlbedoTex
+	Material COPY_TEX Normal_vegetation _MainNormalTex
+	Material COPY_TEX mask_vegetation _MainShaderTex
+	
+	Material COPY_FLOAT Normal_intensity_vegetation _MainNormalValue
+	Material SET_FLOAT _MainOcclusionValue 1
+	Material SET_FLOAT _MainSmoothnessValue 1
+	
+	Material SET_VECTOR _OcclusionColorTwo 0.5 0.5 0.5 0.5
+	
+	Material COPY_FLOAT _DiffusionProfileHash _SubsurfaceDiffusion
+	Material COPY_VECTOR _DiffusionProfileAsset _SubsurfaceDiffusion_Asset
+}
+
+if SHADER_NAME_CONTAINS Cactus
+{
+	Material SET_FLOAT _RenderCull 2
+
+	// Copy Bark Pros
+	Material COPY_COLOR Color_53F74EBB _MainColor
+	Material COPY_TEX Texture2D_606372FD _MainAlbedoTex
+	Material COPY_TEX Texture2D_38EB1BEA _MainNormalTex
+	Material COPY_TEX Texture2D_5FFF653D _MainShaderTex
+	
+	Material SET_FLOAT _MainOcclusionValue 0
+}
+
+ if OUTPUT_OPTION_CONTAINS Cacti
+ {
+	Material SET_SHADER SHADER_STANDARD
+	
+	Material SET_FLOAT _RenderNormal 2
+ }
+ 
+ if OUTPUT_OPTION_CONTAINS Vines
+{
+	Material SET_FLOAT _MotionSmallIntensityValue 0
+	Material SET_FLOAT _MotionTinyIntensityValue 0
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Dead Trees
+{
+	Material SET_FLOAT _MotionBaseIntensityValue 0
+	Material SET_FLOAT _MotionSmallIntensityValue 0
+}
+
+

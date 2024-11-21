@@ -1,0 +1,75 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Infinity PBR
+InfoPreset Use this preset to convert Grass assets from: New Textures & Standard Pipeline Conversion for Book of the Dead package by Infinity PBR.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/publishers/4645
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Cover/Grass/Plants/Trees 4
+OutputPipelines Standard
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Cover
+{
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Plants
+{
+	Include Default Plant Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Trees
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_PROCEDURAL 6
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	Mesh SetExtraCoord NONE
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+if SHADER_IS_UNITY_LIT
+{
+	Include Unity Lit Commons
+	Include Unity Lit Detail
+}
+
+Include Default Leaf Settings
+
+Material COPY_FLOAT _Cutoff _MainAlphaClipValue
+
+Material COPY_TEX _MainTex _MainAlbedoTex
+Material COPY_ST_AS_VECTOR _MainTex _MainCoordValue
+Material COPY_TEX _Diffuse _MainAlbedoTex
+Material COPY_ST_AS_VECTOR _Diffuse _MainCoordValue
+
+Material COPY_TEX _Normal _MainNormalTex
+Material COPY_TEX _Maskmap _MainShaderTex
+
+if !SHADER_NAME_CONTAINS Cutout
+{
+	Include Default Bark Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Settings
+}

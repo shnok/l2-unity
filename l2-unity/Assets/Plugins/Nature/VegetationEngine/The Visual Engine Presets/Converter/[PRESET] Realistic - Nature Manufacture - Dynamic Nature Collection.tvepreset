@@ -1,0 +1,457 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Nature Manufacture
+InfoPreset Use this preset to convert Nature Manufacture assets.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/publishers/6887
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Branches/Grass/Flowers/Vegetation 4
+OutputTransforms USE_ORIGINAL_TRANSFORMS
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Branches
+{
+	Mesh SetRed NONE
+	Mesh SetGreen GET_MASK_PROCEDURAL 0
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 0
+	Mesh SetExtraCoord GET_COORD_3RD_PARTY 0
+
+	Mesh SetAlpha GET_MASK_PROCEDURAL 0
+	//Mesh SetMotion2 GET_MASK_PROCEDURAL 0
+	//Mesh SetMotion3 GET_MASK_FROM_CHANNEL 0
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	InfoSharing DEFAULT
+
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_3RD_PARTY 3
+	Mesh SetExtraCoord GET_COORD_3RD_PARTY 0
+
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	//Mesh SetMotion2 GET_MASK_PROCEDURAL 6
+	//Mesh SetMotion3 GET_MASK_3RD_PARTY 3
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+Include Default Leaf Settings
+
+// Set Default values
+Material SET_FLOAT _RenderNormal 2
+Material SET_FLOAT _RenderSpecular 0
+
+// Copy HDRP settings
+Material COPY_FLOAT _DoubleSidedNormalMode _RenderNormal
+Material COPY_FLOAT _DiffusionProfileHash _SubsurfaceDiffusion
+Material COPY_VECTOR _DiffusionProfileAsset _SubsurfaceDiffusion_asset
+Material COPY_VECTOR _DiffusionProfileAsset _SubsurfaceDiffusion_Asset
+
+if MATERIAL_FLOAT_EQUALS _DoubleSidedEnable 1
+{
+	Material SET_FLOAT _RenderCull 0
+}
+
+if SHADER_IS_UNITY_LIT
+{
+	Include Unity Lit Commons
+}
+
+*******************************************************************
+*                               BIRP                              *
+*******************************************************************
+
+Material COPY_TEX _MainTex _MainAlbedoTex
+Material COPY_TEX _BumpMap _MainNormalTex
+Material COPY_TEX _AmbientOcclusionGSmoothnessA _MainShaderTex
+Material COPY_TEX _MetalicRAOGSmothnessA _MainShaderTex
+Material COPY_ST_AS_VECTOR _MainTex _MainCoordValue
+
+Material COPY_FLOAT _AmbientOcclusionPower _MainOcclusionValue
+
+Material COPY_FLOAT _Cutoff _MainAlphaClipValue
+Material COPY_COLOR _HealthyColor _MainColor
+
+
+if SHADER_NAME_CONTAINS Bark
+{
+	Include Default Bark Settings
+	Material SET_FLOAT _RenderSpecular 1
+
+	if MATERIAL_FLOAT_EQUALS _DetalUseUV3 1
+	{	
+		if MATERIAL_HAS_TEX _DetailAlbedoMap
+		{
+			Material SET_FLOAT _SecondIntensityValue 1
+
+			Material COPY_TEX _DetailAlbedoMap _SecondAlbedoTex
+			Material COPY_TEX _DetailNormalMap _SecondNormalTex
+			Material COPY_TEX _DetailMetalicRAOGSmothnessA _SecondShaderTex
+
+			Material SET_FLOAT _SecondSampleMode 1
+			Material COPY_ST_AS_VECTOR _DetailAlbedoMap _SecondCoordValue
+
+			Material COPY_FLOAT _DetailNormalMapScale _SecondNormalValue
+			Material SET_FLOAT _SecondBlendNormalValue 0
+
+			Texture PropName _MainShaderTex
+			Texture SetRed GET_RED _MetalicRAOGSmothnessA
+			Texture SetGreen GET_GREEN _MetalicRAOGSmothnessA
+			Texture SetBlue GET_RED _DetailMask
+			Texture SetAlpha GET_ALPHA _MetalicRAOGSmothnessA
+			Utility START_TEXTURE_PACKING
+
+			Include Copy Main To Layer Mask
+
+			Material SET_FLOAT _SecondMaskValue 1
+			Material SET_FLOAT _SecondMeshValue 0
+			Material SET_FLOAT _SecondProjValue 0
+
+			Material SET_VECTOR _SecondMaskRemap 0 1 0 0
+			Material SET_VECTOR _SecondMeshRemap 0 1 0 0
+			Material SET_VECTOR _SecondProjRemap 0 1 0 0
+			Material SET_VECTOR _SecondBlendRemap 0 1 0 0
+		}
+	}
+}
+
+if SHADER_NAME_CONTAINS Snow
+{
+	Include Default Prop Settings
+	
+	Material SET_FLOAT _RenderSpecular 1
+
+	if MATERIAL_FLOAT_EQUALS _UseSnow 1
+	{	
+		if MATERIAL_HAS_TEX _SnowAlbedoRGB
+		{
+			Material SET_FLOAT _SecondIntensityValue 1
+
+			Material COPY_TEX _SnowAlbedoRGB _SecondAlbedoTex
+			Material COPY_TEX _SnowNormalRGB _SecondNormalTex
+			Material COPY_TEX _SnowMetalicRAmbientOcclusionGSmothnessA _SecondShaderTex
+
+			Material SET_FLOAT _SecondSampleMode 2
+			Material COPY_ST_AS_VECTOR _DetailAlbedoMap _SecondCoordValue
+
+			Material COPY_FLOAT _DetailNormalMapScale _SecondNormalValue
+			Material SET_FLOAT _SecondBlendNormalValue 0
+			
+			Texture PropName _MainShaderTex
+			Texture SetRed GET_RED _MetalicRAmbientOcclusionGSmoothnessA
+			Texture SetGreen GET_GREEN _MetalicRAmbientOcclusionGSmoothnessA
+			Texture SetBlue GET_RED _SnowMaskB
+			Texture SetAlpha GET_ALPHA _MetalicRAmbientOcclusionGSmoothnessA
+			Utility START_TEXTURE_PACKING
+			
+			Include Copy Main To Layer Mask
+			
+			Material SET_FLOAT _SecondMaskValue 1
+			Material SET_FLOAT _SecondMeshValue 0
+			Material SET_FLOAT _SecondProjValue 0
+			
+			Material SET_VECTOR _SecondMaskRemap 0.0 0.1 0 0
+			Material SET_VECTOR _SecondMeshRemap 0 1 0 0
+			Material SET_VECTOR _SecondProjRemap 0 1 0 0
+			Material SET_VECTOR _SecondBlendRemap 0 1 0 0
+		}
+	}
+}
+
+*******************************************************************
+*                               SRP                               *
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Foliage/Foliage
+{
+	Material COPY_TEX _BaseColorMap _MainAlbedoTex
+	Material COPY_TEX _NormalMap _MainNormalTex
+	Material COPY_TEX _MaskMap _MainShaderTex
+	Material COPY_VECTOR _Tiling_and_Offset _MainCoordValue
+
+	Material COPY_FLOAT _AlphaCutoff _MainAlphaClipValue
+	Material COPY_COLOR _HealthyColor _MainColor
+	
+	//Texture SetGreen GET_GREEN _MaskMap 
+	//Texture SetBlue GET_ALPHA _MaskMap 
+	//Texture SetAlpha GET_ALPHA _MaskMap 
+	//Utility START_TEXTURE_PACKING
+}
+
+if SHADER_NAME_CONTAINS Foliage/Bark
+{
+	Include Default Bark Settings
+	
+	Material SET_FLOAT _RenderSpecular 1
+
+	Material COPY_TEX _TrunkBaseColorMap _MainAlbedoTex
+	Material COPY_TEX _TrunkNormalMap _MainNormalTex
+	Material COPY_TEX _TrunkMaskMap _MainShaderTex
+	Material COPY_VECTOR _TrunkTilingOffset _MainCoordValue
+
+	Material COPY_COLOR _TrunkBaseColor _MainColor
+	Material COPY_FLOAT _TrunkNormalScale _MainNormalValue
+	
+	//Enable Betail shading
+	if MATERIAL_FLOAT_EQUALS _BarkUseUV3 1
+	{
+		if MATERIAL_HAS_TEX _BarkBaseColorMap
+		{
+			Material SET_FLOAT _SecondIntensityValue 1
+
+			Material COPY_TEX _BarkBaseColorMap _SecondAlbedoTex
+			Material COPY_TEX _BarkNormalMap _SecondNormalTex
+			Material COPY_TEX _BarkMaskMap _SecondShaderTex
+
+			Material SET_FLOAT _SecondSampleMode 1
+			Material COPY_VECTOR _BarkTilingOffset _SecondCoordValue
+
+			Material COPY_COLOR _BarkBaseColor _SecondColor
+			Material COPY_FLOAT _BarkNormalScale _SecondNormalValue
+
+			Texture SetRed GET_RED _TrunkMaskMap
+			Texture SetGreen GET_GREEN _TrunkMaskMap
+			Texture SetBlue GET_GREEN _LayerMask
+			Texture SetAlpha GET_ALPHA _TrunkMaskMap
+			Utility START_TEXTURE_PACKING
+
+			Include Copy Main To Layer Mask
+
+			Material SET_FLOAT _SecondMaskValue 1
+			Material SET_FLOAT _SecondMeshValue 0
+			Material SET_FLOAT _SecondProjValue 0
+
+			Material SET_VECTOR _SecondMaskRemap 0.0 0.1 0 0
+			Material SET_VECTOR _SecondMeshRemap 0 1 0 0
+			Material SET_VECTOR _SecondProjRemap 0 1 0 0
+			Material SET_VECTOR _SecondBlendRemap 0 1 0 0
+		}
+	}
+}
+
+if SHADER_NAME_CONTAINS Foliage/Cross
+{
+	Include Default Cross Settings
+	Material SET_FLOAT _RenderCull 1
+
+	Material SET_FLOAT _FadeHorizontalValue 1
+
+	Material COPY_TEX _BaseColorMap _MainAlbedoTex
+	Material COPY_TEX _NormalMap _MainNormalTex
+	Material COPY_VECTOR _Tiling_and_Offset _MainCoordValue
+
+	Material COPY_FLOAT _AlphaCutoff _MainAlphaClipValue
+	Material SET_COLOR _MainColor 0.4 0.4 0.4 1
+}
+
+if SHADER_NAME_CONTAINS Top Cover
+{
+	Include Default Prop Settings
+	
+	Material SET_FLOAT _RenderSpecular 1
+
+	if SHADER_NAME_CONTAINS CutOut
+	{
+		Material SET_FLOAT _RenderCull 2
+		Material SET_FLOAT _RenderClip 1
+	}
+
+	Material COPY_TEX _BaseColorMap _MainAlbedoTex
+	Material COPY_TEX _BaseNormalMap _MainNormalTex
+	Material COPY_TEX _BaseMaskMap _MainShaderTex
+
+	Material COPY_VECTOR _BaseTillingOffset _MainCoordValue
+
+	Material COPY_VECTOR _BaseColor _MainColor
+	Material COPY_FLOAT _BaseNormalScale _MainNormalValue
+	Material COPY_FLOAT _BaseMetallic _MainMetallicValue
+
+	if MATERIAL_HAS_TEX _CoverBaseColorMap
+	{
+		Material SET_FLOAT _SecondIntensityValue 1
+
+		Material SET_FLOAT _SecondSampleMode 1
+
+		Material SET_FLOAT _SecondMaskValue 1
+		Material SET_FLOAT _SecondMeshValue 1
+		Material SET_FLOAT _SecondProjValue 0
+
+		Material SET_VECTOR _SecondMaskRemap 0 1 0 0
+		Material SET_VECTOR _SecondVertRemap 0 1 0 0
+		Material SET_VECTOR _SecondProjRemap 0 1 0 0
+		Material SET_VECTOR _SecondBlendRemap 0 1 0 0
+
+		if MATERIAL_FLOAT_EQUALS _CoverUsePlanarUV 1
+		{
+			Material SET_FLOAT _SecondSampleMode 2
+			
+			Material SET_FLOAT _SecondMaskValue 1
+			Material SET_FLOAT _SecondMeshValue 0
+			Material SET_FLOAT _SecondProjValue 0
+			
+			Material SET_VECTOR _SecondMaskRemap 0.4 0.5 0 0
+			Material SET_VECTOR _SecondMeshRemap 0 1 0 0
+			Material SET_VECTOR _SecondProjRemap 0 1 0 0
+			Material SET_VECTOR _SecondBlendRemap 0 1 0 0
+		}
+		
+		Material COPY_TEX _CoverBaseColorMap _SecondAlbedoTex
+		Material COPY_TEX _CoverNormalMap _SecondNormalTex
+		Material COPY_TEX _CoverMaskMap _SecondShaderTex
+
+		Include Copy Layer To Layer Mask
+
+		Material SET_VECTOR _SecondCoordValue 0.5 0.5 0 0
+
+		Material COPY_VECTOR _CoverBaseColor _SecondColor
+		Material COPY_FLOAT _CoverNormalScale _SecondNormalValue
+		Material COPY_FLOAT _CoverMetallic _SecondMetallicValue
+	}
+}
+
+// if SHADER_NAME_CONTAINS HDRP/LayeredLit
+// {
+	// Material SET_SHADER SHADER_STANDARD_PROP
+	
+	// Legacy
+	// Material SET_SHADER SHADER_DEFAULT_PROP
+
+	// Material COPY_VECTOR _BaseColor0 _MainColor
+	// Material COPY_TEX _BaseColorMap0 _MainAlbedoTex
+	// Material COPY_ST_AS_VECTOR _BaseColorMap0 _MainCoordValue
+	// Material COPY_TEX _NormalMap0 _MainNormalTex
+	// Material COPY_FLOAT _NormalScale0 _MainNormalValue
+	// Material COPY_TEX _MaskMap0 _MainShaderTex
+
+	// Material COPY_VECTOR _BaseColor1 _SecondColor
+	// Material COPY_TEX _BaseColorMap1 _SecondAlbedoTex
+	// Material COPY_ST_AS_VECTOR _BaseColorMap1 _SecondCoordValue
+	// Material COPY_TEX _NormalMap1 _SecondNormalTex
+	// Material COPY_FLOAT _NormalScale1 _SecondNormalValue	
+	// Material COPY_TEX _MaskMap1 _SecondSampleMode
+	
+	// Material SET_FLOAT _SecondIntensityValue 1
+	// Material SET_FLOAT _SecondBlendAlbedoValue 1
+	
+	// if MATERIAL_FLOAT_EQUALS _Base2UsePlanarUV 1
+	// {
+		// Material SET_FLOAT _DetailMeshMode 1
+	// }
+
+	// Material SET_FLOAT _SecondBlendNormalValue 0
+	// Material SET_FLOAT _DetailMaskMode 0
+	// Material SET_FLOAT _DetailMaskInvertMode 0
+
+	// Material SET_FLOAT _DetailBlendMinValue 0.45
+	// Material SET_FLOAT _DetailBlendMaxValue 0.55
+	
+	// Texture PropName _MainShaderTex
+	// Texture ImportType DEFAULT
+	// Texture SetRed GET_RED _MaskMap0
+	// Texture SetGreen GET_GREEN _MaskMap0
+	// Texture SetBlue GET_RED _LayerMaskMap
+	// Texture SetAlpha GET_ALPHA _MaskMap0
+	// Utility START_TEXTURE_PACKING
+// }
+
+if SHADER_NAME_CONTAINS Layered/Layered
+{
+	Include Default Prop Settings
+
+	Material SET_SHADER SHADER_STANDARD
+	
+	Material SET_FLOAT _RenderSpecular 1
+
+	Material COPY_VECTOR _BaseColor _MainColor
+	Material COPY_TEX _BaseColorMap _MainAlbedoTex
+	Material COPY_ST_AS_VECTOR _BaseColorMap _MainCoordValue
+	Material COPY_TEX _BaseNormalMap _MainNormalTex
+	Material COPY_FLOAT _BaseNormalScale _MainNormalValue
+	Material COPY_TEX _BaseMaskMap _MainShaderTex
+
+	Material COPY_VECTOR _Base2Color _SecondColor
+	Material COPY_TEX _Base2ColorMap _SecondAlbedoTex
+	//Material COPY_VECTOR _Base2TilingOffset _SecondCoordValue
+	Material COPY_TEX _Base2NormalMap _SecondNormalTex
+	Material COPY_FLOAT _Base2NormalScale _SecondNormalValue
+	Material COPY_TEX _Base2MaskMap _SecondSampleMode
+	
+	Material SET_FLOAT _SecondSampleMode 2
+	Material SET_VECTOR _SecondCoordValue 0.5 0.5 0 0
+	
+	Material SET_FLOAT _SecondIntensityValue 1
+	
+	Texture PropName _MainShaderTex
+	Texture ImportType DEFAULT
+	Texture SetRed GET_RED _BaseMaskMap
+	Texture SetGreen GET_GREEN _BaseMaskMap
+	Texture SetBlue GET_RED _LayerMask
+	Texture SetAlpha GET_ALPHA _BaseMaskMap
+	Utility START_TEXTURE_PACKING
+
+	Include Copy Main To Layer Mask
+
+	Material SET_FLOAT _SecondMaskValue 1
+	Material SET_FLOAT _SecondMeshValue 0
+	Material SET_FLOAT _SecondProjValue 1
+
+	Material SET_VECTOR _SecondMaskRemap 0 1 0 0
+	Material SET_VECTOR _SecondMeshRemap 0 1 0 0
+	Material SET_VECTOR _SecondProjRemap 0 1 0 0
+	Material SET_VECTOR _SecondBlendRemap 0.45 0.55 0 0
+}
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Settings
+
+	Material SET_FLOAT _RenderSpecular 1
+}
+
+if OUTPUT_OPTION_CONTAINS Branches
+{
+	if SHADER_NAME_CONTAINS Bark
+	{
+		Include Default Prop Settings
+
+		Material SET_FLOAT _RenderSpecular 1
+	}
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Flowers
+{
+	Include Default Grass Settings
+}

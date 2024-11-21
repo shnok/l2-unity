@@ -1,0 +1,78 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Artkovski Illustrated Nature
+InfoPreset Use this preset to convert Artkovski - The Illustrated Nature assets.
+InfoStatus ● ● ● ● ●
+InfoOnline https://assetstore.unity.com/publishers/44640
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Props/Grass/Plants/Trees 3
+OutputTransforms USE_ORIGINAL_TRANSFORMS
+
+InfoWarning Please note, ILN3D noise variation is not copied on conversion. Use the Variation features to add noise variation to the trees.
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Props
+{
+	Include Default Prop Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Plants
+{
+	Include Default Plant Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Trees
+{
+	Mesh SetRed GET_MASK_PROCEDURAL 3
+	Mesh SetGreen GET_MASK_PROCEDURAL 6
+	Mesh SetBlue GET_MASK_FROM_CHANNEL 1
+	Mesh SetAlpha GET_MASK_PROCEDURAL 4
+	Mesh SetExtraCoord NONE
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+Include Default Leaf Settings
+
+Material COPY_FLOAT _AlphaCutoff _MainAlphaClipValue
+
+Material SET_FLOAT _RenderNormal 2
+Material SET_FLOAT _FadeGlancingValue 1
+
+Material COPY_COLOR _Color _MainColor
+Material COPY_TEX _MainTex _MainAlbedoTex
+Material COPY_ST_AS_VECTOR _MainTex _MainCoordValue
+
+Material SET_FLOAT _MainOcclusionValue 0
+Material SET_FLOAT _MainSmoothnessValue 0
+
+Material COPY_COLOR _Color _SubsurfaceColor
+
+if SHADER_NAME_CONTAINS Opaque
+{
+	Include Default Prop Settings
+}
+
+if SHADER_NAME_CONTAINS Branch
+{
+	Include Default Bark Settings
+}
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Default Grass Settings
+}
+

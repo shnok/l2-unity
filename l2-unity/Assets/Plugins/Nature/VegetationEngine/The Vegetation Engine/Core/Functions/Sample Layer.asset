@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Sample Layer
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor v1.9.2.2\n// Available at the
+    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19202\nNode;AmplifyShaderEditor.AbsOpNode;175;1888,-512;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;176;2016,-512;Inherit;False;8;8;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;177;2304,-384;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleDivideOpNode;178;2480,-512;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.BreakToComponentsNode;179;2608,-512;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15\nNode;AmplifyShaderEditor.BreakToComponentsNode;180;2176,-384;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15\nNode;AmplifyShaderEditor.NormalVertexDataNode;164;1664,-512;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.RegisterLocalVarNode;116;2752,-528;Half;False;Triplanar_W_ZY;-1;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;117;2752,-464;Half;False;Triplanar_W_ZX;-1;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;118;2752,-400;Half;False;Triplanar_W_XY;-1;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;30;3584,-128;Inherit;False;Texture;9;0;False;1;0;SAMPLER2D;0,0,0,0;False;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.FunctionInput;35;3584,-64;Inherit;False;Sampler;13;1;False;1;0;SAMPLERSTATE;0,0,0,0;False;1;SAMPLERSTATE;0\nNode;AmplifyShaderEditor.FunctionInput;37;3584,0;Inherit;False;Coords;4;2;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.WorldPosInputsNode;272;3584,64;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.NormalVertexDataNode;245;3584,192;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.FunctionOutput;0;4352,-128;Inherit;False;True;-1;Planar2D;0;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionOutput;201;4352,32;Inherit;False;False;-1;Planar3D;1;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionOutput;202;4320,224;Inherit;False;False;-1;Stochastic2D;2;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionOutput;203;4320,384;Inherit;False;False;-1;Stochastic3D;3;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.WorldNormalVector;273;3585.906,376.1835;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.CustomExpressionNode;238;3968,-128;Half;False;half2
+    ZX, ZY, XY@$$ComputeWorldCoords(Coords, WorldPosition, ZX, ZY, XY)@$$half4 tex
+    = SAMPLE_TEXTURE2D( Texture, Sampler, ZX)@$$return tex@;4;Create;4;True;Texture;SAMPLER2D;;In;;Half;False;True;Sampler;SAMPLERSTATE;;In;;Half;False;True;Coords;FLOAT4;0,0,0,0;In;;Half;False;True;WorldPosition;FLOAT3;0,0,0;In;;Half;False;SamplePlanar2D;False;False;1;237;;False;4;0;SAMPLER2D;;False;1;SAMPLERSTATE;;False;2;FLOAT4;0,0,0,0;False;3;FLOAT3;0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.CustomExpressionNode;246;3968,32;Half;False;half2
+    ZX, ZY, XY@$$ComputeWorldCoords(Coords, WorldPosition, ZX, ZY, XY)@$$half T1,
+    T2, T3@$$ComputeTriplanarWeights(WorldNormal, T1, T2, T3)@$$half4 tex1 = SAMPLE_TEXTURE2D(
+    Texture, Sampler, ZX)@$half4 tex2 = SAMPLE_TEXTURE2D( Texture, Sampler, ZY)@$half4
+    tex3 = SAMPLE_TEXTURE2D( Texture, Sampler, XY)@$$return tex1 * T1 + tex2 * T2
+    + tex3 * T3@;4;Create;5;True;Texture;SAMPLER2D;;In;;Half;False;True;Sampler;SAMPLERSTATE;;In;;Half;False;True;Coords;FLOAT4;0,0,0,0;In;;Half;False;True;WorldPosition;FLOAT3;0,0,0;In;;Half;False;True;WorldNormal;FLOAT3;0,0,0;In;;Half;False;SamplePlanar3D;False;False;2;237;120;;False;5;0;SAMPLER2D;;False;1;SAMPLERSTATE;;False;2;FLOAT4;0,0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.CustomExpressionNode;234;3968,224;Inherit;False;half2
+    ZX, ZY, XY@$$ComputeWorldCoords(Coords, WorldPosition, ZX, ZY, XY)@$$half2 UV1,
+    UV2, UV3@$half W1, W2, W3@$$ComputeStochasticCoords(ZX, UV1, UV2, UV3, W1, W2,
+    W3 )@$$half4 tex1 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler, UV1, ddx(ZX), ddy(ZX))@$half4
+    tex2 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler, UV2, ddx(ZX), ddy(ZX))@$half4
+    tex3 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler, UV3, ddx(ZX), ddy(ZX))@$$return
+    tex1 * W1 + tex2 * W2 + tex3 * W3@;4;Create;4;True;Texture;SAMPLER2D;0,0;In;;Half;False;True;Sampler;SAMPLERSTATE;0,0;In;;Half;False;True;Coords;FLOAT4;0,0,0,0;In;;Half;False;True;WorldPosition;FLOAT3;0,0,0;In;;Half;False;SampleStochastic2D;False;False;2;237;236;;False;4;0;SAMPLER2D;0,0;False;1;SAMPLERSTATE;0,0;False;2;FLOAT4;0,0,0,0;False;3;FLOAT3;0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.CustomExpressionNode;263;3968,384;Half;False;half2
+    ZX, ZY, XY@$$ComputeWorldCoords(Coords, WorldPosition, ZX, ZY, XY)@$$half2 UV1,
+    UV2, UV3@$half W1, W2, W3@$half4 tex1, tex2, tex3@$$ComputeStochasticCoords(ZX,
+    UV1, UV2, UV3, W1, W2, W3 )@$$tex1 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler,
+    UV1, ddx(ZX), ddy(ZX))@$tex2 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler, UV2,
+    ddx(ZX), ddy(ZX))@$tex3 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler, UV3, ddx(ZX),
+    ddy(ZX))@$$half4 texZX = tex1 * W1 + tex2 * W2 + tex3 * W3@$$ComputeStochasticCoords(ZY,
+    UV1, UV2, UV3, W1, W2, W3 )@$$tex1 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler,
+    UV1, ddx(ZY), ddy(ZY))@$tex2 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler, UV2,
+    ddx(ZY), ddy(ZY))@$tex3 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler, UV3, ddx(ZY),
+    ddy(ZY))@$$half4 texZY = tex1 * W1 + tex2 * W2 + tex3 * W3@$$ComputeStochasticCoords(XY,
+    UV1, UV2, UV3, W1, W2, W3 )@$$tex1 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler,
+    UV1, ddx(XY), ddy(XY))@$tex2 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler, UV2,
+    ddx(XY), ddy(XY))@$tex3 = SAMPLE_TEXTURE2D_GRAD( Texture, Sampler, UV3, ddx(XY),
+    ddy(XY))@$$half4 texXY = tex1 * W1 + tex2 * W2 + tex3 * W3@$$half T1, T2, T3@$$ComputeTriplanarWeights(WorldNormal,
+    T1, T2, T3)@$$return texZX * T1 + texZY * T2 + texXY * T3@;4;Create;5;True;Texture;SAMPLER2D;0,0;In;;Half;False;True;Sampler;SAMPLERSTATE;0,0;In;;Half;False;True;Coords;FLOAT4;0,0,0,0;In;;Half;False;True;WorldPosition;FLOAT3;0,0,0;In;;Half;False;True;WorldNormal;FLOAT3;0,0,0;In;;Half;False;SampleStochastic3D;False;False;2;234;120;;False;5;0;SAMPLER2D;0,0;False;1;SAMPLERSTATE;0,0;False;2;FLOAT4;0,0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.CustomExpressionNode;236;4064,-512;Half;False;half2
+    vertex1, vertex2, vertex3@$$// Scaling of the input$half2 uv = UV * 3.464@ //
+    2 * sqrt (3)$$// Skew input space into simplex triangle grid$const float2x2 gridToSkewedGrid
+    = float2x2( 1.0, 0.0, -0.57735027, 1.15470054 )@$half2 skewedCoord = mul( gridToSkewedGrid,
+    uv )@$$// Compute local triangle vertex IDs and local barycentric coordinates$int2
+    baseId = int2( floor( skewedCoord ) )@$half3 temp = half3( frac( skewedCoord
+    ), 0 )@$temp.z = 1.0 - temp.x - temp.y@$if ( temp.z > 0.0 )${$\tW1 = temp.z@$\tW2
+    = temp.y@$\tW3 = temp.x@$\tvertex1 = baseId@$\tvertex2 = baseId + int2( 0, 1
+    )@$\tvertex3 = baseId + int2( 1, 0 )@$}$else${$\tW1 = -temp.z@$\tW2 = 1.0 - temp.y@$\tW3
+    = 1.0 - temp.x@$\tvertex1 = baseId + int2( 1, 1 )@$\tvertex2 = baseId + int2(
+    1, 0 )@$\tvertex3 = baseId + int2( 0, 1 )@$}$$UV1 = UV + frac( sin( mul( float2x2(
+    127.1, 311.7, 269.5, 183.3 ), vertex1 ) ) * 43758.5453 )@$UV2 = UV + frac( sin(
+    mul( float2x2( 127.1, 311.7, 269.5, 183.3 ), vertex2 ) ) * 43758.5453 )@$UV3
+    = UV + frac( sin( mul( float2x2( 127.1, 311.7, 269.5, 183.3 ), vertex3 ) ) *
+    43758.5453 )@$return@;7;Create;7;True;UV;FLOAT2;0,0;In;;Float;False;True;UV1;FLOAT2;0,0;Out;;Float;False;True;UV2;FLOAT2;0,0;Out;;Float;False;True;UV3;FLOAT2;0,0;Out;;Float;False;True;W1;FLOAT;0;Out;;Float;False;True;W2;FLOAT;0;Out;;Float;False;True;W3;FLOAT;0;Out;;Float;False;ComputeStochasticCoords;False;False;0;;False;8;0;FLOAT;0;False;1;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;7;FLOAT;0;FLOAT2;3;FLOAT2;4;FLOAT2;5;FLOAT;6;FLOAT;7;FLOAT;8\nNode;AmplifyShaderEditor.CustomExpressionNode;120;3808,-512;Half;False;half3
+    powNormal = abs( WorldNormal.xyz )@$half3 weights = max( powNormal * powNormal
+    * powNormal * powNormal * powNormal * powNormal * powNormal * powNormal, 0.000001
+    )@$weights /= ( weights.x + weights.y + weights.z ).xxx@$T1 = weights.y@$T2 =
+    weights.x@$T3 = weights.z@$;7;Create;4;True;WorldNormal;FLOAT3;0,0,0;In;;Half;False;True;T1;FLOAT;0;Out;;Half;False;True;T2;FLOAT;0;Out;;Half;False;True;T3;FLOAT;0;Out;;Half;False;ComputeTriplanarWeights;False;False;0;;False;5;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;4;FLOAT;0;FLOAT;3;FLOAT;4;FLOAT;5\nNode;AmplifyShaderEditor.CustomExpressionNode;237;3584,-512;Half;False;ZX
+    = WorldPosition.xz * Coords.xy + Coords.zw@$ZY = WorldPosition.zy * Coords.xy
+    + Coords.zw@ $XY = WorldPosition.xy * Coords.xy + Coords.zw@$;7;Create;5;True;Coords;FLOAT4;0,0,0,0;In;;Half;False;True;WorldPosition;FLOAT3;0,0,0;In;;Half;False;True;ZX;FLOAT2;0,0;Out;;Half;False;True;ZY;FLOAT2;0,0;Out;;Half;False;True;XY;FLOAT2;0,0;Out;;Half;False;ComputeWorldCoords;False;False;0;;False;6;0;FLOAT;0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;4;FLOAT;0;FLOAT2;4;FLOAT2;5;FLOAT2;6\nWireConnection;175;0;164;0\nWireConnection;176;0;175;0\nWireConnection;176;1;175;0\nWireConnection;176;2;175;0\nWireConnection;176;3;175;0\nWireConnection;176;4;175;0\nWireConnection;176;5;175;0\nWireConnection;176;6;175;0\nWireConnection;176;7;175;0\nWireConnection;177;0;180;0\nWireConnection;177;1;180;1\nWireConnection;177;2;180;2\nWireConnection;178;0;176;0\nWireConnection;178;1;177;0\nWireConnection;179;0;178;0\nWireConnection;180;0;176;0\nWireConnection;116;0;179;0\nWireConnection;117;0;179;1\nWireConnection;118;0;179;2\nWireConnection;0;0;238;0\nWireConnection;201;0;246;0\nWireConnection;202;0;234;0\nWireConnection;203;0;263;0\nWireConnection;238;0;30;0\nWireConnection;238;1;35;0\nWireConnection;238;2;37;0\nWireConnection;238;3;272;0\nWireConnection;246;0;30;0\nWireConnection;246;1;35;0\nWireConnection;246;2;37;0\nWireConnection;246;3;272;0\nWireConnection;246;4;273;0\nWireConnection;234;0;30;0\nWireConnection;234;1;35;0\nWireConnection;234;2;37;0\nWireConnection;234;3;272;0\nWireConnection;263;0;30;0\nWireConnection;263;1;35;0\nWireConnection;263;2;37;0\nWireConnection;263;3;272;0\nWireConnection;263;4;273;0\nASEEND*/\n//CHKSM=35F51481738FA5270CAE9BB375C2E2D322ED93B5"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_customEdited: 0
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_headerStyle: 2
+  m_headerColor: {r: 1, g: 0.627451, b: 0, a: 1}
+  m_customNodeCategory: The Vegetation Engine
+  m_previewPosition: 0
+  m_hidden: 0
+  m_url: 

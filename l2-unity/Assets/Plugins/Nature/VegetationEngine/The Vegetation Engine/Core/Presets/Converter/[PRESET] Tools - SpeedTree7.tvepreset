@@ -1,0 +1,72 @@
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle SpeedTree 7 (Legacy)
+InfoPreset Use this preset to convert SpeedTree 7 vegetation.
+InfoWarning SpeedTree 7 billboards are not supported and they will be disabled! Amplify Impostors can be used as an alternative.
+InfoStatus ● ● ● ○ ○
+InfoOnline https://assetstore.unity.com/publishers/9474
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Grass/Palm/Vegetation 2
+OutputTransforms USE_ORIGINAL_TRANSFORMS
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Palm
+{
+	Mesh SetVariation GET_MASK_FROM_CHANNEL 7 ACTION_REMAP_01
+	Mesh SetOcclusion GET_MASK_FROM_CHANNEL 0
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_FROM_CHANNEL 6
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 6
+
+	Mesh SetPivots NONE
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	Mesh SetVariation GET_MASK_FROM_CHANNEL 7 ACTION_REMAP_01
+	Mesh SetOcclusion GET_MASK_FROM_CHANNEL 0
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_PROCEDURAL 16
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 16
+	//Mesh SetMotion3 GET_MASK_3RD_PARTY 2
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+// Set Material Shader
+Include SpeedTree Commons
+
+// Combine Texture Channels
+Texture SetRed GET_GREEN _ExtraTex
+Texture SetGreen GET_BLUE _ExtraTex
+Texture SetBlue GET_GREEN _SubsurfaceTex
+Texture SetAlpha GET_RED _ExtraTex
+
+Utility START_TEXTURE_PACKING
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Settings
+}

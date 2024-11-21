@@ -1,0 +1,92 @@
+
+*******************************************************************
+*                             INFO                                *
+*******************************************************************
+
+InfoTitle Tree Creator
+InfoPreset Use this preset to convert Tree Creator vegetation.
+InfoStatus ● ● ● ● ●
+
+*******************************************************************
+*                             PRESET                              *
+*******************************************************************
+
+OutputOptions Grass/Vegetation 1
+OutputTransforms USE_ORIGINAL_TRANSFORMS
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Masks
+}
+
+if OUTPUT_OPTION_CONTAINS Vegetation
+{
+	Mesh SetVariation GET_MASK_FROM_CHANNEL 0
+	Mesh SetOcclusion GET_MASK_FROM_CHANNEL 3
+	Mesh SetDetailMask GET_MASK_PROCEDURAL 8
+	Mesh SetDetailCoord GET_COORD_FROM_CHANNEL 0
+
+	Mesh SetHeight GET_MASK_PROCEDURAL 4
+	Mesh SetMotion2 GET_MASK_FROM_CHANNEL 9
+	Mesh SetMotion3 GET_MASK_FROM_CHANNEL 5
+
+	Mesh SetPivots NONE
+}
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Bark
+{
+	Include Use Default Bark Settings
+}
+
+*******************************************************************
+
+if SHADER_NAME_CONTAINS Fast
+{
+	Material SET_FLOAT _MainSmoothnessValue 0
+}
+
+*******************************************************************
+
+// Set defaults
+Material SET_FLOAT _GlobalSize 0
+Material SET_FLOAT _SizeFadeMode 0
+
+Material SET_FLOAT _RenderCull 2
+Material SET_VECTOR _VertexOcclusionColor 0 0 0 0
+
+*******************************************************************
+
+// Copy material props
+Material COPY_COLOR _TranslucencyColor _SubsurfaceColor
+Material COPY_COLOR _Color _MainColor
+Material COPY_TEX _MainTex _MainAlbedoTex
+Material COPY_ST_AS_VECTOR _MainTex _MainUVs
+Material COPY_TEX _BumpSpecMap _MainNormalTex
+
+*******************************************************************
+
+// Combine Texture Channels
+Texture PropName _MainNormalTex
+Texture ImportType NORMALMAP
+Texture SetRed GET_ALPHA _BumpSpecMap
+Texture SetGreen GET_GREEN _BumpSpecMap
+Texture SetBlue NONE
+Texture SetAlpha NONE
+Utility START_TEXTURE_PACKING
+
+// Combine Texture Channels
+Texture PropName _MainMaskTex
+Texture SetRed NONE
+Texture SetGreen NONE
+Texture SetBlue GET_BLUE _TranslucencyMap
+Texture SetAlpha GET_ALPHA _BumpSpecMap
+Utility START_TEXTURE_PACKING
+
+*******************************************************************
+
+if OUTPUT_OPTION_CONTAINS Grass
+{
+	Include Use Default Grass Settings
+}
