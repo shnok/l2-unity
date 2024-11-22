@@ -1,6 +1,6 @@
 public class AllianceMessage : ChatMessage
 {
-    private static MessageType Type = MessageType.ALLIANCE;
+    private static L2MessageType Type = L2MessageType.ALLIANCE;
 
     public AllianceMessage(string user, string message) : base(user, message)
     {

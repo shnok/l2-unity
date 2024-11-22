@@ -289,39 +289,39 @@ public class ChatWindow : L2Window
             }
             else if (text.Length > 0)
             {
-                MessageType messageType = MessageType.ALL;
+                L2MessageType messageType = L2MessageType.ALL;
                 string target = null;
 
                 switch (text[0])
                 {
                     case '+':
-                        messageType = MessageType.TRADE;
+                        messageType = L2MessageType.TRADE;
                         break;
                     case '!':
-                        messageType = MessageType.SHOUT;
+                        messageType = L2MessageType.SHOUT;
                         break;
                     case '#':
-                        messageType = MessageType.PARTY;
+                        messageType = L2MessageType.PARTY;
                         break;
                     case '@':
-                        messageType = MessageType.CLAN;
+                        messageType = L2MessageType.CLAN;
                         break;
                     case '$':
-                        messageType = MessageType.ALLIANCE;
+                        messageType = L2MessageType.ALLIANCE;
                         break;
                     case '%':
-                        messageType = MessageType.HERO_VOICE;
+                        messageType = L2MessageType.HERO_VOICE;
                         break;
                     case '"':
                         string[] s = text[1..].Split(" ");
                         target = (s.Length > 0) ? s[0] : "";
-                        messageType = MessageType.TELL;
+                        messageType = L2MessageType.TELL;
                         break;
                     default:
                         break;
                 }
 
-                if (messageType != MessageType.ALL)
+                if (messageType != L2MessageType.ALL)
                 {
                     text = text[1..];
                 }
@@ -359,7 +359,7 @@ public class ChatWindow : L2Window
 
         for (int i = 0; i < _tabs.Count; i++)
         {
-            if (_tabs[i].FilteredMessages.Contains(MessageType.SYSTEM_MESSAGE))
+            if (_tabs[i].FilteredMessages.Contains(L2MessageType.SYSTEM_MESSAGE))
             {
                 _tabs[i].AddMessage(message.ToString());
             }

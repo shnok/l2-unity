@@ -1,6 +1,6 @@
 public class HeroMessage : ChatMessage
 {
-    private static MessageType Type = MessageType.HERO_VOICE;
+    private static L2MessageType Type = L2MessageType.HERO_VOICE;
     public HeroMessage(string user, string message) : base(user, message)
     {
     }

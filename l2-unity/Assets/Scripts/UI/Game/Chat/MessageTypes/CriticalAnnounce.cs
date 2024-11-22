@@ -1,6 +1,6 @@
 public class CriticalAnnounceMesasge : ChatMessage
 {
-    private static MessageType Type = MessageType.CRITICAL_ANNOUNCE;
+    private static L2MessageType Type = L2MessageType.CRITICAL_ANNOUNCE;
     public CriticalAnnounceMesasge(string user, string message) : base(user, message)
     {
     }

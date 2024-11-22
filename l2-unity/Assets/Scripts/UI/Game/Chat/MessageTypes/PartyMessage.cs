@@ -1,6 +1,6 @@
 public class PartyMessage : ChatMessage
 {
-    private static MessageType Type = MessageType.PARTY;
+    private static L2MessageType Type = L2MessageType.PARTY;
     public PartyMessage(string user, string message) : base(user, message)
     {
     }

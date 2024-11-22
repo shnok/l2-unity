@@ -42,7 +42,7 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(authPacket);
     }
 
-    public void SendMessage(string message, MessageType messageType, string pmTarget)
+    public void SendMessage(string message, L2MessageType messageType, string pmTarget)
     {
         SendMessagePacket packet = new SendMessagePacket(message, messageType, pmTarget);
         SendPacket(packet);

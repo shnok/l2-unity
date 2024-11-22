@@ -1,5 +1,6 @@
 using AtmosphericHeightFog;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [ExecuteInEditMode]
 public class DayNightCycle : MonoBehaviour
@@ -25,20 +26,20 @@ public class DayNightCycle : MonoBehaviour
 
     [Header("Fog colors")]
     [SerializeField] private Color _dayFogColorStart = new Color(126f / 255f, 190f / 255f, 255f / 255f);
-    [SerializeField] private Color _dayFogColorEnd = new Color(115f / 255f, 153f / 255f, 191f / 255f) * 0.7388527f;
+    [SerializeField] private Color _dayFogColorEnd = new Color(85f / 255f, 113f / 255f, 141f / 255f) * 0.7388527f;
     [SerializeField] private Color _nightFogColorStart = new Color(112f / 255f, 117f / 255f, 123f / 255f);
-    [SerializeField] private Color _nightFogColorEnd = new Color(112f / 255f, 117f / 255f, 123f / 255f) * 0.7388527f;
+    [SerializeField] private Color _nightFogColorEnd = new Color(83f / 255f, 86f / 255f, 91f / 255f) * 0.7388527f;
     [SerializeField] private float _dayDirectionalIntensity = 0.250f;
     [SerializeField] private float _nightDirectionalIntensity = 0;
 
     [Header("Main light colors")]
-    [SerializeField] private Color _mainLightDayColor = new Color(255f / 255f, 249f / 255f, 225f / 255f);
+    [SerializeField] private Color _mainLightDayColor = new Color(231f / 255f, 223f / 255f, 197f / 255f);
     [SerializeField] private Color _mainLightNightColor = new Color(101f / 255f, 110f / 255f, 152f / 255f);
     [SerializeField] private Color _mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
     [SerializeField] private Color _mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
     [Header("Ambient light colors")]
-    [SerializeField] private Color _ambientLightDayColor = new Color(166f / 255f, 156f / 255f, 135f / 255f);
-    [SerializeField] private Color _ambientLightNightColor = new Color(42f / 255f, 42f / 255f, 40f / 255f);
+    [SerializeField] private Color _ambientLightDayColor = new Color(116f / 255f, 116f / 255f, 116f / 255f) * 1f;
+    [SerializeField] private Color _ambientLightNightColor = new Color(79f / 255f, 79f / 255f, 79f / 255f);
     [SerializeField] private Color _ambientLightduskColor = new Color(82f / 255f, 65f / 255f, 41f / 255f);
     [SerializeField] private Color _ambientLightDawnColor = new Color(96f / 255f, 96f / 255f, 79f / 255f);
 
@@ -53,8 +54,16 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] private float _ambientMaxIntensity = 0.5f;
 
     [Header("Main light intensity")]
-    [SerializeField] private float _mainLightMinIntensity = 0.4f;
-    [SerializeField] private float _mainLightMaxIntensity = 1f;
+    [SerializeField] private float _mainLightMinIntensity = 0.2f;
+    [SerializeField] private float _mainLightMaxIntensity = 0.3f;
+
+    [Header("Exposure")]
+    [SerializeField] private VolumeProfile _exteriorProfile;
+    [SerializeField] private VolumeProfile _interiorProfile;
+    [SerializeField] private Vector2 _exteriorExposureRange = new Vector2(1.45f, 1.38f); //night, day
+    [SerializeField] private Vector2 _exteriorBrightnessRange = new Vector2(1.61f, 2.58f); //night, day
+    [SerializeField] private Vector2 _interiorExposureRange = new Vector2(0.69f, 1.17f); //night, day
+    [SerializeField] private Vector2 _interiorBrightnessRange = new Vector2(1.45f, 2.88f); //night, day
 
     // Update is called once per frame
     void Update()
@@ -102,6 +111,8 @@ public class DayNightCycle : MonoBehaviour
         UpdateAmbientLightColor();
 
         UpdateLightColor();
+
+        UpdateExposureLevels();
     }
 
     private void UpdateSkyColor()
@@ -266,6 +277,25 @@ public class DayNightCycle : MonoBehaviour
     {
         // Main light intensity
         _mainLight.intensity = AdjustIntensity(_mainLightMinIntensity, _mainLightMaxIntensity, _clock.Clock.dawnRatio, _clock.Clock.duskRatio);
+    }
+
+    private void UpdateExposureLevels()
+    {
+        if (_exteriorProfile == null || _interiorProfile == null)
+        {
+            return;
+        }
+
+        if (_exteriorProfile.TryGet(out Beautify.Universal.Beautify beautify))
+        {
+            beautify.tonemapExposurePre.value = AdjustIntensity(_exteriorExposureRange.x, _exteriorExposureRange.y, _clock.Clock.dawnRatio, _clock.Clock.duskRatio);
+            beautify.tonemapBrightnessPost.value = AdjustIntensity(_exteriorBrightnessRange.x, _exteriorBrightnessRange.y, _clock.Clock.dawnRatio, _clock.Clock.duskRatio);
+        }
+        if (_interiorProfile.TryGet(out Beautify.Universal.Beautify beautifyInterior))
+        {
+            beautifyInterior.tonemapExposurePre.value = AdjustIntensity(_interiorExposureRange.x, _interiorExposureRange.y, _clock.Clock.dawnRatio, _clock.Clock.duskRatio);
+            beautifyInterior.tonemapBrightnessPost.value = AdjustIntensity(_interiorBrightnessRange.x, _interiorBrightnessRange.y, _clock.Clock.dawnRatio, _clock.Clock.duskRatio);
+        }
     }
 
     private float AdjustIntensity(float minIntensity, float fullIntensity, float dawnRatio, float duskRatio)

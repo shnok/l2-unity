@@ -1,6 +1,6 @@
 public class TellMessage : ChatMessage
 {
-    private static MessageType Type = MessageType.TELL;
+    private static L2MessageType Type = L2MessageType.TELL;
     public TellMessage(string user, string message) : base(user, message)
     {
     }

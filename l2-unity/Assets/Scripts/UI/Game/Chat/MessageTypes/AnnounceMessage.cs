@@ -1,6 +1,6 @@
 public class AnnounceMesasge : ChatMessage
 {
-    private static MessageType Type = MessageType.ANNOUNCEMENT;
+    private static L2MessageType Type = L2MessageType.ANNOUNCEMENT;
     public AnnounceMesasge(string user, string message) : base(user, message)
     {
     }

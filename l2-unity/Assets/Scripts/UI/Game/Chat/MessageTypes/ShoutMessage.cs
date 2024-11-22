@@ -1,6 +1,6 @@
 public class ShoutMessage : ChatMessage
 {
-    private static MessageType Type = MessageType.SHOUT;
+    private static L2MessageType Type = L2MessageType.SHOUT;
     public ShoutMessage(string user, string message) : base(user, message)
     {
     }

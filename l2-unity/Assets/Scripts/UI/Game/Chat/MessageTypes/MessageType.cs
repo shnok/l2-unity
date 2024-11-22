@@ -1,4 +1,4 @@
-public enum MessageType : int
+public enum L2MessageType : int
 {
     ALL,
     SHOUT, // !

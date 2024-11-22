@@ -1,6 +1,6 @@
 public class TradeMessage : ChatMessage
 {
-    private static MessageType Type = MessageType.TRADE;
+    private static L2MessageType Type = L2MessageType.TRADE;
     public TradeMessage(string user, string message) : base(user, message)
     {
     }

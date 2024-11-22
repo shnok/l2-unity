@@ -1,6 +1,6 @@
 public class ClanMessage : ChatMessage
 {
-    private static MessageType Type = MessageType.CLAN;
+    private static L2MessageType Type = L2MessageType.CLAN;
     public ClanMessage(string user, string message) : base(user, message)
     {
     }

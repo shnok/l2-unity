@@ -5,8 +5,8 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class ChatTab : L2Tab
 {
-    [SerializeField] private List<MessageType> _filteredMessages;
-    public List<MessageType> FilteredMessages { get { return _filteredMessages; } }
+    [SerializeField] private List<L2MessageType> _filteredMessages;
+    public List<L2MessageType> FilteredMessages { get { return _filteredMessages; } }
     private int _messageCount = 0;
 
     private Label _content;

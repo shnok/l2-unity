@@ -1,10 +1,10 @@
 public class ChatMessage
 {
-    private static MessageType Type = MessageType.ALL;
+    private static L2MessageType Type = L2MessageType.ALL;
     protected string _user;
     protected string _message;
 
-    public MessageType MessageType { get => Type; }
+    public L2MessageType MessageType { get => Type; }
 
     public ChatMessage(string user, string message)
     {

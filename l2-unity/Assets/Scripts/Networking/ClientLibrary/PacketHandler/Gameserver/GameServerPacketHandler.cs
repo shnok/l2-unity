@@ -245,7 +245,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnMessageReceive(byte[] data)
     {
         CreatureSayPacket packet = new CreatureSayPacket(data);
-        if (packet.MessageType == MessageType.BOAT)
+        if (packet.MessageType == L2MessageType.BOAT)
         {
             SystemMessageDat messageData = SystemMessageTable.Instance.GetSystemMessage(packet.SystemMessageId);
             SystemMessage systemMessage = new SystemMessage(null, messageData);
@@ -261,31 +261,31 @@ public class GameServerPacketHandler : ServerPacketHandler
         ChatMessage message;
         switch (packet.MessageType)
         {
-            case MessageType.TRADE:
+            case L2MessageType.TRADE:
                 message = new TradeMessage(sender, text);
                 break;
-            case MessageType.SHOUT:
+            case L2MessageType.SHOUT:
                 message = new ShoutMessage(sender, text);
                 break;
-            case MessageType.PARTY:
+            case L2MessageType.PARTY:
                 message = new PartyMessage(sender, text);
                 break;
-            case MessageType.CLAN:
+            case L2MessageType.CLAN:
                 message = new ClanMessage(sender, text);
                 break;
-            case MessageType.ALLIANCE:
+            case L2MessageType.ALLIANCE:
                 message = new AllianceMessage(sender, text);
                 break;
-            case MessageType.HERO_VOICE:
+            case L2MessageType.HERO_VOICE:
                 message = new HeroMessage(sender, text);
                 break;
-            case MessageType.TELL:
+            case L2MessageType.TELL:
                 message = new TellMessage(sender, text);
                 break;
-            case MessageType.CRITICAL_ANNOUNCE:
+            case L2MessageType.CRITICAL_ANNOUNCE:
                 message = new CriticalAnnounceMesasge(sender, text);
                 break;
-            case MessageType.ANNOUNCEMENT:
+            case L2MessageType.ANNOUNCEMENT:
                 message = new AnnounceMesasge(sender, text);
                 break;
             default:
