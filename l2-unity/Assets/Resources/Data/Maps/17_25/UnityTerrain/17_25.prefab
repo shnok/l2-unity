@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7006526045734525829}
   - component: {fileID: 6726560710102456307}
   - component: {fileID: 7809919718557172366}
+  - component: {fileID: 1287479905491340622}
   m_Layer: 0
   m_Name: 17_25
   m_TagString: Untagged
@@ -48,7 +49,7 @@ Terrain:
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 150
+  m_DetailObjectDistance: 0
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 3
   m_SplatMapDistance: 99999
@@ -133,3 +134,124 @@ MonoBehaviour:
   patchBoundsMultiplier: {x: 1, y: 1, z: 1}
   reenabled: 1
   importSplatMaps: []
+--- !u!114 &1287479905491340622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544603077895334481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc900bee227140b2998c9124dd65ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DrawInEditMode: 1
+  FollowCam: 1
+  MainCamPos: {x: 0, y: 0, z: 0}
+  MainCamRot: {x: 0, y: 0, z: 0}
+  rtCameraSelection: 0
+  rtIngnoreOcclusion: 1
+  rtBurstRadius: 50
+  Cam: {fileID: 0}
+  IngnoreOcclusion: 1
+  showGrid: 0
+  ProjMat: {fileID: 0}
+  ATGSeed: 188439637
+  ter: {fileID: 7006526045734525829}
+  terData: {fileID: 15600000, guid: 8c7a07fd4d02a66488aeba309ba80179, type: 2}
+  SavedTerrainData: {fileID: 0}
+  useBurst: 1
+  BurstRadius: 100
+  CellsPerFrame: 1
+  DetailDensity: 0.005
+  usingSRP: 1
+  CameraSelection: 0
+  CameraLayer: 0
+  renderingLayerMask: 1
+  CullDistance: 60
+  FadeLength: 30
+  CacheDistance: 120.00001
+  VertexFadeStart: 10
+  VertexFadeLength: 10
+  DetailFadeStart: 20
+  DetailFadeLength: 30
+  ShadowStart: 10
+  ShadowFadeLength: 20
+  ShadowStartFoliage: 30
+  ShadowFadeLengthFoliage: 20
+  CullingGroupDistanceFactor: 1
+  lppv: {fileID: 0}
+  v_mesh:
+  - {fileID: 4300000, guid: bb98a17fb1a46cb49b18b0780f6a1f91, type: 2}
+  - {fileID: 4300000, guid: 19a9920c456f5e14ba198c31a38de57f, type: 2}
+  - {fileID: 4300000, guid: 52978f0592c443940b8cf53755b5218d, type: 2}
+  - {fileID: 4300000, guid: a8cfb4cb0ded55c4b923ec2f5e328399, type: 2}
+  - {fileID: 4300000, guid: fbb793a2400ed9547b9560cfe1975dd7, type: 2}
+  - {fileID: 4300000, guid: 21aba0c5e931ab841ad40cba87f81e02, type: 2}
+  - {fileID: 4300000, guid: 47d0d1208b6dd854da498c3d3a478d39, type: 2}
+  - {fileID: 4300000, guid: bc1de1bf9a19ce946b53710678f716fb, type: 2}
+  - {fileID: 4300000, guid: b4d93a2296b04414986b27784e3dc199, type: 2}
+  v_mat:
+  - {fileID: 2100000, guid: a767b7149960395489bd121e3cdc86f6, type: 2}
+  - {fileID: 2100000, guid: 89330ab2e41f09d41892f6ddeaf7c299, type: 2}
+  - {fileID: 2100000, guid: 76901cd0003097441a1b516412357aec, type: 2}
+  - {fileID: 2100000, guid: a767b7149960395489bd121e3cdc86f6, type: 2}
+  - {fileID: 2100000, guid: 226518a161cf7f94ea6a69506938ab47, type: 2}
+  - {fileID: 2100000, guid: 680b98670805b3c49adb49afe614044c, type: 2}
+  - {fileID: 2100000, guid: 5ba0cd982da6bf14f92e88d63abb0fa6, type: 2}
+  - {fileID: 2100000, guid: ee8afcce30f4fb148929a68f5c7d479c, type: 2}
+  - {fileID: 2100000, guid: ee8afcce30f4fb148929a68f5c7d479c, type: 2}
+  v_clip: []
+  InstanceRotation: 000000000000000000000000000000000000000000000000000000000000000000000000
+  WriteNormalBuffer: 000000000000000000
+  ShadowCastingMode: 000000000000000000000000000000000000000000000000000000000000000000000000
+  motionVectorGenerationMode: 000000000000000000000000000000000000000000000000000000000000000000000000
+  MinSize:
+  - 0.5
+  - 0.7
+  - 0.4
+  - 0.5
+  - 0.2
+  - 0.55
+  - 0.7
+  - 1
+  - 1
+  MaxSize:
+  - 0.7
+  - 1
+  - 0.9
+  - 1
+  - 0.5
+  - 1
+  - 1.5
+  - 1.5
+  - 1.5
+  Noise:
+  - 0.1
+  - 0.28
+  - 11
+  - 0.1
+  - 0.1
+  - 0.2
+  - 0.1
+  - 0.1
+  - 0.1
+  LayerToMergeWith: 000000000000000000000000000000000000000000000000000000000000000000000000
+  DoSoftMerge: 000000000000000000
+  rtUseCompute: 1
+  UseCompute: 0
+  GrassInstanceSize: 2
+  HiZBuffer: {fileID: 0}
+  vrForceSinglePassInstanced: 0
+  EnableTerrainShift: 0
+  NumberOfBucketsPerCellEnum: 16
+  FreezeSizeAndColor: 0
+  DebugStats: 0
+  DebugCells: 0
+  FirstTimeSynced: 1
+  LayerEditMode: 0
+  LayerSelection: 6
+  Foldout_Rendersettings: 1
+  Foldout_Advancedsettings: 1
+  Foldout_Prototypes: 1

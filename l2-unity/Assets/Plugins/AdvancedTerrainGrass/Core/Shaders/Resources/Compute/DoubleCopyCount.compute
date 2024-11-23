@@ -1,0 +1,18 @@
+#pragma kernel DoubleCopyCount
+
+struct Args
+{
+	uint a;
+	uint items;
+	uint c;
+	uint d;
+	uint e;
+};
+
+RWStructuredBuffer<Args> ArgsBuffer;
+
+[numthreads(1,1,1)]
+void DoubleCopyCount (uint3 id : SV_DispatchThreadID)
+{
+	ArgsBuffer[id.x].items = ArgsBuffer[id.x].items + ArgsBuffer[id.x].items;
+}

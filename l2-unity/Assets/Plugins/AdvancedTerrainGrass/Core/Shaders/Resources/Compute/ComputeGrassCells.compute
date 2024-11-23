@@ -1,0 +1,212 @@
+﻿// https://www.nickdarnell.com/hierarchical-z-buffer-occlusion-culling/
+
+
+	#pragma kernel ComputeGrassCells
+	#pragma kernel ComputeGrassCellsURP
+//	Input
+	RWStructuredBuffer<float4x4> CellcontentsSourceBuffer;
+	uniform float _AtgCulldistance;
+	uniform float3 _AtgCameraPosition;
+	uniform float3 _AtgCameraForward;
+	uniform float4x4 _AtgVP;
+	uniform uint _AtgInstanceCount;
+	uniform float _AtgCullDistSqr;
+
+	uniform float4 AtgGrassFadeProps;
+	uniform float AtgClipVal;
+	uniform float3 AtgBoundsCenter;
+	uniform float3 AtgBoundsExtents;
+
+	uniform float3 AtgTerrainShiftCompute;
+
+	uniform Texture2D<float2> AtgHiZBuffer;
+	uniform SamplerState sampler_AtgHiZBuffer;
+	uniform float2 AtgHiZBufferSize;
+
+//	Output
+	AppendStructuredBuffer<float4x4> MergedCellcontentsBuffer;
+
+	[numthreads(64,1,1)]
+	void ComputeGrassCells(uint3 id : SV_DispatchThreadID) {
+		if (id.x < _AtgInstanceCount) {
+			float4x4 ObjectToWorld_Matrix = CellcontentsSourceBuffer[id.x];
+		
+		//	Get and store original xz pivot as base for the rand function / skipped
+		//	Apply Terrain Shift
+			ObjectToWorld_Matrix[0].w -= AtgTerrainShiftCompute.x;
+			ObjectToWorld_Matrix[1].w -= AtgTerrainShiftCompute.y;
+			ObjectToWorld_Matrix[2].w -= AtgTerrainShiftCompute.z;
+		//	Store matrix which eventually gets appended	(which still includes extra data)
+			float4x4 OutputObjectToWorld_Matrix = ObjectToWorld_Matrix;
+
+			float scale = frac(ObjectToWorld_Matrix[3].w) * 100.0f;
+			float2 randPivot = float2(scale, 1 - scale);
+
+		//	Reset ObjectToWorld_Matrix as it also contains layer data
+			ObjectToWorld_Matrix[3] = float4(0, 0, 0, 1.0f);
+
+		//	Compute distance
+			float3 pivot = float3(ObjectToWorld_Matrix[0].w, ObjectToWorld_Matrix[1].w, ObjectToWorld_Matrix[2].w);
+			float3 dist = pivot /*+ scale.xxx * 4*/ - _AtgCameraPosition.xyz;
+			float SqrDist = dot(dist, dist);
+			
+		//	Distance based culling
+		//  TODO: Check if we can really use "any" here
+
+			[branch]
+// NOTE: URP does not like "any"!
+			//if ( any (_AtgCullDistSqr - SqrDist) >= 0.0f) {
+			if ( (_AtgCullDistSqr - SqrDist) >= 0.0f ) {
+
+			//	2 step culling (grass only)
+				if (AtgClipVal > 0.0f) {
+				//	Calculate near fade factor / reversed!
+					float random = frac(sin(dot(randPivot, half2(12.9898f, 78.233f))) * 43758.5453f);
+					float smallScaleClipping = saturate((SqrDist - AtgGrassFadeProps.z) * AtgGrassFadeProps.w);
+					float clip = (random < AtgClipVal) ? 1.0f : 0.0f;
+					clip = 1.0f - smallScaleClipping * clip;
+				//	Cull based on near culling distance
+					if (clip == 0.0f) {
+						return;
+					}
+				}
+				
+			//	Super simple frustum culling - relies on proper "instance size" -> _AtgCameraForward as set in the grass manager
+				float4 clipPos = mul(_AtgVP, float4(pivot + _AtgCameraForward, 1.0));
+				// clipPos.w *= 2.0f; // This would widen the frustum
+				if (clipPos.x > -clipPos.w && clipPos.x < clipPos.w && clipPos.z > -clipPos.w && clipPos.y > -clipPos.w && clipPos.y < clipPos.w ) {
+
+				//	Finally apply HiZ Culling
+				//	Based upon: http://rastergrid.com/blog/downloads/mountains-demo/
+					float4x4 ModelViewProjection = mul(_AtgVP, ObjectToWorld_Matrix);
+					float3 MinBounds = AtgBoundsCenter - AtgBoundsExtents;
+					float3 MaxBounds = AtgBoundsCenter + AtgBoundsExtents;
+
+				//	Create the bounding box of the object
+					float4 BoundingBox[8];
+					BoundingBox[0] = mul(ModelViewProjection, float4(MinBounds.x, MaxBounds.y, MinBounds.z, 1.0));
+					//	Perform perspective division for the bounding box
+						BoundingBox[0].xyz /= BoundingBox[0].w;
+					BoundingBox[1] = mul(ModelViewProjection, float4(MinBounds.x, MaxBounds.y, MaxBounds.z, 1.0));
+						BoundingBox[1].xyz /= BoundingBox[1].w;
+					BoundingBox[2] = mul(ModelViewProjection, float4(MaxBounds.x, MaxBounds.y, MaxBounds.z, 1.0));
+						BoundingBox[2].xyz /= BoundingBox[2].w;
+					BoundingBox[3] = mul(ModelViewProjection, float4(MaxBounds.x, MaxBounds.y, MinBounds.z, 1.0));
+						BoundingBox[3].xyz /= BoundingBox[3].w;
+					BoundingBox[4] = mul(ModelViewProjection, float4(MaxBounds.x, MinBounds.y, MinBounds.z, 1.0));
+						BoundingBox[4].xyz /= BoundingBox[4].w;
+					BoundingBox[5] = mul(ModelViewProjection, float4(MaxBounds.x, MinBounds.y, MaxBounds.z, 1.0));
+						BoundingBox[5].xyz /= BoundingBox[5].w;
+					BoundingBox[6] = mul(ModelViewProjection, float4(MinBounds.x, MinBounds.y, MaxBounds.z, 1.0));
+						BoundingBox[6].xyz /= BoundingBox[6].w;
+					BoundingBox[7] = mul(ModelViewProjection, float4(MinBounds.x, MinBounds.y, MinBounds.z, 1.0));
+						BoundingBox[7].xyz /= BoundingBox[7].w;
+
+				//	Calculate screen space bounding rectangle
+					float2 BoundingRect[2];
+					BoundingRect[0] =
+						min( min( min(BoundingBox[0].x, BoundingBox[1].x ),
+								  min( BoundingBox[2].x, BoundingBox[3].x ) ),
+							 min( min( BoundingBox[4].x, BoundingBox[5].x ),
+								  min( BoundingBox[6].x, BoundingBox[7].x ) ) ) * 0.5 + 0.5;
+					BoundingRect[0].y =
+						min( min( min( BoundingBox[0].y, BoundingBox[1].y ),
+								  min( BoundingBox[2].y, BoundingBox[3].y ) ),
+							 min( min (BoundingBox[4].y, BoundingBox[5].y ),
+								  min( BoundingBox[6].y, BoundingBox[7].y ) ) ) * 0.5 + 0.5;
+					BoundingRect[1].x =
+						max( max( max( BoundingBox[0].x, BoundingBox[1].x ),
+								  max( BoundingBox[2].x, BoundingBox[3].x ) ),
+							 max( max( BoundingBox[4].x, BoundingBox[5].x ),
+								  max( BoundingBox[6].x, BoundingBox[7].x ) ) ) * 0.5 + 0.5;
+					BoundingRect[1].y =
+						max( max( max( BoundingBox[0].y, BoundingBox[1].y ),
+								  max( BoundingBox[2].y, BoundingBox[3].y ) ),
+							 max( max( BoundingBox[4].y, BoundingBox[5].y ),
+								  max( BoundingBox[6].y, BoundingBox[7].y ) ) ) * 0.5 + 0.5;
+				
+				//	Then the linear depth value of the front-most point
+					float InstanceDepth =
+						min( min( min( BoundingBox[0].z, BoundingBox[1].z ),
+								  min( BoundingBox[2].z, BoundingBox[3].z ) ),
+							 min( min( BoundingBox[4].z, BoundingBox[5].z ),
+								  min( BoundingBox[6].z, BoundingBox[7].z ) ) );
+
+				//	Now we calculate the bounding rectangle size in viewport coordinates (actually in HiZBuffer texture space)
+					float2 HiZBufferSize = float2( BoundingRect[1].x - BoundingRect[0].x, BoundingRect[1].y - BoundingRect[0].y ) * AtgHiZBufferSize;
+					
+				//	Now we calculate the texture LOD used for lookup in the depth buffer texture
+					float LOD = ceil( log2( max( HiZBufferSize.x, HiZBufferSize.y ) * 0.25 ) ); // Was: 0.5, but 0.25 culls some more instances
+					// LOD = min( ceil( log2( max( HiZBufferSize.x, HiZBufferSize.y ) * 0.25 ) ), /*levels*/ 10 - 1); // Was: 0.5, but 0.25 culls some more instances
+
+				//	Finally fetch the depth texture using explicit LOD lookups
+					float4 Samples;
+					Samples.x = 1.0f - AtgHiZBuffer.SampleLevel(sampler_AtgHiZBuffer, float2(BoundingRect[0].x, BoundingRect[0].y), LOD).x;
+					Samples.y = 1.0f - AtgHiZBuffer.SampleLevel(sampler_AtgHiZBuffer, float2(BoundingRect[0].x, BoundingRect[1].y), LOD).x;
+					Samples.z = 1.0f - AtgHiZBuffer.SampleLevel(sampler_AtgHiZBuffer, float2(BoundingRect[1].x, BoundingRect[1].y), LOD).x;
+					Samples.w = 1.0f - AtgHiZBuffer.SampleLevel(sampler_AtgHiZBuffer, float2(BoundingRect[1].x, BoundingRect[0].y), LOD).x;
+					float MaxDepth = max( max( Samples.x, Samples.y ), max( Samples.z, Samples.w ) );
+
+				//	If the instance depth is bigger than the depth in the texture discard the instance
+					if (InstanceDepth < MaxDepth) {
+						MergedCellcontentsBuffer.Append(OutputObjectToWorld_Matrix);
+					}
+				}
+			}
+		}
+	}
+
+
+	[numthreads(64,1,1)]
+	void ComputeGrassCellsURP(uint3 id : SV_DispatchThreadID) {
+		if (id.x < _AtgInstanceCount) {
+			float4x4 ObjectToWorld_Matrix = CellcontentsSourceBuffer[id.x];
+		
+		//	Get and store original xz pivot as base for the rand function / skipped
+		//	Apply Terrain Shift
+			ObjectToWorld_Matrix[0].w -= AtgTerrainShiftCompute.x;
+			ObjectToWorld_Matrix[1].w -= AtgTerrainShiftCompute.y;
+			ObjectToWorld_Matrix[2].w -= AtgTerrainShiftCompute.z;
+		//	Store matrix which eventually gets appended	(which still includes extra data)
+			float4x4 OutputObjectToWorld_Matrix = ObjectToWorld_Matrix;
+
+			float scale = frac(ObjectToWorld_Matrix[3].w) * 100.0f;
+			float2 randPivot = float2(scale, 1 - scale);
+
+		//	Reset ObjectToWorld_Matrix as it also contains layer data
+			ObjectToWorld_Matrix[3] = float4(0, 0, 0, 1.0f);
+
+		//	Compute distance
+			float3 pivot = float3(ObjectToWorld_Matrix[0].w, ObjectToWorld_Matrix[1].w, ObjectToWorld_Matrix[2].w);
+			float3 dist = pivot /*+ scale.xxx * 4*/ - _AtgCameraPosition.xyz;
+			float SqrDist = dot(dist, dist);
+			
+		//	Distance based culling
+		//  TODO: Check if we can really use "any" here
+
+// NOTE: URP does not like "any"!
+			[branch]
+			if ( _AtgCullDistSqr - SqrDist >= 0.0f ) {
+
+			//	2 step culling (grass only)
+				if (AtgClipVal > 0.0f) {
+				//	Calculate near fade factor / reversed!
+					float random = frac(sin(dot(randPivot, half2(12.9898f, 78.233f))) * 43758.5453f);
+					float smallScaleClipping = saturate((SqrDist - AtgGrassFadeProps.z) * AtgGrassFadeProps.w);
+					float clip = (random < AtgClipVal) ? 1.0f : 0.0f;
+					clip = 1.0f - smallScaleClipping * clip;
+				//	Cull based on near culling distance
+					if (clip == 0.0f) {
+						return;
+					}
+				}
+				
+			//	Super simple frustum culling - relies on proper "instance size" -> _AtgCameraForward as set in the grass manager
+				float4 clipPos = mul(_AtgVP, float4(pivot + _AtgCameraForward, 1.0));
+				// clipPos.w *= 2.0f; // This would widen the frustum
+				if (clipPos.x > -clipPos.w && clipPos.x < clipPos.w && clipPos.z > -clipPos.w && clipPos.y > -clipPos.w && clipPos.y < clipPos.w ) {
+					MergedCellcontentsBuffer.Append(OutputObjectToWorld_Matrix);
+				}
+			}
+		}
+	}
