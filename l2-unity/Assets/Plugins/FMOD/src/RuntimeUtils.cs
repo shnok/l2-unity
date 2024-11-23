@@ -417,8 +417,8 @@ namespace FMODUnity
             if (rigidbody)
             {
                 FMOD.VECTOR vel;
-                vel.x = rigidbody.velocity.x;
-                vel.y = rigidbody.velocity.y;
+                vel.x = rigidbody.linearVelocity.x;
+                vel.y = rigidbody.linearVelocity.y;
                 vel.z = 0;
                 attributes.velocity = vel;
             }
@@ -434,8 +434,8 @@ namespace FMODUnity
             if (rigidbody)
             {
                 FMOD.VECTOR vel;
-                vel.x = rigidbody.velocity.x;
-                vel.y = rigidbody.velocity.y;
+                vel.x = rigidbody.linearVelocity.x;
+                vel.y = rigidbody.linearVelocity.y;
                 vel.z = 0;
                 attributes.velocity = vel;
             }
