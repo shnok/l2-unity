@@ -60,10 +60,10 @@ public class DayNightCycle : MonoBehaviour
     [Header("Exposure")]
     [SerializeField] private VolumeProfile _exteriorProfile;
     [SerializeField] private VolumeProfile _interiorProfile;
-    [SerializeField] private Vector2 _exteriorExposureRange = new Vector2(1.45f, 1.38f); //night, day
-    [SerializeField] private Vector2 _exteriorBrightnessRange = new Vector2(1.61f, 2.58f); //night, day
-    [SerializeField] private Vector2 _interiorExposureRange = new Vector2(0.69f, 1.17f); //night, day
-    [SerializeField] private Vector2 _interiorBrightnessRange = new Vector2(1.45f, 2.88f); //night, day
+    [SerializeField] private Vector2 _exteriorExposureRange = new Vector2(1.75f, 1.38f); //night, day
+    [SerializeField] private Vector2 _exteriorBrightnessRange = new Vector2(1.41f, 2.58f); //night, day
+    [SerializeField] private Vector2 _interiorExposureRange = new Vector2(1.75f, 1.17f); //night, day
+    [SerializeField] private Vector2 _interiorBrightnessRange = new Vector2(1.41f, 2.88f); //night, day
 
     // Update is called once per frame
     void Update()
