@@ -950,7 +950,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -958,7 +958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_NearPlane
@@ -966,7 +966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Name
@@ -2199,7 +2199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -3461,8 +3461,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 38128.06
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 105427.89
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -3779,8 +3779,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 33543.004
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 75208.17
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -4097,8 +4097,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 23080.889
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 85738.78
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -4264,71 +4264,6 @@ ReflectionProbe:
   m_BlendDistance: 0
   m_HDR: 1
   m_BoxProjection: 1
-  m_RenderDynamicObjects: 0
-  m_UseOcclusionCulling: 1
-  m_Importance: 1
-  m_CustomBakedTexture: {fileID: 0}
---- !u!1 &204639864
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 204639865}
-  - component: {fileID: 204639866}
-  m_Layer: 0
-  m_Name: Reflection Probe (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &204639865
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 204639864}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 340.1006, y: 141.84268, z: 170.33118}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1967977985}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!215 &204639866
-ReflectionProbe:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 204639864}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Type: 0
-  m_Mode: 1
-  m_RefreshMode: 1
-  m_TimeSlicingMode: 1
-  m_Resolution: 128
-  m_UpdateFrequency: 0
-  m_BoxSize: {x: 10, y: 10, z: 10}
-  m_BoxOffset: {x: 0, y: 0, z: 0}
-  m_NearClip: 0.3
-  m_FarClip: 1000
-  m_ShadowDistance: 100
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IntensityMultiplier: 1
-  m_BlendDistance: 1
-  m_HDR: 1
-  m_BoxProjection: 0
   m_RenderDynamicObjects: 0
   m_UseOcclusionCulling: 1
   m_Importance: 1
@@ -5257,8 +5192,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 15207.849
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 90892.586
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -6189,7 +6124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -6296,8 +6231,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 45482.664
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 271616.5
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -6444,7 +6379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -6452,11 +6387,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Name
@@ -6563,8 +6498,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 64077.17
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 310513.3
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -6621,8 +6556,8 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
-    m_Resolution: 1
+    m_Type: 0
+    m_Resolution: 0
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -6986,7 +6921,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -6994,11 +6929,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Name
@@ -7080,7 +7015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -8400,11 +8335,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Name
@@ -9602,7 +9537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_BounceIntensity
@@ -10980,8 +10915,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 23916.22
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 70744
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -11505,8 +11440,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 19495.02
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 94303.87
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -11983,8 +11918,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 13764.71
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 99361.26
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -12248,7 +12183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -12256,7 +12191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -12751,7 +12686,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -12759,7 +12694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -13562,92 +13497,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &682977249
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 682977250}
-  - component: {fileID: 682977252}
-  - component: {fileID: 682977251}
-  m_Layer: 0
-  m_Name: Water (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &682977250
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682977249}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 312.07617, y: 106.9, z: 312.07617}
-  m_LocalScale: {x: 43.066513, y: 1, z: 43.066513}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1967977985}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &682977251
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682977249}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 9d4edf8d68a90c640bc3f0533aebde16, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &682977252
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682977249}
-  m_Mesh: {fileID: 4300000, guid: 754de745a23712f448ae402775b55654, type: 2}
 --- !u!43 &688765129
 Mesh:
   m_ObjectHideFlags: 32
@@ -13851,7 +13700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -13970,8 +13819,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 23777.014
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 111052.65
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -14123,8 +13972,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 36060.363
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 90813.32
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -15046,8 +14895,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 60196.867
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 297256.97
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -15104,7 +14953,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 0
     m_Resolution: 0
     m_CustomResolution: -1
     m_Strength: 1
@@ -15409,7 +15258,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -15532,8 +15381,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 43282.12
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 266869.78
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -15956,8 +15805,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 35323.113
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 116391.164
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -16769,8 +16618,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 37765.246
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 82885.75
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -17748,7 +17597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -17756,11 +17605,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Name
@@ -18032,8 +17881,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 64877.992
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 313888.03
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -18090,8 +17939,8 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
-    m_Resolution: 1
+    m_Type: 0
+    m_Resolution: 0
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -19124,8 +18973,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 33860.312
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 72124.05
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -21451,11 +21300,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Name
@@ -22543,7 +22392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -22551,11 +22400,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Name
@@ -22827,8 +22676,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 28555.244
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 98209.18
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -23081,7 +22930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -23191,7 +23040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -23199,11 +23048,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Name
@@ -24080,8 +23929,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 31557.896
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 96779.04
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -25622,7 +25471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
-  size: {x: 2793.3135, y: 1075.3141, z: 2532.284}
+  size: {x: 2793.3135, y: 1075.3141, z: 2532.2842}
   overrideRendererFilters: 0
   minRendererVolumeSize: 0.1
   objectLayerMask:
@@ -25662,7 +25511,7 @@ Transform:
   m_GameObject: {fileID: 1171460909}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4833.5513, y: -564.07294, z: -1570.1749}
+  m_LocalPosition: {x: 4833.5513, y: -564.07294, z: -1570.175}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25690,7 +25539,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -25953,7 +25802,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -25961,7 +25810,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -26080,8 +25929,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 30400.32
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 88227.58
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -26310,7 +26159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1117509276519485781, guid: a3ce453e95f6373438030a3f48481f44, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1117509276519485781, guid: a3ce453e95f6373438030a3f48481f44, type: 3}
       propertyPath: m_RenderingLayerMask
@@ -26994,7 +26843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -27002,7 +26851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -27662,7 +27511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -27670,11 +27519,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Name
@@ -27781,8 +27630,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 62503.344
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 307779.94
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -27839,8 +27688,8 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
-    m_Resolution: 1
+    m_Type: 0
+    m_Resolution: 0
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -28864,8 +28713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 24091.514
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 120788.21
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -30282,8 +30131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 18078.33
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 108384.14
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -35374,7 +35223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -35382,7 +35231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -35941,8 +35790,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 27942.215
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 76985.67
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -36910,7 +36759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -36918,7 +36767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_NearPlane
@@ -37024,7 +36873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -37032,7 +36881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -37735,115 +37584,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8779640280532892959, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
   m_PrefabInstance: {fileID: 1639844320}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1656030273
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1656030274}
-  - component: {fileID: 1656030277}
-  - component: {fileID: 1656030276}
-  - component: {fileID: 1656030275}
-  m_Layer: 0
-  m_Name: Safenet (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1656030274
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1656030273}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 312.07617, y: 0, z: 312.07617}
-  m_LocalScale: {x: 62.41524, y: 1, z: 62.41524}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1967977985}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &1656030275
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1656030273}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1656030276
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1656030273}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1656030277
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1656030273}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1660360217
 GameObject:
   m_ObjectHideFlags: 0
@@ -37891,8 +37631,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 17549.482
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 102910.766
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -38349,11 +38089,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Name
@@ -39391,8 +39131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 41833.93
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 264623.25
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -40211,8 +39951,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 44551.812
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 267570.06
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -40259,7 +39999,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771311983}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 0.81562823, b: 0.27058828, a: 1}
@@ -40529,8 +40269,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 17509.344
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 81043.516
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -41617,8 +41357,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 28270.137
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 117727.7
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -41761,7 +41501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -41769,7 +41509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_NearPlane
@@ -42507,7 +42247,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -42944,8 +42684,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 18003.072
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 77526.82
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -44032,8 +43772,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 64399.23
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 312413.03
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -44090,8 +43830,8 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
-    m_Resolution: 1
+    m_Type: 0
+    m_Resolution: 0
     m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -44633,124 +44373,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1001 &1967977984
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 544603077895334481, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_Name
-      value: 17_25
-      objectReference: {fileID: 0}
-    - target: {fileID: 544603077895334481, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 544603077895334481, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_TagString
-      value: Dirt
-      objectReference: {fileID: 0}
-    - target: {fileID: 1287479905491340622, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: Cam
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1287479905491340622, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: ATGSeed
-      value: 213549956
-      objectReference: {fileID: 0}
-    - target: {fileID: 1287479905491340622, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: useBurst
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1287479905491340622, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: FollowCam
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1287479905491340622, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1287479905491340622, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: BurstRadius
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 1287479905491340622, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: DrawInEditMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1287479905491340622, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: LayerSelection
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4366.629
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -182.23521
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1874.8953
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7006526045734525829, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      propertyPath: m_MaterialTemplate
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 204639865}
-    - targetCorrespondingSourceObject: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 682977250}
-    - targetCorrespondingSourceObject: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2094630401}
-    - targetCorrespondingSourceObject: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1656030274}
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
---- !u!4 &1967977985 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5157591566206834684, guid: 07d7e603d0228904f8d4c5df996591e6, type: 3}
-  m_PrefabInstance: {fileID: 1967977984}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1969829807
 Mesh:
   m_ObjectHideFlags: 32
@@ -45073,8 +44695,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 37044.33
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 101349.27
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -45416,7 +45038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: e07e0d2d4a939a9479880b3b53f90019, type: 3}
       propertyPath: m_Shadows.m_Resolution
@@ -45523,8 +45145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 23186.14
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 103404.9
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -45777,7 +45399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -46171,8 +45793,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateDelay: 1
-  _squareDistanceFromCamera: 34551.754
-  _lastUpdate: 74.01139
+  _squareDistanceFromCamera: 78727.74
+  _lastUpdate: 1108.0232
   LODLevels:
   - MinSquareDistance: 0
     MaxSquareDistance: 150
@@ -46704,7 +46326,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -46712,11 +46334,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Name
@@ -47609,92 +47231,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &2094630400
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2094630401}
-  - component: {fileID: 2094630403}
-  - component: {fileID: 2094630402}
-  m_Layer: 0
-  m_Name: Water (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2094630401
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094630400}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 312.07617, y: 106.9, z: 312.07617}
-  m_LocalScale: {x: 43.066513, y: 1, z: 43.066513}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1967977985}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &2094630402
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094630400}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 80db0b27181fe4f4c82235f884a3c206, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &2094630403
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094630400}
-  m_Mesh: {fileID: 4300000, guid: 754de745a23712f448ae402775b55654, type: 2}
 --- !u!43 &2114087326
 Mesh:
   m_ObjectHideFlags: 32
@@ -48184,7 +47720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -48192,11 +47728,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Shadows.m_Resolution
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8038692720020630982, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Name
@@ -48404,7 +47940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7544970182174366211, guid: ee13618af49a5a64893964a740d4e2fa, type: 3}
       propertyPath: m_Intensity
@@ -48802,6 +48338,67 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cf086236f62d234b985935591a9b337, type: 3}
+--- !u!1001 &5045623831920461245
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2883755493008142782, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_Name
+      value: 17_25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704531815460889143, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_MaterialTemplate
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4366.629
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -182.23521
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1874.8953
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717613629467946343, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 94bd6d6f5ecd771418e6d901100a139c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -48814,5 +48411,5 @@ SceneRoots:
   - {fileID: 403071136433240530}
   - {fileID: 1420885432}
   - {fileID: 1500726112}
-  - {fileID: 1967977984}
   - {fileID: 330379101232207622}
+  - {fileID: 5045623831920461245}

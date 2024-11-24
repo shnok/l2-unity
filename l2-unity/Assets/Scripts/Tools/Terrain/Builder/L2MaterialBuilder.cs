@@ -6,7 +6,7 @@ using UnityEngine;
 public class L2MaterialBuilder
 {
 
-    [MenuItem("Shnok/2. [Material] Generate staticmesh materials")]
+    [MenuItem("Shnok/02. [Material] Generate staticmesh materials")]
     static void SetupMaterials()
     {
 

@@ -38,7 +38,7 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] private Color _mainLightduskColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
     [SerializeField] private Color _mainLightDawnColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
     [Header("Main light temperatures")]
-    [SerializeField] private float _dayTemperature = 5500;
+    [SerializeField] private float _dayTemperature = 5200;
     [SerializeField] private float _nightTemperature = 20000;
     [SerializeField] private float _duskTemperature = 3556;
     [SerializeField] private float _dawnTemperature = 3556;
@@ -65,8 +65,8 @@ public class DayNightCycle : MonoBehaviour
     [Header("Exposure")]
     [SerializeField] private VolumeProfile _exteriorProfile;
     [SerializeField] private VolumeProfile _interiorProfile;
-    [SerializeField] private Vector2 _exteriorExposureRange = new Vector2(1.75f, 0.86f); //night, day
-    [SerializeField] private Vector2 _exteriorBrightnessRange = new Vector2(1.41f, 1.98f); //night, day
+    [SerializeField] private Vector2 _exteriorExposureRange = new Vector2(1.75f, 0.58f); //night, day
+    [SerializeField] private Vector2 _exteriorBrightnessRange = new Vector2(1.41f, 1.65f); //night, day
     [SerializeField] private Vector2 _interiorExposureRange = new Vector2(0.98f, 1f); //night, day
     [SerializeField] private Vector2 _interiorBrightnessRange = new Vector2(0.8f, 1.78f); //night, day
 
