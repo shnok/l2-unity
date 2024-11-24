@@ -19,7 +19,7 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] private Vector2 _moonTiling = new Vector2(2.5f, 2.5f);
 
     [Header("Sky colors")]
-    [SerializeField] private Color _dayColor = new Color(0f / 255f, 90f / 255f, 140f / 255f); // peak at sunriseEndTime
+    [SerializeField] private Color _dayColor = new Color(15f / 255f, 83f / 255f, 120f / 255f); // peak at sunriseEndTime
     [SerializeField] private Color _dawnColor = new Color(19f / 255f, 35f / 255f, 55f / 255f); // peak at sunriseStartTime  
     [SerializeField] private Color _duskColor = new Color(70f / 255f, 53f / 255f, 43f / 255f); // peak at sunsetStartTime
     [SerializeField] private Color _nightColor = new Color(1f / 255f, 1f / 255f, 2f / 255f) * -1f; // peak at sunsetEndTime
@@ -33,10 +33,15 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] private float _nightDirectionalIntensity = 0;
 
     [Header("Main light colors")]
-    [SerializeField] private Color _mainLightDayColor = new Color(231f / 255f, 223f / 255f, 197f / 255f);
-    [SerializeField] private Color _mainLightNightColor = new Color(101f / 255f, 110f / 255f, 152f / 255f);
-    [SerializeField] private Color _mainLightduskColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
-    [SerializeField] private Color _mainLightDawnColor = new Color(255f / 255f, 206f / 255f, 158f / 255f);
+    [SerializeField] private Color _mainLightDayColor = new Color(255f / 255f, 223f / 255f, 255f / 255f);
+    [SerializeField] private Color _mainLightNightColor = new Color(192f / 255f, 193f / 255f, 202f / 255f);
+    [SerializeField] private Color _mainLightduskColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
+    [SerializeField] private Color _mainLightDawnColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
+    [Header("Main light temperatures")]
+    [SerializeField] private float _dayTemperature = 5500;
+    [SerializeField] private float _nightTemperature = 20000;
+    [SerializeField] private float _duskTemperature = 3556;
+    [SerializeField] private float _dawnTemperature = 3556;
     [Header("Ambient light colors")]
     [SerializeField] private Color _ambientLightDayColor = new Color(116f / 255f, 116f / 255f, 116f / 255f) * 1f;
     [SerializeField] private Color _ambientLightNightColor = new Color(79f / 255f, 79f / 255f, 79f / 255f);
@@ -44,26 +49,26 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] private Color _ambientLightDawnColor = new Color(96f / 255f, 96f / 255f, 79f / 255f);
 
     [Header("Clouds opacity")]
-    [SerializeField] private float _dayCloudsOpcacity = 2.54f;
+    [SerializeField] private float _dayCloudsOpcacity = 1.64f;
     [SerializeField] private float _nightCloudsOpacity = 0.12f;
-    [SerializeField] private float _dayHorizonCloudsOpcacity = 1f;
+    [SerializeField] private float _dayHorizonCloudsOpcacity = 0.32f;
     [SerializeField] private float _nightHorizonCloudsOpacity = 0.05f;
 
     [Header("Ambient light intensity")]
-    [SerializeField] private float _ambientMinIntensity = 0.2f;
+    [SerializeField] private float _ambientMinIntensity = 0.24f;
     [SerializeField] private float _ambientMaxIntensity = 0.5f;
 
     [Header("Main light intensity")]
     [SerializeField] private float _mainLightMinIntensity = 0.2f;
-    [SerializeField] private float _mainLightMaxIntensity = 0.3f;
+    [SerializeField] private float _mainLightMaxIntensity = 0.81f;
 
     [Header("Exposure")]
     [SerializeField] private VolumeProfile _exteriorProfile;
     [SerializeField] private VolumeProfile _interiorProfile;
-    [SerializeField] private Vector2 _exteriorExposureRange = new Vector2(1.75f, 1.38f); //night, day
-    [SerializeField] private Vector2 _exteriorBrightnessRange = new Vector2(1.41f, 2.58f); //night, day
-    [SerializeField] private Vector2 _interiorExposureRange = new Vector2(1.75f, 1.17f); //night, day
-    [SerializeField] private Vector2 _interiorBrightnessRange = new Vector2(1.41f, 2.88f); //night, day
+    [SerializeField] private Vector2 _exteriorExposureRange = new Vector2(1.75f, 0.86f); //night, day
+    [SerializeField] private Vector2 _exteriorBrightnessRange = new Vector2(1.41f, 1.98f); //night, day
+    [SerializeField] private Vector2 _interiorExposureRange = new Vector2(0.98f, 1f); //night, day
+    [SerializeField] private Vector2 _interiorBrightnessRange = new Vector2(0.8f, 1.78f); //night, day
 
     // Update is called once per frame
     void Update()
@@ -155,19 +160,23 @@ public class DayNightCycle : MonoBehaviour
     private void UpdateLightColor()
     {
         Color lightColor = _mainLight.color;
+        float temperature = _mainLight.colorTemperature;
         if (_clock.Clock.dawnRatio > 0 && _clock.Clock.dawnRatio < 1)
         {
             lightColor = Color.Lerp(_mainLightNightColor, _mainLightDawnColor, _clock.Clock.dawnRatio);
+            temperature = Mathf.Lerp(_nightTemperature, _dawnTemperature, _clock.Clock.dawnRatio);
         }
         if (_clock.Clock.brightRatio > 0)
         {
             if (_clock.Clock.brightRatio < 0.2f)
             {
                 lightColor = Color.Lerp(_mainLightDawnColor, _mainLightDayColor, _clock.Clock.brightRatio / 0.2f);
+                temperature = Mathf.Lerp(_dawnTemperature, _dayTemperature, _clock.Clock.brightRatio / 0.2f);
             }
             else if (_clock.Clock.brightRatio < 1f)
             {
                 lightColor = _mainLightDayColor;
+                temperature = _dayTemperature;
             }
         }
         if (_clock.Clock.darkRatio > 0)
@@ -175,17 +184,21 @@ public class DayNightCycle : MonoBehaviour
             if (_clock.Clock.darkRatio < 0.05f)
             {
                 lightColor = Color.Lerp(_mainLightduskColor, _mainLightNightColor, _clock.Clock.darkRatio / 0.05f);
+                temperature = Mathf.Lerp(_duskTemperature, _nightTemperature, _clock.Clock.darkRatio / 0.05f);
             }
             else if (_clock.Clock.darkRatio < 1f)
             {
                 lightColor = _mainLightNightColor;
+                temperature = _nightTemperature;
             }
         }
         if (_clock.Clock.duskRatio > 0 && _clock.Clock.duskRatio < 1)
         {
             lightColor = Color.Lerp(_mainLightDayColor, _mainLightduskColor, _clock.Clock.duskRatio);
+            temperature = Mathf.Lerp(_dayTemperature, _duskTemperature, _clock.Clock.duskRatio);
         }
         _mainLight.color = lightColor;
+        _mainLight.colorTemperature = temperature;
     }
 
     private void UpdateFogColor()
