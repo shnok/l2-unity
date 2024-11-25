@@ -73,9 +73,10 @@
     padding: 0;
     font-size: 12px;
     color: rgb(220, 220, 220);
-    -unity-text-outline-width: 1px;
+    -unity-text-outline-width: 0.7px;
     -unity-text-outline-color: black;
     -unity-text-align: middle-center;
+    text-shadow: 0.8px 0.8px 3px rgb(0, 0, 0);
 }
 
 .character-info-window .bar-label {
@@ -85,21 +86,25 @@
 }
 
 .status-window .bar-label-name {
-    -unity-font-definition: resource('Data/UI/Assets/Font/asiahm-medium');
+    -unity-font-definition: url("project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=d0574adf4789ced4cad784e4fd3123bd&type=3#NotInter-Regular");
     margin: 0;
     position: absolute;
     left: 10px;
     height: 11px;
     letter-spacing: -7px;
     -unity-font-style: bold;
+    font-size: 12px;
 }
 
 .bar-label-numbers {
-    -unity-font-definition: resource('Data/UI/Assets/Font/TAHOMABD');
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
     margin: 0;
     padding-left: 10%;
     height: 11px;
-    letter-spacing: 5px;
+    letter-spacing: 7px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 0.8px;
+    text-shadow: 0.9px 0.9px 3px rgb(0, 0, 0);
 }
 
 .character-info-window .bar-label-numbers {
