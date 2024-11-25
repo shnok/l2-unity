@@ -121,6 +121,24 @@ public class L2TerrainGeneratorTool : MonoBehaviour
 
     }
 
+
+    [MenuItem("Shnok/11. [Terrain] Stitch terrain seams")]
+    static void StitchTerrainSeams()
+    {
+        Dictionary<string, Terrain> mapTerrains = new Dictionary<string, Terrain>();
+        string mapId = "17_25";
+        mapTerrains.Add(mapId, GameObject.Find(mapId).GetComponent<Terrain>());
+        mapId = "16_25";
+        mapTerrains.Add(mapId, GameObject.Find(mapId).GetComponent<Terrain>());
+        mapId = "16_24";
+        mapTerrains.Add(mapId, GameObject.Find(mapId).GetComponent<Terrain>());
+        mapId = "17_24";
+        mapTerrains.Add(mapId, GameObject.Find(mapId).GetComponent<Terrain>());
+
+        L2TerrainGenerator generator = new L2TerrainGenerator();
+        generator.StitchTerrainSeams(mapTerrains);
+    }
+
     private static void GenerateMap(List<MapGenerationData> mapsToGenerate)
     {
         L2TerrainGenerator generator = new L2TerrainGenerator();
