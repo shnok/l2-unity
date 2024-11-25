@@ -65,8 +65,8 @@ public class L2TerrainGeneratorTextureMatcher
         scaleMatches.Add("SL_S1", 1.2f);
         scaleMatches.Add("SL_R1", 1.25f);
         scaleMatches.Add("SL_C", 1);
-        scaleMatches.Add("SL_G4", 5);
-        scaleMatches.Add("SL_C1", 5);
+        scaleMatches.Add("SL_G4", 7);
+        scaleMatches.Add("SL_C1", 7);
 
         pertexFloatMatches = new Dictionary<string, List<PerTexFloatVal>>();
         pertexFloatMatches.Add("Base", new List<PerTexFloatVal>
