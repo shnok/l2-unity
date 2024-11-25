@@ -38,7 +38,6 @@ Shader "16_25"
 
       _TerrainHeightmapTexture("", 2D) = "black" {}
       _TerrainNormalmapTexture("", 2D) = "bump" {}
-      [NoScaleOffset]_Specular ("Specular Array", 2DArray) = "black" {}
       _HybridHeightBlendDistance("Hybrid Blend Distance", Float) = 300
 
       _TriplanarContrast("Triplanar Contrast", Range(1.0, 8)) = 4
@@ -119,8 +118,6 @@ Shader "16_25"
       #define _MICROSPLAT 1
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
-      #define _USESPECULARWORKFLOW 1
-      #define _NONORMALMAP 1
       #define _USEGRADMIP 1
       #define _PERTEXUVSCALEOFFSET 1
       #define _PERTEXHEIGHTOFFSET 1
@@ -130,6 +127,8 @@ Shader "16_25"
       #define _PERTEXBRIGHTNESS 1
       #define _PERTEXCOLORINTENSITY 1
       #define _PERTEXCONTRAST 1
+      #define _PERTEXNORMSTR 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _TRIPLANAR 1
@@ -140,14 +139,10 @@ Shader "16_25"
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYURP2022 1
 
-      #define _SPECULAR_SETUP
 #pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap forwardadd
 
 
    #define _URP 1
-
-#define _USESPECULAR 1
-#define _MATERIAL_FEATURE_SPECULAR_COLOR 1
 
 
 
@@ -4574,8 +4569,6 @@ float3 GetTessFactors ()
       #define _MICROSPLAT 1
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
-      #define _USESPECULARWORKFLOW 1
-      #define _NONORMALMAP 1
       #define _USEGRADMIP 1
       #define _PERTEXUVSCALEOFFSET 1
       #define _PERTEXHEIGHTOFFSET 1
@@ -4585,6 +4578,8 @@ float3 GetTessFactors ()
       #define _PERTEXBRIGHTNESS 1
       #define _PERTEXCOLORINTENSITY 1
       #define _PERTEXCONTRAST 1
+      #define _PERTEXNORMSTR 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _TRIPLANAR 1
@@ -4595,14 +4590,10 @@ float3 GetTessFactors ()
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYURP2022 1
 
-      #define _SPECULAR_SETUP
 #pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap forwardadd
 
 
    #define _URP 1
-
-#define _USESPECULAR 1
-#define _MATERIAL_FEATURE_SPECULAR_COLOR 1
 
 
 
@@ -8966,8 +8957,6 @@ float3 GetTessFactors ()
       #define _MICROSPLAT 1
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
-      #define _USESPECULARWORKFLOW 1
-      #define _NONORMALMAP 1
       #define _USEGRADMIP 1
       #define _PERTEXUVSCALEOFFSET 1
       #define _PERTEXHEIGHTOFFSET 1
@@ -8977,6 +8966,8 @@ float3 GetTessFactors ()
       #define _PERTEXBRIGHTNESS 1
       #define _PERTEXCOLORINTENSITY 1
       #define _PERTEXCONTRAST 1
+      #define _PERTEXNORMSTR 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _TRIPLANAR 1
@@ -8987,14 +8978,10 @@ float3 GetTessFactors ()
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYURP2022 1
 
-      #define _SPECULAR_SETUP
 #pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap forwardadd
 
 
    #define _URP 1
-
-#define _USESPECULAR 1
-#define _MATERIAL_FEATURE_SPECULAR_COLOR 1
 
 
                  
@@ -13273,8 +13260,6 @@ float3 GetTessFactors ()
       #define _MICROSPLAT 1
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
-      #define _USESPECULARWORKFLOW 1
-      #define _NONORMALMAP 1
       #define _USEGRADMIP 1
       #define _PERTEXUVSCALEOFFSET 1
       #define _PERTEXHEIGHTOFFSET 1
@@ -13284,6 +13269,8 @@ float3 GetTessFactors ()
       #define _PERTEXBRIGHTNESS 1
       #define _PERTEXCOLORINTENSITY 1
       #define _PERTEXCONTRAST 1
+      #define _PERTEXNORMSTR 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _TRIPLANAR 1
@@ -13294,14 +13281,10 @@ float3 GetTessFactors ()
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYURP2022 1
 
-      #define _SPECULAR_SETUP
 #pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap forwardadd
 
 
    #define _URP 1
-
-#define _USESPECULAR 1
-#define _MATERIAL_FEATURE_SPECULAR_COLOR 1
 
 
             // Includes
@@ -17576,8 +17559,6 @@ float3 GetTessFactors ()
       #define _MICROSPLAT 1
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
-      #define _USESPECULARWORKFLOW 1
-      #define _NONORMALMAP 1
       #define _USEGRADMIP 1
       #define _PERTEXUVSCALEOFFSET 1
       #define _PERTEXHEIGHTOFFSET 1
@@ -17587,6 +17568,8 @@ float3 GetTessFactors ()
       #define _PERTEXBRIGHTNESS 1
       #define _PERTEXCOLORINTENSITY 1
       #define _PERTEXCONTRAST 1
+      #define _PERTEXNORMSTR 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _TRIPLANAR 1
@@ -17597,14 +17580,10 @@ float3 GetTessFactors ()
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYURP2022 1
 
-      #define _SPECULAR_SETUP
 #pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap forwardadd
 
 
    #define _URP 1
-
-#define _USESPECULAR 1
-#define _MATERIAL_FEATURE_SPECULAR_COLOR 1
 
 
 
@@ -21883,8 +21862,6 @@ float3 GetTessFactors ()
       #define _MICROSPLAT 1
       #define _MICROTERRAIN 1
       #define _HYBRIDHEIGHTBLEND 1
-      #define _USESPECULARWORKFLOW 1
-      #define _NONORMALMAP 1
       #define _USEGRADMIP 1
       #define _PERTEXUVSCALEOFFSET 1
       #define _PERTEXHEIGHTOFFSET 1
@@ -21894,6 +21871,8 @@ float3 GetTessFactors ()
       #define _PERTEXBRIGHTNESS 1
       #define _PERTEXCOLORINTENSITY 1
       #define _PERTEXCONTRAST 1
+      #define _PERTEXNORMSTR 1
+      #define _PERTEXSMOOTHSTR 1
       #define _BRANCHSAMPLES 1
       #define _BRANCHSAMPLESAGR 1
       #define _TRIPLANAR 1
@@ -21904,14 +21883,10 @@ float3 GetTessFactors ()
       #define _MSRENDERLOOP_UNITYURP2021 1
       #define _MSRENDERLOOP_UNITYURP2022 1
 
-      #define _SPECULAR_SETUP
 #pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap forwardadd
 
 
    #define _URP 1
-
-#define _USESPECULAR 1
-#define _MATERIAL_FEATURE_SPECULAR_COLOR 1
 
 
 
@@ -26212,7 +26187,7 @@ float3 GetTessFactors ()
 
         UsePass "Hidden/Nature/Terrain/Utilities/PICKING"
    }
-   Dependency "BaseMapShader" =  "Hidden/16_25_Base2037635761"
-   Fallback "Hidden/16_25_Base2037635761"
+   Dependency "BaseMapShader" =  "Hidden/16_25_Base-1808956870"
+   Fallback "Hidden/16_25_Base-1808956870"
    CustomEditor "MicroSplatShaderGUI"
 }
