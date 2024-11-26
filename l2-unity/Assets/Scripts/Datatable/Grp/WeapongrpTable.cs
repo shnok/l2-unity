@@ -2,11 +2,15 @@
 using System.IO;
 using UnityEngine;
 
-public class WeapongrpTable {
+public class WeapongrpTable
+{
     private static WeapongrpTable _instance;
-    public static WeapongrpTable Instance {
-        get {
-            if (_instance == null) {
+    public static WeapongrpTable Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
                 _instance = new WeapongrpTable();
             }
 
@@ -17,22 +21,27 @@ public class WeapongrpTable {
     private Dictionary<int, Weapongrp> _weaponGrps;
     public Dictionary<int, Weapongrp> WeaponGrps { get { return _weaponGrps; } }
 
-    public void Initialize() {
+    public void Initialize()
+    {
         ReadWeaponGrpDat();
     }
 
-    private void ReadWeaponGrpDat() {
+    private void ReadWeaponGrpDat()
+    {
         _weaponGrps = new Dictionary<int, Weapongrp>();
 
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/Weapongrp_Classic.txt");
-        if (!File.Exists(dataPath)) {
+        if (!File.Exists(dataPath))
+        {
             Debug.LogWarning("File not found: " + dataPath);
             return;
         }
 
-        using (StreamReader reader = new StreamReader(dataPath)) {
+        using (StreamReader reader = new StreamReader(dataPath))
+        {
             string line;
-            while ((line = reader.ReadLine()) != null) {
+            while ((line = reader.ReadLine()) != null)
+            {
 
                 string[] keyvals = line.Split('\t');
 
@@ -42,8 +51,10 @@ public class WeapongrpTable {
                 int handness = 0;
                 string[] modTex;
 
-                for (int i = 0; i < keyvals.Length; i++) {
-                    if (!keyvals[i].Contains("=")) {
+                for (int i = 0; i < keyvals.Length; i++)
+                {
+                    if (!keyvals[i].Contains("="))
+                    {
                         continue;
                     }
 
@@ -51,17 +62,19 @@ public class WeapongrpTable {
                     string key = keyval[0];
                     string value = keyval[1];
 
-                    if (DatUtils.ParseBaseAbstractItemGrpDat(weaponGrp, key, value)) {
+                    if (DatUtils.ParseBaseAbstractItemGrpDat(weaponGrp, key, value))
+                    {
                         continue;
                     }
 
-                    switch (key) {              
+                    switch (key)
+                    {
                         case "body_part": //artifact_a1 = chest, artifact_a2 = legs, artifact_a3 = boots, head = head, artifactbook = gloves, rfinger, lfinger, rear, lear, onepiece,
-                            weaponGrp.BodyPart = ItemSlotParser.ParseBodyPart(value); 
-                            break;             
+                            weaponGrp.BodyPart = ItemSlotParser.ParseBodyPart(value);
+                            break;
                         case "mp_consume": //mp_consume=0
                             weaponGrp.MpConsume = int.Parse(value);
-                            break;                  
+                            break;
                         case "handness":
                             handness = int.Parse(value);
                             break;
@@ -87,37 +100,50 @@ public class WeapongrpTable {
                         case "item_sound": // {[ItemSound.sword_small_2];[ItemSound.public_sword_shing_9];[ItemSound.sword_small_7];[ItemSound.dagger_4]}
                             string[] itemsounds = DatUtils.ParseArray(value);
                             weaponGrp.ItemSounds = itemsounds;
-                            break;                 
+                            break;
                     }
                 }
 
-                if(weaponType == WeaponType.sword) {
-                    if(handness == 2) {
+                if (weaponType == WeaponType.sword)
+                {
+                    if (handness == 2)
+                    {
                         weaponType = WeaponType.bigword;
                     }
                 }
 
-                if (weaponType == WeaponType.hand) {
-                    if (handness == 0) {
+                if (weaponType == WeaponType.hand)
+                {
+                    if (handness == 0)
+                    {
                         weaponType = WeaponType.none;
                     }
                 }
 
-                if(handness == 14) {
+                if (handness == 14)
+                {
                     weaponType = WeaponType.pole;
                 }
 
                 weaponGrp.WeaponType = weaponType;
 
-                if (!ItemTable.Instance.ShouldLoadItem(weaponGrp.ObjectId)) {
+                if (weaponGrp.ObjectId == 20)
+                {
+                    Debug.LogError("Loaded Weapon20");
+                }
+                if (!ItemTable.Instance.ShouldLoadItem(weaponGrp.ObjectId))
+                {
                     continue;
                 }
-
+                if (weaponGrp.ObjectId == 20)
+                {
+                    Debug.LogError("Loaded Weapon20");
+                }
                 if (!_weaponGrps.ContainsKey(weaponGrp.ObjectId))
                 {
                     _weaponGrps.Add(weaponGrp.ObjectId, weaponGrp);
                 }
-                
+
             }
 
             Debug.Log($"Successfully imported {_weaponGrps.Count} weapongrps(s)");

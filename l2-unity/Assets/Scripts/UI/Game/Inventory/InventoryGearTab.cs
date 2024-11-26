@@ -78,7 +78,7 @@ public class InventoryGearTab : L2Tab
             if (item.Equipped)
             {
                 //Debug.Log("Equip item: " + item);
-                if ((item.Slot == (int)Paperdoll.LHAND || item.Slot == (int)Paperdoll.RHAND) && item.BodyPart == ItemSlot.SLOT_LR_HAND) //Todo verify
+                if ((item.Slot == (int)Paperdoll.LHAND || item.Slot == (int)Paperdoll.RHAND) && item.BodyPart == ItemSlot.SLOT_LR_HAND && item.Type2 != ItemType2.TYPE2_SHIELD_ARMOR) //Todo verify
                 {
                     if (item.Type1 == ItemType1.TYPE1_ITEM_QUESTITEM_ADENA)
                     {

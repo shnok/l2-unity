@@ -33,11 +33,14 @@ public class ItemTable
     public static int NAKED_LEGS = 28;
     public static int NAKED_GLOVES = 48;
     public static int NAKED_BOOTS = 35;
-    private bool _loadAll = false;
+    private bool _loadAll = true;
 
     public void Initialize()
     {
-        FillDataToLoad();
+        if (!_loadAll)
+        {
+            FillDataToLoad();
+        }
     }
 
     // private void OnDestroy()
@@ -90,7 +93,7 @@ public class ItemTable
     {
         foreach (KeyValuePair<int, Weapongrp> kvp in WeapongrpTable.Instance.WeaponGrps)
         {
-            if (_armors.ContainsKey(kvp.Key))
+            if (_weapons.ContainsKey(kvp.Key))
             {
                 continue;
             }
@@ -101,10 +104,7 @@ public class ItemTable
 
             Weapon weapon = new Weapon(kvp.Key, itemName, itemStatData, weapongrp);
 
-            if (!_weapons.ContainsKey(kvp.Key))
-            {
-                _weapons.Add(kvp.Key, weapon);
-            }
+            _weapons.TryAdd(kvp.Key, weapon);
 
         }
     }
@@ -123,7 +123,7 @@ public class ItemTable
             ItemStatData itemStatData = ItemStatDataTable.Instance.GetItemStatData(kvp.Key);
 
             Armor armor = new Armor(kvp.Key, itemName, itemStatData, armorgrp);
-            _armors.Add(kvp.Key, armor);
+            _armors.TryAdd(kvp.Key, armor);
         }
     }
 
@@ -141,7 +141,7 @@ public class ItemTable
             ItemStatData itemStatData = ItemStatDataTable.Instance.GetItemStatData(kvp.Key);
 
             EtcItem item = new EtcItem(kvp.Key, itemName, itemStatData, itemgrp);
-            _etcItems.Add(kvp.Key, item);
+            _etcItems.TryAdd(kvp.Key, item);
         }
     }
 

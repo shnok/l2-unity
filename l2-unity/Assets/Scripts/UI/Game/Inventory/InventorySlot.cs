@@ -56,7 +56,7 @@ public class InventorySlot : L2DraggableSlot
         }
         else
         {
-            // Debug.LogWarning($"Item data is null for item {item.ItemId}.");
+            Debug.LogWarning($"Item data is null for item {item.ItemId}.");
             _id = 0;
             _name = "Unkown";
             _description = "Unkown item.";

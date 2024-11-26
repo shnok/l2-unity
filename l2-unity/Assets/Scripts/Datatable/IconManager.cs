@@ -63,7 +63,7 @@ public class IconTable
             return result;
         }
 
-        Debug.LogWarning($"Missing icon: {name}.");
+        // Debug.LogWarning($"Missing icon: {name}.");
 
         return _noImageIcon;
     }

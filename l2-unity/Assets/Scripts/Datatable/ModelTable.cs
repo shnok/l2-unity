@@ -310,7 +310,7 @@ public class ModelTable
         GameObject weapon = (GameObject)Resources.Load(modelPath);
         if (weapon == null)
         {
-            Debug.LogWarning($"Can't find weapon model at {modelPath}");
+            // Debug.LogWarning($"Can't find weapon model at {modelPath}");
         }
         else
         {

@@ -114,12 +114,18 @@ public class ItemStatDataTable
 
                     }
                 }
-
+                if (itemStatData.ObjectId == 20)
+                {
+                    Debug.LogError("Loaded Weapon stats20");
+                }
                 if (!ItemTable.Instance.ShouldLoadItem(itemStatData.ObjectId))
                 {
                     continue;
                 }
-
+                if (itemStatData.ObjectId == 20)
+                {
+                    Debug.LogError("Loaded Weapon stats20");
+                }
                 _itemStatData.TryAdd(itemStatData.ObjectId, itemStatData);
             }
 

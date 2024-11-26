@@ -50,13 +50,13 @@ public class ItemInstance
         }
         else if (_type2 == ItemType2.TYPE2_SHIELD_ARMOR || _type2 == ItemType2.TYPE2_ACCESSORY)
         {
-            if (bodyPart != ItemSlot.SLOT_L_HAND)
+            if (bodyPart == ItemSlot.SLOT_LR_HAND)
             {
-                _itemData = ItemTable.Instance.GetArmor(_itemId);
+                _itemData = ItemTable.Instance.GetWeapon(_itemId);
             }
             else
             {
-                _itemData = ItemTable.Instance.GetWeapon(_itemId);
+                _itemData = ItemTable.Instance.GetArmor(_itemId);
             }
         }
         else
