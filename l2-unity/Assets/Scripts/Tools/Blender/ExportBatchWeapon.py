@@ -27,8 +27,8 @@ for obj in selection:
     fn = os.path.join(basedir, name)
 
     bpy.ops.export_scene.fbx(
-        filepath=fn + ".fbx", 
-        #use_selection=True,
+        filepath=fn.replace("_mo", "") + ".fbx", 
+        use_selection=True,
         use_visible=False,
         use_active_collection=False,
         global_scale=1.0, 
