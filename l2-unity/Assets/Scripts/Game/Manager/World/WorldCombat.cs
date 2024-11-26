@@ -179,7 +179,7 @@ public class WorldCombat : MonoBehaviour
             if (senderEntity.Gear.WeaponType == WeaponType.bow)
             {
                 float timeToReachTarget = CalculateTimeToHitTarget(senderEntity, targetEntity);
-                float shootTime = senderEntity.AnimationController.PAtkSpd / 1000f * 0.6f;
+                float shootTime = senderEntity.AnimationController.PAtkSpd / 1000f * 0.65f;
                 hit.HitTime = Time.time + shootTime + timeToReachTarget;
             }
             else
@@ -349,7 +349,7 @@ public class WorldCombat : MonoBehaviour
     #region Maths
     public float CalculateTimeToHitTarget(Entity senderEntity, Entity targetEntity)
     {
-        return Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 20f; //20 meters per second
+        return Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 16f; //20 meters per second
     }
     public float GetRealAttackRange(Entity attacker, Entity target)
     {

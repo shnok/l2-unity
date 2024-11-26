@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,24 +61,24 @@ public class ProjectileManager : MonoBehaviour
                     continue;
                 }
 
-                Vector3 targetPosition = effect.Target.transform.position; // shoot at the ground if missed
-
-                if (effect.HitSuccess)
-                {
-                    targetPosition += Vector3.up * effect.Target.Appearance.CollisionHeight * 1.25f;
-                }
+                UpdateEffectTargetPosition(effect);
 
                 float lerpRatio = (Time.time - effect.StartTime) / (effect.HitTime - effect.StartTime);
                 lerpRatio = Mathf.Min(1, lerpRatio);
 
-                effect.GameObject.transform.position = Vector3.Lerp(effect.StartingPosition, targetPosition, lerpRatio);
+                effect.GameObject.transform.position = Vector3.Lerp(effect.StartingPosition, effect.TargetPosition, lerpRatio);
 
                 if (lerpRatio >= 1)
                 {
+                    float randomPosX = Random.Range(-1f, 1f);
+                    float randomPosY = Random.Range(-1f, 1f);
+
                     ActiveProjectiles.RemoveAt(i);
 
                     if (effect.HitSuccess)
                     {
+                        effect.GameObject.transform.position += new Vector3(randomPosX, randomPosY, randomPosY) * 0.075f;
+
                         // Pierce target
                         if (effect.Target.AnimationController.RootBone != null)
                         {
@@ -93,8 +92,8 @@ public class ProjectileManager : MonoBehaviour
                     else
                     {
                         // Pierce the ground
-                        effect.GameObject.transform.position += Vector3.up * 0.2f;
-                        effect.GameObject.transform.eulerAngles = new Vector3(effect.GameObject.transform.eulerAngles.x, effect.GameObject.transform.eulerAngles.y, effect.GameObject.transform.eulerAngles.z + 50);
+                        effect.GameObject.transform.position += Vector3.up * 0.2f + new Vector3(randomPosX, randomPosY * 0.1f, randomPosY) * 0.2f;
+                        effect.GameObject.transform.eulerAngles = new Vector3(effect.GameObject.transform.eulerAngles.x + randomPosX * 5f, effect.GameObject.transform.eulerAngles.y + randomPosX * 5f, effect.GameObject.transform.eulerAngles.z + 50 + randomPosX * 15f);
                     }
                 }
             }
@@ -102,8 +101,24 @@ public class ProjectileManager : MonoBehaviour
     }
     #endregion
 
+    private void UpdateEffectTargetPosition(PooledEffect effect)
+    {
+        Vector3 targetPosition = effect.Target.transform.position; // shoot at the ground if missed
+
+        if (effect.HitSuccess)
+        {
+            targetPosition += Vector3.up * effect.Target.Appearance.CollisionHeight * 1.25f;
+        }
+
+        effect.TargetPosition = targetPosition;
+    }
+
     public void AddProjectile(PooledEffect effect)
     {
+        UpdateEffectTargetPosition(effect);
+        effect.GameObject.transform.LookAt(effect.TargetPosition);
+        effect.GameObject.transform.eulerAngles = effect.GameObject.transform.eulerAngles + Vector3.up * 90;
+
         ActiveProjectiles.Add(effect);
     }
 }
