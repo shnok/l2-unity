@@ -127,23 +127,15 @@ public class WeapongrpTable
 
                 weaponGrp.WeaponType = weaponType;
 
-                if (weaponGrp.ObjectId == 20)
-                {
-                    Debug.LogError("Loaded Weapon20");
-                }
                 if (!ItemTable.Instance.ShouldLoadItem(weaponGrp.ObjectId))
                 {
                     continue;
                 }
-                if (weaponGrp.ObjectId == 20)
-                {
-                    Debug.LogError("Loaded Weapon20");
-                }
+
                 if (!_weaponGrps.ContainsKey(weaponGrp.ObjectId))
                 {
                     _weaponGrps.Add(weaponGrp.ObjectId, weaponGrp);
                 }
-
             }
 
             Debug.Log($"Successfully imported {_weaponGrps.Count} weapongrps(s)");

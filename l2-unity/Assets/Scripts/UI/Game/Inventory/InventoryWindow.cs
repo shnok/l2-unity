@@ -7,8 +7,6 @@ using UnityEngine.UIElements;
 
 public class InventoryWindow : L2PopupWindow
 {
-    public static int PLAYER_INVENTORY_SIZE = 255;
-
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
     private VisualTreeAsset _inventorySlotTemplate;
@@ -42,7 +40,6 @@ public class InventoryWindow : L2PopupWindow
     public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
     public bool Expanded { get { return _expanded; } }
     public int UsedSlots { get { return _usedSlots; } }
-    public int SlotCount { get { return _slotCount; } }
 
     private static InventoryWindow _instance;
     public static InventoryWindow Instance
@@ -335,7 +332,7 @@ public class InventoryWindow : L2PopupWindow
         }
 
         // Slot count
-        _slotCount = PLAYER_INVENTORY_SIZE;
+        _slotCount = PlayerInventory.Instance.InventorySize;
         _inventoryCountLabel.text = $"({_usedSlots}/{_slotCount})";
         //Adena
         _adenaCountLabel.text = $"{_adenaCount:n0}";

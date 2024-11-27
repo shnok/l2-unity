@@ -37,7 +37,7 @@ public class InventoryTab : L2Tab
         _itemCount = 0;
 
         // Create empty slots
-        int slotCount = InventoryWindow.Instance.SlotCount;
+        int slotCount = PlayerInventory.Instance.InventorySize;
         _inventorySlots = new InventorySlot[slotCount];
 
         L2Slot.SlotType slotType = L2Slot.SlotType.Inventory;

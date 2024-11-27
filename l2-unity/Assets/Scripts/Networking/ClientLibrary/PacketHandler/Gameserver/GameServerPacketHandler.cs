@@ -334,6 +334,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         {
             WorldSpawner.Instance.OnReceivePlayerInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo);
 
+            PlayerInventory.Instance.SetInventorySize(packet.InventorySpace);
             // Additional player information received, only now is the right time to show the UI/World to avoid visual bugs
             GameManager.Instance.OnPlayerInfoReceive();
         }

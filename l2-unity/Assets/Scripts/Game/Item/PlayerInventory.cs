@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
+    public int InventorySize { get; private set; }
+
     enum InventoryChange
     {
         UNCHANGED = 0, ADDED = 1, REMOVED = 3, MODIFIED = 2
@@ -29,6 +32,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         _playerInventory = new List<ItemInstance>();
+        InventorySize = 80;
         Initialized = false;
     }
 
@@ -160,5 +164,10 @@ public class PlayerInventory : MonoBehaviour
     {
         AudioManager.Instance.PlayEquipSound("trash_basket");
         GameClient.Instance.ClientPacketHandler.DestroyItem(objectId, quantity);
+    }
+
+    public void SetInventorySize(int inventorySpace)
+    {
+        InventorySize = inventorySpace;
     }
 }

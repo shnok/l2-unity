@@ -7,7 +7,8 @@ public class PlayerInfoPacket : ServerPacket
     public PlayerStatus Status { get; private set; }
     public PlayerStats Stats { get; private set; }
     public PlayerAppearance Appearance { get; private set; }
-    public EntityActionInfo EntityActionInfo { get; set; }
+    public EntityActionInfo EntityActionInfo { get; private set; }
+    public int InventorySpace { get; private set; }
 
     public PlayerInfoPacket(byte[] d) : base(d)
     {
@@ -163,7 +164,7 @@ public class PlayerInfoPacket : ServerPacket
             ReadH(); //Reco left
             ReadH(); //Reco have
             ReadI(); //MountId
-            ReadH(); //Inventory space
+            InventorySpace = ReadH(); //Inventory space
             Identity.PlayerClass = (byte)ReadI();
             ReadI();
             Stats.MaxCp = ReadI();
