@@ -338,7 +338,7 @@ public class InventoryWindow : L2PopupWindow
         _slotCount = PLAYER_INVENTORY_SIZE;
         _inventoryCountLabel.text = $"({_usedSlots}/{_slotCount})";
         //Adena
-        _adenaCountLabel.text = _adenaCount.ToString();
+        _adenaCountLabel.text = $"{_adenaCount:n0}";
     }
 
     public void RefreshWeight()

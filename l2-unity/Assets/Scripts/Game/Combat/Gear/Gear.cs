@@ -144,7 +144,7 @@ public class Gear : MonoBehaviour
         GameObject arrowPrefab = ModelTable.Instance.GetItemModelById(17);
         if (arrowPrefab == null)
         {
-            Debug.LogWarning($"Could load arrow prefab in DB for entity {_ownerId}.");
+            Debug.LogWarning($"Could not load arrow prefab in DB for entity {_ownerId}.");
             return;
         }
 
@@ -164,7 +164,7 @@ public class Gear : MonoBehaviour
         if (_weaponSizeRatio == 0)
         {
             float collisionHeight = _referenceHolder.Entity.Appearance.CollisionHeight;
-            float ratio = 1 + (collisionHeight - 0.533f) / 0.533f;
+            float ratio = 1 + (collisionHeight - 0.45f) / 0.45f;
 
             Debug.Log("WeaponSizeRatio: " + ratio);
 
