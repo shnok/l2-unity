@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class InventoryWindow : L2PopupWindow
 {
-    public static int PLAYER_INVENTORY_SIZE = 80;
+    public static int PLAYER_INVENTORY_SIZE = 255;
 
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
