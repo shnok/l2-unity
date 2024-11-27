@@ -9,7 +9,6 @@ public class TargetWindow : L2PopupWindow
     private VisualElement _HPBarContainer;
     private VisualElement _HPBar;
     private VisualElement _HPBarBG;
-
     [SerializeField] private float _targetWindowMinWidth = 175.0f;
     [SerializeField] private float _targetWindowMaxWidth = 300.0f;
 
@@ -106,41 +105,33 @@ public class TargetWindow : L2PopupWindow
             }
 
             Entity targetData = TargetManager.Instance.Target;
-            if (_nameLabel != null)
+            _nameLabel.text = targetData.Identity.Name;
+            if (targetData.Identity.IsHpShowable)
             {
-                _nameLabel.text = targetData.Identity.Name;
-            }
+                SetTargetColor(targetData.Stats.Level - PlayerEntity.Instance.Stats.Level);
 
-            if (_HPBarContainer != null)
-            {
-                if (targetData.Identity.IsHpShowable)
+                if (!_HPBarContainer.ClassListContains("visible"))
                 {
-                    SetTargetColor(targetData.Stats.Level - PlayerEntity.Instance.Stats.Level);
-
-                    if (!_HPBarContainer.ClassListContains("visible"))
-                    {
-                        _HPBarContainer.AddToClassList("visible");
-                    }
-
-                    if (_HPBarBG != null && _HPBar != null)
-                    {
-                        float hpRatio = (float)targetData.Status.Hp / targetData.Stats.MaxHp;
-                        float bgWidth = _HPBarBG.resolvedStyle.width;
-                        float barWidth = bgWidth * hpRatio;
-                        _HPBar.style.width = barWidth;
-                    }
+                    _HPBarContainer.AddToClassList("visible");
                 }
-                else
+
+                if (_HPBarBG != null && _HPBar != null)
                 {
-                    SetTargetColor(0);
-                    if (_HPBarContainer.ClassListContains("visible"))
-                    {
-                        _HPBarContainer.RemoveFromClassList("visible");
-                    }
+                    float hpRatio = (float)targetData.Status.Hp / targetData.Stats.MaxHp;
+                    float bgWidth = _HPBarBG.resolvedStyle.width;
+                    float barWidth = bgWidth * hpRatio;
+                    _HPBar.style.width = barWidth;
+                }
+            }
+            else
+            {
+                SetTargetColor(0);
+                if (_HPBarContainer.ClassListContains("visible"))
+                {
+                    _HPBarContainer.RemoveFromClassList("visible");
                 }
             }
         }
-
         else if (!_isWindowHidden)
         {
             HideWindow();
@@ -158,15 +149,13 @@ public class TargetWindow : L2PopupWindow
         base.HideWindow();
 
         TargetManager.Instance.ClearTarget();
-
         AudioManager.Instance.PlayUISound("window_close");
         L2GameUI.Instance.WindowClosed(this);
     }
 
     public void SetTargetColor(int color)
     {
-        Debug.Log(color);
-        if (color == 0)
+        if (color > -3 && color < 3)
         {
             _nameLabel.style.color = Color.white;
         }
