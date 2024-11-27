@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -48,7 +49,14 @@ public class EffectPawnLightParam
                     effect.LightColor = value;
                     break;
                 case "LightRadius":
-                    effect.LightRadius = float.Parse(value);
+                    if (float.TryParse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out float radius))
+                    {
+                        effect.LightRadius = radius;
+                    }
+                    else
+                    {
+                        throw new FormatException($"Invalid float format for LightRadius: {value}");
+                    }
                     break;
                 case "LightCoordSystem":
                     effect.LightCoordSystem = (ELightCoordSystem)Enum.Parse(typeof(ELightCoordSystem), value.ToUpper());
