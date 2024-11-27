@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -114,6 +115,8 @@ public class TargetWindow : L2PopupWindow
             {
                 if (targetData.Identity.IsHpShowable)
                 {
+                    SetTargetColor(targetData.Stats.Level - PlayerEntity.Instance.Stats.Level);
+
                     if (!_HPBarContainer.ClassListContains("visible"))
                     {
                         _HPBarContainer.AddToClassList("visible");
@@ -129,6 +132,7 @@ public class TargetWindow : L2PopupWindow
                 }
                 else
                 {
+                    SetTargetColor(0);
                     if (_HPBarContainer.ClassListContains("visible"))
                     {
                         _HPBarContainer.RemoveFromClassList("visible");
@@ -157,5 +161,38 @@ public class TargetWindow : L2PopupWindow
 
         AudioManager.Instance.PlayUISound("window_close");
         L2GameUI.Instance.WindowClosed(this);
+    }
+
+    public void SetTargetColor(int color)
+    {
+        Debug.Log(color);
+        if (color == 0)
+        {
+            _nameLabel.style.color = Color.white;
+        }
+        else if (color <= -3 && color > -6)
+        {
+            _nameLabel.style.color = new Color(0.6039f, 0.9490f, 0.6392f);
+        }
+        else if (color <= -6 && color > -9)
+        {
+            _nameLabel.style.color = new Color(0.4901f, 0.466f, 1f);
+        }
+        else if (color < -9)
+        {
+            _nameLabel.style.color = new Color(0, 0, 0.945f);
+        }
+        else if (color >= 3 && color < 6)
+        {
+            _nameLabel.style.color = new Color(0.9294f, 0.9412f, 0.5412f);
+        }
+        else if (color >= 6 && color < 9)
+        {
+            _nameLabel.style.color = new Color(0.8588f, 0.4980f, 0.4980f);
+        }
+        else if (color > 9)
+        {
+            _nameLabel.style.color = new Color(0.945f, 0, 0);
+        }
     }
 }

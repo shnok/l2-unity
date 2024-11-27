@@ -90,6 +90,7 @@ public class NpcInfoPacket : ServerPacket
 
             Stats.AttackRange = ReadI() / 52.5f;
             Stats.MaxHp = ReadI();
+            Stats.Level = ReadI();
 
             Debug.LogWarning(ToString());
         }
