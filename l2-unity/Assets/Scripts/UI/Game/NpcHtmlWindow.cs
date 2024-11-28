@@ -1,10 +1,8 @@
 using System;
-using System.Buffers.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using NUnit.Framework.Internal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -91,7 +89,6 @@ public class NpcHtmlWindow : L2PopupWindow
 
         HideWindow();
 
-
         //         RefreshContent(0,
         // @"<html><body>Newbie Helper:<br>
         // Welcome to Einhovant's School of Wizardry. I will be teaching you the basics of combat.<br>
@@ -103,6 +100,116 @@ public class NpcHtmlWindow : L2PopupWindow
         // @"<table width=280 height=45><tr><td width=70 align=center>Search</td><td width=140><edit var=""search"" width=130 height=15></td><td width=70><button value=""Find"" action=""bypass admin_help 1 $search"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr><tr><td></td><td align=center>Found 93 results</td><td></td></tr></table><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//admin</color> <color=#33cccc>[1-4]</color><br1>Go through the different admin panels.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41><tr><td width=280 height=34><color=#FFC900>//buy</color> <color=#33cccc>[id]</color><br1>Open the GM Shop panel, or the associated BuyList.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//camera</color><br1>Toggle the CameraMode.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41><tr><td width=280 height=34><color=#FFC900>//gmlist</color><br1>Toggle you from /gmlist results.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//gmoff</color> <color=#33cccc>[duration]</color><br1>Toggle off your GM status, 1min by default.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41><tr><td width=280 height=34><color=#FFC900>//help</color> <color=#33cccc>[page]</color><br1>Open this panel.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//link</color> <color=#33cccc>file name</color><br1>Open the proper admin htm.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 bgcolor=000000><tr><td FIXWIDTH=22 align=center><img height=2><button action=""bypass admin_help 1 "" back=L2UI_CH3.prev1_down fore=L2UI_CH3.prev1 width=16 height=16></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center><font color=LEVEL>01</font></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 2 "">02</a></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 3 "">03</a></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 4 "">04</a></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 5 "">05</a></td><td FIXWIDTH=22 align=center><img height=2><button action=""bypass admin_help 14 "" back=L2UI_CH3.next1_down fore=L2UI_CH3.next1 width=16 height=16></td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1>", 0);
         //     RefreshContent(0,
         // @"<title>Main menu</title><center><table width=260><tr><td><button value=""Main"" action=""bypass -h admin_admin"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Game"" action=""bypass -h admin_admin 2"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Effects"" action=""bypass -h admin_admin 3"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Server"" action=""bypass -h admin_admin 4"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><img src=""l2ui.SquareWhite"" width=275 height=1><br><table width=240><tr><td>QuickBox</td><td><edit var=""menu_command"" width=120 height=15></td><td><button value=""Help"" action=""bypass -h admin_help"" width=45 height=15 back=""sek.cbui94"" fore=""sek.cbui92""></td></tr></table><br>Systems<table width=240><tr><td><button value=""Item"" action=""bypass -h admin_item"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""GM Shop"" action=""bypass -h admin_buy"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Teleport"" action=""bypass -h admin_teleport $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Bookmarks"" action=""bypass -h admin_bk $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr><tr><td><button value=""Enchant"" action=""bypass -h admin_enchant $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Petitions"" action=""bypass -h admin_petition"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td></td><td><button value=""Spawnlist"" action=""bypass -h admin_list_spawns $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><br>""Players"" actions<table width=240><tr><td><button value=""Find"" action=""bypass -h admin_find player $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Manage"" action=""bypass -h admin_debug $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Dualbox"" action=""bypass -h admin_find dualbox $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Unban Char."" action=""bypass -h admin_unban player $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr><tr><td><button value=""Tele. To"" action=""bypass -h admin_teleportto $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Recall"" action=""bypass -h admin_recall $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td></td><td><button value=""Unban Acc."" action=""bypass -h admin_unban account $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><br>""Others targets"" actions<table width=240><tr><td><button value=""Kill"" action=""bypass -h admin_kill $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Res"" action=""bypass -h admin_res $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Open"" action=""bypass -h admin_open $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Close"" action=""bypass -h admin_close $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr><tr><td><button value=""Cancel"" action=""bypass -h admin_cancel $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Heal"" action=""bypass -h admin_heal $menu_command"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Full Food"" action=""bypass -h admin_summon food"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Delete"" action=""bypass -h admin_delete"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><br>GM actions<table width=240><tr><td><button value=""List ON/OFF"" action=""bypass -h admin_gmlist"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Invul"" action=""bypass -h admin_invul"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Undying"" action=""bypass -h admin_undying"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Hide"" action=""bypass -h admin_hide"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table></center>", 0);
+        //         RefreshContent(0,
+        //         @"<html><body>
+        // <center>
+        // <table width=280>
+        // <tr>
+        // <td width=40><button value=""Main"" action=""bypass -h admin_admin"" width=40 height=15 back=""sek.cbui94"" fore=""sek.cbui92""></td>
+        // <td width=180 align=center>GMShop</td>
+        // <td width=40><button value=""Back"" action=""bypass -h admin_admin"" width=40 height=15 back=""sek.cbui94"" fore=""sek.cbui92""></td>
+        // </tr>
+        // </table><br>
+        // <table>
+        // <tr>
+        // <td width=120>Attack:</td>
+        // <td width=120>Defense:</td>
+        // <td width=120>Accesories:</td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_link gmshop/Weapons.htm""><font color=""LEVEL"">Weapons</font></a></td>
+        // <td><a action=""bypass -h admin_link gmshop/Armors.htm""><font color=""LEVEL"">Armors</font></a></td>
+        // <td><a action=""bypass -h admin_link gmshop/Jewels.htm""><font color=""LEVEL"">Jewels</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 2012""><font color=""LEVEL"">Magic Books</font></a></td>
+        // <td><a action=""bypass -h admin_item set""><font color=""LEVEL"">Armor sets</font></a></td>
+        // <td><a action=""bypass -h admin_buy 9121""><font color=""LEVEL"">Hair</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 300527""><font color=""LEVEL"">Fishing Rods</font></a></td>
+        // <td><a action=""bypass -h admin_buy 1007""><font color=""LEVEL"">Underwear</font></a></td>
+        // <td><a action=""bypass -h admin_buy 1011""><font color=""LEVEL"">Tattoos</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_link gmshop/pets.htm""><font color=""LEVEL"">Pets</font></a></td>
+        // <td><a action=""bypass -h admin_buy 1006""><font color=""LEVEL"">Cloaks</font></a></td>
+        // <td><a action=""bypass -h admin_buy 300533""><font color=""LEVEL"">Event/Echo</font></a></td>
+        // </tr>
+        // </table><br>
+        // <table>
+        // <tr>
+        // <td width=160>Material:</td>
+        // <td width=160>Consumable:</td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_link gmshop/materials.htm""><font color=""LEVEL"">Craft Items</font></a></td>
+        // <td><a action=""bypass -h admin_buy 3001""><font color=""LEVEL"">Potions</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_link gmshop/recipes.htm""><font color=""LEVEL"">Recipes</font></a></td>
+        // <td><a action=""bypass -h admin_link gmshop/Dyes.htm""><font color=""LEVEL"">Dyes</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_link gmshop/QuestItems.htm""><font color=""LEVEL"">Quest items</font></a></td>
+        // <td><a action=""bypass -h admin_buy 3002""><font color=""LEVEL"">Scrolls</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_link gmshop/SpellBooks.htm""><font color=""LEVEL"">SpellBooks</font></a></td>
+        // <td><a action=""bypass -h admin_buy 300537""><font color=""LEVEL"">Chests</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 300536""><font color=""LEVEL"">Seeds</font></a></td>
+        // <td><a action=""bypass -h admin_buy 300529""><font color=""LEVEL"">Tickets</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 300532""><font color=""LEVEL"">Fishing Material</font></a></td>
+        // <td><a action=""bypass -h admin_link gmshop/Fishing.htm""><font color=""LEVEL"">Fishes</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 300534""><font color=""LEVEL"">Crystals/Gemstones</font></a></td>
+        // <td><a action=""bypass -h admin_buy 300511""><font color=""LEVEL"">Shots</font></a></td>
+        // </tr>
+        // <tr>
+        // <td></td>
+        // <td><a action=""bypass -h admin_buy 300543""><font color=""LEVEL"">Life Stones</font></a></td>
+        // </tr>
+        // </table>
+        // <p><br></p>
+        // <table>
+        // <tr><td width=160>C5 Items:</td><td width=160></td></tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 71025""><font color=""LEVEL"">Weapons w/o SA</font></a></td>
+        // <td><a action=""bypass -h admin_buy 71021""><font color=""LEVEL"">Armors</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 71022""><font color=""LEVEL"">Weapons with SA</a></td>
+        // <td><a action=""bypass -h admin_buy 71024""><font color=""LEVEL"">Jewels</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 71026""><font color=""LEVEL"">Monsters only weapons</font></a></td>
+        // <td><a action=""bypass -h admin_buy 71023""><font color=""LEVEL"">Hair Accesories</font></a></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 71027""><font color=""LEVEL"">Spellbooks</font></a></td>
+        // <td><a action=""bypass -h admin_buy 71029""><font color=""LEVEL"">Tickets</font></td>
+        // </tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 71030""><font color=""LEVEL"">Recipes</font></a></td>
+        // <td><a action=""bypass -h admin_buy 71028""><font color=""LEVEL"">Seeds</font></a></td>
+        // </tr>
+        // </table>
+        // <p><br></p>
+        // <table>
+        // <tr><td width=160><font color=""FFFFFF"">Interlude Items:</font></td><td width=160></td></tr>
+        // <tr>
+        // <td><a action=""bypass -h admin_buy 71031""><font color=""LEVEL"">Weapons</font></a></td>
+        // <td><a action=""bypass -h admin_buy 71032""><font color=""LEVEL"">Hair Accesories</font></a></td>
+        // </tr>
+        // </table>
+        // </center>
+        // </body></html>
+        // ", 0);
     }
 
     public override void ShowWindow()
@@ -158,7 +265,9 @@ public class NpcHtmlWindow : L2PopupWindow
             .Replace("%objectId%", npcId.ToString())
             .Replace("%item%", itemId.ToString())
             .Replace("<center>", "")
-            .Replace("</center>", "");
+            .Replace("</center>", "")
+            .Replace("<p>", "<br1>")
+            .Replace("</p>", "<br1>");
 
         processed = ReplaceItemNames(processed);
         processed = ReplaceSysStrings(processed);
@@ -501,6 +610,7 @@ public class NpcHtmlWindow : L2PopupWindow
             container.style.alignContent = Align.Center;
             container.style.justifyContent = Justify.Center;
         }
+        Debug.LogWarning($"Building {node.Type}");
 
         switch (node.Type)
         {
@@ -540,7 +650,7 @@ public class NpcHtmlWindow : L2PopupWindow
         }
         else
         {
-            spacer.style.height = 12;
+            spacer.style.height = 8;
         }
         container.Add(spacer);
     }
@@ -600,8 +710,8 @@ public class NpcHtmlWindow : L2PopupWindow
         }
         if (attributes.TryGetValue("height", out string height))
         {
-            button.style.minHeight = int.Parse(height) + 8;
-            button.style.height = int.Parse(height) + 8;
+            button.style.minHeight = int.Parse(height) + 5;
+            button.style.height = int.Parse(height) + 5;
         }
         if (attributes.TryGetValue("action", out string action))
         {
@@ -635,6 +745,7 @@ public class NpcHtmlWindow : L2PopupWindow
         button.style.marginRight = 0;
         button.style.marginLeft = 0;
         button.style.marginLeft = 0;
+        button.style.fontSize = 11;
 
         button.AddManipulator(new ButtonClickSoundManipulator(button));
 
@@ -647,7 +758,7 @@ public class NpcHtmlWindow : L2PopupWindow
 
         if (attributes.TryGetValue("width", out string width))
         {
-            int widthPx = int.Parse(width) + 3;
+            int widthPx = int.Parse(width) + 0;
             textField.style.minWidth = widthPx;
             textField.style.width = widthPx;
         }
@@ -727,15 +838,20 @@ public class NpcHtmlWindow : L2PopupWindow
         tableContainer.style.marginBottom = 2;
         tableContainer.style.paddingTop = 2;
 
-        // Debug.LogWarning("tableHtml: " + StringUtils.Base64Encode(tableHtml));
+        // tableContainer.style.backgroundColor = Color.red;
+
+        Debug.LogWarning("tableHtml: " + StringUtils.Base64Encode(tableHtml));
 
         // Table content
-        var rows = Regex.Matches(tableHtml, @"<tr>(.*?)</tr>");
+        var rows = Regex.Matches(tableHtml, @"<tr>(.*?)</tr>", RegexOptions.Singleline);
+        int colCount = 0;
         foreach (Match row in rows)
         {
             VisualElement rowElement = _htmlRow.Instantiate()[0];
 
-            // Debug.LogWarning("rowhtml: " + StringUtils.Base64Encode(row.Groups[1].Value));
+            // rowElement.style.backgroundColor = Color.yellow;
+
+            Debug.LogWarning("rowhtml: " + StringUtils.Base64Encode(row.Groups[1].Value));
 
             // Extract attributes individually
             string widthPattern = @"width=(\d+)";
@@ -744,11 +860,22 @@ public class NpcHtmlWindow : L2PopupWindow
             string alignPattern = @"align=(left|center|right|justify)";
             string contentPattern = @"<td[^>]*>(.*?)</td>";
 
-            var cells = Regex.Matches(row.Groups[1].Value, contentPattern);
+            var cells = Regex.Matches(row.Groups[1].Value, contentPattern, RegexOptions.Singleline);
             foreach (Match cell in cells)
             {
+                if (colCount == 0)
+                {
+                    colCount = cells.Count;
+                }
+
                 VisualElement cellElement = _htmlCell.Instantiate()[0];
+
+                // cellElement.style.backgroundColor = Color.blue;
+                // cellElement.style.borderLeftColor = Color.black;
+                // cellElement.style.borderLeftWidth = 2;
+
                 string cellText = cell.Value;
+                Debug.LogWarning("colhtml: " + StringUtils.Base64Encode(cellText));
                 string firstCell = cellText.Substring(0, cellText.IndexOf(">"));
 
                 // Extract width
@@ -773,11 +900,15 @@ public class NpcHtmlWindow : L2PopupWindow
 
                 if (width.Length > 0)
                 {
-                    cellElement.style.width = int.Parse(width);
+                    cellElement.style.width = int.Parse(width) - 36;
                 }
                 else if (width2.Length > 0)
                 {
-                    cellElement.style.width = int.Parse(width2);
+                    cellElement.style.width = int.Parse(width2) - 36;
+                }
+                else
+                {
+                    cellElement.style.width = new Length(100f / colCount, LengthUnit.Percent);
                 }
 
                 if (height.Length > 0)
@@ -798,10 +929,10 @@ public class NpcHtmlWindow : L2PopupWindow
                         break;
                 }
 
-                if (_centerEverything)
-                {
-                    cellElement.style.alignItems = Align.Center;
-                }
+                // if (_centerEverything)
+                // {
+                //     cellElement.style.alignItems = Align.Center;
+                // }
 
                 cellElement.style.justifyContent = Justify.Center;
 

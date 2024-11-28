@@ -131,7 +131,6 @@ public class L2GameUI : L2UI
         {
             _mouseEnabled = true;
             NativeFunctions.SetCursorPos(_lastMousePosition.X, _lastMousePosition.Y);
-            // UnityEngine.Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -140,7 +139,6 @@ public class L2GameUI : L2UI
         if (_mouseEnabled)
         {
             NativeFunctions.GetCursorPos(out _lastMousePosition);
-            // UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             _mouseEnabled = false;
         }
         else
