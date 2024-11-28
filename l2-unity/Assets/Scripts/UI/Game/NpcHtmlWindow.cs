@@ -21,6 +21,7 @@ public class NpcHtmlWindow : L2PopupWindow
     private Label _windowName;
     private bool _centerEverything;
     [SerializeField] private List<HtmlNode> _nodes;
+    [SerializeField] private Dictionary<string, string> _inputValues;
     private static NpcHtmlWindow _instance;
     public static NpcHtmlWindow Instance
     {
@@ -237,6 +238,8 @@ public class NpcHtmlWindow : L2PopupWindow
         ShowWindow();
 
         _content.Clear();
+
+        _inputValues = new Dictionary<string, string>();
 
         string processedHtml = PreProcessHtml(htmlString, npcId, itemId);
         ProcessHtmlContent(_content, processedHtml);
@@ -693,6 +696,17 @@ public class NpcHtmlWindow : L2PopupWindow
             }
         }
 
+        dropdown.index = 0;
+        if (attributes.TryGetValue("var", out string dropdownIndex))
+        {
+            _inputValues.TryAdd(dropdownIndex, dropdown.text);
+            dropdown.RegisterValueChangedCallback((newVal) =>
+            {
+                _inputValues[dropdownIndex] = newVal.newValue;
+                Debug.LogWarning($"{dropdownIndex} = {newVal.newValue}");
+            });
+        }
+
         container.Add(dropdown);
     }
 
@@ -810,6 +824,7 @@ public class NpcHtmlWindow : L2PopupWindow
     private void AddInputField(VisualElement container, Dictionary<string, string> attributes)
     {
         VisualElement textField = _l2Input.Instantiate()[0];
+        TextField textFieldEle = (TextField)textField.Q("InputField");
 
         if (attributes.TryGetValue("width", out string width))
         {
@@ -824,7 +839,17 @@ public class NpcHtmlWindow : L2PopupWindow
             textField.style.height = heightPx;
         }
 
+        if (attributes.TryGetValue("var", out string dropdownIndex))
+        {
+            textFieldEle.RegisterValueChangedCallback((newVal) =>
+            {
+                _inputValues[dropdownIndex] = newVal.newValue;
+                Debug.LogWarning($"{dropdownIndex} = {newVal.newValue}");
+            });
+        }
+
         textField.style.marginTop = 2;
+        textFieldEle.style.fontSize = 11;
         container.Add(textField);
     }
 
@@ -1008,6 +1033,24 @@ public class NpcHtmlWindow : L2PopupWindow
     private void ButtonClicked(string action)
     {
         Debug.Log(action);
+        if (action.Contains("$"))
+        {
+            string pattern = @"\$\w+";
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            MatchCollection matches = regex.Matches(action);
+
+            if (matches.Count > 0)
+            {
+                string id = matches[matches.Count - 1].Value;
+                Debug.Log(id[1..]);
+                if (_inputValues.TryGetValue(id[1..], out string value))
+                {
+                    action = action.Replace(id, value);
+                }
+            }
+        }
+        Debug.Log(action);
+
         GameClient.Instance.ClientPacketHandler.RequestBypassToServer(action);
     }
 
