@@ -86,7 +86,7 @@ public class InventoryWindow : L2PopupWindow
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryWindow");
         _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTab");
         _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTabHeader");
-        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Template/InventorySlot");
+        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Components/InventorySlot");
         _minimizedTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryMin");
     }
 

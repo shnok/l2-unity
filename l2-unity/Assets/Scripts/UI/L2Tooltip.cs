@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-public class L2ToolTip : L2PopupWindow {
+public class L2ToolTip : L2PopupWindow
+{
 
     private Label _title;
     private VisualElement _tooltipTarget;
@@ -12,23 +13,30 @@ public class L2ToolTip : L2PopupWindow {
     private static L2ToolTip _instance;
     public static L2ToolTip Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _instance = null;
     }
 
-    protected override void LoadAssets() {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Template/Tooltip");
+    protected override void LoadAssets()
+    {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Components/Tooltip");
     }
 
-    protected override IEnumerator BuildWindow(VisualElement root) {
+    protected override IEnumerator BuildWindow(VisualElement root)
+    {
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
@@ -36,7 +44,8 @@ public class L2ToolTip : L2PopupWindow {
         _title = GetLabelById("Title");
     }
 
-    public void UpdateTooltip(string title, VisualElement target) {
+    public void UpdateTooltip(string title, VisualElement target)
+    {
         _windowEle.style.left = -1000;
         _windowEle.style.opacity = 0;
 
@@ -44,15 +53,18 @@ public class L2ToolTip : L2PopupWindow {
 
         ShowWindow();
 
-        if(_updateStyleCoroutine != null) {
+        if (_updateStyleCoroutine != null)
+        {
             StopCoroutine(_updateStyleCoroutine);
         }
 
         _updateStyleCoroutine = StartCoroutine(UpdateToolTipCoroutine(title, target));
     }
 
-    IEnumerator UpdateToolTipCoroutine(string title, VisualElement target) {
-        while(true) {
+    IEnumerator UpdateToolTipCoroutine(string title, VisualElement target)
+    {
+        while (true)
+        {
             _title.text = title;
 
             yield return new WaitForEndOfFrame();
@@ -64,11 +76,14 @@ public class L2ToolTip : L2PopupWindow {
         }
     }
 
-    public void HideWindow(VisualElement exitElement) {
-        if(exitElement == _tooltipTarget) {
+    public void HideWindow(VisualElement exitElement)
+    {
+        if (exitElement == _tooltipTarget)
+        {
             base.HideWindow();
-            
-            if(_updateStyleCoroutine != null) {
+
+            if (_updateStyleCoroutine != null)
+            {
                 StopCoroutine(_updateStyleCoroutine);
             }
         }

@@ -15,6 +15,7 @@ public class NpcHtmlWindow : L2PopupWindow
     private VisualTreeAsset _htmlCell;
     private VisualTreeAsset _hyperlink;
     private VisualTreeAsset _htmlWrapper;
+    private VisualTreeAsset _l2dropdown;
     private VisualElement _content;
     private ScrollView _scrollView;
     private Label _windowName;
@@ -45,13 +46,14 @@ public class NpcHtmlWindow : L2PopupWindow
     protected override void LoadAssets()
     {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/NpcHtmlWindow");
-        _l2Button = LoadAsset("Data/UI/_Elements/Template/L2Button");
-        _l2Input = LoadAsset("Data/UI/_Elements/Template/L2Input");
-        _htmlTable = LoadAsset("Data/UI/_Elements/Template/HtmlTable");
-        _htmlRow = LoadAsset("Data/UI/_Elements/Template/HtmlRow");
-        _htmlCell = LoadAsset("Data/UI/_Elements/Template/HtmlCell");
-        _htmlWrapper = LoadAsset("Data/UI/_Elements/Template/HtmlWrapper");
-        _hyperlink = LoadAsset("Data/UI/_Elements/Template/HtmlHyperlink");
+        _l2Button = LoadAsset("Data/UI/_Elements/Components/L2Button");
+        _l2Input = LoadAsset("Data/UI/_Elements/Components/L2Input");
+        _htmlTable = LoadAsset("Data/UI/_Elements/Components/HtmlTable");
+        _htmlRow = LoadAsset("Data/UI/_Elements/Components/HtmlRow");
+        _htmlCell = LoadAsset("Data/UI/_Elements/Components/HtmlCell");
+        _htmlWrapper = LoadAsset("Data/UI/_Elements/Components/HtmlWrapper");
+        _hyperlink = LoadAsset("Data/UI/_Elements/Components/HtmlHyperlink");
+        _l2dropdown = LoadAsset("Data/UI/_Elements/Components/L2Dropdown/L2Dropdown");
     }
 
     protected override void InitWindow(VisualElement root)
@@ -96,6 +98,10 @@ public class NpcHtmlWindow : L2PopupWindow
         // <a action=""bypass -h npc_%objectId%_Quest"">Quest</a><br>
         // </body></html>
         // ", 0);
+        RefreshContent(0,
+@"<html><title>Server menu</title><body><center><table width=260><tr><td><button value=""Main"" action=""bypass -h admin_admin"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Game"" action=""bypass -h admin_admin 2"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Effects"" action=""bypass -h admin_admin 3"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Server"" action=""bypass -h admin_admin 4"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><img src=""l2ui.SquareWhite"" width=275 height=1><br><table width=240><tr><td>QuickBox</td><td><edit var=""menu_command"" width=120 height=15></td><td><button value=""Help"" action=""bypass -h admin_help"" width=45 height=15 back=""sek.cbui94"" fore=""sek.cbui92""></td></tr></table><br>Reload<table width=240><tr><td><combobox width=160 height=21 var=""cb"" list=admin;announcement;buylist;config;crest;cw;door;htm;item;multisell;npc;npcwalker;script;skill;teleport;zone;></td><td><button value=""Reload"" action=""bypass -h admin_reload $cb"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><br>Zones / Territories<table width=240><tr><td><button value=""Zone Check"" action=""bypass -h admin_zone"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Maker Check"" action=""bypass -h admin_maker"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td width=75></td></tr><tr><td><button value=""Territory Goto"" action=""bypass -h admin_terr goto $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Maker Info"" action=""bypass -h admin_maker $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td></td></tr></table><br>GeoEngine<table width=240><tr><td><button value=""Position Info"" action=""bypass -h admin_geo pos"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Beeline Test"" action=""bypass -h admin_geo move"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Path Find"" action=""bypass -h admin_path find"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td></tr><tr><td><button value=""Path Info"" action=""bypass -h admin_path info"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""LoS Test"" action=""bypass -h admin_geo see"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Report Geo Bug"" action=""bypass -h admin_geo bug $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td></tr></table><br>Maintenance / Development<table width=240><tr><td><button value=""Maintenance"" action=""bypass -h admin_server"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Announce"" action=""bypass -h admin_link announce.htm"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""SysMessage"" action=""bypass -h admin_msg $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td></tr></table>
+</center></body></html>
+", 0);
         //         RefreshContent(0,
         // @"<table width=280 height=45><tr><td width=70 align=center>Search</td><td width=140><edit var=""search"" width=130 height=15></td><td width=70><button value=""Find"" action=""bypass admin_help 1 $search"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr><tr><td></td><td align=center>Found 93 results</td><td></td></tr></table><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//admin</color> <color=#33cccc>[1-4]</color><br1>Go through the different admin panels.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41><tr><td width=280 height=34><color=#FFC900>//buy</color> <color=#33cccc>[id]</color><br1>Open the GM Shop panel, or the associated BuyList.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//camera</color><br1>Toggle the CameraMode.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41><tr><td width=280 height=34><color=#FFC900>//gmlist</color><br1>Toggle you from /gmlist results.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//gmoff</color> <color=#33cccc>[duration]</color><br1>Toggle off your GM status, 1min by default.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41><tr><td width=280 height=34><color=#FFC900>//help</color> <color=#33cccc>[page]</color><br1>Open this panel.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//link</color> <color=#33cccc>file name</color><br1>Open the proper admin htm.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 bgcolor=000000><tr><td FIXWIDTH=22 align=center><img height=2><button action=""bypass admin_help 1 "" back=L2UI_CH3.prev1_down fore=L2UI_CH3.prev1 width=16 height=16></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center><font color=LEVEL>01</font></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 2 "">02</a></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 3 "">03</a></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 4 "">04</a></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 5 "">05</a></td><td FIXWIDTH=22 align=center><img height=2><button action=""bypass admin_help 14 "" back=L2UI_CH3.next1_down fore=L2UI_CH3.next1 width=16 height=16></td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1>", 0);
         //     RefreshContent(0,
@@ -474,6 +480,21 @@ public class NpcHtmlWindow : L2PopupWindow
                         nodes.Add(inputNode);
                     }
                 }
+                else if (tag.StartsWith("<combobox"))
+                {
+                    // If we have accumulated text, add it as a node
+                    if (textBuilder.Length > 0)
+                    {
+                        nodes.Add(new HtmlNode { Type = NodeType.Text, Content = textBuilder.ToString() });
+                        textBuilder.Clear();
+                    }
+
+                    HtmlNode inputNode = ExtractNode(html, ">", NodeType.DropList, tagEnd, ref currentPos);
+                    if (inputNode != null)
+                    {
+                        nodes.Add(inputNode);
+                    }
+                }
                 else if (tag.StartsWith("<table"))
                 {
                     // If we have accumulated text, add it as a node
@@ -572,7 +593,6 @@ public class NpcHtmlWindow : L2PopupWindow
 
         Dictionary<string, string> patterns = new Dictionary<string, string>
         {
-            // ["action"] = @"action=[""']?([^""'>\s]+)[""']?",
             ["action"] = @"action=[""']?([^""'>]+)[""']?",
             ["back"] = @"back=[""']?([^""'>\s]+)[""']?",
             ["fore"] = @"fore=[""']?([^""'>\s]+)[""']?",
@@ -580,7 +600,9 @@ public class NpcHtmlWindow : L2PopupWindow
             ["height"] = @"height=[""']?([^""'>\s]+)[""']?",
             ["bgcolor"] = @"bgcolor=[""']?([^""'>\s]+)[""']?",
             ["value"] = @"value=[""']?([^""'>\s]+)[""']?",
-            ["src"] = @"src=[""']?([^""'>\s]+)[""']?"
+            ["src"] = @"src=[""']?([^""'>\s]+)[""']?",
+            ["var"] = @"var=[""']?([^""'>\s]+)[""']?",
+            ["list"] = @"list=[""']?([^""'>\s]+)[""']?"
         };
 
         foreach (KeyValuePair<string, string> pattern in patterns)
@@ -617,6 +639,9 @@ public class NpcHtmlWindow : L2PopupWindow
             case NodeType.Text:
                 AddTextElement(container, node.Content);
                 break;
+            case NodeType.DropList:
+                AddDropList(container, node.Attributes);
+                break;
             case NodeType.Image:
                 AddImageElement(container, node.Attributes);
                 break;
@@ -639,6 +664,36 @@ public class NpcHtmlWindow : L2PopupWindow
                 AddHyperlinkElement(container, node.Attributes);
                 break;
         }
+    }
+
+    private void AddDropList(VisualElement container, Dictionary<string, string> attributes)
+    {
+        DropdownField dropdown = (DropdownField)_l2dropdown.Instantiate()[0];
+
+        if (attributes.TryGetValue("width", out string width))
+        {
+            int widthPx = int.Parse(width) + 0;
+            dropdown.style.minWidth = widthPx - 36;
+            dropdown.style.width = widthPx - 36;
+        }
+        if (attributes.TryGetValue("height", out string height))
+        {
+            int heightPx = int.Parse(height);
+            dropdown.style.minHeight = heightPx;
+            dropdown.style.height = heightPx;
+        }
+
+        dropdown.style.marginTop = 2;
+
+        if (attributes.TryGetValue("list", out string list))
+        {
+            if (list != null && list.Length > 0)
+            {
+                dropdown.choices.AddRange(list.Split(";"));
+            }
+        }
+
+        container.Add(dropdown);
     }
 
     private void AddLineBreak(VisualElement container, bool small)
@@ -759,8 +814,8 @@ public class NpcHtmlWindow : L2PopupWindow
         if (attributes.TryGetValue("width", out string width))
         {
             int widthPx = int.Parse(width) + 0;
-            textField.style.minWidth = widthPx;
-            textField.style.width = widthPx;
+            textField.style.minWidth = widthPx - 36;
+            textField.style.width = widthPx - 36;
         }
         if (attributes.TryGetValue("height", out string height))
         {
@@ -965,7 +1020,8 @@ public class NpcHtmlWindow : L2PopupWindow
         Table,
         Link,
         Button,
-        InputField
+        InputField,
+        DropList
     }
 
     [System.Serializable]
