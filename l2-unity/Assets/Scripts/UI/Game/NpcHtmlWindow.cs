@@ -602,7 +602,7 @@ public class NpcHtmlWindow : L2PopupWindow
             ["width"] = @"width=[""']?([^""'>\s]+)[""']?",
             ["height"] = @"height=[""']?([^""'>\s]+)[""']?",
             ["bgcolor"] = @"bgcolor=[""']?([^""'>\s]+)[""']?",
-            ["value"] = @"value=[""']?([^""'>\s]+)[""']?",
+            ["value"] = @"value=[""']([^""']*)[""']",
             ["src"] = @"src=[""']?([^""'>\s]+)[""']?",
             ["var"] = @"var=[""']?([^""'>\s]+)[""']?",
             ["list"] = @"list=[""']?([^""'>\s]+)[""']?"
@@ -616,10 +616,7 @@ public class NpcHtmlWindow : L2PopupWindow
                 string attributeValue = match.Groups[1].Value;
                 if (pattern.Key == "action")
                 {
-                    Debug.LogWarning("ACTION!");
-                    Debug.LogWarning(attributeValue);
                     attributeValue = attributeValue.Replace("bypass", "").Replace("-h", "").Trim();
-                    Debug.LogWarning(attributeValue);
                 }
                 attributes[pattern.Key] = attributeValue;
             }
@@ -682,11 +679,9 @@ public class NpcHtmlWindow : L2PopupWindow
         if (attributes.TryGetValue("height", out string height))
         {
             int heightPx = int.Parse(height);
-            dropdown.style.minHeight = heightPx;
-            dropdown.style.height = heightPx;
+            dropdown.style.minHeight = heightPx - 4;
+            dropdown.style.height = heightPx - 4;
         }
-
-        dropdown.style.marginTop = 2;
 
         if (attributes.TryGetValue("list", out string list))
         {
@@ -704,7 +699,11 @@ public class NpcHtmlWindow : L2PopupWindow
             {
                 _inputValues[dropdownIndex] = newVal.newValue;
                 Debug.LogWarning($"{dropdownIndex} = {newVal.newValue}");
+
+                AudioManager.Instance.PlayUISound("window_open");
             });
+
+            dropdown.AddManipulator(new ButtonClickSoundManipulator(dropdown));
         }
 
         container.Add(dropdown);
@@ -779,8 +778,8 @@ public class NpcHtmlWindow : L2PopupWindow
         }
         if (attributes.TryGetValue("height", out string height))
         {
-            button.style.minHeight = int.Parse(height) + 5;
-            button.style.height = int.Parse(height) + 5;
+            button.style.minHeight = int.Parse(height) + 3;
+            button.style.height = int.Parse(height) + 3;
         }
         if (attributes.TryGetValue("action", out string action))
         {
@@ -813,7 +812,7 @@ public class NpcHtmlWindow : L2PopupWindow
         button.style.marginTop = 0;
         button.style.marginRight = 0;
         button.style.marginLeft = 0;
-        button.style.marginLeft = 0;
+        button.style.marginBottom = 0;
         button.style.fontSize = 11;
 
         button.AddManipulator(new ButtonClickSoundManipulator(button));
@@ -849,7 +848,12 @@ public class NpcHtmlWindow : L2PopupWindow
         }
 
         textField.style.marginTop = 2;
+        textField.style.marginLeft = 5;
+        textField.style.marginRight = 5;
         textFieldEle.style.fontSize = 11;
+
+        textFieldEle.AddManipulator(new BlinkingCursorManipulator(textFieldEle));
+
         container.Add(textField);
     }
 
@@ -912,6 +916,10 @@ public class NpcHtmlWindow : L2PopupWindow
         if (attributes.TryGetValue("bgcolor", out string color))
         {
             tableContainer.style.backgroundColor = ColorUtils.HexToColor(color + "FF");
+        }
+        if (_centerEverything)
+        {
+            tableContainer.style.alignSelf = Align.Center;
         }
 
         tableContainer.style.marginTop = 2;
@@ -980,16 +988,16 @@ public class NpcHtmlWindow : L2PopupWindow
 
                 if (width.Length > 0)
                 {
-                    cellElement.style.width = int.Parse(width) - 36;
+                    cellElement.style.width = int.Parse(width);// - 36;
                 }
                 else if (width2.Length > 0)
                 {
-                    cellElement.style.width = int.Parse(width2) - 36;
+                    cellElement.style.width = int.Parse(width2);// - 36;
                 }
-                else
-                {
-                    cellElement.style.width = new Length(100f / colCount, LengthUnit.Percent);
-                }
+                // else
+                // {
+                //     cellElement.style.width = new Length(100f / colCount, LengthUnit.Percent);
+                // }
 
                 if (height.Length > 0)
                 {

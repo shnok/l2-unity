@@ -5,6 +5,10 @@
     --unity-cursor-color:white;
 }
 
+.transparent-cursor {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
+}
+
 .unity-text-element__selectable {
     cursor: resource('Data/UI/Assets/Cursor/Default');
 }
@@ -3560,6 +3564,10 @@
     font-size: 11px;
 }
 
+.npc-html-window .transparent-cursor {
+    --unity-cursor-color: rgba(0, 0, 0, 0);
+}
+
 .html-window-content {
     height: 367px;
     position: absolute;
@@ -3713,7 +3721,7 @@
 }
 
 .html-cell {
-    flex-grow: 1;
+    flex-grow: 0;
     flex-shrink: 0;
 }
 
