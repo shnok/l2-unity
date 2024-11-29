@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Login/LoginWindow/LoginWindow.uss?fileID=7433441132597879392&amp;guid=05ea6159cebbe30449524b6449484bfc&amp;type=3#LoginWindow" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Input/L2Input.uss?fileID=7433441132597879392&amp;guid=2fa480f78160edf4a8c4381744578912&amp;type=3#L2Input" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uss?fileID=7433441132597879392&amp;guid=b1d2114f9ed155f45a3eb16e5ef02441&amp;type=3#L2Button" />
+    <ui:VisualElement name="LoginWindow" picking-mode="Ignore" class="login-window">
+        <ui:TextField max-length="64" name="UserInputField" tabindex="1" label="ID" class="l2-input-field" />
+        <ui:TextField max-length="64" name="PasswordInputField" tabindex="1" password="true" label="Password" class="l2-input-field" />
+        <ui:VisualElement name="Buttons" picking-mode="Ignore" class="login-buttons">
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="LoginButton" tabindex="-1" focusable="false" class="l2-flex-button">
+                <ui:Label tabindex="-1" text="Log in" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" class="l2-flex-button-label" style="letter-spacing: 0;" />
+            </ui:Button>
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ExitButton" tabindex="-1" focusable="false" class="l2-flex-button">
+                <ui:Label tabindex="-1" text="Exit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" class="l2-flex-button-label" style="letter-spacing: 0;" />
+            </ui:Button>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

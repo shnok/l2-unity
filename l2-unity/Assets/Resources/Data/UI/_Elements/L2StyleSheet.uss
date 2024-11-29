@@ -2,7 +2,7 @@
     cursor: resource('Data/UI/Assets/Cursor/Default');
     -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
     text-shadow: 0.5px 0.5px 3px rgb(0, 0, 0);
-    --unity-cursor-color:white;
+    --unity-cursor-color: white;
 }
 
 .transparent-cursor {
@@ -16,12 +16,15 @@
 .unity-button {
     background-color: transparent;
 }
+
 .unity-button:active:enabled {
     background-color: transparent;
 }
+
 .unity-button:hover:enabled {
     background-color: transparent;
 }
+
 .unity-button:hover:active:enabled {
     background-color: transparent;
 }
@@ -382,130 +385,6 @@
 
 .chat-window .chatting-fontsize:active:hover {
     background-image: resource('Data/UI/Assets/Chat/chatting_fontsize2');
-}
-
-.l2-scroll-view .unity-scroll-view__content-viewport {
-    margin-top: 6px;
-    margin-bottom: 4px;
-    overflow: hidden;
-}
-
-.l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
-    flex-direction: row-reverse;
-}
-
-.l2-scroll-view .unity-scroller {
-    width: 14px;
-    margin-left: 4px;
-    margin-right: 4px;
-    margin-top: 2px;
-    margin-bottom: 0;
-}
-
-.l2-scroll-view .unity-slider {
-    margin: 15px 0 15px 0;
-}
-
-.l2-scroll-view .unity-base-slider__drag-container {
-    background-color: transparent;
-    min-width: 14px;
-    width: 14px;
-    padding: 0;
-    border-width: 0;
-    border-radius: 0;
-}
-
-.l2-scroll-view .unity-slider {
-    background-color: transparent;
-    min-width: 14px;
-    width: 14px;
-    padding: 0;
-    border-width: 0;
-    border-radius: 0;
-}
-
-.l2-scroll-view .unity-base-slider__tracker {
-    background-color: transparent;
-    min-width: 14px;
-    width: 14px;
-    padding: 0;
-    border-width: 0;
-    border-radius: 0;
-}
-
-.l2-scroll-view .unity-base-slider__dragger {
-    min-width: 14px;
-    width: 14px;
-    margin-left: -3px;
-    background-image: resource('Data/UI/Assets/Scrollbar/SliderBar');
-    background-color: transparent;
-    -unity-slice-top: 0;
-    -unity-slice-left: 0;
-    -unity-slice-bottom: 2;
-    -unity-slice-right: 2;
-    -unity-slice-scale: 0;
-    border-width: 0;
-}
-
-.l2-scroll-view .unity-scroller__high-button {
-    background-color: transparent;
-    -unity-background-image-tint-color: rgb(255, 255, 255);
-    -unity-slice-top: 0;
-    -unity-slice-left: 0;
-    -unity-slice-bottom: 2;
-    -unity-slice-right: 2;
-    -unity-slice-scale: 0;
-    width: 14px;
-    height: 14px;
-    border-width: 0;
-}
-
-.l2-scroll-view .unity-scroller__low-button {
-    background-color: transparent;
-    -unity-background-image-tint-color: rgb(255, 255, 255);
-    -unity-slice-top: 0;
-    -unity-slice-left: 0;
-    -unity-slice-bottom: 2;
-    -unity-slice-right: 2;
-    -unity-slice-scale: 0;
-    width: 14px;
-    height: 14px;
-    border-width: 0;
-}
-
-.l2-scroll-view .unity-base-slider__tracker {
-}
-
-.l2-scroll-view .unity-scroller__high-button {
-    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarDownBtn');
-}
-
-.l2-scroll-view .unity-scroller__high-button:active {
-    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarDownOnBtn');
-}
-
-.l2-scroll-view .unity-scroller__high-button:active:hover {
-    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarDownOnBtn');
-}
-
-.l2-scroll-view .unity-scroller__high-button:hover {
-    background-image: resource('Data/UI/Assets/Scrollbar/scrollbardownbtn_over');
-}
-
-.l2-scroll-view .unity-scroller__low-button {
-    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarUpBtn');
-}
-
-.l2-scroll-view .unity-scroller__low-button:active {
-    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarUpOnBtn');
-}
-
-.l2-scroll-view .unity-scroller__low-button:active:hover {
-    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarUpOnBtn');
-}
-
-.l2-scroll-view .unity-scroller__low-button:hover {
-    background-image: resource('Data/UI/Assets/Scrollbar/scrollbarupbtn_over');
 }
 
 .chat-window .unity-base-text-field__input {
@@ -1018,31 +897,6 @@
     bottom: 0;
 }
 
-.login-window .unity-base-text-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.login-window .unity-base-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.login-window .unity-text-field {
-    --unity-cursor-color: rgb(255, 255, 255);
-    color: rgb(220, 220, 220);
-}
-
-.login-window .transparent-cursor {
-    --unity-cursor-color: rgba(0, 0, 0, 0);
-}
-
 .l2-button {
     flex-grow: 0;
     width: 92px;
@@ -1500,59 +1354,6 @@
     rotate: 180deg;
 }
 
-.license-window .l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
-    flex-direction: row;
-}
-
-.server-element {
-    flex-grow: 0;
-    flex-shrink: 0;
-    width: 100%;
-    height: 18px;
-    position: relative;
-    flex-direction: row;
-    background-color: rgba(0, 0, 0, 0.48);
-}
-
-.server-element.odd {
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.server-element.selected {
-    background-color: rgba(138, 120, 88, 0.18);
-}
-
-.server-element.odd.selected {
-    background-color: rgba(138, 120, 88, 0.18);
-}
-
-.server-element .unity-label {
-    color: rgb(255, 255, 255);
-}
-
-.server-element .unity-label.light {
-    color: rgb(71, 138, 200);
-}
-
-.server-element .unity-label.normal {
-    color: rgb(219, 207, 110);
-}
-
-.server-element .unity-label.heavy {
-    color: rgb(210, 106, 98);
-}
-
-.server-element .unity-label.down {
-    color: rgb(255, 0, 0);
-}
-
-.server-element .unity-label.full {
-    color: rgb(255, 0, 0);
-}
-
-.server-element .unity-label.gm-only {
-    color: rgb(255, 0, 0);
-}
 
 .char-select-col {
     flex-grow: 1;
@@ -3645,57 +3446,6 @@
     padding-bottom: 8px;
 }
 
-.l2-flex-button {
-    flex-grow: 0;
-    width: auto;
-    -unity-slice-left: 6;
-    -unity-slice-top: 6;
-    -unity-slice-right: 6;
-    -unity-slice-bottom: 6;
-    font-size: 12px;
-    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma Light');
-    letter-spacing: 2px;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    overflow: visible;
-    background-color: transparent;
-    background-image: resource('Data/UI/Assets/Button/Button_DF_L2Unity');
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    margin-left: 0;
-}
-
-.l2-flex-button:active {
-    background-image: resource('Data/UI/Assets/Button/Button_DF_L2Unity_Down');
-}
-
-.l2-flex-button:active:hover {
-    background-image: resource('Data/UI/Assets/Button/Button_DF_L2Unity_Down');
-}
-
-.l2-flex-button:hover {
-    background-image: resource('Data/UI/Assets/Button/Button_DF_L2Unity_Over');
-}
-
-.l2-flex-button-label {
-    -unity-font: resource('Data/UI/Assets/Font/tahoma');
-    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma Light');
-    color: rgba(255, 249, 227, 0.96);
-    -unity-text-align: middle-center;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-}
-
 .html-window-content-wrapper {
     flex-grow: 1;
     flex-direction: row;
@@ -3879,45 +3629,4 @@
 
 .target-bar-container.visible {
     opacity: 100;
-}
-
-.l2-input {
-    flex-grow: 0;
-    height: 18px;
-}
-
-.l2-input-field {
-    -unity-font: resource('Data/UI/Assets/Font/tahoma');
-    background-color: rgba(0, 0, 0, 0);
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBox_Scaled');
-    -unity-font-definition: initial;
-    font-size: 12px;
-    margin-left: 6px;
-    letter-spacing: 0;
-    padding-top: 0;
-    margin-bottom: 2px;
-    margin-top: 2px;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    flex-grow: 1;
-    border-width: 0;
-    -unity-text-align: middle-center;
-}
-
-.l2-input-field #unity-text-input {
-    background-color: rgba(0, 0, 0, 0);
-    background-image: none;
-    border-width: 0;
-    margin: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    color: white;
-}
-
-.l2-input-field {
-    -unity-slice-left: 10;
-    -unity-slice-top: 10;
-    -unity-slice-right: 10;
-    -unity-slice-bottom: 10;
 }
