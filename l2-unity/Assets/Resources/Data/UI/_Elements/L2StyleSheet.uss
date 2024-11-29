@@ -93,49 +93,6 @@
     -unity-slice-scale: 0;
 }
 
-.bar-label {
-    margin: 0;
-    padding: 0;
-    font-size: 12px;
-    color: rgb(220, 220, 220);
-    -unity-text-outline-width: 0.7px;
-    -unity-text-outline-color: black;
-    -unity-text-align: middle-center;
-    text-shadow: 0.8px 0.8px 3px rgb(0, 0, 0);
-}
-
-.character-info-window .bar-label {
-    position: absolute;
-    flex-grow: 1;
-    width: 100%;
-}
-
-.status-window .bar-label-name {
-    -unity-font-definition: url("project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=d0574adf4789ced4cad784e4fd3123bd&type=3#NotInter-Regular");
-    margin: 0;
-    position: absolute;
-    left: 10px;
-    height: 11px;
-    letter-spacing: -7px;
-    -unity-font-style: bold;
-    font-size: 12px;
-}
-
-.bar-label-numbers {
-    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
-    margin: 0;
-    padding-left: 10%;
-    height: 11px;
-    letter-spacing: 7px;
-    -unity-font-style: bold;
-    -unity-text-outline-width: 0.8px;
-    text-shadow: 0.9px 0.9px 3px rgb(0, 0, 0);
-}
-
-.character-info-window .bar-label-numbers {
-    padding-left: 0;
-}
-
 .character-info-window .unity-label {
     -unity-text-outline-width: 0.1px;
 }
@@ -266,42 +223,6 @@
     -unity-text-align: middle-center;
     flex-grow: 1;
     font-size: 10px;
-}
-
-.bar-container {
-    height: 14px;
-}
-
-.bar-inner {
-    min-height: 16px;
-    max-height: 16px;
-    flex-direction: row;
-    flex: 0;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    left: 0;
-    right: 0;
-    overflow: hidden;
-}
-
-.bar-inner .bar-height {
-    min-height: 16px;
-    max-height: 16px;
-}
-
-.bar-inner .left {
-    min-width: 4px;
-    max-width: 4px;
-}
-
-.bar-inner .right {
-    min-width: 4px;
-    max-width: 4px;
-}
-
-.bar-inner .center {
-    flex-grow: 1;
 }
 
 .chat-window .chat-content {
@@ -645,41 +566,6 @@
     -unity-text-align: middle-center;
     flex-grow: 1;
     font-size: 10px;
-}
-
-.target-window .bar-container {
-    height: 14px;
-}
-
-.target-window .bar-inner {
-    min-height: 8px;
-    max-height: 8px;
-    flex-direction: row;
-    flex: 0;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    left: 0;
-    right: 0;
-}
-
-.target-window .bar-inner .bar-height {
-    min-height: 8px;
-    max-height: 8px;
-}
-
-.target-window .bar-inner .left {
-    min-width: 2px;
-    max-width: 2px;
-}
-
-.target-window .bar-inner .right {
-    min-width: 2px;
-    max-width: 2px;
-}
-
-.target-window .bar-inner .center {
-    flex-grow: 1;
 }
 
 .close-btn {
@@ -1185,16 +1071,6 @@
     color: rgb(220, 220, 220);
 }
 
-.char-select-row .arrow-label {
-    width: 38px;
-    color: rgb(165, 143, 113);
-}
-
-.char-select-row .arrow-label label {
-    width: 38px;
-    color: rgb(165, 143, 113);
-}
-
 .arrows-container {
     flex-grow: 0;
     height: 18px;
@@ -1352,59 +1228,6 @@
 
 .rotate_img180 {
     rotate: 180deg;
-}
-
-
-.char-select-col {
-    flex-grow: 1;
-    flex-direction: row;
-    height: 15px;
-    width: 50%;
-    align-items: center;
-}
-
-.char-select-row {
-    flex-grow: 0;
-    flex-direction: row;
-    height: 14px;
-}
-
-.char-select-label {
-    color: rgb(255, 255, 255);
-    width: 40px;
-}
-
-.char-select-col {
-}
-
-.char-select-label {
-    font-size: 12px;
-    color: rgb(165, 143, 113);
-    -unity-text-outline-width: 0.4px;
-    width: 30px;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    -unity-font: resource('Data/UI/Assets/Font/tahoma');
-}
-
-.char-select-window {
-    flex-grow: 1;
-    width: 100%;
-    height: 100%;
-    justify-content: flex-end;
-    flex-direction: row;
-}
-
-.bar-label-numbers {
-}
-
-.bar-label {
 }
 
 .inventory-window {
@@ -3571,9 +3394,6 @@
     font-size: 12px;
 }
 
-.bar-container {
-}
-
 .nameplate-left {
     background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Left');
     max-height: 8px;
@@ -3629,4 +3449,60 @@
 
 .target-bar-container.visible {
     opacity: 100;
+}
+
+.target-window .bar-container {
+    height: 14px;
+}
+
+.target-window .bar-inner {
+    min-height: 8px;
+    max-height: 8px;
+    flex-direction: row;
+    flex: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.target-window .bar-inner .bar-height {
+    min-height: 8px;
+    max-height: 8px;
+}
+
+.target-window .bar-inner .left {
+    min-width: 2px;
+    max-width: 2px;
+}
+
+.target-window .bar-inner .right {
+    min-width: 2px;
+    max-width: 2px;
+}
+
+.target-window .bar-inner .center {
+    flex-grow: 1;
+}
+
+.character-info-window .bar-label {
+    position: absolute;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.status-window .bar-label-name {
+    -unity-font-definition: url("project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=d0574adf4789ced4cad784e4fd3123bd&type=3#NotInter-Regular");
+    margin: 0;
+    position: absolute;
+    left: 10px;
+    height: 11px;
+    letter-spacing: -7px;
+    -unity-font-style: bold;
+    font-size: 12px;
+}
+
+.character-info-window .bar-label-numbers {
+    padding-left: 0;
 }
