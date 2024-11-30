@@ -794,6 +794,7 @@
     -unity-slice-bottom: 15;
     -unity-slice-scale: 1px;
     font-size: 12px;
+    background-color: transparent;
 }
 
 .l2-button:active .l2-button-bg {
@@ -983,105 +984,6 @@
     background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus19');
 }
 
-.char-creation-window .unity-base-text-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.arrow-input .unity-base-text-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.char-creation-window .unity-base-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.arrow-input .unity-base-field__input {
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    color: rgb(220, 220, 220);
-}
-
-.char-creation-window .unity-text-field {
-    --unity-cursor-color: rgb(255, 255, 255);
-    color: rgb(220, 220, 220);
-}
-
-.arrow-input .unity-text-field {
-    --unity-cursor-color: rgb(255, 255, 255);
-    color: rgb(220, 220, 220);
-}
-
-.char-creation-window .transparent-cursor {
-    --unity-cursor-color: rgba(0, 0, 0, 0);
-}
-
-.arrow {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    width: 18px;
-    height: 18px;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    background-image: resource('Data/UI/Assets/Scrollbar/ScrollBarLeftBtn');
-    background-color: rgba(188, 188, 188, 0);
-}
-
-.arrow-input {
-    flex-grow: 1;
-    flex-direction: row;
-    height: 18px;
-    flex-shrink: 0;
-}
-
-.arrow-input-field {
-    flex-grow: 1;
-    height: 18px;
-    flex-shrink: 0;
-}
-
-.arrow-label {
-    flex-grow: 0;
-    width: 62px;
-    margin-right: 0;
-    padding-right: 8px;
-    flex-shrink: 0;
-    font-size: 12px;
-    color: rgb(220, 220, 220);
-}
-
-.arrows-container {
-    flex-grow: 0;
-    height: 18px;
-    white-space: normal;
-    flex-direction: row;
-}
-
-.arrow-input {
-    margin-top: 5px;
-}
-
 .login-input {
     -unity-font: resource('Data/UI/Assets/Font/tahoma');
     background-color: rgba(0, 0, 0, 0);
@@ -1101,121 +1003,6 @@
 .login-input-container {
     flex-grow: 1;
     height: 18px;
-}
-
-.arrow {
-    background-image: none;
-    width: 20px;
-    height: 20px;
-    overflow: visible;
-}
-
-.arrow-bg {
-    flex-grow: 1;
-    position: absolute;
-    width: 40px;
-    height: 40px;
-}
-
-.arrow-right .arrow-bg {
-    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Next');
-}
-
-.arrow-right:active .arrow-bg {
-    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Next_Down');
-}
-
-.arrow-right:active:hover .arrow-bg {
-    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Next_Down');
-}
-
-.arrow-right:hover .arrow-bg {
-    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Next_Over');
-}
-
-.arrow-left .arrow-bg {
-    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Pre');
-}
-
-.arrow-left:active .arrow-bg {
-    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
-}
-
-.arrow-left:active:hover .arrow-bg {
-    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Pre_Down');
-}
-
-.arrow-left:hover .arrow-bg {
-    background-image: resource('Data/UI/Assets/Button/24Hz_DF_ChannelControlBtn_Pre_Over');
-}
-
-.arrow-bg {
-    height: 20px;
-    width: 20px;
-}
-
-.char-creation-window #TurnLeftButton .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_LEFT');
-}
-
-.char-creation-window #TurnLeftButton:active .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_LEFT_Down');
-}
-
-.char-creation-window #TurnLeftButton:active:hover .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_LEFT_Down');
-}
-
-.char-creation-window #TurnLeftButton:hover .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_LEFT_Over');
-}
-
-.char-creation-window #TurnRightButton .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_RIGHT');
-}
-
-.char-creation-window #TurnRightButton:active .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_RIGHT_DOWN');
-}
-
-.char-creation-window #TurnRightButton:active:hover .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_RIGHT_DOWN');
-}
-
-.char-creation-window #TurnRightButton:hover .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_RIGHT_OVER');
-}
-
-.char-creation-window #ZoomButton .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMIN');
-}
-
-.char-creation-window #ZoomButton:active .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Down');
-}
-
-.char-creation-window #ZoomButton:active:hover .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Down');
-}
-
-.char-creation-window #ZoomButton:hover .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMIN_Over');
-}
-
-.char-creation-window #ZoomButton.toggle .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMOUT');
-}
-
-.char-creation-window #ZoomButton.toggle:active .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Down');
-}
-
-.char-creation-window #ZoomButton.toggle:active:hover .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Down');
-}
-
-.char-creation-window #ZoomButton.toggle:hover .l2-button-bg {
-    background-image: resource('Data/UI/Assets/Login/ICON_DF_CHARACTERTURN_ZOOMOUT_Over');
 }
 
 .rotate_img90 {
@@ -3506,31 +3293,24 @@
     padding-left: 0;
 }
 
-.char-creation-window {
-    flex-grow: 1;
-    width: 100%;
-    height: 100%;
-    justify-content: flex-end;
-    flex-direction: row;
+.arrow-input-label {
+    -unity-font: initial;
+    -unity-text-align: middle-left;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: 1px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma Light');
+    letter-spacing: 0;
 }
 
-.char-creation-detail-window {
-    flex-grow: 0;
-    width: 250px;
-    height: auto;
-    flex-shrink: 0;
-    background-image: resource('Data/UI/Assets/Windows/Windows_DF_Drawer_Bg_Darker');
-    -unity-slice-bottom: 10;
-    -unity-slice-left: 27;
-    -unity-slice-top: 10;
-    -unity-slice-right: 20;
-    margin-right: 0;
-    margin-left: 10px;
-    padding-top: 16px;
-    padding-right: 20px;
-    padding-bottom: 16px;
-    padding-left: 20px;
-    margin-top: 10px;
-    margin-bottom: 0;
-    align-self: flex-start;
+.arrow-textfield-bg {
+    flex-grow: 1;
+    position: absolute;
+    width: 105%;
+    height: 28px;
 }
