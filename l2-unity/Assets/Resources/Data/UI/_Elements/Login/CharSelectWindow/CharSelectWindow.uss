@@ -4,6 +4,23 @@
     height: 15px;
     width: 50%;
     align-items: center;
+    padding-right: 4px;
+    padding-left: 16px;
+}
+
+.char-select-col-right {
+    padding-right: 16px;
+    padding-left: 4px;
+}
+
+.char-select-col-2 {
+    flex-grow: 1;
+    flex-direction: row;
+    height: 15px;
+    width: 50%;
+    align-items: center;
+    padding-right: 4px;
+    padding-left: 16px;
 }
 
 .char-select-row {
@@ -13,17 +30,8 @@
 }
 
 .char-select-label {
-    color: rgb(255, 255, 255);
     width: 40px;
-}
-
-.char-select-col {
-}
-
-.char-select-label {
     font-size: 12px;
-    color: rgb(165, 143, 113);
-    -unity-text-outline-width: 0.4px;
     width: 30px;
     margin-top: 0;
     margin-right: 0;
@@ -146,7 +154,6 @@
     flex-wrap: nowrap;
 }
 
-
 .char-select-detail-window {
     flex-grow: 0;
     width: 300px;
@@ -166,4 +173,56 @@
     margin-bottom: 0;
     flex-wrap: nowrap;
     margin-top: 14px;
+}
+
+.char-select-level-l {
+    width: 18px;
+}
+
+.char-select-level {
+    width: 20px;
+}
+
+.char-select-class {
+    width: auto;
+    flex-grow: 1;
+}
+
+.char-select-detail-numbers {
+    height: 14px;
+    flex-direction: row;
+    flex-grow: 1;
+    -unity-text-align: upper-left;
+    justify-content: flex-start;
+    align-items: auto;
+}
+
+.char-select-detail-numbers-bg {
+    flex-grow: 1;
+    position: absolute;
+    width: 106%;
+    height: 21px;
+}
+
+.char-select-detail-numbers-label {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 4px;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: auto;
+    flex-grow: 1;
+    font-size: 12px;
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
+    -unity-text-align: middle-right;
+}
+
+.char-select-user-select-container {
+    width: 50%;
+    padding-right: 4px;
+    padding-left: 16px;
+    height: auto;
 }
