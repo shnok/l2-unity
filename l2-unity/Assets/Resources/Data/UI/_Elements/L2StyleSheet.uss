@@ -29,6 +29,14 @@
     background-color: transparent;
 }
 
+.unity-base-field:focus:enabled > .unity-base-field__label {
+    color: rgb(220, 220, 220);
+}
+
+.unity-base-slider__tracker:hover:enabled {
+    background-color: transparent;
+}
+
 .resize-hor {
     cursor: resource('Data/UI/Assets/Cursor/Resize_Hor') 15 5;
 }
@@ -59,9 +67,6 @@
     border-color: rgb(66, 59, 41);
 }
 
-.drag-area {
-}
-
 .empty-drop-img {
     height: 34px;
     width: 34px;
@@ -69,12 +74,6 @@
 
 .image-opacity {
     position: absolute;
-}
-
-.shortcutimage {
-}
-
-.hor-resize-handle {
 }
 
 .hor-position {
@@ -902,86 +901,6 @@
     height: 30px;
     background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBox');
     flex-direction: column;
-}
-
-.bg-highlight-0 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus');
-}
-
-.bg-highlight-1 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus01');
-}
-
-.bg-highlight-2 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus02');
-}
-
-.bg-highlight-3 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus03');
-}
-
-.bg-highlight-4 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus04');
-}
-
-.bg-highlight-5 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus05');
-}
-
-.bg-highlight-6 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus06');
-}
-
-.bg-highlight-7 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus07');
-}
-
-.bg-highlight-8 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus08');
-}
-
-.bg-highlight-9 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus09');
-}
-
-.bg-highlight-10 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus10');
-}
-
-.bg-highlight-11 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus11');
-}
-
-.bg-highlight-12 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus12');
-}
-
-.bg-highlight-13 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus13');
-}
-
-.bg-highlight-14 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus14');
-}
-
-.bg-highlight-15 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus15');
-}
-
-.bg-highlight-16 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus16');
-}
-
-.bg-highlight-17 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus17');
-}
-
-.bg-highlight-18 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus18');
-}
-
-.bg-highlight-19 {
-    background-image: resource('Data/UI/Assets/Login/CharacterPassword_DF_EditBoxFocus19');
 }
 
 .login-input {
@@ -3293,24 +3212,3 @@
     padding-left: 0;
 }
 
-.arrow-input-label {
-    -unity-font: initial;
-    -unity-text-align: middle-left;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    margin-top: 1px;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma Light');
-    letter-spacing: 0;
-}
-
-.arrow-textfield-bg {
-    flex-grow: 1;
-    position: absolute;
-    width: 105%;
-    height: 28px;
-}

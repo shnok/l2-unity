@@ -37,8 +37,8 @@ public class CharCreationWindow : L2Window
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/CharCreationWindow");
-        _arrowInputTemplate = LoadAsset("Data/UI/_Elements/Components/ArrowInput");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/CharCreationWindow/CharCreationWindow");
+        _arrowInputTemplate = LoadAsset("Data/UI/_Elements/Components/L2ArrowInput/L2ArrowInput");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -47,14 +47,14 @@ public class CharCreationWindow : L2Window
 
         yield return new WaitForEndOfFrame();
 
-        userInputField = (TextField)GetElementById("UserInputField");
+        userInputField = (TextField)GetElementById("UserInputField").Q<TextField>("L2Input");
         userInputField.AddManipulator(new BlinkingCursorManipulator(userInputField));
 
-        Button createButton = (Button)GetElementById("CreateButton");
+        Button createButton = (Button)GetElementById("CreateButton").Q<Button>("L2Button");
         createButton.AddManipulator(new ButtonClickSoundManipulator(createButton));
         createButton.RegisterCallback<ClickEvent>(evt => CreateButtonPressed());
 
-        Button previousButton = (Button)GetElementById("PreviousButton");
+        Button previousButton = (Button)GetElementById("PreviousButton").Q<Button>("L2Button");
         previousButton.AddManipulator(new ButtonClickSoundManipulator(previousButton));
         previousButton.RegisterCallback<ClickEvent>(evt => PreviousButtonPressed());
 

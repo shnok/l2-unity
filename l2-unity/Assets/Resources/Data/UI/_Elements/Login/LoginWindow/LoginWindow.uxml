@@ -3,13 +3,11 @@
     <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/Login/LoginWindow/LoginWindow.uss?fileID=7433441132597879392&amp;guid=05ea6159cebbe30449524b6449484bfc&amp;type=3#LoginWindow" />
-    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Input/L2Input.uss?fileID=7433441132597879392&amp;guid=2fa480f78160edf4a8c4381744578912&amp;type=3#L2Input" />
-    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uss?fileID=7433441132597879392&amp;guid=b1d2114f9ed155f45a3eb16e5ef02441&amp;type=3#L2Button" />
     <ui:VisualElement name="LoginWindow" picking-mode="Ignore" class="login-window">
-        <ui:Instance template="L2Input" name="UserInputField" class="l2-input-field-template">
+        <ui:Instance template="L2Input" name="UserInputField" class="l2-input-field-template l2-color-4">
             <AttributeOverrides element-name="L2Input" label="ID" />
         </ui:Instance>
-        <ui:Instance template="L2Input" name="PasswordInputField" class="l2-input-field-template">
+        <ui:Instance template="L2Input" name="PasswordInputField" class="l2-input-field-template l2-color-4">
             <AttributeOverrides element-name="L2Input" label="Password" password="true" />
         </ui:Instance>
         <ui:VisualElement name="Buttons" picking-mode="Ignore" class="login-buttons">

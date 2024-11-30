@@ -64,8 +64,8 @@ public class CharSelectWindow : L2Window
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/CharSelectWindow");
-        _arrowInputTemplate = LoadAsset("Data/UI/_Elements/Components/ArrowInput");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/CharSelectWindow/CharSelectWindow");
+        _arrowInputTemplate = LoadAsset("Data/UI/_Elements/Components/L2ArrowInput/L2ArrowInput");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -74,19 +74,19 @@ public class CharSelectWindow : L2Window
 
         yield return new WaitForEndOfFrame();
 
-        Button loginButton = (Button)GetElementById("StartButton");
+        Button loginButton = (Button)GetElementById("StartButton").Q<Button>("L2Button");
         loginButton.AddManipulator(new ButtonClickSoundManipulator(loginButton));
         loginButton.RegisterCallback<ClickEvent>(evt => StartGamePressed());
 
-        Button deleteButton = (Button)GetElementById("DeleteButton");
+        Button deleteButton = (Button)GetElementById("DeleteButton").Q<Button>("L2Button");
         deleteButton.AddManipulator(new ButtonClickSoundManipulator(deleteButton));
         deleteButton.RegisterCallback<ClickEvent>(evt => DeletePressed());
 
-        Button createButton = (Button)GetElementById("CreateButton");
+        Button createButton = (Button)GetElementById("CreateButton").Q<Button>("L2Button");
         createButton.AddManipulator(new ButtonClickSoundManipulator(createButton));
         createButton.RegisterCallback<ClickEvent>(evt => CreatePressed());
 
-        Button reloginButton = (Button)GetElementById("ReloginButton");
+        Button reloginButton = (Button)GetElementById("ReloginButton").Q<Button>("L2Button");
         reloginButton.AddManipulator(new ButtonClickSoundManipulator(reloginButton));
         reloginButton.RegisterCallback<ClickEvent>(evt => ReLoginPressed());
 
@@ -99,18 +99,24 @@ public class CharSelectWindow : L2Window
 
         _levelLabel = (Label)GetElementById("LevelLabel");
         _classLabel = (Label)GetElementById("ClassLabel");
-        _hpLabel = (Label)GetElementById("HPText");
-        _mpLabel = (Label)GetElementById("MPText");
-        _expLabel = (Label)GetElementById("ExpText");
         _spLabel = (Label)GetElementById("SPLabel");
         _karmaLabel = (Label)GetElementById("KarmaLabel");
 
-        _HPBar = GetElementById("HPBar");
-        _HPBarBG = GetElementById("HPBarBG");
-        _MPBarBG = GetElementById("MPBarBG");
-        _MPBar = GetElementById("MPBar");
-        _ExpBar = GetElementById("ExpBar");
-        _ExpBarBG = GetElementById("ExpBarBG");
+        VisualElement hpBarContainer = GetElementById("HPBar");
+        _HPBar = hpBarContainer.Q<VisualElement>("Bar");
+        _HPBarBG = hpBarContainer.Q<VisualElement>("BarBg");
+        _hpLabel = hpBarContainer.Q<Label>("Text");
+
+
+        VisualElement mpBarContainer = GetElementById("MPBar");
+        _MPBar = mpBarContainer.Q<VisualElement>("Bar");
+        _MPBarBG = mpBarContainer.Q<VisualElement>("BarBg");
+        _mpLabel = mpBarContainer.Q<Label>("Text");
+
+        VisualElement expBarContainer = GetElementById("EXPBar");
+        _ExpBar = expBarContainer.Q<VisualElement>("Bar");
+        _ExpBarBG = expBarContainer.Q<VisualElement>("BarBg");
+        _expLabel = expBarContainer.Q<Label>("Text");
 
         userNameInput.AddManipulator(_charNameManipulator);
         userNameInputContainer.Add(userNameInput);
