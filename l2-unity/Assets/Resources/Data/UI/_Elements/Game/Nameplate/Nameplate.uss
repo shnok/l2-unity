@@ -1,0 +1,113 @@
+.nameplate.hidden {
+    opacity: 0;
+}
+
+.nameplate.gauge .nameplate-gauge {
+    opacity: 100%;
+}
+
+.nameplate .target-bubble {
+    width: 16px;
+    height: 16px;
+    -unity-slice-left: 0;
+    -unity-slice-scale: 0;
+    -unity-slice-right: 15;
+    -unity-slice-bottom: 15;
+}
+
+.nameplate .target-bubble-hover {
+    background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Normal');
+}
+
+.nameplate .target-bubble-target {
+    background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Target');
+}
+
+.nameplate .target-bubble-attack {
+    background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Attack');
+}
+
+.nameplate .target-name {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 2px;
+    padding-bottom: 0;
+    padding-left: 2px;
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    font-size: 12px;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0.5px 0 1px rgb(0, 0, 0);
+}
+
+.nameplate .target-title {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-align: upper-center;
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
+    color: rgb(156, 218, 144);
+    -unity-font-style: bold;
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    font-size: 12px;
+    text-shadow: 0.5px 0 1px rgb(0, 0, 0);
+}
+
+.nameplate-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Left');
+    max-height: 8px;
+    min-height: 8px;
+}
+
+.nameplate-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Center');
+    min-height: 8px;
+    max-height: 8px;
+}
+
+.nameplate-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Right');
+    max-height: 4px;
+    min-height: 4px;
+}
+
+.nameplate-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Right');
+    min-height: 8px;
+    max-height: 8px;
+}
+
+.nameplate-gauge {
+    margin-bottom: 0;
+    height: 4px;
+    width: 120px;
+    align-self: center;
+    display: flex;
+    margin-top: 2px;
+    opacity: 0;
+}
+
+.nameplate-name-container {
+    position: relative;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-direction: row;
+    justify-content: center;
+}
