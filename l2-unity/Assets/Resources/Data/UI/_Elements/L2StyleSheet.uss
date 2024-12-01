@@ -317,98 +317,6 @@
     background-image: resource('Data/UI/Assets/Frame/frames_df_btn_Minimize_over');
 }
 
-.l2-slot .slot-bg {
-    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_SlotBox_Default');
-}
-
-.l2-slot.empty .slot-bg-container {
-    border-width: 0;
-}
-
-.l2-slot.empty .slot-bg {
-    border-width: 0;
-}
-
-.l2-slot .slot-frame {
-    display: none;
-}
-
-.dragged-slot .slot-bg-container {
-    border-width: 1px;
-    border-color: rgba(0, 0, 0, 0);
-}
-
-.skillbar-slot .slot-bg-container {
-    border-width: 0;
-    padding: 1px;
-}
-
-.action-slot .slot-bg-container {
-    border-width: 0;
-    padding: 1px;
-}
-
-.skillbar-slot .slot-bg {
-    border-width: 1px;
-    border-color: rgba(0, 0, 0, 0);
-}
-
-.skillbar-slot.empty .slot-bg-container {
-    border-width: 0;
-    padding: 0;
-    background-image: none;
-}
-
-.shortcut-key {
-    flex-grow: 1;
-    position: absolute;
-    height: 16px;
-    width: 32px;
-    top: 2px;
-    left: 2px;
-    flex-direction: row;
-    -unity-background-scale-mode: scale-to-fit;
-}
-
-.skillbar-slot.empty .shortcut-key {
-    display: none;
-}
-
-.action-slot.empty .slot-bg-container {
-    border-width: 0;
-    padding: 0;
-    background-image: none;
-}
-
-.action-slot.empty.active .slot-bg-container {
-    background-image: none;
-}
-
-.skillbar-slot.empty.active .slot-bg-container {
-    background-image: none;
-}
-
-.action-slot .slot-bg-container {
-    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame');
-}
-
-.action-slot.active .slot-bg-container {
-    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame_Down');
-}
-
-.skillbar-slot .slot-bg-container {
-    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame');
-}
-
-.skillbar-slot.active .slot-bg-container {
-    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame_Down');
-}
-
-.skillbar {
-    height: 361px;
-    flex-direction: row;
-}
-
 .frame_df_ver {
     height: auto;
     width: 18px;
@@ -424,212 +332,6 @@
     flex-grow: 1;
 }
 
-.skillbar-slot-anchor {
-    flex-grow: 0;
-    width: 34px;
-    height: 34px;
-    margin-right: 2px;
-    background-color: rgba(0, 0, 0, 0);
-}
-
-.skillbar .button-tooltip {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMax');
-}
-
-.skillbar .button-tooltip:active {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMax_Down');
-}
-
-.skillbar .button-tooltip:active:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMax_Down');
-}
-
-.skillbar .button-tooltip:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMax_Over');
-}
-
-.skillbar .button-tooltip.min {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMin');
-}
-
-.skillbar .button-tooltip:active.min {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMin_Down');
-}
-
-.skillbar .button-tooltip:active:hover.min {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMin_Down');
-}
-
-.skillbar .button-tooltip:hover.min {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/ShortCut_TooltipMin_Over');
-}
-
-.skillbar .button-rotate {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_rotate');
-}
-
-.skillbar .button-rotate:active {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_rotate_down');
-}
-
-.skillbar .button-rotate:active:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_rotate_down');
-}
-
-.skillbar .button-rotate:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_rotate_over');
-}
-
-.skillbar .button-lock {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_unlock');
-}
-
-.skillbar .button-lock:active {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_unlock_down');
-}
-
-.skillbar .button-lock:active:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_unlock_down');
-}
-
-.skillbar .button-lock:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_unlock_over');
-}
-
-.skillbar .button-lock.locked {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_lock');
-}
-
-.skillbar .button-lock:active.locked {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_lock_down');
-}
-
-.skillbar .button-lock:active:hover.locked {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_lock_down');
-}
-
-.skillbar .button-lock:hover.locked {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/joypad_lock_over');
-}
-
-.skillbar .button-expand {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_expand');
-}
-
-.skillbar .button-expand:active {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_expand_down');
-}
-
-.skillbar .button-expand:active:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_expand_down');
-}
-
-.skillbar .button-expand:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_expand_over');
-}
-
-.skillbar .button-minimize {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_minimize');
-}
-
-.skillbar .button-minimize:active {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_minimize_down');
-}
-
-.skillbar .button-minimize:active:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_minimize_down');
-}
-
-.skillbar .button-minimize:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_minimize_over');
-}
-
-.skillbar-footer-btn {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    width: 14px;
-    height: 14px;
-    background-color: rgba(188, 188, 188, 0);
-    -unity-slice-right: 1;
-    -unity-slice-bottom: 1;
-    -unity-slice-scale: -1px;
-}
-
-.skill-arrow-input {
-    flex-grow: 1;
-    width: 14px;
-    align-items: center;
-    justify-content: flex-start;
-    align-self: center;
-}
-
-.skillbar-arrow-input-up {
-    margin-left: 2px;
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_nextv');
-}
-
-.skillbar-arrow-input-up:active {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_nextv_down');
-}
-
-.skillbar-arrow-input-up:active:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_nextv_down');
-}
-
-.skillbar-arrow-input-up:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_nextv_over');
-}
-
-.skillbar-arrow-input-down {
-    margin-left: 2px;
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prevv');
-}
-
-.skillbar-arrow-input-down:active {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prevv_down');
-}
-
-.skillbar-arrow-input-down:active:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prevv_down');
-}
-
-.skillbar-arrow-input-down:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prevv_over');
-}
-
-.skillbar-window {
-    flex-grow: 0;
-    height: 46px;
-    width: 506px;
-    position: absolute;
-}
-
-.skillbar-container {
-    flex-grow: 1;
-}
-
-.skillbar {
-    height: auto;
-    flex-grow: 1;
-}
-
-.skillbar-drag {
-    flex-grow: 0;
-    width: 17px;
-    display: flex;
-    overflow: hidden;
-}
-
 .button-expand {
     position: absolute;
     left: 4px;
@@ -641,142 +343,6 @@
     left: 4px;
     top: 8px;
     display: none;
-}
-
-.skillbar-inner-container {
-    flex-grow: 1;
-    flex-direction: row;
-    background-image: resource('Data/UI/Assets/Windows/Windows_DF_Small_Vertical_Bg');
-    -unity-slice-left: 12;
-    -unity-slice-top: 12;
-    -unity-slice-right: 12;
-    -unity-slice-bottom: 12;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    background-color: rgba(0, 0, 0, 0.3);
-}
-
-.skillbar-arrow-control {
-    flex-grow: 0;
-    width: 17px;
-    background-color: rgba(0, 0, 0, 0.22);
-    display: flex;
-    background-image: resource('Data/UI/Assets/SkillBar/ShortcutWnd_DF_NumberGroupBox');
-    -unity-slice-left: 8;
-    -unity-slice-top: 8;
-    -unity-slice-right: 8;
-    -unity-slice-bottom: 8;
-    -unity-slice-scale: 0.6px;
-    -unity-background-scale-mode: stretch-to-fill;
-    -unity-text-align: upper-center;
-    align-items: flex-end;
-}
-
-.skill-arrow-input {
-    align-items: center;
-    align-self: flex-end;
-}
-
-.skillbar-slot-container {
-    flex-grow: 1;
-    flex-direction: row;
-    display: flex;
-    margin-top: 3px;
-    padding-left: 6px;
-    padding-right: 3px;
-}
-
-.skillbar-darkener {
-    flex-grow: 1;
-    position: absolute;
-    height: 40px;
-    width: 151px;
-    background-color: rgba(0, 0, 0, 0.28);
-    margin-left: 148px;
-    margin-top: -3px;
-}
-
-.skillbar-slot-spacer {
-    flex-grow: 1;
-}
-
-.skillbar-footer {
-    flex-grow: 0;
-    width: 15px;
-    display: flex;
-}
-
-.skill-arrow-input-label {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 1px;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    flex-grow: 1;
-    font-size: 11px;
-    color: rgb(221, 218, 218);
-    -unity-text-outline-width: 0.1px;
-    -unity-text-align: middle-center;
-}
-
-.skill-arrow-input-label #unity-text-input {
-    margin: 0;
-    padding: 0;
-    background-color: rgba(0, 0, 0, 0);
-    border-width: 0;
-    -unity-text-align: middle-center;
-}
-
-.skill-arrow-input-label #unity-text-input .unity-text-element {
-    margin: 0;
-    padding: 0;
-}
-
-.skillbar-container {
-    flex-direction: column-reverse;
-}
-
-.skillbar-inner-container {
-    background-color: rgba(0, 0, 0, 0.49);
-}
-
-.skillbar-darkener {
-    background-color: rgba(0, 0, 0, 0.39);
-}
-
-.skillbar-wrapper {
-    flex-grow: 1;
-    white-space: normal;
-    flex-direction: row;
-    height: 46px;
-    align-self: flex-end;
-}
-
-.skillbar {
-    flex-grow: 0;
-    overflow: hidden;
-}
-
-.skillbar-vertical {
-}
-
-.skillbar-vertical {
-    flex-direction: column;
-}
-
-.skillbar-wrapper-vertical {
-    flex-grow: 1;
-    height: 500px;
-    width: 46px;
-    flex-direction: column;
-}
-
-.skillbar-drag-vertical {
-    height: 17px;
-    width: 48px;
 }
 
 .frame_df_ver-vertical {
@@ -810,104 +376,6 @@
     display: none;
 }
 
-.skillbar-inner-container-vertical {
-    flex-direction: column;
-    background-image: resource('Data/UI/Assets/Windows/Windows_DF_Small_Bg');
-    -unity-slice-left: 9;
-    -unity-slice-top: 9;
-    -unity-slice-right: 9;
-    -unity-slice-bottom: 9;
-    padding-right: 3px;
-    padding-left: 3px;
-    padding-bottom: 0;
-    padding-top: 0;
-}
-
-.skillbar-arrow-control-vertical {
-    height: 17px;
-    width: 46px;
-    flex-grow: 0;
-}
-
-.skill-arrow-input-vertical {
-    margin-top: -1px;
-    margin-right: 0;
-    overflow: visible;
-    height: 14px;
-    width: 46px;
-    flex-direction: row-reverse;
-    margin-left: 0;
-}
-
-.skillbar-slot-anchor-vertical {
-    margin-top: 3px;
-    margin-right: 0;
-}
-
-.skillbar-arrow-input-right {
-    -unity-slice-left: 0;
-    -unity-slice-top: 0;
-    -unity-slice-right: 1;
-    -unity-slice-bottom: 1;
-    -unity-slice-scale: -1px;
-    margin-left: 0;
-    margin-right: 4px;
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_next');
-}
-
-.skillbar-arrow-input-right:active {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_next_down');
-}
-
-.skillbar-arrow-input-right:active:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_next_down');
-}
-
-.skillbar-arrow-input-right:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_next_over');
-}
-
-.skillbar-arrow-input-left {
-    margin-top: 0;
-    -unity-slice-right: 1;
-    -unity-slice-bottom: 1;
-    -unity-slice-scale: -1px;
-    margin-left: -1px;
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prev');
-}
-
-.skillbar-arrow-input-left:active {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prev_down');
-}
-
-.skillbar-arrow-input-left:active:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prev_down');
-}
-
-.skillbar-arrow-input-left:hover {
-    background-image: resource('Data/UI/Assets/SkillBar/Buttons/shortcut_prev_over');
-}
-
-.skillbar-footer-vertical {
-    margin-top: 0;
-    width: auto;
-    height: 15px;
-    flex-direction: row;
-    align-items: flex-end;
-}
-
-.skillbar-container-vertical {
-    position: absolute;
-    min-width: 46px;
-    min-height: 500px;
-    flex-grow: 0;
-    align-self: flex-end;
-    justify-content: flex-start;
-    align-items: auto;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
 .button-minimize-vertical {
     display: flex;
     left: 6px;
@@ -917,204 +385,6 @@
 
 .button-minimize-vertical {
     display: none;
-}
-
-.skill-arrow-input-label {
-    width: 15px;
-    height: 14px;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    font-size: 10px;
-    background-color: rgba(0, 0, 0, 0);
-    -unity-text-align: middle-center;
-}
-
-.footer-container-vertical {
-    flex-grow: 1;
-    height: 16px;
-}
-
-.footer-container-horizontal {
-    flex-grow: 1;
-    width: 14px;
-}
-
-.footer-container-horizontal {
-    flex-grow: 0;
-}
-
-.skillbar-darkener {
-    width: 154px;
-}
-
-.skillbar-inner-container {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.footer-container-vertical {
-    flex-grow: 0;
-}
-
-.skillbar-darkener-vertical {
-    width: 42px;
-    height: 154px;
-    margin-left: 0;
-    margin-top: 148px;
-}
-
-.skillbar-slot-container-vertical {
-    flex-direction: column;
-    padding-top: 6px;
-    padding-bottom: 3px;
-    padding-right: 0;
-    padding-left: 0;
-    align-items: center;
-}
-
-.slot-frame {
-}
-
-.l2-slot {
-    min-width: 36px;
-    min-height: 34px;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-left: 0;
-    width: 36px;
-    height: 36px;
-    max-width: 36px;
-    max-height: 36px;
-    padding-bottom: 0;
-    position: relative;
-}
-
-.slot-bg-container {
-    border-left-color: rgba(0, 0, 0, 0.65);
-    border-right-color: rgba(0, 0, 0, 0.65);
-    border-top-color: rgba(0, 0, 0, 0.65);
-    border-bottom-color: rgba(0, 0, 0, 0.65);
-    flex-grow: 1;
-    width: 34px;
-    height: 34px;
-    max-height: 34px;
-    max-width: 34px;
-}
-
-.slot-frame {
-    background-image: resource('Data/UI/Assets/Inventory/blue_tab_v5');
-    position: absolute;
-    width: 34px;
-    height: 34px;
-    -unity-slice-left: 18;
-    -unity-slice-top: 18;
-    -unity-slice-right: 18;
-    -unity-slice-bottom: 18;
-    -unity-slice-scale: 1.4px;
-    -unity-background-scale-mode: stretch-to-fill;
-    flex-shrink: 0;
-}
-
-.l2-slot {
-    background-color: rgba(188, 188, 188, 0);
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-}
-
-.slot-bg-container {
-    width: 34px;
-    height: 34px;
-    max-height: 34px;
-    max-width: 34px;
-    background-color: rgba(0, 0, 0, 0);
-    -unity-background-image-tint-color: rgb(255, 235, 182);
-}
-
-.slot-bg {
-    flex-shrink: 0;
-    flex-grow: 1;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    background-color: rgba(0, 0, 0, 0.16);
-}
-
-.slot-frame {
-    min-width: 34px;
-    min-height: 34px;
-}
-
-.action-window-content {
-    flex-grow: 1;
-    position: absolute;
-    flex-shrink: 0;
-    left: 14px;
-    top: 46px;
-    width: 288px;
-}
-
-.action-window-category {
-    flex-grow: 1;
-}
-
-.action-window-category-title {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 8px;
-    -unity-text-outline-width: 0.1px;
-    color: rgb(240, 240, 240);
-    font-size: 11px;
-    letter-spacing: 3px;
-}
-
-.action-window-category-slots {
-    flex-grow: 1;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin-top: 5px;
-}
-
-.menu-btn {
-    display: flex;
-}
-
-.menu-btn-grp {
-    margin-top: 5px;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 5px;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    flex-grow: 0;
-    height: auto;
-    flex-direction: row;
-    flex-shrink: 0;
-    flex-wrap: wrap;
-    width: 161px;
-    overflow: visible;
-    display: flex;
-    opacity: 1;
-}
-
-.minimized {
 }
 
 .window-template-header {
@@ -1128,9 +398,6 @@
     flex-shrink: 1;
     height: 38px;
     flex-direction: row;
-}
-
-.root_windows {
 }
 
 .window-template {
@@ -1258,9 +525,6 @@
     background-image: resource('Data/UI/Assets/Frame/Frame_DF_Hor_Large/Frame_DF_Hor_Large_Tile');
 }
 
-.text-color-3 {
-}
-
 .l2-color-1 {
     color: rgb(175, 152, 120);
 }
@@ -1277,222 +541,6 @@
     color: rgb(220, 220, 220);
 }
 
-.npc-html-window {
-    width: 325px;
-    height: 420px;
-    position: absolute;
-}
-
-.npc-html-window {
-    font-size: 11px;
-}
-
-.npc-html-window .transparent-cursor {
-    --unity-cursor-color: rgba(0, 0, 0, 0);
-}
-
-.html-window-content {
-    height: 367px;
-    position: absolute;
-    width: 308px;
-    top: 42px;
-    left: 8px;
-}
-
-.html-window-label {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    white-space: normal;
-}
-
-.npc-html-window .l2-scroll-view {
-    overflow: visible;
-}
-
-.npc-html-window .l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
-    flex-direction: row;
-    padding-right: 2px;
-}
-
-.npc-html-window .l2-scroll-view .unity-scroll-view__content-viewport {
-    margin-top: 0;
-    padding: 4px;
-}
-
-.npc-html-window .l2-scroll-view .unity-scroll-view__vertical-scroller {
-    margin-bottom: 2px;
-    margin-top: 1px;
-    margin-right: 0;
-}
-
-.npc-html-window .l2-button {
-}
-
-.html-window-content {
-    height: auto;
-    position: relative;
-    left: auto;
-    top: auto;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-left-color: rgba(55, 51, 43, 0.6);
-    border-right-color: rgba(55, 51, 43, 0.6);
-    border-top-color: rgba(55, 51, 43, 0.6);
-    border-bottom-color: rgba(55, 51, 43, 0.6);
-    border-top-left-radius: 0.3px;
-    border-top-right-radius: 0.3px;
-    border-bottom-right-radius: 0.3px;
-    border-bottom-left-radius: 0.3px;
-    background-color: rgba(0, 0, 0, 0.35);
-    width: auto;
-}
-
-.html-window-content-container {
-    flex-grow: 1;
-    position: absolute;
-    width: 308px;
-    height: 372px;
-    top: 41px;
-    left: 7px;
-    padding-top: 4px;
-    padding-right: 6px;
-    padding-left: 8px;
-    padding-bottom: 8px;
-}
-
-.html-window-content-wrapper {
-    flex-grow: 1;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.html-table {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    align-self: flex-start;
-}
-
-.html-row {
-    flex-grow: 1;
-    min-height: 18px;
-    flex-direction: row;
-}
-
-.html-cell {
-    flex-grow: 0;
-    flex-shrink: 0;
-}
-
-.html-wrapper {
-    flex-grow: 1;
-    width: 100%;
-    flex-shrink: 0;
-}
-
-.toggle-effect {
-    position: absolute;
-    width: 34px;
-    height: 34px;
-}
-
-.l2-slot.toggle-1 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_01');
-}
-
-.l2-slot.toggle-2 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_02');
-}
-
-.l2-slot.toggle-3 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_03');
-}
-
-.l2-slot.toggle-4 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_04');
-}
-
-.l2-slot.toggle-5 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_05');
-}
-
-.l2-slot.toggle-6 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_06');
-}
-
-.l2-slot.toggle-7 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_07');
-}
-
-.l2-slot.toggle-8 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_08');
-}
-
-.l2-slot.toggle-9 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_09');
-}
-
-.l2-slot.toggle-10 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_11');
-}
-
-.l2-slot.toggle-11 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_11');
-}
-
-.l2-slot.toggle-12 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_12');
-}
-
-.l2-slot.toggle-13 .toggle-effect {
-    background-image: resource('Data/UI/Assets/SkillBar/Shortcuts/ShotToggleEffect_13');
-}
-
-.hyperlink-label {
-    color: rgb(102, 151, 255);
-    -unity-font-style: normal;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-}
-
-.l2-hyperlink {
-    flex-shrink: 1;
-    align-self: flex-start;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    background-color: rgba(188, 188, 188, 0);
-}
-
-.hyperlink-label {
-    letter-spacing: 0;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    font-size: 12px;
-}
-
 .character-info-window .bar-label {
     position: absolute;
     flex-grow: 1;
@@ -1503,3 +551,382 @@
     padding-left: 0;
 }
 
+.char-info-row {
+    flex-direction: row;
+    align-self: stretch;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    background-image: none;
+    border-left-width: 1px;
+    border-left-color: rgba(55, 51, 43, 0.6);
+    border-right-color: rgba(55, 51, 43, 0.6);
+    border-top-color: rgba(55, 51, 43, 0.6);
+    border-bottom-color: rgba(55, 51, 43, 0.6);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 0.3px;
+    border-top-right-radius: 0.3px;
+    border-bottom-right-radius: 0.3px;
+    border-bottom-left-radius: 0.3px;
+    background-color: rgba(0, 0, 0, 0.35);
+    margin: 0;
+    padding: 0;
+    width: 370px;
+    left: 15px;
+}
+
+.char-info-row-1 {
+    height: 70px;
+}
+
+.char-info-row-2 {
+    height: 21px;
+    padding-top: 2px;
+}
+
+.char-info-row-3 {
+    height: 65px;
+}
+
+.char-info-row-4 {
+    height: auto;
+}
+
+.char-info-row-5 {
+    height: 124px;
+}
+
+.char-info-row-6 {
+    height: auto;
+}
+
+.char-info-row-7 {
+    height: 38px;
+}
+
+.char-info-row-8 {
+    height: auto;
+}
+
+.char-info-row-9 {
+    height: 38px;
+}
+
+.char-info-cat-name {
+    font-size: 12px;
+    left: 15px;
+    margin: 0;
+    padding: 0;
+    height: 24px;
+    justify-content: flex-end;
+    padding-left: 5px;
+    padding-bottom: 2px;
+}
+
+.char-info-cat-name > .unity-label {
+    padding: 0;
+    margin: 0;
+}
+
+.char-info-class-icon {
+    align-self: flex-start;
+    width: 45px;
+    height: 60px;
+    margin-top: 5px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 5px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    justify-content: center;
+}
+
+.char-info-name-box {
+    margin-top: 5px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 8px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: stretch;
+}
+
+.char-info-name-box-inner {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.character-info-window .unity-label {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+.char-info-player-name {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    top: 0;
+    bottom: 0;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.character-info-window .char-info-stat-label {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    margin-right: 4px;
+}
+
+.char-info-class-icon-border {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    justify-content: center;
+    height: 60px;
+}
+
+.char-info-class-icon-overlay {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0.5px;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: center;
+    justify-content: center;
+    background-image: resource('Data/UI/Assets/CharInfo/ItemWindow_DF_Frame_Over');
+    width: 41px;
+    height: 57px;
+    align-items: stretch;
+    flex-wrap: wrap;
+    overflow: visible;
+    padding-right: 0;
+}
+
+.char-info-class-icon-image {
+    flex-grow: 1;
+    background-image: resource('Data/UI/Assets/CharInfo/CharacterInfo_Top_Img');
+    margin-top: 1px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    margin-left: 1px;
+    opacity: 0.88;
+}
+
+.char-info-window-content {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: stretch;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 40px;
+    display: flex;
+    left: 0;
+}
+
+.character-info-window #BoxTopSurvivability {
+    flex-direction: column;
+}
+
+.char-info-col {
+    flex-direction: row;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 50%;
+}
+
+.char-info-inner-row {
+    flex-direction: row;
+    margin-top: 3px;
+    margin-left: 0;
+    margin-bottom: 0;
+    padding: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-right: 0;
+    flex-grow: 1;
+    align-items: flex-start;
+}
+
+.char-info-inner-row-box {
+    margin-top: 0;
+}
+
+.char-info-inner-col {
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+    width: 50%;
+}
+
+.character-info-window #BagIcon {
+    display: flex;
+}
+
+.character-info-window #BagIconBg {
+    width: 16px;
+    height: 13px;
+}
+
+.character-info-window .l2-bar-name {
+    width: 24px;
+    margin: 0;
+}
+
+.char-icon-bag {
+    background-image: resource('Data/UI/Assets/CharInfo/Icon_DF_Common_Weight');
+}
+
+.character-info-window .exp-row {
+    margin-top: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.character-info-window #ClassText {
+    margin-top: 0;
+}
+
+.char-info-stats-divider {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 4px;
+    background-image: resource('Data/UI/Assets/CharInfo/Divider_DF_Ver');
+}
+
+.char-info-stats-divider {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 4px;
+    background-image: resource('Data/UI/Assets/CharInfo/Divider_DF_Ver');
+}
+
+.char-info-divider {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 4px;
+    height: 100%;
+    background-image: resource('Data/UI/Assets/CharInfo/Divider_DF_Ver');
+}
+
+.char-stats-row {
+    flex-grow: 0;
+    flex-direction: row;
+    margin-top: 2px;
+}
+
+.char-stats-label {
+    width: 30px;
+}
+
+.char-stats-value {
+    flex-grow: 1;
+    -unity-text-align: upper-right;
+}
+
+.char-info-sp-container {
+    flex-direction: row;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 1px;
+    height: 14px;
+    width: auto;
+    font-size: 12px;
+    align-self: stretch;
+    justify-content: flex-start;
+    align-items: auto;
+    padding-right: 1px;
+}
+
+.char-info-sp-label {
+    display: flex;
+}
+
+.char-info-sp-box {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    background-color: rgb(0, 0, 0);
+    flex-grow: 1;
+}
+
+.char-info-sp-value {
+    color: rgb(165, 143, 113);
+    border-left-width: 0;
+    border-right-width: 0;
+    margin-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.6);
+    -unity-text-outline-width: 0;
+    flex-grow: 1;
+    width: auto;
+    -unity-text-align: lower-center;
+    -unity-font-definition: initial;
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
+}

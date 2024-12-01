@@ -1,7 +1,23 @@
 .l2-bar {
     height: 14px;
+    max-height: 14px;
     flex-direction: row;
     flex-grow: 1;
+}
+
+.l2-bar.label .l2-bar-name {
+    display: flex;
+}
+
+.l2-bar-name {
+    display: none;
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
+    -unity-text-outline-color: black;
+    -unity-text-align: lower-left;
+    margin: 0;
+    margin-right: 5px;
+    padding: 0;
+    font-size: 12px;
 }
 
 .l2-bar-label {
