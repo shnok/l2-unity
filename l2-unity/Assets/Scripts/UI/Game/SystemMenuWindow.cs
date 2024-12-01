@@ -46,14 +46,14 @@ public class SystemMenuWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/SystemMenuWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/SystemMenuWindow/SystemMenuWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
     {
         InitWindow(root);
 
-       // root.Add(_windowEle);
+        // root.Add(_windowEle);
 
         yield return new WaitForEndOfFrame();
 

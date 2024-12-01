@@ -31,7 +31,7 @@ public class L2SlotManager : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Components/DraggedSlot");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/DraggedSlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)

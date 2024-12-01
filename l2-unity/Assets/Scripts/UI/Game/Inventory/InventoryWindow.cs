@@ -34,6 +34,7 @@ public class InventoryWindow : L2PopupWindow
     private Label _inventoryCountLabel;
     private Label _weightLabel;
     private Label _adenaCountLabel;
+    private VisualElement _weightBarContainer;
     private VisualElement _weightBar;
     private VisualElement _weightBarBg;
 
@@ -83,11 +84,11 @@ public class InventoryWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryWindow");
-        _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTab");
-        _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryTabHeader");
-        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Components/InventorySlot");
-        _minimizedTemplate = LoadAsset("Data/UI/_Elements/Game/Inventory/InventoryMin");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryWindow");
+        _tabTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryTab");
+        _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryTabHeader");
+        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
+        _minimizedTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryMin");
     }
 
     protected override void InitWindow(VisualElement root)
@@ -125,10 +126,11 @@ public class InventoryWindow : L2PopupWindow
 
         _inventoryCountLabel = GetLabelById("InventoryCount");
         _adenaCountLabel = GetLabelById("AdenaCount");
-        _weightLabel = GetLabelById("CurrentWeight");
 
-        _weightBar = GetElementById("WeightGauge");
-        _weightBarBg = GetElementById("WeightBg");
+        _weightBarContainer = GetElementById("WeightBar");
+        _weightLabel = _weightBarContainer.Q<Label>("Text");
+        _weightBar = _weightBarContainer.Q<VisualElement>("Bar");
+        _weightBarBg = _weightBarContainer.Q<VisualElement>("BarBg");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -355,11 +357,11 @@ public class InventoryWindow : L2PopupWindow
 
             for (int i = 1; i <= 5; i++)
             {
-                _weightBar.parent.RemoveFromClassList("weight-" + i);
+                _weightBarContainer.parent.RemoveFromClassList("weight-" + i);
             }
 
             int weightLevel = (int)Mathf.Floor(weightRatio / 0.25f) + 1;
-            _weightBar.parent.AddToClassList("weight-" + weightLevel);
+            _weightBarContainer.parent.AddToClassList("weight-" + weightLevel);
 
             float barWidth = bgWidth * weightRatio;
             _weightBar.style.width = barWidth;

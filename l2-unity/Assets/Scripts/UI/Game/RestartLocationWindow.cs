@@ -33,7 +33,7 @@ public class RestartLocationWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/RestartLocationWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/RestartLocationWindow/RestartLocationWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -42,19 +42,19 @@ public class RestartLocationWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
-        _toVillageButton = _windowEle.Q<Button>("ToVillageButton");
+        _toVillageButton = _windowEle.Q<VisualElement>("ToVillageButton").Q<Button>("L2Button");
         _toVillageButton.AddManipulator(new ButtonClickSoundManipulator(_toVillageButton));
         _toVillageButton.RegisterCallback<ClickEvent>((evt) => ButtonClicked(0));
-        _toClanHallButton = _windowEle.Q<Button>("ToClanHallButton");
+        _toClanHallButton = _windowEle.Q<VisualElement>("ToClanHallButton").Q<Button>("L2Button");
         _toClanHallButton.AddManipulator(new ButtonClickSoundManipulator(_toClanHallButton));
         _toClanHallButton.RegisterCallback<ClickEvent>((evt) => ButtonClicked(1));
-        _toCastleButton = _windowEle.Q<Button>("ToCastleButton");
+        _toCastleButton = _windowEle.Q<VisualElement>("ToCastleButton").Q<Button>("L2Button");
         _toCastleButton.AddManipulator(new ButtonClickSoundManipulator(_toCastleButton));
         _toCastleButton.RegisterCallback<ClickEvent>((evt) => ButtonClicked(2));
-        _toSiegeButton = _windowEle.Q<Button>("ToSiegeButton");
+        _toSiegeButton = _windowEle.Q<VisualElement>("ToSiegeButton").Q<Button>("L2Button");
         _toSiegeButton.AddManipulator(new ButtonClickSoundManipulator(_toSiegeButton));
         _toSiegeButton.RegisterCallback<ClickEvent>((evt) => ButtonClicked(3));
-        _fixedResButton = _windowEle.Q<Button>("FixedResButton");
+        _fixedResButton = _windowEle.Q<VisualElement>("FixedResButton").Q<Button>("L2Button");
         _fixedResButton.AddManipulator(new ButtonClickSoundManipulator(_fixedResButton));
         _fixedResButton.RegisterCallback<ClickEvent>((evt) => ButtonClicked(4));
 

@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Bar/L2Bar.uss?fileID=7433441132597879392&amp;guid=a56090906dc32294994ed8860c7b159e&amp;type=3#L2Bar" />
-    <ui:VisualElement name="L2Bar" template="HpBar" class="bar-container l2-bar" style="max-height: 14px;">
+    <ui:VisualElement name="L2Bar" template="HpBar" class="bar-container l2-bar">
         <ui:Label text="Label" name="Label" class="l2-bar-name" />
-        <ui:VisualElement name="Gauge" style="flex-grow: 1;">
+        <ui:VisualElement name="Gauge" class="l2-bar-container">
             <ui:GroupBox name="BarBg" class="l2-bar-container l2-bar-bg">
                 <ui:VisualElement name="BGLeft" class="l2-bar-side-ele l2-bar-left" />
                 <ui:VisualElement name="BGCenter" class="l2-bar-center-ele l2-bar-center" />

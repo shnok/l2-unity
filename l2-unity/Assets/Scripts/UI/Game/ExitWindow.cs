@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,6 +6,7 @@ public class ExitWindow : L2PopupWindow
 {
     private Button _exitButton;
     private Button _restartButton;
+    private Button _cancelButton;
     private Label _windowName;
     private Label _expAcquired;
     private Label _adenaAcquired;
@@ -37,14 +37,12 @@ public class ExitWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ExitWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ExitWindow/ExitWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
     {
         InitWindow(root);
-
-        // root.Add(_windowEle);
 
         yield return new WaitForEndOfFrame();
 
@@ -52,12 +50,15 @@ public class ExitWindow : L2PopupWindow
         _expAcquired = (Label)GetElementById("CountExp");
         _adenaAcquired = (Label)GetElementById("CountAdena");
         _itemAcquired = (Label)GetElementById("CountItem");
-        _restartButton = (Button)GetElementByClass("restart-button");
-        _exitButton = (Button)GetElementByClass("exit-button");
+        _restartButton = GetElementById("RestartButton").Q<Button>("L2Button");
+        _exitButton = GetElementById("ExitButton").Q<Button>("L2Button");
+        _cancelButton = GetElementById("CancelButton").Q<Button>("L2Button");
+        _restartButton.AddManipulator(new ButtonClickSoundManipulator(_restartButton));
+        _exitButton.AddManipulator(new ButtonClickSoundManipulator(_exitButton));
+        _cancelButton.AddManipulator(new ButtonClickSoundManipulator(_cancelButton));
 
-        Button initializeButton = (Button)GetElementByClass("initialize-button");
+        Button initializeButton = GetElementById("InitializeButton").Q<Button>("L2Button");
         initializeButton.AddManipulator(new ButtonClickSoundManipulator(initializeButton));
-
 
         var _boxHeader = GetElementByClass("drag-area");
         DragManipulator drag = new DragManipulator(_boxHeader, _windowEle, this);
@@ -70,11 +71,11 @@ public class ExitWindow : L2PopupWindow
         HideWindow();
 
         RegisterCloseWindowEvent("btn-close-frame");
-        RegisterCloseWindowEvent("cancel-button");
         RegisterClickWindowEvent(_windowEle, _boxHeader);
 
         _restartButton.RegisterCallback<ClickEvent>((evt) => HandleRestartButtonClick());
         _exitButton.RegisterCallback<ClickEvent>((evt) => HandleExitButtonClick());
+        _cancelButton.RegisterCallback<ClickEvent>((evt) => HandleCancelButtonClick());
     }
 
     public void OpenWindow(bool exit)
@@ -118,5 +119,10 @@ public class ExitWindow : L2PopupWindow
     {
         HideWindow();
         GameClient.Instance.ClientPacketHandler.RequestDisconnect();
+    }
+
+    private void HandleCancelButtonClick()
+    {
+        HideWindow();
     }
 }

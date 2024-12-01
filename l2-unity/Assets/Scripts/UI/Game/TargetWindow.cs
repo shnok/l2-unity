@@ -34,7 +34,7 @@ public class TargetWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/TargetWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/TargetWindow/TargetWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -47,7 +47,7 @@ public class TargetWindow : L2PopupWindow
         DragManipulator drag = new DragManipulator(statusWindowDragArea, _windowEle, this);
         statusWindowDragArea.AddManipulator(drag);
 
-        var horizontalResizeHandle = GetElementByClass("hor-resize-handle");
+        var horizontalResizeHandle = GetElementById("SizeControl");
         HorizontalResizeManipulator horizontalResize = new HorizontalResizeManipulator(
             horizontalResizeHandle, _windowEle, _targetWindowMinWidth, _targetWindowMaxWidth);
         horizontalResizeHandle.AddManipulator(horizontalResize);
@@ -67,22 +67,23 @@ public class TargetWindow : L2PopupWindow
             Debug.LogError("Target window target name label is null.");
         }
 
-        _HPBar = GetElementById("HPBar");
+        _HPBarContainer = GetElementById("HPBar");
+
+        if (_HPBarContainer == null)
+        {
+            Debug.LogError("Target window _HPBarContainer is null");
+        }
+
+        _HPBar = _HPBarContainer.Q<VisualElement>("Bar");
         if (_HPBar == null)
         {
             Debug.LogError("Target window HPBar is null");
         }
 
-        _HPBarBG = GetElementById("HPBarBG");
+        _HPBarBG = _HPBarContainer.Q<VisualElement>("BarBg");
         if (_HPBarBG == null)
         {
             Debug.LogError("Target window _HPBarBG is null");
-        }
-
-        _HPBarContainer = GetElementById("HPBarContainer");
-        if (_HPBarContainer == null)
-        {
-            Debug.LogError("Target window _HPBarContainer is null");
         }
 
         _windowEle.style.position = Position.Absolute;

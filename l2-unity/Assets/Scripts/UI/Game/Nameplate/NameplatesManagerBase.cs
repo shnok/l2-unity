@@ -27,7 +27,7 @@ public class NameplatesManagerBase : MonoBehaviour
 
     private void LoadNameplateTemplate()
     {
-        nameplateTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Game/Nameplate");
+        nameplateTemplate = Resources.Load<VisualTreeAsset>("Data/UI/_Elements/Game/Nameplate/Nameplate");
         if (nameplateTemplate == null)
         {
             Debug.LogError("Failed to load nameplate template.");

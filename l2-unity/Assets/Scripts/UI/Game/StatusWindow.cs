@@ -45,7 +45,7 @@ public class StatusWindow : L2Window
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/StatusWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/StatusWindow/StatusWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -58,7 +58,7 @@ public class StatusWindow : L2Window
         DragManipulator drag = new DragManipulator(statusWindowDragArea, _windowEle, this);
         statusWindowDragArea.AddManipulator(drag);
 
-        var horizontalResizeHandle = GetElementByClass("hor-resize-handle");
+        var horizontalResizeHandle = GetElementById("SizeControl");
         HorizontalResizeManipulator horizontalResize = new HorizontalResizeManipulator(
             horizontalResizeHandle, _windowEle, _statusWindowMinWidth, _statusWindowMaxWidth);
         horizontalResizeHandle.AddManipulator(horizontalResize);
@@ -75,73 +75,78 @@ public class StatusWindow : L2Window
             Debug.LogError("Status window LevelText is null.");
         }
 
-        _CPTextLabel = (Label)GetElementById("CPText");
+        VisualElement HPBarContainer = GetElementById("HPBar");
+        VisualElement MPBarContainer = GetElementById("MPBar");
+        VisualElement CPBarContainer = GetElementById("CPBar");
+        VisualElement EXPBarContainer = GetElementById("EXPBar");
+
+        _CPTextLabel = CPBarContainer.Q<Label>("Text");
         if (_CPTextLabel == null)
         {
             Debug.LogError("Status window CPText is null.");
         }
 
-        _HPTextLabel = (Label)GetElementById("HPText");
+        _HPTextLabel = HPBarContainer.Q<Label>("Text");
         if (_HPTextLabel == null)
         {
             Debug.LogError("Status window Hp text is null.");
         }
 
-        _MPTextLabel = (Label)GetElementById("MPText");
+        _MPTextLabel = MPBarContainer.Q<Label>("Text");
         if (_MPTextLabel == null)
         {
             Debug.LogError("Status window MPText is null.");
         }
 
-        _expTextLabel = (Label)GetElementById("XPText");
+        _expTextLabel = EXPBarContainer.Q<Label>("Text");
         if (_expTextLabel == null)
         {
             Debug.LogError("Status window XPText is null.");
         }
 
-        _CPBarBG = GetElementById("CPBarBG");
+        _CPBarBG = CPBarContainer.Q<VisualElement>("BarBg");
         if (_CPBarBG == null)
         {
             Debug.LogError("Status window CPBarBG is null");
         }
 
-        _CPBar = GetElementById("CPBar");
+        _CPBar = CPBarContainer.Q<VisualElement>("Bar");
         if (_CPBar == null)
         {
             Debug.LogError("Status window CPBar is null");
         }
 
-        _HPBar = GetElementById("HPBar");
+        _HPBar = HPBarContainer.Q<VisualElement>("Bar");
         if (_HPBar == null)
         {
             Debug.LogError("Status window HPBar is null");
         }
 
-        _HPBarBG = GetElementById("HPBarBG");
+        _HPBarBG = HPBarContainer.Q<VisualElement>("BarBg");
         if (_HPBarBG == null)
         {
             Debug.LogError("Status window HPBarBG is null");
         }
 
-        _MPBarBG = GetElementById("MPBarBG");
+        _MPBarBG = MPBarContainer.Q<VisualElement>("BarBg");
         if (_MPBarBG == null)
         {
             Debug.LogError("Status window MPBarBG is null");
         }
 
-        _MPBar = GetElementById("MPBar");
+        _MPBar = MPBarContainer.Q<VisualElement>("Bar");
         if (_MPBar == null)
         {
             Debug.LogError("Status windowar MPBar is null");
         }
 
-        _expBarBG = GetElementById("XPBarBG");
+        _expBarBG = EXPBarContainer.Q<VisualElement>("BarBg");
         if (_expBarBG == null)
         {
             Debug.LogError("Status window XPBarBG is null");
         }
 
-        _expBar = GetElementById("XPBar");
+        _expBar = EXPBarContainer.Q<VisualElement>("Bar");
         if (_expBarBG == null)
         {
             Debug.LogError("Status windowar XPBar is null");

@@ -35,8 +35,8 @@ public class ActionWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ActionWindow");
-        _slotTemplate = LoadAsset("Data/UI/_Elements/Components/ActionSlot");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ActionWindow/ActionWindow");
+        _slotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/ActionSlot");
     }
 
     protected override void InitWindow(VisualElement root)

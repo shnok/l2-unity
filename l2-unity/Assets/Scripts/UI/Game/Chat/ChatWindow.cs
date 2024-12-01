@@ -51,9 +51,9 @@ public class ChatWindow : L2Window
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatWindow");
-        _tabTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatTab");
-        _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/Chat/ChatTabHeader");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ChatWindow/ChatWindow");
+        _tabTemplate = LoadAsset("Data/UI/_Elements/Game/ChatWindow/ChatTab");
+        _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/ChatWindow/ChatTabHeader");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)

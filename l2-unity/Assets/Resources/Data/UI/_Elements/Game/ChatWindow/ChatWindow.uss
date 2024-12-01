@@ -130,6 +130,25 @@
     font-size: 12px;
 }
 
+
+.chat-tab {
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 1px;
+    margin-bottom: -2px;
+    flex-direction: column-reverse;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.chat-tab .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-direction: row-reverse;
+}
+
+.chat-tab .unity-scroll-view__vertical-scroller {
+    margin-left: 0;
+    margin-right: 4px;
+}
+
 .chat-window .unity-base-slider__dragger-border {
     border-width: 0;
     margin: 0;

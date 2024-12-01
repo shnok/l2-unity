@@ -27,7 +27,7 @@ public class MenuWindow : L2Window
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/MenuWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/MenuWindow/MenuWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)

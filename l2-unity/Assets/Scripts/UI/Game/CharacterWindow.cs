@@ -27,6 +27,7 @@ public class CharacterInfoWindow : L2PopupWindow
     private VisualElement _weightBarBg;
     private VisualElement _expBar;
     private VisualElement _expBarBg;
+    private VisualElement _weightBarContainer;
 
     //combat
     private Label _patkLabel;
@@ -82,7 +83,7 @@ public class CharacterInfoWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/CharacterInfoWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/CharacterInfoWindow/CharacterInfoWindow");
     }
 
     protected override void InitWindow(VisualElement root)
@@ -115,22 +116,28 @@ public class CharacterInfoWindow : L2PopupWindow
         _classLabel = GetLabelById("ClassLabelName");
 
         //bars
-        _hpLabel = GetLabelById("HpLabel");
-        _mpLabel = GetLabelById("MpLabel");
+        VisualElement HPBarContainer = GetElementById("HPBar");
+        VisualElement MPBarContainer = GetElementById("MPBar");
+        VisualElement CPBarContainer = GetElementById("CPBar");
+        VisualElement EXPBarContainer = GetElementById("EXPBar");
+        _weightBarContainer = GetElementById("WeightBar");
+
+        _hpLabel = HPBarContainer.Q<Label>("Text");
+        _mpLabel = MPBarContainer.Q<Label>("Text");
         _spLabel = GetLabelById("SpLabel");
-        _expLabel = GetLabelById("ExpLabel");
-        _weightLabel = GetLabelById("WeightLabel");
-        _cpLabel = GetLabelById("CpLabel");
-        _hpBar = GetElementById("HpGauge");
-        _hpBarBg = GetElementById("HpBg");
-        _mpBar = GetElementById("MpGauge");
-        _mpBarBg = GetElementById("MpBg");
-        _cpBar = GetElementById("CpGauge");
-        _cpBarBg = GetElementById("CpBg");
-        _weightBar = GetElementById("WeightGauge");
-        _weightBarBg = GetElementById("WeightBg");
-        _expBar = GetElementById("ExpGauge");
-        _expBarBg = GetElementById("ExpBg");
+        _expLabel = EXPBarContainer.Q<Label>("Text");
+        _weightLabel = _weightBarContainer.Q<Label>("Text");
+        _cpLabel = CPBarContainer.Q<Label>("Text");
+        _hpBar = HPBarContainer.Q<VisualElement>("Bar");
+        _hpBarBg = HPBarContainer.Q<VisualElement>("BarBg");
+        _mpBar = MPBarContainer.Q<VisualElement>("Bar");
+        _mpBarBg = MPBarContainer.Q<VisualElement>("BarBg");
+        _cpBar = CPBarContainer.Q<VisualElement>("Bar");
+        _cpBarBg = CPBarContainer.Q<VisualElement>("BarBg");
+        _weightBar = _weightBarContainer.Q<VisualElement>("Bar");
+        _weightBarBg = _weightBarContainer.Q<VisualElement>("BarBg");
+        _expBar = EXPBarContainer.Q<VisualElement>("Bar");
+        _expBarBg = EXPBarContainer.Q<VisualElement>("BarBg");
 
         //combat
         _patkLabel = GetLabelById("PAtkLabel");
@@ -313,10 +320,10 @@ public class CharacterInfoWindow : L2PopupWindow
 
             for (int i = 1; i <= 5; i++)
             {
-                _weightBar.RemoveFromClassList("weight-" + i);
+                _weightBarContainer.RemoveFromClassList("weight-" + i);
             }
 
-            _weightBar.parent.AddToClassList("weight-" + ((int)Mathf.Floor(weightRatio / 0.25f) + 1));
+            _weightBarContainer.parent.AddToClassList("weight-" + ((int)Mathf.Floor(weightRatio / 0.25f) + 1));
 
             float barWidth = bgWidth * weightRatio;
             if (stats.MaxWeight == 0)

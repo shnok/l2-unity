@@ -53,10 +53,10 @@ public class SkillbarWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillbarWindow");
-        _skillbarHorizontalTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillBarHorizontal");
-        _skillbarVerticalTemplate = LoadAsset("Data/UI/_Elements/Game/Skillbar/SkillBarVertical");
-        _barSlotTemplate = LoadAsset("Data/UI/_Elements/Components/SkillbarSlot");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/SkillbarWindow/SkillbarWindow");
+        _skillbarHorizontalTemplate = LoadAsset("Data/UI/_Elements/Game/SkillbarWindow/SkillBarHorizontal");
+        _skillbarVerticalTemplate = LoadAsset("Data/UI/_Elements/Game/SkillbarWindow/SkillBarVertical");
+        _barSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/SkillbarSlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
