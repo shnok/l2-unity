@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
-    <ui:VisualElement name="ChatWindow" focusable="true" class="chat-window" style="flex-grow: 0; width: 375px; height: 214px; position: relative; bottom: auto; left: auto; transform-origin: left bottom; top: auto; flex-wrap: nowrap; flex-direction: column; background-color: rgba(0, 0, 0, 0.5);">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/ChatWindow/ChatWindow.uss?fileID=7433441132597879392&amp;guid=0f1fc063049f5064a9a2f798c3ecd11f&amp;type=3#ChatWindow" />
+    <ui:VisualElement name="ChatWindow" focusable="true" class="chat-window">
         <ui:GroupBox name="BGContainer" class="chat-bg-container">
             <ui:VisualElement name="TopBar" style="flex-grow: 0; position: relative; width: 100%; height: 0; background-image: url(&quot;project://database/Assets/Resources/Data/UI/Assets/Chat/chatting_back2.png?fileID=2800000&amp;guid=228dcb20d42da2745a4d74a92874cc16&amp;type=3#chatting_back2&quot;); -unity-slice-scale: 2px; -unity-slice-left: 190; -unity-slice-top: 14; -unity-slice-bottom: -2;" />
             <ui:VisualElement name="TextBG" style="flex-grow: 1; border-left-color: rgba(71, 71, 70, 0); border-right-color: rgba(71, 71, 70, 0); border-top-color: rgba(71, 71, 70, 0); border-bottom-color: rgba(71, 71, 70, 0); background-color: rgba(0, 0, 0, 0.36); margin-top: 0; color: rgb(27, 27, 27);" />
@@ -8,7 +9,7 @@
                 <ui:VisualElement style="flex-grow: 1; width: auto; height: auto; background-image: url(&quot;project://database/Assets/Resources/Data/UI/Assets/Chat/chatting_tab3.png?fileID=2800000&amp;guid=aa71fa816d2652c49a59ca8f1701034a&amp;type=3#chatting_tab3&quot;); background-color: rgba(0, 0, 0, 0); -unity-background-image-tint-color: rgb(255, 255, 255);" />
             </ui:GroupBox>
         </ui:GroupBox>
-        <ui:GroupBox name="Container" focusable="true" class="chat-window" style="flex-shrink: 0; flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgba(7, 5, 3, 0.28);">
+        <ui:GroupBox name="Container" focusable="true" class="chat-window-wrapper">
             <ui:VisualElement name="ChatTabView" focusable="true" class="chat-tab-view">
                 <ui:VisualElement name="tab-header-container" style="flex-direction: row;" />
                 <ui:VisualElement focusable="true" name="tab-content-container" style="flex-grow: 1; flex-shrink: 0; flex-direction: column-reverse;" />
@@ -16,12 +17,12 @@
             <ui:GroupBox name="ChatBar" focusable="true" class="chatbar-container">
                 <ui:GroupBox name="InnerBar" focusable="true" class="chatbar-container-wrapper">
                     <ui:VisualElement name="InputIcon" tabindex="0" class="chatbar-input-icon" />
-                    <ui:TextField name="ChatInputField" password="false" max-length="100" class="chat-input-field" />
+                    <ui:TextField name="ChatInputField" password="false" max-length="100" class="chat-input-field" style="display: none;" />
                 </ui:GroupBox>
             </ui:GroupBox>
             <ui:GroupBox name="ChatOptions" class="chat-options-box" style="justify-content: center;">
-                <ui:Button text="&#10;" name="EnlargeTextBtn" class="chatting-fontsize" style="margin-bottom: 3px;" />
-                <ui:Button text="&#10;" name="ChatOptionsBtn" class="chatting-option" style="margin-top: 2px;" />
+                <ui:Button text="&#10;" name="EnlargeTextBtn" class="chatting-fontsize" />
+                <ui:Button text="&#10;" name="ChatOptionsBtn" class="chatting-option" />
             </ui:GroupBox>
             <ui:VisualElement name="ChatResizeBtn" class="resize-diag chat-resize-btn" />
         </ui:GroupBox>
