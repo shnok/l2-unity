@@ -357,11 +357,11 @@ public class InventoryWindow : L2PopupWindow
 
             for (int i = 1; i <= 5; i++)
             {
-                _weightBarContainer.parent.RemoveFromClassList("weight-" + i);
+                _weightBarContainer.RemoveFromClassList("weight-" + i);
             }
 
             int weightLevel = (int)Mathf.Floor(weightRatio / 0.25f) + 1;
-            _weightBarContainer.parent.AddToClassList("weight-" + weightLevel);
+            _weightBarContainer.AddToClassList("weight-" + weightLevel);
 
             float barWidth = bgWidth * weightRatio;
             _weightBar.style.width = barWidth;
