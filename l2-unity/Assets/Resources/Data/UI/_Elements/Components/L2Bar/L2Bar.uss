@@ -1,6 +1,6 @@
 .l2-bar {
-    height: 14px;
-    max-height: 14px;
+    height: 12px;
+    max-height: 12px;
     flex-direction: row;
     flex-grow: 1;
 }
@@ -57,6 +57,12 @@
     overflow: hidden;
     position: absolute;
     width: 100%;
+}
+
+.l2-bar-container-wrap {
+    flex-grow: 1;
+    min-height: 12px;
+    max-height: 12px;
 }
 
 .l2-bar .l2-bar-bg .l2-bar-left {
@@ -314,8 +320,26 @@
     -unity-text-outline-color: rgba(0, 0, 0, 0.6);
 }
 
-.l2-bar-container {
-    flex-grow: 1;
-    height: 14px;
-    max-height: 14px;
+.l2-bar.status .l2-bar-status-label {
+    display: flex;
+}
+
+.l2-bar-status-label {
+    position: absolute;
+    display: none;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 8px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-font-definition: resource('Data/UI/Assets/Font/asiahm-medium');
+    text-shadow: 0.9px 0.9px 3px rgb(0, 0, 0);
+    -unity-text-outline-width: 0.7px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+    letter-spacing: -18px;
+    font-size: 12px;
 }

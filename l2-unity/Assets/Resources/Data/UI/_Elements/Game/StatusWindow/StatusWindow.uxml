@@ -15,16 +15,20 @@
                 <ui:Label text="Shnok" name="PlayerNameText" class="l2-color-4" style="align-items: auto; margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; -unity-font-definition: url(&quot;project://database/Assets/Resources/Data/UI/Assets/Font/tahoma.ttf?fileID=12800000&amp;guid=96fb7a735e76e0742bf125e2d4734bf3&amp;type=3#tahoma&quot;); -unity-text-outline-width: 0.3px; text-shadow: 0.5px 0.5px 0 rgb(0, 0, 0); letter-spacing: 3px; font-size: 11px; width: auto; scale: 1 1;" />
             </ui:VisualElement>
             <ui:GroupBox name="BarGroup" class="status-window-row-2">
-                <ui:Instance template="L2Bar" name="CPBar" class="l2-bar cp" />
-                <ui:Instance template="L2Bar" name="HPBar" class="l2-bar" />
-                <ui:Instance template="L2Bar" name="MPBar" class="l2-bar mp" />
+                <ui:Instance template="L2Bar" name="CPBar" class="l2-bar cp status">
+                    <AttributeOverrides element-name="StatusLabel" text="CP" />
+                </ui:Instance>
+                <ui:Instance template="L2Bar" name="HPBar" class="l2-bar status" />
+                <ui:Instance template="L2Bar" name="MPBar" class="l2-bar mp status">
+                    <AttributeOverrides element-name="StatusLabel" text="MP" />
+                </ui:Instance>
                 <ui:Instance template="L2Bar" name="EXPBar" class="l2-bar exp">
                     <AttributeOverrides element-name="Text" text="00.00%" />
                 </ui:Instance>
             </ui:GroupBox>
         </ui:GroupBox>
         <ui:VisualElement name="SizeControl" class="status-window-size-control">
-            <ui:VisualElement name="SizeControl" class="status-window-resize-handle" />
+            <ui:VisualElement name="SizeControl" class="status-window-resize-handle resize-hor" />
         </ui:VisualElement>
     </ui:GroupBox>
 </ui:UXML>

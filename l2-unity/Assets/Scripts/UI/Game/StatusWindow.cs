@@ -63,6 +63,11 @@ public class StatusWindow : L2Window
             horizontalResizeHandle, _windowEle, _statusWindowMinWidth, _statusWindowMaxWidth);
         horizontalResizeHandle.AddManipulator(horizontalResize);
 
+        _windowEle.RegisterCallback<GeometryChangedEvent>((evt) =>
+        {
+            UpdateStatusValues();
+        });
+
         _nameLabel = (Label)GetElementById("PlayerNameText");
         if (_nameLabel == null)
         {
@@ -151,6 +156,12 @@ public class StatusWindow : L2Window
         {
             Debug.LogError("Status windowar XPBar is null");
         }
+
+        VisualElement bgContainer = GetElementById("CenterContainer");
+        bgContainer.RegisterCallback<MouseDownEvent>((evt) =>
+        {
+            OnClickSelf();
+        }, TrickleDown.TrickleDown);
     }
 
     void FixedUpdate()
@@ -164,6 +175,11 @@ public class StatusWindow : L2Window
             _lastUpdateTime = Time.time;
         }
 
+        UpdateStatusValues();
+    }
+
+    private void UpdateStatusValues()
+    {
         if (PlayerEntity.Instance == null)
         {
             return;
@@ -258,6 +274,11 @@ public class StatusWindow : L2Window
     }
 
     public override void OnClick()
+    {
+        OnClickSelf();
+    }
+
+    private void OnClickSelf()
     {
         ObjectData data = new ObjectData(PlayerEntity.Instance.transform.gameObject);
         TargetManager.Instance.SetTarget(data);

@@ -73,24 +73,34 @@ public class ActionWindow : L2PopupWindow
         _slots = new List<ActionSlot>();
 
         int position = 0;
+
+        ActionSlot slot;
         for (int i = 0; i < SLOTS_PER_ROW * 4; i++)
         {
-            AddSlot(position++, _basicContainer);
+            slot = AddSlot(position++, _basicContainer);
+            if (i < SLOTS_PER_ROW)
+                slot.SlotElement.AddToClassList("disabled");
         }
 
         for (int i = 0; i < SLOTS_PER_ROW * 2; i++)
         {
-            AddSlot(position++, _partyContainer);
+            slot = AddSlot(position++, _partyContainer);
+            if (i < SLOTS_PER_ROW)
+                slot.SlotElement.AddToClassList("disabled");
         }
 
         for (int i = 0; i < SLOTS_PER_ROW * 2; i++)
         {
-            AddSlot(position++, _tokenContainer);
+            slot = AddSlot(position++, _tokenContainer);
+            if (i < SLOTS_PER_ROW)
+                slot.SlotElement.AddToClassList("disabled");
         }
 
         for (int i = 0; i < SLOTS_PER_ROW * 3; i++)
         {
-            AddSlot(position++, _socialContainer);
+            slot = AddSlot(position++, _socialContainer);
+            if (i < SLOTS_PER_ROW)
+                slot.SlotElement.AddToClassList("disabled");
         }
 
         _slots[0].AssignAction(ActionType.Sit);
@@ -101,13 +111,14 @@ public class ActionWindow : L2PopupWindow
         _slots[5].AssignAction(ActionType.Assist);
     }
 
-    private void AddSlot(int position, VisualElement container)
+    private ActionSlot AddSlot(int position, VisualElement container)
     {
         VisualElement slotElement = _slotTemplate.Instantiate()[0];
         container.Add(slotElement);
 
         ActionSlot slot = new ActionSlot(slotElement, position, L2Slot.SlotType.Action);
         _slots.Add(slot);
+        return slot;
     }
 
     public override void ShowWindow()

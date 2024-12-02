@@ -323,7 +323,7 @@ public class CharacterInfoWindow : L2PopupWindow
                 _weightBarContainer.RemoveFromClassList("weight-" + i);
             }
 
-            _weightBarContainer.parent.AddToClassList("weight-" + ((int)Mathf.Floor(weightRatio / 0.25f) + 1));
+            _weightBarContainer.AddToClassList("weight-" + ((int)Mathf.Floor(weightRatio / 0.25f) + 1));
 
             float barWidth = bgWidth * weightRatio;
             if (stats.MaxWeight == 0)

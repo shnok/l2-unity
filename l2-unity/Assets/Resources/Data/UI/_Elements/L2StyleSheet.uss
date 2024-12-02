@@ -71,10 +71,6 @@
     rotate: 180deg;
 }
 
-.character-info-window .unity-label {
-    -unity-text-outline-width: 0.1px;
-}
-
 .close-btn {
     background-color: transparent;
     -unity-background-image-tint-color: rgb(255, 255, 255);
@@ -397,6 +393,8 @@
     padding-left: 0;
     flex-shrink: 1;
     height: 38px;
+    min-height: 38px;
+    max-height: 38px;
     flex-direction: row;
 }
 
@@ -415,13 +413,19 @@
     flex-grow: 0;
     background-image: resource('Data/UI/Assets/Frame/Frame_DF_Hor_Large/Frame_DF_Hor_Large_Left');
     width: 32px;
+    min-width: 32px;
+    max-width: 32px;
     height: 64px;
+    min-height: 64px;
+    max-height: 64px;
     flex-shrink: 0;
 }
 
 .frame_df_hor_large_tile {
     flex-grow: 1;
     height: 64px;
+    min-height: 64px;
+    max-height: 64px;
     background-image: resource('Data/UI/Assets/Frame/Frame_DF_Hor_Large/Frame_DF_Hor_Large_Tile');
 }
 
@@ -430,6 +434,8 @@
     background-image: resource('Data/UI/Assets/Frame/Frame_DF_Hor_Large/Frame_DF_Hor_Large_Center');
     width: 128px;
     height: 64px;
+    min-height: 64px;
+    max-height: 64px;
     flex-shrink: 1;
 }
 
@@ -437,7 +443,11 @@
     flex-grow: 0;
     background-image: resource('Data/UI/Assets/Frame/Frame_DF_Hor_Large/Frame_DF_Hor_Large_Right');
     width: 32px;
+    min-width: 32px;
+    max-width: 32px;
     height: 64px;
+    min-height: 64px;
+    max-height: 64px;
     flex-shrink: 0;
 }
 
@@ -540,3 +550,5 @@
 .l2-color-4 {
     color: rgb(220, 220, 220);
 }
+
+
