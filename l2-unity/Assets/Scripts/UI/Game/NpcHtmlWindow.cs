@@ -99,10 +99,10 @@ public class NpcHtmlWindow : L2PopupWindow
         // <a action=""bypass -h npc_%objectId%_Quest"">Quest</a><br>
         // </body></html>
         // ", 0);
-        //         RefreshContent(0,
-        // @"<html><title>Server menu</title><body><center><table width=260><tr><td><button value=""Main"" action=""bypass -h admin_admin"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Game"" action=""bypass -h admin_admin 2"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Effects"" action=""bypass -h admin_admin 3"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Server"" action=""bypass -h admin_admin 4"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><img src=""l2ui.SquareWhite"" width=275 height=1><br><table width=240><tr><td>QuickBox</td><td><edit var=""menu_command"" width=120 height=15></td><td><button value=""Help"" action=""bypass -h admin_help"" width=45 height=15 back=""sek.cbui94"" fore=""sek.cbui92""></td></tr></table><br>Reload<table width=240><tr><td><combobox width=160 height=21 var=""cb"" list=admin;announcement;buylist;config;crest;cw;door;htm;item;multisell;npc;npcwalker;script;skill;teleport;zone;></td><td><button value=""Reload"" action=""bypass -h admin_reload $cb"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><br>Zones / Territories<table width=240><tr><td><button value=""Zone Check"" action=""bypass -h admin_zone"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Maker Check"" action=""bypass -h admin_maker"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td width=75></td></tr><tr><td><button value=""Territory Goto"" action=""bypass -h admin_terr goto $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Maker Info"" action=""bypass -h admin_maker $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td></td></tr></table><br>GeoEngine<table width=240><tr><td><button value=""Position Info"" action=""bypass -h admin_geo pos"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Beeline Test"" action=""bypass -h admin_geo move"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Path Find"" action=""bypass -h admin_path find"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td></tr><tr><td><button value=""Path Info"" action=""bypass -h admin_path info"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""LoS Test"" action=""bypass -h admin_geo see"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Report Geo Bug"" action=""bypass -h admin_geo bug $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td></tr></table><br>Maintenance / Development<table width=240><tr><td><button value=""Maintenance"" action=""bypass -h admin_server"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Announce"" action=""bypass -h admin_link announce.htm"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""SysMessage"" action=""bypass -h admin_msg $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td></tr></table>
-        // </center></body></html>
-        // ", 0);
+        RefreshContent(0,
+@"<html><title>Server menu</title><body><center><table width=260><tr><td><button value=""Main"" action=""bypass -h admin_admin"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Game"" action=""bypass -h admin_admin 2"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Effects"" action=""bypass -h admin_admin 3"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td><td><button value=""Server"" action=""bypass -h admin_admin 4"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><img src=""l2ui.SquareWhite"" width=275 height=1><br><table width=240><tr><td>QuickBox</td><td><edit var=""menu_command"" width=120 height=15></td><td><button value=""Help"" action=""bypass -h admin_help"" width=45 height=15 back=""sek.cbui94"" fore=""sek.cbui92""></td></tr></table><br>Reload<table width=240><tr><td><combobox width=160 height=21 var=""cb"" list=admin;announcement;buylist;config;crest;cw;door;htm;item;multisell;npc;npcwalker;script;skill;teleport;zone;></td><td><button value=""Reload"" action=""bypass -h admin_reload $cb"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr></table><br>Zones / Territories<table width=240><tr><td><button value=""Zone Check"" action=""bypass -h admin_zone"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Maker Check"" action=""bypass -h admin_maker"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td width=75></td></tr><tr><td><button value=""Territory Goto"" action=""bypass -h admin_terr goto $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Maker Info"" action=""bypass -h admin_maker $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td></td></tr></table><br>GeoEngine<table width=240><tr><td><button value=""Position Info"" action=""bypass -h admin_geo pos"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Beeline Test"" action=""bypass -h admin_geo move"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Path Find"" action=""bypass -h admin_path find"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td></tr><tr><td><button value=""Path Info"" action=""bypass -h admin_path info"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""LoS Test"" action=""bypass -h admin_geo see"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Report Geo Bug"" action=""bypass -h admin_geo bug $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td></tr></table><br>Maintenance / Development<table width=240><tr><td><button value=""Maintenance"" action=""bypass -h admin_server"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""Announce"" action=""bypass -h admin_link announce.htm"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td><td><button value=""SysMessage"" action=""bypass -h admin_msg $menu_command"" width=75 height=21 back=""L2UI_ch3.Btn1_normalOn"" fore=""L2UI_ch3.Btn1_normal""></td></tr></table>
+        </center></body></html>
+        ", 0);
         //         RefreshContent(0,
         // @"<table width=280 height=45><tr><td width=70 align=center>Search</td><td width=140><edit var=""search"" width=130 height=15></td><td width=70><button value=""Find"" action=""bypass admin_help 1 $search"" width=65 height=19 back=""L2UI_ch3.smallbutton2_over"" fore=""L2UI_ch3.smallbutton2""></td></tr><tr><td></td><td align=center>Found 93 results</td><td></td></tr></table><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//admin</color> <color=#33cccc>[1-4]</color><br1>Go through the different admin panels.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41><tr><td width=280 height=34><color=#FFC900>//buy</color> <color=#33cccc>[id]</color><br1>Open the GM Shop panel, or the associated BuyList.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//camera</color><br1>Toggle the CameraMode.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41><tr><td width=280 height=34><color=#FFC900>//gmlist</color><br1>Toggle you from /gmlist results.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//gmoff</color> <color=#33cccc>[duration]</color><br1>Toggle off your GM status, 1min by default.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41><tr><td width=280 height=34><color=#FFC900>//help</color> <color=#33cccc>[page]</color><br1>Open this panel.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 height=41 bgcolor=000000><tr><td width=280 height=34><color=#FFC900>//link</color> <color=#33cccc>file name</color><br1>Open the proper admin htm.</td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1><table width=280 bgcolor=000000><tr><td FIXWIDTH=22 align=center><img height=2><button action=""bypass admin_help 1 "" back=L2UI_CH3.prev1_down fore=L2UI_CH3.prev1 width=16 height=16></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center></td><td FIXWIDTH=26 align=center><font color=LEVEL>01</font></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 2 "">02</a></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 3 "">03</a></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 4 "">04</a></td><td FIXWIDTH=26 align=center><a action=""bypass admin_help 5 "">05</a></td><td FIXWIDTH=22 align=center><img height=2><button action=""bypass admin_help 14 "" back=L2UI_CH3.next1_down fore=L2UI_CH3.next1 width=16 height=16></td></tr></table><img src=""L2UI.SquareGray"" width=280 height=1>", 0);
         //     RefreshContent(0,
@@ -673,8 +673,8 @@ public class NpcHtmlWindow : L2PopupWindow
         if (attributes.TryGetValue("width", out string width))
         {
             int widthPx = int.Parse(width) + 0;
-            dropdown.style.minWidth = widthPx - 36;
-            dropdown.style.width = widthPx - 36;
+            dropdown.style.minWidth = Math.Max(40, widthPx - 50);
+            dropdown.style.width = Math.Max(40, widthPx - 50);
         }
         if (attributes.TryGetValue("height", out string height))
         {
@@ -773,8 +773,8 @@ public class NpcHtmlWindow : L2PopupWindow
 
         if (attributes.TryGetValue("width", out string width))
         {
-            button.style.minWidth = int.Parse(width) + 0;
-            button.style.width = int.Parse(width) + 0;
+            button.style.minWidth = int.Parse(width) - 5;
+            button.style.width = int.Parse(width) - 5;
         }
         if (attributes.TryGetValue("height", out string height))
         {
@@ -802,18 +802,16 @@ public class NpcHtmlWindow : L2PopupWindow
                 {
                     label.text = "<";
                 }
+                else
+                {
+                    label.text = "*";
+                }
             }
             else
             {
                 label.text = "*";
             }
         }
-
-        button.style.marginTop = 0;
-        button.style.marginRight = 0;
-        button.style.marginLeft = 0;
-        button.style.marginBottom = 0;
-        button.style.fontSize = 11;
 
         button.AddManipulator(new ButtonClickSoundManipulator(button));
 
@@ -822,14 +820,13 @@ public class NpcHtmlWindow : L2PopupWindow
 
     private void AddInputField(VisualElement container, Dictionary<string, string> attributes)
     {
-        VisualElement textField = _l2Input.Instantiate()[0];
-        TextField textFieldEle = (TextField)textField.Q("InputField");
+        TextField textField = (TextField)_l2Input.Instantiate()[0];
 
         if (attributes.TryGetValue("width", out string width))
         {
             int widthPx = int.Parse(width) + 0;
-            textField.style.minWidth = widthPx - 36;
-            textField.style.width = widthPx - 36;
+            textField.style.minWidth = Math.Max(40, widthPx - 50);
+            textField.style.width = Math.Max(40, widthPx - 50);
         }
         if (attributes.TryGetValue("height", out string height))
         {
@@ -840,19 +837,14 @@ public class NpcHtmlWindow : L2PopupWindow
 
         if (attributes.TryGetValue("var", out string dropdownIndex))
         {
-            textFieldEle.RegisterValueChangedCallback((newVal) =>
+            textField.RegisterValueChangedCallback((newVal) =>
             {
                 _inputValues[dropdownIndex] = newVal.newValue;
                 Debug.LogWarning($"{dropdownIndex} = {newVal.newValue}");
             });
         }
 
-        textField.style.marginTop = 2;
-        textField.style.marginLeft = 5;
-        textField.style.marginRight = 5;
-        textFieldEle.style.fontSize = 11;
-
-        textFieldEle.AddManipulator(new BlinkingCursorManipulator(textFieldEle));
+        textField.AddManipulator(new BlinkingCursorManipulator(textField));
 
         container.Add(textField);
     }
@@ -913,6 +905,14 @@ public class NpcHtmlWindow : L2PopupWindow
         {
             tableContainer.style.height = int.Parse(tableHeight);
         }
+        if (attributes.TryGetValue("width", out string tableWidth))
+        {
+            tableContainer.style.width = int.Parse(tableWidth);
+        }
+        else
+        {
+            tableContainer.style.width = new Length(100f, LengthUnit.Percent);
+        }
         if (attributes.TryGetValue("bgcolor", out string color))
         {
             tableContainer.style.backgroundColor = ColorUtils.HexToColor(color + "FF");
@@ -922,22 +922,15 @@ public class NpcHtmlWindow : L2PopupWindow
             tableContainer.style.alignSelf = Align.Center;
         }
 
-        tableContainer.style.marginTop = 2;
-        tableContainer.style.marginBottom = 2;
-        tableContainer.style.paddingTop = 2;
-
-        // tableContainer.style.backgroundColor = Color.red;
-
         Debug.LogWarning("tableHtml: " + StringUtils.Base64Encode(tableHtml));
 
         // Table content
         var rows = Regex.Matches(tableHtml, @"<tr>(.*?)</tr>", RegexOptions.Singleline);
         int colCount = 0;
+
         foreach (Match row in rows)
         {
             VisualElement rowElement = _htmlRow.Instantiate()[0];
-
-            // rowElement.style.backgroundColor = Color.yellow;
 
             Debug.LogWarning("rowhtml: " + StringUtils.Base64Encode(row.Groups[1].Value));
 
@@ -949,6 +942,7 @@ public class NpcHtmlWindow : L2PopupWindow
             string contentPattern = @"<td[^>]*>(.*?)</td>";
 
             var cells = Regex.Matches(row.Groups[1].Value, contentPattern, RegexOptions.Singleline);
+
             foreach (Match cell in cells)
             {
                 if (colCount == 0)
@@ -957,10 +951,6 @@ public class NpcHtmlWindow : L2PopupWindow
                 }
 
                 VisualElement cellElement = _htmlCell.Instantiate()[0];
-
-                // cellElement.style.backgroundColor = Color.blue;
-                // cellElement.style.borderLeftColor = Color.black;
-                // cellElement.style.borderLeftWidth = 2;
 
                 string cellText = cell.Value;
                 Debug.LogWarning("colhtml: " + StringUtils.Base64Encode(cellText));
@@ -986,18 +976,26 @@ public class NpcHtmlWindow : L2PopupWindow
                 var contentMatch = Regex.Match(cellText, contentPattern);
                 string content = contentMatch.Success ? contentMatch.Groups[1].Value : "";
 
+                int customWidth = 0;
                 if (width.Length > 0)
                 {
-                    cellElement.style.width = int.Parse(width);// - 36;
+                    customWidth = int.Parse(width);// * 0.788f;// - 36;
                 }
                 else if (width2.Length > 0)
                 {
-                    cellElement.style.width = int.Parse(width2);// - 36;
+                    customWidth = int.Parse(width2);// * 0.788f;// - 36;
                 }
-                // else
-                // {
-                //     cellElement.style.width = new Length(100f / colCount, LengthUnit.Percent);
-                // }
+
+                if (customWidth == 0)
+                {
+                    cellElement.style.width = new Length(100f / colCount, LengthUnit.Percent);
+                }
+                else if (customWidth < 120)
+                {
+                    cellElement.style.width = customWidth;
+                    cellElement.style.flexGrow = 0;
+                }
+
 
                 if (height.Length > 0)
                 {
@@ -1016,15 +1014,6 @@ public class NpcHtmlWindow : L2PopupWindow
                         cellElement.style.alignItems = Align.FlexEnd;
                         break;
                 }
-
-                // if (_centerEverything)
-                // {
-                //     cellElement.style.alignItems = Align.Center;
-                // }
-
-                cellElement.style.justifyContent = Justify.Center;
-
-                // cellElement.style.backgroundColor = Color.red;
 
                 rowElement.Add(cellElement);
 
