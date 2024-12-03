@@ -39,7 +39,6 @@ public class LoginWindow : L2Window
         InitWindow(root);
         _logo = root.Q<VisualElement>("L2Logo");
 
-        GameManager.Instance.OnLoginUILoaded();
 
         yield return new WaitForEndOfFrame();
 
@@ -73,6 +72,8 @@ public class LoginWindow : L2Window
         _passwordInput.RegisterCallback<KeyDownEvent>((evt) => OnKeyPressed(evt, _passwordInput));
 
         _userInput.Focus();
+
+        GameManager.Instance.NotifyEvent(GameEvent.LOADING_COMPLETE);
     }
 
     private void OnKeyPressed(KeyDownEvent evt, TextField input)

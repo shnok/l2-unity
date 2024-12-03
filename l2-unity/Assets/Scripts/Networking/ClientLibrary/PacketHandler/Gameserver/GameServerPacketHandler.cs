@@ -204,13 +204,12 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnCharSelectionInfoReceive(byte[] data)
     {
         Debug.LogWarning("OnCharSelectionInfoReceive");
-        Debug.LogWarning(GameManager.Instance.GameState);
         CharSelectionInfoPacket packet = new CharSelectionInfoPacket(data);
 
         CharacterSelector.Instance.Characters = packet.Characters;
         CharacterSelector.Instance.DefaultSelectedSlot = packet.SelectedSlotId;
 
-        if (GameManager.Instance.GameState != GameState.RESTARTING)
+        if (GameManager.Instance.State != GameState.RESTARTING)
         {
             Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
 
@@ -316,33 +315,33 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnInitialPlayerInfoReceived(byte[] data)
     {
-        CharSelectedPacket packet = new CharSelectedPacket(data);
-        if (GameManager.Instance.GameState != GameState.IN_GAME)
-        {
-            _eventProcessor.QueueEvent(() =>
-            {
-                GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
-                GameManager.Instance.OnCharacterSelect();
-            });
-        }
+        // CharSelectedPacket packet = new CharSelectedPacket(data);
+        // if (GameManager.Instance.State != GameState.IN_GAME)
+        // {
+        //     _eventProcessor.QueueEvent(() =>
+        //     {
+        //         GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
+        //         GameManager.Instance.OnCharacterSelect();
+        //     });
+        // }
     }
 
     private void OnPlayerInfoReceive(byte[] data)
     {
-        PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        if (packet.Identity.Owned)
-        {
-            WorldSpawner.Instance.OnReceivePlayerInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo);
+        // PlayerInfoPacket packet = new PlayerInfoPacket(data);
+        // if (packet.Identity.Owned)
+        // {
+        //     WorldSpawner.Instance.OnReceivePlayerInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo);
 
-            PlayerInventory.Instance.SetInventorySize(packet.InventorySpace);
-            // Additional player information received, only now is the right time to show the UI/World to avoid visual bugs
-            GameManager.Instance.OnPlayerInfoReceive();
-        }
-        else
-        {
-            Debug.LogError("Player info but id doesn't match!");
-            // World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.Running);
-        }
+        //     PlayerInventory.Instance.SetInventorySize(packet.InventorySpace);
+        //     // Additional player information received, only now is the right time to show the UI/World to avoid visual bugs
+        //     GameManager.Instance.OnPlayerInfoReceive();
+        // }
+        // else
+        // {
+        //     Debug.LogError("Player info but id doesn't match!");
+        //     // World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.Running);
+        // }
     }
 
     private void OnUserInfoReceived(byte[] data)
@@ -476,12 +475,12 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnRestartResponse(byte[] data)
     {
-        RestartResponsePacket packet = new RestartResponsePacket(data);
-        if (packet.Allowed)
-        {
-            // Do nothing, handle upcoming charselect packet instead
-            GameManager.Instance.GameState = GameState.RESTARTING;
-        }
+        // RestartResponsePacket packet = new RestartResponsePacket(data);
+        // if (packet.Allowed)
+        // {
+        //     // Do nothing, handle upcoming charselect packet instead
+        //     GameManager.Instance.GameState = GameState.RESTARTING;
+        // }
     }
 
     private void OnShortcutInit(byte[] data)

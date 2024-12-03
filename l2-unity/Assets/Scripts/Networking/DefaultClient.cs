@@ -104,7 +104,7 @@ public abstract class DefaultClient : MonoBehaviour
     public virtual void OnDisconnect()
     {
         _connected = false;
-        GameManager.Instance.OnDisconnect();
+        GameManager.Instance.NotifyEvent(GameEvent.DISCONNECTED);
     }
 
 #if UNITY_EDITOR

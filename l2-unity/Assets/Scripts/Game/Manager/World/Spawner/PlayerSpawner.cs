@@ -88,7 +88,9 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         // Player-specific updates
         CharacterInfoWindow.Instance.UpdateValues();
         InventoryWindow.Instance.RefreshWeight();
-        GameManager.Instance.OnPlayerInfoReceive();
+
+        GameManager.Instance.NotifyEvent(GameEvent.CHAR_LOADED);
+
         NetworkTransformShare.Instance.SharePosition();
     }
 

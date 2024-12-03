@@ -105,7 +105,7 @@ public class LoginClient : DefaultClient
 
         Debug.Log("Connected to LoginServer");
 
-        GameManager.Instance.OnLoginServerConnected();
+        GameManager.Instance.NotifyEvent(GameEvent.CONNECT_ALLOWED);
     }
 
     public override void OnConnectionFailed()
@@ -116,22 +116,22 @@ public class LoginClient : DefaultClient
     public override void OnAuthAllowed()
     {
         Debug.Log("Authed to LoginServer");
-        GameManager.Instance.OnLoginServerAuthAllowed();
+        GameManager.Instance.NotifyEvent(GameEvent.AUTH_ALLOWED);
     }
 
     public void OnPlayOk()
     {
-        GameManager.Instance.OnLoginServerPlayOk();
+        // GameManager.Instance.OnLoginServerPlayOk();
 
-        if (GameManager.Instance.GameState == GameState.READY_TO_CONNECT)
-        {
-            GameClient.Instance.Connect();
-        }
+        // if (GameManager.Instance.GameState == GameState.READY_TO_CONNECT)
+        // {
+        //     GameClient.Instance.Connect();
+        // }
     }
 
     public void OnServerListReceived(byte lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers)
     {
-        GameManager.Instance.OnReceivedServerList(lastServer, serverData, charsOnServers);
+        // GameManager.Instance.OnReceivedServerList(lastServer, serverData, charsOnServers);
     }
 
     public void OnServerSelected(int serverId)

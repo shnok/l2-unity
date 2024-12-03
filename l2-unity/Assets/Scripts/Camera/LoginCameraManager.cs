@@ -21,10 +21,7 @@ public class LoginCameraManager : MonoBehaviour
         {
             Destroy(this);
         }
-    }
 
-    private void Start()
-    {
         if (!_initialized)
         {
             Initialize();
@@ -45,7 +42,9 @@ public class LoginCameraManager : MonoBehaviour
 
         DisableCameras();
 
-        GameManager.Instance.OnLoginCamerasInitialized();
+        // GameManager.Instance.OnLoginCamerasInitialized();
+
+        // GameManager.Instance.NotifyEvent(GameEvent.LOADING_COMPLETE);
     }
 
     public Camera SelectClassCamera(string race, string charClass)

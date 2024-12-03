@@ -228,7 +228,7 @@ public class CharCreationWindow : L2Window
         raceManipulator.ClearInput();
         userInputField.value = "";
 
-        GameManager.Instance.OnAuthAllowed();
+        GameManager.Instance.NotifyEvent(GameEvent.RETURN);
     }
 
     private void ShowRotatePawnWindow()
