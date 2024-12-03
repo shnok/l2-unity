@@ -443,13 +443,19 @@ public class GameManager : MonoBehaviour
             GameState.LOGIN_SCREEN => new LoginState(this),
             GameState.LOGIN_CONNECTED => new LoginConnectedState(this),
             GameState.LOGIN_AUTHED => new LoginAuthedState(this),
+            GameState.CHAR_SELECT => new CharSelectState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }
 
     public void NotifyEvent(GameEvent evt)
     {
+        NotifyEvent(evt, null);
+    }
+
+    public void NotifyEvent(GameEvent evt, object arg0)
+    {
         if (_enableLogs) Debug.Log("[GameStateMachine][EVENT] " + evt);
-        _stateInstance?.HandleEvent(evt);
+        _stateInstance?.HandleEvent(evt, arg0);
     }
 }

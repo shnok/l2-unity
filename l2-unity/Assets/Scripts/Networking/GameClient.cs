@@ -86,6 +86,7 @@ public class GameClient : DefaultClient
         Debug.Log("Authed to GameServer.");
 
         // GameManager.Instance.OnAuthAllowed();
+        GameManager.Instance.NotifyEvent(GameEvent.AUTH_ALLOWED);
     }
 
     public void OnCharSelectAllowed()
@@ -98,6 +99,8 @@ public class GameClient : DefaultClient
     {
         base.OnDisconnect();
         Debug.Log("Disconnected from GameServer.");
+        GameManager.Instance.NotifyEvent(GameEvent.GAME_DISCONNECTED);
+
     }
 
     public void OnCharCreateOk()

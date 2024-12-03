@@ -10,5 +10,5 @@ public abstract class GameStateBase
     public virtual void Enter(object arg0) { }
     public virtual void Exit() { }
     public virtual void Update() { }
-    public virtual void HandleEvent(GameEvent evt) { }
+    public virtual void HandleEvent(GameEvent evt, object arg0) { }
 }

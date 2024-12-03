@@ -13,7 +13,7 @@ public class LoginState : GameStateBase
 
     }
 
-    public override void HandleEvent(GameEvent evt)
+    public override void HandleEvent(GameEvent evt, object arg0)
     {
         switch (evt)
         {

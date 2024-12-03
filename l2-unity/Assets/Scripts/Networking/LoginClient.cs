@@ -127,10 +127,18 @@ public class LoginClient : DefaultClient
         // {
         //     GameClient.Instance.Connect();
         // }
+
+        GameManager.Instance.NotifyEvent(GameEvent.PLAY_ALLOWED);
     }
 
-    public void OnServerListReceived(byte lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers)
+    public void OnServerListReceived(ServerListPacket packet)
     {
+        GameManager.Instance.NotifyEvent(GameEvent.SERVER_LIST_RECEIVED, packet);
+        // /         GameState = GameState.SERVER_LIST;
+
+        //         L2LoginUI.Instance.ShowServerSelectWindow();
+
+        //         ServerSelectWindow.Instance.UpdateServerList(lastServer, serverData, charsOnServers);
         // GameManager.Instance.OnReceivedServerList(lastServer, serverData, charsOnServers);
     }
 
@@ -144,5 +152,7 @@ public class LoginClient : DefaultClient
         base.OnDisconnect();
 
         Debug.Log("Disconnected from LoginServer.");
+
+        GameManager.Instance.NotifyEvent(GameEvent.LOGIN_DISCONNECTED);
     }
 }

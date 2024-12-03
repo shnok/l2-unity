@@ -85,8 +85,12 @@ public class ServerSelectWindow : L2Window
         yield return new WaitForEndOfFrame();
     }
 
-    public void UpdateServerList(int lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers)
+    public void UpdateServerList(ServerListPacket packet)
     {
+        int lastServer = packet.LastServer;
+        List<ServerData> serverData = packet.ServersData;
+        Dictionary<int, int> charsOnServers = packet.CharsOnServers;
+
         ResetWindow();
 
         _serverData = serverData;

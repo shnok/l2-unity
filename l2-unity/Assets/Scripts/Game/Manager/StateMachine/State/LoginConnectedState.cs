@@ -10,14 +10,14 @@ public class LoginConnectedState : GameStateBase
 
     }
 
-    public override void HandleEvent(GameEvent evt)
+    public override void HandleEvent(GameEvent evt, object arg0)
     {
         switch (evt)
         {
             case GameEvent.AUTH_ALLOWED:
                 _stateMachine.ChangeState(GameState.LOGIN_AUTHED);
                 break;
-            case GameEvent.DISCONNECTED:
+            case GameEvent.LOGIN_DISCONNECTED:
                 _stateMachine.ChangeState(GameState.LOGIN_SCREEN);
                 break;
             default:
