@@ -89,6 +89,8 @@ public class TargetWindow : L2PopupWindow
         _windowEle.style.position = Position.Absolute;
         _windowEle.style.left = Screen.width / 2f - _windowEle.resolvedStyle.width / 2f;
         _windowEle.style.top = 0;
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     private void FixedUpdate()

@@ -63,8 +63,6 @@ public class GameClient : DefaultClient
     protected override void WhileConnecting()
     {
         base.WhileConnecting();
-
-        GameManager.Instance.OnConnectingToGameServer();
     }
 
     protected override void OnConnectionSuccess()
@@ -84,24 +82,12 @@ public class GameClient : DefaultClient
     public override void OnAuthAllowed()
     {
         Debug.Log("Authed to GameServer.");
-
-        GameManager.Instance.OnAuthAllowed();
-    }
-
-    public void OnCharSelectAllowed()
-    {
-        Debug.Log("Return to character selection.");
-        GameManager.Instance.OnCharSelectAllowed();
     }
 
     public override void OnDisconnect()
     {
         base.OnDisconnect();
         Debug.Log("Disconnected from GameServer.");
-    }
-
-    public void OnCharCreateOk()
-    {
-        GameManager.Instance.OnCharCreateOk();
+        GameManager.Instance.NotifyEvent(GameEvent.GAME_DISCONNECTED);
     }
 }

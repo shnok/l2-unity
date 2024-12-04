@@ -30,7 +30,7 @@ public class GameServerPacketHandler : ServerPacketHandler
                 OnSystemMessageReceive(data);
                 break;
             case GameServerPacketType.CharSelected:
-                OnInitialPlayerInfoReceived(data);
+                OnCharSelected(data);
                 break;
             case GameServerPacketType.ObjectPosition:
                 OnUpdatePosition(data);
@@ -204,25 +204,28 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnCharSelectionInfoReceive(byte[] data)
     {
         Debug.LogWarning("OnCharSelectionInfoReceive");
-        Debug.LogWarning(GameManager.Instance.GameState);
         CharSelectionInfoPacket packet = new CharSelectionInfoPacket(data);
 
         CharacterSelector.Instance.Characters = packet.Characters;
         CharacterSelector.Instance.DefaultSelectedSlot = packet.SelectedSlotId;
 
-        if (GameManager.Instance.GameState != GameState.RESTARTING)
-        {
-            Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
+        Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
 
+        if (GameManager.Instance.State == GameState.LOGIN_AUTHED)
+        {
             EventProcessor.Instance.QueueEvent(() =>
             {
                 LoginClient.Instance.Disconnect();
-                GameClient.Instance.OnAuthAllowed();
+                GameManager.Instance.NotifyEvent(GameEvent.AUTH_ALLOWED);
             });
         }
         else
         {
-            EventProcessor.Instance.QueueEvent(() => GameClient.Instance.OnCharSelectAllowed());
+            EventProcessor.Instance.QueueEvent(() =>
+            {
+                Debug.Log("Return to character selection.");
+                GameManager.Instance.NotifyEvent(GameEvent.RESTART_ALLOWED);
+            });
         }
     }
 
@@ -237,9 +240,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         CharCreateOkPacket packet = new CharCreateOkPacket(data);
         Debug.Log($"Character creation succeeded.");
-
-        EventProcessor.Instance.QueueEvent(() => GameClient.Instance.OnCharCreateOk());
-
+        // EventProcessor.Instance.QueueEvent(() => GameClient.Instance.OnCharCreateOk());
     }
 
     private void OnMessageReceive(byte[] data)
@@ -314,35 +315,22 @@ public class GameServerPacketHandler : ServerPacketHandler
         }
     }
 
-    private void OnInitialPlayerInfoReceived(byte[] data)
+    private void OnCharSelected(byte[] data)
     {
         CharSelectedPacket packet = new CharSelectedPacket(data);
-        if (GameManager.Instance.GameState != GameState.IN_GAME)
+        _eventProcessor.QueueEvent(() =>
         {
-            _eventProcessor.QueueEvent(() =>
-            {
-                GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
-                GameManager.Instance.OnCharacterSelect();
-            });
-        }
+            GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
+            GameManager.Instance.NotifyEvent(GameEvent.CHAR_SELECTED);
+        });
     }
 
     private void OnPlayerInfoReceive(byte[] data)
     {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        if (packet.Identity.Owned)
-        {
-            WorldSpawner.Instance.OnReceivePlayerInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo);
+        WorldSpawner.Instance.OnReceivePlayerInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo);
 
-            PlayerInventory.Instance.SetInventorySize(packet.InventorySpace);
-            // Additional player information received, only now is the right time to show the UI/World to avoid visual bugs
-            GameManager.Instance.OnPlayerInfoReceive();
-        }
-        else
-        {
-            Debug.LogError("Player info but id doesn't match!");
-            // World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.Running);
-        }
+        PlayerInventory.Instance.SetInventorySize(packet.InventorySpace);
     }
 
     private void OnUserInfoReceived(byte[] data)
@@ -476,12 +464,12 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnRestartResponse(byte[] data)
     {
-        RestartResponsePacket packet = new RestartResponsePacket(data);
-        if (packet.Allowed)
-        {
-            // Do nothing, handle upcoming charselect packet instead
-            GameManager.Instance.GameState = GameState.RESTARTING;
-        }
+        // RestartResponsePacket packet = new RestartResponsePacket(data);
+        // if (packet.Allowed)
+        // {
+        //     // Do nothing, handle upcoming charselect packet instead
+        //     GameManager.Instance.GameState = GameState.RESTARTING;
+        // }
     }
 
     private void OnShortcutInit(byte[] data)

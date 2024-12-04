@@ -50,14 +50,15 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadMenu()
     {
-        GameManager.Instance.OnStartingGame();
+        // GameManager.Instance.OnStartingGame();
         SwitchScene(_menuScene, (AsyncOperation o) =>
         {
-            GameManager.Instance.StartLoading();
+            GameManager.Instance.NotifyEvent(GameEvent.LOADING_STARTED);
 
             LoadScene(_lobbyScene, (AsyncOperation operation) =>
             {
-                GameManager.Instance.OnGameLaunched();
+                // -> Loading complete in UI script to avoid null references
+                GameManager.Instance.NotifyEvent(GameEvent.WORLD_LOADED);
             });
         });
     }
@@ -67,7 +68,8 @@ public class SceneLoader : MonoBehaviour
         _totalLoadedScenes = 0;
         SwitchScene(_gameScene, ((AsyncOperation o) =>
         {
-            GameManager.Instance.OnWorldLoading();
+            GameManager.Instance.NotifyEvent(GameEvent.LOADING_STARTED);
+            // GameManager.Instance.OnWorldLoading();
             for (int i = 0; i < _mapsToLoad.Count; i++)
             {
                 var map = _mapsToLoad[i];
@@ -146,7 +148,7 @@ public class SceneLoader : MonoBehaviour
 
         if (World.Instance != null && !World.Instance.OfflineMode)
         {
-            GameManager.Instance.OnWorldSceneLoaded();
+            GameManager.Instance.NotifyEvent(GameEvent.LOADING_COMPLETE);
         }
     }
 }

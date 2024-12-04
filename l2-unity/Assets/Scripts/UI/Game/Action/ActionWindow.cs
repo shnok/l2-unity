@@ -109,6 +109,8 @@ public class ActionWindow : L2PopupWindow
         _slots[3].AssignAction(ActionType.NextTarget);
         _slots[4].AssignAction(ActionType.Pickup);
         _slots[5].AssignAction(ActionType.Assist);
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     private ActionSlot AddSlot(int position, VisualElement container)

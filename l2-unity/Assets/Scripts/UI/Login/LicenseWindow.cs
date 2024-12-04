@@ -64,6 +64,8 @@ public class LicenseWindow : L2Window
         var lowBtn = (RepeatButton)GetElementById("unity-low-button");
         highBtn.AddManipulator(new ButtonClickSoundManipulator(highBtn));
         lowBtn.AddManipulator(new ButtonClickSoundManipulator(lowBtn));
+
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
     private void AgreeButtonPressed()

@@ -162,6 +162,8 @@ public class StatusWindow : L2Window
         {
             OnClickSelf();
         }, TrickleDown.TrickleDown);
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     void FixedUpdate()

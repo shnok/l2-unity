@@ -82,11 +82,15 @@ public class ServerSelectWindow : L2Window
 
         root.Add(_windowEle);
 
-        yield return new WaitForEndOfFrame();
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
-    public void UpdateServerList(int lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers)
+    public void UpdateServerList(ServerListPacket packet)
     {
+        int lastServer = packet.LastServer;
+        List<ServerData> serverData = packet.ServersData;
+        Dictionary<int, int> charsOnServers = packet.CharsOnServers;
+
         ResetWindow();
 
         _serverData = serverData;

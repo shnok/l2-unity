@@ -167,6 +167,8 @@ public class CharacterInfoWindow : L2PopupWindow
         _pvpLabel = GetLabelById("PvpLabel");
         _recLabel = GetLabelById("RecLabel");
         _raidLabel = GetLabelById("RaidLabel");
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     public void UpdateValues()

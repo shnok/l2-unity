@@ -85,9 +85,10 @@ public class AsynchronousClient
             return;
         }
 
-        Debug.Log("Disconnect");
 
         ClientCleanup();
+
+        Debug.Log("Disconnect");
 
         EventProcessor.Instance.QueueEvent(() => _client.OnDisconnect());
     }

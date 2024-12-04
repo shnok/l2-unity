@@ -69,6 +69,8 @@ public class RestartLocationWindow : L2PopupWindow
         var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
         DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle, this);
         dragAreaEle.AddManipulator(drag);
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     public Vector2 GetWindowPosition()

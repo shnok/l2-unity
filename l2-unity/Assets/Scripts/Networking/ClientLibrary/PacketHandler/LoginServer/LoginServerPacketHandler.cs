@@ -148,7 +148,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
         ServerListPacket packet = new ServerListPacket(data);
 
         EventProcessor.Instance.QueueEvent(
-            () => LoginClient.Instance.OnServerListReceived(packet.LastServer, packet.ServersData, packet.CharsOnServers));
+            () => LoginClient.Instance.OnServerListReceived(packet));
     }
 
     private void OnPlayFail(byte[] data)

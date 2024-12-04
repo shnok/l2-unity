@@ -31,6 +31,11 @@ public class L2LoginUI : L2UI
         _instance = null;
     }
 
+    private void Start()
+    {
+        _windowsLoaded = 0;
+    }
+
     protected override void LoadUI()
     {
         base.LoadUI();

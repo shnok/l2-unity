@@ -120,6 +120,8 @@ public class CharSelectWindow : L2Window
 
         userNameInput.AddManipulator(_charNameManipulator);
         userNameInputContainer.Add(userNameInput);
+
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
     public void SetCharacterList(List<CharSelectionInfoPackage> characters)
@@ -198,13 +200,12 @@ public class CharSelectWindow : L2Window
 
     private void ReLoginPressed()
     {
-        GameManager.Instance.OnRelogin();
         GameClient.Instance.Disconnect();
     }
 
     private void CreatePressed()
     {
-        GameManager.Instance.OnCreateUser();
+        GameManager.Instance.ChangeState(GameState.CHAR_CREATION);
     }
 
     private void DeletePressed()
