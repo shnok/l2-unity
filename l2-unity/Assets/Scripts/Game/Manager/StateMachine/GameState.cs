@@ -14,5 +14,6 @@ public enum GameState : byte
     CHAR_SELECT,
     CHAR_CREATION,
     IN_GAME,
-    RESTARTING
+    RESTARTING,
+    DISONNECTING
 }

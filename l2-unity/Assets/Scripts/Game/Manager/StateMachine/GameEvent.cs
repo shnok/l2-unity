@@ -15,5 +15,4 @@ public enum GameEvent
     LOADING_COMPLETE,
     PLAY_ALLOWED,
     RESTART_ALLOWED,
-    EXIT_ALLOWED,
 }

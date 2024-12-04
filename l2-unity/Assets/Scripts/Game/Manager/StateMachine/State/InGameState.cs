@@ -25,6 +25,7 @@ public class InGameState : GameStateBase
                 _stateMachine.StopLoading();
                 break;
             case GameEvent.GAME_DISCONNECTED:
+                _stateMachine.ChangeState(GameState.DISONNECTING);
                 break;
             default:
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");
