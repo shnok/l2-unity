@@ -1,21 +1,14 @@
 using UnityEngine;
 
-public class CharSelectionState : GameStateBase
+public class CharCreationState : GameStateBase
 {
-    public CharSelectionState(GameManager stateMachine) : base(stateMachine) { }
+    public CharCreationState(GameManager stateMachine) : base(stateMachine) { }
 
     public override void Enter(object arg0)
     {
-        L2LoginUI.Instance.ShowCharSelectWindow();
+        L2LoginUI.Instance.ShowCharCreationWindow();
 
-        CharSelectWindow.Instance.SetCharacterList(CharacterSelector.Instance.Characters);
-
-        CharacterSelector.Instance.ApplyCharacterList();
-        CharacterSelector.Instance.SelectDefaultCharacter();
-
-        CharSelectWindow.Instance.SelectSlot(CharacterSelector.Instance.SelectedSlot);
-
-        LoginCameraManager.Instance.SwitchCamera("CharSelect");
+        LoginCameraManager.Instance.SwitchCamera("Login");
     }
 
     public override void Update()
@@ -31,7 +24,13 @@ public class CharSelectionState : GameStateBase
                 L2LoginUI.Instance.ShowLoginWindow();
                 _stateMachine.ChangeState(GameState.LOGIN_SCREEN);
                 break;
-            case GameEvent.AUTH_ALLOWED:
+            case GameEvent.CHAR_LOADED:
+            case GameEvent.RETURN:
+                L2LoginUI.Instance.ShowCharSelectWindow();
+                _stateMachine.ChangeState(GameState.CHAR_SELECT);
+                break;
+            case GameEvent.CHAR_CREATED:
+                _stateMachine.ChangeState(GameState.CHAR_CREATION);
                 break;
             default:
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");

@@ -92,7 +92,8 @@ public class GameClient : DefaultClient
     public void OnCharSelectAllowed()
     {
         Debug.Log("Return to character selection.");
-        // GameManager.Instance.OnCharSelectAllowed();
+        // /GameManager.Instance.OnCharSelectAllowed();
+        GameManager.Instance.NotifyEvent(GameEvent.CHAR_LOADED);
     }
 
     public override void OnDisconnect()

@@ -198,13 +198,12 @@ public class CharSelectWindow : L2Window
 
     private void ReLoginPressed()
     {
-        GameManager.Instance.NotifyEvent(GameEvent.RETURN);
         GameClient.Instance.Disconnect();
     }
 
     private void CreatePressed()
     {
-        GameManager.Instance.NotifyEvent(GameEvent.CHAR_CREATED);
+        GameManager.Instance.ChangeState(GameState.CHAR_CREATION);
     }
 
     private void DeletePressed()

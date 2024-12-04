@@ -6,6 +6,11 @@ public class LoginState : GameStateBase
 
     public override void Enter(object arg0)
     {
+        if (!_stateMachine.Loading)
+        {
+            LoginCameraManager.Instance.SwitchCamera("Login");
+            L2LoginUI.Instance.ShowLoginWindow();
+        }
     }
 
     public override void Update()
@@ -19,7 +24,6 @@ public class LoginState : GameStateBase
         {
             case GameEvent.LOADING_COMPLETE:
                 _stateMachine.StopLoading();
-
                 LoginCameraManager.Instance.SwitchCamera("Login");
                 LoginWindow.Instance.ShowWindow();
                 LoginWindow.Instance.ShowLogo();
@@ -32,5 +36,9 @@ public class LoginState : GameStateBase
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");
                 break;
         }
+    }
+
+    private void ResetLoginState()
+    {
     }
 }

@@ -300,10 +300,10 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private bool _enableLogs;
     [SerializeField] private int _protocolVersion = 740;
-    [SerializeField] private GameState _gameState = GameState.LOGIN_SCREEN;
     [SerializeField] private bool _autoLogin = false;
     [SerializeField] private Camera _loadingCamera;
     [SerializeField] private bool _loading;
+    public bool Loading { get { return _loading; } }
     public int ProtocolVersion { get { return _protocolVersion; } }
     public bool AutoLogin { get { return _autoLogin; } }
 
@@ -443,7 +443,8 @@ public class GameManager : MonoBehaviour
             GameState.LOGIN_SCREEN => new LoginState(this),
             GameState.LOGIN_CONNECTED => new LoginConnectedState(this),
             GameState.LOGIN_AUTHED => new LoginAuthedState(this),
-            GameState.CHAR_SELECT => new CharSelectState(this),
+            GameState.CHAR_SELECT => new CharSelectionState(this),
+            GameState.CHAR_CREATION => new CharCreationState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }

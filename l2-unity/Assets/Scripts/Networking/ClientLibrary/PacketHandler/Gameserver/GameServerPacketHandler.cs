@@ -209,9 +209,10 @@ public class GameServerPacketHandler : ServerPacketHandler
         CharacterSelector.Instance.Characters = packet.Characters;
         CharacterSelector.Instance.DefaultSelectedSlot = packet.SelectedSlotId;
 
-        if (GameManager.Instance.State != GameState.RESTARTING)
+        Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
+
+        if (GameManager.Instance.State == GameState.LOGIN_AUTHED)
         {
-            Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
 
             EventProcessor.Instance.QueueEvent(() =>
             {
