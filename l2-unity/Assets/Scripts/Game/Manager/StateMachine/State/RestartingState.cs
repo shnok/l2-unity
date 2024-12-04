@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class StartingGameState : GameStateBase
+public class RestartingState : GameStateBase
 {
-    public StartingGameState(GameManager stateMachine) : base(stateMachine) { }
-
+    public RestartingState(GameManager stateMachine) : base(stateMachine) { }
 
     public override void Enter(object arg0)
     {
-        _stateMachine.LoadTables();
-        SceneLoader.Instance.LoadMenu();
-
+        MusicManager.Instance.Clear();
         _stateMachine.StartLoading();
+
+        SceneLoader.Instance.LoadMenu();
     }
 
     public override void Update()
@@ -27,14 +26,12 @@ public class StartingGameState : GameStateBase
                 base.HandleEvent(evt, arg0);
                 break;
             case GameEvent.LOADING_COMPLETE:
-                LoginWindow.Instance.ShowWindow();
-                LoginWindow.Instance.ShowLogo();
-                PawnCreator.Instance.SpawnAllPawns();
-
-                _stateMachine.ChangeState(GameState.LOGIN_SCREEN);
+                _stateMachine.StopLoading();
+                _stateMachine.ChangeState(GameState.CHAR_SELECT);
                 break;
-            case GameEvent.CONNECTION_ALLOWED:
-                _stateMachine.ChangeState(GameState.LOGIN_CONNECTED);
+            case GameEvent.GAME_DISCONNECTED:
+                L2LoginUI.Instance.ShowLoginWindow();
+                _stateMachine.ChangeState(GameState.LOGIN_SCREEN);
                 break;
             default:
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");

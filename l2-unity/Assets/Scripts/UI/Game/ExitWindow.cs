@@ -76,6 +76,8 @@ public class ExitWindow : L2PopupWindow
         _restartButton.RegisterCallback<ClickEvent>((evt) => HandleRestartButtonClick());
         _exitButton.RegisterCallback<ClickEvent>((evt) => HandleExitButtonClick());
         _cancelButton.RegisterCallback<ClickEvent>((evt) => HandleCancelButtonClick());
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     public void OpenWindow(bool exit)

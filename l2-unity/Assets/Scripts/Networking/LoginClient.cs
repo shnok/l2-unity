@@ -105,7 +105,7 @@ public class LoginClient : DefaultClient
 
         Debug.Log("Connected to LoginServer");
 
-        GameManager.Instance.NotifyEvent(GameEvent.CONNECT_ALLOWED);
+        GameManager.Instance.NotifyEvent(GameEvent.CONNECTION_ALLOWED);
     }
 
     public override void OnConnectionFailed()

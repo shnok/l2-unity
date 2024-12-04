@@ -120,6 +120,8 @@ public class CharSelectWindow : L2Window
 
         userNameInput.AddManipulator(_charNameManipulator);
         userNameInputContainer.Add(userNameInput);
+
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
     public void SetCharacterList(List<CharSelectionInfoPackage> characters)

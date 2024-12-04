@@ -31,7 +31,8 @@ public class CharSelectionState : GameStateBase
                 L2LoginUI.Instance.ShowLoginWindow();
                 _stateMachine.ChangeState(GameState.LOGIN_SCREEN);
                 break;
-            case GameEvent.AUTH_ALLOWED:
+            case GameEvent.CHAR_SELECTED:
+                _stateMachine.ChangeState(GameState.ENTERING_WORLD);
                 break;
             default:
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");

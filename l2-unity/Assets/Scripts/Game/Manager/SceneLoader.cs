@@ -57,7 +57,8 @@ public class SceneLoader : MonoBehaviour
 
             LoadScene(_lobbyScene, (AsyncOperation operation) =>
             {
-                GameManager.Instance.NotifyEvent(GameEvent.LOADING_COMPLETE);
+                // -> Loading complete in UI script to avoid null references
+                GameManager.Instance.NotifyEvent(GameEvent.WORLD_LOADED);
             });
         });
     }

@@ -210,6 +210,8 @@ public class CharCreationWindow : L2Window
         charDetailWindow.Add(hairstyleInput);
         charDetailWindow.Add(hairColorInput);
         charDetailWindow.Add(faceInput);
+
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
 

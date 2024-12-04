@@ -68,6 +68,8 @@ public class SystemMenuWindow : L2PopupWindow
         RegisterClickWindowEvent(_windowEle, null);
 
         HideWindow();
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     private void HandleExitButtonClick()

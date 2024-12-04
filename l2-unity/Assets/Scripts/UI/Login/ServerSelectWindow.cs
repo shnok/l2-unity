@@ -82,7 +82,7 @@ public class ServerSelectWindow : L2Window
 
         root.Add(_windowEle);
 
-        yield return new WaitForEndOfFrame();
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
     public void UpdateServerList(ServerListPacket packet)

@@ -73,7 +73,7 @@ public class LoginWindow : L2Window
 
         _userInput.Focus();
 
-        GameManager.Instance.NotifyEvent(GameEvent.LOADING_COMPLETE);
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
     private void OnKeyPressed(KeyDownEvent evt, TextField input)

@@ -325,6 +325,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(this);
+            return;
         }
 
         InitializeState();
@@ -362,8 +363,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator StopLoading()
+    public void StopLoading()
     {
+        StartCoroutine(StopLoadingCoroutine());
+    }
+
+    public IEnumerator StopLoadingCoroutine()
+    {
+        Debug.LogWarning("STOP LOADING!");
         yield return new WaitForSeconds(0.15f);
 
         _loading = false;
@@ -445,6 +452,9 @@ public class GameManager : MonoBehaviour
             GameState.LOGIN_AUTHED => new LoginAuthedState(this),
             GameState.CHAR_SELECT => new CharSelectionState(this),
             GameState.CHAR_CREATION => new CharCreationState(this),
+            GameState.ENTERING_WORLD => new EnteringWorldState(this),
+            GameState.IN_GAME => new InGameState(this),
+            GameState.RESTARTING => new RestartingState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }

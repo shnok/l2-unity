@@ -154,6 +154,8 @@ public class InventoryWindow : L2PopupWindow
 #if UNITY_EDITOR
         // DebugData();
 #endif
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     private void OnExpandButtonPressed(MouseDownEvent evt)

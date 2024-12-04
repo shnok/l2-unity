@@ -30,6 +30,7 @@ public class L2GameUI : L2UI
     private void Start()
     {
         MouseOverUI = false;
+        _windowsLoaded = 0;
     }
 
     private void OnDestroy()

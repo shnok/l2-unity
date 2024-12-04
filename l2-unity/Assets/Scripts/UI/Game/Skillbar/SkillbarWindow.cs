@@ -120,6 +120,8 @@ public class SkillbarWindow : L2PopupWindow
 #if UNITY_EDITOR
         // DebugData();
 #endif
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     public void AddSkillbar()

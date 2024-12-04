@@ -1,6 +1,7 @@
 public enum GameState : byte
 {
     STARTING_GAME,
+    ENTERING_WORLD,
     LOGIN_SCREEN,
     LOGIN_CONNECTED,
     LOGIN_AUTHED,

@@ -92,6 +92,8 @@ public class NpcHtmlWindow : L2PopupWindow
 
         HideWindow();
 
+        L2GameUI.Instance.WindowLoadComplete();
+
         //         RefreshContent(0,
         // @"<html><body>Newbie Helper:<br>
         // Welcome to Einhovant's School of Wizardry. I will be teaching you the basics of combat.<br>
