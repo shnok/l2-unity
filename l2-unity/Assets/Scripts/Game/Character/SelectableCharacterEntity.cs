@@ -59,6 +59,8 @@ public class SelectableCharacterEntity : Entity
         _AnimationController.SetBool(HumanoidAnimType.sit_wait, false);
         _AnimationController.SetBool(HumanoidAnimType.wait, false);
 
+        UpdateWaitType(ChangeWaitTypePacket.WaitType.WT_STANDING);
+
         _AnimationController.SetBool(HumanoidAnimType.walk, true);
     }
 
@@ -68,9 +70,14 @@ public class SelectableCharacterEntity : Entity
         _AnimationController.SetBool(HumanoidAnimType.walk, false);
 
         if (CharacterInfo.DeleteTimer > 0)
+        {
             _AnimationController.SetBool(HumanoidAnimType.sit_wait, true);
+            UpdateWaitType(ChangeWaitTypePacket.WaitType.WT_SITTING);
+        }
         else
+        {
             _AnimationController.SetBool(HumanoidAnimType.wait, true);
+        }
 
         transform.eulerAngles = _destEulerAngles;
     }

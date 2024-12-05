@@ -31,6 +31,7 @@ public abstract class Entity : MonoBehaviour
     public Gear Gear { get { return _referenceHolder.Gear; } }
     public Combat Combat { get { return _referenceHolder.Combat; } }
     public bool IsDead { get { return Status.IsDead; } }
+    public bool IsSitting { get { return _sitting; } }
 
     private void Awake()
     {

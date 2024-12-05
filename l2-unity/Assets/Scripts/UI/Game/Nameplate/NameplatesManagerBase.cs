@@ -133,7 +133,7 @@ public class NameplatesManagerBase : MonoBehaviour
     {
         nameplate.NameplateOffsetHeight = nameplate.Entity.IsDead ?
             nameplate.Entity.Appearance.CollisionHeight * 0.85f :
-            nameplate.Entity.Appearance.CollisionHeight * nameplateHeightMultiplier;
+            nameplate.Entity.Appearance.CollisionHeight * nameplateHeightMultiplier * (nameplate.Entity.IsSitting ? 0.70f : 1f);
 
         nameplate.ManageColors();
     }
@@ -164,7 +164,7 @@ public class NameplatesManagerBase : MonoBehaviour
     }
 
     // Factory methods for creating nameplates
-    protected Nameplate CreateNameplate(Entity entity)
+    protected virtual Nameplate CreateNameplate(Entity entity)
     {
         VisualElement element = nameplateTemplate.Instantiate()[0];
         Nameplate nameplate = new Nameplate(

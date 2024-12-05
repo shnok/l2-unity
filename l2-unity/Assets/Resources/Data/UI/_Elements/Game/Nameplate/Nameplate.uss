@@ -27,24 +27,6 @@
     background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Attack');
 }
 
-.nameplate .target-name {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 2px;
-    padding-bottom: 0;
-    padding-left: 2px;
-    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
-    color: rgb(255, 255, 255);
-    -unity-font-style: bold;
-    font-size: 12px;
-    -unity-text-outline-width: 0.7px;
-    -unity-text-outline-color: rgb(0, 0, 0);
-    text-shadow: 0.3px 0.3px 1px rgb(0, 0, 0);
-}
-
 .nameplate .target-title {
     margin-top: 0;
     margin-right: 0;
@@ -110,4 +92,34 @@
     padding-left: 0;
     flex-direction: row;
     justify-content: center;
+}
+
+.nameplate.delete-timer .delete-timer-label {
+    display: flex;
+}
+
+.nameplate .target-name {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 2px;
+    padding-bottom: 0;
+    padding-left: 2px;
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    font-size: 12px;
+    
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0.5px 0px 1px rgb(0, 0, 0);
+}
+
+.nameplate .delete-timer-label {
+    position: absolute;
+    top: -35px;
+    display: none;
+    font-size: 11px;
 }
