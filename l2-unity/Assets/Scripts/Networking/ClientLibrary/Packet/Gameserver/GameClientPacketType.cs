@@ -9,6 +9,7 @@ public enum GameClientPacketType : byte
     Disconnect = 0x09,
     RequestAttack = 0x0a,
     RequestCharCreate = 0x0b,
+    RequestCharDelete = 0x0c,
     RequestCharSelect = 0x0d,
     RequestInventoryOpen = 0x0f,
     RequestInventoryUpdateOrder = 0x10,

@@ -6,16 +6,7 @@ public class CharSelectionState : GameStateBase
 
     public override void Enter(object arg0)
     {
-        L2LoginUI.Instance.ShowCharSelectWindow();
-
-        CharSelectWindow.Instance.SetCharacterList(CharacterSelector.Instance.Characters);
-
-        CharacterSelector.Instance.ApplyCharacterList();
-        CharacterSelector.Instance.SelectDefaultCharacter();
-
-        CharSelectWindow.Instance.SelectSlot(CharacterSelector.Instance.SelectedSlot);
-
-        LoginCameraManager.Instance.SwitchCamera("CharSelect");
+        RefreshCharSelection();
     }
 
     public override void Update()
@@ -34,9 +25,26 @@ public class CharSelectionState : GameStateBase
             case GameEvent.CHAR_SELECTED:
                 _stateMachine.ChangeState(GameState.ENTERING_WORLD);
                 break;
+            case GameEvent.CHAR_LOADED:
+                RefreshCharSelection();
+                break;
             default:
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");
                 break;
         }
+    }
+
+    private void RefreshCharSelection()
+    {
+        L2LoginUI.Instance.ShowCharSelectWindow();
+
+        CharSelectWindow.Instance.SetCharacterList(CharacterSelector.Instance.Characters);
+
+        CharacterSelector.Instance.ApplyCharacterList();
+        CharacterSelector.Instance.SelectDefaultCharacter();
+
+        CharSelectWindow.Instance.SelectSlot(CharacterSelector.Instance.SelectedSlot);
+
+        LoginCameraManager.Instance.SwitchCamera("CharSelect");
     }
 }

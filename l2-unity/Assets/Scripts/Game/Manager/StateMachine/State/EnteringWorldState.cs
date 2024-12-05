@@ -40,6 +40,7 @@ public class EnteringWorldState : GameStateBase
                 _stateMachine.ChangeState(GameState.IN_GAME);
                 break;
             case GameEvent.GAME_DISCONNECTED:
+                _stateMachine.ChangeState(GameState.DISONNECTING);
                 break;
             default:
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");

@@ -19,6 +19,8 @@ public enum GameServerPacketType : int
     InventoryUpdate = 0x27,
     CharCreateFail = 0x1a,
     InventoryItemList = 0x1b,
+    CharDeleteOk = 0x23,
+    CharDeleteFail = 0x24,
     ActionFailed = 0x25,
     ServerClose = 0x26,
     TeleportToLocation = 0x28,

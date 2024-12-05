@@ -143,6 +143,12 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.RelationChanged:
                 OnRelationChanged(data);
                 break;
+            case GameServerPacketType.CharDeleteOk:
+                OnCharDeleteOk(data);
+                break;
+            case GameServerPacketType.CharDeleteFail:
+                OnCharDeleteFail(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -217,6 +223,13 @@ public class GameServerPacketHandler : ServerPacketHandler
             {
                 LoginClient.Instance.Disconnect();
                 GameManager.Instance.NotifyEvent(GameEvent.AUTH_ALLOWED);
+            });
+        }
+        else if (GameManager.Instance.State == GameState.CHAR_SELECT)
+        {
+            EventProcessor.Instance.QueueEvent(() =>
+            {
+                GameManager.Instance.NotifyEvent(GameEvent.CHAR_LOADED);
             });
         }
         else
@@ -556,5 +569,15 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         RelationChangedPacket packet = new RelationChangedPacket(data);
         WorldCombat.Instance.RelationChanged(packet.Owner, packet.Karma, packet.PvpFlag);
+    }
+
+    private void OnCharDeleteOk(byte[] data)
+    {
+    }
+
+    private void OnCharDeleteFail(byte[] data)
+    {
+        CharDeleteFailPacket packet = new CharDeleteFailPacket(data);
+        Debug.LogWarning("Char Delete Failed: " + packet.Reason);
     }
 }

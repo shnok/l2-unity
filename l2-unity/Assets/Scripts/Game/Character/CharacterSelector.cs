@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -85,6 +86,8 @@ public class CharacterSelector : MonoBehaviour
 
         animController.Initialize();
 
+
+
         UserGear gear = (UserGear)referenceHolder.Gear;
         if (gear == null)
         {
@@ -99,6 +102,12 @@ public class CharacterSelector : MonoBehaviour
 
         PawnCreator.Instance.PlacePawn(pawnObject, _pawnData[id], _characters[id].Name, _container, animController, gear);
 
+        if (_characters[id].DeleteTimer > 0)
+        {
+            referenceHolder.Entity.UpdateWaitType(ChangeWaitTypePacket.WaitType.WT_SITTING);
+            animController.SetBool(HumanoidAnimType.wait, false);
+            animController.SetBool(HumanoidAnimType.sit_wait, true);
+        }
         _characterGameObjects.Add(pawnObject);
     }
 
@@ -178,5 +187,17 @@ public class CharacterSelector : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void DeleteCharacter()
+    {
+        //TODO: Yes/No prompt
+        if (SelectedSlot == -1)
+        {
+            Debug.LogWarning("Please select a character");
+            return;
+        }
+
+        GameClient.Instance.ClientPacketHandler.SendRequestDeleteCharacter(SelectedSlot);
     }
 }

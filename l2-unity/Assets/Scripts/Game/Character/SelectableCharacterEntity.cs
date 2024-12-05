@@ -56,7 +56,9 @@ public class SelectableCharacterEntity : Entity
     private void StartWalking()
     {
         _walking = true;
+        _AnimationController.SetBool(HumanoidAnimType.sit_wait, false);
         _AnimationController.SetBool(HumanoidAnimType.wait, false);
+
         _AnimationController.SetBool(HumanoidAnimType.walk, true);
     }
 
@@ -64,7 +66,12 @@ public class SelectableCharacterEntity : Entity
     {
         _walking = false;
         _AnimationController.SetBool(HumanoidAnimType.walk, false);
-        _AnimationController.SetBool(HumanoidAnimType.wait, true);
+
+        if (CharacterInfo.DeleteTimer > 0)
+            _AnimationController.SetBool(HumanoidAnimType.sit_wait, true);
+        else
+            _AnimationController.SetBool(HumanoidAnimType.wait, true);
+
         transform.eulerAngles = _destEulerAngles;
     }
 

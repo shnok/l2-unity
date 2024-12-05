@@ -73,7 +73,7 @@ public class HumanoidAnimationController : BaseAnimationController
         _lastValue = value;
         _lastAnimationType = animType;
 
-        // Debug.LogWarning($"SetBool: {animType}={value}");
+        Debug.LogWarning($"{transform.name} - SetBool: {animType}={value}");
 
         base.SetBool(GetParameterId(animType, _weaponAnim), value);
     }

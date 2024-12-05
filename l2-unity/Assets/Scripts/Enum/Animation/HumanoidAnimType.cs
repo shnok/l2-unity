@@ -16,6 +16,6 @@ public enum HumanoidAnimType
     death = 44,
     deathwait = 45,
     sit = 46,
-    sitwait = 47,
+    sit_wait = 47,
     stand = 48
 }

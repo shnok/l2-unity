@@ -5,7 +5,7 @@ public class PlayerStateSitWait : PlayerStateAction
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         LoadComponents(animator);
-        SetBool(HumanoidAnimType.sitwait, false, false);
+        SetBool(HumanoidAnimType.sit_wait, false, false);
 
     }
 

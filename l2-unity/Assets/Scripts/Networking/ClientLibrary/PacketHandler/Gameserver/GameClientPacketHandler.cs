@@ -227,4 +227,10 @@ public class GameClientPacketHandler : ClientPacketHandler
         GMCommandPacket packet = new GMCommandPacket(command);
         SendPacket(packet);
     }
+
+    public void SendRequestDeleteCharacter(int slot)
+    {
+        RequestCharDeletePacket packet = new RequestCharDeletePacket(slot);
+        SendPacket(packet);
+    }
 }

@@ -47,7 +47,7 @@ public enum HumanoidAnimationEvent : int
     death,
     deathwait,
     sit,
-    sitwait,
+    sit_wait,
     stand,
     patkspd,
     walk_speed,

@@ -210,7 +210,7 @@ public class CharSelectWindow : L2Window
 
     private void DeletePressed()
     {
-
+        CharacterSelector.Instance.DeleteCharacter();
     }
 
     public override void ShowWindow()
