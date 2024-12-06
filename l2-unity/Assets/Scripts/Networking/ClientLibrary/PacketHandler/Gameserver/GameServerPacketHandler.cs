@@ -225,7 +225,7 @@ public class GameServerPacketHandler : ServerPacketHandler
                 GameManager.Instance.NotifyEvent(GameEvent.AUTH_ALLOWED);
             });
         }
-        else if (GameManager.Instance.State == GameState.CHAR_SELECT)
+        else if (GameManager.Instance.State == GameState.CHAR_SELECT || GameManager.Instance.State == GameState.CHAR_CREATION)
         {
             EventProcessor.Instance.QueueEvent(() =>
             {

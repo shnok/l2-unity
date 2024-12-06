@@ -155,6 +155,7 @@ public class CharacterSelector : MonoBehaviour
             {
                 L2ConfirmWindow.Instance.ShowWindow(1555, () =>
                 {
+                    GameClient.Instance.ClientPacketHandler.SendRequestRestoreCharacter(slot);
                 },
                 () =>
                 {

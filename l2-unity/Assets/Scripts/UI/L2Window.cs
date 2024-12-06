@@ -57,7 +57,6 @@ public abstract class L2Window : MonoBehaviour
 
     public virtual void HideWindow(bool silent)
     {
-        Debug.LogWarning("HideWindow: " + silent);
         _isWindowHidden = true;
         _windowEle.style.display = DisplayStyle.None;
         _mouseOverDetection.Disable();

@@ -233,4 +233,10 @@ public class GameClientPacketHandler : ClientPacketHandler
         RequestCharDeletePacket packet = new RequestCharDeletePacket(slot);
         SendPacket(packet);
     }
+
+    public void SendRequestRestoreCharacter(int slot)
+    {
+        RequestCharRestorePacket packet = new RequestCharRestorePacket(slot);
+        SendPacket(packet);
+    }
 }
