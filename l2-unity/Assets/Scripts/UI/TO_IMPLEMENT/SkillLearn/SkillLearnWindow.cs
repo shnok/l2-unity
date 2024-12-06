@@ -217,7 +217,7 @@ public class SkillLearn : L2PopupWindow
 
         _mouseOverDetection = new MouseOverDetectionManipulator(_rootWindow);
         _rootWindow.AddManipulator(_mouseOverDetection);
-        HideWindow();
+        HideWindow(false);
 
     }
 

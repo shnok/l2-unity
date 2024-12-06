@@ -150,12 +150,27 @@ public class CharacterSelector : MonoBehaviour
             _selectedCharacter = _characters[slot];
 
             CharSelectWindow.Instance.SelectSlot(slot);
+
+            if (_selectedCharacter.DeleteTimer > 0)
+            {
+                L2ConfirmWindow.Instance.ShowWindow(1555, () =>
+                {
+                },
+                () =>
+                {
+                    SelectCharacter(DefaultSelectedSlot);
+                });
+            }
+            else
+            {
+                L2ConfirmWindow.Instance.HideWindow(false);
+            }
         }
     }
 
     public void ConfirmSelection()
     {
-        if (SelectedSlot == -1)
+        if (SelectedSlot == -1 || _characters[SelectedSlot].DeleteTimer > 0)
         {
             Debug.LogWarning("Please select a character");
             return;
@@ -173,7 +188,7 @@ public class CharacterSelector : MonoBehaviour
         }
 
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !L2LoginUI.Instance.MouseOverUI)
         {
             Ray ray = _charSelectCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -191,7 +206,22 @@ public class CharacterSelector : MonoBehaviour
 
     public void DeleteCharacter()
     {
-        //TODO: Yes/No prompt
+        if (_selectedCharacter.DeleteTimer > 0)
+        {
+            return;
+        }
+
+        L2ConfirmWindow.Instance.ShowWindow(4076, () =>
+        {
+            ConfirmDelete();
+        }, () =>
+        {
+
+        });
+    }
+
+    private void ConfirmDelete()
+    {
         if (SelectedSlot == -1)
         {
             Debug.LogWarning("Please select a character");

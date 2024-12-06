@@ -90,7 +90,7 @@ public class NpcHtmlWindow : L2PopupWindow
         highBtn.AddManipulator(new ButtonClickSoundManipulator(highBtn));
         lowBtn.AddManipulator(new ButtonClickSoundManipulator(lowBtn));
 
-        HideWindow();
+        HideWindow(true);
 
         L2GameUI.Instance.WindowLoadComplete();
 
@@ -228,10 +228,13 @@ public class NpcHtmlWindow : L2PopupWindow
         L2GameUI.Instance.WindowOpened(this);
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
-        AudioManager.Instance.PlayUISound("window_close");
+        base.HideWindow(silent);
+
+        if (!silent)
+            AudioManager.Instance.PlayUISound("window_close");
+
         L2GameUI.Instance.WindowClosed(this);
     }
 

@@ -70,7 +70,7 @@ public class L2SlotManager : L2PopupWindow
 
     public void ReleaseDrag()
     {
-        HideWindow();
+        HideWindow(false);
 
         if (!IsValidDrag() || IsSameSlot())
         {
@@ -302,7 +302,7 @@ public class L2SlotManager : L2PopupWindow
         _windowEle.style.opacity = 1;
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
         _windowEle.style.opacity = 0;
     }

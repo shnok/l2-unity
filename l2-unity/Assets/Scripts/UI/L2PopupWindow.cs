@@ -18,7 +18,7 @@ public abstract class L2PopupWindow : L2Window
         closeButton.RegisterCallback<MouseUpEvent>(evt =>
         {
             AudioManager.Instance.PlayUISound("window_close");
-            HideWindow();
+            HideWindow(false);
         });
     }
 
@@ -47,9 +47,9 @@ public abstract class L2PopupWindow : L2Window
         BringToFront();
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
+        base.HideWindow(silent);
     }
 
     public override void BringToFront()

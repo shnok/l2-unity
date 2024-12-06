@@ -31,7 +31,7 @@ public class ButtonSkillLearn
         button.RegisterCallback<MouseDownEvent>(evt =>
         {
             // AudioManager.Instance.PlayUISound("click_01");
-            _skill.HideWindow();
+            _skill.HideWindow(false);
         }, TrickleDown.TrickleDown);
     }
 

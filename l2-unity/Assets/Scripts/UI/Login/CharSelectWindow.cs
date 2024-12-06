@@ -195,16 +195,19 @@ public class CharSelectWindow : L2Window
 
     private void StartGamePressed()
     {
+        L2ConfirmWindow.Instance.HideWindow(false);
         CharacterSelector.Instance.ConfirmSelection();
     }
 
     private void ReLoginPressed()
     {
+        L2ConfirmWindow.Instance.HideWindow(false);
         GameClient.Instance.Disconnect();
     }
 
     private void CreatePressed()
     {
+        L2ConfirmWindow.Instance.HideWindow(false);
         GameManager.Instance.ChangeState(GameState.CHAR_CREATION);
     }
 

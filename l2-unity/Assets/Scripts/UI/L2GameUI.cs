@@ -86,17 +86,17 @@ public class L2GameUI : L2UI
         if (InventoryWindow.Instance != null)
         {
             InventoryWindow.Instance.AddWindow(_rootVisualContainer);
-            InventoryWindow.Instance.HideWindow();
+            InventoryWindow.Instance.HideWindow(true);
         }
         if (CharacterInfoWindow.Instance != null)
         {
             CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
-            CharacterInfoWindow.Instance.HideWindow();
+            CharacterInfoWindow.Instance.HideWindow(true);
         }
         if (ActionWindow.Instance != null)
         {
             ActionWindow.Instance.AddWindow(_rootVisualContainer);
-            ActionWindow.Instance.HideWindow();
+            ActionWindow.Instance.HideWindow(true);
         }
         if (NpcHtmlWindow.Instance != null)
         {
@@ -117,12 +117,12 @@ public class L2GameUI : L2UI
         if (L2ToolTip.Instance != null)
         {
             L2ToolTip.Instance.AddWindow(_tooltipVisualContainer);
-            L2ToolTip.Instance.HideWindow();
+            L2ToolTip.Instance.HideWindow(true);
         }
         if (L2SlotManager.Instance != null)
         {
             L2SlotManager.Instance.AddWindow(_slotVisualContainer);
-            L2SlotManager.Instance.HideWindow();
+            L2SlotManager.Instance.HideWindow(true);
         }
     }
 
@@ -192,7 +192,7 @@ public class L2GameUI : L2UI
 
             if (_openedWindows != null && _openedWindows.Count > 0)
             {
-                _openedWindows[_openedWindows.Count - 1].HideWindow();
+                _openedWindows[_openedWindows.Count - 1].HideWindow(false);
             }
             else
             {

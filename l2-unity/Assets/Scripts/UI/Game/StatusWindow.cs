@@ -269,9 +269,10 @@ public class StatusWindow : L2Window
         AudioManager.Instance.PlayUISound("window_open");
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
+        base.HideWindow(silent);
+
         AudioManager.Instance.PlayUISound("window_close");
     }
 

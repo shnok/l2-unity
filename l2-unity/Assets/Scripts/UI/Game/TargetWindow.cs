@@ -137,7 +137,7 @@ public class TargetWindow : L2PopupWindow
         }
         else if (!_isWindowHidden)
         {
-            HideWindow();
+            HideWindow(false);
         }
     }
 
@@ -147,12 +147,15 @@ public class TargetWindow : L2PopupWindow
         L2GameUI.Instance.WindowOpened(this);
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
+        base.HideWindow(silent);
 
         TargetManager.Instance.ClearTarget();
-        AudioManager.Instance.PlayUISound("window_close");
+
+        if (!silent)
+            AudioManager.Instance.PlayUISound("window_close");
+
         L2GameUI.Instance.WindowClosed(this);
     }
 

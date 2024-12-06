@@ -34,7 +34,7 @@ public class SystemMenuWindow : L2PopupWindow
         {
             if (!MouseOverThisWindow() && !MenuWindow.Instance.MouseOverThisWindow())
             {
-                HideWindow();
+                HideWindow(false);
             }
         }
     }
@@ -67,20 +67,20 @@ public class SystemMenuWindow : L2PopupWindow
         _windowHeight = _windowEle.worldBound.height;
         RegisterClickWindowEvent(_windowEle, null);
 
-        HideWindow();
+        HideWindow(true);
 
         L2GameUI.Instance.WindowLoadComplete();
     }
 
     private void HandleExitButtonClick()
     {
-        HideWindow();
+        HideWindow(false);
         ExitWindow.Instance.OpenWindow(true);
     }
 
     private void HandleRestartButtonClick()
     {
-        HideWindow();
+        HideWindow(false);
         ExitWindow.Instance.OpenWindow(false);
     }
 
@@ -98,10 +98,13 @@ public class SystemMenuWindow : L2PopupWindow
         L2GameUI.Instance.WindowOpened(this);
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
-        AudioManager.Instance.PlayUISound("window_close");
+        base.HideWindow(silent);
+
+        if (!silent)
+            AudioManager.Instance.PlayUISound("window_close");
+
         L2GameUI.Instance.WindowClosed(this);
     }
 }

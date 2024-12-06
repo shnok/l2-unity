@@ -220,7 +220,7 @@ public class InventoryWindow : L2PopupWindow
     {
         _minimizedInventoryBtn.style.display = DisplayStyle.Flex;
         _minimizedInventoryMouseOverManipulator.Enable();
-        HideWindow();
+        HideWindow(false);
     }
 
     private void OnMinimizedInventoryClick(ClickEvent evt)
@@ -387,7 +387,7 @@ public class InventoryWindow : L2PopupWindow
         }
         else
         {
-            HideWindow();
+            HideWindow(false);
         }
     }
 
@@ -398,10 +398,13 @@ public class InventoryWindow : L2PopupWindow
         L2GameUI.Instance.WindowOpened(this);
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
-        AudioManager.Instance.PlayUISound("inventory_close_01");
+        base.HideWindow(silent);
+
+        if (!silent)
+            AudioManager.Instance.PlayUISound("inventory_close_01");
+
         L2GameUI.Instance.WindowClosed(this);
     }
 

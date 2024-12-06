@@ -68,7 +68,7 @@ public class ExitWindow : L2PopupWindow
 
         CenterWindow();
 
-        HideWindow();
+        HideWindow(true);
 
         RegisterCloseWindowEvent("btn-close-frame");
         RegisterClickWindowEvent(_windowEle, _boxHeader);
@@ -104,27 +104,30 @@ public class ExitWindow : L2PopupWindow
         L2GameUI.Instance.WindowOpened(this);
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
-        AudioManager.Instance.PlayUISound("window_close");
+        base.HideWindow(silent);
+
+        if (!silent)
+            AudioManager.Instance.PlayUISound("window_close");
+
         L2GameUI.Instance.WindowClosed(this);
     }
 
     private void HandleRestartButtonClick()
     {
-        HideWindow();
+        HideWindow(false);
         GameClient.Instance.ClientPacketHandler.RequestRestart();
     }
 
     private void HandleExitButtonClick()
     {
-        HideWindow();
+        HideWindow(false);
         GameClient.Instance.ClientPacketHandler.RequestDisconnect();
     }
 
     private void HandleCancelButtonClick()
     {
-        HideWindow();
+        HideWindow(false);
     }
 }

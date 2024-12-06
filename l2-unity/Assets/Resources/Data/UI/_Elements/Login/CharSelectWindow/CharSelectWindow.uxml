@@ -5,8 +5,8 @@
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uss?fileID=7433441132597879392&amp;guid=b1d2114f9ed155f45a3eb16e5ef02441&amp;type=3#L2Button" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/Login/CharSelectWindow/CharSelectWindow.uss?fileID=7433441132597879392&amp;guid=4d5750aba8227744bab7289de968de39&amp;type=3#CharSelectWindow" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Bar/L2Bar.uss?fileID=7433441132597879392&amp;guid=a56090906dc32294994ed8860c7b159e&amp;type=3#L2Bar" />
-    <ui:VisualElement name="CharSelectWindow" class="char-select-window">
-        <ui:VisualElement class="charselect-col-1">
+    <ui:VisualElement name="CharSelectWindow" picking-mode="Ignore" class="char-select-window">
+        <ui:VisualElement picking-mode="Ignore" class="charselect-col-1">
             <ui:VisualElement name="CharSelectDetailWindow" tabindex="-1" class="char-select-detail-window">
                 <ui:VisualElement name="row" class="char-select-row" style="flex-grow: 0; height: 28px; width: 80%;">
                     <ui:VisualElement name="UserSelectContainer" class="char-select-col char-select-user-select-container" />
@@ -55,14 +55,14 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement class="charselect-col-2">
+        <ui:VisualElement picking-mode="Ignore" class="charselect-col-2">
             <ui:VisualElement name="StartButtonWindow" tabindex="-1" class="char-select-middle-box">
                 <ui:Instance template="L2Button" name="StartButton" class="l2-button-template">
                     <AttributeOverrides element-name="ButtonLabel" text="Start" />
                 </ui:Instance>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement class="charselect-col-3">
+        <ui:VisualElement picking-mode="Ignore" class="charselect-col-3">
             <ui:VisualElement name="MenuWindow" tabindex="-1" class="char-select-side-menu">
                 <ui:Instance template="L2Button" name="CreateButton" class="l2-button-template">
                     <AttributeOverrides element-name="ButtonLabel" text="Create" />

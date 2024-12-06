@@ -55,8 +55,9 @@ public abstract class L2Window : MonoBehaviour
 
     protected abstract IEnumerator BuildWindow(VisualElement root);
 
-    public virtual void HideWindow()
+    public virtual void HideWindow(bool silent)
     {
+        Debug.LogWarning("HideWindow: " + silent);
         _isWindowHidden = true;
         _windowEle.style.display = DisplayStyle.None;
         _mouseOverDetection.Disable();
@@ -77,7 +78,7 @@ public abstract class L2Window : MonoBehaviour
         }
         else
         {
-            HideWindow();
+            HideWindow(false);
         }
     }
 

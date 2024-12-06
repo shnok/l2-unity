@@ -170,9 +170,9 @@ public class LoginWindow : L2Window
         }
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
+        base.HideWindow(silent);
 
         HideLogo();
     }

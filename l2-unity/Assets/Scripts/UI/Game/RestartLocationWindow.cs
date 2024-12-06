@@ -64,7 +64,7 @@ public class RestartLocationWindow : L2PopupWindow
 
         CenterWindow();
 
-        HideWindow();
+        HideWindow(false);
 
         var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
         DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle, this);
@@ -81,7 +81,7 @@ public class RestartLocationWindow : L2PopupWindow
     private void ButtonClicked(int restartPoint)
     {
         Debug.Log($"Restart point clicked: {restartPoint}.");
-        HideWindow();
+        HideWindow(false);
         GameClient.Instance.ClientPacketHandler.SendRequestRestartPoint(restartPoint);
     }
 

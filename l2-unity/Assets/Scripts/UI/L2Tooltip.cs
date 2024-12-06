@@ -80,7 +80,7 @@ public class L2ToolTip : L2PopupWindow
     {
         if (exitElement == _tooltipTarget)
         {
-            base.HideWindow();
+            base.HideWindow(false);
 
             if (_updateStyleCoroutine != null)
             {

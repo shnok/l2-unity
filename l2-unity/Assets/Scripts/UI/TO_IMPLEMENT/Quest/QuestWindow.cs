@@ -56,7 +56,7 @@ public class QuestWindow : L2PopupWindow
 
         DragManipulator drag = new DragManipulator(boxHeader, _windowEle, this);
         boxHeader.AddManipulator(drag);
-        HideWindow();
+        HideWindow(false);
     }
 }
 #endif
