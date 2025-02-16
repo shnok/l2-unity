@@ -32,7 +32,7 @@
     height: 372px;
     top: 41px;
     left: 7px;
-    padding-top: 4px;
+    padding-top: 0;
     padding-right: 6px;
     padding-left: 8px;
     padding-bottom: 8px;
@@ -229,14 +229,22 @@
     margin-right: 0;
     margin-bottom: 4px;
     margin-left: 0;
-    padding-top: 0;
+    padding-top: 3px;
     padding-bottom: 0;
-    padding-left: 5px;
-    height: 36px;
+    padding-left: 0;
+    height: 42px;
     flex-direction: row;
     flex-grow: 0;
-    padding-right: 3px;
+    padding-right: 0;
     background-color: rgba(0, 0, 0, 0.35);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgba(111, 111, 111, 0.34);
+    border-right-color: rgba(111, 111, 111, 0.34);
+    border-top-color: rgba(111, 111, 111, 0.34);
+    border-bottom-color: rgba(111, 111, 111, 0.34);
 }
 
 .shop-tab-view-container {
@@ -266,7 +274,7 @@
     -unity-slice-bottom: 10;
     padding-top: 7px;
     padding-right: 4px;
-    padding-bottom: 8px;
+    padding-bottom: 4px;
     padding-left: 6px;
     margin-bottom: 0;
 }
@@ -292,12 +300,15 @@
     margin-left: 0;
     padding-top: 0;
     padding-bottom: 0;
-    padding-left: 0;
-    flex-direction: row;
+    padding-left: 4px;
+    flex-direction: column;
     align-self: stretch;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: stretch;
     flex-grow: 1;
+    flex-shrink: 0;
+    font-size: 11px;
+    padding-right: 4px;
 }
 
 .item-statistic-icons {
@@ -338,6 +349,8 @@
     padding-bottom: 0;
     padding-left: 0;
     flex-grow: 1;
+    min-width: 128px;
+    max-width: 128px;
 }
 
 .shop-tab {
@@ -372,4 +385,77 @@
 .shop-button .l2-flex-button-label {
     padding-top: 6px;
     padding-bottom: 6px;
+}
+
+.shop-tab-small {
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 1px;
+    flex-direction: column;
+}
+
+.shop-tab-label {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 2px;
+    font-size: 11px;
+    width: 48px;
+}
+
+.shop-small-tab-scrollview {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgba(115, 115, 115, 0.34);
+    border-right-color: rgba(115, 115, 115, 0.34);
+    border-top-color: rgba(115, 115, 115, 0.34);
+    border-bottom-color: rgba(115, 115, 115, 0.34);
+}
+
+.shop-divider {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 4px;
+    background-image: resource('Data/UI/Assets/CharInfo/Divider_DF_Ver');
+}
+
+.shop-statistic-icon {
+    width: 18px;
+    max-width: 18px;
+    margin-right: 4px;
+}
+
+.shop-statistic-label {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-grow: 1;
+    width: 40px;
+}
+
+.shop-statistic-gauge {
+    flex-grow: 0;
+    max-width: 128px;
+    width: 128px;
+}
+
+.shop-statistic-row {
+    flex-grow: 0;
+    flex-direction: row;
+    align-items: center;
+    height: 18px;
 }

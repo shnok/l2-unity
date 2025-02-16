@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public class ShopWindow : L2PopupWindow
 {
     private VisualTreeAsset _tabTemplate;
+    private VisualTreeAsset _smallTabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
     private VisualTreeAsset _shopSlotTemplate;
     private VisualElement _shopTabView;
@@ -74,9 +75,9 @@ public class ShopWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryWindow");
-        _tabTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryTab");
-        _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryTabHeader");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ShopWindow/ShopWindow");
+        _tabTemplate = LoadAsset("Data/UI/_Elements/Game/ShopWindow/ShopTab");
+        _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/ShopWindow/ShopTabHeader");
         _shopSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
     }
 
@@ -127,7 +128,7 @@ public class ShopWindow : L2PopupWindow
 
     private void CreateTabs()
     {
-        _shopTabView = GetElementById("InventoryTabView");
+        _shopTabView = GetElementById("ShopTabView");
 
         VisualElement tabHeaderContainer = _shopTabView.Q<VisualElement>("tab-header-container");
         if (tabHeaderContainer == null)
@@ -154,7 +155,7 @@ public class ShopWindow : L2PopupWindow
             tabHeaderContainer.Add(tabHeaderElement);
             tabContainer.Add(tabElement);
 
-            _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement);
+            _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement, _tabs[i].TabType);
         }
 
         if (_tabs.Count > 0)
@@ -201,7 +202,7 @@ public class ShopWindow : L2PopupWindow
         // Tabs
         _tabs.ForEach((tab) =>
         {
-            tab.UpdateItemList(items);
+            tab.UpdateItemList();
         });
     }
 
