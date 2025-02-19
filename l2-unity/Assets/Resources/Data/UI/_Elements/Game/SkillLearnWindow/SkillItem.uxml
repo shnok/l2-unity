@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillbarWindow/SkillbarWindow.uss?fileID=7433441132597879392&amp;guid=85e555579f5424d4a9ae3b12d87518a2&amp;type=3#SkillbarWindow" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnWindow.uss?fileID=7433441132597879392&amp;guid=d5d3f5a8db6d7b90d98496e68b124270&amp;type=3#SkillLearnWindow" />
+    <ui:VisualElement name="skill" class="skillbar-slot-anchor" />
+    <ui:VisualElement name="skill-group" class="skill-group">
+        <ui:Label name="skill-name" class="skill-group skill-learn-name l2-color-4" />
+        <ui:VisualElement name="skill-label-group" class="skill-group skill-learn-cost">
+            <ui:Label text="Lvl" name="level" class="skill-group l2-color-2 skill-learn-label" />
+            <ui:Label text="1" name="level-value" class="skill-group l2-color-3 skill-learn-label skill-learn-level" />
+            <ui:Label text="SP Cost : " name="sp-cost" class="skill-group l2-color-2 skill-learn-label" />
+            <ui:Label text="1000" name="sp-cost-value" class="skill-group l2-color-3" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

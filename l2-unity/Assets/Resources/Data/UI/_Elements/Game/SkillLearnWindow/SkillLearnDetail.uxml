@@ -1,0 +1,62 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="WindowTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Components/WindowTemplate.uxml?fileID=9197481963319205126&amp;guid=5ca840f56ef6f1044b4dc077c7d3e6e6&amp;type=3#WindowTemplate" />
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnWindow.uss?fileID=7433441132597879392&amp;guid=d5d3f5a8db6d7b90d98496e68b124270&amp;type=3#SkillLearnWindow" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnDetail.uss?fileID=7433441132597879392&amp;guid=2a4897b178dbe65468496d6c926be763&amp;type=3#SkillLearnDetail" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnItem.uss?fileID=7433441132597879392&amp;guid=99b2a3d023724b4a9363d8b4533f1beb&amp;type=3#SkillLearnItem" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uss?fileID=7433441132597879392&amp;guid=b1d2114f9ed155f45a3eb16e5ef02441&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Slot/L2Slot.uss?fileID=7433441132597879392&amp;guid=5cebba6f4b1058048870da7302ad5971&amp;type=3#L2Slot" />
+    <ui:Instance template="WindowTemplate" class="skill-learn-detail-window">
+        <AttributeOverrides element-name="windows-name-label" text="Skills - Description" />
+        <ui:VisualElement name="Content" class="skill-learn-detail-content window-content-padding">
+            <ui:GroupBox class="skill-learn-description-first skill-active-background">
+                <ui:VisualElement name="SkillHeaderDetail" class="skill-learn-header-detail" style="margin-bottom: 4px;">
+                    <ui:VisualElement name="SkillDetailIcon" class="l2-slot" style="margin-right: 4px;" />
+                    <ui:VisualElement name="SkillDescriptionDetails" class="skill-group">
+                        <ui:Label text="Mortal Blow" name="SkillDetailName" class="skill-group l2-color-4" style="margin-top: 3px;" />
+                        <ui:VisualElement name="SkillDetailLabelGroup" class="skill-group skill-learn-cost">
+                            <ui:Label text="Lv" name="DetailLevel" class="skill-group l2-color-3 skill-learn-label" />
+                            <ui:Label text="1" name="DetailLevelValue" class="skill-group l2-color-2 skill-learn-label" style="margin-right: 35px;" />
+                            <ui:Label text="Passive Skill" name="DetailType" class="skill-group l2-color-2 skill-learn-label" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="SkillHeaderDescription" class="skill-learn-header-description" style="margin-top: 4px; margin-bottom: 4px;">
+                    <ui:VisualElement style="flex-direction: row;">
+                        <ui:Label text="MP Cost : " name="DetailMPCost" class="skill-group l2-color-3 skill-learn-label" />
+                        <ui:Label text="130" name="DetailMPCostValue" class="skill-group l2-color-2" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row;">
+                        <ui:Label text="Range : " name="DetailRange" class="skill-group l2-color-3 skill-learn-label" />
+                        <ui:Label text="500" name="DetailRangeValue" class="skill-group l2-color-2" />
+                    </ui:VisualElement>
+                    <ui:Label name="DetailDescription" text="Unleashes a weak bolt of magical energy. MP Consumption rate is low and Casting Speed is short. Power 12" class="skill-group l2-color-3" style="margin-top: 4px; max-width: 100%; white-space: normal;" />
+                </ui:VisualElement>
+            </ui:GroupBox>
+            <ui:Label text="Learning Conditions" class="skill-group l2-color-4" style="margin-top: 6px; margin-left: 4px;" />
+            <ui:GroupBox class="skill-learn-description-second skill-active-background">
+                <ui:VisualElement style="flex-direction: row; margin: 0;">
+                    <ui:Label text="Required SP : " name="DetailSP" class="skill-group l2-color-3 skill-learn-label" />
+                    <ui:Label text="500" name="DetailSPValue" class="skill-group l2-color-2" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row; margin-top: 4px;">
+                    <ui:VisualElement class="l2-slot" style="margin-right: 4px;" />
+                    <ui:Label text="Spellbook: Energy Bolt X1" name="SkillDetailName" class="skill-group l2-color-4" style="margin-top: 3px;" />
+                </ui:VisualElement>
+            </ui:GroupBox>
+            <ui:GroupBox name="UserSPGroup" class="user-sp-group skill-active-background">
+                <ui:Label text="SP" name="SP" class="skill-group l2-color-4 user-sp-label" style="margin-right: 40px;" />
+                <ui:Label text="2134" name="UserSP" class="skill-group l2-color-4" />
+            </ui:GroupBox>
+            <ui:VisualElement name="BottomBar" style="flex-direction: row; margin-top: 4px; justify-content: center;">
+                <ui:Instance template="L2Button" name="LearnButton" class="l2-window-button skill-learn-button">
+                    <AttributeOverrides element-name="ButtonLabel" text="Learn" />
+                </ui:Instance>
+                <ui:Instance template="L2Button" name="ListButton" class="l2-window-button skill-learn-button">
+                    <AttributeOverrides element-name="ButtonLabel" text="Cancel"  />
+                </ui:Instance>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:Instance>
+</ui:UXML>

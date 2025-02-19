@@ -124,6 +124,11 @@ public class L2GameUI : L2UI
             L2SlotManager.Instance.AddWindow(_slotVisualContainer);
             L2SlotManager.Instance.HideWindow(true);
         }
+        if (SkillLearnWindow.Instance != null)
+        {
+            SkillLearnWindow.Instance.AddWindow(_rootVisualContainer);
+            SkillLearnWindow.Instance.HideWindow(true);
+        }
     }
 
     public void EnableMouse()
