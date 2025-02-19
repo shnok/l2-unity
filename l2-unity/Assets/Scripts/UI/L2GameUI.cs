@@ -102,6 +102,10 @@ public class L2GameUI : L2UI
         {
             NpcHtmlWindow.Instance.AddWindow(_rootVisualContainer);
         }
+        if (ShopWindow.Instance != null)
+        {
+            ShopWindow.Instance.AddWindow(_rootVisualContainer);
+        }
         if (RestartLocationWindow.Instance != null)
         {
             RestartLocationWindow.Instance.AddWindow(_rootVisualContainer);

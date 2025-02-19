@@ -1,31 +1,16 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
     <ui:Template name="WindowTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Components/WindowTemplate.uxml?fileID=9197481963319205126&amp;guid=5ca840f56ef6f1044b4dc077c7d3e6e6&amp;type=3#WindowTemplate" />
-    <ui:Template name="ShopTab" src="project://database/Assets/Resources/Data/UI/_Elements/Game/ShopWindow/ShopTab.uxml?fileID=9197481963319205126&amp;guid=73587498575d4f142a0e0370ef10cf63&amp;type=3#ShopTab" />
     <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/ShopWindow/ShopStyle.uss?fileID=7433441132597879392&amp;guid=9e85dc28fcf6a6f4fa0432707a81e0fd&amp;type=3#ShopStyle" />
-    <ui:Instance template="WindowTemplate" name="WindowTemplate" class="shop-window" style="width: 508px; height: 435px;">
-        <ui:VisualElement name="Content" class="shop-window-content-container" style="width: 492px; left: 6px; height: 390px;">
+    <ui:Instance template="WindowTemplate" name="WindowTemplate" class="shop-window">
+        <ui:VisualElement name="Content" class="shop-window-content-container">
             <ui:VisualElement name="InventoryContent" class="shop-item-container" style="flex-grow: 1;">
                 <ui:VisualElement name="ShopTabView" focusable="true" class="shop-tab-view-container">
                     <ui:VisualElement name="tab-header-container" class="shop-tab-header-container">
                         <ui:VisualElement name="TabLine" class="shop-tab-line" />
-                        <ui:VisualElement template="ShopTabHeader">
-                            <ui:VisualElement name="Tab" text="Tab1" class="currentlySelectedTab tab-header">
-                                <ui:Label tabindex="-1" text="Sell" parse-escape-sequences="true" display-tooltip-when-elided="true" class="tab-header-label" style="padding-top: 0;" />
-                            </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement template="ShopTabHeader">
-                            <ui:VisualElement name="Tab" text="Tab1" class="currentlySelectedTab tab-header active">
-                                <ui:Label tabindex="-1" text="Buy" parse-escape-sequences="true" display-tooltip-when-elided="true" class="tab-header-label" style="padding-top: 0;" />
-                            </ui:VisualElement>
-                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement focusable="true" name="tab-content-container" class="shop-tab-content-container">
-                        <ui:Instance template="ShopTab" name="BuyTab" style="flex-grow: 1;">
-                            <AttributeOverrides element-name="TabLabel" text="Shop List" />
-                        </ui:Instance>
-                    </ui:VisualElement>
+                    <ui:VisualElement focusable="true" name="tab-content-container" class="shop-tab-content-container" />
                 </ui:VisualElement>
                 <ui:VisualElement name="ButtonBar" class="shop-button-bar">
                     <ui:Instance template="L2Button" name="BuyButton" class="shop-button">

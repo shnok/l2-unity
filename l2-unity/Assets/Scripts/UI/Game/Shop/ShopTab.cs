@@ -30,7 +30,7 @@ public class ShopTab : L2Tab
 
     public void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader, ShopTabType shopTabType)
     {
-        base.Initialize(chatWindowEle, tabContainer, tabHeader);
+        base.Initialize(chatWindowEle, tabContainer, tabHeader, true);
 
         _containerLeft = tabContainer.Q<VisualElement>("ContainerInnerLeft");
         _containerRight = tabContainer.Q<VisualElement>("ContainerInnerRight");
@@ -54,8 +54,8 @@ public class ShopTab : L2Tab
         _weightBar = _weightBarContainer.Q<VisualElement>("Bar");
         _weightBarBg = _weightBarContainer.Q<VisualElement>("BarBg");
 
-        _tabs[0].Initialize(chatWindowEle, _containerLeft, tabHeader);
-        _tabs[1].Initialize(chatWindowEle, _containerRight, tabHeader);
+        _tabs[0].Initialize(chatWindowEle, _containerLeft, null);
+        _tabs[1].Initialize(chatWindowEle, _containerRight, null);
     }
 
     public void UpdateItemList()

@@ -42,7 +42,7 @@ public class ShopTabSmall : L2Tab
 
         for (int i = 0; i < slotCount; i++)
         {
-            VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
+            VisualElement slotElement = ShopWindow.Instance.ShopSlotTemplate.Instantiate()[0];
             _contentContainer.Add(slotElement);
 
             InventorySlot slot = new InventorySlot(i, slotElement, this, slotType);
@@ -50,16 +50,13 @@ public class ShopTabSmall : L2Tab
         }
 
         // Add disabled slot to fill up the window
-        int rowLength = 9;
-        if (InventoryWindow.Instance.Expanded)
-        {
-            rowLength = 12;
-        }
+        int rowLength = 6;
+        int colLenght = 7;
 
         int padSlot = 0;
-        if (slotCount < 8 * rowLength)
+        if (slotCount < colLenght * rowLength)
         {
-            padSlot = 8 * rowLength - slotCount;
+            padSlot = colLenght * rowLength - slotCount;
         }
         else if (slotCount % rowLength != 0)
         {
@@ -68,7 +65,7 @@ public class ShopTabSmall : L2Tab
 
         for (int i = 0; i < padSlot; i++)
         {
-            VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
+            VisualElement slotElement = ShopWindow.Instance.ShopSlotTemplate.Instantiate()[0];
             slotElement.AddToClassList("inventory-slot");
             slotElement.AddToClassList("disabled");
             _contentContainer.Add(slotElement);

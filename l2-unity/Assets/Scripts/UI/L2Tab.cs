@@ -21,23 +21,36 @@ public abstract class L2Tab
     {
         _windowEle = chatWindowEle;
 
-        if (tabContainer != null)
+        _tabContainer = tabContainer;
+        _tabHeader = tabHeader;
+
+        InitTabHeader();
+        InitScroller();
+    }
+
+    public virtual void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader, bool simple)
+    {
+        _windowEle = chatWindowEle;
+        _tabContainer = tabContainer;
+        _tabHeader = tabHeader;
+    }
+
+    private void InitTabHeader()
+    {
+        _tabHeader?.AddManipulator(new ButtonClickSoundManipulator(_tabHeader));
+        _tabHeader?.RegisterCallback<MouseDownEvent>(evt =>
         {
-            _tabContainer = tabContainer;
-            _tabHeader = tabHeader;
-            _scrollView = tabContainer.Q<ScrollView>("ScrollView");
-            _scroller = _scrollView.verticalScroller;
+            OnSwitchTab();
+        }, TrickleDown.TrickleDown);
+    }
 
-            tabHeader.AddManipulator(new ButtonClickSoundManipulator(tabHeader));
+    private void InitScroller()
+    {
+        _scrollView = _tabContainer?.Q<ScrollView>("ScrollView");
+        _scroller = _scrollView?.verticalScroller;
 
-            tabHeader.RegisterCallback<MouseDownEvent>(evt =>
-            {
-                OnSwitchTab();
-            }, TrickleDown.TrickleDown);
-
-            RegisterAutoScrollEvent();
-            RegisterPlayerScrollEvent();
-        }
+        RegisterAutoScrollEvent();
+        RegisterPlayerScrollEvent();
     }
 
     protected void AdjustScrollValue(int direction)
@@ -60,10 +73,21 @@ public abstract class L2Tab
 
     protected virtual void OnSwitchTab() { }
 
-    protected virtual void RegisterAutoScrollEvent() { }
+    protected virtual void RegisterAutoScrollEvent()
+    {
+        if (_scroller == null)
+        {
+            return;
+        }
+    }
 
     private void RegisterPlayerScrollEvent()
     {
+        if (_scroller == null)
+        {
+            return;
+        }
+
         var highBtn = _scroller.Q<RepeatButton>("unity-high-button");
         var lowBtn = _scroller.Q<RepeatButton>("unity-low-button");
         var dragger = _scroller.Q<VisualElement>("unity-drag-container");

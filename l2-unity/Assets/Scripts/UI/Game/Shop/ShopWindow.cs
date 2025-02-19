@@ -16,15 +16,9 @@ public class ShopWindow : L2PopupWindow
 
     [SerializeField] private List<ShopTab> _tabs;
 
-    public List<ItemInstance> _playerItems;
-
     [SerializeField] private int _usedSlots;
     [SerializeField] private int _slotCount;
     [SerializeField] private int _adenaCount;
-
-    private Label _weightLabel;
-    private Label _adenaCountLabel;
-    private Label _priceLabel;
 
     private VisualElement _weightBarContainer;
     private VisualElement _weightBar;
@@ -94,13 +88,6 @@ public class ShopWindow : L2PopupWindow
 
         RegisterCloseWindowEvent("btn-close-frame");
         RegisterClickWindowEvent(_windowEle, dragArea);
-
-        _adenaCountLabel = GetLabelById("AdenaCount");
-
-        _weightBarContainer = GetElementById("WeightBar");
-        _weightLabel = _weightBarContainer.Q<Label>("Text");
-        _weightBar = _weightBarContainer.Q<VisualElement>("Bar");
-        _weightBarBg = _weightBarContainer.Q<VisualElement>("BarBg");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -117,7 +104,7 @@ public class ShopWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
-        // UpdateItemList(_playerItems);
+        UpdateItemList();
 
 #if UNITY_EDITOR
         // DebugData();
@@ -158,6 +145,8 @@ public class ShopWindow : L2PopupWindow
             _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement, _tabs[i].TabType);
         }
 
+        _activeTab = null;
+
         if (_tabs.Count > 0)
         {
             SwitchTab(_tabs[0]);
@@ -170,35 +159,23 @@ public class ShopWindow : L2PopupWindow
     {
         if (_activeTab != switchTo)
         {
-            if (_activeTab != null)
-            {
-                _activeTab.TabContainer.AddToClassList("unselected-tab");
-                _activeTab.TabHeader.RemoveFromClassList("active");
-            }
+            _activeTab?.TabContainer?.AddToClassList("unselected-tab");
+            _activeTab?.TabHeader?.RemoveFromClassList("active");
 
             switchTo.TabContainer.RemoveFromClassList("unselected-tab");
             switchTo.TabHeader.AddToClassList("active");
             //ScrollDown(switchTo.Scroller);
 
             _activeTab = switchTo;
+
             return true;
         }
 
         return false;
     }
 
-    public void UpdateItemList(List<ItemInstance> items)
+    public void UpdateItemList()
     {
-        if (items == null)
-        {
-            items = new List<ItemInstance>();
-        }
-
-        _playerItems = items;
-
-        RefreshSlotsAndAdenas();
-        RefreshWeight();
-
         // Tabs
         _tabs.ForEach((tab) =>
         {
@@ -206,65 +183,6 @@ public class ShopWindow : L2PopupWindow
         });
     }
 
-    private void RefreshSlotsAndAdenas()
-    {
-        _adenaCount = 0;
-        _usedSlots = 0;
-
-        if (_playerItems.Count > 0)
-        {
-            _usedSlots = _playerItems.Where(o => o.Location == ItemLocation.Inventory).Count();
-
-            ItemInstance adenaItem = _playerItems.FirstOrDefault(o => o.Type2 == ItemType2.TYPE2_MONEY);
-
-            if (adenaItem != null)
-            {
-                _adenaCount = adenaItem.Count;
-            }
-        }
-
-        // Slot count
-        _slotCount = PlayerInventory.Instance.InventorySize;
-        //Adena
-        _adenaCountLabel.text = $"{_adenaCount:n0}";
-    }
-
-    public void RefreshWeight()
-    {
-        if (PlayerEntity.Instance == null)
-        {
-            return;
-        }
-
-        int weight = ((PlayerStats)PlayerEntity.Instance.Stats).CurrWeight;
-        int maxWeight = ((PlayerStats)PlayerEntity.Instance.Stats).MaxWeight;
-
-        if (_weightBarBg != null && _weightBar != null)
-        {
-            float bgWidth = 132; //TODO fix resolvedStyle width = 0
-            float weightRatio = Math.Min(1, (float)weight / maxWeight);
-
-            for (int i = 1; i <= 5; i++)
-            {
-                _weightBarContainer.RemoveFromClassList("weight-" + i);
-            }
-
-            int weightLevel = (int)Mathf.Floor(weightRatio / 0.25f) + 1;
-            _weightBarContainer.AddToClassList("weight-" + weightLevel);
-
-            float barWidth = bgWidth * weightRatio;
-            _weightBar.style.width = barWidth;
-        }
-
-        if (weight > 0)
-        {
-            _weightLabel.text = $"{((float)weight / maxWeight * 100f).ToString("0.00")}%";
-        }
-        else
-        {
-            _weightLabel.text = $"00.00%";
-        }
-    }
 
     public override void ToggleHideWindow()
     {
@@ -281,7 +199,7 @@ public class ShopWindow : L2PopupWindow
     public override void ShowWindow()
     {
         base.ShowWindow();
-        AudioManager.Instance.PlayUISound("inventory_open_01");
+        AudioManager.Instance.PlayUISound("window_open");
         L2GameUI.Instance.WindowOpened(this);
     }
 
@@ -290,7 +208,7 @@ public class ShopWindow : L2PopupWindow
         base.HideWindow(silent);
 
         if (!silent)
-            AudioManager.Instance.PlayUISound("inventory_close_01");
+            AudioManager.Instance.PlayUISound("window_close");
 
         L2GameUI.Instance.WindowClosed(this);
     }
