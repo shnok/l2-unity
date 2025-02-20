@@ -20,7 +20,7 @@ public class ChatTab : L2Tab
         _scrollStepSize = 12f;
     }
 
-    protected override void OnGeometryChanged()
+    private void OnGeometryChanged()
     {
         if (_autoscroll)
         {

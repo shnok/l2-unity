@@ -8,9 +8,9 @@ public class ShopSlot : InventorySlot
 
     protected override void HandleLeftClick()
     {
-        if (_currentTab != null)
+        if (_currentSlotContainer != null)
         {
-            _currentTab.SelectSlot(_position);
+            _currentSlotContainer.SelectSlot(_position);
         }
     }
 

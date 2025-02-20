@@ -21,9 +21,8 @@ public class ShopTab : L2Tab
     private VisualElement _weightBar;
     private VisualElement _weightBarBg;
 
-
     [SerializeField] private ShopTabType _shopTabType;
-    [SerializeField] private List<ShopTabSmall> _tabs;
+    [SerializeField] private List<L2SlotContainer> _tabs;
 
     public bool MainTab { get; internal set; }
     public ShopTabType TabType { get => _shopTabType; set { _shopTabType = value; } }
@@ -54,26 +53,28 @@ public class ShopTab : L2Tab
         _weightBar = _weightBarContainer.Q<VisualElement>("Bar");
         _weightBarBg = _weightBarContainer.Q<VisualElement>("BarBg");
 
-        _tabs[0].Initialize(chatWindowEle, _containerLeft, null);
-        _tabs[1].Initialize(chatWindowEle, _containerRight, null);
+        _tabs.Clear();
+        _tabs.Add(new L2SlotContainer());
+        _tabs.Add(new L2SlotContainer());
+
+        _tabs[0].Initialize(_containerLeft, 7, 6);
+        _tabs[1].Initialize(_containerRight, 7, 6);
     }
 
     public void UpdateItemList()
     {
+        _tabs[0].UpdateSlots(42);
+        _tabs[1].UpdateSlots(42);
+
         if (_shopTabType == ShopTabType.SELL)
         {
-            _tabs[0].UpdateItemList(PlayerInventory.Instance.Items);
-            _tabs[1].UpdateItemList(null);
         }
         else
         {
-            _tabs[0].UpdateItemList(null);
-            _tabs[1].UpdateItemList(null);
         }
 
         RefreshAdenas();
         RefreshWeight();
-
     }
 
     public override void SelectSlot(int slotPosition)
