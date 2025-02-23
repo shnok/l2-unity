@@ -9,7 +9,6 @@ public class ShopWindow : L2PopupWindow
 {
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
-    private VisualTreeAsset _shopSlotTemplate;
     private L2TabView _l2TabView;
 
     [SerializeField] private ShopTab[] _tabs;
@@ -21,9 +20,6 @@ public class ShopWindow : L2PopupWindow
     private VisualElement _weightBarContainer;
     private VisualElement _weightBar;
     private VisualElement _weightBarBg;
-
-    public VisualTreeAsset ShopSlotTemplate { get { return _shopSlotTemplate; } }
-    public int UsedSlots { get { return _usedSlots; } }
 
     private static ShopWindow _instance;
     public static ShopWindow Instance
@@ -41,23 +37,6 @@ public class ShopWindow : L2PopupWindow
         {
             Destroy(this);
         }
-
-        // ItemTable.Instance.Initialize();
-        // ItemNameTable.Instance.Initialize();
-        // ItemStatDataTable.Instance.Initialize();
-        // ArmorgrpTable.Instance.Initialize();
-        // EtcItemgrpTable.Instance.Initialize();
-        // WeapongrpTable.Instance.Initialize();
-        // ItemTable.Instance.CacheItems();
-        // NpcgrpTable.Instance.Initialize();
-        // NpcNameTable.Instance.Initialize();
-        // ActionNameTable.Instance.Initialize();
-        // SysStringTable.Instance.Initialize();
-        // SkillNameTable.Instance.Initialize();
-        // SkillgrpTable.Instance.Initialize();
-        // SystemMessageTable.Instance.Initialize();
-        // IconTable.Instance.Initialize();
-        // KeyImageTable.Instance.Initialize();
     }
 
     private void OnDestroy()
@@ -70,7 +49,6 @@ public class ShopWindow : L2PopupWindow
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ShopWindow/ShopWindow");
         _tabTemplate = LoadAsset("Data/UI/_Elements/Game/ShopWindow/ShopTab");
         _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/ShopWindow/ShopTabHeader");
-        _shopSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
     }
 
     protected override void InitWindow(VisualElement root)
@@ -104,10 +82,6 @@ public class ShopWindow : L2PopupWindow
 
         UpdateItemList();
 
-#if UNITY_EDITOR
-        // DebugData();
-#endif
-
         L2GameUI.Instance.WindowLoadComplete();
     }
 
@@ -116,7 +90,7 @@ public class ShopWindow : L2PopupWindow
         VisualElement shopTabView = GetElementById("ShopTabView");
 
         _l2TabView = new L2TabView();
-        _l2TabView.Initialize(shopTabView, _tabs, _tabTemplate, _tabHeaderTemplate);
+        _l2TabView.Initialize(shopTabView, _tabs, _tabTemplate, _tabHeaderTemplate, true);
     }
 
 
@@ -156,11 +130,4 @@ public class ShopWindow : L2PopupWindow
 
         L2GameUI.Instance.WindowClosed(this);
     }
-
-#if UNITY_EDITOR
-    public void DebugData()
-    {
-
-    }
-#endif
 }

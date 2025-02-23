@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 public class ActionWindow : L2PopupWindow
 {
     private const int SLOTS_PER_ROW = 8;
-    private VisualTreeAsset _slotTemplate;
     private VisualElement _basicContainer;
     private VisualElement _partyContainer;
     private VisualElement _tokenContainer;
@@ -36,7 +35,6 @@ public class ActionWindow : L2PopupWindow
     protected override void LoadAssets()
     {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ActionWindow/ActionWindow");
-        _slotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/ActionSlot");
     }
 
     protected override void InitWindow(VisualElement root)
@@ -115,7 +113,7 @@ public class ActionWindow : L2PopupWindow
 
     private ActionSlot AddSlot(int position, VisualElement container)
     {
-        VisualElement slotElement = _slotTemplate.Instantiate()[0];
+        VisualElement slotElement = L2SlotManager.Instance.ActionSlotTemplate.Instantiate()[0];
         container.Add(slotElement);
 
         ActionSlot slot = new ActionSlot(slotElement, position, L2Slot.SlotType.Action);

@@ -8,6 +8,12 @@ public class L2SlotManager : L2PopupWindow
     [SerializeField] private L2Slot _draggedSlot;
     [SerializeField] private L2Slot _hoverSlot;
     private L2Slot _dragSlotData;
+    private VisualTreeAsset _actionSlotTemplate;
+    private VisualTreeAsset _inventorySlotTemplate;
+    private VisualTreeAsset _shopSlotTemplate;
+    public VisualTreeAsset ActionSlotTemplate { get { return _actionSlotTemplate; } }
+    public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
+    public VisualTreeAsset ShopSlotTemplate { get { return _shopSlotTemplate; } }
 
     private static L2SlotManager _instance;
     public static L2SlotManager Instance { get { return _instance; } }
@@ -32,6 +38,9 @@ public class L2SlotManager : L2PopupWindow
     protected override void LoadAssets()
     {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/DraggedSlot");
+        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
+        _actionSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/ActionSlot");
+        _shopSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)

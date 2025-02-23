@@ -105,7 +105,7 @@ public class ChatWindow : L2Window
         VisualElement chatTabView = GetElementById("ChatTabView");
 
         _l2TabView = new L2TabView();
-        _l2TabView.Initialize(chatTabView, _tabs, _tabTemplate, _tabHeaderTemplate);
+        _l2TabView.Initialize(chatTabView, _tabs, _tabTemplate, _tabHeaderTemplate, false);
     }
 
     void Update()
@@ -324,7 +324,6 @@ public class ChatWindow : L2Window
     IEnumerator ScrollDownWithDelay(Scroller scroller)
     {
         yield return new WaitForEndOfFrame();
-        //TODO: Handle this according to new L2Scrollable
-        // scroller.value = scroller.highValue > 0 ? scroller.highValue : 0;
+        scroller.value = scroller.highValue > 0 ? scroller.highValue : 0;
     }
 }

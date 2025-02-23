@@ -29,7 +29,7 @@ public class ShopTab : L2Tab
 
     public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
-        base.Initialize(tabView, tabContainer, tabHeader, true);
+        base.Initialize(tabView, tabContainer, tabHeader);
 
         _containerLeft = tabContainer.Q<VisualElement>("ContainerInnerLeft");
         _containerRight = tabContainer.Q<VisualElement>("ContainerInnerRight");
@@ -62,8 +62,8 @@ public class ShopTab : L2Tab
 
     public void UpdateItemList()
     {
-        _slotContainers[0].UpdateSlots(42);
-        _slotContainers[1].UpdateSlots(42);
+        _slotContainers[0].UpdateSlots(42, L2Slot.SlotType.InventoryBis);
+        _slotContainers[1].UpdateSlots(42, L2Slot.SlotType.InventoryBis);
 
         if (_shopTabType == ShopTabType.SELL)
         {

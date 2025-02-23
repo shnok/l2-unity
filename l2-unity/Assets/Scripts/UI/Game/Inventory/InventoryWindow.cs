@@ -9,11 +9,9 @@ public class InventoryWindow : L2PopupWindow
 {
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
-    private VisualTreeAsset _inventorySlotTemplate;
     private VisualTreeAsset _minimizedTemplate;
     private VisualElement _inventoryTabView;
     private VisualElement _minimizedInventoryBtn;
-    private InventoryTab _activeTab;
 
     private MouseOverDetectionManipulator _minimizedInventoryMouseOverManipulator;
     private DragManipulator _minimizedInventoryDragManipulator;
@@ -39,7 +37,6 @@ public class InventoryWindow : L2PopupWindow
     private VisualElement _weightBarBg;
     private L2TabView _l2TabView;
 
-    public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
     public bool Expanded { get { return _expanded; } }
     public int UsedSlots { get { return _usedSlots; } }
 
@@ -88,7 +85,6 @@ public class InventoryWindow : L2PopupWindow
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryWindow");
         _tabTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryTab");
         _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryTabHeader");
-        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
         _minimizedTemplate = LoadAsset("Data/UI/_Elements/Game/InventoryWindow/InventoryMin");
     }
 
@@ -240,12 +236,11 @@ public class InventoryWindow : L2PopupWindow
         _inventoryTabView = GetElementById("InventoryTabView");
 
         _l2TabView = new L2TabView();
-        _l2TabView.Initialize(_inventoryTabView, _tabs, _tabTemplate, _tabHeaderTemplate);
+        _l2TabView.Initialize(_inventoryTabView, _tabs, _tabTemplate, _tabHeaderTemplate, true);
 
-        _tabs[0].MainTab = true;
-
+        VisualElement gearTabElement = GetElementById("GearContent");
         _gearTab = new InventoryGearTab();
-        _gearTab.Initialize(null, null, null);
+        _gearTab.Initialize(null, gearTabElement, null);
     }
 
 
