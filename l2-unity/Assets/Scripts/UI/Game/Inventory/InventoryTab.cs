@@ -9,8 +9,8 @@ public class InventoryTab : L2Tab
 
     private VisualElement _contentContainer;
     public List<ItemType1> _filteredCategories;
-    public bool MainTab { get; internal set; }
     private L2SlotContainer _slotContainer;
+    [SerializeField] private bool _mainTab;
 
     public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
@@ -18,12 +18,13 @@ public class InventoryTab : L2Tab
 
         _contentContainer = tabContainer.Q<VisualElement>("Content");
         _slotContainer = new L2SlotContainer();
-        _slotContainer.Initialize(_contentContainer, 9, 8);
+        _slotContainer.Initialize(_contentContainer, 8, 9);
     }
 
     public void UpdateItemList(List<ItemInstance> items)
     {
-        _slotContainer.UpdateSlots(PlayerInventory.Instance.InventorySize, InventoryWindow.Instance.Expanded ? 12 : 9, 8);
+        L2Slot.SlotType slotType = _mainTab ? slotType = L2Slot.SlotType.Inventory : L2Slot.SlotType.InventoryBis;
+        _slotContainer.UpdateSlots(PlayerInventory.Instance.InventorySize, 8, InventoryWindow.Instance.Expanded ? 12 : 9, slotType);
 
         // _slotContainer.AssignItemsToSlots(items);
 

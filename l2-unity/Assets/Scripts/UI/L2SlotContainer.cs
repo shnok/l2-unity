@@ -31,8 +31,8 @@ public class L2SlotContainer : L2Scrollable
         {
             foreach (InventorySlot slot in _slots)
             {
-                slot.UnregisterClickableCallback();
-                slot.ClearManipulators();
+                slot?.UnregisterClickableCallback();
+                slot?.ClearManipulators();
             }
         }
 
@@ -54,7 +54,7 @@ public class L2SlotContainer : L2Scrollable
 
         for (int i = 0; i < padSlot; i++)
         {
-            VisualElement slotElement = ShopWindow.Instance.ShopSlotTemplate.Instantiate()[0];
+            VisualElement slotElement = L2SlotManager.Instance.InventorySlotTemplate.Instantiate()[0];
             slotElement.AddToClassList("inventory-slot");
             slotElement.AddToClassList("disabled");
             _slotContainerElement.Add(slotElement);
@@ -79,36 +79,40 @@ public class L2SlotContainer : L2Scrollable
         _currentSelectedSlotId = slotPosition;
     }
 
-    public void UpdateSlots(int slotCount, int colLenght, int rowLength)
+    public void UpdateSlots(int slotCount, int colLenght, int rowLength, L2Slot.SlotType slotType)
     {
         _colLength = colLenght;
         _rowLength = rowLength;
-        UpdateSlots(slotCount, colLenght, rowLength);
+        UpdateSlots(slotCount, slotType);
     }
 
-    public void UpdateSlots(int slotCount)
+    public void UpdateSlots(int slotCount, L2Slot.SlotType slotType)
     {
         ClearSlots();
 
         // Create empty slots
         _slots = new L2Slot[slotCount];
 
-        CreateSlotElements(slotCount);
+        CreateSlotElements(slotCount, slotType);
 
         PadSlots(slotCount);
 
         SelectDefaultSlot();
     }
 
-    public virtual void CreateSlotElements(int slotCount)
+    public virtual void CreateSlotElements(int slotCount, L2Slot.SlotType slotType)
     {
-        L2Slot.SlotType slotType = L2Slot.SlotType.Inventory;
         for (int i = 0; i < slotCount; i++)
         {
-            VisualElement slotElement = ShopWindow.Instance.ShopSlotTemplate.Instantiate()[0];
+            VisualElement slotElement = L2SlotManager.Instance.InventorySlotTemplate.Instantiate()[0];
             _slotContainerElement.Add(slotElement);
+            L2Slot slot = null;
 
-            L2Slot slot = new InventorySlot(i, slotElement, this, slotType);
+            if (slotType == L2Slot.SlotType.Inventory || slotType == L2Slot.SlotType.InventoryBis)
+            {
+                slot = new InventorySlot(i, slotElement, this, slotType);
+            }
+
             _slots[i] = slot;
         }
     }

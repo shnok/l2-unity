@@ -1,19 +1,23 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class L2Scrollable
+public class L2Scrollable
 {
     protected ScrollView _scrollView;
     protected Scroller _scroller;
     protected VisualElement _container;
     public Scroller Scroller { get { return _scroller; } }
     protected float _scrollStepSize = 22f;
+    public float ScrollStepSize { get { return _scrollStepSize; } set { _scrollStepSize = value; } }
     private bool _autoscroll;
+    public bool AutoScroll { get { return _autoscroll; } set { _autoscroll = value; } }
 
     public virtual void Initialize(VisualElement container, bool autoscroll)
     {
         _container = container;
         _autoscroll = autoscroll;
+
+        Debug.LogWarning("Initialize scrollable from Element " + container);
         InitScroller();
     }
 

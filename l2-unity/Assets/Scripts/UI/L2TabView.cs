@@ -11,17 +11,17 @@ public class L2TabView
     private VisualTreeAsset _tabHeaderTemplate;
     private L2Tab _activeTab;
 
-    public void Initialize(VisualElement tabViewElement, L2Tab[] tabs, VisualTreeAsset tabTemplate, VisualTreeAsset tabHeaderTemplate)
+    public void Initialize(VisualElement tabViewElement, L2Tab[] tabs, VisualTreeAsset tabTemplate, VisualTreeAsset tabHeaderTemplate, bool reverseOrder)
     {
         _tabViewElement = tabViewElement;
         _tabs = tabs;
         _tabTemplate = tabTemplate;
         _tabHeaderTemplate = tabHeaderTemplate;
 
-        CreateTabs();
+        CreateTabs(reverseOrder);
     }
 
-    private void CreateTabs()
+    private void CreateTabs(bool reverseOrder)
     {
         VisualElement tabHeaderContainer = _tabViewElement.Q<VisualElement>("tab-header-container");
         if (tabHeaderContainer == null)
@@ -37,24 +37,26 @@ public class L2TabView
 
         for (int i = 0; i < _tabs.Length; i++)
         {
+            L2Tab tab = reverseOrder ? _tabs[_tabs.Length - 1 - i] : _tabs[i];
+
             VisualElement tabElement = _tabTemplate.CloneTree()[0];
             // tabElement.name = _tabs[i].TabName;
-            tabElement.name = _tabs[i].TabName;
+            tabElement.name = tab.TabName;
             tabElement.AddToClassList("unselected-tab");
 
             VisualElement tabHeaderElement = _tabHeaderTemplate.CloneTree()[0];
-            tabHeaderElement.name = _tabs[i].TabName;
-            tabHeaderElement.Q<Label>().text = _tabs[i].TabName;
+            tabHeaderElement.name = tab.TabName;
+            tabHeaderElement.Q<Label>().text = tab.TabName;
 
             tabHeaderContainer.Add(tabHeaderElement);
             tabContainer.Add(tabElement);
 
-            _tabs[i].Initialize(this, tabElement, tabHeaderElement);
+            tab.Initialize(this, tabElement, tabHeaderElement);
         }
 
         if (_tabs.Length > 0)
         {
-            SwitchTab(_tabs[0]);
+            SwitchTab(_tabs[reverseOrder ? _tabs.Length - 1 : 0]);
         }
     }
 

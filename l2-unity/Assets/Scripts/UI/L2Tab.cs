@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
-public abstract class L2Tab : L2Scrollable
+public abstract class L2Tab
 {
     [SerializeField] string _tabName = "Tab";
     [SerializeField] protected bool _autoscroll = true;
-    private VisualElement _tabContainer;
+    protected VisualElement _tabContainer;
     private VisualElement _tabHeader;
     protected VisualElement _windowEle;
     public string TabName { get { return _tabName; } }
@@ -14,23 +14,13 @@ public abstract class L2Tab : L2Scrollable
     public VisualElement TabHeader { get { return _tabHeader; } }
     private L2TabView _tabView;
 
-    public virtual void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader, bool hasScrollView)
+    public virtual void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
-        if (hasScrollView)
-        {
-            base.Initialize(tabContainer, true);
-        }
-
         _tabContainer = tabContainer;
         _tabHeader = tabHeader;
         _tabView = tabView;
 
         InitTabHeader();
-    }
-
-    public virtual void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
-    {
-        Initialize(tabView, tabContainer, tabHeader, false);
     }
 
     private void InitTabHeader()
@@ -41,7 +31,6 @@ public abstract class L2Tab : L2Scrollable
             OnTabHeaderClicked();
         }, TrickleDown.TrickleDown);
     }
-
 
     protected virtual void OnTabHeaderClicked()
     {
