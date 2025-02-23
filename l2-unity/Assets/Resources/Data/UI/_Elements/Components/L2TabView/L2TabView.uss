@@ -1,0 +1,139 @@
+.l2-tab-view {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-direction: column;
+    padding-left: 0;
+    padding-top: 5px;
+    padding-right: 0;
+    padding-bottom: 0;
+}
+
+.l2-tab-view .tab-header-container {
+    flex-direction: row-reverse;
+    margin-left: 8px;
+    margin-bottom: -4px;
+}
+
+.l2-tab-view .tab-content-container {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-direction: column-reverse;
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_bg');
+    -unity-slice-left: 10;
+    -unity-slice-top: 10;
+    -unity-slice-right: 10;
+    -unity-slice-bottom: 10;
+    padding-top: 7px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 6px;
+    margin-bottom: 0;
+}
+
+.l2-tab-view .tab-line {
+    flex-grow: 1;
+    margin-right: 5px;
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Bg_line');
+    margin-bottom: -7px;
+}
+
+.l2-tab-view  .unity-tab-view__header-container {
+    margin-left: 23px;
+}
+
+.l2-tab-view  .unity-tab-view__content-container {
+    flex-grow: 1;
+}
+
+.l2-tab-view #tab-content-container {
+    flex-grow: 1;
+}
+
+.l2-tab-view .unity-tab__header-underline {
+    width: 0;
+}
+
+.l2-tab-view .unity-tab__header {
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected');
+    background-color: transparent;
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+    rotate: 180deg;
+    height: 25px;
+    padding: 0;
+    width: 64px;
+    justify-content: center;
+}
+
+.l2-tab-view .tab-header {
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected');
+    background-color: transparent;
+    -unity-slice-top: 24;
+    -unity-slice-left: 5;
+    -unity-slice-bottom: 0;
+    -unity-slice-right: 5;
+    -unity-slice-scale: 1px;
+    height: 25px;
+    padding: 0;
+    width: 64px;
+    justify-content: center;
+}
+
+.l2-tab-view .unity-tab__header:checked {
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
+}
+
+.l2-tab-view .tab-header.active {
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
+}
+
+.l2-tab-view .unity-tab__header:checked:hover {
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
+}
+
+.l2-tab-view .tab-header.active:hover {
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Selected');
+}
+
+.l2-tab-view .unity-tab__header:hover {
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected_Over');
+}
+
+.l2-tab-view .tab-header:hover {
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Tab_Unselected_Over');
+}
+
+.l2-tab-view .unity-tab {
+    flex-grow: 1;
+    height: 1px;
+    margin-bottom: -2px;
+}
+
+.l2-tab-view .unity-tab__header-label {
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+    -unity-text-align: middle-center;
+}
+
+.l2-tab-view #unity-content-viewport {
+    margin: 4px;
+    margin-right: 0px;
+    padding: 0;
+}
+
+.l2-tab-view .tab-header-label {
+    color: rgb(220, 220, 220);
+    font-size: 11px;
+    padding-bottom: 2px;
+    margin: 0;
+    -unity-text-align: middle-center;
+}
+
+.l2-tab-view .unselected-tab {
+    display: none;
+}

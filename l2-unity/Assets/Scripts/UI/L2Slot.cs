@@ -97,4 +97,7 @@ public class L2Slot
             _slotElement.RemoveManipulator(_hoverManipulator);
         }
     }
+
+    public virtual void SetSelected() { }
+    public virtual void UnSelect() { }
 }

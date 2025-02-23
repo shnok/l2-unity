@@ -26,7 +26,7 @@ public abstract class L2UI : MonoBehaviour
     {
         if (++_windowsLoaded >= _totalWindowsToLoad)
         {
-            GameManager.Instance.NotifyEvent(GameEvent.UI_LOADED);
+            GameManager.Instance?.NotifyEvent(GameEvent.UI_LOADED);
         }
     }
 

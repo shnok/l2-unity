@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 public class InventorySlot : L2DraggableSlot
 {
-    protected L2Tab _currentTab;
+    protected L2SlotContainer _currentSlotContainer;
     private int _count;
     private long _remainingTime;
     private SlotClickSoundManipulator _slotClickSoundManipulator;
@@ -20,10 +20,10 @@ public class InventorySlot : L2DraggableSlot
 
     public ItemName ItemName { get { return _assignedItem; } }
 
-    public InventorySlot(int position, VisualElement slotElement, L2Tab tab, SlotType slotType)
+    public InventorySlot(int position, VisualElement slotElement, L2SlotContainer slotContainer, SlotType slotType)
     : base(position, slotElement, slotType, false, true)
     {
-        _currentTab = tab;
+        _currentSlotContainer = slotContainer;
         _empty = true;
 
         if (_slotClickSoundManipulator == null)
@@ -109,9 +109,9 @@ public class InventorySlot : L2DraggableSlot
 
     protected override void HandleLeftClick()
     {
-        if (_currentTab != null)
+        if (_currentSlotContainer != null)
         {
-            _currentTab.SelectSlot(_position);
+            _currentSlotContainer.SelectSlot(_position);
         }
     }
 

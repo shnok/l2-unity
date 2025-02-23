@@ -12,28 +12,12 @@ public class ChatTab : L2Tab
     private Label _content;
     public Label Content { get { return _content; } }
 
-    public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader)
+    public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
-        base.Initialize(chatWindowEle, tabContainer, tabHeader);
+        base.Initialize(tabView, tabContainer, tabHeader);
         _content = tabContainer.Q<Label>("Content");
         _content.text = "";
         _scrollStepSize = 12f;
-    }
-
-    protected override void OnGeometryChanged()
-    {
-        if (_autoscroll)
-        {
-            ChatWindow.Instance.ScrollDown(_scroller);
-        }
-    }
-
-    protected override void OnSwitchTab()
-    {
-        if (ChatWindow.Instance.SwitchTab(this))
-        {
-            AudioManager.Instance.PlayUISound("window_open");
-        }
     }
 
     public void AddMessage(string message)
@@ -64,5 +48,10 @@ public class ChatTab : L2Tab
         {
             ChatWindow.Instance.ScrollDown(_scroller);
         }
+    }
+
+    protected override void OnTabHeaderClicked()
+    {
+        base.OnTabHeaderClicked();
     }
 }

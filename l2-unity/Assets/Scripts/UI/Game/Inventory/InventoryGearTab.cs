@@ -9,9 +9,9 @@ public class InventoryGearTab : L2Tab
     private Dictionary<Paperdoll, VisualElement> _gearAnchors;
     [SerializeField] private int _selectedSlot = -1;
 
-    public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader)
+    public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
-        base.Initialize(chatWindowEle, tabContainer, tabHeader);
+        base.Initialize(null, tabContainer, tabHeader);
 
         _selectedSlot = -1;
 
@@ -69,7 +69,7 @@ public class InventoryGearTab : L2Tab
             VisualElement slotElement = InventoryWindow.Instance.InventorySlotTemplate.Instantiate()[0];
             kvp.Value.Add(slotElement);
 
-            GearSlot slot = new GearSlot((int)kvp.Key, slotElement, this, L2Slot.SlotType.Gear);
+            GearSlot slot = new GearSlot((int)kvp.Key, slotElement, null, L2Slot.SlotType.Gear);
             _gearSlots.Add(kvp.Key, slot);
         }
 
