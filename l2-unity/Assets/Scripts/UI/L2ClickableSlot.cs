@@ -36,13 +36,13 @@ public class L2ClickableSlot : L2Slot
         _slotElement.UnregisterCallback<MouseUpEvent>(HandleSlotClickUp, TrickleDown.TrickleDown);
     }
 
-    public void SetSelected()
+    public override void SetSelected()
     {
         Debug.Log($"Slot {_position} selected.");
         _slotElement.AddToClassList("selected");
     }
 
-    public void UnSelect()
+    public override void UnSelect()
     {
         Debug.Log($"Slot {_position} unselected.");
         _slotElement.RemoveFromClassList("selected");

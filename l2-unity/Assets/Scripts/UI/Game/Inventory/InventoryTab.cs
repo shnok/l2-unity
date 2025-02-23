@@ -29,6 +29,7 @@ public class InventoryTab : L2Tab
         // _slotContainer.AssignItemsToSlots(items);
 
         // Assign items to slots
+        _itemCount = 0;
         items.ForEach(item =>
         {
             if (item.Location == ItemLocation.Inventory)
@@ -36,7 +37,6 @@ public class InventoryTab : L2Tab
                 if (_filteredCategories == null || _filteredCategories.Count == 0)
                 {
                     ((InventorySlot)_slotContainer.Slots[item.Slot]).AssignItem(item);
-                    _itemCount++;
                 }
                 else if (_filteredCategories.Contains(item.Type1))
                 {

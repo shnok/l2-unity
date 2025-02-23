@@ -56,7 +56,7 @@ public class L2TabView
 
         if (_tabs.Length > 0)
         {
-            SwitchTab(_tabs[reverseOrder ? _tabs.Length - 1 : 0]);
+            SwitchTab(_tabs[0]);
         }
     }
 
