@@ -10,4 +10,9 @@ public class GearSlot : InventorySlot
     {
         UseItem();
     }
+
+    protected override void HandleLeftClick()
+    {
+        InventoryWindow.Instance.GearTab.SelectSlot(_position);
+    }
 }

@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 public class L2SlotContainer : L2Scrollable
 {
     private VisualElement _slotContainerElement;
-    public VisualElement Container { get { return _container; } }
     private L2Slot[] _slots;
     public L2Slot[] Slots { get => _slots; }
     private int _currentSelectedSlotId;

@@ -7,7 +7,6 @@ public class InventoryTab : L2Tab
 {
     private int _itemCount = 0;
 
-    private VisualElement _contentContainer;
     public List<ItemType1> _filteredCategories;
     private L2SlotContainer _slotContainer;
     [SerializeField] private bool _mainTab;
@@ -16,9 +15,9 @@ public class InventoryTab : L2Tab
     {
         base.Initialize(tabView, tabContainer, tabHeader);
 
-        _contentContainer = tabContainer.Q<VisualElement>("Content");
+        // _contentContainer = tabContainer.Q<VisualElement>("Content");
         _slotContainer = new L2SlotContainer();
-        _slotContainer.Initialize(_contentContainer, 8, 9);
+        _slotContainer.Initialize(tabContainer, 8, 9);
     }
 
     public void UpdateItemList(List<ItemInstance> items)
@@ -29,6 +28,7 @@ public class InventoryTab : L2Tab
         // _slotContainer.AssignItemsToSlots(items);
 
         // Assign items to slots
+        _itemCount = 0;
         items.ForEach(item =>
         {
             if (item.Location == ItemLocation.Inventory)
@@ -36,7 +36,6 @@ public class InventoryTab : L2Tab
                 if (_filteredCategories == null || _filteredCategories.Count == 0)
                 {
                     ((InventorySlot)_slotContainer.Slots[item.Slot]).AssignItem(item);
-                    _itemCount++;
                 }
                 else if (_filteredCategories.Contains(item.Type1))
                 {

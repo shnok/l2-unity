@@ -19,6 +19,7 @@ public class InventoryWindow : L2PopupWindow
     private VisualElement _expandButton;
 
     [SerializeField] private InventoryGearTab _gearTab;
+    public InventoryGearTab GearTab { get => _gearTab; }
     [SerializeField] private InventoryTab[] _tabs;
 
     public List<ItemInstance> _playerItems;
