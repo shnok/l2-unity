@@ -21,7 +21,7 @@ public class InventoryWindow : L2PopupWindow
     private VisualElement _expandButton;
 
     [SerializeField] private InventoryGearTab _gearTab;
-    [SerializeField] private List<InventoryTab> _tabs;
+    [SerializeField] private InventoryTab[] _tabs;
 
     public List<ItemInstance> _playerItems;
 
@@ -37,6 +37,7 @@ public class InventoryWindow : L2PopupWindow
     private VisualElement _weightBarContainer;
     private VisualElement _weightBar;
     private VisualElement _weightBarBg;
+    private L2TabView _l2TabView;
 
     public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
     public bool Expanded { get { return _expanded; } }
@@ -238,65 +239,15 @@ public class InventoryWindow : L2PopupWindow
     {
         _inventoryTabView = GetElementById("InventoryTabView");
 
-        VisualElement tabHeaderContainer = _inventoryTabView.Q<VisualElement>("tab-header-container");
-        if (tabHeaderContainer == null)
-        {
-            Debug.LogError("tab-header-container is null");
-        }
-        VisualElement tabContainer = _inventoryTabView.Q<VisualElement>("tab-content-container");
-
-        if (tabContainer == null)
-        {
-            Debug.LogError("tab-content-container");
-        }
-
-        for (int i = _tabs.Count - 1; i >= 0; i--)
-        {
-            VisualElement tabElement = _tabTemplate.CloneTree()[0];
-            tabElement.name = _tabs[i].TabName;
-            tabElement.AddToClassList("unselected-tab");
-
-            VisualElement tabHeaderElement = _tabHeaderTemplate.CloneTree()[0];
-            tabHeaderElement.name = _tabs[i].TabName;
-            tabHeaderElement.Q<Label>().text = _tabs[i].TabName;
-
-            tabHeaderContainer.Add(tabHeaderElement);
-            tabContainer.Add(tabElement);
-
-            _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement);
-        }
-
-        if (_tabs.Count > 0)
-        {
-            SwitchTab(_tabs[0]);
-        }
+        _l2TabView = new L2TabView();
+        _l2TabView.Initialize(_inventoryTabView, _tabs, _tabTemplate, _tabHeaderTemplate);
 
         _tabs[0].MainTab = true;
 
         _gearTab = new InventoryGearTab();
-        _gearTab.Initialize(_windowEle, null, null);
+        _gearTab.Initialize(null, null, null);
     }
 
-    public bool SwitchTab(InventoryTab switchTo)
-    {
-        if (_activeTab != switchTo)
-        {
-            if (_activeTab != null)
-            {
-                _activeTab.TabContainer.AddToClassList("unselected-tab");
-                _activeTab.TabHeader.RemoveFromClassList("active");
-            }
-
-            switchTo.TabContainer.RemoveFromClassList("unselected-tab");
-            switchTo.TabHeader.AddToClassList("active");
-            //ScrollDown(switchTo.Scroller);
-
-            _activeTab = switchTo;
-            return true;
-        }
-
-        return false;
-    }
 
     public void UpdateItemList(List<ItemInstance> items)
     {
@@ -312,10 +263,10 @@ public class InventoryWindow : L2PopupWindow
 
         // Tabs
         _gearTab.UpdateItemList(items);
-        _tabs.ForEach((tab) =>
+        for (int i = 0; i < _tabs.Length; i++)
         {
-            tab.UpdateItemList(items);
-        });
+            _tabs[i].UpdateItemList(items);
+        }
     }
 
     private void RefreshSlotsAndAdenas()

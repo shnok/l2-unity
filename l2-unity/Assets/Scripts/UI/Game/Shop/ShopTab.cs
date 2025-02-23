@@ -22,18 +22,17 @@ public class ShopTab : L2Tab
     private VisualElement _weightBarBg;
 
     [SerializeField] private ShopTabType _shopTabType;
-    [SerializeField] private List<L2SlotContainer> _tabs;
+    [SerializeField] private List<L2SlotContainer> _slotContainers;
 
     public bool MainTab { get; internal set; }
     public ShopTabType TabType { get => _shopTabType; set { _shopTabType = value; } }
 
-    public void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader, ShopTabType shopTabType)
+    public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
-        base.Initialize(chatWindowEle, tabContainer, tabHeader, true);
+        base.Initialize(tabView, tabContainer, tabHeader, true);
 
         _containerLeft = tabContainer.Q<VisualElement>("ContainerInnerLeft");
         _containerRight = tabContainer.Q<VisualElement>("ContainerInnerRight");
-        _shopTabType = shopTabType;
 
         if (_shopTabType == ShopTabType.BUY)
         {
@@ -53,18 +52,18 @@ public class ShopTab : L2Tab
         _weightBar = _weightBarContainer.Q<VisualElement>("Bar");
         _weightBarBg = _weightBarContainer.Q<VisualElement>("BarBg");
 
-        _tabs.Clear();
-        _tabs.Add(new L2SlotContainer());
-        _tabs.Add(new L2SlotContainer());
+        _slotContainers.Clear();
+        _slotContainers.Add(new L2SlotContainer());
+        _slotContainers.Add(new L2SlotContainer());
 
-        _tabs[0].Initialize(_containerLeft, 7, 6);
-        _tabs[1].Initialize(_containerRight, 7, 6);
+        _slotContainers[0].Initialize(_containerLeft, 7, 6);
+        _slotContainers[1].Initialize(_containerRight, 7, 6);
     }
 
     public void UpdateItemList()
     {
-        _tabs[0].UpdateSlots(42);
-        _tabs[1].UpdateSlots(42);
+        _slotContainers[0].UpdateSlots(42);
+        _slotContainers[1].UpdateSlots(42);
 
         if (_shopTabType == ShopTabType.SELL)
         {
@@ -133,12 +132,8 @@ public class ShopTab : L2Tab
         }
     }
 
-    protected override void OnSwitchTab()
+    protected override void OnTabHeaderClicked()
     {
-        if (ShopWindow.Instance.SwitchTab(this))
-        {
-            AudioManager.Instance.PlayUISound("window_open");
-            UpdateItemList();
-        }
+        base.OnTabHeaderClicked();
     }
 }

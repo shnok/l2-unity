@@ -8,13 +8,11 @@ using UnityEngine.UIElements;
 public class ShopWindow : L2PopupWindow
 {
     private VisualTreeAsset _tabTemplate;
-    private VisualTreeAsset _smallTabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
     private VisualTreeAsset _shopSlotTemplate;
-    private VisualElement _shopTabView;
-    private ShopTab _activeTab;
+    private L2TabView _l2TabView;
 
-    [SerializeField] private List<ShopTab> _tabs;
+    [SerializeField] private ShopTab[] _tabs;
 
     [SerializeField] private int _usedSlots;
     [SerializeField] private int _slotCount;
@@ -115,74 +113,20 @@ public class ShopWindow : L2PopupWindow
 
     private void CreateTabs()
     {
-        _shopTabView = GetElementById("ShopTabView");
+        VisualElement shopTabView = GetElementById("ShopTabView");
 
-        VisualElement tabHeaderContainer = _shopTabView.Q<VisualElement>("tab-header-container");
-        if (tabHeaderContainer == null)
-        {
-            Debug.LogError("tab-header-container is null");
-        }
-        VisualElement tabContainer = _shopTabView.Q<VisualElement>("tab-content-container");
-
-        if (tabContainer == null)
-        {
-            Debug.LogError("tab-content-container");
-        }
-
-        for (int i = _tabs.Count - 1; i >= 0; i--)
-        {
-            VisualElement tabElement = _tabTemplate.CloneTree()[0];
-            tabElement.name = _tabs[i].TabName;
-            tabElement.AddToClassList("unselected-tab");
-
-            VisualElement tabHeaderElement = _tabHeaderTemplate.CloneTree()[0];
-            tabHeaderElement.name = _tabs[i].TabName;
-            tabHeaderElement.Q<Label>().text = _tabs[i].TabName;
-
-            tabHeaderContainer.Add(tabHeaderElement);
-            tabContainer.Add(tabElement);
-
-            _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement, _tabs[i].TabType);
-        }
-
-        _activeTab = null;
-
-        if (_tabs.Count > 0)
-        {
-            SwitchTab(_tabs[0]);
-        }
-
-        _tabs[0].MainTab = true;
+        _l2TabView = new L2TabView();
+        _l2TabView.Initialize(shopTabView, _tabs, _tabTemplate, _tabHeaderTemplate);
     }
 
-    public bool SwitchTab(ShopTab switchTo)
-    {
-        if (_activeTab != switchTo)
-        {
-            _activeTab?.TabContainer?.AddToClassList("unselected-tab");
-            _activeTab?.TabHeader?.RemoveFromClassList("active");
-
-            switchTo.TabContainer.RemoveFromClassList("unselected-tab");
-            switchTo.TabHeader.AddToClassList("active");
-            //ScrollDown(switchTo.Scroller);
-
-            _activeTab = switchTo;
-
-            return true;
-        }
-
-        return false;
-    }
 
     public void UpdateItemList()
     {
-        // Tabs
-        _tabs.ForEach((tab) =>
+        for (int i = 0; i < _tabs.Length; i++)
         {
-            tab.UpdateItemList();
-        });
+            _tabs[i].UpdateItemList();
+        }
     }
-
 
     public override void ToggleHideWindow()
     {
@@ -211,11 +155,6 @@ public class ShopWindow : L2PopupWindow
             AudioManager.Instance.PlayUISound("window_close");
 
         L2GameUI.Instance.WindowClosed(this);
-    }
-
-    public void SelectSlot(int slot)
-    {
-        _tabs[0].SelectSlot(slot);
     }
 
 #if UNITY_EDITOR

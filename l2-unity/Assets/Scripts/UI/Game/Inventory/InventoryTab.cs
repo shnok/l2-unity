@@ -12,9 +12,9 @@ public class InventoryTab : L2Tab
     public bool MainTab { get; internal set; }
     private L2SlotContainer _slotContainer;
 
-    public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader)
+    public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
-        base.Initialize(chatWindowEle, tabContainer, tabHeader);
+        base.Initialize(tabView, tabContainer, tabHeader);
 
         _contentContainer = tabContainer.Q<VisualElement>("Content");
         _slotContainer = new L2SlotContainer();
@@ -25,7 +25,7 @@ public class InventoryTab : L2Tab
     {
         _slotContainer.UpdateSlots(PlayerInventory.Instance.InventorySize, InventoryWindow.Instance.Expanded ? 12 : 9, 8);
 
-        _slotContainer.AssignItemsToSlots(items);
+        // _slotContainer.AssignItemsToSlots(items);
 
         // Assign items to slots
         items.ForEach(item =>
@@ -50,11 +50,8 @@ public class InventoryTab : L2Tab
         _slotContainer.SelectSlot(slotPosition);
     }
 
-    protected override void OnSwitchTab()
+    protected override void OnTabHeaderClicked()
     {
-        if (InventoryWindow.Instance.SwitchTab(this))
-        {
-            AudioManager.Instance.PlayUISound("window_open");
-        }
+        base.OnTabHeaderClicked();
     }
 }

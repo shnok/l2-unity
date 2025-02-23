@@ -2,7 +2,7 @@ using UnityEngine.UIElements;
 
 public class ShopSlot : InventorySlot
 {
-    public ShopSlot(int position, VisualElement slotElement, L2Tab tab, SlotType slotType) : base(position, slotElement, tab, slotType)
+    public ShopSlot(int position, VisualElement slotElement, L2SlotContainer tab, SlotType slotType) : base(position, slotElement, tab, slotType)
     {
     }
 

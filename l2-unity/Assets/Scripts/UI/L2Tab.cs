@@ -12,24 +12,25 @@ public abstract class L2Tab : L2Scrollable
     public string TabName { get { return _tabName; } }
     public VisualElement TabContainer { get { return _tabContainer; } }
     public VisualElement TabHeader { get { return _tabHeader; } }
+    private L2TabView _tabView;
 
-    public virtual void Initialize(VisualElement windowEle, VisualElement tabContainer, VisualElement tabHeader, bool hasScrollView)
+    public virtual void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader, bool hasScrollView)
     {
         if (hasScrollView)
         {
             base.Initialize(tabContainer, true);
         }
 
-        _windowEle = windowEle;
         _tabContainer = tabContainer;
         _tabHeader = tabHeader;
+        _tabView = tabView;
 
         InitTabHeader();
     }
 
-    public virtual void Initialize(VisualElement windowEle, VisualElement tabContainer, VisualElement tabHeader)
+    public virtual void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
-        Initialize(windowEle, tabContainer, tabHeader, false);
+        Initialize(tabView, tabContainer, tabHeader, false);
     }
 
     private void InitTabHeader()
@@ -37,12 +38,15 @@ public abstract class L2Tab : L2Scrollable
         _tabHeader?.AddManipulator(new ButtonClickSoundManipulator(_tabHeader));
         _tabHeader?.RegisterCallback<MouseDownEvent>(evt =>
         {
-            OnSwitchTab();
+            OnTabHeaderClicked();
         }, TrickleDown.TrickleDown);
     }
 
 
-    protected virtual void OnSwitchTab() { }
+    protected virtual void OnTabHeaderClicked()
+    {
+        _tabView.SwitchTab(this);
+    }
 
     public virtual void SelectSlot(int slot) { }
 }

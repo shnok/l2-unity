@@ -5,8 +5,6 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class L2SlotContainer : L2Scrollable
 {
-    protected bool _autoscroll = true;
-
     private VisualElement _slotContainerElement;
     public VisualElement Container { get { return _container; } }
     private L2Slot[] _slots;
@@ -19,6 +17,7 @@ public class L2SlotContainer : L2Scrollable
     {
         base.Initialize(container, false);
         _container = container;
+        Debug.LogWarning(_container);
         _slotContainerElement = container.Q<VisualElement>("Content");
         _currentSelectedSlotId = -1;
         _colLength = colLenght;
