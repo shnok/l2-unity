@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -16,7 +17,6 @@ public class L2SlotContainer : L2Scrollable
     {
         base.Initialize(container, false);
         _container = container;
-        Debug.LogWarning(_container);
         _slotContainerElement = container.Q<VisualElement>("Content");
         _currentSelectedSlotId = -1;
         _colLength = colLenght;
@@ -112,8 +112,19 @@ public class L2SlotContainer : L2Scrollable
                 slot = new InventorySlot(i, slotElement, this, slotType);
             }
 
+            if (slotType == L2Slot.SlotType.Action)
+            {
+                slot = new ActionSlot(slotElement, i, slotType);
+            }
+
             _slots[i] = slot;
         }
+    }
+
+
+    public void AssignAction(int position, ActionType action)
+    {
+        ((ActionSlot)_slots[position]).AssignAction(action);
     }
 
     public virtual void AssignItemsToSlots(List<ItemInstance> items)
@@ -131,4 +142,5 @@ public class L2SlotContainer : L2Scrollable
             }
         });
     }
+
 }
