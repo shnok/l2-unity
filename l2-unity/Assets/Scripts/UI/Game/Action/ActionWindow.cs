@@ -10,7 +10,6 @@ public class ActionWindow : L2PopupWindow
     private VisualElement _partyContainer;
     private VisualElement _tokenContainer;
     private VisualElement _socialContainer;
-    private List<ActionSlot> _slots;
 
     private static ActionWindow _instance;
     public static ActionWindow Instance { get { return _instance; } }
@@ -68,57 +67,30 @@ public class ActionWindow : L2PopupWindow
         _windowEle.style.top = new Length(50, LengthUnit.Percent);
         _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
 
-        _slots = new List<ActionSlot>();
+        L2SlotContainer basicSlotContainer = new L2SlotContainer();
+        basicSlotContainer.Initialize(_basicContainer, 4, SLOTS_PER_ROW);
+        basicSlotContainer.UpdateSlots(32, L2Slot.SlotType.Action);
 
-        int position = 0;
+        basicSlotContainer.AssignAction(0, ActionType.Sit);
+        basicSlotContainer.AssignAction(1, ActionType.WalkRun);
+        basicSlotContainer.AssignAction(2, ActionType.Attack);
+        basicSlotContainer.AssignAction(3, ActionType.NextTarget);
+        basicSlotContainer.AssignAction(4, ActionType.Pickup);
+        basicSlotContainer.AssignAction(5, ActionType.Assist);
 
-        ActionSlot slot;
-        for (int i = 0; i < SLOTS_PER_ROW * 4; i++)
-        {
-            slot = AddSlot(position++, _basicContainer);
-            if (i < SLOTS_PER_ROW)
-                slot.SlotElement.AddToClassList("disabled");
-        }
+        L2SlotContainer partySlotContainer = new L2SlotContainer();
+        partySlotContainer.Initialize(_partyContainer, 2, SLOTS_PER_ROW);
+        partySlotContainer.UpdateSlots(16, L2Slot.SlotType.Action);
 
-        for (int i = 0; i < SLOTS_PER_ROW * 2; i++)
-        {
-            slot = AddSlot(position++, _partyContainer);
-            if (i < SLOTS_PER_ROW)
-                slot.SlotElement.AddToClassList("disabled");
-        }
+        L2SlotContainer tokenSlotContainer = new L2SlotContainer();
+        tokenSlotContainer.Initialize(_tokenContainer, 2, SLOTS_PER_ROW);
+        tokenSlotContainer.UpdateSlots(16, L2Slot.SlotType.Action);
 
-        for (int i = 0; i < SLOTS_PER_ROW * 2; i++)
-        {
-            slot = AddSlot(position++, _tokenContainer);
-            if (i < SLOTS_PER_ROW)
-                slot.SlotElement.AddToClassList("disabled");
-        }
-
-        for (int i = 0; i < SLOTS_PER_ROW * 3; i++)
-        {
-            slot = AddSlot(position++, _socialContainer);
-            if (i < SLOTS_PER_ROW)
-                slot.SlotElement.AddToClassList("disabled");
-        }
-
-        _slots[0].AssignAction(ActionType.Sit);
-        _slots[1].AssignAction(ActionType.WalkRun);
-        _slots[2].AssignAction(ActionType.Attack);
-        _slots[3].AssignAction(ActionType.NextTarget);
-        _slots[4].AssignAction(ActionType.Pickup);
-        _slots[5].AssignAction(ActionType.Assist);
+        L2SlotContainer socialSlotContainer = new L2SlotContainer();
+        socialSlotContainer.Initialize(_socialContainer, 3, SLOTS_PER_ROW);
+        socialSlotContainer.UpdateSlots(16, L2Slot.SlotType.Action); //-> Will add a padding
 
         L2GameUI.Instance.WindowLoadComplete();
-    }
-
-    private ActionSlot AddSlot(int position, VisualElement container)
-    {
-        VisualElement slotElement = L2SlotManager.Instance.ActionSlotTemplate.Instantiate()[0];
-        container.Add(slotElement);
-
-        ActionSlot slot = new ActionSlot(slotElement, position, L2Slot.SlotType.Action);
-        _slots.Add(slot);
-        return slot;
     }
 
     public override void ShowWindow()
