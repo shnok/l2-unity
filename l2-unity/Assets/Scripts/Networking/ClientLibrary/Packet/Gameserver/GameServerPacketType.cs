@@ -10,6 +10,7 @@ public enum GameServerPacketType : int
     ActionAllowed = 0x08,
     StatusUpdate = 0x0e,
     NpcHtml = 0x0f,
+    BuyList = 0x11,
     RemoveObject = 0x12,
     CharSelectionInfo = 0x13,
     LoginFail = 0x14,
