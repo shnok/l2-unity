@@ -239,4 +239,16 @@ public class GameClientPacketHandler : ClientPacketHandler
         RequestCharRestorePacket packet = new RequestCharRestorePacket(slot);
         SendPacket(packet);
     }
+
+    public void SendRequestSellItem(int listId, List<Product> products)
+    {
+        RequestSellItemPacket packet = new RequestSellItemPacket(listId, products);
+        SendPacket(packet);
+    }
+
+    public void SendRequestBuyItem(int listId, List<Product> products)
+    {
+        RequestBuyItemPacket packet = new RequestBuyItemPacket(listId, products);
+        SendPacket(packet);
+    }
 }
