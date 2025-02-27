@@ -39,7 +39,7 @@ public class InventorySlot : L2DraggableSlot
         _empty = true;
     }
 
-    public void AssignItem(ItemInstance item)
+    public override void AssignItem(ItemInstance item)
     {
         _slotElement.RemoveFromClassList("empty");
 
@@ -80,9 +80,14 @@ public class InventorySlot : L2DraggableSlot
         }
     }
 
-    private void AddTooltip(ItemInstance item)
+    protected virtual void AddTooltip(ItemInstance item)
     {
-        string tooltipText = $"{_name} ({_count:n0})";
+        string tooltipText = _name;
+        if (_count > 0)
+        {
+            tooltipText = $"{_name} ({_count:n0})";
+        }
+
         if (item.Type2 == ItemType2.TYPE2_WEAPON ||
             item.Type2 == ItemType2.TYPE2_ACCESSORY ||
             item.Type2 == ItemType2.TYPE2_SHIELD_ARMOR)

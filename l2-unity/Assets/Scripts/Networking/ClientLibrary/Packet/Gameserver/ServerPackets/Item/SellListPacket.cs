@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
 
-public class BuyListPacket : ServerPacket
+public class SellListPacket : ServerPacket
 {
     public int Adena { get; private set; }
     public int ListId { get; private set; }
     public bool OpenTab { get; private set; }
     public Product[] Products { get; private set; }
 
-    public BuyListPacket(byte[] d) : base(d)
+    public SellListPacket(byte[] d) : base(d)
     {
         Parse();
     }
@@ -17,7 +17,8 @@ public class BuyListPacket : ServerPacket
     {
         OpenTab = ReadB() == 1;
         Adena = ReadI();
-        ListId = ReadI();
+        ReadI();
+
         int count = ReadH();
 
         Products = new Product[count];
@@ -25,14 +26,14 @@ public class BuyListPacket : ServerPacket
         {
             Products[i] = new Product();
             Products[i].Type1 = (ItemType1)ReadH();
+            Products[i].ObjectId = ReadI();
             Products[i].ItemId = ReadI();
-            ReadI();
             Products[i].Count = ReadI();
             Products[i].Type2 = (ItemType2)ReadH();
-            ReadH();
+            ReadH(); //custom type 1
             Products[i].BodyPart = (ItemSlot)ReadI();
-            ReadH();
-            ReadH();
+            ReadH(); //enchant level
+            ReadH(); //custom type 2
             ReadH();
             Products[i].Price = ReadI();
         }

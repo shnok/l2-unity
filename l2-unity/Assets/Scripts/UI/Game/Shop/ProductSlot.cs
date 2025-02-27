@@ -1,8 +1,8 @@
 using UnityEngine.UIElements;
 
-public class ShopSlot : InventorySlot
+public class ProductSlot : InventorySlot
 {
-    public ShopSlot(int position, VisualElement slotElement, L2SlotContainer tab, SlotType slotType) : base(position, slotElement, tab, slotType)
+    public ProductSlot(int position, VisualElement slotElement, L2SlotContainer tab, SlotType slotType) : base(position, slotElement, tab, slotType)
     {
     }
 
@@ -20,5 +20,10 @@ public class ShopSlot : InventorySlot
 
     protected override void HandleMiddleClick()
     {
+    }
+
+    protected override void AddTooltip(ItemInstance item)
+    {
+        base.AddTooltip(item);
     }
 }

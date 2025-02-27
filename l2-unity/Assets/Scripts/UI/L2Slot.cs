@@ -14,7 +14,8 @@ public class L2Slot
         Skill,
         SkillBar,
         Action,
-        Trash
+        Trash,
+        Product
     }
 
     [SerializeField] protected int _id;
@@ -100,4 +101,8 @@ public class L2Slot
 
     public virtual void SetSelected() { }
     public virtual void UnSelect() { }
+
+    public virtual void AssignItem(ItemInstance item)
+    {
+    }
 }

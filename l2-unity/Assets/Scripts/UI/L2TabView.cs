@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -80,5 +81,15 @@ public class L2TabView
         }
 
         return false;
+    }
+
+    public void ShowTab(int tabIndex)
+    {
+        _tabs[tabIndex].TabHeader.RemoveFromClassList("hidden");
+    }
+
+    public void HideTab(int tabIndex)
+    {
+        _tabs[tabIndex].TabHeader.AddToClassList("hidden");
     }
 }

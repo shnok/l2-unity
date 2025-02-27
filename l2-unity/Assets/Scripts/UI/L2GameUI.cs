@@ -105,6 +105,7 @@ public class L2GameUI : L2UI
         if (ShopWindow.Instance != null)
         {
             ShopWindow.Instance.AddWindow(_rootVisualContainer);
+            ShopWindow.Instance.HideWindow(true);
         }
         if (RestartLocationWindow.Instance != null)
         {

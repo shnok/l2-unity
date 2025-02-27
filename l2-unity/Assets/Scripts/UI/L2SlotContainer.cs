@@ -10,18 +10,17 @@ public class L2SlotContainer : L2Scrollable
     private L2Slot[] _slots;
     public L2Slot[] Slots { get => _slots; }
     private int _currentSelectedSlotId;
-    private int _colLength;
     private int _rowLength;
 
-    public virtual void Initialize(VisualElement container, int colLenght, int rowLength)
+    public virtual void Initialize(VisualElement container, int rowLength)
     {
         base.Initialize(container, false);
         _container = container;
         _slotContainerElement = container.Q<VisualElement>("Content");
         _currentSelectedSlotId = -1;
-        _colLength = colLenght;
         _rowLength = rowLength;
     }
+
 
     private void ClearSlots()
     {
@@ -42,11 +41,7 @@ public class L2SlotContainer : L2Scrollable
     {
         // Add disabled slot to fill up the window
         int padSlot = 0;
-        if (slotCount < _colLength * _rowLength)
-        {
-            padSlot = _colLength * _rowLength - slotCount;
-        }
-        else if (slotCount % _rowLength != 0)
+        if (slotCount % _rowLength != 0)
         {
             padSlot = _rowLength - slotCount % _rowLength;
         }
@@ -78,9 +73,8 @@ public class L2SlotContainer : L2Scrollable
         _currentSelectedSlotId = slotPosition;
     }
 
-    public void UpdateSlots(int slotCount, int colLenght, int rowLength, L2Slot.SlotType slotType)
+    public void UpdateSlots(int slotCount, int rowLength, L2Slot.SlotType slotType)
     {
-        _colLength = colLenght;
         _rowLength = rowLength;
         UpdateSlots(slotCount, slotType);
     }
@@ -111,10 +105,13 @@ public class L2SlotContainer : L2Scrollable
             {
                 slot = new InventorySlot(i, slotElement, this, slotType);
             }
-
-            if (slotType == L2Slot.SlotType.Action)
+            else if (slotType == L2Slot.SlotType.Action)
             {
                 slot = new ActionSlot(slotElement, i, slotType);
+            }
+            else if (slotType == L2Slot.SlotType.Product)
+            {
+                slot = new ProductSlot(i, slotElement, this, slotType);
             }
 
             _slots[i] = slot;
@@ -134,7 +131,7 @@ public class L2SlotContainer : L2Scrollable
         {
             if (item.Slot < _slots.Length)
             {
-                ((InventorySlot)_slots[item.Slot]).AssignItem(item);
+                _slots[item.Slot].AssignItem(item);
             }
             else
             {

@@ -56,20 +56,22 @@ public class ShopTab : L2Tab
         _slotContainers.Add(new L2SlotContainer());
         _slotContainers.Add(new L2SlotContainer());
 
-        _slotContainers[0].Initialize(_containerLeft, 7, 6);
-        _slotContainers[1].Initialize(_containerRight, 7, 6);
+        _slotContainers[0].Initialize(_containerLeft, 6);
+        _slotContainers[1].Initialize(_containerRight, 6);
     }
 
-    public void UpdateItemList()
+    public void UpdateItemList(List<ItemInstance> items)
     {
-        _slotContainers[0].UpdateSlots(42, L2Slot.SlotType.InventoryBis);
-        _slotContainers[1].UpdateSlots(42, L2Slot.SlotType.InventoryBis);
+        _slotContainers[0].UpdateSlots(items == null ? 42 : items.Count, L2Slot.SlotType.Product);
+        _slotContainers[1].UpdateSlots(42, L2Slot.SlotType.Product);
 
         if (_shopTabType == ShopTabType.SELL)
         {
+            _slotContainers[0].AssignItemsToSlots(items);
         }
         else
         {
+            _slotContainers[0].AssignItemsToSlots(items);
         }
 
         RefreshAdenas();
@@ -135,5 +137,7 @@ public class ShopTab : L2Tab
     protected override void OnTabHeaderClicked()
     {
         base.OnTabHeaderClicked();
+
+        ShopWindow.Instance.TabSwitched(_shopTabType);
     }
 }
