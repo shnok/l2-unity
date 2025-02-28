@@ -60,8 +60,24 @@ public class ShopTab : L2Tab
             new ShopSlotContainer()
         };
 
-        _slotContainers[0].Initialize(_containerLeft, _rowLength, L2Slot.SlotType.Product, 42);
-        _slotContainers[1].Initialize(_containerRight, _rowLength, L2Slot.SlotType.Basket, 42);
+        _slotContainers[0].Initialize(_containerLeft, _rowLength, L2Slot.SlotType.Product, 42, () =>
+        {
+
+        });
+
+        _slotContainers[1].Initialize(_containerRight, _rowLength, L2Slot.SlotType.Basket, 42, () =>
+        {
+            if (_shopTabType == ShopTabType.BUY)
+            {
+                // Add weight
+                RefreshWeight(_slotContainers[1].ContentWeight);
+            }
+            else
+            {
+                // Remove weight
+                RefreshWeight(-_slotContainers[1].ContentWeight);
+            }
+        });
     }
 
     public void UpdateProductList(Product[] products, int adenas)
@@ -70,7 +86,7 @@ public class ShopTab : L2Tab
         _slotContainers[1].RefreshProducts(null);
 
         RefreshAdenas(adenas);
-        RefreshWeight();
+        RefreshWeight(0);
     }
 
     private void RefreshAdenas(int adenas)
@@ -78,7 +94,7 @@ public class ShopTab : L2Tab
         _adenaCountLabel.text = $"{adenas:n0}";
     }
 
-    public void RefreshWeight()
+    public void RefreshWeight(int difference)
     {
         if (PlayerEntity.Instance == null)
         {
@@ -86,7 +102,7 @@ public class ShopTab : L2Tab
             return;
         }
 
-        int weight = ((PlayerStats)PlayerEntity.Instance.Stats).CurrWeight;
+        int weight = ((PlayerStats)PlayerEntity.Instance.Stats).CurrWeight + difference;
         int maxWeight = ((PlayerStats)PlayerEntity.Instance.Stats).MaxWeight;
 
         if (_weightBarBg != null && _weightBar != null)
