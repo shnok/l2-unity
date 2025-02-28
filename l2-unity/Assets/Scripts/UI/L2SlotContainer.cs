@@ -7,18 +7,20 @@ using UnityEngine.UIElements;
 public class L2SlotContainer : L2Scrollable
 {
     private VisualElement _slotContainerElement;
-    private L2Slot[] _slots;
+    protected L2Slot[] _slots;
     public L2Slot[] Slots { get => _slots; }
-    private int _currentSelectedSlotId;
-    private int _rowLength;
+    [SerializeField] private int _currentSelectedSlotId;
+    [SerializeField] private int _rowLength;
+    [SerializeField] private int _minimumContainerSize;
 
-    public virtual void Initialize(VisualElement container, int rowLength)
+    public virtual void Initialize(VisualElement container, int rowLength, int minimumContainerSize)
     {
         base.Initialize(container, false);
         _container = container;
         _slotContainerElement = container.Q<VisualElement>("Content");
         _currentSelectedSlotId = -1;
         _rowLength = rowLength;
+        _minimumContainerSize = minimumContainerSize;
     }
 
 
@@ -83,6 +85,7 @@ public class L2SlotContainer : L2Scrollable
     {
         ClearSlots();
 
+        slotCount = slotCount > _minimumContainerSize ? slotCount : _minimumContainerSize;
         // Create empty slots
         _slots = new L2Slot[slotCount];
 
@@ -93,7 +96,7 @@ public class L2SlotContainer : L2Scrollable
         SelectDefaultSlot();
     }
 
-    public virtual void CreateSlotElements(int slotCount, L2Slot.SlotType slotType)
+    protected virtual void CreateSlotElements(int slotCount, L2Slot.SlotType slotType)
     {
         for (int i = 0; i < slotCount; i++)
         {
@@ -113,6 +116,10 @@ public class L2SlotContainer : L2Scrollable
             {
                 slot = new ProductSlot(i, slotElement, this, slotType);
             }
+            else if (slotType == L2Slot.SlotType.Basket)
+            {
+                slot = new BasketSlot(i, slotElement, this, slotType);
+            }
 
             _slots[i] = slot;
         }
@@ -131,7 +138,7 @@ public class L2SlotContainer : L2Scrollable
         {
             if (item.Slot < _slots.Length)
             {
-                _slots[item.Slot].AssignItem(item);
+                ((InventorySlot)_slots[item.Slot]).AssignItem(item);
             }
             else
             {
@@ -139,5 +146,4 @@ public class L2SlotContainer : L2Scrollable
             }
         });
     }
-
 }

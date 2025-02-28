@@ -594,7 +594,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         {
             NpcHtmlWindow.Instance.HideWindow(false);
             ShopWindow.Instance.ShowWindow();
-            ShopWindow.Instance.RefreshProductList(packet.Products, ShopTab.ShopTabType.BUY, packet.OpenTab);
+            ShopWindow.Instance.RefreshProductList(packet.ListId, packet.Adena, packet.Products, ShopTab.ShopTabType.BUY, packet.OpenTab);
         });
     }
 
@@ -605,7 +605,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         {
             NpcHtmlWindow.Instance.HideWindow(false);
             ShopWindow.Instance.ShowWindow();
-            ShopWindow.Instance.RefreshProductList(packet.Products, ShopTab.ShopTabType.SELL, packet.OpenTab);
+            ShopWindow.Instance.RefreshProductList(packet.ListId, packet.Adena, packet.Products, ShopTab.ShopTabType.SELL, packet.OpenTab);
         });
     }
 }

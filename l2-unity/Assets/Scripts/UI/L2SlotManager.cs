@@ -108,6 +108,12 @@ public class L2SlotManager : L2PopupWindow
             case L2Slot.SlotType.Action:
                 HandleActionDrag();
                 break;
+            case L2Slot.SlotType.Product:
+                HandleProductDrag();
+                break;
+            case L2Slot.SlotType.Basket:
+                HandleBasketDrag();
+                break;
             default:
                 break;
         }
@@ -204,6 +210,37 @@ public class L2SlotManager : L2PopupWindow
                     RemoveSkillbarSlot();
                 }
                 break;
+        }
+    }
+
+
+    private void HandleProductDrag()
+    {
+        ProductSlot productSlot = (ProductSlot)_draggedSlot;
+
+        if (_hoverSlot == null)
+        {
+            return;
+        }
+
+
+        switch (_hoverSlot.Type)
+        {
+            case L2Slot.SlotType.Basket:
+                ((ShopSlotContainer)((BasketSlot)_hoverSlot).SlotContainer).AddToBasket(productSlot.Product);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void HandleBasketDrag()
+    {
+        BasketSlot productSlot = (BasketSlot)_draggedSlot;
+
+        if (_hoverSlot == null || _hoverSlot.Type != L2Slot.SlotType.Basket)
+        {
+            ((ShopSlotContainer)((BasketSlot)_hoverSlot).SlotContainer).RemoveFromBasket(productSlot.Product, productSlot.Position);
         }
     }
 

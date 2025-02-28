@@ -20,9 +20,11 @@ public class ShopTab : L2Tab
     private VisualElement _weightBarContainer;
     private VisualElement _weightBar;
     private VisualElement _weightBarBg;
+    private int _rowLength = 6;
+    private int _minimumRows = 7;
 
     [SerializeField] private ShopTabType _shopTabType;
-    [SerializeField] private List<L2SlotContainer> _slotContainers;
+    [SerializeField] private List<ShopSlotContainer> _slotContainers;
 
     public bool MainTab { get; internal set; }
     public ShopTabType TabType { get => _shopTabType; set { _shopTabType = value; } }
@@ -52,48 +54,28 @@ public class ShopTab : L2Tab
         _weightBar = _weightBarContainer.Q<VisualElement>("Bar");
         _weightBarBg = _weightBarContainer.Q<VisualElement>("BarBg");
 
-        _slotContainers.Clear();
-        _slotContainers.Add(new L2SlotContainer());
-        _slotContainers.Add(new L2SlotContainer());
+        _slotContainers = new List<ShopSlotContainer>
+        {
+            new ShopSlotContainer(),
+            new ShopSlotContainer()
+        };
 
-        _slotContainers[0].Initialize(_containerLeft, 6);
-        _slotContainers[1].Initialize(_containerRight, 6);
+        _slotContainers[0].Initialize(_containerLeft, _rowLength, L2Slot.SlotType.Product, 42);
+        _slotContainers[1].Initialize(_containerRight, _rowLength, L2Slot.SlotType.Basket, 42);
     }
 
-    public void UpdateItemList(List<ItemInstance> items)
+    public void UpdateProductList(Product[] products, int adenas)
     {
-        _slotContainers[0].UpdateSlots(items == null ? 42 : items.Count, L2Slot.SlotType.Product);
-        _slotContainers[1].UpdateSlots(42, L2Slot.SlotType.Product);
+        _slotContainers[0].RefreshProducts(products);
+        _slotContainers[1].RefreshProducts(null);
 
-        if (_shopTabType == ShopTabType.SELL)
-        {
-            _slotContainers[0].AssignItemsToSlots(items);
-        }
-        else
-        {
-            _slotContainers[0].AssignItemsToSlots(items);
-        }
-
-        RefreshAdenas();
+        RefreshAdenas(adenas);
         RefreshWeight();
     }
 
-    public override void SelectSlot(int slotPosition)
+    private void RefreshAdenas(int adenas)
     {
-
-    }
-
-    private void RefreshAdenas()
-    {
-        if (PlayerInventory.Instance.Items.Count > 0)
-        {
-            ItemInstance adenaItem = PlayerInventory.Instance.Items.FirstOrDefault(o => o.Type2 == ItemType2.TYPE2_MONEY);
-
-            if (adenaItem != null)
-            {
-                _adenaCountLabel.text = $"{adenaItem.Count:n0}";
-            }
-        }
+        _adenaCountLabel.text = $"{adenas:n0}";
     }
 
     public void RefreshWeight()

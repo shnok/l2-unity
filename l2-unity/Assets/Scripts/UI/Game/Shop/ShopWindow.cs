@@ -16,6 +16,9 @@ public class ShopWindow : L2PopupWindow
     [SerializeField] private int _usedSlots;
     [SerializeField] private int _slotCount;
     [SerializeField] private int _adenaCount;
+    [SerializeField] private int _sellListId;
+    [SerializeField] private int _buyListId;
+
 
     private Label _buyButtonLabel;
 
@@ -86,8 +89,8 @@ public class ShopWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
-        _tabs[0].UpdateItemList(null);
-        _tabs[1].UpdateItemList(null);
+        _tabs[0].UpdateProductList(null, 0);
+        _tabs[1].UpdateProductList(null, 0);
 
         L2GameUI.Instance.WindowLoadComplete();
     }
@@ -101,12 +104,19 @@ public class ShopWindow : L2PopupWindow
     }
 
 
-    public void RefreshProductList(Product[] products, ShopTab.ShopTabType type, bool openTab)
+    public void RefreshProductList(int listId, int adena, Product[] products, ShopTab.ShopTabType type, bool openTab)
     {
+        if (type == ShopTab.ShopTabType.SELL)
+        {
+            _sellListId = listId;
+        }
+        else
+        {
+            _buyListId = listId;
+        }
+
         if (openTab && type == ShopTab.ShopTabType.SELL) // In theory should not happen as all the SELL options must be removed from NPCs html
         {
-            //Switch to SELL tab
-            //Hide buy tab ?
             _l2TabView.HideTab(0);
             _l2TabView.SwitchTab(_tabs[1]);
         }
@@ -122,15 +132,7 @@ public class ShopWindow : L2PopupWindow
             return;
         }
 
-        List<ItemInstance> items = new List<ItemInstance>();
-        for (int i = 0; i < products.Length; i++)
-        {
-            Product p = products[i];
-            ItemInstance item = new ItemInstance(p.ItemId, p.ItemId, ItemLocation.Void, i, p.Count, p.Type1, p.Type2, false, p.BodyPart, 0, 0);
-            items.Add(item);
-        }
-
-        _tabs[type == ShopTab.ShopTabType.BUY ? 0 : 1].UpdateItemList(items);
+        _tabs[type == ShopTab.ShopTabType.BUY ? 0 : 1].UpdateProductList(products, adena);
     }
 
     public override void ToggleHideWindow()

@@ -1,7 +1,9 @@
+using System;
 using UnityEngine.UIElements;
 
 public class ProductSlot : InventorySlot
 {
+    public Product Product { get; private set; }
     public ProductSlot(int position, VisualElement slotElement, L2SlotContainer tab, SlotType slotType) : base(position, slotElement, tab, slotType)
     {
     }
@@ -25,5 +27,10 @@ public class ProductSlot : InventorySlot
     protected override void AddTooltip(ItemInstance item)
     {
         base.AddTooltip(item);
+    }
+
+    public void AssignProduct(Product product)
+    {
+        Product = product;
     }
 }

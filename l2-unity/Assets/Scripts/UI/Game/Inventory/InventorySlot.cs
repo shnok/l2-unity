@@ -11,7 +11,6 @@ public class InventorySlot : L2DraggableSlot
     private ItemName _assignedItem;
     private ItemType1 _type1;
     private ItemType2 _type2;
-    protected bool _empty = true;
     public int Count { get { return _count; } }
     public long RemainingTime { get { return _remainingTime; } }
     public ItemType1 Type1 { get { return _type1; } }
@@ -19,6 +18,7 @@ public class InventorySlot : L2DraggableSlot
     public int ObjectId { get { return _objectId; } }
 
     public ItemName ItemName { get { return _assignedItem; } }
+    public L2SlotContainer SlotContainer { get { return _currentSlotContainer; } }
 
     public InventorySlot(int position, VisualElement slotElement, L2SlotContainer slotContainer, SlotType slotType)
     : base(position, slotElement, slotType, false, true)
@@ -39,7 +39,7 @@ public class InventorySlot : L2DraggableSlot
         _empty = true;
     }
 
-    public override void AssignItem(ItemInstance item)
+    public virtual void AssignItem(ItemInstance item)
     {
         _slotElement.RemoveFromClassList("empty");
 

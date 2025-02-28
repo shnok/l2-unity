@@ -15,7 +15,8 @@ public class L2Slot
         SkillBar,
         Action,
         Trash,
-        Product
+        Product,
+        Basket
     }
 
     [SerializeField] protected int _id;
@@ -24,6 +25,7 @@ public class L2Slot
     protected string _name;
     protected string _description;
     protected string _icon;
+    protected bool _empty = true;
     protected VisualElement _slotElement;
     protected VisualElement _slotBg;
     protected TooltipManipulator _tooltipManipulator;
@@ -37,6 +39,7 @@ public class L2Slot
     public string Icon { get { return _icon; } set { _icon = value; } }
     public VisualElement SlotBg { get { return _slotBg; } }
     public VisualElement SlotElement { get { return _slotElement; } }
+    public bool Empty { get { return _empty; } }
 
     public L2Slot(VisualElement slotElement)
     {
@@ -101,8 +104,4 @@ public class L2Slot
 
     public virtual void SetSelected() { }
     public virtual void UnSelect() { }
-
-    public virtual void AssignItem(ItemInstance item)
-    {
-    }
 }

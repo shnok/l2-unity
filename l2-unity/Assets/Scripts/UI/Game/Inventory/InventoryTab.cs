@@ -17,7 +17,7 @@ public class InventoryTab : L2Tab
 
         // _contentContainer = tabContainer.Q<VisualElement>("Content");
         _slotContainer = new L2SlotContainer();
-        _slotContainer.Initialize(tabContainer, 9);
+        _slotContainer.Initialize(tabContainer, 9, PlayerInventory.Instance.InventorySize);
     }
 
     public void UpdateItemList(List<ItemInstance> items)
