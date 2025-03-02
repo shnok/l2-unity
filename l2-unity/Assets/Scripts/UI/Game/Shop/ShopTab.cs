@@ -77,6 +77,8 @@ public class ShopTab : L2Tab
                 // Remove weight
                 RefreshWeight(-_slotContainers[1].ContentWeight);
             }
+
+            RefreshPrice(_slotContainers[1].ContentPrice);
         });
     }
 
@@ -92,6 +94,11 @@ public class ShopTab : L2Tab
     private void RefreshAdenas(int adenas)
     {
         _adenaCountLabel.text = $"{adenas:n0}";
+    }
+
+    private void RefreshPrice(int price)
+    {
+        _priceLabel.text = $"{price:n0}";
     }
 
     public void RefreshWeight(int difference)

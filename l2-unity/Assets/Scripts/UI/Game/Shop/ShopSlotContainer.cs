@@ -11,9 +11,11 @@ public class ShopSlotContainer : L2SlotContainer
     [SerializeField] private L2Slot.SlotType _slotType;
     [SerializeField] private Action _updateCallback;
     [SerializeField] private int _contentWeight;
+    [SerializeField] private int _contentPrice;
     [SerializeField] private List<ItemInstance> _items;
 
     public int ContentWeight { get { return _contentWeight; } }
+    public int ContentPrice { get { return _contentPrice; } }
 
     public void Initialize(VisualElement container, int rowLength, L2Slot.SlotType type, int minimumContainerSize, Action updateCallback)
     {
@@ -72,16 +74,13 @@ public class ShopSlotContainer : L2SlotContainer
             else if (_products[slot].Type1 == ItemType1.TYPE1_ITEM_QUESTITEM_ADENA)
             {
                 _products[slot].Count += quantity;
-            }
-            else
-            {
-                _products.Add(product);
+                return;
             }
         }
-        else
-        {
-            _products.Add(product);
-        }
+
+        Product p = new Product(product);
+        p.Count = quantity;
+        _products.Add(p);
     }
 
     public void RemoveProduct(int slot)
@@ -108,6 +107,7 @@ public class ShopSlotContainer : L2SlotContainer
         //_products.Remove(product);
         RefreshProducts();
         CalculateWeight();
+        CalculatePrice();
 
         _updateCallback();
     }
@@ -118,6 +118,7 @@ public class ShopSlotContainer : L2SlotContainer
         RemoveProduct(index);
         RefreshProducts();
         CalculateWeight();
+        CalculatePrice();
 
         _updateCallback();
     }
@@ -125,6 +126,11 @@ public class ShopSlotContainer : L2SlotContainer
     private void CalculateWeight()
     {
         _contentWeight = _items.Sum(s => s.ItemData.Itemgrp.Weight * s.Count);
+    }
+
+    private void CalculatePrice()
+    {
+        _contentPrice = _products.Sum(s => s.Price * s.Count);
     }
 
     private void AssignProductsToSlots()
