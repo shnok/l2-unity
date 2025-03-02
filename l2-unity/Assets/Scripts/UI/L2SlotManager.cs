@@ -227,7 +227,7 @@ public class L2SlotManager : L2PopupWindow
         switch (_hoverSlot.Type)
         {
             case L2Slot.SlotType.Basket:
-                ((ShopSlotContainer)((BasketSlot)_hoverSlot).SlotContainer).AddToBasket(productSlot.Product);
+                ((ShopSlotContainer)((BasketSlot)_hoverSlot).SlotContainer).AddToBasket(productSlot.Product, 1);
                 break;
             default:
                 break;
@@ -240,7 +240,7 @@ public class L2SlotManager : L2PopupWindow
 
         if (_hoverSlot == null || _hoverSlot.Type != L2Slot.SlotType.Basket)
         {
-            ((ShopSlotContainer)((BasketSlot)_hoverSlot).SlotContainer).RemoveFromBasket(productSlot.Product, productSlot.Position);
+            ((ShopSlotContainer)productSlot.SlotContainer).RemoveFromBasket(productSlot.Product, productSlot.Position);
         }
     }
 

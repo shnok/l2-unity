@@ -9,7 +9,7 @@ public class ShopSlotContainer : L2SlotContainer
 {
     [SerializeField] private List<Product> _products;
     [SerializeField] private L2Slot.SlotType _slotType;
-    [SerializeField] private Action _updateCallback;
+    [SerializeField] private Action<Product, bool, int> _updateCallback;
     [SerializeField] private int _contentWeight;
     [SerializeField] private int _contentPrice;
     [SerializeField] private List<ItemInstance> _items;
@@ -17,7 +17,7 @@ public class ShopSlotContainer : L2SlotContainer
     public int ContentWeight { get { return _contentWeight; } }
     public int ContentPrice { get { return _contentPrice; } }
 
-    public void Initialize(VisualElement container, int rowLength, L2Slot.SlotType type, int minimumContainerSize, Action updateCallback)
+    public void Initialize(VisualElement container, int rowLength, L2Slot.SlotType type, int minimumContainerSize, Action<Product, bool, int> updateCallback)
     {
         base.Initialize(container, rowLength, minimumContainerSize);
 
@@ -56,8 +56,10 @@ public class ShopSlotContainer : L2SlotContainer
         AssignProductsToSlots();
     }
 
-    public void AddOrUpdateProduct(Product product, int quantity)
+    private void AddOrUpdateProduct(Product product, int quantity)
     {
+        Debug.LogWarning("[" + _slotType + "] Add or update product: " + product.ItemId + " Qty: " + quantity);
+
         if (quantity == 0)
         {
             quantity = 1;
@@ -83,7 +85,7 @@ public class ShopSlotContainer : L2SlotContainer
         _products.Add(p);
     }
 
-    public void RemoveProduct(int slot)
+    private void RemoveProduct(int slot)
     {
         _products.RemoveAt(slot);
     }
@@ -101,26 +103,24 @@ public class ShopSlotContainer : L2SlotContainer
         return -1;
     }
 
-    public void AddToBasket(Product product)
+    public void AddToBasket(Product product, int count)
     {
-        AddOrUpdateProduct(product, 1);
-        //_products.Remove(product);
+        AddOrUpdateProduct(product, count);
         RefreshProducts();
         CalculateWeight();
         CalculatePrice();
 
-        _updateCallback();
+        _updateCallback(product, true, -count);
     }
 
     public void RemoveFromBasket(Product product, int index)
     {
-        //_products.Remove(product);
         RemoveProduct(index);
         RefreshProducts();
         CalculateWeight();
         CalculatePrice();
 
-        _updateCallback();
+        _updateCallback(product, false, product.Count);
     }
 
     private void CalculateWeight()

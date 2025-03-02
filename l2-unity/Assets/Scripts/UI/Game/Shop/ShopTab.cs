@@ -60,12 +60,12 @@ public class ShopTab : L2Tab
             new ShopSlotContainer()
         };
 
-        _slotContainers[0].Initialize(_containerLeft, _rowLength, L2Slot.SlotType.Product, 42, () =>
+        _slotContainers[0].Initialize(_containerLeft, _rowLength, L2Slot.SlotType.Product, 42, (p, productAdded, count) =>
         {
 
         });
 
-        _slotContainers[1].Initialize(_containerRight, _rowLength, L2Slot.SlotType.Basket, 42, () =>
+        _slotContainers[1].Initialize(_containerRight, _rowLength, L2Slot.SlotType.Basket, 42, (p, productAdded, count) =>
         {
             if (_shopTabType == ShopTabType.BUY)
             {
@@ -74,6 +74,9 @@ public class ShopTab : L2Tab
             }
             else
             {
+                //TODO: Remove the item from left tab
+                _slotContainers[0].AddToBasket(p, count);
+
                 // Remove weight
                 RefreshWeight(-_slotContainers[1].ContentWeight);
             }
