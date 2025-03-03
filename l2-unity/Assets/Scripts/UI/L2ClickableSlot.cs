@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,6 +7,8 @@ public class L2ClickableSlot : L2Slot
 {
     private bool _leftMouseUp;
     private bool _rightMouseup;
+    private long _lastClickTime = 0;
+    private const int DoubleClickThreshold = 300; // Milliseconds
 
     public L2ClickableSlot(VisualElement slotElement, int position, SlotType type, bool leftMouseUp, bool rightMouseup) : base(slotElement, position, type)
     {
@@ -50,13 +53,22 @@ public class L2ClickableSlot : L2Slot
 
     private void HandleSlotClickDown(MouseDownEvent evt)
     {
+        long currentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
         if (evt.button == 0)
         {
             SetActive();
 
             if (!_leftMouseUp)
             {
-                HandleLeftClick();
+                if (currentTime - _lastClickTime <= DoubleClickThreshold)
+                {
+                    HandleLeftDoubleClick();
+                }
+                else
+                {
+                    HandleLeftClick();
+                }
             }
         }
         else if (evt.button == 1)
@@ -70,6 +82,8 @@ public class L2ClickableSlot : L2Slot
         {
             HandleMiddleClick();
         }
+
+        _lastClickTime = currentTime;
     }
 
     private void HandleSlotClickUp(MouseUpEvent evt)
@@ -114,4 +128,9 @@ public class L2ClickableSlot : L2Slot
     protected virtual void HandleLeftClick() { }
     protected virtual void HandleRightClick() { }
     protected virtual void HandleMiddleClick() { }
+    protected virtual void HandleLeftDoubleClick()
+    {
+        Debug.Log($"Slot {_position} left double-clicked.");
+    }
+
 }

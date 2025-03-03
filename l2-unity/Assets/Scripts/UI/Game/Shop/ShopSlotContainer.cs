@@ -9,20 +9,25 @@ public class ShopSlotContainer : L2SlotContainer
 {
     [SerializeField] private List<Product> _products;
     [SerializeField] private L2Slot.SlotType _slotType;
-    [SerializeField] private Action<Product, bool, int> _updateCallback;
+    [SerializeField] private ShopTab.ShopTabType _shopType;
+    [SerializeField] private Action _updateCallback;
     [SerializeField] private int _contentWeight;
     [SerializeField] private int _contentPrice;
     [SerializeField] private List<ItemInstance> _items;
+    [SerializeField] private ShopSlotContainer _adjacentContainer;
 
     public int ContentWeight { get { return _contentWeight; } }
     public int ContentPrice { get { return _contentPrice; } }
+    public ShopSlotContainer AdjacentContainer { get { return _adjacentContainer; } }
 
-    public void Initialize(VisualElement container, int rowLength, L2Slot.SlotType type, int minimumContainerSize, Action<Product, bool, int> updateCallback)
+    public void Initialize(VisualElement container, int rowLength, ShopTab.ShopTabType shopType, L2Slot.SlotType type, int minimumContainerSize, ShopSlotContainer adjacentContainer, Action updateCallback)
     {
         base.Initialize(container, rowLength, minimumContainerSize);
 
         _slotType = type;
         _updateCallback = updateCallback;
+        _adjacentContainer = adjacentContainer;
+        _shopType = shopType;
     }
 
     public void RefreshProducts(Product[] products)
@@ -110,7 +115,13 @@ public class ShopSlotContainer : L2SlotContainer
         CalculateWeight();
         CalculatePrice();
 
-        _updateCallback(product, true, -count);
+        if (_slotType == L2Slot.SlotType.Basket && _shopType == ShopTab.ShopTabType.SELL)
+        {
+            //Updating left tab (inventory) after adding or removing items from the basket
+            _adjacentContainer.AddToBasket(product, -count);
+        }
+
+        _updateCallback();
     }
 
     public void RemoveFromBasket(Product product, int index)
@@ -120,7 +131,13 @@ public class ShopSlotContainer : L2SlotContainer
         CalculateWeight();
         CalculatePrice();
 
-        _updateCallback(product, false, product.Count);
+        if (_slotType == L2Slot.SlotType.Basket && _shopType == ShopTab.ShopTabType.SELL)
+        {
+            //Updating left tab (inventory) after adding or removing items from the basket
+            _adjacentContainer.AddToBasket(product, product.Count);
+        }
+
+        _updateCallback();
     }
 
     private void CalculateWeight()

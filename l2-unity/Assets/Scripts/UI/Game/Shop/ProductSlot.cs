@@ -33,4 +33,14 @@ public class ProductSlot : InventorySlot
     {
         Product = product;
     }
+
+    protected override void HandleLeftDoubleClick()
+    {
+        SwapBasket();
+    }
+
+    public virtual void SwapBasket()
+    {
+        ((ShopSlotContainer)_currentSlotContainer).AdjacentContainer.AddToBasket(Product, 1);
+    }
 }

@@ -21,4 +21,9 @@ public class BasketSlot : ProductSlot
     protected override void HandleMiddleClick()
     {
     }
+
+    public override void SwapBasket()
+    {
+        ((ShopSlotContainer)_currentSlotContainer).AddToBasket(Product, -1);
+    }
 }
