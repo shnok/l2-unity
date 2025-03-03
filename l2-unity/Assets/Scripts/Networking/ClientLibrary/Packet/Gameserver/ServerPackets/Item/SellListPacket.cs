@@ -4,7 +4,6 @@ using UnityEngine;
 public class SellListPacket : ServerPacket
 {
     public int Adena { get; private set; }
-    public int ListId { get; private set; }
     public bool OpenTab { get; private set; }
     public Product[] Products { get; private set; }
 

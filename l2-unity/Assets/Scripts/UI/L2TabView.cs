@@ -11,6 +11,7 @@ public class L2TabView
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
     private L2Tab _activeTab;
+    public L2Tab ActiveTab { get => _activeTab; }
 
     public void Initialize(VisualElement tabViewElement, L2Tab[] tabs, VisualTreeAsset tabTemplate, VisualTreeAsset tabHeaderTemplate, bool reverseOrder)
     {

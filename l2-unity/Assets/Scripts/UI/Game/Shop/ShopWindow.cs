@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[System.Serializable]
 public class ShopWindow : L2PopupWindow
 {
     private VisualTreeAsset _tabTemplate;
@@ -18,7 +17,6 @@ public class ShopWindow : L2PopupWindow
     [SerializeField] private int _adenaCount;
     [SerializeField] private int _sellListId;
     [SerializeField] private int _buyListId;
-
 
     private Label _buyButtonLabel;
 
@@ -72,7 +70,7 @@ public class ShopWindow : L2PopupWindow
         VisualElement buyButton = GetElementById("BuyButton").Q<Button>("L2Button");
         _buyButtonLabel = buyButton.Q<Label>("ButtonLabel");
         buyButton.AddManipulator(new ButtonClickSoundManipulator(buyButton));
-        cancelButton.RegisterCallback<MouseUpEvent>((ev) => ConfirmPressed(), TrickleDown.TrickleDown);
+        buyButton.RegisterCallback<MouseUpEvent>((ev) => ConfirmPressed(), TrickleDown.TrickleDown);
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -89,8 +87,8 @@ public class ShopWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
-        _tabs[0].UpdateProductList(null, 0);
-        _tabs[1].UpdateProductList(null, 0);
+        _tabs[0].UpdateProductList(null, 0, 0);
+        _tabs[1].UpdateProductList(null, 0, 0);
 
         L2GameUI.Instance.WindowLoadComplete();
     }
@@ -106,24 +104,31 @@ public class ShopWindow : L2PopupWindow
 
     public void RefreshProductList(int listId, int adena, Product[] products, ShopTab.ShopTabType type, bool openTab)
     {
-        if (type == ShopTab.ShopTabType.SELL)
+        if (!TargetManager.Instance.HasTarget())
         {
-            _sellListId = listId;
-        }
-        else
-        {
-            _buyListId = listId;
+            Debug.Log("Hiding shop window because player target changed");
+            HideWindow(false);
+            return;
         }
 
-        if (openTab && type == ShopTab.ShopTabType.SELL) // In theory should not happen as all the SELL options must be removed from NPCs html
+        _sellListId = TargetManager.Instance.Target.Identity.NpcId;
+
+        if (listId != -1)
+            _buyListId = listId;
+
+
+        if (openTab && type == ShopTab.ShopTabType.SELL)
+        //Hiding buy tab whenever sell option was selected on merchant
         {
             _l2TabView.HideTab(0);
             _l2TabView.SwitchTab(_tabs[1]);
+            TabSwitched(ShopTab.ShopTabType.SELL);
         }
         else
         {
             _l2TabView.ShowTab(0);
             _l2TabView.SwitchTab(_tabs[0]);
+            TabSwitched(ShopTab.ShopTabType.BUY);
         }
 
         if (products == null || products.Length == 0)
@@ -132,7 +137,14 @@ public class ShopWindow : L2PopupWindow
             return;
         }
 
-        _tabs[type == ShopTab.ShopTabType.BUY ? 0 : 1].UpdateProductList(products, adena);
+        if (type == ShopTab.ShopTabType.BUY)
+        {
+            _tabs[0].UpdateProductList(products, adena, _buyListId);
+        }
+        else
+        {
+            _tabs[1].UpdateProductList(products, adena, _sellListId);
+        }
     }
 
     public override void ToggleHideWindow()
@@ -156,6 +168,11 @@ public class ShopWindow : L2PopupWindow
 
     public override void HideWindow(bool silent)
     {
+        if (_isWindowHidden)
+        {
+            return;
+        }
+
         base.HideWindow(silent);
 
         if (!silent)
@@ -178,6 +195,6 @@ public class ShopWindow : L2PopupWindow
 
     private void ConfirmPressed()
     {
-
+        ((ShopTab)_l2TabView.ActiveTab).Submit();
     }
 }

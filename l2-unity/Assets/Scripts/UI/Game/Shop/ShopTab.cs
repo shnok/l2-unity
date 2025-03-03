@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,6 +21,7 @@ public class ShopTab : L2Tab
     private VisualElement _weightBarBg;
     private int _rowLength = 6;
     private int _minimumRows = 7;
+    private int _listId = 0;
 
     [SerializeField] private ShopTabType _shopTabType;
     [SerializeField] private List<ShopSlotContainer> _slotContainers;
@@ -82,8 +82,10 @@ public class ShopTab : L2Tab
         });
     }
 
-    public void UpdateProductList(Product[] products, int adenas)
+    public void UpdateProductList(Product[] products, int adenas, int listId)
     {
+        _listId = listId;
+
         _slotContainers[0].RefreshProducts(products);
         _slotContainers[1].RefreshProducts(null);
 
@@ -144,5 +146,17 @@ public class ShopTab : L2Tab
         base.OnTabHeaderClicked();
 
         ShopWindow.Instance.TabSwitched(_shopTabType);
+    }
+
+    public void Submit()
+    {
+        if (_shopTabType == ShopTabType.BUY)
+        {
+            GameClient.Instance.ClientPacketHandler.SendRequestBuyItem(_listId, _slotContainers[1].Products);
+        }
+        else
+        {
+            GameClient.Instance.ClientPacketHandler.SendRequestSellItem(_listId, _slotContainers[1].Products);
+        }
     }
 }

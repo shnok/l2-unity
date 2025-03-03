@@ -19,6 +19,7 @@ public class ShopSlotContainer : L2SlotContainer
     public int ContentWeight { get { return _contentWeight; } }
     public int ContentPrice { get { return _contentPrice; } }
     public ShopSlotContainer AdjacentContainer { get { return _adjacentContainer; } }
+    public List<Product> Products { get { return _products; } }
 
     public void Initialize(VisualElement container, int rowLength, ShopTab.ShopTabType shopType, L2Slot.SlotType type, int minimumContainerSize, ShopSlotContainer adjacentContainer, Action updateCallback)
     {
