@@ -1,5 +1,7 @@
-public class AuthRequestPacket : ClientPacket {
-    public AuthRequestPacket(byte[] rsaBlock) : base((byte)LoginClientPacketType.AuthRequest) {
+public class AuthRequestPacket : LoginClientPacket
+{
+    public AuthRequestPacket(byte[] rsaBlock) : base((byte)LoginClientPacketType.AuthRequest)
+    {
         WriteB(rsaBlock);
         BuildPacket();
     }

@@ -6,8 +6,6 @@ public class GameClientPacketHandler : ClientPacketHandler
 {
     protected override void EncryptPacket(ClientPacket packet)
     {
-        //base.EncryptPacket(packet);
-
         byte[] data = packet.GetData();
 
         GameClient.Instance.GameCrypt.Encrypt(data);

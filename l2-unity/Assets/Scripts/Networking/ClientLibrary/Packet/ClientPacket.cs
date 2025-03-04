@@ -4,7 +4,7 @@ using System.Text;
 
 public abstract class ClientPacket : Packet
 {
-    private List<byte> _buffer = new List<byte>();
+    protected List<byte> _buffer = new List<byte>();
 
     public ClientPacket(byte type) : base(type) { }
     public ClientPacket(byte[] data) : base(data)
@@ -66,7 +66,7 @@ public abstract class ClientPacket : Packet
         _buffer.AddRange(data);
     }
 
-    protected void BuildPacket()
+    protected virtual void BuildPacket()
     {
         _buffer.Insert(0, _packetType);
 
@@ -80,20 +80,8 @@ public abstract class ClientPacket : Packet
         SetData(array);
     }
 
-    private void PadBuffer()
+    protected virtual void PadBuffer()
     {
-        byte paddingLength = (byte)(_buffer.Count % 8);
-        if (paddingLength > 0)
-        {
 
-            paddingLength = (byte)(8 - paddingLength);
-
-            //Debug.Log($"Packet needs a padding of {paddingLength} bytes.");
-
-            for (int i = 0; i < paddingLength; i++)
-            {
-                _buffer.Add((byte)0);
-            }
-        }
     }
 }
