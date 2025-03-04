@@ -226,6 +226,8 @@ public class NpcHtmlWindow : L2PopupWindow
         base.ShowWindow();
         AudioManager.Instance.PlayUISound("window_open");
         L2GameUI.Instance.WindowOpened(this);
+
+        ShopWindow.Instance.HideWindow(false);
     }
 
     public override void HideWindow(bool silent)
@@ -257,9 +259,6 @@ public class NpcHtmlWindow : L2PopupWindow
 
         if (processed.Contains("<center>"))
         {
-            Debug.LogWarning("PROCESSED CONTAINS CENTER!");
-            Debug.LogWarning(StringUtils.Base64Encode(processed));
-
             _centerEverything = true;
             _content.style.alignContent = Align.Center;
             _content.style.justifyContent = Justify.Center;
@@ -586,12 +585,10 @@ public class NpcHtmlWindow : L2PopupWindow
             };
 
             currentPos = currentPos + (linkEnd - currentPos) + tag.Length;
-            // Debug.LogWarning("CurrentPos: " + currentPos + " / " + html.Length);
             return node;
         }
 
         currentPos = tagEnd + 1;
-        // Debug.LogWarning("CurrentPos: " + currentPos + " / " + html.Length);
         return null;
     }
 
@@ -637,7 +634,6 @@ public class NpcHtmlWindow : L2PopupWindow
             container.style.alignContent = Align.Center;
             container.style.justifyContent = Justify.Center;
         }
-        Debug.LogWarning($"Building {node.Type}");
 
         switch (node.Type)
         {
@@ -703,7 +699,6 @@ public class NpcHtmlWindow : L2PopupWindow
             dropdown.RegisterValueChangedCallback((newVal) =>
             {
                 _inputValues[dropdownIndex] = newVal.newValue;
-                Debug.LogWarning($"{dropdownIndex} = {newVal.newValue}");
 
                 AudioManager.Instance.PlayUISound("window_open");
             });
@@ -845,7 +840,6 @@ public class NpcHtmlWindow : L2PopupWindow
             textField.RegisterValueChangedCallback((newVal) =>
             {
                 _inputValues[dropdownIndex] = newVal.newValue;
-                Debug.LogWarning($"{dropdownIndex} = {newVal.newValue}");
             });
         }
 
@@ -927,8 +921,6 @@ public class NpcHtmlWindow : L2PopupWindow
             tableContainer.style.alignSelf = Align.Center;
         }
 
-        Debug.LogWarning("tableHtml: " + StringUtils.Base64Encode(tableHtml));
-
         // Table content
         var rows = Regex.Matches(tableHtml, @"<tr>(.*?)</tr>", RegexOptions.Singleline);
         int colCount = 0;
@@ -936,8 +928,6 @@ public class NpcHtmlWindow : L2PopupWindow
         foreach (Match row in rows)
         {
             VisualElement rowElement = _htmlRow.Instantiate()[0];
-
-            Debug.LogWarning("rowhtml: " + StringUtils.Base64Encode(row.Groups[1].Value));
 
             // Extract attributes individually
             string widthPattern = @"width=(\d+)";
@@ -958,7 +948,6 @@ public class NpcHtmlWindow : L2PopupWindow
                 VisualElement cellElement = _htmlCell.Instantiate()[0];
 
                 string cellText = cell.Value;
-                Debug.LogWarning("colhtml: " + StringUtils.Base64Encode(cellText));
                 string firstCell = cellText.Substring(0, cellText.IndexOf(">"));
 
                 // Extract width
