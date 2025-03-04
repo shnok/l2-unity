@@ -26,6 +26,8 @@ public class ActionSlot : L2DraggableSlot
 
     public void AssignAction(ActionType actionType)
     {
+        _empty = false;
+
         ButtonClickSoundManipulator _buttonClickSoundManipulator = new ButtonClickSoundManipulator(_slotElement);
         _slotDragManipulator.enabled = true;
         _slotElement.RemoveFromClassList("empty");

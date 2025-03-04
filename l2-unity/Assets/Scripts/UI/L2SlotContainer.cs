@@ -7,21 +7,22 @@ using UnityEngine.UIElements;
 public class L2SlotContainer : L2Scrollable
 {
     private VisualElement _slotContainerElement;
-    private L2Slot[] _slots;
+    protected L2Slot[] _slots;
     public L2Slot[] Slots { get => _slots; }
-    private int _currentSelectedSlotId;
-    private int _colLength;
-    private int _rowLength;
+    [SerializeField] private int _currentSelectedSlotId;
+    [SerializeField] private int _rowLength;
+    [SerializeField] private int _minimumContainerSize;
 
-    public virtual void Initialize(VisualElement container, int colLenght, int rowLength)
+    public virtual void Initialize(VisualElement container, int rowLength, int minimumContainerSize)
     {
         base.Initialize(container, false);
         _container = container;
         _slotContainerElement = container.Q<VisualElement>("Content");
         _currentSelectedSlotId = -1;
-        _colLength = colLenght;
         _rowLength = rowLength;
+        _minimumContainerSize = minimumContainerSize;
     }
+
 
     private void ClearSlots()
     {
@@ -42,11 +43,7 @@ public class L2SlotContainer : L2Scrollable
     {
         // Add disabled slot to fill up the window
         int padSlot = 0;
-        if (slotCount < _colLength * _rowLength)
-        {
-            padSlot = _colLength * _rowLength - slotCount;
-        }
-        else if (slotCount % _rowLength != 0)
+        if (slotCount % _rowLength != 0)
         {
             padSlot = _rowLength - slotCount % _rowLength;
         }
@@ -78,9 +75,8 @@ public class L2SlotContainer : L2Scrollable
         _currentSelectedSlotId = slotPosition;
     }
 
-    public void UpdateSlots(int slotCount, int colLenght, int rowLength, L2Slot.SlotType slotType)
+    public void UpdateSlots(int slotCount, int rowLength, L2Slot.SlotType slotType)
     {
-        _colLength = colLenght;
         _rowLength = rowLength;
         UpdateSlots(slotCount, slotType);
     }
@@ -89,6 +85,7 @@ public class L2SlotContainer : L2Scrollable
     {
         ClearSlots();
 
+        slotCount = slotCount > _minimumContainerSize ? slotCount : _minimumContainerSize;
         // Create empty slots
         _slots = new L2Slot[slotCount];
 
@@ -99,7 +96,7 @@ public class L2SlotContainer : L2Scrollable
         SelectDefaultSlot();
     }
 
-    public virtual void CreateSlotElements(int slotCount, L2Slot.SlotType slotType)
+    protected virtual void CreateSlotElements(int slotCount, L2Slot.SlotType slotType)
     {
         for (int i = 0; i < slotCount; i++)
         {
@@ -111,10 +108,17 @@ public class L2SlotContainer : L2Scrollable
             {
                 slot = new InventorySlot(i, slotElement, this, slotType);
             }
-
-            if (slotType == L2Slot.SlotType.Action)
+            else if (slotType == L2Slot.SlotType.Action)
             {
                 slot = new ActionSlot(slotElement, i, slotType);
+            }
+            else if (slotType == L2Slot.SlotType.Product)
+            {
+                slot = new ProductSlot(i, slotElement, this, slotType);
+            }
+            else if (slotType == L2Slot.SlotType.Basket)
+            {
+                slot = new BasketSlot(i, slotElement, this, slotType);
             }
 
             _slots[i] = slot;
@@ -142,5 +146,4 @@ public class L2SlotContainer : L2Scrollable
             }
         });
     }
-
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,6 +11,7 @@ public class L2TabView
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
     private L2Tab _activeTab;
+    public L2Tab ActiveTab { get => _activeTab; }
 
     public void Initialize(VisualElement tabViewElement, L2Tab[] tabs, VisualTreeAsset tabTemplate, VisualTreeAsset tabHeaderTemplate, bool reverseOrder)
     {
@@ -80,5 +82,15 @@ public class L2TabView
         }
 
         return false;
+    }
+
+    public void ShowTab(int tabIndex)
+    {
+        _tabs[tabIndex].TabHeader.RemoveFromClassList("hidden");
+    }
+
+    public void HideTab(int tabIndex)
+    {
+        _tabs[tabIndex].TabHeader.AddToClassList("hidden");
     }
 }

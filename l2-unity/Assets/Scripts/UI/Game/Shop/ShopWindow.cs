@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[System.Serializable]
 public class ShopWindow : L2PopupWindow
 {
     private VisualTreeAsset _tabTemplate;
@@ -16,10 +15,10 @@ public class ShopWindow : L2PopupWindow
     [SerializeField] private int _usedSlots;
     [SerializeField] private int _slotCount;
     [SerializeField] private int _adenaCount;
+    [SerializeField] private int _sellListId;
+    [SerializeField] private int _buyListId;
 
-    private VisualElement _weightBarContainer;
-    private VisualElement _weightBar;
-    private VisualElement _weightBarBg;
+    private Label _buyButtonLabel;
 
     private static ShopWindow _instance;
     public static ShopWindow Instance
@@ -64,6 +63,14 @@ public class ShopWindow : L2PopupWindow
 
         RegisterCloseWindowEvent("btn-close-frame");
         RegisterClickWindowEvent(_windowEle, dragArea);
+
+        VisualElement cancelButton = GetElementById("CancelButton").Q<Button>("L2Button");
+        cancelButton.AddManipulator(new ButtonClickSoundManipulator(cancelButton));
+        cancelButton.RegisterCallback<MouseUpEvent>((ev) => HideWindow(false), TrickleDown.TrickleDown);
+        VisualElement buyButton = GetElementById("BuyButton").Q<Button>("L2Button");
+        _buyButtonLabel = buyButton.Q<Label>("ButtonLabel");
+        buyButton.AddManipulator(new ButtonClickSoundManipulator(buyButton));
+        buyButton.RegisterCallback<MouseUpEvent>((ev) => ConfirmPressed(), TrickleDown.TrickleDown);
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -80,7 +87,8 @@ public class ShopWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
-        UpdateItemList();
+        _tabs[0].UpdateProductList(null, 0, 0);
+        _tabs[1].UpdateProductList(null, 0, 0);
 
         L2GameUI.Instance.WindowLoadComplete();
     }
@@ -94,11 +102,48 @@ public class ShopWindow : L2PopupWindow
     }
 
 
-    public void UpdateItemList()
+    public void RefreshProductList(int listId, int adena, Product[] products, ShopTab.ShopTabType type, bool openTab)
     {
-        for (int i = 0; i < _tabs.Length; i++)
+        if (!TargetManager.Instance.HasTarget())
         {
-            _tabs[i].UpdateItemList();
+            Debug.Log("Hiding shop window because player target changed");
+            HideWindow(false);
+            return;
+        }
+
+        _sellListId = TargetManager.Instance.Target.Identity.NpcId;
+
+        if (listId != -1)
+            _buyListId = listId;
+
+
+        if (openTab && type == ShopTab.ShopTabType.SELL)
+        //Hiding buy tab whenever sell option was selected on merchant
+        {
+            _l2TabView.HideTab(0);
+            _l2TabView.SwitchTab(_tabs[1]);
+            TabSwitched(ShopTab.ShopTabType.SELL);
+        }
+        else
+        {
+            _l2TabView.ShowTab(0);
+            _l2TabView.SwitchTab(_tabs[0]);
+            TabSwitched(ShopTab.ShopTabType.BUY);
+        }
+
+        if (products == null || products.Length == 0)
+        {
+            Debug.Log("Shop product list is empty.");
+            return;
+        }
+
+        if (type == ShopTab.ShopTabType.BUY)
+        {
+            _tabs[0].UpdateProductList(products, adena, _buyListId);
+        }
+        else
+        {
+            _tabs[1].UpdateProductList(products, adena, _sellListId);
         }
     }
 
@@ -123,11 +168,33 @@ public class ShopWindow : L2PopupWindow
 
     public override void HideWindow(bool silent)
     {
+        if (_isWindowHidden)
+        {
+            return;
+        }
+
         base.HideWindow(silent);
 
         if (!silent)
             AudioManager.Instance.PlayUISound("window_close");
 
         L2GameUI.Instance.WindowClosed(this);
+    }
+
+    public void TabSwitched(ShopTab.ShopTabType type)
+    {
+        if (type == ShopTab.ShopTabType.BUY)
+        {
+            _buyButtonLabel.text = "Buy";
+        }
+        else
+        {
+            _buyButtonLabel.text = "Sell";
+        }
+    }
+
+    private void ConfirmPressed()
+    {
+        ((ShopTab)_l2TabView.ActiveTab).Submit();
     }
 }

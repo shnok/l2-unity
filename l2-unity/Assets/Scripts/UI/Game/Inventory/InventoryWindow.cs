@@ -343,6 +343,7 @@ public class InventoryWindow : L2PopupWindow
         base.ShowWindow();
         AudioManager.Instance.PlayUISound("inventory_open_01");
         L2GameUI.Instance.WindowOpened(this);
+        ShopWindow.Instance.HideWindow(false);
     }
 
     public override void HideWindow(bool silent)

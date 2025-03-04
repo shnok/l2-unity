@@ -187,6 +187,8 @@ public class TargetManager : MonoBehaviour
         PlayerCombat.Instance.TargetId = _target.Identity.Id;
         PlayerCombat.Instance.Target = _target;
 
+        ShopWindow.Instance.HideWindow(false);
+
         GameClient.Instance.ClientPacketHandler.SendRequestSetTarget(_target.Identity.Id);
     }
 

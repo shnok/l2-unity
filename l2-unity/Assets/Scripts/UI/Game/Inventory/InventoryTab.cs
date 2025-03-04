@@ -17,13 +17,13 @@ public class InventoryTab : L2Tab
 
         // _contentContainer = tabContainer.Q<VisualElement>("Content");
         _slotContainer = new L2SlotContainer();
-        _slotContainer.Initialize(tabContainer, 8, 9);
+        _slotContainer.Initialize(tabContainer, 9, PlayerInventory.Instance.InventorySize);
     }
 
     public void UpdateItemList(List<ItemInstance> items)
     {
         L2Slot.SlotType slotType = _mainTab ? slotType = L2Slot.SlotType.Inventory : L2Slot.SlotType.InventoryBis;
-        _slotContainer.UpdateSlots(PlayerInventory.Instance.InventorySize, 8, InventoryWindow.Instance.Expanded ? 12 : 9, slotType);
+        _slotContainer.UpdateSlots(PlayerInventory.Instance.InventorySize, InventoryWindow.Instance.Expanded ? 12 : 9, slotType);
 
         // _slotContainer.AssignItemsToSlots(items);
 

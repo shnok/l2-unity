@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,9 +19,12 @@ public class ShopTab : L2Tab
     private VisualElement _weightBarContainer;
     private VisualElement _weightBar;
     private VisualElement _weightBarBg;
+    private int _rowLength = 6;
+    private int _minimumRows = 7;
+    private int _listId = 0;
 
     [SerializeField] private ShopTabType _shopTabType;
-    [SerializeField] private List<L2SlotContainer> _slotContainers;
+    [SerializeField] private List<ShopSlotContainer> _slotContainers;
 
     public bool MainTab { get; internal set; }
     public ShopTabType TabType { get => _shopTabType; set { _shopTabType = value; } }
@@ -52,49 +54,56 @@ public class ShopTab : L2Tab
         _weightBar = _weightBarContainer.Q<VisualElement>("Bar");
         _weightBarBg = _weightBarContainer.Q<VisualElement>("BarBg");
 
-        _slotContainers.Clear();
-        _slotContainers.Add(new L2SlotContainer());
-        _slotContainers.Add(new L2SlotContainer());
-
-        _slotContainers[0].Initialize(_containerLeft, 7, 6);
-        _slotContainers[1].Initialize(_containerRight, 7, 6);
-    }
-
-    public void UpdateItemList()
-    {
-        _slotContainers[0].UpdateSlots(42, L2Slot.SlotType.InventoryBis);
-        _slotContainers[1].UpdateSlots(42, L2Slot.SlotType.InventoryBis);
-
-        if (_shopTabType == ShopTabType.SELL)
+        _slotContainers = new List<ShopSlotContainer>
         {
-        }
-        else
+            new ShopSlotContainer(),
+            new ShopSlotContainer()
+        };
+
+        _slotContainers[0].Initialize(_containerLeft, _rowLength, _shopTabType, L2Slot.SlotType.Product, 42, _slotContainers[1], () =>
         {
-        }
 
-        RefreshAdenas();
-        RefreshWeight();
-    }
+        });
 
-    public override void SelectSlot(int slotPosition)
-    {
-
-    }
-
-    private void RefreshAdenas()
-    {
-        if (PlayerInventory.Instance.Items.Count > 0)
+        _slotContainers[1].Initialize(_containerRight, _rowLength, _shopTabType, L2Slot.SlotType.Basket, 42, _slotContainers[0], () =>
         {
-            ItemInstance adenaItem = PlayerInventory.Instance.Items.FirstOrDefault(o => o.Type2 == ItemType2.TYPE2_MONEY);
-
-            if (adenaItem != null)
+            if (_shopTabType == ShopTabType.BUY)
             {
-                _adenaCountLabel.text = $"{adenaItem.Count:n0}";
+                // Add weight
+                RefreshWeight(_slotContainers[1].ContentWeight);
             }
-        }
+            else
+            {
+                // Remove weight
+                RefreshWeight(-_slotContainers[1].ContentWeight);
+            }
+
+            RefreshPrice(_slotContainers[1].ContentPrice);
+        });
     }
 
-    public void RefreshWeight()
+    public void UpdateProductList(Product[] products, int adenas, int listId)
+    {
+        _listId = listId;
+
+        _slotContainers[0].RefreshProducts(products);
+        _slotContainers[1].RefreshProducts(null);
+
+        RefreshAdenas(adenas);
+        RefreshWeight(0);
+    }
+
+    private void RefreshAdenas(int adenas)
+    {
+        _adenaCountLabel.text = $"{adenas:n0}";
+    }
+
+    private void RefreshPrice(int price)
+    {
+        _priceLabel.text = $"{price:n0}";
+    }
+
+    public void RefreshWeight(int difference)
     {
         if (PlayerEntity.Instance == null)
         {
@@ -102,7 +111,7 @@ public class ShopTab : L2Tab
             return;
         }
 
-        int weight = ((PlayerStats)PlayerEntity.Instance.Stats).CurrWeight;
+        int weight = ((PlayerStats)PlayerEntity.Instance.Stats).CurrWeight + difference;
         int maxWeight = ((PlayerStats)PlayerEntity.Instance.Stats).MaxWeight;
 
         if (_weightBarBg != null && _weightBar != null)
@@ -135,5 +144,19 @@ public class ShopTab : L2Tab
     protected override void OnTabHeaderClicked()
     {
         base.OnTabHeaderClicked();
+
+        ShopWindow.Instance.TabSwitched(_shopTabType);
+    }
+
+    public void Submit()
+    {
+        if (_shopTabType == ShopTabType.BUY)
+        {
+            GameClient.Instance.ClientPacketHandler.SendRequestBuyItem(_listId, _slotContainers[1].Products);
+        }
+        else
+        {
+            GameClient.Instance.ClientPacketHandler.SendRequestSellItem(_listId, _slotContainers[1].Products);
+        }
     }
 }

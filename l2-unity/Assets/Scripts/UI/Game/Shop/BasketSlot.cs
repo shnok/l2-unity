@@ -1,8 +1,8 @@
 using UnityEngine.UIElements;
 
-public class ShopSlot : InventorySlot
+public class BasketSlot : ProductSlot
 {
-    public ShopSlot(int position, VisualElement slotElement, L2SlotContainer tab, SlotType slotType) : base(position, slotElement, tab, slotType)
+    public BasketSlot(int position, VisualElement slotElement, L2SlotContainer tab, SlotType slotType) : base(position, slotElement, tab, slotType)
     {
     }
 
@@ -20,5 +20,10 @@ public class ShopSlot : InventorySlot
 
     protected override void HandleMiddleClick()
     {
+    }
+
+    public override void SwapBasket()
+    {
+        ((ShopSlotContainer)_currentSlotContainer).AddToBasket(Product, -1);
     }
 }

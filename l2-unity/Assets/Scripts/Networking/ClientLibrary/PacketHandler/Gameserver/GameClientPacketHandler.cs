@@ -6,8 +6,6 @@ public class GameClientPacketHandler : ClientPacketHandler
 {
     protected override void EncryptPacket(ClientPacket packet)
     {
-        //base.EncryptPacket(packet);
-
         byte[] data = packet.GetData();
 
         GameClient.Instance.GameCrypt.Encrypt(data);
@@ -237,6 +235,18 @@ public class GameClientPacketHandler : ClientPacketHandler
     public void SendRequestRestoreCharacter(int slot)
     {
         RequestCharRestorePacket packet = new RequestCharRestorePacket(slot);
+        SendPacket(packet);
+    }
+
+    public void SendRequestSellItem(int listId, List<Product> products)
+    {
+        RequestSellItemPacket packet = new RequestSellItemPacket(listId, products);
+        SendPacket(packet);
+    }
+
+    public void SendRequestBuyItem(int listId, List<Product> products)
+    {
+        RequestBuyItemPacket packet = new RequestBuyItemPacket(listId, products);
         SendPacket(packet);
     }
 }

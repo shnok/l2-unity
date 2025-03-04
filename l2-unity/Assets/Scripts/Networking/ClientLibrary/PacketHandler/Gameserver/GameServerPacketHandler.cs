@@ -149,6 +149,12 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.CharDeleteFail:
                 OnCharDeleteFail(data);
                 break;
+            case GameServerPacketType.BuyList:
+                OnBuyListReceived(data);
+                break;
+            case GameServerPacketType.SellList:
+                OnSellListReceived(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -579,5 +585,27 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         CharDeleteFailPacket packet = new CharDeleteFailPacket(data);
         Debug.LogWarning("Char Delete Failed: " + packet.Reason);
+    }
+
+    private void OnBuyListReceived(byte[] data)
+    {
+        BuyListPacket packet = new BuyListPacket(data);
+        _eventProcessor.QueueEvent(() =>
+        {
+            NpcHtmlWindow.Instance.HideWindow(false);
+            ShopWindow.Instance.ShowWindow();
+            ShopWindow.Instance.RefreshProductList(packet.ListId, packet.Adena, packet.Products, ShopTab.ShopTabType.BUY, packet.OpenTab);
+        });
+    }
+
+    private void OnSellListReceived(byte[] data)
+    {
+        SellListPacket packet = new SellListPacket(data);
+        _eventProcessor.QueueEvent(() =>
+        {
+            NpcHtmlWindow.Instance.HideWindow(false);
+            ShopWindow.Instance.ShowWindow();
+            ShopWindow.Instance.RefreshProductList(-1, packet.Adena, packet.Products, ShopTab.ShopTabType.SELL, packet.OpenTab);
+        });
     }
 }
