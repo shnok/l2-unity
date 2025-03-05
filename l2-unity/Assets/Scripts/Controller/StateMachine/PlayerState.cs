@@ -11,5 +11,6 @@ public enum PlayerState
     SITTING,
     SIT_WAIT,
     STANDING,
-    DEAD
+    DEAD,
+    SKILL
 }

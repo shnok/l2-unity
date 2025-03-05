@@ -101,6 +101,7 @@ public class PlayerStateMachine : MonoBehaviour
             PlayerState.SIT_WAIT => new SitWaitState(this),
             PlayerState.STANDING => new StandingState(this),
             PlayerState.WALKING => new WalkingState(this),
+            PlayerState.SKILL => new SkillState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }
@@ -117,6 +118,7 @@ public class PlayerStateMachine : MonoBehaviour
             Intention.INTENTION_SIT => new SitIntention(this),
             Intention.INTENTION_STAND => new StandIntention(this),
             Intention.INTENTION_MOVE => new MoveIntention(this),
+            Intention.INTENTION_SKILL => new SkillIntention(this),
             _ => throw new ArgumentException("Invalid intention")
         };
     }

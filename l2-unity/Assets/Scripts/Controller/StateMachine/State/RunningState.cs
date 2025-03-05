@@ -20,6 +20,10 @@ public class RunningState : StateBase
                 {
                     _stateMachine.ChangeIntention(Intention.INTENTION_INTERACT);
                 }
+                else if (_moveReason == MoveReason.SKILL)
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_SKILL);
+                }
                 else
                 {
                     _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
