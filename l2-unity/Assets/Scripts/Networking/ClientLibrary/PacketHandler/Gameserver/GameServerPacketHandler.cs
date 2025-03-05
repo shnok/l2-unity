@@ -149,6 +149,18 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.CharDeleteFail:
                 OnCharDeleteFail(data);
                 break;
+            case GameServerPacketType.SkillList:
+                OnSkillList(data);
+                break;
+            case GameServerPacketType.AcquireSkillList:
+                OnAcquireSkillList(data);
+                break;
+            case GameServerPacketType.AcquireSkillInfo:
+                OnAcquireSkillInfo(data);
+                break;
+            case GameServerPacketType.AcquireSkillDone:
+                OnAcquireSkillDone(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -579,5 +591,29 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         CharDeleteFailPacket packet = new CharDeleteFailPacket(data);
         Debug.LogWarning("Char Delete Failed: " + packet.Reason);
+    }
+    
+    private void OnSkillList(byte[] data)
+    {
+        SkillListPacket packet = new SkillListPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerSkill.Instance.SetSkills(packet.Skills));
+    }
+    
+    private void OnAcquireSkillList(byte[] data)
+    {
+        AcquireSkillListPacket packet = new AcquireSkillListPacket(data);
+        _eventProcessor.QueueEvent(() => SkillLearnWindow.Instance.InitSkillsList(packet.Skills));
+    }
+    
+    private void OnAcquireSkillInfo(byte[] data)
+    {
+        AcquireSkillInfoPacket packet = new AcquireSkillInfoPacket(data);
+        _eventProcessor.QueueEvent(() => SkillLearnWindow.Instance.ShowSkillDetail(packet.Requirements));
+    }
+    
+    private void OnAcquireSkillDone(byte[] data)
+    {
+        AcquireSkillDonePacket packet = new AcquireSkillDonePacket(data);
+        // _eventProcessor.QueueEvent();
     }
 }

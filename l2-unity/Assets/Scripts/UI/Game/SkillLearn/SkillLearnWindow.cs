@@ -1,13 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 
 public class SkillLearnWindow : L2PopupWindow
 {
-
     private VisualElement _boxContent;
     private VisualElement _boxHeader;
     private VisualElement _rootWindow;
@@ -16,19 +13,8 @@ public class SkillLearnWindow : L2PopupWindow
     private VisualTreeAsset _skillItemAsset;
     private VisualTreeAsset _skillDetailAsset;
     private ListView skillListView;
-    private List<SkillData> skills = new List<SkillData>
-    {
-        new SkillData("Mortal Blow", 1, 1000),
-        new SkillData("Power Strike", 2, 1500),
-        new SkillData("Fireball", 3, 2000),
-        new SkillData("Backstab", 1, 1000),
-        new SkillData("Something", 2, 1500),
-        new SkillData("Recharge", 3, 2000),
-        new SkillData("Resurrection", 1, 1000),
-        new SkillData("Dryad Root", 2, 1500),
-        new SkillData("Wind Strike", 3, 2000)
-
-    };
+    public SkillWindowInfo[] Skills;
+    public PacketSkillType SkillType;
 
     private static SkillLearnWindow _instance;
     public static SkillLearnWindow Instance
@@ -56,15 +42,21 @@ public class SkillLearnWindow : L2PopupWindow
     {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnWindow");
         _skillItemAsset = LoadAsset("Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnItem");
-        _skillDetailAsset = LoadAsset("Data/UI/_Elements/Game/SkillLearnWindow/SkillDetailWindow");
+        _skillDetailAsset = LoadAsset("Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnDetail");
     }
 
-    public void InitSkillsList()
+    public void InitSkillsList(SkillWindowInfo[] skills)
     {
+        Skills = new SkillWindowInfo[skills.Length];
+        for (int i = 0; i < skills.Length; i++)
+        {
+            Skills[i] = skills[i];
+        }
+        
         skillListView = _windowEle.Q<ListView>("SkillList");
         skillListView.makeItem = () => _skillItemAsset.CloneTree();
         skillListView.bindItem = BindSkill;
-        skillListView.itemsSource = skills;
+        skillListView.itemsSource = Skills;
         skillListView.selectionChanged += OnItemSelected;
         var sc = skillListView.Q<ScrollView>(className: "unity-scroll-view");
         sc.AddToClassList("l2-scroll-view");
@@ -76,9 +68,9 @@ public class SkillLearnWindow : L2PopupWindow
         Label skillLabel = item.Q<Label>("SkillName");
         Label levelLabel = item.Q<Label>("LevelValue");
         Label spCostLabel = item.Q<Label>("SPCostValue");
-        skillLabel.text = skills[index].Name;
-        levelLabel.text = skills[index].Level.ToString();
-        spCostLabel.text = skills[index].SpCost.ToString();
+        skillLabel.text = Skills[index].Name;
+        levelLabel.text = Skills[index].Level.ToString();
+        spCostLabel.text = Skills[index].SpCost.ToString();
     }
 
     protected override void InitWindow(VisualElement root)
@@ -88,9 +80,6 @@ public class SkillLearnWindow : L2PopupWindow
         var dragArea = GetElementByClass("drag-area");
         DragManipulator drag = new DragManipulator(dragArea, _windowEle, this);
         dragArea.AddManipulator(drag);
-        
-        _skillDetail = _windowEle.Q<VisualElement>("SkillDescriptionDetail");
-        _skillDetail.style.display = DisplayStyle.None;
 
         RegisterCloseWindowEvent("btn-close-frame");
         RegisterClickWindowEvent(_windowEle, dragArea);
@@ -102,27 +91,19 @@ public class SkillLearnWindow : L2PopupWindow
         
         yield return new WaitForEndOfFrame();
 
-        InitSkillsList();
-
         L2GameUI.Instance.WindowLoadComplete();
     }
     
-    private void OnItemSelected(object selectedItem)
+    private void OnItemSelected(object item)
     {
+        SkillWindowInfo skill = (SkillWindowInfo)item;
+        GameClient.Instance.ClientPacketHandler.SendRequestAcquireSkillInfo(skill.SkillId, skill.Level, SkillType);
         _skillDetail.style.display = DisplayStyle.Flex;
     }
-}
 
-public class SkillData
-{
-    public string Name;
-    public int Level;
-    public int SpCost;
-
-    public SkillData(string name, int level, int spCost)
+    public void ShowSkillDetail(SkillRequirement[] requirements)
     {
-        Name = name;
-        Level = level;
-        SpCost = spCost;
+        // show requirements
+        
     }
 }

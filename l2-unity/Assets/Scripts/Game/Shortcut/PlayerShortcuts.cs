@@ -93,6 +93,9 @@ public class PlayerShortcuts : MonoBehaviour
             case Shortcut.TYPE_ACTION:
                 PlayerActions.Instance.UseAction((ActionType)shortcut.Id);
                 break;
+            case Shortcut.TYPE_SKILL:
+                PlayerSkill.Instance.UseSkill(shortcut.Id);
+                break;
             default:
                 break;
         }

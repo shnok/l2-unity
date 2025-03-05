@@ -124,6 +124,11 @@ public class L2GameUI : L2UI
             L2SlotManager.Instance.AddWindow(_slotVisualContainer);
             L2SlotManager.Instance.HideWindow(true);
         }
+        if (SkillWindow.Instance != null)
+        {
+            SkillWindow.Instance.AddWindow(_rootVisualContainer);
+            SkillWindow.Instance.HideWindow(true);
+        }
         if (SkillLearnWindow.Instance != null)
         {
             SkillLearnWindow.Instance.AddWindow(_rootVisualContainer);
@@ -202,6 +207,22 @@ public class L2GameUI : L2UI
             else
             {
                 SystemMenuWindow.Instance.ToggleHideWindow();
+            }
+        }
+        
+        if (InputManager.Instance.OpenCharacerStatus)
+        {
+            if (CharacterInfoWindow.Instance != null)
+            {
+                CharacterInfoWindow.Instance.ToggleHideWindow();
+            }
+        }
+        
+        if (InputManager.Instance.OpenSkill)
+        {
+            if (SkillWindow.Instance != null)
+            {
+                SkillWindow.Instance.ToggleHideWindow();
             }
         }
     }

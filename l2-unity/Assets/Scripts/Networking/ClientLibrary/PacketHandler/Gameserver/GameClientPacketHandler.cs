@@ -239,4 +239,22 @@ public class GameClientPacketHandler : ClientPacketHandler
         RequestCharRestorePacket packet = new RequestCharRestorePacket(slot);
         SendPacket(packet);
     }
+    
+    public void SendRequestSkill()
+    {
+        RequestSkillListPacket packet = new RequestSkillListPacket();
+        SendPacket(packet);
+    }
+    
+    public void SendRequestAcquireSkill(int skillId, int skillLvl, PacketSkillType skillType)
+    {
+        RequestAcquireSkillPacket packet = new RequestAcquireSkillPacket(skillId, skillLvl, skillType);
+        SendPacket(packet);
+    }
+
+    public void SendRequestAcquireSkillInfo(int skillId, int skillLvl, PacketSkillType skillType)
+    {
+        RequestAcquireSkillInfoPacket packet = new RequestAcquireSkillInfoPacket(skillId, skillLvl, skillType);
+        SendPacket(packet);
+    }
 }
