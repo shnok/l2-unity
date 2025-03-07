@@ -136,7 +136,52 @@ public class SkillgrpTable
                             skillGrp.IsDouble = int.Parse(value);
                             break;
                         case "animation":
-                            skillGrp.Animation = DatUtils.CleanupString(value);
+                            string val = DatUtils.CleanupString(value);
+                            switch (val.ToUpper())
+                            {
+                                case "A":
+                                    skillGrp.Animation = SkillAnimation.CastShort_NoTarget;
+                                    break;
+                                case "B":
+                                    skillGrp.Animation = SkillAnimation.CastShort_Shot;
+                                    break;
+                                case "C":
+                                    skillGrp.Animation = SkillAnimation.CastShort_Throw;
+                                    break;
+                                case "D":
+                                    skillGrp.Animation = SkillAnimation.CastMid_NoTarget;
+                                    break;
+                                case "E":
+                                    skillGrp.Animation = SkillAnimation.CastMid_Shot;
+                                    break;
+                                case "F":
+                                    skillGrp.Animation = SkillAnimation.CastMid_Throw;
+                                    break;
+                                case "G":
+                                    skillGrp.Animation = SkillAnimation.CastLong_NoTarget;
+                                    break;
+                                case "J":
+                                    skillGrp.Animation = SkillAnimation.NoCast_NoTarget;
+                                    break;
+                                case "S":
+                                    skillGrp.Animation = SkillAnimation.SpAtk01;
+                                    break;
+                                case "T":
+                                    skillGrp.Animation = SkillAnimation.SpAtk02;
+                                    break;
+                                case "U":
+                                    skillGrp.Animation = SkillAnimation.spatk03;
+                                    break;
+                                case "V":
+                                    skillGrp.Animation = SkillAnimation.SpAtk04;
+                                    break;
+                                case "X":
+                                    skillGrp.Animation = SkillAnimation.WarriorBuff01;
+                                    break;
+                                default:
+                                    skillGrp.Animation = SkillAnimation.None;
+                                    break;
+                            }
                             break;
                         case "skill_visual_effect":
                             string visualEffect = DatUtils.CleanupString(value); ;

@@ -137,4 +137,7 @@ public abstract class Entity : MonoBehaviour
     {
         Running = running;
     }
+
+    public virtual void CastSkill(Skill skill, int hitTime, int reuseDelay) { }
+    public virtual void LaunchSkill(Skill skill, Entity target) { }
 }
