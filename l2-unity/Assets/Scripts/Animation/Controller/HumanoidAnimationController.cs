@@ -98,4 +98,71 @@ public class HumanoidAnimationController : BaseAnimationController
     {
         return AnimatorParameterHashTable.GetHumanoidParameterHash((int)animType);
     }
+
+    public override bool PlayCastAnimation(SkillAnimation animation)
+    {
+        if (base.PlayCastAnimation(animation))
+        {
+            HumanoidAnimType castAnim;
+            switch (animation)
+            {
+                case SkillAnimation.CastMid_NoTarget:
+                case SkillAnimation.CastMid_Shot:
+                case SkillAnimation.CastMid_Throw:
+                    castAnim = HumanoidAnimType.castmid;
+                    break;
+                case SkillAnimation.CastShort_NoTarget:
+                case SkillAnimation.CastShort_Shot:
+                case SkillAnimation.CastShort_Throw:
+                    castAnim = HumanoidAnimType.castshort;
+                    break;
+                case SkillAnimation.CastLong_NoTarget:
+                    castAnim = HumanoidAnimType.castlong;
+                    break;
+                case SkillAnimation.NoCast_NoTarget:
+                    castAnim = HumanoidAnimType.castend;
+                    break;
+                case SkillAnimation.WarriorBuff01:
+                    castAnim = HumanoidAnimType.buff01;
+                    break;
+                default:
+                    return false;
+            }
+
+            SetBool(castAnim, true);
+        }
+
+        return false;
+    }
+
+    public override bool PlayThrowAnimation(SkillAnimation animation)
+    {
+        if (base.PlayThrowAnimation(animation))
+        {
+            HumanoidAnimType throwAnim;
+            switch (animation)
+            {
+                case SkillAnimation.NoCast_NoTarget:
+                case SkillAnimation.CastShort_NoTarget:
+                case SkillAnimation.CastMid_NoTarget:
+                case SkillAnimation.CastLong_NoTarget:
+                    throwAnim = HumanoidAnimType.magic_no_target;
+                    break;
+                case SkillAnimation.CastMid_Shot:
+                case SkillAnimation.CastShort_Shot:
+                    throwAnim = HumanoidAnimType.magic_shot;
+                    break;
+                case SkillAnimation.CastMid_Throw:
+                case SkillAnimation.CastShort_Throw:
+                    throwAnim = HumanoidAnimType.magic_throw;
+                    break;
+                default:
+                    return false;
+            }
+
+            SetBool(throwAnim, true);
+        }
+
+        return false;
+    }
 }

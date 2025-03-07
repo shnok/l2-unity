@@ -17,5 +17,14 @@ public enum HumanoidAnimType
     deathwait = 45,
     sit = 46,
     sit_wait = 47,
-    stand = 48
+    stand = 48,
+    castshort = 53,
+    castmid = 54,
+    castlong = 55,
+    castend = 56,
+    magic_no_target = 57,
+    magic_shot = 58,
+    magic_throw = 59,
+    buff01 = 60,
+    buff02 = 61
 }

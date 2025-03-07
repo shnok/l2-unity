@@ -90,4 +90,14 @@ public abstract class BaseAnimationController : MonoBehaviour
     {
         return Animator.GetBool(parameterId);
     }
+
+    public virtual bool PlayCastAnimation(SkillAnimation animation)
+    {
+        return animation != SkillAnimation.None;
+    }
+
+    public virtual bool PlayThrowAnimation(SkillAnimation animation)
+    {
+        return animation != SkillAnimation.None && animation <= (SkillAnimation)8;
+    }
 }

@@ -138,6 +138,19 @@ public abstract class Entity : MonoBehaviour
         Running = running;
     }
 
-    public virtual void CastSkill(Skill skill, int hitTime, int reuseDelay) { }
-    public virtual void LaunchSkill(Skill skill, Entity target) { }
+    public virtual void CastSkill(Skill skill, int hitTime, int reuseDelay)
+    {
+        if (skill.Skillgrps[0]?.Animation != SkillAnimation.None)
+        {
+            _referenceHolder.AnimationController.PlayCastAnimation(skill.Skillgrps[0].Animation);
+        }
+    }
+
+    public virtual void LaunchSkill(Skill skill, Entity target)
+    {
+        if (skill.Skillgrps[0]?.Animation != SkillAnimation.None)
+        {
+            _referenceHolder.AnimationController.PlayThrowAnimation(skill.Skillgrps[0].Animation);
+        }
+    }
 }
