@@ -19,7 +19,7 @@ public class SkillEffectTest : MonoBehaviour
         }
         if (target == null)
         {
-            target = GameObject.Find("Caster").GetComponent<Entity>();
+            target = GameObject.Find("Target").GetComponent<Entity>();
             //caster.Initialize();
             target.GetComponent<Gear>().Initialize(0, CharacterModelType.FDarkElf);
         }
@@ -42,6 +42,7 @@ public class SkillEffectTest : MonoBehaviour
     private int HITFLAG_CRIT = 0x20;
     private int HITFLAG_SHLD = 0x40;
     private int HITFLAG_MISS = 0x80;
+    public int skillId = 1177;
 
     private IEnumerator DebugCoroutine()
     {
@@ -51,23 +52,7 @@ public class SkillEffectTest : MonoBehaviour
 
         while (true)
         {
-            flags = 0;
-            if (soulshot)
-            {
-                flags |= HITFLAG_USESS | ssGrade;
-            }
-            if (crit)
-            {
-                flags |= HITFLAG_CRIT;
-            }
-            if (shld > 0)
-            {
-                flags |= HITFLAG_SHLD;
-            }
-            if (miss)
-            {
-                flags |= HITFLAG_MISS;
-            }
+
             // ParticleManager.Instance.SpawnSkillParticles(caster, ss);
             // ParticleManager.Instance.SpawnSkillParticles(target, sps);
 
@@ -75,14 +60,37 @@ public class SkillEffectTest : MonoBehaviour
             // ParticleManager.Instance.SpawnHitParticle(target, caster, true, true, (int)EtcEffectInfo.EEP_GRADENONE);
             // ParticleManager.Instance.SpawnHitParticle(caster, target, false, true, (int)EtcEffectInfo.EEP_GRADENONE);
 
-            Hit hit = new Hit(target.Identity.Id, 10, flags);
             // Debug.Log($"Inflicting attack with flags: {flags} ss:{hit.hasSoulshot()} miss:{hit.isMiss()} crit:{hit.isCrit()}");
             // WorldCombat.Instance.InflictAttack(caster, target, new Hit(target.Identity.Id, 10, flags));
 
             // WorldCombat.Instance.EntityCastSkill(caster, spiritshot ? 2047 : 2039);
-            WorldCombat.Instance.EntityCastSkill(caster, 2122);
+
+            WorldCombat.Instance.EntityCastSkill(caster, skillId, 3000, 3);
             yield return new WaitForSeconds(spawnDelay);
         }
+    }
+
+    private void DebugHit()
+    {
+        flags = 0;
+        if (soulshot)
+        {
+            flags |= HITFLAG_USESS | ssGrade;
+        }
+        if (crit)
+        {
+            flags |= HITFLAG_CRIT;
+        }
+        if (shld > 0)
+        {
+            flags |= HITFLAG_SHLD;
+        }
+        if (miss)
+        {
+            flags |= HITFLAG_MISS;
+        }
+        Hit hit = new Hit(target.Identity.Id, 10, flags);
+        WorldCombat.Instance.EntityCastSkill(caster, 2122);
     }
 }
 #endif

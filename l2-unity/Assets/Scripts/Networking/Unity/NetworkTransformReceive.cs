@@ -70,7 +70,12 @@ public class NetworkTransformReceive : MonoBehaviour
 
     protected virtual float GetPositionSyncThreshold()
     {
-        return GameClient.Instance.ServerEntityPositionSyncThreshold;
+        if (GameClient.Instance != null)
+        {
+            return GameClient.Instance.ServerEntityPositionSyncThreshold;
+        }
+
+        return 0.1f;
     }
 
     /* Safety measure to keep the transform position synced */

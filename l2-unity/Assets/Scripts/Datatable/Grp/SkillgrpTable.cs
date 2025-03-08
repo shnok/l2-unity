@@ -136,50 +136,58 @@ public class SkillgrpTable
                             skillGrp.IsDouble = int.Parse(value);
                             break;
                         case "animation":
-                            string val = DatUtils.CleanupString(value);
+                            string val = DatUtils.CleanupString(value).Replace("}", "").Replace("{", "");
                             switch (val.ToUpper())
                             {
                                 case "A":
-                                    skillGrp.Animation = SkillAnimation.CastShort_NoTarget;
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastShort;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicNoTarget;
                                     break;
                                 case "B":
-                                    skillGrp.Animation = SkillAnimation.CastShort_Shot;
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastShort;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicShot;
                                     break;
                                 case "C":
-                                    skillGrp.Animation = SkillAnimation.CastShort_Throw;
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastShort;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicThrow;
                                     break;
                                 case "D":
-                                    skillGrp.Animation = SkillAnimation.CastMid_NoTarget;
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastMid;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicNoTarget;
                                     break;
                                 case "E":
-                                    skillGrp.Animation = SkillAnimation.CastMid_Shot;
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastMid;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicShot;
                                     break;
                                 case "F":
-                                    skillGrp.Animation = SkillAnimation.CastMid_Throw;
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastMid;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicThrow;
                                     break;
                                 case "G":
-                                    skillGrp.Animation = SkillAnimation.CastLong_NoTarget;
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastLong;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicNoTarget;
                                     break;
                                 case "J":
-                                    skillGrp.Animation = SkillAnimation.NoCast_NoTarget;
+                                    skillGrp.CastAnimation = SkillCastAnimation.NoCast;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicNoTarget;
                                     break;
                                 case "S":
-                                    skillGrp.Animation = SkillAnimation.SpAtk01;
+                                    skillGrp.CastAnimation = SkillCastAnimation.SpAtk01;
                                     break;
                                 case "T":
-                                    skillGrp.Animation = SkillAnimation.SpAtk02;
+                                    skillGrp.CastAnimation = SkillCastAnimation.SpAtk02;
                                     break;
                                 case "U":
-                                    skillGrp.Animation = SkillAnimation.spatk03;
+                                    skillGrp.CastAnimation = SkillCastAnimation.Spatk03;
                                     break;
                                 case "V":
-                                    skillGrp.Animation = SkillAnimation.SpAtk04;
+                                    skillGrp.CastAnimation = SkillCastAnimation.SpAtk04;
                                     break;
                                 case "X":
-                                    skillGrp.Animation = SkillAnimation.WarriorBuff01;
+                                    skillGrp.CastAnimation = SkillCastAnimation.WarriorBuff01;
                                     break;
                                 default:
-                                    skillGrp.Animation = SkillAnimation.None;
+                                    skillGrp.CastAnimation = SkillCastAnimation.None;
                                     break;
                             }
                             break;

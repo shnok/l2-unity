@@ -5,7 +5,14 @@ public class HumanoidStateAction : HumanoidStateBase
 {
     public bool IsMoving()
     {
-        return CharacterController.IsMoving();
+        if (CharacterController != null)
+        {
+            return CharacterController.IsMoving();
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public bool IsAttacking()

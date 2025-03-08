@@ -52,5 +52,14 @@ public enum HumanoidAnimationEvent : int
     patkspd,
     walk_speed,
     run_speed,
-    matkspd
+    matkspd,
+    castshort = 53,
+    castmid = 54,
+    castlong = 55,
+    castend = 56,
+    magic_no_target = 57,
+    magic_shot = 58,
+    magic_throw = 59,
+    buff01 = 60,
+    buff02 = 61
 }

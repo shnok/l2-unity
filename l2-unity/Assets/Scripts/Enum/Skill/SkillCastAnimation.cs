@@ -1,4 +1,4 @@
-public enum SkillAnimation : int
+public enum SkillCastAnimation : int
 {
     /*
     j = castend + magic no target
@@ -19,18 +19,14 @@ public enum SkillAnimation : int
 
     X = spatk06_hand / spatk07_hand
     */
-    None,
-    CastShort_NoTarget,
-    CastShort_Shot,
-    CastShort_Throw,
-    CastMid_NoTarget,
-    CastMid_Shot,
-    CastMid_Throw,
-    CastLong_NoTarget,
-    NoCast_NoTarget, //battle heal (type j)
-    SpAtk01,
-    SpAtk02,
-    spatk03,
-    SpAtk04,
-    WarriorBuff01,
+    None = 0,
+    CastShort = 53,
+    CastMid = 54,
+    CastLong = 55,
+    NoCast = 56, //battle heal (type j)
+    WarriorBuff01 = 60,
+    SpAtk01 = 100,
+    SpAtk02 = 101,
+    Spatk03 = 102,
+    SpAtk04 = 103,
 }

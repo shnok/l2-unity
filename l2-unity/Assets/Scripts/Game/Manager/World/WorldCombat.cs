@@ -122,7 +122,7 @@ public class WorldCombat : MonoBehaviour
         ParticleManager.Instance.SpawnCastParticles(entity, skill);
 
         //Play skill cast animation
-        if (skill.Skillgrps[0].Animation != SkillAnimation.None)
+        if (skill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)
             entity.CastSkill(skill, hitTime, reuseDelay);
 
         // Cast skill sound
@@ -145,8 +145,8 @@ public class WorldCombat : MonoBehaviour
 
     private void LaunchSkill(Entity sender, Entity target, Skill skill)
     {
-        if (skill.Skillgrps[0].Animation != SkillAnimation.None)
-            sender.LaunchSkill(skill, target);
+        // if (skill.Skillgrps[0].Animation != SkillAnimation.None) -- => launch animation should play automatically at 75% of Entity cast hit time?
+        //     sender.LaunchSkill(skill, target);
 
         //SpawnShotParticle
     }

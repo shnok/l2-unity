@@ -94,7 +94,7 @@ public abstract class Entity : MonoBehaviour
         _stats.MAtkSpd = mAtkSpd;
 
         float stat = StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
-        AnimationController.SetMAtkSpd(stat);
+        // AnimationController.SetMAtkSpd(stat, 1000);
 
         return stat;
     }
@@ -138,19 +138,13 @@ public abstract class Entity : MonoBehaviour
         Running = running;
     }
 
-    public virtual void CastSkill(Skill skill, int hitTime, int reuseDelay)
+    public void CastSkill(Skill skill, int hitTime, int reuseDelay)
     {
-        if (skill.Skillgrps[0]?.Animation != SkillAnimation.None)
-        {
-            _referenceHolder.AnimationController.PlayCastAnimation(skill.Skillgrps[0].Animation);
-        }
+        Combat.CastSkill(skill, hitTime, reuseDelay);
     }
 
-    public virtual void LaunchSkill(Skill skill, Entity target)
+    public void LaunchSkill()
     {
-        if (skill.Skillgrps[0]?.Animation != SkillAnimation.None)
-        {
-            _referenceHolder.AnimationController.PlayThrowAnimation(skill.Skillgrps[0].Animation);
-        }
+        Combat.LaunchSkill();
     }
 }

@@ -11,6 +11,9 @@ public abstract class BaseAnimationController : MonoBehaviour
     protected float _spAtk01ClipLength = 1000;
     [SerializeField] protected Dictionary<string, float> _atkClipLengths;
 
+    protected SkillCastAnimation _skillCastAnimation;
+    protected SkillThrowAnimation _skillThrowAnimation;
+
     public Transform RootBone { get => _rootBone; }
     private AnimatorParameterHashTable _animatorParameterHashTable;
     public AnimatorParameterHashTable AnimatorParameterHashTable
@@ -91,13 +94,21 @@ public abstract class BaseAnimationController : MonoBehaviour
         return Animator.GetBool(parameterId);
     }
 
-    public virtual bool PlayCastAnimation(SkillAnimation animation)
+    public virtual void PlaySkillAnimation(SkillCastAnimation castAnimation, SkillThrowAnimation throwAnimation)
     {
-        return animation != SkillAnimation.None;
+        _skillCastAnimation = castAnimation;
+        _skillThrowAnimation = throwAnimation;
+
+        PlaySkillCastAnimation();
     }
 
-    public virtual bool PlayThrowAnimation(SkillAnimation animation)
+    public virtual bool PlaySkillCastAnimation()
     {
-        return animation != SkillAnimation.None && animation <= (SkillAnimation)8;
+        return _skillCastAnimation != SkillCastAnimation.None;
+    }
+
+    public virtual bool PlaySkillThrowAnimation()
+    {
+        return _skillThrowAnimation != SkillThrowAnimation.None;
     }
 }

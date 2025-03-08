@@ -44,11 +44,10 @@ public class HumanoidAnimationController : BaseAnimationController
         Animator.SetFloat(GetParameterId(HumanoidAnimationEvent.patkspd), newAtkSpd);
     }
 
-    public override void SetMAtkSpd(float value)
+    public override void SetMAtkSpd(float clipLength)
     {
-        //TODO: update for cast animation
-        float newMAtkSpd = _spAtk01ClipLength / value;
-        Animator.SetFloat(GetParameterId(HumanoidAnimationEvent.matkspd), newMAtkSpd);
+        float castSpeed = clipLength * 1000f / (_entityReferenceHolder.Combat.LastSkillHitTime / 2f); // at 50% of cast time should switch to castend anim
+        Animator.SetFloat(GetParameterId(HumanoidAnimationEvent.matkspd), castSpeed);
     }
 
     public override void SetRunSpeed(float value)
@@ -99,68 +98,35 @@ public class HumanoidAnimationController : BaseAnimationController
         return AnimatorParameterHashTable.GetHumanoidParameterHash((int)animType);
     }
 
-    public override bool PlayCastAnimation(SkillAnimation animation)
+    public override bool PlaySkillCastAnimation()
     {
-        if (base.PlayCastAnimation(animation))
+        if (base.PlaySkillCastAnimation())
         {
-            HumanoidAnimType castAnim;
-            switch (animation)
+            if ((int)_skillCastAnimation >= 100)
             {
-                case SkillAnimation.CastMid_NoTarget:
-                case SkillAnimation.CastMid_Shot:
-                case SkillAnimation.CastMid_Throw:
-                    castAnim = HumanoidAnimType.castmid;
-                    break;
-                case SkillAnimation.CastShort_NoTarget:
-                case SkillAnimation.CastShort_Shot:
-                case SkillAnimation.CastShort_Throw:
-                    castAnim = HumanoidAnimType.castshort;
-                    break;
-                case SkillAnimation.CastLong_NoTarget:
-                    castAnim = HumanoidAnimType.castlong;
-                    break;
-                case SkillAnimation.NoCast_NoTarget:
-                    castAnim = HumanoidAnimType.castend;
-                    break;
-                case SkillAnimation.WarriorBuff01:
-                    castAnim = HumanoidAnimType.buff01;
-                    break;
-                default:
-                    return false;
+                Debug.LogWarning("Weapon cast animations not yet handled.");
+                return false;
             }
 
+            HumanoidAnimType castAnim = (HumanoidAnimType)_skillCastAnimation;
+
             SetBool(castAnim, true);
+
+            return true;
         }
 
         return false;
     }
 
-    public override bool PlayThrowAnimation(SkillAnimation animation)
+    public override bool PlaySkillThrowAnimation()
     {
-        if (base.PlayThrowAnimation(animation))
+        if (base.PlaySkillThrowAnimation())
         {
-            HumanoidAnimType throwAnim;
-            switch (animation)
-            {
-                case SkillAnimation.NoCast_NoTarget:
-                case SkillAnimation.CastShort_NoTarget:
-                case SkillAnimation.CastMid_NoTarget:
-                case SkillAnimation.CastLong_NoTarget:
-                    throwAnim = HumanoidAnimType.magic_no_target;
-                    break;
-                case SkillAnimation.CastMid_Shot:
-                case SkillAnimation.CastShort_Shot:
-                    throwAnim = HumanoidAnimType.magic_shot;
-                    break;
-                case SkillAnimation.CastMid_Throw:
-                case SkillAnimation.CastShort_Throw:
-                    throwAnim = HumanoidAnimType.magic_throw;
-                    break;
-                default:
-                    return false;
-            }
+            HumanoidAnimType throwAnim = (HumanoidAnimType)_skillThrowAnimation;
 
             SetBool(throwAnim, true);
+
+            return true;
         }
 
         return false;

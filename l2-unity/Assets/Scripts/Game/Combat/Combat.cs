@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 [System.Serializable]
@@ -13,11 +10,14 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private int _targetId;
     [SerializeField] protected Entity _target;
     [SerializeField] protected Entity _attackTarget;
-    // [SerializeField] private long _stopAutoAttackTime;
     [SerializeField] private long _combatTimestamp;
     [SerializeField] private float _hitTime;
     [SerializeField] private float _attackEndTime;
     [SerializeField] private bool _hitSuccess;
+    [SerializeField] private Skill _lastSkill;
+    [SerializeField] private int _lastSkillHitTime;
+    [SerializeField] private int _lastSkillReuseDelay;
+    [SerializeField] private long _lastSkillUseTime;
 
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Entity Target { get => _target; set => _target = value; }
@@ -25,6 +25,11 @@ public abstract class Combat : MonoBehaviour
     public float AttackEndTime { get => _attackEndTime; }
     public long CombatTimestamp { get => _combatTimestamp; }
     protected Status Status { get => _referenceHolder.Entity.Status; }
+    public Skill LastSkill { get => _lastSkill; }
+    public int LastSkillHitTime { get => _lastSkillHitTime; }
+    public int LastSkillReuseDelay { get => _lastSkillReuseDelay; }
+    public long LastSkillUseTime { get => _lastSkillUseTime; }
+
     protected BaseAnimationAudioHandler AudioHandler { get => _referenceHolder.AudioHandler; }
     protected BaseAnimationController AnimationController { get => _referenceHolder.AnimationController; }
 
@@ -158,5 +163,22 @@ public abstract class Combat : MonoBehaviour
         // Debug.Log($"[{transform.name}] Shoot arrow");
         WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity, AttackTarget, _referenceHolder.Gear.Arrow, _hitTime, _hitSuccess);
         _referenceHolder.Gear.HideArrow();
+    }
+
+    public virtual void CastSkill(Skill skill, int hitTime, int reuseDelay)
+    {
+        _lastSkill = skill;
+        _lastSkillHitTime = hitTime;
+        _lastSkillReuseDelay = reuseDelay;
+        _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        if (skill.Skillgrps[0]?.CastAnimation != SkillCastAnimation.None)
+        {
+            _referenceHolder.AnimationController.PlaySkillAnimation(skill.Skillgrps[0].CastAnimation, skill.Skillgrps[0].ThrowAnimation);
+        }
+    }
+
+    public virtual void LaunchSkill()
+    {
+        _referenceHolder.AnimationController.PlaySkillThrowAnimation();
     }
 }
