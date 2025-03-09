@@ -26,7 +26,7 @@ public abstract class Entity : MonoBehaviour
     public CharacterModelType RaceId { get { return _raceId; } set { _raceId = value; } }
     public bool EntityLoaded { get { return _entityLoaded; } set { _entityLoaded = value; } }
     public bool Running { get { return _running; } set { _running = value; } }
-    public BaseAnimationController AnimationController { get { return _referenceHolder.AnimationController; } }
+    public NewBaseAnimationController AnimationController { get { return _referenceHolder.NewAnimationController; } }
     public EntityReferenceHolder ReferenceHolder { get { return _referenceHolder; } }
     public Gear Gear { get { return _referenceHolder.Gear; } }
     public Combat Combat { get { return _referenceHolder.Combat; } }

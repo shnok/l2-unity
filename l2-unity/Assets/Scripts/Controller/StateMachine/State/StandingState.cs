@@ -20,6 +20,7 @@ public class StandingState : StateBase
     private float _enterTime;
     public override void Enter(object obj0)
     {
+        NewPlayerAnimationController.Instance.Stand();
         _sitting = true;
         _enterTime = Time.time;
     }

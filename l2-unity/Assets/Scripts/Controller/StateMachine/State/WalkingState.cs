@@ -1,8 +1,34 @@
-using static AttackingState;
-
 public class WalkingState : StateBase
 {
     public WalkingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+
+    public override void Enter(object obj0)
+    {
+        NewPlayerAnimationController.Instance.Stand();
+    }
+
+    public override void Update()
+    {
+        //Arrived to destination
+        if (!InputManager.Instance.Move && !PlayerController.Instance.RunningToDestination)
+        {
+            _stateMachine.NotifyEvent(Event.ARRIVED);
+        }
+
+        // If move input is pressed while running to target
+        if (TargetManager.Instance.HasAttackTarget() && InputManager.Instance.Move)
+        {
+            // Cancel follow target
+            TargetManager.Instance.ClearAttackTarget();
+        }
+    }
+
+
+    public override void Exit()
+    {
+        base.Exit();
+        PlayerController.Instance.IntentionToRun = false;
+    }
 
     public override void HandleEvent(Event evt)
     {
@@ -34,28 +60,6 @@ public class WalkingState : StateBase
             case Event.DEAD:
                 _stateMachine.ChangeState(PlayerState.DEAD);
                 break;
-        }
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-        PlayerController.Instance.IntentionToRun = false;
-    }
-
-    public override void Update()
-    {
-        //Arrived to destination
-        if (!InputManager.Instance.Move && !PlayerController.Instance.RunningToDestination)
-        {
-            _stateMachine.NotifyEvent(Event.ARRIVED);
-        }
-
-        // If move input is pressed while running to target
-        if (TargetManager.Instance.HasAttackTarget() && InputManager.Instance.Move)
-        {
-            // Cancel follow target
-            TargetManager.Instance.ClearAttackTarget();
         }
     }
 }

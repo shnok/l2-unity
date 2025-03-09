@@ -49,6 +49,8 @@ public class RunningState : StateBase
 
     public override void Enter(object arg0)
     {
+        NewPlayerAnimationController.Instance.Run();
+
         if (arg0 == null || arg0 is Vector3)
         {
             _moveReason = MoveReason.DEFAULT;

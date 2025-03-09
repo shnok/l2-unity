@@ -7,7 +7,9 @@ public enum HumanoidAnimType
     atkwait = 24,
     spatk01 = 30,
     spatk02 = 34,
-    wait_hit = 38,
+
+    other = 38,
+    wait_hit = 90,
     pickup = 39,
     jump = 40,
     run_jump = 41,

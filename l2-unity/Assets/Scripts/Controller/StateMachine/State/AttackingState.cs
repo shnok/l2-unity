@@ -9,6 +9,7 @@ public class AttackingState : StateBase
     {
         // PlayerCombat.Instance.StartAttackStance();
         // PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
+        NewPlayerAnimationController.Instance.Attack();
     }
 
     public override void Update()

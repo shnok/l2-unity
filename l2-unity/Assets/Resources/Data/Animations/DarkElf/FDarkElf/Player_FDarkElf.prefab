@@ -54,9 +54,10 @@ GameObject:
   - component: {fileID: 223533845830030767}
   - component: {fileID: 63905802493393558}
   - component: {fileID: 2332054955548525016}
-  - component: {fileID: 8404103320413714602}
   - component: {fileID: 7310616880131423470}
   - component: {fileID: -14512947334514877}
+  - component: {fileID: -5521653737970703648}
+  - component: {fileID: 543784060273423406}
   m_Layer: 11
   m_Name: Player_FDarkElf
   m_TagString: Player
@@ -120,7 +121,9 @@ MonoBehaviour:
   _entity: {fileID: 6719039449346300144}
   _gear: {fileID: 498144083810351663}
   _combat: {fileID: 796319120674189268}
-  _animationController: {fileID: 8404103320413714602}
+  _animationController: {fileID: 0}
+  _newAnimationController: {fileID: 543784060273423406}
+  _animancer: {fileID: -5521653737970703648}
   _audioHandler: {fileID: 63905802493393558}
   _animator: {fileID: 3131078948402811765}
   _clickArea: {fileID: 0}
@@ -144,6 +147,9 @@ MonoBehaviour:
   _hitTime: 0
   _attackEndTime: 0
   _hitSuccess: 0
+  _lastSkillHitTime: 0
+  _lastSkillReuseDelay: 0
+  _lastSkillUseTime: 0
 --- !u!114 &6719039449346300144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,23 +685,6 @@ MonoBehaviour:
     _objectScene: 
     _objectEntity: {fileID: 0}
     _objectTransform: {fileID: 0}
---- !u!114 &8404103320413714602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6373500069190494077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 852945e8ec9a0cc44ba24c5a4b57f2b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rootBone: {fileID: 1871717110391119983}
-  _entityReferenceHolder: {fileID: 2347079168247092500}
-  _resetStateOnReceive: 0
-  _lastAnimationType: 0
-  _weaponAnim: 0
 --- !u!114 &7310616880131423470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,6 +720,43 @@ MonoBehaviour:
   _positionDelta: 0
   _lastDesyncTime: 0
   _lastDesyncDuration: 0
+--- !u!114 &-5521653737970703648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373500069190494077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 3131078948402811765}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0
+--- !u!114 &543784060273423406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6373500069190494077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05cba2950cf2dde409c401cba1291ab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entityReferenceHolder: {fileID: 2347079168247092500}
+  _animationClips: {fileID: 11400000, guid: 82b6adf323c66a94d85e60fc932409f3, type: 2}
+  _fadeDuration: 0.1
+  _atkSpdMultiplier: 0
+  _castSpdMultiplier: 0
+  _runSpdMultiplier: 0
+  _walkSpdMultiplier: 0
+  _lastPlayedClipDuration: 0
+  _lastAnimationType: 0
+  _weaponAnim: 0
 --- !u!1 &9076616163763288160
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,7 +799,7 @@ PrefabInstance:
     - target: {fileID: 2504214514373124595, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: 914f46bdfa894ec4e82d57c1c4eb03aa, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6157189636089460827, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}
       propertyPath: m_Name
       value: FDarkElf_anim
@@ -823,11 +849,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}
---- !u!4 &1871717110391119983 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1173960283076727529, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}
-  m_PrefabInstance: {fileID: 698922587238347398}
-  m_PrefabAsset: {fileID: 0}
 --- !u!95 &3131078948402811765 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2504214514373124595, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}

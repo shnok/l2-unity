@@ -2,6 +2,11 @@ public class SitWaitState : StateBase
 {
     public SitWaitState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
+    public override void Enter(object obj0)
+    {
+        NewPlayerAnimationController.Instance.SitWait();
+    }
+
     public override void HandleEvent(Event evt)
     {
         switch (evt)

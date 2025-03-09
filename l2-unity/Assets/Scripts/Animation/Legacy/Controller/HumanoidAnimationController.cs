@@ -24,7 +24,7 @@ public class HumanoidAnimationController : BaseAnimationController
 
         _weaponAnim = newWeaponAnim;
 
-        if (!((int)_lastAnimationType < (int)HumanoidAnimType.wait_hit))
+        if (!((int)_lastAnimationType < (int)HumanoidAnimType.other))
         {
             Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationType}");
             // The last animation was not a weapon animation
@@ -85,7 +85,7 @@ public class HumanoidAnimationController : BaseAnimationController
     protected int GetParameterId(HumanoidAnimType animType, WeaponAnimType weaponAnimType)
     {
         int index = (int)animType;
-        if ((int)animType < (int)HumanoidAnimType.wait_hit)
+        if ((int)animType < (int)HumanoidAnimType.other)
         {
             index = (int)animType + (int)weaponAnimType;
         }

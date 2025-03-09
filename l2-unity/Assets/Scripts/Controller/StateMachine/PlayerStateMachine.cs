@@ -40,7 +40,6 @@ public class PlayerStateMachine : MonoBehaviour
     private void Start()
     {
         _waitingForServerReply = false;
-        ChangeState(PlayerState.IDLE);
     }
 
     public void SetWaitingForServerReply(bool value)

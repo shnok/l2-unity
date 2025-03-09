@@ -52325,11 +52325,50 @@ MonoBehaviour:
   _gear: {fileID: 1804795812}
   _combat: {fileID: 1804795807}
   _animationController: {fileID: 1804795811}
+  _newAnimationController: {fileID: 0}
+  _animancer: {fileID: 1804795817}
   _audioHandler: {fileID: 1804795809}
   _animator: {fileID: 876289120}
   _clickArea: {fileID: 1662785844}
   _networkTransformReceive: {fileID: 0}
   _networkCharacterControllerReceive: {fileID: 0}
+--- !u!114 &1804795816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804795798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d47993eb0d9c354881700540620fdf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entityReferenceHolder: {fileID: 1804795815}
+  _animationClips: {fileID: 11400000, guid: 82b6adf323c66a94d85e60fc932409f3, type: 2}
+  _fadeDuration: 0.1
+  _atkSpdMultiplier: 0
+  _castSpdMultiplier: 0
+  _runSpdMultiplier: 0
+  _walkSpdMultiplier: 0
+  _lastPlayedClipDuration: 0
+  _lastAnimationType: 0
+  _weaponAnim: 0
+--- !u!114 &1804795817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804795798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 876289120}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0
 --- !u!23 &1804808566 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2709830446591825067, guid: 0fd3f774c3e04134caffcedf21c654f8, type: 3}
@@ -59030,6 +59069,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4392915537440326359, guid: c6a86e08b1db5954faee46c547bd3549, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5140163448624334669, guid: c6a86e08b1db5954faee46c547bd3549, type: 3}
       propertyPath: _rootBone
       value: 
@@ -59453,6 +59496,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2252958834938601816, guid: c6a86e08b1db5954faee46c547bd3549, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1804795815}
+    - targetCorrespondingSourceObject: {fileID: 2252958834938601816, guid: c6a86e08b1db5954faee46c547bd3549, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1804795817}
+    - targetCorrespondingSourceObject: {fileID: 2252958834938601816, guid: c6a86e08b1db5954faee46c547bd3549, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1804795816}
   m_SourcePrefab: {fileID: 100100000, guid: c6a86e08b1db5954faee46c547bd3549, type: 3}
 --- !u!4 &1975765331 stripped
 Transform:

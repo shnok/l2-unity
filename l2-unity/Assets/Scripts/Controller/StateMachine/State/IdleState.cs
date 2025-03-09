@@ -5,6 +5,10 @@ public class IdleState : StateBase
 {
     public IdleState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
+    public override void Enter(object obj0)
+    {
+        NewPlayerAnimationController.Instance.Wait();
+    }
 
     public override void Update()
     {
