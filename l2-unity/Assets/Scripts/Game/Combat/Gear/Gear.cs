@@ -166,7 +166,7 @@ public class Gear : MonoBehaviour
             float collisionHeight = _referenceHolder.Entity.Appearance.CollisionHeight;
             float ratio = 1 + (collisionHeight - 0.45f) / 0.45f;
 
-            Debug.Log("WeaponSizeRatio: " + ratio);
+            // Debug.Log("WeaponSizeRatio: " + ratio);
 
             _weaponSizeRatio = ratio;
         }

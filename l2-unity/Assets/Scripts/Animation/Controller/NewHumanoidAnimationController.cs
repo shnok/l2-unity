@@ -17,8 +17,6 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void WeaponAnimChanged(WeaponAnimType newWeaponAnim)
     {
-        // ClearAnimParams();
-
         _weaponAnim = newWeaponAnim;
 
         if (!((int)_lastAnimationType != (int)HumanoidAnimType.other))
