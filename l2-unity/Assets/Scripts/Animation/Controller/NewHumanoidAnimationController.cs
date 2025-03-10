@@ -6,9 +6,6 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 {
     [SerializeField] protected HumanoidAnimType _lastAnimationType;
     [SerializeField] protected WeaponAnimType _weaponAnim;
-    private int _lastAnimIndex = -1;
-    private bool _lastValue = false;
-
     public WeaponAnimType WeaponAnim { get { return _weaponAnim; } }
     public HumanoidAnimType LastAnim { get { return _lastAnimationType; } }
 
@@ -31,24 +28,13 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
             return;
         }
 
-        // int newAnimationIndex = GetParameterId(_lastAnimationType, _weaponAnim);
+        // Adding weaponanim index to humanoidanimtype will give the correct animationEvent
+        HumanoidAnimationEvent newAnim = (HumanoidAnimationEvent)(int)_lastAnimationType + (int)_weaponAnim;
 
-        Debug.Log($"New Weapon animation index: {0} Last animation type: {_lastAnimationType} Weapon anim: {_weaponAnim}");
+        Debug.Log($"New Weapon animation: {newAnim} Last animation type: {_lastAnimationType} Weapon anim: {_weaponAnim}");
 
-        // SetBool(newAnimationIndex, true);
+        PlayAnimation((int)newAnim);
     }
-
-    private int GetParameterId(HumanoidAnimType animType, WeaponAnimType weaponAnimType)
-    {
-        int index = (int)animType;
-        if ((int)animType != (int)HumanoidAnimType.other)
-        {
-            index = (int)animType + (int)weaponAnimType;
-        }
-
-        return index;
-    }
-
 
     public override void UpdateAnimatorAtkSpdMultiplier(float clipLength, float patkspd)
     {
@@ -71,44 +57,6 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         _walkSpdMultiplier = value;
     }
-
-    // public void SetBool(HumanoidAnimType animType, bool value)
-    // {
-    //     int paramId = GetParameterId(animType, _weaponAnim);
-    //     if (paramId == _lastAnimIndex && value == _lastValue)
-    //     {
-    //         return;
-    //     }
-
-    //     _lastAnimIndex = paramId;
-    //     _lastValue = value;
-    //     _lastAnimationType = animType;
-
-    //     // Debug.LogWarning($"{transform.name} - SetBool: {animType}={value}");
-
-    //     base.SetBool(GetParameterId(animType, _weaponAnim), value);
-    // }
-
-    // public bool GetBool(HumanoidAnimType animType)
-    // {
-    //     return base.GetBool(GetParameterId(animType, _weaponAnim));
-    // }
-
-    // protected int GetParameterId(HumanoidAnimType animType, WeaponAnimType weaponAnimType)
-    // {
-    //     int index = (int)animType;
-    //     if ((int)animType < (int)HumanoidAnimType.wait_hit)
-    //     {
-    //         index = (int)animType + (int)weaponAnimType;
-    //     }
-
-    //     return AnimatorParameterHashTable.GetHumanoidParameterHash(index);
-    // }
-
-    // protected int GetParameterId(HumanoidAnimationEvent animType)
-    // {
-    //     return AnimatorParameterHashTable.GetHumanoidParameterHash((int)animType);
-    // }
 
     public override bool PlaySkillCastAnimation()
     {
@@ -146,6 +94,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Attack()
     {
+        _lastAnimationType = HumanoidAnimType.atk01;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
@@ -172,6 +121,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Run()
     {
+        _lastAnimationType = HumanoidAnimType.run;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
@@ -198,6 +148,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Wait()
     {
+        _lastAnimationType = HumanoidAnimType.wait;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
@@ -224,6 +175,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Walk()
     {
+        _lastAnimationType = HumanoidAnimType.walk;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
@@ -250,21 +202,25 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Sit()
     {
+        _lastAnimationType = HumanoidAnimType.other;
         PlayAnimation((int)HumanoidAnimationEvent.sit);
     }
 
     public override void Die()
     {
+        _lastAnimationType = HumanoidAnimType.other;
         PlayAnimation((int)HumanoidAnimationEvent.death);
     }
 
     public override void SitWait()
     {
+        _lastAnimationType = HumanoidAnimType.other;
         PlayAnimation((int)HumanoidAnimationEvent.sit_wait);
     }
 
     public override void Stand()
     {
+        _lastAnimationType = HumanoidAnimType.other;
         PlayAnimation((int)HumanoidAnimationEvent.stand);
     }
 }
