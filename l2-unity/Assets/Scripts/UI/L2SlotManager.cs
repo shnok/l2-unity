@@ -99,6 +99,9 @@ public class L2SlotManager : L2PopupWindow
             case L2Slot.SlotType.Action:
                 HandleActionDrag();
                 break;
+            case L2Slot.SlotType.Skill:
+                HandleSkillDrag();
+                break;
             default:
                 break;
         }
@@ -197,6 +200,36 @@ public class L2SlotManager : L2PopupWindow
                 break;
         }
     }
+    
+    private void HandleSkillDrag()
+    {
+        if (SkillbarWindow.Instance.Locked)
+        {
+            return;
+        }
+
+        if (_hoverSlot == null)
+        {
+            if (!L2GameUI.Instance.MouseOverUI)
+            {
+                RemoveSkillSlot();
+            }
+            return;
+        }
+
+        switch (_hoverSlot.Type)
+        {
+            case L2Slot.SlotType.SkillBar:
+                AddSkillToSkillbar();
+                break;
+            default:
+                if (!L2GameUI.Instance.MouseOverUI)
+                {
+                    RemoveSkillbarSlot();
+                }
+                break;
+        }
+    }
 
     #endregion
 
@@ -285,7 +318,23 @@ public class L2SlotManager : L2PopupWindow
     private void RemoveSkillbarSlot()
     {
         int oldSlot = _draggedSlot.Position;
-        Debug.LogWarning($"Renoving skillbar shortcut from slot {oldSlot}.");
+        Debug.LogWarning($"Removing skillbar shortcut from slot {oldSlot}.");
+        PlayerShortcuts.Instance.DeleteShortcut(oldSlot);
+    }
+
+    private void AddSkillToSkillbar()
+    {
+        int skillId = ((SkillSlot)_draggedSlot).Skill.SkillId;
+        int slot = _hoverSlot.Position;
+        Debug.LogWarning($"Add skill {skillId} to skillbar slot {slot}.");
+
+        PlayerShortcuts.Instance.AddShortcut(slot, skillId, Shortcut.TYPE_SKILL);
+    }
+
+    private void RemoveSkillSlot()
+    {
+        int oldSlot = _draggedSlot.Position;
+        Debug.LogWarning($"Removing skillbar shortcut from slot {oldSlot}.");
         PlayerShortcuts.Instance.DeleteShortcut(oldSlot);
     }
 
