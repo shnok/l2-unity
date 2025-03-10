@@ -47,6 +47,15 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
     public virtual void PlayAnimation(int index)
     {
+        AnimationClip clip = _animationClips.AnimationClips[index];
+        if (clip == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Does not have an animation clip at index {index}.");
+            return;
+        }
+
+        _lastPlayedClipDuration = clip.length;
+
         _animancerState = _animancer.Play(_animationClips.AnimationClips[index], _fadeDuration);
     }
 
@@ -59,13 +68,14 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     public virtual void SetPAtkSpd(float value)
     {
         _atkSpd = value;
-        if (_lastPlayedClipDuration != 0)
-        {
-            UpdateAnimatorAtkSpdMultiplier(_lastPlayedClipDuration, value);
-        }
+        UpdateAttackAnimationSpeed(_lastPlayedClipDuration, value);
     }
 
-    public abstract void UpdateAnimatorAtkSpdMultiplier(float clipLength, float patkspd);
+    public virtual void UpdateAttackAnimationSpeed(float clipLength, float patkspd)
+    {
+        float newAtkSpd = clipLength * 1000f / patkspd;
+        _atkSpdMultiplier = newAtkSpd;
+    }
 
     public abstract void SetMAtkSpd(float value);
     public abstract void Attack();

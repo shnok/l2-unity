@@ -9,6 +9,12 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     public WeaponAnimType WeaponAnim { get { return _weaponAnim; } }
     public HumanoidAnimType LastAnim { get { return _lastAnimationType; } }
     [SerializeField] private int _atkAnimIndex;
+    [SerializeField] private float _defaultIdleAnimationSpeed = 0.3f;
+    [SerializeField] private float _defaultAtkWaitAnimationSpeed = 0.5f;
+    [SerializeField] private float _defaultRunAnimationSpeed = 0.35f;
+    [SerializeField] private float _defaultWalkAnimationSpeed = 0.4f;
+    [SerializeField] private float _defaultJumpAnimationSpeed = 1.25f;
+    [SerializeField] private float _defaultDieAnimationSpeed = 0.5f;
 
     public override void Initialize()
     {
@@ -35,11 +41,6 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         PlayAnimation((int)newAnim);
     }
 
-    public override void UpdateAnimatorAtkSpdMultiplier(float clipLength, float patkspd)
-    {
-        float newAtkSpd = clipLength * 1000f / patkspd;
-        _atkSpdMultiplier = newAtkSpd;
-    }
 
     public override void SetMAtkSpd(float clipLength)
     {
@@ -128,6 +129,8 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         PlayAnimation((int)toPlay + _atkAnimIndex);
         _animancerState.Events(this).OnEnd ??= OnAtkAnimationEnd;
+        UpdateAttackAnimationSpeed(_lastPlayedClipDuration, _atkSpd);
+        _animancerState.EffectiveSpeed = _atkSpdMultiplier;
     }
 
     private void OnAtkAnimationEnd()
@@ -161,6 +164,8 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 PlayAnimation((int)HumanoidAnimationEvent.run_dual);
                 break;
         }
+
+        _animancerState.EffectiveSpeed = _runSpdMultiplier * _defaultRunAnimationSpeed;
     }
 
     public override void Wait()
@@ -188,6 +193,9 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 PlayAnimation((int)HumanoidAnimationEvent.wait_dual);
                 break;
         }
+
+        _animancerState.EffectiveSpeed = _defaultIdleAnimationSpeed;
+
     }
 
     public override void Walk()
@@ -215,6 +223,8 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 PlayAnimation((int)HumanoidAnimationEvent.walk_dual);
                 break;
         }
+
+        _animancerState.EffectiveSpeed = _walkSpdMultiplier * _defaultWalkAnimationSpeed;
     }
 
     public override void Sit()
@@ -227,6 +237,9 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         _lastAnimationType = HumanoidAnimType.other;
         PlayAnimation((int)HumanoidAnimationEvent.death);
+
+        _animancerState.EffectiveSpeed = _defaultDieAnimationSpeed;
+
     }
 
     public override void SitWait()
