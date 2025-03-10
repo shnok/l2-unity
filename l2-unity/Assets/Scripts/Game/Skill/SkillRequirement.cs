@@ -7,6 +7,10 @@ public class SkillRequirement
 
     public SkillRequirement(SkillRequirementType type, int itemId, int count, int unk)
     {
+        Type = type;
+        ItemId = itemId;
+        Count = count;
+        Unk = unk;
     }
 }
 

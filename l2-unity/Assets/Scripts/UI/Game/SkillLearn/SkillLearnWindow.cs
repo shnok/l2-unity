@@ -12,8 +12,10 @@ public class SkillLearnWindow : L2PopupWindow
 
     private VisualTreeAsset _skillItemAsset;
     private VisualTreeAsset _skillDetailAsset;
+    private VisualTreeAsset _skillRequirementAsset;
     private ListView skillListView;
     public SkillWindowInfo[] Skills;
+    public SkillWindowInfo SelectedSkill;
     public PacketSkillType SkillType;
 
     private static SkillLearnWindow _instance;
@@ -43,6 +45,7 @@ public class SkillLearnWindow : L2PopupWindow
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnWindow");
         _skillItemAsset = LoadAsset("Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnItem");
         _skillDetailAsset = LoadAsset("Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnDetail");
+        _skillRequirementAsset = LoadAsset("Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnRequirement");
     }
 
     public void InitSkillsList(SkillWindowInfo[] skills)
@@ -96,14 +99,55 @@ public class SkillLearnWindow : L2PopupWindow
     
     private void OnItemSelected(object item)
     {
-        SkillWindowInfo skill = (SkillWindowInfo)item;
-        GameClient.Instance.ClientPacketHandler.SendRequestAcquireSkillInfo(skill.SkillId, skill.Level, SkillType);
-        _skillDetail.style.display = DisplayStyle.Flex;
+        SelectedSkill = (SkillWindowInfo)item;
+        GameClient.Instance.ClientPacketHandler.SendRequestAcquireSkillInfo(SelectedSkill.SkillId, SelectedSkill.Level, SkillType);
     }
 
     public void ShowSkillDetail(SkillRequirement[] requirements)
     {
-        // show requirements
+        SelectedSkill.SkillRequirement = requirements;
+        _windowEle.style.display = DisplayStyle.None;
+
+        _skillDetail = _skillDetailAsset.Instantiate()[0];
+        _skillDetail.Q<VisualElement>("SkillDetailIcon").style.backgroundImage = IconTable.Instance.LoadTextureByName(SelectedSkill.Icon);
+        _skillDetail.Q<Label>("DetailMPCostValue").text = SelectedSkill.MpCost.ToString();
+        _skillDetail.Q<Label>("DetailRangeValue").text = SelectedSkill.Range.ToString();
+        _skillDetail.Q<Label>("DetailDescription").text = SelectedSkill.Desc;
+        _skillDetail.Q<Label>("DetailSPValue").text = SelectedSkill.SpCost.ToString();
         
+        Button learn = _skillDetail.Q<Button>("ButtonLearn");
+        ButtonClickSoundManipulator buttonLearnSoundManipulator = new ButtonClickSoundManipulator(learn);
+        learn.AddManipulator(buttonLearnSoundManipulator);
+        learn.RegisterCallback<MouseDownEvent>(evt =>
+        {
+            LearnSkill();
+            _skillDetail.style.display = DisplayStyle.None;
+        }, TrickleDown.TrickleDown);
+        
+        Button cancel = _skillDetail.Q<Button>("CancelButton");
+        ButtonClickSoundManipulator buttonCancelSoundManipulator = new ButtonClickSoundManipulator(cancel);
+        cancel.AddManipulator(buttonCancelSoundManipulator);
+        learn.RegisterCallback<MouseDownEvent>(evt =>
+        {
+            _skillDetail.style.display = DisplayStyle.None;
+        }, TrickleDown.TrickleDown);
+
+        for (var i = 0; i < SelectedSkill.SkillRequirement.Length; i++)
+        {
+            SkillRequirement skillReq = SelectedSkill.SkillRequirement[i];
+            VisualElement skillRequirementVisual = _skillRequirementAsset.Instantiate()[0];
+            
+            skillRequirementVisual.Q<Label>("SkillRequirementIcon").style.backgroundImage = new StyleBackground(
+                IconTable.Instance.GetIcon(skillReq.ItemId));
+            skillRequirementVisual.Q<Label>("SkillRequirementName").text = 
+                $"{ItemTable.Instance.EtcItems[skillReq.ItemId]} x{skillReq.Count}";
+        }
+        _windowEle.style.display = DisplayStyle.Flex;
+    }
+
+    private void LearnSkill()
+    {
+        GameClient.Instance.ClientPacketHandler.SendRequestAcquireSkill(SelectedSkill.SkillId, SelectedSkill.Level, SkillType);
+        PlayerSkill.Instance.AcquireSkill(SelectedSkill.SkillId, SelectedSkill.SpCost);
     }
 }

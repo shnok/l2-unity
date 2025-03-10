@@ -13,7 +13,7 @@ public class SkillWindowInfo
     public int Range { get; }
     public bool IsMagic { get; }
     public SkillType Type { get; }
-    public SkillRequirement[] SkillRequirement { get; }
+    public SkillRequirement[] SkillRequirement { get; set; }
 
     public SkillWindowInfo(int skillId, int lvl, int spCost, SkillRequirement[] skillRequirements)
     {
