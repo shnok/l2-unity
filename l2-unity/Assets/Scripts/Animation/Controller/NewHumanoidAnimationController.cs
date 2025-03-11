@@ -1,20 +1,27 @@
 using System.Collections.Generic;
+using Animancer;
 using UnityEngine;
 
 // Used by NPCS and USERS
 public class NewHumanoidAnimationController : NewBaseAnimationController
 {
-    [SerializeField] protected HumanoidAnimType _lastAnimationType;
-    [SerializeField] protected WeaponAnimType _weaponAnim;
+
     public WeaponAnimType WeaponAnim { get { return _weaponAnim; } }
     public HumanoidAnimType LastAnim { get { return _lastAnimationType; } }
-    [SerializeField] private int _atkAnimIndex;
+    private HumanoidAudioHandler AudioHandler { get => (HumanoidAudioHandler)_entityReferenceHolder.AudioHandler; }
+
+    [Header("Base Speeds")]
     [SerializeField] private float _defaultIdleAnimationSpeed = 0.3f;
     [SerializeField] private float _defaultAtkWaitAnimationSpeed = 0.5f;
     [SerializeField] private float _defaultRunAnimationSpeed = 0.35f;
     [SerializeField] private float _defaultWalkAnimationSpeed = 0.4f;
     [SerializeField] private float _defaultJumpAnimationSpeed = 1.25f;
     [SerializeField] private float _defaultDieAnimationSpeed = 0.5f;
+
+    [Header("Humanoids")]
+    [SerializeField] protected HumanoidAnimType _lastAnimationType;
+    [SerializeField] protected WeaponAnimType _weaponAnim;
+    [SerializeField] private int _atkAnimIndex;
 
     public override void Initialize()
     {
@@ -128,15 +135,15 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         }
 
         PlayAnimation((int)toPlay + _atkAnimIndex);
-        _animancerState.Events(this).OnEnd ??= OnAtkAnimationEnd;
         UpdateAttackAnimationSpeed(_lastPlayedClipDuration, _atkSpd);
-        _animancerState.EffectiveSpeed = _atkSpdMultiplier;
-    }
 
-    private void OnAtkAnimationEnd()
-    {
-        Debug.Log("OnAtkAnimationEnd");
-        NextAttack();
+        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        {
+            events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
+            events.OnEnd = NextAttack;
+        }
+
+        _animancerState.EffectiveSpeed = _atkSpdMultiplier;
     }
 
     public override void Run()
@@ -166,6 +173,14 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         }
 
         _animancerState.EffectiveSpeed = _runSpdMultiplier * _defaultRunAnimationSpeed;
+        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        {
+            foreach (float ratio in AudioHandler.RunStepRatios)
+            {
+                events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
+                events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+            }
+        }
     }
 
     public override void Wait()
@@ -224,6 +239,14 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 break;
         }
 
+        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        {
+            foreach (float ratio in AudioHandler.WalkStepRatios)
+            {
+                events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+            }
+        }
+
         _animancerState.EffectiveSpeed = _walkSpdMultiplier * _defaultWalkAnimationSpeed;
     }
 
@@ -231,6 +254,11 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         _lastAnimationType = HumanoidAnimType.other;
         PlayAnimation((int)HumanoidAnimationEvent.sit);
+
+        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        {
+            events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Sitdown));
+        }
     }
 
     public override void Die()
@@ -240,6 +268,11 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         _animancerState.EffectiveSpeed = _defaultDieAnimationSpeed;
 
+        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        {
+            events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
+            events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
+        }
     }
 
     public override void SitWait()
@@ -252,6 +285,11 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         _lastAnimationType = HumanoidAnimType.other;
         PlayAnimation((int)HumanoidAnimationEvent.stand);
+
+        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        {
+            events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Standup));
+        }
     }
 
     public override bool PlaySkillCastAnimation()

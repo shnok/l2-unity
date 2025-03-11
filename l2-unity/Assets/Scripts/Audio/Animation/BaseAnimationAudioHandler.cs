@@ -164,4 +164,14 @@ public class BaseAnimationAudioHandler : MonoBehaviour
 
         return events[UnityEngine.Random.Range(0, events.Count)];
     }
+
+    public virtual void PlayBreatheSound()
+    {
+        if (!RandomUtils.ShouldEventHappen(_runBreathChance))
+        {
+            return;
+        }
+
+        PlaySound(EntitySoundEvent.Breath);
+    }
 }

@@ -13,13 +13,14 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     protected SkillThrowAnimation _skillThrowAnimation;
     [SerializeField] protected Transform _rootBone;
     public Transform RootBone { get => _rootBone; }
-    [SerializeField] protected float _fadeDuration = 0.1f;
-    [SerializeField] protected float _atkSpd;
-    [SerializeField] protected float _atkSpdMultiplier;
-    [SerializeField] protected float _castSpdMultiplier;
-    [SerializeField] protected float _runSpdMultiplier;
-    [SerializeField] protected float _walkSpdMultiplier;
     [SerializeField] protected float _lastPlayedClipDuration;
+    [SerializeField] protected float _fadeDuration = 0.1f;
+    [Header("Speed Multipliers")]
+    [SerializeField] protected float _atkSpd;
+    [SerializeField] protected float _atkSpdMultiplier = 1;
+    [SerializeField] protected float _castSpdMultiplier = 1;
+    [SerializeField] protected float _runSpdMultiplier = 1;
+    [SerializeField] protected float _walkSpdMultiplier = 1;
     protected AnimancerState _animancerState;
     public float PAtkSpd { get => _atkSpd; }
 

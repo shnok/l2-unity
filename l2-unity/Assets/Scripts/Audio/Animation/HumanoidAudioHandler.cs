@@ -65,7 +65,7 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
         }
     }
 
-    public virtual void PlayAtkSoundAtRatio(float ratio)
+    public virtual void PlayAtkSound()
     {
         // Dont always play atk voiceline (20 % chance?)
         if (!RandomUtils.ShouldEventHappen(20))
@@ -73,19 +73,21 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
             return;
         }
 
-        WeaponAnimType weaponAnim = ((HumanoidAnimationController)_entityReferenceHolder.AnimationController).WeaponAnim;
+        WeaponAnimType weaponAnim = ((NewHumanoidAnimationController)_entityReferenceHolder.NewAnimationController).WeaponAnim;
         switch (weaponAnim)
         {
             case WeaponAnimType.hand:
             case WeaponAnimType.dual:
             case WeaponAnimType.shield:
             case WeaponAnimType._1HS:
-                PlaySoundAtRatio(EntitySoundEvent.Atk_1H, ratio);
+                // PlaySoundAtRatio(EntitySoundEvent.Atk_1H, _atkRatio);
+                PlaySound(EntitySoundEvent.Atk_1H);
                 break;
             case WeaponAnimType._2HS:
             case WeaponAnimType.pole:
             case WeaponAnimType.bow:
-                PlaySoundAtRatio(EntitySoundEvent.Atk_2H, ratio);
+                // PlaySoundAtRatio(EntitySoundEvent.Atk_2H, _atkRatio);
+                PlaySound(EntitySoundEvent.Atk_2H);
                 break;
         }
     }
