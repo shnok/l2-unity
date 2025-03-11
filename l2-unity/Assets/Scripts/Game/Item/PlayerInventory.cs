@@ -16,7 +16,7 @@ public class PlayerInventory : MonoBehaviour
 
     public List<ItemInstance> Items { get { return _playerInventory; } }
 
-    public static PlayerInventory _instance;
+    private static PlayerInventory _instance;
     public static PlayerInventory Instance { get { return _instance; } }
     public bool Initialized { get; private set; }
 
