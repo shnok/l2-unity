@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
@@ -15,6 +16,17 @@ public class PlayerInventory : MonoBehaviour
     private List<ItemInstance> _playerInventory;
 
     public List<ItemInstance> Items { get { return _playerInventory; } }
+    public List<ItemInstance> TradeableItems //Usually shared directly by server
+    {
+        get
+        {
+            return _playerInventory.Where(x =>
+            x.Location == ItemLocation.Inventory &&
+            x.LastChange != (int)InventoryChange.REMOVED &&
+            x.LastChange != (int)InventoryChange.MODIFIED &&
+            x.ItemData.ItemName.Tradeable).ToList();
+        }
+    }
 
     private static PlayerInventory _instance;
     public static PlayerInventory Instance { get { return _instance; } }

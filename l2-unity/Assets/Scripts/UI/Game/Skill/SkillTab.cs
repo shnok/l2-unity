@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 [System.Serializable]
@@ -7,15 +9,13 @@ public class SkillTab : L2Tab
 {
     public enum SkillTabType { ACTIVE, PASSIVE }
 
-    public SkillTabType TabType;
+    [SerializeField] private SkillTabType _tabType;
     private SkillSlot[] _skillSlots;
     private VisualElement _contentContainer;
     
-    public void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader, 
-        SkillTabType skillTabType)
+    public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
-        base.Initialize(chatWindowEle, tabContainer, tabHeader);
-        TabType = skillTabType;
+        base.Initialize(tabView, tabContainer, tabHeader);
         _contentContainer = TabContainer.Q<VisualElement>("Content");
     }
 
@@ -31,18 +31,15 @@ public class SkillTab : L2Tab
         }
 
         _contentContainer.Clear();
-        if (_contentContainer.childCount == 0)
+        if (_tabType == SkillTabType.PASSIVE)
         {
-            if (TabType == SkillTabType.PASSIVE)
-            {
-                _skillSlots = new SkillSlot[skills[1].Count];
-                ShowPassiveSkills(skills[1]);
-            } 
-            else if (TabType == SkillTabType.ACTIVE)
-            {
-                _skillSlots = new SkillSlot[skills[0].Count];
-                ShowActiveSkills(skills[0]);
-            }
+            _skillSlots = new SkillSlot[skills[1].Count];
+            ShowPassiveSkills(skills[1]);
+        } 
+        else if (_tabType == SkillTabType.ACTIVE)
+        {
+            _skillSlots = new SkillSlot[skills[0].Count];
+            ShowActiveSkills(skills[0]);
         }
     }
 
@@ -250,14 +247,6 @@ public class SkillTab : L2Tab
         {
             btn.AddToClassList("max");
             container.AddToClassList("shrink");
-        }
-    }
-
-    protected override void OnSwitchTab()
-    {
-        if (SkillWindow.Instance.SwitchTab(this))
-        {
-            AudioManager.Instance.PlayUISound("window_open");
         }
     }
 }

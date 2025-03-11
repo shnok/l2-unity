@@ -8,6 +8,12 @@ public class L2SlotManager : L2PopupWindow
     [SerializeField] private L2Slot _draggedSlot;
     [SerializeField] private L2Slot _hoverSlot;
     private L2Slot _dragSlotData;
+    private VisualTreeAsset _actionSlotTemplate;
+    private VisualTreeAsset _inventorySlotTemplate;
+    private VisualTreeAsset _shopSlotTemplate;
+    public VisualTreeAsset ActionSlotTemplate { get { return _actionSlotTemplate; } }
+    public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
+    public VisualTreeAsset ShopSlotTemplate { get { return _shopSlotTemplate; } }
 
     private static L2SlotManager _instance;
     public static L2SlotManager Instance { get { return _instance; } }
@@ -32,6 +38,9 @@ public class L2SlotManager : L2PopupWindow
     protected override void LoadAssets()
     {
         _windowTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/DraggedSlot");
+        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
+        _actionSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/ActionSlot");
+        _shopSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -101,6 +110,12 @@ public class L2SlotManager : L2PopupWindow
                 break;
             case L2Slot.SlotType.Skill:
                 HandleSkillDrag();
+                break; 
+            case L2Slot.SlotType.Product:
+                HandleProductDrag();
+                break;
+            case L2Slot.SlotType.Basket:
+                HandleBasketDrag();
                 break;
             default:
                 break;
@@ -228,6 +243,39 @@ public class L2SlotManager : L2PopupWindow
                     RemoveSkillbarSlot();
                 }
                 break;
+        }
+    }
+
+
+    private void HandleProductDrag()
+    {
+        ProductSlot productSlot = (ProductSlot)_draggedSlot;
+
+        if (_hoverSlot == null)
+        {
+            return;
+        }
+
+
+        switch (_hoverSlot.Type)
+        {
+            case L2Slot.SlotType.Basket:
+                // ((ShopSlotContainer)((BasketSlot)_hoverSlot).SlotContainer).AddToBasket(productSlot.Product, 1);
+                productSlot.SwapBasket();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void HandleBasketDrag()
+    {
+        BasketSlot productSlot = (BasketSlot)_draggedSlot;
+
+        if (_hoverSlot == null || _hoverSlot.Type != L2Slot.SlotType.Basket)
+        {
+            // ((ShopSlotContainer)productSlot.SlotContainer).RemoveFromBasket(productSlot.Product, productSlot.Position);
+            productSlot.SwapBasket();
         }
     }
 

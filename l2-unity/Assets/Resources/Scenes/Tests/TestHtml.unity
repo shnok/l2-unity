@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 149149315}
   - component: {fileID: 149149316}
   - component: {fileID: 149149317}
-  - component: {fileID: 149149328}
+  - component: {fileID: 149149318}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -255,6 +255,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiLoaded: 0
   _mouseOverUI: 0
+  _windowsLoaded: 0
+  _totalWindowsToLoad: 0
   _mouseEnabled: 1
 --- !u!4 &149149314
 Transform:
@@ -322,7 +324,7 @@ MonoBehaviour:
     _id: 0
     _position: 0
     _slotType: 0
---- !u!114 &149149328
+--- !u!114 &149149318
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -331,10 +333,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 149149311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 471c2b26de5d5484f88ff103c093f17a, type: 3}
+  m_Script: {fileID: 11500000, guid: 04cdb2ba5771b3449921a157899dbe6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nodes: []
+  _tabs:
+  - _tabName: Buy
+    _autoscroll: 0
+    _shopTabType: 0
+    _tabs:
+    - _tabName: 
+      _autoscroll: 0
+      _selectedSlot: 0
+    - _tabName: 
+      _autoscroll: 0
+      _selectedSlot: 0
+  - _tabName: Sell
+    _autoscroll: 0
+    _shopTabType: 1
+    _tabs:
+    - _tabName: 
+      _autoscroll: 0
+      _selectedSlot: 0
+    - _tabName: 
+      _autoscroll: 0
+      _selectedSlot: 0
+  _usedSlots: 0
+  _slotCount: 0
+  _adenaCount: 0
 --- !u!1001 &445805727
 PrefabInstance:
   m_ObjectHideFlags: 0

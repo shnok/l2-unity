@@ -9,17 +9,15 @@ public class SkillWindow : L2PopupWindow
 {
     private VisualTreeAsset _tabTemplate;
     private VisualTreeAsset _tabHeaderTemplate;
-    private VisualTreeAsset _inventorySlotTemplate;
     private VisualTreeAsset _minimizedTemplate;
     public VisualTreeAsset SkillSectionTemplate { get; private set; }
     public VisualTreeAsset SkillSlotTemplate { get; private set; }
     private VisualElement _skillsTabView;
     private VisualElement _content;
     private SkillTab _activeTab;
-    private bool isActive;
     
-    private List<SkillWindowInfo>[] _skillsList;
-    [SerializeField] private List<SkillTab> _tabs;
+    [SerializeField] private SkillTab[] _tabs;
+    private L2TabView _l2TabView;
     private static SkillWindow _instance;
     public static SkillWindow Instance => _instance;
 
@@ -101,7 +99,6 @@ public class SkillWindow : L2PopupWindow
             skills = Array.Empty<List<SkillWindowInfo>>();
         }
         
-        _skillsList = skills;
         foreach (var t in _tabs)
         {
             t.UpdateSkills(skills);
@@ -129,48 +126,7 @@ public class SkillWindow : L2PopupWindow
     {
         _skillsTabView = GetElementById("SkillsTabView");
 
-        VisualElement tabHeaderContainer = _skillsTabView.Q<VisualElement>("tab-header-container");
-        VisualElement tabContainer = _skillsTabView.Q<VisualElement>("tab-content-container");
-
-        for (int i = _tabs.Count - 1; i >= 0; i--)
-        {
-            VisualElement tabElement = _tabTemplate.CloneTree()[0];
-            tabElement.name = _tabs[i].TabName;
-            tabElement.AddToClassList("unselected-tab");
-
-            VisualElement tabHeaderElement = _tabHeaderTemplate.CloneTree()[0];
-            tabHeaderElement.name = _tabs[i].TabName;
-            tabHeaderElement.Q<Label>().text = _tabs[i].TabName;
-            
-            tabHeaderContainer.Add(tabHeaderElement);
-            tabContainer.Add(tabElement);
-
-            _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement, _tabs[i].TabType);
-        }
-
-        _activeTab = null;
-
-        if (_tabs.Any())
-        {
-            SwitchTab(_tabs[0]);
-            isActive = true;
-        }
-    }
-
-    public bool SwitchTab(SkillTab switchTo)
-    {
-        if (_activeTab != switchTo)
-        {
-            _activeTab?.TabContainer?.AddToClassList("unselected-tab");
-            _activeTab?.TabHeader?.RemoveFromClassList("active");
-
-            switchTo.TabContainer.RemoveFromClassList("unselected-tab");
-            switchTo.TabHeader.AddToClassList("active");
-
-            _activeTab = switchTo;
-            isActive = !isActive;
-            return true;
-        }
-        return false;
+        _l2TabView = new L2TabView();
+        _l2TabView.Initialize(_skillsTabView, _tabs, _tabTemplate, _tabHeaderTemplate, true);
     }
 }

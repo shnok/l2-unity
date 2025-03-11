@@ -102,6 +102,11 @@ public class L2GameUI : L2UI
         {
             NpcHtmlWindow.Instance.AddWindow(_rootVisualContainer);
         }
+        if (ShopWindow.Instance != null)
+        {
+            ShopWindow.Instance.AddWindow(_rootVisualContainer);
+            ShopWindow.Instance.HideWindow(true);
+        }
         if (RestartLocationWindow.Instance != null)
         {
             RestartLocationWindow.Instance.AddWindow(_rootVisualContainer);
@@ -218,7 +223,7 @@ public class L2GameUI : L2UI
             }
         }
         
-        if (InputManager.Instance.OpenSkill)
+        if (InputManager.Instance.OpenSkills)
         {
             if (SkillWindow.Instance != null)
             {

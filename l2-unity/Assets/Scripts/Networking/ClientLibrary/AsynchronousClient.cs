@@ -138,7 +138,6 @@ public class AsynchronousClient
                 // Write the higher 8 bits
                 stream.WriteByte((byte)((len >> 8) & 0xff));
 
-
                 stream.Write(packet.GetData(), 0, (int)packet.GetData().Length);
                 stream.Flush();
             }

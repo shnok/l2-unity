@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="L2TabView" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2TabView/L2TabView.uxml?fileID=9197481963319205126&amp;guid=df1c3d52e66191742a30ae9bd4520b5a&amp;type=3#L2TabView" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
     <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/ChatWindow/ChatWindow.uss?fileID=7433441132597879392&amp;guid=0f1fc063049f5064a9a2f798c3ecd11f&amp;type=3#ChatWindow" />
     <ui:VisualElement name="ChatWindow" focusable="true" class="chat-window">
@@ -10,10 +11,7 @@
             </ui:GroupBox>
         </ui:GroupBox>
         <ui:GroupBox name="Container" focusable="true" class="chat-window-wrapper">
-            <ui:VisualElement name="ChatTabView" focusable="true" class="chat-tab-view">
-                <ui:VisualElement name="tab-header-container" style="flex-direction: row;" />
-                <ui:VisualElement focusable="true" name="tab-content-container" style="flex-grow: 1; flex-shrink: 0; flex-direction: column-reverse;" />
-            </ui:VisualElement>
+            <ui:Instance template="L2TabView" name="ChatTabView" style="flex-grow: 1;" />
             <ui:GroupBox name="ChatBar" focusable="true" class="chatbar-container">
                 <ui:GroupBox name="InnerBar" focusable="true" class="chatbar-container-wrapper">
                     <ui:VisualElement name="InputIcon" tabindex="0" class="chatbar-input-icon" />

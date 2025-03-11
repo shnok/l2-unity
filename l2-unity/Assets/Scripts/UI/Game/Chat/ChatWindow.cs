@@ -12,16 +12,16 @@ public class ChatWindow : L2Window
     private VisualTreeAsset _tabHeaderTemplate;
     private TextField _chatInput;
     private VisualElement _chatInputContainer;
-    private VisualElement _chatTabView;
-    private ChatTab _activeTab;
+    private L2TabView _l2TabView;
     private List<string> _history;
+
     private int _historyIndex = 0;
 
     [SerializeField] private float _chatWindowMinWidth = 225.0f;
     [SerializeField] private float _chatWindowMaxWidth = 500.0f;
     [SerializeField] private float _chatWindowMinHeight = 175.0f;
     [SerializeField] private float _chatWindowMaxHeight = 600.0f;
-    [SerializeField] public List<ChatTab> _tabs;
+    [SerializeField] public ChatTab[] _tabs;
     [SerializeField] private bool _chatOpened = false;
     [SerializeField] private int _chatInputCharacterLimit = 100;
 
@@ -102,62 +102,10 @@ public class ChatWindow : L2Window
 
     private void CreateTabs()
     {
-        _chatTabView = GetElementById("ChatTabView");
+        VisualElement chatTabView = GetElementById("ChatTabView");
 
-        VisualElement tabHeaderContainer = _chatTabView.Q<VisualElement>("tab-header-container");
-        if (tabHeaderContainer == null)
-        {
-            Debug.LogError("tab-header-container is null");
-        }
-        VisualElement tabContainer = _chatTabView.Q<VisualElement>("tab-content-container");
-
-        if (tabContainer == null)
-        {
-            Debug.LogError("tab-content-container");
-        }
-
-        for (int i = 0; i < _tabs.Count; i++)
-        {
-            VisualElement tabElement = _tabTemplate.CloneTree()[0];
-            // tabElement.name = _tabs[i].TabName;
-            tabElement.name = _tabs[i].TabName;
-            tabElement.AddToClassList("unselected-tab");
-
-            VisualElement tabHeaderElement = _tabHeaderTemplate.CloneTree()[0];
-            tabHeaderElement.name = _tabs[i].TabName;
-            tabHeaderElement.Q<Label>().text = _tabs[i].TabName;
-
-            tabHeaderContainer.Add(tabHeaderElement);
-            tabContainer.Add(tabElement);
-
-            _tabs[i].Initialize(_windowEle, tabElement, tabHeaderElement);
-        }
-
-        if (_tabs.Count > 0)
-        {
-            SwitchTab(_tabs[0]);
-        }
-    }
-
-    public bool SwitchTab(ChatTab switchTo)
-    {
-        if (_activeTab != switchTo)
-        {
-            if (_activeTab != null)
-            {
-                _activeTab.TabContainer.AddToClassList("unselected-tab");
-                _activeTab.TabHeader.RemoveFromClassList("active");
-            }
-
-            switchTo.TabContainer.RemoveFromClassList("unselected-tab");
-            switchTo.TabHeader.AddToClassList("active");
-            ScrollDown(switchTo.Scroller);
-
-            _activeTab = switchTo;
-            return true;
-        }
-
-        return false;
+        _l2TabView = new L2TabView();
+        _l2TabView.Initialize(chatTabView, _tabs, _tabTemplate, _tabHeaderTemplate, false);
     }
 
     void Update()
@@ -261,7 +209,7 @@ public class ChatWindow : L2Window
 
     public void ClearChat()
     {
-        for (int i = 0; i < _tabs.Count; i++)
+        for (int i = 0; i < _tabs.Length; i++)
         {
             ClearTab(i);
         }
@@ -269,7 +217,7 @@ public class ChatWindow : L2Window
 
     public void ClearTab(int tabIndex)
     {
-        if (tabIndex <= _tabs.Count - 1)
+        if (tabIndex <= _tabs.Length - 1)
         {
             _tabs[tabIndex].Content.text = "";
         }
@@ -340,7 +288,7 @@ public class ChatWindow : L2Window
             return;
         }
 
-        for (int i = 0; i < _tabs.Count; i++)
+        for (int i = 0; i < _tabs.Length; i++)
         {
             if (_tabs[i].FilteredMessages.Count > 0)
             {
@@ -359,7 +307,7 @@ public class ChatWindow : L2Window
             return;
         }
 
-        for (int i = 0; i < _tabs.Count; i++)
+        for (int i = 0; i < _tabs.Length; i++)
         {
             if (_tabs[i].FilteredMessages.Contains(L2MessageType.SYSTEM_MESSAGE))
             {
@@ -368,7 +316,7 @@ public class ChatWindow : L2Window
         }
     }
 
-    internal void ScrollDown(Scroller scroller)
+    public void ScrollDown(Scroller scroller)
     {
         StartCoroutine(ScrollDownWithDelay(scroller));
     }

@@ -8,32 +8,20 @@ public class ChatTab : L2Tab
     [SerializeField] private List<L2MessageType> _filteredMessages;
     public List<L2MessageType> FilteredMessages { get { return _filteredMessages; } }
     private int _messageCount = 0;
+    private L2Scrollable _l2scrollable;
 
     private Label _content;
     public Label Content { get { return _content; } }
 
-    public override void Initialize(VisualElement chatWindowEle, VisualElement tabContainer, VisualElement tabHeader)
+    public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
-        base.Initialize(chatWindowEle, tabContainer, tabHeader);
+        base.Initialize(tabView, tabContainer, tabHeader);
         _content = tabContainer.Q<Label>("Content");
         _content.text = "";
-        _scrollStepSize = 12f;
-    }
 
-    protected override void OnGeometryChanged()
-    {
-        if (_autoscroll)
-        {
-            ChatWindow.Instance.ScrollDown(_scroller);
-        }
-    }
-
-    protected override void OnSwitchTab()
-    {
-        if (ChatWindow.Instance.SwitchTab(this))
-        {
-            AudioManager.Instance.PlayUISound("window_open");
-        }
+        _l2scrollable = new L2Scrollable();
+        _l2scrollable.Initialize(tabContainer, true);
+        _l2scrollable.ScrollStepSize = 12f;
     }
 
     public void AddMessage(string message)
@@ -60,9 +48,16 @@ public class ChatTab : L2Tab
             _messageCount = ChatWindow.MAXIMUM_MESSAGE_COUNT;
         }
 
-        if (_autoscroll)
+        if (_l2scrollable.AutoScroll)
         {
-            ChatWindow.Instance.ScrollDown(_scroller);
+            ChatWindow.Instance.ScrollDown(_l2scrollable.Scroller);
         }
     }
+
+    protected override void OnTabHeaderClicked()
+    {
+        base.OnTabHeaderClicked();
+    }
+
+    //TODO: Disable autoscroll when manually scrolled, force scroll when window is resized
 }

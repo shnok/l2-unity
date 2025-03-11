@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 public class InventorySlot : L2DraggableSlot
 {
-    protected L2Tab _currentTab;
+    protected L2SlotContainer _currentSlotContainer;
     private int _count;
     private long _remainingTime;
     private SlotClickSoundManipulator _slotClickSoundManipulator;
@@ -11,7 +11,6 @@ public class InventorySlot : L2DraggableSlot
     private ItemName _assignedItem;
     private ItemType1 _type1;
     private ItemType2 _type2;
-    protected bool _empty = true;
     public int Count { get { return _count; } }
     public long RemainingTime { get { return _remainingTime; } }
     public ItemType1 Type1 { get { return _type1; } }
@@ -19,11 +18,12 @@ public class InventorySlot : L2DraggableSlot
     public int ObjectId { get { return _objectId; } }
 
     public ItemName ItemName { get { return _assignedItem; } }
+    public L2SlotContainer SlotContainer { get { return _currentSlotContainer; } }
 
-    public InventorySlot(int position, VisualElement slotElement, L2Tab tab, SlotType slotType)
+    public InventorySlot(int position, VisualElement slotElement, L2SlotContainer slotContainer, SlotType slotType)
     : base(position, slotElement, slotType, false, true)
     {
-        _currentTab = tab;
+        _currentSlotContainer = slotContainer;
         _empty = true;
 
         if (_slotClickSoundManipulator == null)
@@ -39,7 +39,7 @@ public class InventorySlot : L2DraggableSlot
         _empty = true;
     }
 
-    public void AssignItem(ItemInstance item)
+    public virtual void AssignItem(ItemInstance item)
     {
         _slotElement.RemoveFromClassList("empty");
 
@@ -80,9 +80,14 @@ public class InventorySlot : L2DraggableSlot
         }
     }
 
-    private void AddTooltip(ItemInstance item)
+    protected virtual void AddTooltip(ItemInstance item)
     {
-        string tooltipText = $"{_name} ({_count:n0})";
+        string tooltipText = _name;
+        if (_count > 0)
+        {
+            tooltipText = $"{_name} ({_count:n0})";
+        }
+
         if (item.Type2 == ItemType2.TYPE2_WEAPON ||
             item.Type2 == ItemType2.TYPE2_ACCESSORY ||
             item.Type2 == ItemType2.TYPE2_SHIELD_ARMOR)
@@ -109,9 +114,9 @@ public class InventorySlot : L2DraggableSlot
 
     protected override void HandleLeftClick()
     {
-        if (_currentTab != null)
+        if (_currentSlotContainer != null)
         {
-            _currentTab.SelectSlot(_position);
+            _currentSlotContainer.SelectSlot(_position);
         }
     }
 
