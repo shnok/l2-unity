@@ -613,7 +613,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     
     private void OnAcquireSkillDone(byte[] data)
     {
-        AcquireSkillDonePacket packet = new AcquireSkillDonePacket(data);
-        // _eventProcessor.QueueEvent();
+        AcquireSkillDonePacket _ = new AcquireSkillDonePacket(data);
+        _eventProcessor.QueueEvent(() => PlayerSkill.Instance.UpdateSkill());
     }
 }
