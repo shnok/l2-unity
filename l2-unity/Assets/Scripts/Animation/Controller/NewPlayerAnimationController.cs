@@ -26,16 +26,5 @@ public class NewPlayerAnimationController : NewHumanoidAnimationController
     {
         _instance = null;
     }
-
-    // public void SetBool(HumanoidAnimType animType, bool value, bool share)
-    // {
-    //     int paramId = GetParameterId(animType, _weaponAnim);
-
-    //     if (Animator.GetBool(paramId) != value)
-    //     {
-    //         // Debug.LogWarning($"Set bool {name}={value}");
-    //         SetBool(paramId, value);
-    //     }
-    // }
 }
 

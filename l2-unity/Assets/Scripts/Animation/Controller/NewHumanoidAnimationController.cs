@@ -5,9 +5,8 @@ using UnityEngine;
 // Used by NPCS and USERS
 public class NewHumanoidAnimationController : NewBaseAnimationController
 {
-
     public WeaponAnimType WeaponAnim { get { return _weaponAnim; } }
-    public HumanoidAnimType LastAnim { get { return _lastAnimationType; } }
+    public HumanoidAnimationEvent LastAnim { get { return (HumanoidAnimationEvent)_lastAnim; } }
     private HumanoidAudioHandler AudioHandler { get => (HumanoidAudioHandler)_entityReferenceHolder.AudioHandler; }
 
     [Header("Base Speeds")]
@@ -19,6 +18,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     [SerializeField] private float _defaultDieAnimationSpeed = 0.5f;
 
     [Header("Humanoids")]
+    [SerializeField] protected L2HumanoidAnimationContainer _animContainer; //TODO: Cache in Singleton?
     [SerializeField] protected HumanoidAnimType _lastAnimationType;
     [SerializeField] protected WeaponAnimType _weaponAnim;
     [SerializeField] private int _atkAnimIndex;
@@ -27,6 +27,23 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         base.Initialize();
         _lastAnimationType = HumanoidAnimType.wait;
+
+        if (_animContainer == null)
+        {
+            Debug.LogWarning($"[{transform.name}] L2Animations was not assigned, please pre-assign it.");
+        }
+
+        Wait();
+    }
+
+    protected override AnimationClip GetAnimationClip(int index)
+    {
+        if (_animContainer == null || index >= _animContainer.Animations.Length)
+        {
+            return null;
+        }
+
+        return _animContainer.Animations[index].AnimationClip;
     }
 
     public override void WeaponAnimChanged(WeaponAnimType newWeaponAnim)
@@ -53,16 +70,6 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         float castSpeed = clipLength * 1000f / (_entityReferenceHolder.Combat.LastSkillHitTime / 2f); // at 50% of cast time should switch to castend anim
         _castSpdMultiplier = castSpeed;
-    }
-
-    public override void SetRunSpeed(float value)
-    {
-        _runSpdMultiplier = value;
-    }
-
-    public override void SetWalkSpeed(float value)
-    {
-        _walkSpdMultiplier = value;
     }
 
     public override void Attack()
@@ -272,7 +279,18 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         {
             events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
             events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
+            events.OnEnd = DieWait;
         }
+    }
+
+    public override void DieWait()
+    {
+        _lastAnimationType = HumanoidAnimType.other;
+        PlayAnimation((int)HumanoidAnimationEvent.deathwait);
+    }
+
+    public override void Resurrect()
+    {
     }
 
     public override void SitWait()
@@ -325,5 +343,4 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         return false;
     }
-
 }

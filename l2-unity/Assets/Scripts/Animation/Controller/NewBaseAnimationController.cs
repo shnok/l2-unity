@@ -6,8 +6,8 @@ using UnityEngine;
 public abstract class NewBaseAnimationController : MonoBehaviour
 {
     [SerializeField] protected EntityReferenceHolder _entityReferenceHolder;
-    [SerializeField] protected L2Animations _animationClips; //TODO: Cache in Singleton
     protected AnimancerComponent _animancer;
+    [SerializeField] protected int _lastAnim;
     protected Animator Animator { get { return _entityReferenceHolder.Animator; } }
     protected SkillCastAnimation _skillCastAnimation;
     protected SkillThrowAnimation _skillThrowAnimation;
@@ -31,10 +31,6 @@ public abstract class NewBaseAnimationController : MonoBehaviour
             Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
             _entityReferenceHolder = gameObject.GetComponent<EntityReferenceHolder>();
         }
-        if (_animationClips == null)
-        {
-            Debug.LogWarning($"[{transform.name}] L2Animations was not assigned, please pre-assign it.");
-        }
         if (_animancer == null)
         {
             _animancer = _entityReferenceHolder.Animancer;
@@ -48,7 +44,9 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
     public virtual void PlayAnimation(int index)
     {
-        AnimationClip clip = _animationClips.AnimationClips[index];
+        _lastAnim = index;
+
+        AnimationClip clip = GetAnimationClip(index);
         if (clip == null)
         {
             Debug.LogWarning($"[{transform.name}] Does not have an animation clip at index {index}.");
@@ -57,14 +55,23 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
         _lastPlayedClipDuration = clip.length;
 
-        _animancerState = _animancer.Play(_animationClips.AnimationClips[index], _fadeDuration);
+        _animancerState = _animancer.Play(clip, _fadeDuration);
     }
+
+    protected abstract AnimationClip GetAnimationClip(int index);
 
     public virtual void WeaponAnimChanged(WeaponAnimType weapon) { }
 
-    public abstract void SetRunSpeed(float value);
+    public virtual void SetRunSpeed(float value)
+    {
+        _runSpdMultiplier = value;
+    }
 
-    public abstract void SetWalkSpeed(float value);
+    public virtual void SetWalkSpeed(float value)
+    {
+        _walkSpdMultiplier = value;
+    }
+
 
     public virtual void SetPAtkSpd(float value)
     {
@@ -81,6 +88,8 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     public abstract void SetMAtkSpd(float value);
     public abstract void Attack();
     public abstract void Die();
+    public abstract void DieWait();
+    public abstract void Resurrect();
     public abstract void Sit();
     public abstract void SitWait();
     public abstract void Stand();
@@ -101,5 +110,17 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     public virtual bool PlaySkillThrowAnimation()
     {
         return _skillThrowAnimation != SkillThrowAnimation.None;
+    }
+
+    public virtual void Move()
+    {
+        if (_entityReferenceHolder.Entity.Running)
+        {
+            Run();
+        }
+        else
+        {
+            Walk();
+        }
     }
 }

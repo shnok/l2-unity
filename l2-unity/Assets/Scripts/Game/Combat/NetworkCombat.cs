@@ -109,7 +109,7 @@ public abstract class NetworkCombat : Combat
     {
         if (base.AttackOnce(hitTime, atkEndTime, hitSuccess, attackTarget))
         {
-            Debug.Log("Look At Target");
+            ((NetworkEntityReferenceHolder)_referenceHolder).NetworkCharacterControllerReceive.ResetDestination();
             return true;
         }
         else
