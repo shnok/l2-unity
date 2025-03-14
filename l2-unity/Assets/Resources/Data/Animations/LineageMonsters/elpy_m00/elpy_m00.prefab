@@ -383,13 +383,16 @@ PrefabInstance:
       addedObject: {fileID: -8678999770591714563}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -8803077255671896100}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 3314313820236548078}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6462617059682886421}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2448524570349671710}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9047357767001517841}
   m_SourcePrefab: {fileID: 100100000, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
 --- !u!4 &128510364696113543 stripped
 Transform:
@@ -411,7 +414,7 @@ Animator:
   m_GameObject: {fileID: 757554519874382653}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 09a6833c04af4d54d9cd3c4528a0ce1c, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -697,22 +700,6 @@ MonoBehaviour:
   _arrow: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
---- !u!114 &-8803077255671896100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 757554519874382653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338484d3f45eee84881eb77639612ffd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rootBone: {fileID: 5302810287931406979}
-  _entityReferenceHolder: {fileID: 6462617059682886421}
-  _resetStateOnReceive: 1
-  _lastAnim: 0
 --- !u!114 &3314313820236548078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,6 +720,9 @@ MonoBehaviour:
   _hitTime: 0
   _attackEndTime: 0
   _hitSuccess: 0
+  _lastSkillHitTime: 0
+  _lastSkillReuseDelay: 0
+  _lastSkillUseTime: 0
   _attackStance: 0
 --- !u!114 &6462617059682886421
 MonoBehaviour:
@@ -749,12 +739,52 @@ MonoBehaviour:
   _entity: {fileID: 5386699847335486728}
   _gear: {fileID: -8678999770591714563}
   _combat: {fileID: 3314313820236548078}
-  _animationController: {fileID: -8803077255671896100}
+  _animationController: {fileID: 0}
+  _newAnimationController: {fileID: 9047357767001517841}
+  _animancer: {fileID: 2448524570349671710}
   _audioHandler: {fileID: 5585337290138571160}
   _animator: {fileID: 5122521172409033120}
   _clickArea: {fileID: 7937903836441941541}
   _networkTransformReceive: {fileID: 1139883649830340824}
   _networkCharacterControllerReceive: {fileID: 2251475048185080607}
+--- !u!114 &2448524570349671710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757554519874382653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 5122521172409033120}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0
+--- !u!114 &9047357767001517841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757554519874382653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d034599a650a74c8fbc9edc689eede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entityReferenceHolder: {fileID: 6462617059682886421}
+  _lastAnim: 0
+  _rootBone: {fileID: 5302810287931406979}
+  _lastPlayedClipDuration: 0
+  _fadeDuration: 0.1
+  _atkSpd: 0
+  _atkSpdMultiplier: 1
+  _castSpdMultiplier: 1
+  _runSpdMultiplier: 1
+  _walkSpdMultiplier: 1
+  _animContainer: {fileID: 11400000, guid: 51795d8255259624ca58df2bc6ad2a4f, type: 2}
 --- !u!4 &906900513720595435 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8442064340760599161, guid: 6cc7f1c59ab659940914ce8a4584e558, type: 3}
