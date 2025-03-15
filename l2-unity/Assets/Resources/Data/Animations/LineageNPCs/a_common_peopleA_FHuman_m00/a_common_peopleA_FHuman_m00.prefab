@@ -1501,7 +1501,10 @@ PrefabInstance:
       addedObject: {fileID: 8508611701737862845}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b0633ea5287063849a1827d459101d11, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6427021966363774917}
+      addedObject: {fileID: 9037966172152680061}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b0633ea5287063849a1827d459101d11, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5823532529734057413}
   m_SourcePrefab: {fileID: 100100000, guid: b0633ea5287063849a1827d459101d11, type: 3}
 --- !u!4 &1919759350830251278 stripped
 Transform:
@@ -1528,7 +1531,9 @@ MonoBehaviour:
   _entity: {fileID: 2001833295475074691}
   _gear: {fileID: 3920993144852243189}
   _combat: {fileID: 3830394458107511427}
-  _animationController: {fileID: 6427021966363774917}
+  _animationController: {fileID: 0}
+  _newAnimationController: {fileID: 5823532529734057413}
+  _animancer: {fileID: 9037966172152680061}
   _audioHandler: {fileID: 8508611701737862845}
   _animator: {fileID: 3071089936739008133}
   _clickArea: {fileID: 4843562911510632800}
@@ -1544,7 +1549,7 @@ Animator:
   m_GameObject: {fileID: 6189121370827720120}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: ce3513d6484429b479f9de04ac1919e8, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1821,6 +1826,9 @@ MonoBehaviour:
   _hitTime: 0
   _attackEndTime: 0
   _hitSuccess: 0
+  _lastSkillHitTime: 0
+  _lastSkillReuseDelay: 0
+  _lastSkillUseTime: 0
   _attackStance: 0
 --- !u!114 &8508611701737862845
 MonoBehaviour:
@@ -1874,7 +1882,7 @@ MonoBehaviour:
     _lhand: 0
     _maxHp: 0
     _maxMp: 0
---- !u!114 &6427021966363774917
+--- !u!114 &9037966172152680061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1883,14 +1891,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 6189121370827720120}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11c36874c9e74a4aabfa2b520cd1a12, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootBone: {fileID: 8803945162434292425}
+  _Animator: {fileID: 3071089936739008133}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0
+--- !u!114 &5823532529734057413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6189121370827720120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d47993eb0d9c354881700540620fdf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _entityReferenceHolder: {fileID: 4772366605626643781}
-  _resetStateOnReceive: 0
+  _lastAnim: 0
+  _rootBone: {fileID: 8803945162434292425}
+  _lastPlayedClipDuration: 0
+  _fadeDuration: 0.1
+  _atkSpd: 0
+  _atkSpdMultiplier: 1
+  _castSpdMultiplier: 1
+  _runSpdMultiplier: 1
+  _walkSpdMultiplier: 1
+  _defaultIdleAnimationSpeed: 0.3
+  _defaultAtkWaitAnimationSpeed: 0.5
+  _defaultRunAnimationSpeed: 0.35
+  _defaultWalkAnimationSpeed: 0.4
+  _defaultJumpAnimationSpeed: 1.25
+  _defaultDieAnimationSpeed: 0.5
+  _animContainer: {fileID: 11400000, guid: 6f8f48dd5c1e23640b4e8e198bb59946, type: 2}
   _lastAnimationType: 0
   _weaponAnim: 0
+  _atkAnimIndex: 0
 --- !u!4 &6426027917200002038 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -9220959083047603425, guid: b0633ea5287063849a1827d459101d11, type: 3}
