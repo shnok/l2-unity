@@ -71,7 +71,7 @@ public class CharacterSelector : MonoBehaviour
         GameObject pawnObject = PawnCreator.Instance.CreatePawn(_characters[id].CharacterRaceAnimation, _characters[id].PlayerAppearance);
 
         EntityReferenceHolder referenceHolder = pawnObject.GetComponent<EntityReferenceHolder>();
-        HumanoidAnimationController animController = (HumanoidAnimationController)referenceHolder.AnimationController;
+        NewHumanoidAnimationController animController = (NewHumanoidAnimationController)referenceHolder.NewAnimationController;
 
         referenceHolder.Entity.Appearance = _characters[id].PlayerAppearance;
         referenceHolder.Entity.Stats = _characters[id].PlayerStats;
@@ -105,8 +105,7 @@ public class CharacterSelector : MonoBehaviour
         if (_characters[id].DeleteTimer > 0)
         {
             referenceHolder.Entity.UpdateWaitType(ChangeWaitTypePacket.WaitType.WT_SITTING);
-            animController.SetBool(HumanoidAnimType.wait, false);
-            animController.SetBool(HumanoidAnimType.sit_wait, true);
+            animController.SitWait();
         }
         _characterGameObjects.Add(pawnObject);
     }

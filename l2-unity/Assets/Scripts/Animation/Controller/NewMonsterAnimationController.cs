@@ -86,6 +86,13 @@ public class NewMonsterAnimationController : NewBaseAnimationController
         }
     }
 
+    public override void AtkWait()
+    {
+        PlayAnimation((int)MonsterAnimationEvent.atkwait);
+
+        // play any sound ?
+    }
+
     public override void Walk()
     {
         PlayAnimation((int)MonsterAnimationEvent.walk);

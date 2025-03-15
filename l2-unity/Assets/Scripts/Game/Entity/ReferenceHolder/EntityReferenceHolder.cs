@@ -6,14 +6,12 @@ public class EntityReferenceHolder : MonoBehaviour
     [SerializeField] protected Entity _entity;
     [SerializeField] protected Gear _gear;
     [SerializeField] protected Combat _combat;
-    [SerializeField] protected BaseAnimationController _animationController;
     [SerializeField] protected NewBaseAnimationController _newAnimationController;
     [SerializeField] protected AnimancerComponent _animancer;
     [SerializeField] protected BaseAnimationAudioHandler _audioHandler;
     [SerializeField] protected Animator _animator;
     [SerializeField] protected Transform _clickArea;
 
-    public BaseAnimationController AnimationController { get { return _animationController; } }
     public NewBaseAnimationController NewAnimationController { get { return _newAnimationController; } }
     public AnimancerComponent Animancer { get { return _animancer; } }
     public Gear Gear { get { return _gear; } }

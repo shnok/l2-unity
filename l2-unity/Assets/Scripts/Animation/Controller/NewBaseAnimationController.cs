@@ -96,6 +96,7 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     public abstract void Run();
     public abstract void Wait();
     public abstract void Walk();
+    public abstract void AtkWait();
 
     public virtual void PlaySkillAnimation(SkillCastAnimation castAnimation, SkillThrowAnimation throwAnimation)
     {
@@ -123,4 +124,36 @@ public abstract class NewBaseAnimationController : MonoBehaviour
             Walk();
         }
     }
+
+    // float SHOOT_ARROW_RATIO = 0.6f
+    //  private void ManageArrow(AnimatorStateInfo stateInfo)
+    // {
+    //     float normalizedRatio = stateInfo.normalizedTime - _lastArrowNormalizedTime;
+
+    //     if (normalizedRatio >= 1f)
+    //     {
+    //         Debug.LogWarning("Reset atk animation state");
+    //         _nockedArrow = false;
+    //         _shotArrow = false;
+    //         _lastArrowNormalizedTime = stateInfo.normalizedTime;
+    //     }
+    //     else if (normalizedRatio >= SHOOT_ARROW_RATIO)
+    //     {
+    //         if (!_shotArrow)
+    //         {
+    //             _shotArrow = true;
+    //             _referenceHolder.Combat.ShootArrow();
+    //             AudioHandler.PlayArrowShootSound();
+    //         }
+    //     }
+    //     else if (normalizedRatio >= 0.2f)
+    //     {
+    //         if (!_nockedArrow)
+    //         {
+    //             _nockedArrow = true;
+    //             _referenceHolder.Combat.NockArrow();
+    //             AudioHandler.PlayBowBendSound();
+    //         }
+    //     }
+    // }
 }

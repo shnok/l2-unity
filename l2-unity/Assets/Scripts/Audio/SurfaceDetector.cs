@@ -6,6 +6,11 @@ public class SurfaceDetector : MonoBehaviour
 
     public string GetSurfaceTag()
     {
+        if (World.Instance == null)
+        {
+            return "stone";
+        }
+
         if (Physics.Raycast(transform.position + Vector3.up * 1f, Vector3.down, out var hit, 2f, World.Instance.GroundMask))
         {
             _surfaceObject = new ObjectData(hit.collider.gameObject);

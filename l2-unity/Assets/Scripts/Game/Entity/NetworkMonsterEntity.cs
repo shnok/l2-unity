@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NetworkMonsterEntity : NetworkEntity
 {
-    public MonsterAnimationController MonsterAnimationController { get { return (MonsterAnimationController)_referenceHolder.AnimationController; } }
+    public NewMonsterAnimationController MonsterAnimationController { get { return (NewMonsterAnimationController)_referenceHolder.NewAnimationController; } }
 
     public override void Initialize()
     {

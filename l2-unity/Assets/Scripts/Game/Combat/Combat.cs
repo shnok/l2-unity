@@ -31,7 +31,6 @@ public abstract class Combat : MonoBehaviour
     public long LastSkillUseTime { get => _lastSkillUseTime; }
 
     protected BaseAnimationAudioHandler AudioHandler { get => _referenceHolder.AudioHandler; }
-    protected BaseAnimationController AnimationController { get => _referenceHolder.AnimationController; }
 
     private void Awake()
     {
@@ -173,12 +172,12 @@ public abstract class Combat : MonoBehaviour
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         if (skill.Skillgrps[0]?.CastAnimation != SkillCastAnimation.None)
         {
-            _referenceHolder.AnimationController.PlaySkillAnimation(skill.Skillgrps[0].CastAnimation, skill.Skillgrps[0].ThrowAnimation);
+            _referenceHolder.NewAnimationController.PlaySkillAnimation(skill.Skillgrps[0].CastAnimation, skill.Skillgrps[0].ThrowAnimation);
         }
     }
 
     public virtual void LaunchSkill()
     {
-        _referenceHolder.AnimationController.PlaySkillThrowAnimation();
+        _referenceHolder.NewAnimationController.PlaySkillThrowAnimation();
     }
 }

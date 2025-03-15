@@ -125,7 +125,8 @@ GameObject:
   - component: {fileID: 2109411321359343510}
   - component: {fileID: 203159445196188832}
   - component: {fileID: 3045272908734197869}
-  - component: {fileID: 1914266932831311347}
+  - component: {fileID: 8320848273098851339}
+  - component: {fileID: 9094393998558978762}
   m_Layer: 6
   m_Name: Pawn_FDwarf
   m_TagString: User
@@ -165,10 +166,12 @@ MonoBehaviour:
   _entity: {fileID: -883512877712383744}
   _gear: {fileID: 3808788841989169926}
   _combat: {fileID: 0}
-  _animationController: {fileID: 1914266932831311347}
+  _animationController: {fileID: 0}
+  _newAnimationController: {fileID: 8320848273098851339}
+  _animancer: {fileID: 9094393998558978762}
   _audioHandler: {fileID: 203159445196188832}
   _animator: {fileID: 5879991909848940350}
-  _clickArea: {fileID: 0}
+  _clickArea: {fileID: 3581779933488531090}
 --- !u!143 &8320559729586774763
 CharacterController:
   m_ObjectHideFlags: 0
@@ -709,7 +712,7 @@ MonoBehaviour:
     _objectScene: 
     _objectEntity: {fileID: 0}
     _objectTransform: {fileID: 0}
---- !u!114 &1914266932831311347
+--- !u!114 &8320848273098851339
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -718,14 +721,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 2252958834938601816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11c36874c9e74a4aabfa2b520cd1a12, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d47993eb0d9c354881700540620fdf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootBone: {fileID: 5489068903722350142}
   _entityReferenceHolder: {fileID: 3871749847610267574}
-  _resetStateOnReceive: 0
+  _lastAnim: 0
+  _rootBone: {fileID: 5489068903722350142}
+  _lastPlayedClipDuration: 0
+  _fadeDuration: 0.1
+  _atkSpd: 0
+  _atkSpdMultiplier: 1
+  _castSpdMultiplier: 1
+  _runSpdMultiplier: 1
+  _walkSpdMultiplier: 1
+  _defaultIdleAnimationSpeed: 0.3
+  _defaultAtkWaitAnimationSpeed: 0.5
+  _defaultRunAnimationSpeed: 0.35
+  _defaultWalkAnimationSpeed: 0.4
+  _defaultJumpAnimationSpeed: 1.25
+  _defaultDieAnimationSpeed: 0.5
+  _animContainer: {fileID: 11400000, guid: 0eda2db09b10fe546898b53f07943ac4, type: 2}
   _lastAnimationType: 0
   _weaponAnim: 0
+  _atkAnimIndex: 0
+--- !u!114 &9094393998558978762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252958834938601816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 5879991909848940350}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0
 --- !u!1 &6411853543172213777
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,7 +834,7 @@ PrefabInstance:
     - target: {fileID: 2802721987768493610, guid: b4888cecb95916847b7b78c5b6fe2540, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: 87c3cfc79fa45194797f41d6d6ec6928, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6188836239713335783, guid: b4888cecb95916847b7b78c5b6fe2540, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

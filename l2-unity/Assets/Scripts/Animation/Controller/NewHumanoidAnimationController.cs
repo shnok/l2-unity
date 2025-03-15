@@ -62,6 +62,21 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         Debug.Log($"New Weapon animation: {newAnim} Last animation type: {_lastAnimationType} Weapon anim: {_weaponAnim}");
 
+        switch (_lastAnimationType)
+        {
+            case HumanoidAnimType.wait:
+                Wait();
+                break;
+            case HumanoidAnimType.walk:
+                Walk();
+                break;
+            case HumanoidAnimType.run:
+                Run();
+                break;
+            case HumanoidAnimType.atkwait:
+                AtkWait();
+                break;
+        }
         PlayAnimation((int)newAnim);
     }
 
@@ -78,6 +93,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         _atkAnimIndex = 0;
         PlayAttackAnimation();
     }
+
 
     private void NextAttack()
     {
@@ -151,6 +167,36 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         }
 
         _animancerState.EffectiveSpeed = _atkSpdMultiplier;
+    }
+
+
+    public override void AtkWait()
+    {
+        _lastAnimationType = HumanoidAnimType.atkwait;
+        switch (_weaponAnim)
+        {
+            case WeaponAnimType.shield:
+            case WeaponAnimType.hand:
+                PlayAnimation((int)HumanoidAnimationEvent.atkwait_hand);
+                break;
+            case WeaponAnimType._1HS:
+                PlayAnimation((int)HumanoidAnimationEvent.atkwait_1HS);
+                break;
+            case WeaponAnimType._2HS:
+                PlayAnimation((int)HumanoidAnimationEvent.atkwait_2HS);
+                break;
+            case WeaponAnimType.bow:
+                PlayAnimation((int)HumanoidAnimationEvent.atkwait_bow);
+                break;
+            case WeaponAnimType.pole:
+                PlayAnimation((int)HumanoidAnimationEvent.atkwait_pole);
+                break;
+            case WeaponAnimType.dual:
+                PlayAnimation((int)HumanoidAnimationEvent.atkwait_dual);
+                break;
+        }
+
+        _animancerState.EffectiveSpeed = _defaultAtkWaitAnimationSpeed;
     }
 
     public override void Run()
@@ -343,4 +389,19 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         return false;
     }
+
+    /*
+            long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        int hitTime = (int)(_referenceHolder.Combat.LastSkillHitTime * 0.75f);
+        long endTime = _referenceHolder.Combat.LastSkillUseTime + hitTime;
+
+        if (now > endTime && !_skillLaunched) //Play launch animation at 75%
+        {
+            Debug.Log(_referenceHolder.Combat.LastSkillUseTime);
+            Debug.Log(hitTime);
+            Debug.Log(now + " - " + endTime + " - " + (now - endTime));
+            _skillLaunched = true;
+            _referenceHolder.Combat.LaunchSkill();
+        }
+        */
 }

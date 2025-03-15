@@ -14,10 +14,6 @@ public abstract class NetworkCombat : Combat
     {
         base.OnDeath();
 
-        if (AnimationController != null)
-        {
-            AnimationController.enabled = false;
-        }
         if (NetworkTransformReceive != null)
         {
             NetworkTransformReceive.enabled = false;
@@ -36,10 +32,6 @@ public abstract class NetworkCombat : Combat
     {
         base.OnRevive();
 
-        if (AnimationController != null)
-        {
-            AnimationController.enabled = true;
-        }
         if (NetworkTransformReceive != null)
         {
             NetworkTransformReceive.enabled = true;
