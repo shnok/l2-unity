@@ -4,7 +4,7 @@ public class WalkingState : StateBase
 
     public override void Enter(object obj0)
     {
-        NewPlayerAnimationController.Instance.Stand();
+        NewPlayerAnimationController.Instance.Walk();
     }
 
     public override void Update()
