@@ -18,6 +18,7 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private int _lastSkillHitTime;
     [SerializeField] private int _lastSkillReuseDelay;
     [SerializeField] private long _lastSkillUseTime;
+    [SerializeField] private bool _skillLaunched;
 
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Entity Target { get => _target; set => _target = value; }
@@ -39,6 +40,8 @@ public abstract class Combat : MonoBehaviour
             Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
             _referenceHolder = GetComponent<EntityReferenceHolder>();
         }
+
+        _skillLaunched = true;
     }
 
     public virtual void Initialize()
@@ -170,9 +173,32 @@ public abstract class Combat : MonoBehaviour
         _lastSkillHitTime = hitTime;
         _lastSkillReuseDelay = reuseDelay;
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        _skillLaunched = false;
         if (skill.Skillgrps[0]?.CastAnimation != SkillCastAnimation.None)
         {
             _referenceHolder.NewAnimationController.PlaySkillAnimation(skill.Skillgrps[0].CastAnimation, skill.Skillgrps[0].ThrowAnimation);
+        }
+    }
+
+    void Update()
+    {
+        if (!_skillLaunched)
+        {
+            long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            int timeToThrow = (int)(_referenceHolder.Combat.LastSkillHitTime * 0.75f);
+            long endTime = _lastSkillUseTime + timeToThrow;
+
+            LookAtTarget();
+
+            if (now > endTime) //Play launch animation at 75%
+            {
+                _skillLaunched = true;
+
+                Debug.Log(_referenceHolder.Combat.LastSkillUseTime);
+                Debug.Log(timeToThrow);
+                Debug.Log(now + " - " + endTime + " - " + (now - endTime));
+                LaunchSkill();
+            }
         }
     }
 

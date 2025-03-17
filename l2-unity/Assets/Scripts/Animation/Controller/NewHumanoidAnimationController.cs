@@ -80,20 +80,12 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         PlayAnimation((int)newAnim);
     }
 
-
-    public override void SetMAtkSpd(float clipLength)
-    {
-        float castSpeed = clipLength * 1000f / (_entityReferenceHolder.Combat.LastSkillHitTime / 2f); // at 50% of cast time should switch to castend anim
-        _castSpdMultiplier = castSpeed;
-    }
-
     public override void Attack()
     {
         _lastAnimationType = HumanoidAnimType.atk01;
         _atkAnimIndex = 0;
         PlayAttackAnimation();
     }
-
 
     private void NextAttack()
     {
@@ -186,7 +178,6 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         _animancerState.EffectiveSpeed = _atkSpdMultiplier;
     }
-
 
     public override void AtkWait()
     {
@@ -384,42 +375,45 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 return false;
             }
 
-            HumanoidAnimType castAnim = (HumanoidAnimType)_skillCastAnimation;
+            HumanoidAnimationEvent castAnim = (HumanoidAnimationEvent)_skillCastAnimation;
 
-            // SetBool(castAnim, true);
+            PlayAnimation((int)castAnim);
+            UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime);
+
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            {
+                //TODO: Play cast voice line
+                events.OnEnd = PlaySkillCastEndAnimation;
+            }
+
+            _animancerState.EffectiveSpeed = _castSpdMultiplier;
 
             return true;
         }
 
         return false;
+    }
+
+    public override void PlaySkillCastEndAnimation()
+    {
+        PlayAnimation((int)HumanoidAnimationEvent.castend);
     }
 
     public override bool PlaySkillThrowAnimation()
     {
         if (base.PlaySkillThrowAnimation())
         {
-            HumanoidAnimType throwAnim = (HumanoidAnimType)_skillThrowAnimation;
+            HumanoidAnimationEvent throwAnim = (HumanoidAnimationEvent)_skillThrowAnimation;
 
-            // SetBool(throwAnim, true);
+            //TODO: Play throw voice line
+
+            PlayAnimation((int)throwAnim);
+
+            _animancerState.EffectiveSpeed = _castSpdMultiplier;
 
             return true;
         }
 
         return false;
     }
-
-    /*
-            long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        int hitTime = (int)(_referenceHolder.Combat.LastSkillHitTime * 0.75f);
-        long endTime = _referenceHolder.Combat.LastSkillUseTime + hitTime;
-
-        if (now > endTime && !_skillLaunched) //Play launch animation at 75%
-        {
-            Debug.Log(_referenceHolder.Combat.LastSkillUseTime);
-            Debug.Log(hitTime);
-            Debug.Log(now + " - " + endTime + " - " + (now - endTime));
-            _skillLaunched = true;
-            _referenceHolder.Combat.LaunchSkill();
-        }
-        */
 }

@@ -32,12 +32,6 @@ public class NewMonsterAnimationController : NewBaseAnimationController
         return _animContainer.Animations[index].AnimationClip;
     }
 
-    public override void SetMAtkSpd(float clipLength)
-    {
-        float castSpeed = clipLength * 1000f / (_entityReferenceHolder.Combat.LastSkillHitTime / 2f); // at 50% of cast time should switch to castend anim
-        _castSpdMultiplier = castSpeed;
-    }
-
     public override void SetRunSpeed(float value)
     {
         _runSpdMultiplier = value;

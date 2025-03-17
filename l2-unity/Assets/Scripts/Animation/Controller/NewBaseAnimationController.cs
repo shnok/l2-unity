@@ -9,8 +9,8 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     protected AnimancerComponent _animancer;
     [SerializeField] protected int _lastAnim;
     protected Animator Animator { get { return _entityReferenceHolder.Animator; } }
-    protected SkillCastAnimation _skillCastAnimation;
-    protected SkillThrowAnimation _skillThrowAnimation;
+    [SerializeField] protected SkillCastAnimation _skillCastAnimation;
+    [SerializeField] protected SkillThrowAnimation _skillThrowAnimation;
     [SerializeField] protected Transform _rootBone;
     public Transform RootBone { get => _rootBone; }
     [SerializeField] protected float _lastPlayedClipDuration;
@@ -59,6 +59,9 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
         _lastPlayedClipDuration = clip.length;
 
+        Debug.LogWarning(index);
+        Debug.LogWarning(clip);
+        Debug.LogWarning(_animancer);
         _animancerState = _animancer.Play(clip, _fadeDuration);
     }
 
@@ -76,7 +79,6 @@ public abstract class NewBaseAnimationController : MonoBehaviour
         _walkSpdMultiplier = value;
     }
 
-
     public virtual void SetPAtkSpd(float value)
     {
         _atkSpd = value;
@@ -89,7 +91,14 @@ public abstract class NewBaseAnimationController : MonoBehaviour
         _atkSpdMultiplier = newAtkSpd;
     }
 
-    public abstract void SetMAtkSpd(float value);
+    public void UpdateCastAnimationSpeed(float clipLength, float skillHitTime)
+    {
+        float clipLengthMs = clipLength * 1000f;
+        float skillCastEndTime = skillHitTime / 2f; // at 50% of cast time should switch to castend anim
+        float castSpeed = clipLengthMs / skillCastEndTime;
+        _castSpdMultiplier = castSpeed;
+    }
+
     public abstract void Attack();
     public abstract void Die();
     public abstract void DieWait();
@@ -104,6 +113,9 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
     public virtual void PlaySkillAnimation(SkillCastAnimation castAnimation, SkillThrowAnimation throwAnimation)
     {
+        _skillCastAnimation = castAnimation;
+        _skillThrowAnimation = throwAnimation;
+
         PlaySkillCastAnimation();
     }
 
@@ -111,6 +123,8 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     {
         return _skillCastAnimation != SkillCastAnimation.None;
     }
+
+    public virtual void PlaySkillCastEndAnimation() { }
 
     public virtual bool PlaySkillThrowAnimation()
     {
@@ -128,36 +142,4 @@ public abstract class NewBaseAnimationController : MonoBehaviour
             Walk();
         }
     }
-
-    // float SHOOT_ARROW_RATIO = 0.6f
-    //  private void ManageArrow(AnimatorStateInfo stateInfo)
-    // {
-    //     float normalizedRatio = stateInfo.normalizedTime - _lastArrowNormalizedTime;
-
-    //     if (normalizedRatio >= 1f)
-    //     {
-    //         Debug.LogWarning("Reset atk animation state");
-    //         _nockedArrow = false;
-    //         _shotArrow = false;
-    //         _lastArrowNormalizedTime = stateInfo.normalizedTime;
-    //     }
-    //     else if (normalizedRatio >= SHOOT_ARROW_RATIO)
-    //     {
-    //         if (!_shotArrow)
-    //         {
-    //             _shotArrow = true;
-    //             _referenceHolder.Combat.ShootArrow();
-    //             AudioHandler.PlayArrowShootSound();
-    //         }
-    //     }
-    //     else if (normalizedRatio >= 0.2f)
-    //     {
-    //         if (!_nockedArrow)
-    //         {
-    //             _nockedArrow = true;
-    //             _referenceHolder.Combat.NockArrow();
-    //             AudioHandler.PlayBowBendSound();
-    //         }
-    //     }
-    // }
 }

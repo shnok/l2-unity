@@ -7,6 +7,7 @@ public class NetworkTransformReceive : MonoBehaviour
     private Vector3 _lastPos;
     private float _newRotation;
     private float _posLerpValue;
+    [SerializeField] private bool _static = false;
     [SerializeField] private bool _positionSyncProtection = true;
     [SerializeField] private bool _positionSynced = false;
     [SerializeField] private bool _positionSyncPaused = false;
@@ -34,7 +35,7 @@ public class NetworkTransformReceive : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_positionSyncProtection && !_positionSyncPaused)
+        if (_positionSyncProtection && !_positionSyncPaused && !_static)
         {
             UpdatePosition();
         }

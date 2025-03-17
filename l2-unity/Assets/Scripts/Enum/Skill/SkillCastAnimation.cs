@@ -20,11 +20,12 @@ public enum SkillCastAnimation : int
     X = spatk06_hand / spatk07_hand
     */
     None = 0,
-    CastShort = 53,
-    CastMid = 54,
-    CastLong = 55,
-    NoCast = 56, //battle heal (type j)
-    WarriorBuff01 = 60,
+    CastShort = 55,
+    CastMid = 56,
+    CastLong = 57,
+    NoCast = 58, //battle heal (type j)
+    WarriorBuff01 = 62,
+    WarriorBuff02 = 63,
     SpAtk01 = 100,
     SpAtk02 = 101,
     Spatk03 = 102,

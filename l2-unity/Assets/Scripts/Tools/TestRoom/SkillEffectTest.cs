@@ -50,6 +50,8 @@ public class SkillEffectTest : MonoBehaviour
         // Skill ss = SkillTable.Instance.GetSkill(2039);
         // Skill sps = SkillTable.Instance.GetSkill(2047);
 
+
+        caster.ReferenceHolder.NewAnimationController.Initialize();
         while (true)
         {
 
@@ -64,8 +66,9 @@ public class SkillEffectTest : MonoBehaviour
             // WorldCombat.Instance.InflictAttack(caster, target, new Hit(target.Identity.Id, 10, flags));
 
             // WorldCombat.Instance.EntityCastSkill(caster, spiritshot ? 2047 : 2039);
-
-            WorldCombat.Instance.EntityCastSkill(caster, skillId, 3000, 3);
+            caster.Combat.Target = target;
+            caster.Combat.AttackTarget = target;
+            WorldCombat.Instance.EntityCastSkill(caster, skillId, 4000, 3);
             yield return new WaitForSeconds(spawnDelay);
         }
     }
