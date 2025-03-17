@@ -57,6 +57,8 @@ public class NewMonsterAnimationController : NewBaseAnimationController
         if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
         {
             events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Atk));
+
+            //TODO: Detect if monster has a bow ?
         }
     }
 

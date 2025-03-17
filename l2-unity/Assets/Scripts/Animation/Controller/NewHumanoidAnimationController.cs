@@ -162,7 +162,25 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
         {
-            events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
+
+            if (_weaponAnim == WeaponAnimType.bow)
+            {
+                events.Add(_nockArrowRatio, () =>
+                {
+                    _entityReferenceHolder.Combat.NockArrow();
+                    AudioHandler.PlayBowBendSound();
+                });
+
+                events.Add(_shootArrowRatio, () =>
+                {
+                    _entityReferenceHolder.Combat.ShootArrow();
+                    AudioHandler.PlayArrowShootSound();
+                });
+            }
+            else
+            {
+                events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
+            }
             events.OnEnd = NextAttack;
         }
 

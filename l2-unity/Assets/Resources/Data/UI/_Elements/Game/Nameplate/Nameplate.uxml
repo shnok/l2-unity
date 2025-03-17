@@ -9,16 +9,16 @@
             <ui:Label text="Shnok" name="DeleteTimer" class="target-name delete-timer-label" />
             <ui:VisualElement name="TargetBubbleRight" class="target-bubble" style="flex-grow: 0;" />
         </ui:GroupBox>
-        <ui:VisualElement name="GaugeContainer" template="HpBar" class="bar-container nameplate-gauge" style="width: 65px; margin-top: 5px; height: 2px;">
-            <ui:GroupBox name="GaugeBG" class="bar-inner" style="max-height: 2px; min-height: 2px;">
-                <ui:VisualElement name="BGLeft" class="left bar-height nameplate-left" style="max-height: 2px; min-height: 2px; background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_bg_Left&apos;);" />
-                <ui:VisualElement name="BGCenter" class="center bar-height nameplate-center" style="max-height: 2px; min-height: 2px; background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_bg_Center&apos;);" />
-                <ui:VisualElement name="BGRight" class="right bar-height nameplate-right" style="max-height: 2px; min-height: 2px; background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_bg_Right&apos;);" />
+        <ui:VisualElement name="GaugeContainer" template="HpBar" class="bar-container nameplate-gauge" style="margin-top: 5px;">
+            <ui:GroupBox name="GaugeBG" class="nameplace-gauge-inner">
+                <ui:VisualElement name="BGLeft" class="left bar-height nameplate-left" />
+                <ui:VisualElement name="BGCenter" class="center bar-height nameplate-center" style="flex-grow: 1;" />
+                <ui:VisualElement name="BGRight" class="right bar-height nameplate-right" />
             </ui:GroupBox>
-            <ui:GroupBox name="Gauge" class="bar-inner" style="max-height: 2px; min-height: 2px;">
-                <ui:VisualElement name="BGLeft" class="left bar-height nameplate-left" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Left&apos;); min-height: 2px; max-height: 2px;" />
-                <ui:VisualElement name="BGCenter" class="center bar-height nameplate-center" style="background-image: resource(&apos;Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Center&apos;); max-height: 2px; min-height: 2px;" />
-                <ui:VisualElement name="BGRight" class="right bar-height nameplate-right" style="max-height: 2px; min-height: 2px; height: auto;" />
+            <ui:GroupBox name="Gauge" class="nameplace-gauge-inner">
+                <ui:VisualElement name="BGLeft" class="left bar-height nameplate-left" />
+                <ui:VisualElement name="BGCenter" class="center bar-height nameplate-center" style="flex-grow: 1;" />
+                <ui:VisualElement name="BGRight" class="right bar-height nameplate-right" />
             </ui:GroupBox>
         </ui:VisualElement>
     </ui:VisualElement>
