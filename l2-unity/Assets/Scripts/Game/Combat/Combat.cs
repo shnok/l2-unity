@@ -174,9 +174,12 @@ public abstract class Combat : MonoBehaviour
         _lastSkillReuseDelay = reuseDelay;
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         _skillLaunched = false;
+
+        Debug.Log($"CastSkill: skill={skill}, hitTime={hitTime}, reuseDelay={reuseDelay}, _lastSkillUseTime={_lastSkillUseTime}");
+
         if (skill.Skillgrps[0]?.CastAnimation != SkillCastAnimation.None)
         {
-            _referenceHolder.NewAnimationController.PlaySkillAnimation(skill.Skillgrps[0].CastAnimation, skill.Skillgrps[0].ThrowAnimation);
+            _referenceHolder.NewAnimationController.PlaySkillAnimation(skill);
         }
     }
 
@@ -188,15 +191,15 @@ public abstract class Combat : MonoBehaviour
             int timeToThrow = (int)(_referenceHolder.Combat.LastSkillHitTime * 0.75f);
             long endTime = _lastSkillUseTime + timeToThrow;
 
+            Debug.Log($"Update: now={now}, endTime={endTime}, timeToThrow={timeToThrow}, difference={endTime - now}");
+
+            Debug.Log($"Progress: {(endTime - now) / (float)timeToThrow * 100f}%");
+
             LookAtTarget();
 
             if (now > endTime) //Play launch animation at 75%
             {
                 _skillLaunched = true;
-
-                Debug.Log(_referenceHolder.Combat.LastSkillUseTime);
-                Debug.Log(timeToThrow);
-                Debug.Log(now + " - " + endTime + " - " + (now - endTime));
                 LaunchSkill();
             }
         }

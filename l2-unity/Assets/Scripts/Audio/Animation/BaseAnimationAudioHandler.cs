@@ -145,6 +145,10 @@ public class BaseAnimationAudioHandler : MonoBehaviour
     {
     }
 
+    public virtual void PlaySkillVoice(string voice)
+    {
+    }
+
     public virtual void PlayBowBendSound()
     {
         AudioManager.Instance.Play3DSoundByReferenceName("ChrSound/Bow_Draw", transform.position);

@@ -369,16 +369,21 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         if (base.PlaySkillCastAnimation())
         {
-            if ((int)_skillCastAnimation >= 100)
+            SkillCastAnimation skillCastAnimation = _lastSkill.Skillgrps[0].CastAnimation;
+
+            if ((int)skillCastAnimation >= 100)
             {
                 Debug.LogWarning("Weapon cast animations not yet handled.");
                 return false;
             }
 
-            HumanoidAnimationEvent castAnim = (HumanoidAnimationEvent)_skillCastAnimation;
+            HumanoidAnimationEvent castAnim = (HumanoidAnimationEvent)skillCastAnimation;
 
             PlayAnimation((int)castAnim);
+
             UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime);
+
+            AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingVoices[(int)_entityReferenceHolder.Entity.RaceId]);
 
             if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
             {
@@ -403,13 +408,23 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         if (base.PlaySkillThrowAnimation())
         {
-            HumanoidAnimationEvent throwAnim = (HumanoidAnimationEvent)_skillThrowAnimation;
+            SkillThrowAnimation skillThrowAnim = _lastSkill.Skillgrps[0].ThrowAnimation;
+
+            HumanoidAnimationEvent throwAnim = (HumanoidAnimationEvent)skillThrowAnim;
 
             //TODO: Play throw voice line
+
+            AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingEndVoices[(int)_entityReferenceHolder.Entity.RaceId]);
 
             PlayAnimation((int)throwAnim);
 
             _animancerState.EffectiveSpeed = _castSpdMultiplier;
+
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            {
+                //TODO: Play cast voice line
+                events.OnEnd = Wait;
+            }
 
             return true;
         }

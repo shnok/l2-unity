@@ -145,54 +145,62 @@ public class SkillSoundgrpTable
                                 grp.ShotEffectSounds[delayIndex2].SoundDelay = delay;
                             }
                             break;
-                        case "mfighter_cast":
-                        case "ffighter_cast":
-                        case "mmagic_cast":
-                        case "fmagic_cast":
-                        case "melf_cast":
-                        case "felf_cast":
-                        case "mdarkelf_cast":
-                        case "fdarkelf_cast":
-                        case "mdwarf_cast":
-                        case "fdwarf_cast":
-                        case "morc_cast":
-                        case "forc_cast":
-                        case "mshaman_cast":
-                        case "fshaman_cast":
-                            // case "mkamael_cast":
-                            // case "fkamael_cast":
-                            // case "mertheia_cast":
-                            // case "fertheia_cast":
-                            if (value != "None")
-                            {
-                                CharacterModelType modelType = CharacterModelTypeParser.ParseRace(key.Replace("_cast", ""));
-                                grp.CastingVoices[(int)modelType] = value;
-                            }
-                            break;
-                        case "mfighter_magic":
-                        case "ffighter_magic":
-                        case "mmagic_magic":
-                        case "fmagic_magic":
-                        case "melf_magic":
-                        case "felf_magic":
-                        case "mdarkelf_magic":
-                        case "fdarkelf_magic":
-                        case "mdwarf_magic":
-                        case "fdwarf_magic":
-                        case "morc_magic":
-                        case "forc_magic":
-                        case "mshaman_magic":
-                        case "fshaman_magic":
-                            // case "mkamael_magic":
-                            // case "fkamael_magic":
-                            // case "mertheia_magic":
-                            // case "fertheia_magic":
-                            if (value != "None")
-                            {
-                                CharacterModelType modelType = CharacterModelTypeParser.ParseRace(key.Replace("_magic", ""));
-                                grp.CastingEndVoices[(int)modelType] = value;
-                            }
-                            break;
+                        case "mfighter_cast": //mfighter
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.MFighter] = value.Replace("chrsound.", ""); break;
+                        case "ffighter_cast":  //ffighter
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.FFighter] = value.Replace("chrsound.", ""); break;
+                        case "mmagic_cast": //mdarkelf
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.MDarkElf] = value.Replace("chrsound.", ""); break;
+                        case "fmagic_cast": //fdarkelf
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.FDarkElf] = value.Replace("chrsound.", ""); break;
+                        case "melf_cast": //mdwarf
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.MDwarf] = value.Replace("chrsound.", ""); break;
+                        case "felf_cast": //fdwarf
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.FDwarf] = value.Replace("chrsound.", ""); break;
+                        case "mdarkelf_cast": //melf
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.MElf] = value.Replace("chrsound.", ""); break;
+                        case "fdarkelf_cast": //felf
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.FElf] = value.Replace("chrsound.", ""); break;
+                        case "mdwarf_cast": //mmagic
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.MMagic] = value.Replace("chrsound.", ""); break;
+                        case "fdwarf_cast": //fmagic
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.FMagic] = value.Replace("chrsound.", ""); break;
+                        case "morc_cast": //morc
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.MOrc] = value.Replace("chrsound.", ""); break;
+                        case "forc_cast": //forc
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.FOrc] = value.Replace("chrsound.", ""); break;
+                        case "mshaman_cast": //mshaman
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.MShaman] = value.Replace("chrsound.", ""); break;
+                        case "fshaman_cast": //fshaman
+                            if (value != "None") grp.CastingVoices[(int)CharacterModelType.FShaman] = value.Replace("chrsound.", ""); break;
+                        case "mfighter_magic": //mfighter
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.MFighter] = value.Replace("chrsound.", ""); break;
+                        case "ffighter_magic":  //ffighter
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.FFighter] = value.Replace("chrsound.", ""); break;
+                        case "mmagic_magic": //mdarkelf
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.MDarkElf] = value.Replace("chrsound.", ""); break;
+                        case "fmagic_magic": //fdarkelf
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.FDarkElf] = value.Replace("chrsound.", ""); break;
+                        case "melf_magic": //mdwarf
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.MDwarf] = value.Replace("chrsound.", ""); break;
+                        case "felf_magic": //fdwarf
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.FDwarf] = value.Replace("chrsound.", ""); break;
+                        case "mdarkelf_magic": //melf
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.MElf] = value.Replace("chrsound.", ""); break;
+                        case "fdarkelf_magic": //felf
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.FElf] = value.Replace("chrsound.", ""); break;
+                        case "mdwarf_magic": //mmagic
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.MMagic] = value.Replace("chrsound.", ""); break;
+                        case "fdwarf_magic": //fmagic
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.FMagic] = value.Replace("chrsound.", ""); break;
+                        case "morc_magic": //morc
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.MOrc] = value.Replace("chrsound.", ""); break;
+                        case "forc_magic": //forc
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.FOrc] = value.Replace("chrsound.", ""); break;
+                        case "mshaman_magic": //mshaman
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.MShaman] = value.Replace("chrsound.", ""); break;
+                        case "fshaman_magic": //fshaman
+                            if (value != "None") grp.CastingEndVoices[(int)CharacterModelType.FShaman] = value.Replace("chrsound.", ""); break;
                         case "cast_volune":
                             grp.CastVolume = float.Parse(value, CultureInfo.InvariantCulture);
                             break;

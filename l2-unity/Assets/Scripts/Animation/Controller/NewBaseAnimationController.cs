@@ -9,8 +9,7 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     protected AnimancerComponent _animancer;
     [SerializeField] protected int _lastAnim;
     protected Animator Animator { get { return _entityReferenceHolder.Animator; } }
-    [SerializeField] protected SkillCastAnimation _skillCastAnimation;
-    [SerializeField] protected SkillThrowAnimation _skillThrowAnimation;
+    [SerializeField] protected Skill _lastSkill;
     [SerializeField] protected Transform _rootBone;
     public Transform RootBone { get => _rootBone; }
     [SerializeField] protected float _lastPlayedClipDuration;
@@ -59,9 +58,6 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
         _lastPlayedClipDuration = clip.length;
 
-        Debug.LogWarning(index);
-        Debug.LogWarning(clip);
-        Debug.LogWarning(_animancer);
         _animancerState = _animancer.Play(clip, _fadeDuration);
     }
 
@@ -111,24 +107,22 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     public abstract void Walk();
     public abstract void AtkWait();
 
-    public virtual void PlaySkillAnimation(SkillCastAnimation castAnimation, SkillThrowAnimation throwAnimation)
+    public virtual void PlaySkillAnimation(Skill skill)
     {
-        _skillCastAnimation = castAnimation;
-        _skillThrowAnimation = throwAnimation;
-
+        _lastSkill = skill;
         PlaySkillCastAnimation();
     }
 
     public virtual bool PlaySkillCastAnimation()
     {
-        return _skillCastAnimation != SkillCastAnimation.None;
+        return _lastSkill?.Skillgrps[0].CastAnimation != SkillCastAnimation.None;
     }
 
     public virtual void PlaySkillCastEndAnimation() { }
 
     public virtual bool PlaySkillThrowAnimation()
     {
-        return _skillThrowAnimation != SkillThrowAnimation.None;
+        return _lastSkill?.Skillgrps[0].ThrowAnimation != SkillThrowAnimation.None;
     }
 
     public virtual void Move()
