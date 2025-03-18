@@ -368,7 +368,7 @@ public class ParticleManager : MonoBehaviour
                 {
                     Debug.Log($"Created new effect {effectClass}.");
                     GameObject effectGo = GameObject.Instantiate(gameObject);
-                    PooledEffect effect = effectGo.GetComponent<ParticleTimerResetGroup>().PooledEffect;
+                    PooledEffect effect = effectGo.GetComponent<L2Particle>().PooledEffect;
                     effect.GameObject = effectGo.gameObject;
                     effect.EffectClass = effectClass;
                     return effect;
@@ -492,7 +492,7 @@ public class ParticleManager : MonoBehaviour
             Debug.Log($"Created new hit effect.");
 
             GameObject effectGo = GameObject.Instantiate(go);
-            PooledEffect effect = effectGo.GetComponent<ParticleTimerResetGroup>().PooledEffect;
+            PooledEffect effect = effectGo.GetComponent<L2Particle>().PooledEffect;
             effect.HitEffectIndex = index;
             effect.GameObject = effectGo.gameObject;
 

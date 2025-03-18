@@ -46,5 +46,6 @@ public class L2Emitter
     public float drawScale;
     public Vector3 acceleration;
     public Range initialDelayRange;
+    public int initialParticlesPerSecond;
 }
 #endif

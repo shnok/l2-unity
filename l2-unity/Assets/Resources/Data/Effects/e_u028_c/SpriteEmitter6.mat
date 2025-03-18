@@ -3,13 +3,13 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SpriteEmitter6
   m_Shader: {fileID: -6465566751694194690, guid: 1870ff111598ba143984e7e94be27ad8, type: 3}
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 2100000, guid: e3284cd08c226c14e8eb2c8cd57d44c5, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -28,27 +28,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 3c0f3482f7174d64585274b0a41f339d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 1
-    - _AlphaSmooth: 0
     - _Billboard: 0
-    - _Brighten: 0
-    - _ColorScale0Time: 0
     - _ColorScale1Time: 1
-    - _ColorScale2Time: 1
     - _ColorScale3Time: 1
     - _ColorScale4Time: 1
     - _ColorScale5Time: 1
@@ -56,21 +39,8 @@ Material:
     - _ColorScale7Time: 1
     - _ColorScale8Time: 1
     - _ColorScale9Time: 1
-    - _ColorScaleRepeats: 0
-    - _Debug: 0
-    - _FadeIn: 0
-    - _FadeInEndTime: 0
-    - _Fadeout: 1
     - _FadeoutStartTime: 0.084
-    - _GetVelocityDirectionFrom: 1
-    - _HasLifetime: 1
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _Seed: 0
-    - _SizeScaleRepeats: 0
     - _SpinParticles: 0
-    - _StartLocationShape: 2
-    - _StartTime: 0
     - _SubdivisionEnd: 2
     - _SubdivisionStart: 1
     - _TextureUSubdivisions: 2
@@ -78,14 +48,10 @@ Material:
     - _UniformSize: 0
     - _UseColorScale: 0
     - _UseDirectionAs: 2
-    - _UseSizeScale: 1
     m_Colors:
-    - _ColorMultiplierRangeB: {r: 0, g: 0, b: 0, a: 0}
     - _ColorMultiplierRangeG: {r: 0.9, g: 0.9, b: 0, a: 0}
     - _ColorMultiplierRangeR: {r: 0.9, g: 0.9, b: 0, a: 0}
-    - _ColorScale0Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorScale1Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorScale2Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorScale3Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorScale4Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorScale5Color: {r: 1, g: 1, b: 1, a: 1}
@@ -109,23 +75,16 @@ Material:
     - _SizeScale8: {r: 1, g: 1, b: 0, a: 0}
     - _SizeScale9: {r: 1, g: 1, b: 0, a: 0}
     - _SphereRadiusRange: {r: 0.2857143, g: 0.47619048, b: 0, a: 0}
-    - _SpinsPerSecondRangeX: {r: 0, g: 0, b: 0, a: 0}
-    - _SpinsPerSecondRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _SpinsPerSecondRangeZ: {r: 0, g: 0, b: 0, a: 0}
-    - _StartLocationOffset: {r: -0.03809524, g: 0, b: 0, a: 0}
-    - _StartLocationPolarRangeX: {r: 90, g: 90, b: 0, a: 0}
     - _StartLocationPolarRangeY: {r: 0, g: 360, b: 0, a: 0}
     - _StartLocationPolarRangeZ: {r: 0.1904762, g: 0.2857143, b: 0, a: 0}
     - _StartLocationRangeX: {r: 0, g: 0, b: 0, a: 0}
     - _StartLocationRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _StartLocationRangeZ: {r: 0, g: 0, b: 0, a: 0}
-    - _StartSpinRangeX: {r: 0, g: 0, b: 0, a: 0}
-    - _StartSpinRangeY: {r: 0, g: 0, b: 0, a: 0}
     - _StartSpinRangeZ: {r: 0, g: 0, b: 0, a: 0}
     - _StartVelocityRangeX: {r: -3.4285715, g: -2.857143, b: 0, a: 0}
     - _StartVelocityRangeY: {r: -3.4285715, g: -2.857143, b: 0, a: 0}
     - _StartVelocityRangeZ: {r: -3.4285715, g: -2.857143, b: 0, a: 0}
-    - _SurfaceNormals: {r: 0, g: 0, b: 0, a: 0}
     - _VelocityLossRangeX: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _VelocityLossRangeY: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _VelocityLossRangeZ: {r: 0.5, g: 0.5, b: 0, a: 0}

@@ -5,8 +5,8 @@ using UnityEngine;
 public class PooledEffect
 {
     [SerializeField] private string _effectClass;
-    [SerializeField] private float _effectDurationSec;
-    [SerializeField] private float _maximumInactiveTimeSec;
+    [SerializeField] private float _effectDurationSec = 15;
+    [SerializeField] private float _maximumInactiveTimeSec = 60;
     [SerializeField] private float _startTime;
     [SerializeField] private GameObject _gameObject;
     [SerializeField] private int _hitEffectIndex;

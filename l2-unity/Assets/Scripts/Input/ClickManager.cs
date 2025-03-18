@@ -171,7 +171,7 @@ public class ClickManager : MonoBehaviour
         _locator.SetActive(true);
 
         _locator.gameObject.transform.position = position;
-        _locatorBaseEffect.GetComponent<ParticleTimerResetGroup>().SurfaceNormal = normal;
+        _locatorBaseEffect.GetComponent<L2Particle>().SurfaceNormal = normal;
         _locatorReachedEffect.SetActive(false);
         _locatorBaseEffect.SetActive(false);
 
@@ -183,8 +183,8 @@ public class ClickManager : MonoBehaviour
     {
         if (targetReached)
         {
-            Vector3 normal = _locatorBaseEffect.GetComponent<ParticleTimerResetGroup>().SurfaceNormal;
-            _locatorReachedEffect.GetComponent<ParticleTimerResetGroup>().SurfaceNormal = normal;
+            Vector3 normal = _locatorBaseEffect.GetComponent<L2Particle>().SurfaceNormal;
+            _locatorReachedEffect.GetComponent<L2Particle>().SurfaceNormal = normal;
             _locatorReachedEffect.SetActive(true);
         }
         else

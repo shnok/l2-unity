@@ -22,7 +22,7 @@ public class ParticleDebug : MonoBehaviour
         if (Time.time > _lastLoop + _loopDelay)
         {
             _lastLoop = Time.time;
-            ParticleTimerResetGroup[] resetGroup = GetComponentsInChildren<ParticleTimerResetGroup>();
+            L2Particle[] resetGroup = GetComponentsInChildren<L2Particle>();
             if (resetGroup == null)
             {
                 return;
