@@ -1,23 +1,21 @@
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class L2Particle : MonoBehaviour
 {
     [SerializeField] private Transform _owner;
     [SerializeField] private Vector3 _surfaceNormal;
-    [SerializeField] private PooledEffect _pooledEffect; //TODO: Set values in prefab to save performances
+    [SerializeField] private PooledEffect _pooledEffect;
     [SerializeField] private ParticleGroup[] _particleGroups;
 
     public PooledEffect PooledEffect { get { return _pooledEffect; } }
     public Vector3 SurfaceNormal { get { return _surfaceNormal; } set { _surfaceNormal = value; } }
 
-    void Start()
+    private void Awake()
     {
-    }
-
-    void OnEnable()
-    {
-        ResetTimer();
+        _pooledEffect.ResetTimerCallback = () =>
+        {
+            ResetTimer();
+        };
     }
 
     public void ResetTimer()
@@ -34,7 +32,7 @@ public class L2Particle : MonoBehaviour
                 _particleGroups[i].OwnerPosition = _owner.position;
             }
             _particleGroups[i].SurfaceNormal = _surfaceNormal;
-            _particleGroups[i].ResetTimer();
+            _particleGroups[i].ResetTimer(_pooledEffect.HitTime);
         }
     }
 }

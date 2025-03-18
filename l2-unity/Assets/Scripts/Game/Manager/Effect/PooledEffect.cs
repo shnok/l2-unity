@@ -17,6 +17,7 @@ public class PooledEffect
     [SerializeField] private Vector3 _endPosition;
     [SerializeField] private float _hitTime;
     [SerializeField] private bool _hitSuccess;
+    [SerializeField] private Action _resetCallback;
 
     public float StartTime { get { return _startTime; } set { _startTime = value; } }
     public float EffectDurationSec { get { return _effectDurationSec; } set { _effectDurationSec = value; } }
@@ -31,4 +32,17 @@ public class PooledEffect
     public bool HitSuccess { get { return _hitSuccess; } set { _hitSuccess = value; } }
     public Vector3 StartingPosition { get { return _startingPosition; } set { _startingPosition = value; } }
     public Vector3 TargetPosition { get { return _endPosition; } set { _endPosition = value; } }
+    public Action ResetTimerCallback { get { return _resetCallback; } set { _resetCallback = value; } }
+
+    public void Restart()
+    {
+        if (_resetCallback != null)
+        {
+            _resetCallback();
+        }
+        else
+        {
+            Debug.LogWarning($"[{_effectClass}] Reset callback missing.");
+        }
+    }
 }

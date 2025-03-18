@@ -230,7 +230,7 @@ public class SkillSoundgrpTable
 
             string updatedPath = skillSound.SoundEventName.Replace(".", "/");
             EventReference er = RuntimeManager.PathToEventReference("event:/" + updatedPath);
-            // Debug.LogWarning($"Getting sound reference for sound: {skillSound.SoundEventName}");
+            Debug.LogWarning($"Getting sound reference for sound: {skillSound.SoundEventName}");
             if (er.IsNull)
             {
                 Debug.LogWarning($"Missing sound: {updatedPath} for skill: {skillId}.");

@@ -119,7 +119,7 @@ public class WorldCombat : MonoBehaviour
     private void CastSkill(Entity entity, Skill skill, int hitTime, int reuseDelay)
     {
         // Spawn particle
-        ParticleManager.Instance.SpawnCastParticles(entity, skill);
+        ParticleManager.Instance.SpawnCastParticles(entity, skill, hitTime);
 
         //Play skill cast animation
         if (skill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)

@@ -18,38 +18,61 @@ public class ParticleGroup : MonoBehaviour
     private int _particleIndex = 0;
 
     [Header("Loop")]
-    // [SerializeField] private bool _maintain;
+    [SerializeField] private bool _hasCastDuration;
+    [SerializeField] private bool _lifeTimeIsCastDuration;
+    [SerializeField] private float _duration = 5f; // should be as long as cast duration
     [SerializeField] private bool _stopped;
     [SerializeField] private float _lastEnable;
-    [SerializeField] private Vector2 _defaultDurationRange;
-
-    public Vector2 DefaultDurationRange { get => _defaultDurationRange; set => _defaultDurationRange = value; }
-
+    private float _lastLoop;
 
     public void Update()
     {
-        if (_countPerSecond > _maxCount || _particles == null || _particles.Length == 0 || _stopped)
+        if (_stopped)
         {
             return;
         }
 
         float now = Now();
-
-        if (now - _lastEnable >= 1f / _countPerSecond)
+        if (now - _lastEnable > _duration && _hasCastDuration)
         {
-            _lastEnable = now; // Reset timer
+            _stopped = true;
+            return;
+        }
+
+        if (_countPerSecond > _maxCount || _particles == null || _particles.Length == 0)
+        {
+            return;
+        }
+
+        if (now - _lastLoop >= 1f / _countPerSecond)
+        {
+            _lastLoop = now; // Reset timer
 
             ActivateParticle(now);
         }
     }
 
-    public void ResetTimer()
+    public void ResetTimer(float duration)
     {
         _lastEnable = Now();
 
         if (_particles == null || _particles.Length == 0)
         {
-            _particles = GetComponentsInChildren<Renderer>(); //TODO: Set renderer in prefab to save performances
+            _particles = GetComponentsInChildren<Renderer>();
+        }
+
+        if (_hasCastDuration) // Some effects need to be maintained during cast time only and fadeout automatically
+        {
+            _duration = duration;
+
+            if (_lifeTimeIsCastDuration)
+            {
+                for (int i = 0; i < _maxCount; i++)
+                {
+                    _particles[i].material.SetVector("_LifetimeRange", Vector2.one * _duration);
+                    _particles[i].material.SetFloat("_FadeoutStartTime", _duration * 0.8f);
+                }
+            }
         }
 
         for (int i = 0; i < _particles.Length; i++)
@@ -57,7 +80,7 @@ public class ParticleGroup : MonoBehaviour
             _particles[i].gameObject.SetActive(false);
         }
 
-        //Initial count
+        //Some effects have their particles fully spawned at startup
         if (_countPerSecond > _maxCount)
         {
             for (int i = 0; i < _maxCount; i++)
@@ -67,31 +90,7 @@ public class ParticleGroup : MonoBehaviour
         }
 
         _stopped = false;
-        // if (_maintain)
-        // {
-        //     for (int i = 0; i < _maxCount; i++)
-        //     {
-        //         _particles[i].material.SetVector("_LifetimeRange", Vector2.one * 120f);
-        //     }
-        // }
     }
-
-    // public void Stop()
-    // {
-    //     _stopped = true;
-    //     if (_maintain)
-    //     {
-    //         _particles[_particleIndex].material.SetFloat("_StartTime", Now());
-    //         _particles[_particleIndex].material.SetVector("_LifetimeRange", _defaultDurationRange);
-    //     }
-    // }
-
-    // // Set a fixed duration based on the player castend
-    // public void SetDuration(float duration)
-    // {
-    //     _defaultDurationRange = new Vector2(duration, duration);
-    //     _particles[_particleIndex].material.SetVector("_LifetimeRange", _defaultDurationRange);
-    // }
 
     private void ActivateParticle(float now)
     {

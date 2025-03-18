@@ -226,7 +226,7 @@ public class ParticleManager : MonoBehaviour
     #endregion
 
     #region Skill Particles
-    public void SpawnCastParticles(Entity caster, Skill skill)
+    public void SpawnCastParticles(Entity caster, Skill skill, int hitTime)
     {
         List<EffectEmitter> castingActions = skill.SkillEffect.CastingActions;
         if (castingActions == null || castingActions.Count == 0)
@@ -235,31 +235,34 @@ public class ParticleManager : MonoBehaviour
             return;
         }
 
-        EffectEmitter action = castingActions[0];
-
-        AttachMethod attachOn = action.AttachOn;
-        string effectClass = action.EffectClass;
-
-        if (action.EtcEffect == EtcEffect.EET_SOULSHOT)
+        foreach (EffectEmitter action in castingActions)
         {
-            if (caster.Gear?.WeaponType == WeaponType.bow || caster.Gear?.WeaponType == WeaponType.fist)
+            AttachMethod attachOn = action.AttachOn;
+            string effectClass = action.EffectClass;
+
+            if (action.EtcEffect == EtcEffect.EET_SOULSHOT)
             {
-                effectClass = action.SecondaryEffectClass;
-                attachOn = AttachMethod.AM_LH;
+                if (caster.Gear?.WeaponType == WeaponType.bow || caster.Gear?.WeaponType == WeaponType.fist)
+                {
+                    effectClass = action.SecondaryEffectClass;
+                    attachOn = AttachMethod.AM_LH;
+                }
             }
+
+            PooledEffect effect = SpawnEffect(effectClass);
+            if (effect == null || effect.GameObject == null)
+            {
+                Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
+                return;
+            }
+
+            effect.HitTime = hitTime / 1000f; //in seconds
+
+            effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
+
+            UpdateSkillEffectTransform(action, effect.GameObject.transform, effect, attachOn);
+            ActiveEffects.Enqueue(effect);
         }
-
-        PooledEffect effect = SpawnEffect(effectClass);
-        if (effect == null || effect.GameObject == null)
-        {
-            Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
-            return;
-        }
-
-        effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
-
-        UpdateSkillEffectTransform(action, effect.GameObject.transform, effect, attachOn);
-        ActiveEffects.Enqueue(effect);
     }
 
     public void SpawnProjectileParticles(Entity caster, Entity target, Skill skill)
@@ -328,6 +331,7 @@ public class ParticleManager : MonoBehaviour
 
         effect.GameObject.SetActive(true);
         effect.StartTime = Time.time;
+        effect.Restart();
     }
 
     public void SpawnEffectByClass(string effectClass, Vector3 location)
@@ -458,6 +462,7 @@ public class ParticleManager : MonoBehaviour
         effect.GameObject.transform.localScale = Vector3.one * scale;
         effect.GameObject.transform.LookAt(attacker.transform);
         effect.GameObject.transform.eulerAngles = new Vector3(0, effect.GameObject.transform.eulerAngles.y - 90f, 0);
+        effect.Restart();
     }
 
     private PooledEffect SpawnSingleHitParticle(bool crit, bool soulshot, int soulshotGrade)
@@ -506,6 +511,7 @@ public class ParticleManager : MonoBehaviour
     {
         PooledEffect arrowEffect = SpawnArrow();
         arrowEffect.GameObject.SetActive(true);
+        arrowEffect.Restart();
 
         arrowEffect.StartTime = Time.time;
         arrowEffect.Caster = caster;

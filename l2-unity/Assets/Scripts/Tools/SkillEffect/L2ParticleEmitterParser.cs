@@ -51,7 +51,6 @@ public class L2ParticleEmitterParser
                 pg.Owner = particle;
                 pg.MaxCount = emitter.maxParticles;
                 pg.CountPerSecond = emitter.initialParticlesPerSecond;
-                pg.DefaultDurationRange = new Vector2(emitter.lifetimeRange.min, emitter.lifetimeRange.max);
                 emitterGroup.transform.parent = container.transform;
             }
 
