@@ -260,7 +260,7 @@ public class ParticleManager : MonoBehaviour
 
             effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
 
-            UpdateSkillEffectTransform(action, effect.GameObject.transform, effect, attachOn);
+            UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
             ActiveEffects.Enqueue(effect);
         }
     }
@@ -289,7 +289,7 @@ public class ParticleManager : MonoBehaviour
 
         effect.GameObject.transform.parent = _effectContainer.transform;
 
-        UpdateSkillEffectTransform(action, effect.GameObject.transform, effect, attachOn);
+        UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
         ActiveEffects.Enqueue(effect);
     }
 
@@ -316,14 +316,25 @@ public class ParticleManager : MonoBehaviour
 
             effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
 
-            UpdateSkillEffectTransform(action, effect.GameObject.transform, effect, attachOn);
+            UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
             ActiveEffects.Enqueue(effect);
         });
     }
 
-    private void UpdateSkillEffectTransform(EffectEmitter emitter, Transform effectTransform, PooledEffect effect, AttachMethod attachMethod)
+    private void UpdateSkillEffectTransform(Entity caster, EffectEmitter emitter, Transform effectTransform, PooledEffect effect, AttachMethod attachMethod)
     {
-        effectTransform.localPosition = emitter.Offset;
+        effectTransform.localPosition = new Vector3(0, caster.Appearance.CollisionHeight, 0);
+        Debug.LogWarning(emitter.EffectClass + " " + emitter.RelativeToCylinder + " " + emitter.Offset);
+        if (emitter.RelativeToCylinder)
+        {
+            //X*=CollisionRadius, Y*=CollisionHeight, Z*=1
+            effectTransform.localPosition += new Vector3(emitter.Offset.x, emitter.Offset.y * caster.Appearance.CollisionHeight, emitter.Offset.z * caster.Appearance.CollisionRadius);
+        }
+        else
+        {
+            effectTransform.localPosition += emitter.Offset / 52.5f * 1.2f;
+        }
+
         effectTransform.localScale = emitter.ScaleSize > 0 ? Vector3.one * emitter.ScaleSize : Vector3.one;
         effectTransform.localScale *= (attachMethod == AttachMethod.AM_RH || attachMethod == AttachMethod.AM_LH) ? 0.01f : 1f;
         effectTransform.localScale *= _globalEffectScaling;

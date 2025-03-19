@@ -19,13 +19,13 @@ public class L2JsonConverterCommonFunctions
                 float value = float.Parse(keyValue[1]);
                 switch (keyValue[0].Trim().ToUpper())
                 {
-                    case "X": result.x = value; break;
-                    case "Y": result.y = value; break;
-                    case "Z": result.z = value; break;
+                    case "X": result.z = value; break;
+                    case "Y": result.x = value; break;
+                    case "Z": result.y = value; break;
                 }
             }
         }
 
-        return VectorUtils.ConvertPosToUnity(result);
+        return result;
     }
 }
