@@ -32,6 +32,7 @@ public class ParticleDebug : MonoBehaviour
             {
                 resetGroup[i].enabled = false;
                 resetGroup[i].enabled = true;
+                resetGroup[i].ResetTimer();
             }
         }
     }
