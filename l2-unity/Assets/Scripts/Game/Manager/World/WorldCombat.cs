@@ -117,6 +117,7 @@ public class WorldCombat : MonoBehaviour
         CastSkill(entity, null, skill, -1, -1);
     }
 
+    // Start default skill casting
     private void CastSkill(Entity entity, Entity target, Skill skill, int hitTime, int reuseDelay)
     {
         // Spawn particle
@@ -144,6 +145,7 @@ public class WorldCombat : MonoBehaviour
         EntityShootSkill(sender, target, skill, hitTime);
     }
 
+    // Shoot skill projectile
     public void EntityShootSkill(Entity sender, Entity target, Skill skill, float hitTime)
     {
         // Spawn particle
@@ -165,6 +167,29 @@ public class WorldCombat : MonoBehaviour
         EventReference soundReference = skill.SkillSoundgrp.SpellEffectSounds[1].SoundEvent;
 
         AudioManager.Instance.PlaySound(soundReference, sender.transform.position);
+    }
+
+    // Projectile hit target
+    public void SkillHitTarget(Entity entity, Entity target, Skill skill)
+    {
+        // Skill has an explosion action ? (was a projectile) ?
+        if (skill.SkillEffect.ExplosionActions == null || skill.SkillEffect.ExplosionActions.Count == 0)
+        {
+            Debug.LogWarning($"Skill {skill.SkillId} doesnt have any explosion action.");
+            return;
+        }
+
+        // Spawn explosion particle
+        ParticleManager.Instance.SpawnSkillHitParticle(entity, target, skill);
+
+        if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length < 3)
+        {
+            Debug.LogWarning($"Skill {skill.SkillId} doesnt have any SoundGrp or can't find sound EventReference.");
+            return;
+        }
+
+        EventReference soundReference = skill.SkillSoundgrp.SpellEffectSounds[2].SoundEvent;
+        AudioManager.Instance.PlaySound(soundReference, target.transform.position);
     }
 
     public Task UpdateEntityTarget(int id, int targetId, Vector3 position)
@@ -414,6 +439,7 @@ public class WorldCombat : MonoBehaviour
     {
         return Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 16f; //20 meters per second
     }
+
     public float GetRealAttackRange(Entity attacker, Entity target)
     {
         // return attacker.Appearance.CollisionRadius + target.Appearance.CollisionRadius + attacker.Stats.AttackRange;

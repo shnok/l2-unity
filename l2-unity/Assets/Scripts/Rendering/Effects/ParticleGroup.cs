@@ -58,6 +58,7 @@ public class ParticleGroup : MonoBehaviour
 
         if (_particles == null || _particles.Length == 0)
         {
+            Debug.LogWarning(transform.name);
             _particles = GetComponentsInChildren<Renderer>();
         }
 

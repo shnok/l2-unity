@@ -291,7 +291,7 @@ public class ParticleManager : MonoBehaviour
             effect.Target = target;
             effect.Caster = caster;
 
-            if (action.Offset == Vector3.zero)
+            if (action.Offset == Vector3.zero) //TODO: Needed? Maybe use collision radius instead
             {
                 action.Offset = new Vector3(0, 0, 5f);
             }
@@ -311,6 +311,37 @@ public class ParticleManager : MonoBehaviour
             ActiveEffects.Enqueue(effect);
 
             ProjectileManager.Instance.AddProjectile(effect);
+        }
+    }
+
+    public void SpawnSkillHitParticle(Entity caster, Entity target, Skill skill)
+    {
+        List<EffectEmitter> explosionActions = skill.SkillEffect.ExplosionActions;
+        if (explosionActions == null || explosionActions.Count == 0)
+        {
+            Debug.Log("Skill doesn't have any explosion action.");
+            return;
+        }
+
+        foreach (EffectEmitter action in explosionActions)
+        {
+            string effectClass = action.EffectClass;
+
+            PooledEffect effect = SpawnEffect(effectClass);
+            if (effect == null || effect.GameObject == null)
+            {
+                Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
+                return;
+            }
+
+            effect.Target = target;
+            effect.Caster = caster;
+            effect.StartTime = Time.time;
+
+            Vector3 position = CalculateHitParticlePosition(caster, target);
+            PlaceHitParticle(effect, caster, position, 1f);
+
+            ActiveEffects.Enqueue(effect);
         }
     }
 
@@ -411,7 +442,7 @@ public class ParticleManager : MonoBehaviour
     #region Hit Particles
     public void SpawnHitParticle(Entity attacker, Entity target, Hit hit)
     {
-        Vector3 particlePosition = CalculateParticlePosition(attacker, target);
+        Vector3 particlePosition = CalculateHitParticlePosition(attacker, target);
 
         if (hit.hasSoulshot()) // Always spawn base hit particle with the soulshot particle
         {
@@ -432,7 +463,7 @@ public class ParticleManager : MonoBehaviour
         }
     }
 
-    private Vector3 CalculateParticlePosition(Entity attacker, Entity target)
+    private Vector3 CalculateHitParticlePosition(Entity attacker, Entity target)
     {
         var heading = attacker.transform.position - target.transform.position;
         float angle = Vector3.Angle(heading, target.transform.forward);

@@ -14,12 +14,15 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private float _hitTime;
     [SerializeField] private float _attackEndTime;
     [SerializeField] private bool _hitSuccess;
+    [Header("Skill")]
     [SerializeField] private Skill _lastSkill;
     [SerializeField] private int _lastSkillHitTime;
     [SerializeField] private int _lastSkillReuseDelay;
     [SerializeField] private long _lastSkillUseTime;
     [SerializeField] private Entity _lastSkillTarget;
-    [SerializeField] private bool _skillLaunched;
+    [SerializeField] private bool _castingSkill;
+    [SerializeField] private bool _skillThrown;
+
 
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Entity Target { get => _target; set => _target = value; }
@@ -42,7 +45,7 @@ public abstract class Combat : MonoBehaviour
             _referenceHolder = GetComponent<EntityReferenceHolder>();
         }
 
-        _skillLaunched = true;
+        _skillThrown = true;
     }
 
     public virtual void Initialize()
@@ -174,8 +177,9 @@ public abstract class Combat : MonoBehaviour
         _lastSkillHitTime = hitTime;
         _lastSkillReuseDelay = reuseDelay;
         _lastSkillTarget = target;
+        _skillThrown = false;
+        _castingSkill = true;
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        _skillLaunched = false;
 
         Debug.Log($"CastSkill: skill={skill}, hitTime={hitTime}, reuseDelay={reuseDelay}, _lastSkillUseTime={_lastSkillUseTime}");
 
@@ -187,23 +191,28 @@ public abstract class Combat : MonoBehaviour
 
     void Update()
     {
-        if (!_skillLaunched)
+        if (_castingSkill)
         {
             long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            int timeToThrow = (int)(_referenceHolder.Combat.LastSkillHitTime * 0.75f);
-            long endTime = _lastSkillUseTime + timeToThrow;
-
             // Debug.Log($"Update: now={now}, endTime={endTime}, timeToThrow={timeToThrow}, difference={endTime - now}");
 
             // Debug.Log($"Progress: {(endTime - now) / (float)timeToThrow * 100f}%");
 
             LookAtTarget();
 
-            if (now > endTime) //Play launch animation at 75%
+            if (!_skillThrown)  //Play launch animation at 75%
             {
-                _skillLaunched = true;
-                float hitTime = Time.time + (_referenceHolder.Combat.LastSkillHitTime * 0.25f / 1000f);
-                WorldCombat.Instance.EntityShootSkill(_referenceHolder.Entity, _lastSkillTarget, _lastSkill, hitTime);
+                if (now > _lastSkillUseTime + (int)(_lastSkillHitTime * 0.75f))
+                {
+                    _skillThrown = true;
+                    float hitTimeReal = Time.time + (_referenceHolder.Combat.LastSkillHitTime * 0.25f / 1000f);
+                    WorldCombat.Instance.EntityShootSkill(_referenceHolder.Entity, _lastSkillTarget, _lastSkill, hitTimeReal);
+                }
+            }
+            else if (now > _lastSkillUseTime + _lastSkillHitTime)
+            {
+                _castingSkill = false;
+                WorldCombat.Instance.SkillHitTarget(_referenceHolder.Entity, _lastSkillTarget, _lastSkill);
             }
         }
     }

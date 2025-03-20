@@ -110,7 +110,7 @@ public class ProjectileManager : MonoBehaviour
 
         if (effect.HitSuccess)
         {
-            targetPosition += Vector3.up * effect.Target.Appearance.CollisionHeight;
+            targetPosition += Vector3.up * effect.Target.Appearance.CollisionHeight * 1.25f;
         }
 
         effect.TargetPosition = targetPosition;
