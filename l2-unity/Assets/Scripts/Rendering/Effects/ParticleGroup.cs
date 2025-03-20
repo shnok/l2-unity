@@ -83,7 +83,11 @@ public class ParticleGroup : MonoBehaviour
             {
                 if (_hasCastDuration)
                 {
-                    _particles[i].material.SetVector("_LifetimeRange", Vector2.one * _duration);
+                    foreach (Material m in _particles[i].materials)
+                    {
+                        float initialDelay = m.GetVector("_InitialDelayRange").y;
+                        m.SetVector("_LifetimeRange", Vector2.one * _duration + Vector2.one * initialDelay);
+                    }
                 }
 
                 ActivateParticle(_lastEnable);
@@ -101,10 +105,14 @@ public class ParticleGroup : MonoBehaviour
         }
 
         _particles[_particleIndex].gameObject.SetActive(true);
-        _particles[_particleIndex].material.SetFloat("_StartTime", now);
+
         float seed = Random.Range(-100f, 100f);
-        _particles[_particleIndex].material.SetFloat("_Seed", seed);
-        _particles[_particleIndex].material.SetVector("_SurfaceNormals", SurfaceNormal);
+        foreach (Material m in _particles[_particleIndex].materials)
+        {
+            m.SetFloat("_StartTime", now);
+            m.SetFloat("_Seed", seed);
+            m.SetVector("_SurfaceNormals", SurfaceNormal);
+        }
 
         _particleIndex++;
     }

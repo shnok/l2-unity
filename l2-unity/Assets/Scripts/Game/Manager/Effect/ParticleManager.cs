@@ -292,32 +292,47 @@ public class ParticleManager : MonoBehaviour
                 return;
             }
 
-            effect.HitTime = hitTime;
-            effect.EffectDurationSec = hitTime - Time.time;
-            effect.HitSuccess = true;
             effect.Target = target;
             effect.Caster = caster;
 
-            if (action.Offset == Vector3.zero) //TODO: Needed? Maybe use collision radius instead
+            if (action.SpawnOnTarget)
             {
-                action.Offset = new Vector3(0, 0, 5f);
+                // Transform to attach
+                effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
+
+                // Set initial position
+                UpdateSkillEffectTransform(target, action, effect.GameObject.transform, effect, attachOn);
+
+                // Set initial position to current position
+                effect.StartingPosition = effect.GameObject.transform.position;
+            }
+            else
+            {
+                if (action.Offset == Vector3.zero) //TODO: Needed? Maybe use collision radius instead
+                {
+                    action.Offset = new Vector3(0, 0, 5f);
+                }
+
+                effect.HitSuccess = true;
+                effect.HitTime = hitTime;
+                effect.EffectDurationSec = hitTime - Time.time;
+
+                // Transform to attach
+                effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
+
+                // Set initial position
+                UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
+
+                // Remove effect for attach transform
+                effect.GameObject.transform.parent = _effectContainer.transform;
+
+                // Set initial position to current position
+                effect.StartingPosition = effect.GameObject.transform.position;
+
+                ProjectileManager.Instance.AddProjectile(effect);
             }
 
-            // Transform to attach
-            effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
-
-            // Set initial position
-            UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
-
-            // Remove effect for attach transform
-            effect.GameObject.transform.parent = _effectContainer.transform;
-
-            // Set initial position to current position
-            effect.StartingPosition = effect.GameObject.transform.position;
-
             ActiveEffects.Enqueue(effect);
-
-            ProjectileManager.Instance.AddProjectile(effect);
         }
     }
 
