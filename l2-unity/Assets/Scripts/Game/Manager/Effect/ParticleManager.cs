@@ -265,35 +265,7 @@ public class ParticleManager : MonoBehaviour
         }
     }
 
-    public void SpawnProjectileParticles(Entity caster, Entity target, Skill skill)
-    {
-        List<EffectEmitter> castingActions = skill.SkillEffect.CastingActions;
-        if (castingActions == null || castingActions.Count < 2)
-        {
-            Debug.Log("Skill doesn't have any projectile action.");
-            return;
-        }
-
-        EffectEmitter action = castingActions[1];
-
-        AttachMethod attachOn = action.AttachOn;
-
-        string effectClass = action.EffectClass;
-
-        PooledEffect effect = SpawnEffect(effectClass);
-        if (effect == null || effect.GameObject == null)
-        {
-            Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
-            return;
-        }
-
-        effect.GameObject.transform.parent = _effectContainer.transform;
-
-        UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
-        ActiveEffects.Enqueue(effect);
-    }
-
-    public void SpawnHitParticles(Entity caster, Entity target, Skill skill)
+    public void SpawnSkillShotParticle(Entity caster, Entity target, Skill skill, float hitTime)
     {
         List<EffectEmitter> shotActions = skill.SkillEffect.ShotActions;
         if (shotActions == null || shotActions.Count == 0)
@@ -302,7 +274,7 @@ public class ParticleManager : MonoBehaviour
             return;
         }
 
-        shotActions.ForEach((action) =>
+        foreach (EffectEmitter action in shotActions)
         {
             AttachMethod attachOn = action.AttachOn;
             string effectClass = action.EffectClass;
@@ -314,11 +286,32 @@ public class ParticleManager : MonoBehaviour
                 return;
             }
 
-            effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
+            effect.HitTime = hitTime;
+            effect.HitSuccess = true;
+            effect.Target = target;
+            effect.Caster = caster;
 
+            if (action.Offset == Vector3.zero)
+            {
+                action.Offset = new Vector3(0, 0, 5f);
+            }
+
+            // Transform to attach
+            effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
+
+            // Set initial position
             UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
+
+            // Remove effect for attach transform
+            effect.GameObject.transform.parent = _effectContainer.transform;
+
+            // Set initial position to current position
+            effect.StartingPosition = effect.GameObject.transform.position;
+
             ActiveEffects.Enqueue(effect);
-        });
+
+            ProjectileManager.Instance.AddProjectile(effect);
+        }
     }
 
     private void UpdateSkillEffectTransform(Entity caster, EffectEmitter emitter, Transform effectTransform, PooledEffect effect, AttachMethod attachMethod)
@@ -343,18 +336,6 @@ public class ParticleManager : MonoBehaviour
         effect.GameObject.SetActive(true);
         effect.StartTime = Time.time;
         effect.Restart();
-    }
-
-    public void SpawnEffectByClass(string effectClass, Vector3 location)
-    {
-        PooledEffect effect = SpawnEffect(effectClass);
-
-        Transform effectTransform = effect.GameObject.transform;
-        effectTransform.parent = _effectContainer.transform;
-        effectTransform.localPosition = location;
-        effectTransform.localScale = _globalEffectScaling * Vector3.one;
-
-        ActiveEffects.Enqueue(effect);
     }
 
     public PooledEffect SpawnEffect(string effectClass)
@@ -534,6 +515,7 @@ public class ParticleManager : MonoBehaviour
         arrowEffect.GameObject.transform.rotation = entityArrow.rotation;
         arrowEffect.StartingPosition = arrowEffect.GameObject.transform.position;
         arrowEffect.GameObject.transform.localScale = Vector3.one * 100f;
+        arrowEffect.IsArrow = true;
 
         arrowEffect.GameObject.transform.parent = _effectContainer.transform;
 

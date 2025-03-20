@@ -138,9 +138,9 @@ public abstract class Entity : MonoBehaviour
         Running = running;
     }
 
-    public void CastSkill(Skill skill, int hitTime, int reuseDelay)
+    public void CastSkill(Skill skill, Entity target, int hitTime, int reuseDelay)
     {
-        Combat.CastSkill(skill, hitTime, reuseDelay);
+        Combat.CastSkill(skill, target, hitTime, reuseDelay);
     }
 
     public void LaunchSkill()

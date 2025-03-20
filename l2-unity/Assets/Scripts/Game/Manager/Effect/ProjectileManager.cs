@@ -70,30 +70,33 @@ public class ProjectileManager : MonoBehaviour
 
                 if (lerpRatio >= 1)
                 {
-                    float randomPosX = Random.Range(-1f, 1f);
-                    float randomPosY = Random.Range(-1f, 1f);
-
                     ActiveProjectiles.RemoveAt(i);
 
-                    if (effect.HitSuccess)
+                    if (effect.IsArrow)
                     {
-                        effect.GameObject.transform.position += new Vector3(randomPosX, randomPosY, randomPosY) * 0.075f;
+                        float randomPosX = Random.Range(-1f, 1f);
+                        float randomPosY = Random.Range(-1f, 1f);
 
-                        // Pierce target
-                        if (effect.Target.AnimationController.RootBone != null)
+                        if (effect.HitSuccess)
                         {
-                            effect.GameObject.transform.parent = effect.Target.AnimationController.RootBone; //rootbone
+                            effect.GameObject.transform.position += new Vector3(randomPosX, randomPosY, randomPosY) * 0.075f;
+
+                            // Pierce target
+                            if (effect.Target.AnimationController.RootBone != null)
+                            {
+                                effect.GameObject.transform.parent = effect.Target.AnimationController.RootBone; //rootbone
+                            }
+                            else
+                            {
+                                effect.GameObject.transform.parent = effect.Target.transform;
+                            }
                         }
                         else
                         {
-                            effect.GameObject.transform.parent = effect.Target.transform;
+                            // Pierce the ground
+                            effect.GameObject.transform.position += Vector3.up * 0.2f + new Vector3(randomPosX, randomPosY * 0.1f, randomPosY) * 0.2f;
+                            effect.GameObject.transform.eulerAngles = new Vector3(effect.GameObject.transform.eulerAngles.x + randomPosX * 5f, effect.GameObject.transform.eulerAngles.y + randomPosX * 5f, effect.GameObject.transform.eulerAngles.z + 50 + randomPosX * 15f);
                         }
-                    }
-                    else
-                    {
-                        // Pierce the ground
-                        effect.GameObject.transform.position += Vector3.up * 0.2f + new Vector3(randomPosX, randomPosY * 0.1f, randomPosY) * 0.2f;
-                        effect.GameObject.transform.eulerAngles = new Vector3(effect.GameObject.transform.eulerAngles.x + randomPosX * 5f, effect.GameObject.transform.eulerAngles.y + randomPosX * 5f, effect.GameObject.transform.eulerAngles.z + 50 + randomPosX * 15f);
                     }
                 }
             }
@@ -107,7 +110,7 @@ public class ProjectileManager : MonoBehaviour
 
         if (effect.HitSuccess)
         {
-            targetPosition += Vector3.up * effect.Target.Appearance.CollisionHeight * 1.25f;
+            targetPosition += Vector3.up * effect.Target.Appearance.CollisionHeight;
         }
 
         effect.TargetPosition = targetPosition;
@@ -117,7 +120,11 @@ public class ProjectileManager : MonoBehaviour
     {
         UpdateEffectTargetPosition(effect);
         effect.GameObject.transform.LookAt(effect.TargetPosition);
+
+        // if (effect.IsArrow)
+        // {
         effect.GameObject.transform.eulerAngles = effect.GameObject.transform.eulerAngles + Vector3.up * 90;
+        // }
 
         ActiveProjectiles.Add(effect);
     }

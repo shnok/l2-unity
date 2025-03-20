@@ -77,7 +77,7 @@ public class WorldCombat : MonoBehaviour
     {
         return _worldSpawner.ExecuteWithEntitiesAsync(packet.ObjectId, packet.TargetId, (targeter, targeted) =>
         {
-            EntityCastSkill(targeter, packet.SkillId, packet.HitTime, packet.ReuseDelay);
+            EntityCastSkill(targeter, targeted, packet.SkillId, packet.HitTime, packet.ReuseDelay);
         });
     }
 
@@ -85,45 +85,46 @@ public class WorldCombat : MonoBehaviour
     {
 
         // TODO: Handle multiple targets
+        // TODO: Handle skill explosion
         if (packet.TargetCount == 0)
         {
             return _worldSpawner.ExecuteWithEntityAsync(packet.ObjectId, (targeter) =>
             {
-                EntityLaunchSkill(targeter, targeter, packet.SkillId);
+                // EntityShootSkill(targeter, targeter, packet.SkillId);
             });
         }
         else
         {
             return _worldSpawner.ExecuteWithEntitiesAsync(packet.ObjectId, packet.Targets[0], (targeter, targeted) =>
             {
-                EntityLaunchSkill(targeter, targeted, packet.SkillId);
+                // EntityShootSkill(targeter, targeted, packet.SkillId);
             });
         }
 
     }
 
-    public void EntityCastSkill(Entity entity, int skillId, int hitTime, int reuseDelay)
+    public void EntityCastSkill(Entity entity, Entity target, int skillId, int hitTime, int reuseDelay)
     {
         Debug.LogWarning($"EntityCastSkill: {entity.transform.name} Skill: {skillId}");
         Skill skill = SkillTable.Instance.GetSkill(skillId);
-        CastSkill(entity, skill, hitTime, reuseDelay);
+        CastSkill(entity, target, skill, hitTime, reuseDelay);
     }
 
     public void EntityCastSkill(Entity entity, int skillId)
     {
         Debug.LogWarning($"EntityCastSkill: {entity.transform.name} Skill: {skillId}");
         Skill skill = SkillTable.Instance.GetSkill(skillId);
-        CastSkill(entity, skill, -1, -1);
+        CastSkill(entity, null, skill, -1, -1);
     }
 
-    private void CastSkill(Entity entity, Skill skill, int hitTime, int reuseDelay)
+    private void CastSkill(Entity entity, Entity target, Skill skill, int hitTime, int reuseDelay)
     {
         // Spawn particle
         ParticleManager.Instance.SpawnCastParticles(entity, skill, hitTime);
 
         //Play skill cast animation
         if (skill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)
-            entity.CastSkill(skill, hitTime, reuseDelay);
+            entity.CastSkill(skill, target, hitTime, reuseDelay);
 
         // Cast skill sound
         if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length == 0)
@@ -136,19 +137,34 @@ public class WorldCombat : MonoBehaviour
         AudioManager.Instance.PlaySound(soundReference, entity.transform.position);
     }
 
-    public void EntityLaunchSkill(Entity sender, Entity target, int skillId)
+    public void EntityShootSkill(Entity sender, Entity target, int skillId, float hitTime)
     {
         Debug.LogWarning($"EntityLaunchSkill: {sender.transform.name} Skill: {skillId} Target: {target.transform.name}");
         Skill skill = SkillTable.Instance.GetSkill(skillId);
-        LaunchSkill(sender, target, skill);
+        EntityShootSkill(sender, target, skill, hitTime);
     }
 
-    private void LaunchSkill(Entity sender, Entity target, Skill skill)
+    public void EntityShootSkill(Entity sender, Entity target, Skill skill, float hitTime)
     {
-        // if (skill.Skillgrps[0].Animation != SkillAnimation.None) -- => launch animation should play automatically at 75% of Entity cast hit time?
-        //     sender.LaunchSkill(skill, target);
+        // Spawn particle
+        ParticleManager.Instance.SpawnSkillShotParticle(sender, target, skill, hitTime);
 
-        //SpawnShotParticle
+        //Play skill cast animation
+        if (skill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)
+        {
+            sender.LaunchSkill();
+        }
+
+        // Cast skill sound
+        if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length < 2)
+        {
+            Debug.LogWarning($"Skill {skill.SkillId} doesnt have any SoundGrp or can't find sound EventReference.");
+            return;
+        }
+
+        EventReference soundReference = skill.SkillSoundgrp.SpellEffectSounds[1].SoundEvent;
+
+        AudioManager.Instance.PlaySound(soundReference, sender.transform.position);
     }
 
     public Task UpdateEntityTarget(int id, int targetId, Vector3 position)
@@ -426,9 +442,9 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
-    public void EntityShootArrow(Entity caster, Entity target, Transform arrowObject, float hitTime, bool hitSuccess)
+    public void EntityShootArrow(Entity caster, Entity target, Transform arrowObject, float hitTimeSec, bool hitSuccess)
     {
-        ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTime, hitSuccess);
+        ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTimeSec, hitSuccess);
     }
 
     public Task RelationChanged(int owner, int karma, int pvpFlag)

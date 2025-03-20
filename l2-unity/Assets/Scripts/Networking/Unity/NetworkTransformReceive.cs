@@ -21,12 +21,6 @@ public class NetworkTransformReceive : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (World.Instance.OfflineMode)
-        {
-            this.enabled = false;
-            return;
-        }
-
         _lastPos = transform.position;
         _newRotation = transform.eulerAngles.y;
         _serverPosition = transform.position;

@@ -18,6 +18,7 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private int _lastSkillHitTime;
     [SerializeField] private int _lastSkillReuseDelay;
     [SerializeField] private long _lastSkillUseTime;
+    [SerializeField] private Entity _lastSkillTarget;
     [SerializeField] private bool _skillLaunched;
 
     public int TargetId { get => _targetId; set => _targetId = value; }
@@ -167,11 +168,12 @@ public abstract class Combat : MonoBehaviour
         _referenceHolder.Gear.HideArrow();
     }
 
-    public virtual void CastSkill(Skill skill, int hitTime, int reuseDelay)
+    public virtual void CastSkill(Skill skill, Entity target, int hitTime, int reuseDelay)
     {
         _lastSkill = skill;
         _lastSkillHitTime = hitTime;
         _lastSkillReuseDelay = reuseDelay;
+        _lastSkillTarget = target;
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         _skillLaunched = false;
 
@@ -191,16 +193,17 @@ public abstract class Combat : MonoBehaviour
             int timeToThrow = (int)(_referenceHolder.Combat.LastSkillHitTime * 0.75f);
             long endTime = _lastSkillUseTime + timeToThrow;
 
-            Debug.Log($"Update: now={now}, endTime={endTime}, timeToThrow={timeToThrow}, difference={endTime - now}");
+            // Debug.Log($"Update: now={now}, endTime={endTime}, timeToThrow={timeToThrow}, difference={endTime - now}");
 
-            Debug.Log($"Progress: {(endTime - now) / (float)timeToThrow * 100f}%");
+            // Debug.Log($"Progress: {(endTime - now) / (float)timeToThrow * 100f}%");
 
             LookAtTarget();
 
             if (now > endTime) //Play launch animation at 75%
             {
                 _skillLaunched = true;
-                LaunchSkill();
+                float hitTime = Time.time + (_referenceHolder.Combat.LastSkillHitTime * 0.25f / 1000f);
+                WorldCombat.Instance.EntityShootSkill(_referenceHolder.Entity, _lastSkillTarget, _lastSkill, hitTime);
             }
         }
     }

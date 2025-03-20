@@ -68,7 +68,7 @@ public class SkillEffectTest : MonoBehaviour
             // WorldCombat.Instance.EntityCastSkill(caster, spiritshot ? 2047 : 2039);
             caster.Combat.Target = target;
             caster.Combat.AttackTarget = target;
-            WorldCombat.Instance.EntityCastSkill(caster, skillId, 3000, 3);
+            WorldCombat.Instance.EntityCastSkill(caster, target, skillId, 2000, 3);
             yield return new WaitForSeconds(spawnDelay);
         }
     }
