@@ -18,11 +18,11 @@ public class ParticleGroup : MonoBehaviour
     private int _particleIndex = 0;
 
     [Header("Loop")]
-    [SerializeField] private bool _hasCastDuration;
-    [SerializeField] private bool _lifeTimeIsCastDuration;
+    [SerializeField] private bool _hasCastDuration; // does it it need a lifetime equal to the cast time
     [SerializeField] private float _duration = 5f; // should be as long as cast duration
-    [SerializeField] private bool _stopped;
-    [SerializeField] private float _lastEnable;
+    [SerializeField] private bool _instantKillAtCastEnd;
+    private bool _stopped;
+    private float _lastEnable;
     private float _lastLoop;
 
     public void Update()
@@ -36,6 +36,15 @@ public class ParticleGroup : MonoBehaviour
         if (now - _lastEnable > _duration && _hasCastDuration)
         {
             _stopped = true;
+
+            if (_instantKillAtCastEnd)
+            {
+                for (int i = 0; i < _particles.Length; i++)
+                {
+                    _particles[i].gameObject.SetActive(false);
+                }
+            }
+
             return;
         }
 
@@ -55,25 +64,11 @@ public class ParticleGroup : MonoBehaviour
     public void ResetTimer(float duration)
     {
         _lastEnable = Now();
+        _duration = duration;
 
         if (_particles == null || _particles.Length == 0)
         {
-            Debug.LogWarning(transform.name);
             _particles = GetComponentsInChildren<Renderer>();
-        }
-
-        if (_hasCastDuration) // Some effects need to be maintained during cast time only and fadeout automatically
-        {
-            _duration = duration;
-
-            if (_lifeTimeIsCastDuration)
-            {
-                for (int i = 0; i < _maxCount; i++)
-                {
-                    _particles[i].material.SetVector("_LifetimeRange", Vector2.one * _duration);
-                    _particles[i].material.SetFloat("_FadeoutStartTime", _duration * 0.8f);
-                }
-            }
         }
 
         for (int i = 0; i < _particles.Length; i++)
@@ -86,6 +81,11 @@ public class ParticleGroup : MonoBehaviour
         {
             for (int i = 0; i < _maxCount; i++)
             {
+                if (_hasCastDuration)
+                {
+                    _particles[i].material.SetVector("_LifetimeRange", Vector2.one * _duration);
+                }
+
                 ActivateParticle(_lastEnable);
             }
         }

@@ -153,13 +153,13 @@ public class ParticleManager : MonoBehaviour
     {
         if (ActiveEffects.Count > 0)
         {
-            PooledEffect effect = ActiveEffects.Peek();
+            PooledEffect effect = ActiveEffects.Dequeue();
+
             float age = Time.time - effect.StartTime;
             if (age > effect.EffectDurationSec)
             {
-                Debug.Log($"Moving effect {effect.EffectClass} to pool.");
+                Debug.Log($"Moving effect {effect.EffectClass} to pool. Age: {age} Effect Duration: {effect.EffectDurationSec}.");
 
-                ActiveEffects.Dequeue();
 
                 if (effect.GameObject != null)
                 {
@@ -167,19 +167,22 @@ public class ParticleManager : MonoBehaviour
                     EffectPool[effect.EffectClass].Enqueue(effect);
                     effect.GameObject.SetActive(false);
                 }
-
+            }
+            else
+            {
+                ActiveEffects.Enqueue(effect);
             }
         }
 
         if (ActiveHitEffects.Count > 0)
         {
-            PooledEffect effect = ActiveHitEffects.Peek();
+            PooledEffect effect = ActiveHitEffects.Dequeue();
+
             float age = Time.time - effect.StartTime;
             if (age > effect.EffectDurationSec)
             {
                 Debug.Log($"Moving effect {effect.GameObject.name} to pool.");
 
-                ActiveHitEffects.Dequeue();
 
                 if (effect.GameObject != null)
                 {
@@ -187,7 +190,10 @@ public class ParticleManager : MonoBehaviour
                     HitEffectPool[effect.HitEffectIndex].Enqueue(effect);
                     effect.GameObject.SetActive(false);
                 }
-
+                else
+                {
+                    ActiveEffects.Enqueue(effect);
+                }
             }
         }
     }
@@ -256,7 +262,7 @@ public class ParticleManager : MonoBehaviour
                 return;
             }
 
-            effect.HitTime = hitTime / 1000f; //in seconds
+            effect.HitTime = hitTime / 1000f * 0.75f; //in seconds
 
             effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
 
@@ -287,6 +293,7 @@ public class ParticleManager : MonoBehaviour
             }
 
             effect.HitTime = hitTime;
+            effect.EffectDurationSec = hitTime - Time.time;
             effect.HitSuccess = true;
             effect.Target = target;
             effect.Caster = caster;
