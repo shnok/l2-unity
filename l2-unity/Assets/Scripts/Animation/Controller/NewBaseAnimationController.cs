@@ -27,11 +27,6 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     protected AnimancerState _animancerState;
     public float PAtkSpd { get => _atkSpd; }
 
-    private void Awake()
-    {
-        Initialize();
-    }
-
     public virtual void Initialize()
     {
         if (_entityReferenceHolder == null)
