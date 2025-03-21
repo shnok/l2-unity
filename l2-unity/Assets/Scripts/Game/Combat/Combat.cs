@@ -202,12 +202,12 @@ public abstract class Combat : MonoBehaviour
 
             if (!_skillThrown)  //Play launch animation at 75%
             {
-                if (now > _lastSkillUseTime + (int)(_lastSkillHitTime * 0.8f))
+                if (now > _lastSkillUseTime + (int)(_lastSkillHitTime * 0.75f))
                 {
                     _skillThrown = true;
 
                     //for now ignore the default 20% of cast time as time to hit targetm and use default proj speed
-                    // float hitTimeReal = Time.time + (_referenceHolder.Combat.LastSkillHitTime * 0.20f / 1000f);
+                    // float hitTimeReal = Time.time + (_referenceHolder.Combat.LastSkillHitTime * 0.25f / 1000f);
 
                     float hitTimeReal = 0;
                     if (_lastSkill.SkillEffect.ShotActions.Count > 0 && !_lastSkill.SkillEffect.ShotActions[0].SpawnOnTarget)

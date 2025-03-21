@@ -13,6 +13,9 @@ public class ParticleGroup : MonoBehaviour
     public int MaxCount { get => _maxCount; set => _maxCount = value; }
 
     [Header("Spawning")]
+    [SerializeField] private bool _warmup;
+    [SerializeField] private int _warmupTimeSec;
+    [SerializeField] private int _warmupTimeTickPerSec;
     [SerializeField] private int _countPerSecond;
     [SerializeField] private int _maxCount;
     private int _particleIndex = 0;
@@ -26,7 +29,7 @@ public class ParticleGroup : MonoBehaviour
     private float _lastEnable;
     private float _lastLoop;
 
-    public void Update()
+    public void FixedUpdate()
     {
         if (_stopped)
         {
@@ -62,6 +65,17 @@ public class ParticleGroup : MonoBehaviour
         }
     }
 
+    private void Warmup()
+    {
+        float now = Now();
+
+        for (int i = 0; i < _countPerSecond * _warmupTimeSec; i++)
+        {
+            float timeOffset = _warmupTimeSec - (i + 1) / (float)_countPerSecond;
+            ActivateParticle(now - timeOffset);
+        }
+    }
+
     public void ResetTimer(float duration)
     {
         _lastEnable = Now();
@@ -78,6 +92,11 @@ public class ParticleGroup : MonoBehaviour
         for (int i = 0; i < _particles.Length; i++)
         {
             _particles[i].gameObject.SetActive(false);
+        }
+
+        if (_warmup)
+        {
+            Warmup();
         }
 
         //Some effects have their particles fully spawned at startup
@@ -115,7 +134,8 @@ public class ParticleGroup : MonoBehaviour
         {
             m.SetFloat("_StartTime", now);
             m.SetFloat("_Seed", seed);
-            m.SetVector("_SurfaceNormals", SurfaceNormal);
+            if (SurfaceNormal != Vector3.zero)
+                m.SetVector("_SurfaceNormals", SurfaceNormal);
         }
 
         _particleIndex++;
