@@ -268,9 +268,25 @@ public class ParticleManager : MonoBehaviour
 
             effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
 
+            effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * CalculateCastParticleSizeRatio(caster);
+
             UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
+
             ActiveEffects.Enqueue(effect);
         }
+    }
+
+    private float CalculateCastParticleSizeRatio(Entity caster)
+    {
+        float colRadius = caster.Appearance.CollisionRadius;
+        // FDarkElf     radius 0.15     ratio 1.3
+        // GiantSpider  radius 0.495    ratio 2.2
+
+        // Using linear interpolation based on given data points:
+        // (0.15, 1.3) and (0.495, 2.2)
+        float ratio = 1.3f + (colRadius - 0.15f) * ((2.2f - 1.3f) / (0.495f - 0.15f));
+
+        return Mathf.Max(ratio, 0.5f);
     }
 
     public void SpawnSkillShotParticle(Entity caster, Entity target, Skill skill, float hitTime)
