@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using static SMParam;
 
 public class SystemMessage
@@ -22,7 +23,8 @@ public class SystemMessage
             for (int i = 1; i <= _params.Length; i++)
             {
                 SMParam param = _params[i - 1];
-                // Debug.LogWarning($"{i}: {param.Type}");
+
+                Debug.LogWarning($"{i}: {param.Type}");
 
                 switch (param.Type)
                 {
@@ -33,9 +35,6 @@ public class SystemMessage
                     case SMParamType.TYPE_PLAYER_NAME:
                         value = value.Replace($"$c{i}", param.GetStringValue());
                         break;
-                    case SMParamType.TYPE_LONG_NUMBER:
-                        value = value.Replace($"$s{i}", param.GetLongValue().ToString());
-                        break;
                     case SMParamType.TYPE_ITEM_NAME:
                         AbstractItem item = ItemTable.Instance.GetItem(param.GetIntValue());
                         string itemName = "Unknown";
@@ -45,6 +44,7 @@ public class SystemMessage
                         }
                         value = value.Replace($"$s{i}", itemName);
                         break;
+                    case SMParamType.TYPE_ITEM_NUMBER:
                     case SMParamType.TYPE_CASTLE_NAME:
                     case SMParamType.TYPE_INT_NUMBER:
                     case SMParamType.TYPE_NPC_NAME:
@@ -56,14 +56,32 @@ public class SystemMessage
                         break;
                     case SMParamType.TYPE_SKILL_NAME:
                         int[] array = param.GetIntArrayValue();
-                        //array[0] = ReadI(); // SkillId
-                        //array[1] = ReadI(); ; // SkillLevel
+                        if (array.Length > 0)
+                        {
+                            int skillId = array[0];
+                            SkillNameData skillNameData = SkillTable.Instance.GetSkill(skillId)?.SkillNameDatas?[0];
+                            string skillName = $"[{skillId}]";
+                            if (skillNameData != null)
+                            {
+                                skillName = skillNameData.Name;
+                            }
+                            value = value.Replace($"$s{i}", skillName);
+                        }
+                        else
+                        {
+                            Debug.LogWarning("SPParam TYPE_SKILL_NAME is missing values.");
+                        }
                         break;
                     case SMParamType.TYPE_ZONE_NAME:
                         float[] array2 = param.GetFloatArrayValue();
-                        //array2[0] = ReadF(); // x
-                        //array2[1] = ReadF(); // y
-                        //array2[2] = ReadF(); // z
+                        if (array2.Length >= 3)
+                        {
+                            value = $"X={array2[1]} Y={array2[3]} Z={array2[0]}";
+                        }
+                        else
+                        {
+                            Debug.LogWarning("SPParam TYPE_ZONE_NAME is missing values.");
+                        }
                         break;
                 }
             }
