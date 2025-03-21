@@ -44,10 +44,10 @@ public abstract class NetworkCombat : Combat
 
     protected override void LookAtTarget()
     {
-        // Debug.LogWarning(AttackTarget);
-        if (AttackTarget != null && !Status.IsDead)
+        Transform target = GetTargetToLookAt();
+        if (target != null)
         {
-            NetworkTransformReceive.LookAt(_attackTarget.transform);
+            NetworkTransformReceive.LookAt(target);
         }
     }
 

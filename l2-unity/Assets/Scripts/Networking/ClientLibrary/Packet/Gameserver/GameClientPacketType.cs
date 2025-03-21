@@ -18,6 +18,7 @@ public enum GameClientPacketType : byte
     RequestSellItem = 0x1e,
     RequestBuyItem = 0x1f,
     RequestBypassToServer = 0x21,
+    RequestMagicSkillUse = 0x2f,
     Appearing = 0x30,
     RequestShortcutReg = 0x33,
     RequestShortcutDel = 0x35,

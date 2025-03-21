@@ -84,7 +84,14 @@ public class LicenseWindow : L2Window
 
         if (GameManager.Instance.AutoLogin)
         {
-            AgreeButtonPressed();
+            StartCoroutine(AutoLogin());
         }
+    }
+
+    private IEnumerator AutoLogin()
+    {
+        yield return new WaitForSeconds(1f);
+        AgreeButtonPressed();
+
     }
 }

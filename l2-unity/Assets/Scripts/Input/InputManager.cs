@@ -29,6 +29,8 @@ public class InputManager : MonoBehaviour
     private InputAction _closeWindowAction;
     private InputAction _systemMenuAction;
     private InputAction _validateAction;
+    // Test
+    private InputAction _testAction;
 
     #endregion
 
@@ -70,6 +72,10 @@ public class InputManager : MonoBehaviour
     [field: SerializeField] public bool OpenActions { get; private set; }
     [field: SerializeField] public bool CloseWindow { get; private set; }
     [field: SerializeField] public bool Validate { get; private set; }
+
+    // UI
+    [field: Header("Test")]
+    [field: SerializeField] public bool Test { get; private set; }
 
     public InputAction[,] SkillbarActions { get; private set; }
     public bool[,] SkillbarInputs { get; private set; }
@@ -121,6 +127,8 @@ public class InputManager : MonoBehaviour
         _closeWindowAction = _playerInput.actions["CloseWindow"];
         _systemMenuAction = _playerInput.actions["SystemMenu"];
         _validateAction = _playerInput.actions["Validate"];
+
+        _testAction = _playerInput.actions["Test"];
 
         SkillbarActions = new InputAction[5, 12];
 
@@ -204,6 +212,8 @@ public class InputManager : MonoBehaviour
 
         MoveForward = LeftClickHeld && RightClickHeld;
         Move = MoveInput.y != 0 || MoveInput.x != 0 || MoveForward;
+
+        Test = _testAction.WasPerformedThisFrame();
     }
 
     void OnDestroy()

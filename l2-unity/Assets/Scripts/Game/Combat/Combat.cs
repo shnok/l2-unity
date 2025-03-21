@@ -21,8 +21,8 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private long _lastSkillUseTime;
     private long _skillThrowThreshold;
     private long _skillShootThreshold;
-    [SerializeField] private Entity _lastSkillTarget;
-    [SerializeField] private bool _castingSkill;
+    [SerializeField] protected Entity _lastSkillTarget;
+    [SerializeField] protected bool _castingSkill;
     [SerializeField] private bool _skillThrown; // Throw animation threshold reached?
     [SerializeField] private bool _skillShot; // Projectile threshold reached?
 
@@ -156,7 +156,7 @@ public abstract class Combat : MonoBehaviour
 
     protected virtual void LookAtTarget()
     {
-
+        Debug.LogWarning("Wrong call");
     }
 
     public virtual void NockArrow()
@@ -243,6 +243,26 @@ public abstract class Combat : MonoBehaviour
                 _castingSkill = false;
             }
         }
+    }
+
+    protected Transform GetTargetToLookAt()
+    {
+        if (Status.IsDead)
+        {
+            return null;
+        }
+
+        if (_castingSkill && _lastSkillTarget != null)
+        {
+            return _lastSkillTarget.transform;
+        }
+
+        if (AttackTarget != null)
+        {
+            return AttackTarget.transform;
+        }
+
+        return null;
     }
 
     public virtual void LaunchSkill()

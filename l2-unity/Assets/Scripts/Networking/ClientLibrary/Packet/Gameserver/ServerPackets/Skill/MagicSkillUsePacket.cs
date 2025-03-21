@@ -47,6 +47,8 @@ public class MagicSkillUsePacket : ServerPacket
         _tmpPos.x = ReadI() / 52.5f;
         _tmpPos.y = ReadI() / 52.5f;
         TargetPosition = _tmpPos;
+
+        Debug.LogWarning(ToString());
     }
 
     public override string ToString()

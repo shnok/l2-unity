@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -247,6 +248,12 @@ public class GameClientPacketHandler : ClientPacketHandler
     public void SendRequestBuyItem(int listId, List<Product> products)
     {
         RequestBuyItemPacket packet = new RequestBuyItemPacket(listId, products);
+        SendPacket(packet);
+    }
+
+    public void RequestMagicSkillUse(int skillId, bool ctrlPressed, bool shiftPressed)
+    {
+        RequestMagicSkillUsePacket packet = new RequestMagicSkillUsePacket(skillId, ctrlPressed, shiftPressed);
         SendPacket(packet);
     }
 }
