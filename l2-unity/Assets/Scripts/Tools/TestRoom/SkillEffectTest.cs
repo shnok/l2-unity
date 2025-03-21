@@ -8,6 +8,8 @@ public class SkillEffectTest : MonoBehaviour
     public Entity caster;
     public Entity target;
     public float spawnDelay = 1f;
+    public int skillId = 1177;
+    public int hitTime = 3000;
 
     void Awake()
     {
@@ -42,13 +44,15 @@ public class SkillEffectTest : MonoBehaviour
     private int HITFLAG_CRIT = 0x20;
     private int HITFLAG_SHLD = 0x40;
     private int HITFLAG_MISS = 0x80;
-    public int skillId = 1177;
 
     private IEnumerator DebugCoroutine()
     {
         yield return new WaitForSeconds(2f);
         // Skill ss = SkillTable.Instance.GetSkill(2039);
         // Skill sps = SkillTable.Instance.GetSkill(2047);
+
+
+        caster.EquipAllWeapons();
 
 
         caster.ReferenceHolder.NewAnimationController.Initialize();
@@ -68,7 +72,11 @@ public class SkillEffectTest : MonoBehaviour
             // WorldCombat.Instance.EntityCastSkill(caster, spiritshot ? 2047 : 2039);
             caster.Combat.Target = target;
             caster.Combat.AttackTarget = target;
-            WorldCombat.Instance.EntityCastSkill(caster, target, skillId, 2000, 3);
+            WorldCombat.Instance.EntityCastSkill(caster, target, skillId, hitTime, 3);
+            if (spiritshot)
+                WorldCombat.Instance.EntityCastSkill(caster, 2047);
+            if (soulshot)
+                WorldCombat.Instance.EntityCastSkill(caster, 2039);
             yield return new WaitForSeconds(spawnDelay);
         }
     }

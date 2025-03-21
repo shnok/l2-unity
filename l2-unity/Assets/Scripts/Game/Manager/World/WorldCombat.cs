@@ -7,6 +7,7 @@ using static StatusUpdatePacket;
 public class WorldCombat : MonoBehaviour
 {
     [SerializeField] private List<Hit> _hits;
+    [SerializeField] private float _projectilesSpeed = 10f;
     private EventProcessor _eventProcessor;
     private WorldSpawner _worldSpawner;
 
@@ -437,7 +438,7 @@ public class WorldCombat : MonoBehaviour
     #region Maths
     public float CalculateTimeToHitTarget(Entity senderEntity, Entity targetEntity)
     {
-        return Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 16f; //20 meters per second
+        return Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / _projectilesSpeed; //16 meters per second
     }
 
     public float GetRealAttackRange(Entity attacker, Entity target)

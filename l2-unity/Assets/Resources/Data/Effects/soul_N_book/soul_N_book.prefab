@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3519534006851852379}
   - component: {fileID: 719540295371377020}
   - component: {fileID: 1460455146467757028}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter291
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5418992877302704589}
   - component: {fileID: 1208641549029298639}
   - component: {fileID: 2629872437212355535}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter447
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 7198192714895696072}
   - component: {fileID: 3970877166396876431}
   - component: {fileID: 5662339861177334496}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter447(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 7092177188703424448}
   - component: {fileID: 2665971030754271415}
   - component: {fileID: 879996843866266622}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter292(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 314352457113316908}
   - component: {fileID: 3132357478992533504}
   - component: {fileID: 2211999233961670561}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter292(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +487,7 @@ GameObject:
   - component: {fileID: 8938282205380708164}
   - component: {fileID: 8210717667180471740}
   - component: {fileID: 7691291960462187773}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter292(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -572,7 +572,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2904913149257972110}
   - component: {fileID: 1215013909849048695}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Spirits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -616,9 +616,10 @@ MonoBehaviour:
   - {fileID: 197782660465804480}
   _countPerSecond: 400
   _maxCount: 3
-  _stopped: 0
-  _lastEnable: 26814.023
-  _defaultDurationRange: {x: 1, y: 1.2}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &2040489040653232360
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +632,7 @@ GameObject:
   - component: {fileID: 488113902219344090}
   - component: {fileID: 1933546883781636253}
   - component: {fileID: 5451537143285797347}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter447(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -738,7 +739,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1207426573883109573}
   - component: {fileID: 7824992240511151892}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: soul_N_book
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -787,10 +788,18 @@ MonoBehaviour:
     _hitEffectIndex: 0
     _caster: {fileID: 0}
     _target: {fileID: 0}
+    _skill:
+      _skillId: 0
+      _skillEffect:
+        _skillId: 0
+        _castingActions: []
+        _shotActions: []
+        _explosionActions: []
     _startingPosition: {x: 0, y: 0, z: 0}
     _endPosition: {x: 0, y: 0, z: 0}
     _hitTime: 0
     _hitSuccess: 0
+    _isArrow: 0
   _particleGroups:
   - {fileID: 4841455673962489458}
   - {fileID: 1215013909849048695}
@@ -807,7 +816,7 @@ GameObject:
   - component: {fileID: 6264232648727003765}
   - component: {fileID: 2679029928725077400}
   - component: {fileID: 197782660465804480}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter291(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -893,7 +902,7 @@ GameObject:
   - component: {fileID: 85028608258403323}
   - component: {fileID: 6254952610060258380}
   - component: {fileID: 5259167463986092326}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter291(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -980,7 +989,7 @@ GameObject:
   - component: {fileID: 8300428385812232259}
   - component: {fileID: 1294399251056663850}
   - component: {fileID: 4599576007376431003}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter448
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1089,7 +1098,7 @@ GameObject:
   - component: {fileID: 3960446434988452768}
   - component: {fileID: 2729476119521851835}
   - component: {fileID: 4312343299999221330}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter447(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1198,7 +1207,7 @@ GameObject:
   - component: {fileID: 98641173105945520}
   - component: {fileID: 7949087391940013253}
   - component: {fileID: 2287453062617135772}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter447(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1305,7 +1314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 663432776808289335}
   - component: {fileID: 8048874377780746890}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1345,9 +1354,10 @@ MonoBehaviour:
   - {fileID: 1294399251056663850}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26814.025
-  _defaultDurationRange: {x: 0.5, y: 0.5}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &5605244773606606842
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,7 +1369,7 @@ GameObject:
   - component: {fileID: 5072501687078163633}
   - component: {fileID: 4554509155584646649}
   - component: {fileID: 6287642904469884717}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter292(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1445,7 +1455,7 @@ GameObject:
   - component: {fileID: 2092125656228652970}
   - component: {fileID: 4899325029802371354}
   - component: {fileID: 8076374811478783366}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter292
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1530,7 +1540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5892028511129207690}
   - component: {fileID: 5194695110117644585}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Ignition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1578,9 +1588,10 @@ MonoBehaviour:
   - {fileID: 7691291960462187773}
   _countPerSecond: 10000
   _maxCount: 5
-  _stopped: 0
-  _lastEnable: 26814.025
-  _defaultDurationRange: {x: 0.4, y: 0.4}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &7828984625107852288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,7 +1602,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4066554366565005296}
   - component: {fileID: 4841455673962489458}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1641,9 +1652,10 @@ MonoBehaviour:
   - {fileID: 3970877166396876431}
   _countPerSecond: 400
   _maxCount: 6
-  _stopped: 0
-  _lastEnable: 26814.021
-  _defaultDurationRange: {x: 1, y: 1}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &8642445703492214923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1656,7 +1668,7 @@ GameObject:
   - component: {fileID: 1201684989079589319}
   - component: {fileID: 2294958200624843491}
   - component: {fileID: 8878952938184038958}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter447(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

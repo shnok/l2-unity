@@ -17,6 +17,8 @@ public class ParticleManager : MonoBehaviour
     private GameObject _effectPoolContainer;
 
     [SerializeField] private float _globalEffectScaling = 1f;
+    [SerializeField] private float _hitHeightOffsetMultiplier = 1.0f;
+    [SerializeField] private float _skillHitParticleSizeMultiplier = 1.25f;
 
     private GameObject _arrowPrefab;
 
@@ -308,10 +310,10 @@ public class ParticleManager : MonoBehaviour
             }
             else
             {
-                if (action.Offset == Vector3.zero) //TODO: Needed? Maybe use collision radius instead
-                {
-                    action.Offset = new Vector3(0, 0, 5f);
-                }
+                // if (action.Offset == Vector3.zero) //TODO: Needed? Maybe use collision radius instead
+                // {
+                //     action.Offset = new Vector3(0, 0, 5f);
+                // }
 
                 effect.HitSuccess = true;
                 effect.HitTime = hitTime;
@@ -328,6 +330,8 @@ public class ParticleManager : MonoBehaviour
 
                 // Set initial position to current position
                 effect.StartingPosition = effect.GameObject.transform.position;
+
+                effect.Skill = skill;
 
                 ProjectileManager.Instance.AddProjectile(effect);
             }
@@ -363,6 +367,8 @@ public class ParticleManager : MonoBehaviour
             Vector3 position = CalculateHitParticlePosition(caster, target);
             PlaceHitParticle(effect, caster, position, 1f);
 
+            effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * _skillHitParticleSizeMultiplier;
+
             ActiveEffects.Enqueue(effect);
         }
     }
@@ -376,9 +382,14 @@ public class ParticleManager : MonoBehaviour
             //X*=CollisionRadius, Y*=CollisionHeight, Z*=1
             effectTransform.localPosition += new Vector3(emitter.Offset.x, emitter.Offset.y * caster.Appearance.CollisionHeight, emitter.Offset.z * caster.Appearance.CollisionRadius);
         }
+        else if (attachMethod == AttachMethod.AM_TRAIL || attachMethod == AttachMethod.AM_NONE)
+        {
+            // effectTransform.localPosition *= 1.2f;
+            effectTransform.localPosition += emitter.Offset / 52.5f;
+        }
         else
         {
-            effectTransform.localPosition += emitter.Offset / 52.5f * 1.2f;
+            effectTransform.localPosition = emitter.Offset;
         }
 
         effectTransform.localScale = emitter.ScaleSize > 0 ? Vector3.one * emitter.ScaleSize : Vector3.one;
@@ -492,7 +503,7 @@ public class ParticleManager : MonoBehaviour
         Vector3 cross = Vector3.Cross(heading, target.transform.forward);
         if (cross.y >= 0) angle = -angle;
         Vector3 direction = Quaternion.Euler(0, angle, 0) * target.transform.forward;
-        float particleHeight = target.Appearance.CollisionHeight * 1.25f;
+        float particleHeight = target.Appearance.CollisionHeight * _hitHeightOffsetMultiplier;
         Vector3 position = target.transform.position + direction * target.Appearance.CollisionRadius + Vector3.up * particleHeight;
 
         return position;

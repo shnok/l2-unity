@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6211629023004682066}
   - component: {fileID: 8632879353684221241}
   - component: {fileID: 8536784105390137219}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter24
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 6294019430691930725}
   - component: {fileID: 7935026439011503193}
   - component: {fileID: 2710843551588202660}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 6403138513694053608}
   - component: {fileID: 28518848397699691}
   - component: {fileID: 7521544152275419518}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 587259130868166042}
   - component: {fileID: 3488631265344282521}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: RingGlow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,9 +377,10 @@ MonoBehaviour:
   - {fileID: 720716183771627354}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.592
-  _defaultDurationRange: {x: 0.3, y: 0.3}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &2242872267237318640
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +391,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4850533603708918115}
   - component: {fileID: 1825359002951587922}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,9 +431,10 @@ MonoBehaviour:
   - {fileID: 345064893056122793}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.592
-  _defaultDurationRange: {x: 100, y: 100}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &2247219188788531334
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +447,7 @@ GameObject:
   - component: {fileID: 4505550948628751169}
   - component: {fileID: 306746403116246930}
   - component: {fileID: 8081090818018525926}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -552,7 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7014877754015324814}
   - component: {fileID: 2616866461492749914}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: BaseWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -592,9 +594,10 @@ MonoBehaviour:
   - {fileID: 6638407723130950922}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.594
-  _defaultDurationRange: {x: 0.8, y: 0.8}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &2566331288326279551
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,7 +610,7 @@ GameObject:
   - component: {fileID: 6534062229983782841}
   - component: {fileID: 3084149375953269553}
   - component: {fileID: 7224360667128295902}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -714,7 +717,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4571419623875885730}
   - component: {fileID: 2788360486640155910}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: e_u093_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -771,10 +774,18 @@ MonoBehaviour:
     _hitEffectIndex: 0
     _caster: {fileID: 0}
     _target: {fileID: 0}
+    _skill:
+      _skillId: 0
+      _skillEffect:
+        _skillId: 0
+        _castingActions: []
+        _shotActions: []
+        _explosionActions: []
     _startingPosition: {x: 0, y: 0, z: 0}
     _endPosition: {x: 0, y: 0, z: 0}
     _hitTime: 0
     _hitSuccess: 0
+    _isArrow: 0
   _particleGroups:
   - {fileID: 5941078118392733074}
   - {fileID: 7372924473492684022}
@@ -800,7 +811,7 @@ GameObject:
   - component: {fileID: 3882217603120557765}
   - component: {fileID: 8537739085780336917}
   - component: {fileID: 500926014871884115}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -909,7 +920,7 @@ GameObject:
   - component: {fileID: 8013300316692532702}
   - component: {fileID: 6638407723130950922}
   - component: {fileID: 5414196257825400648}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1018,7 +1029,7 @@ GameObject:
   - component: {fileID: 4196491434257449825}
   - component: {fileID: 8039343310530188257}
   - component: {fileID: 6198339627180397862}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1127,7 +1138,7 @@ GameObject:
   - component: {fileID: 6216044047356507518}
   - component: {fileID: 720716183771627354}
   - component: {fileID: 4433556456051711120}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1236,7 +1247,7 @@ GameObject:
   - component: {fileID: 8950517350102785968}
   - component: {fileID: 345064893056122793}
   - component: {fileID: 7993384836702491162}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1343,7 +1354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8712847443474376723}
   - component: {fileID: 918491147105007224}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Wave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1383,9 +1394,10 @@ MonoBehaviour:
   - {fileID: 4909013533770457470}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.592
-  _defaultDurationRange: {x: 1, y: 1}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &5617419158053494279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,7 +1408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7856074824768310369}
   - component: {fileID: 7963414543425187876}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: base2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1436,9 +1448,10 @@ MonoBehaviour:
   - {fileID: 8632879353684221241}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.594
-  _defaultDurationRange: {x: 0.3, y: 0.3}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &5966415253091956789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,7 +1464,7 @@ GameObject:
   - component: {fileID: 5808913157348042891}
   - component: {fileID: 4909013533770457470}
   - component: {fileID: 9106866630255406916}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1558,7 +1571,7 @@ GameObject:
   m_Component:
   - component: {fileID: 539794068779161704}
   - component: {fileID: 6682520101752851858}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1598,9 +1611,10 @@ MonoBehaviour:
   - {fileID: 6695319040185485585}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.592
-  _defaultDurationRange: {x: 1, y: 1}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &6913014228951264920
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,7 +1625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 513209181284056039}
   - component: {fileID: 2379747227692080488}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1651,9 +1665,10 @@ MonoBehaviour:
   - {fileID: 8039343310530188257}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.594
-  _defaultDurationRange: {x: 0.5, y: 0.5}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &6987357187615591988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1664,7 +1679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8493095912914445341}
   - component: {fileID: 2660662509042028787}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Lock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1704,9 +1719,10 @@ MonoBehaviour:
   - {fileID: 306746403116246930}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.592
-  _defaultDurationRange: {x: 100, y: 100}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &7317265029842373287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,7 +1733,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5780855077226735739}
   - component: {fileID: 340672317933788201}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1757,9 +1773,10 @@ MonoBehaviour:
   - {fileID: 28518848397699691}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.592
-  _defaultDurationRange: {x: 100, y: 100}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &8003270437074268784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,7 +1787,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6931389295186247405}
   - component: {fileID: 7372924473492684022}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: dark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1810,9 +1827,10 @@ MonoBehaviour:
   - {fileID: 8537739085780336917}
   _countPerSecond: 10000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.59
-  _defaultDurationRange: {x: 1, y: 1}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &8010920290079948002
 GameObject:
   m_ObjectHideFlags: 0
@@ -1823,7 +1841,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5860016265209917791}
   - component: {fileID: 5941078118392733074}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: base1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1863,9 +1881,10 @@ MonoBehaviour:
   - {fileID: 7935026439011503193}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.59
-  _defaultDurationRange: {x: 100, y: 100}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &8046531331513791128
 GameObject:
   m_ObjectHideFlags: 0
@@ -1878,7 +1897,7 @@ GameObject:
   - component: {fileID: 643758551411232650}
   - component: {fileID: 6695319040185485585}
   - component: {fileID: 7530858704460557906}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1985,7 +2004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1555588861986177898}
   - component: {fileID: 1707564737922109227}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Xtal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2025,6 +2044,7 @@ MonoBehaviour:
   - {fileID: 3084149375953269553}
   _countPerSecond: 10000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26490.592
-  _defaultDurationRange: {x: 1, y: 1}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0

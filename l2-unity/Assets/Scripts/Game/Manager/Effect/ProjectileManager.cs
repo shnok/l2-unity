@@ -8,6 +8,8 @@ public class ProjectileManager : MonoBehaviour
 
     private List<PooledEffect> _activeProjectiles;
 
+    [SerializeField] private float _hitHeightOffsetMultiplier = 1.0f;
+
     public List<PooledEffect> ActiveProjectiles
     {
         get
@@ -97,6 +99,13 @@ public class ProjectileManager : MonoBehaviour
                             effect.GameObject.transform.position += Vector3.up * 0.2f + new Vector3(randomPosX, randomPosY * 0.1f, randomPosY) * 0.2f;
                             effect.GameObject.transform.eulerAngles = new Vector3(effect.GameObject.transform.eulerAngles.x + randomPosX * 5f, effect.GameObject.transform.eulerAngles.y + randomPosX * 5f, effect.GameObject.transform.eulerAngles.z + 50 + randomPosX * 15f);
                         }
+
+                        //TODO: Maybe spawn hit target particle? / ignore hit effect first targe when arrow is shot from damage packet?
+                    }
+                    else
+                    {
+                        //TODO: ignore hit effect on first target when skill is shot from skill shot packet?
+                        WorldCombat.Instance.SkillHitTarget(effect.Caster, effect.Target, effect.Skill);
                     }
                 }
             }
@@ -110,7 +119,7 @@ public class ProjectileManager : MonoBehaviour
 
         if (effect.HitSuccess)
         {
-            targetPosition += Vector3.up * effect.Target.Appearance.CollisionHeight * 1.25f;
+            targetPosition += Vector3.up * effect.Target.Appearance.CollisionHeight * _hitHeightOffsetMultiplier;
         }
 
         effect.TargetPosition = targetPosition;

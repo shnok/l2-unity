@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8119430652286585438}
   - component: {fileID: 7042530700687733667}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: el_wind_strike_ta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,6 +58,13 @@ MonoBehaviour:
     _hitEffectIndex: 0
     _caster: {fileID: 0}
     _target: {fileID: 0}
+    _skill:
+      _skillId: 0
+      _skillEffect:
+        _skillId: 0
+        _castingActions: []
+        _shotActions: []
+        _explosionActions: []
     _startingPosition: {x: 0, y: 0, z: 0}
     _endPosition: {x: 0, y: 0, z: 0}
     _hitTime: 0
@@ -77,7 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1362691970949008058}
   - component: {fileID: 8870774309594017449}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: WindMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,10 +127,9 @@ MonoBehaviour:
   _countPerSecond: 2000
   _maxCount: 2
   _hasCastDuration: 0
-  _lifeTimeIsCastDuration: 0
+  _hasFixedDuration: 0
   _duration: 5
-  _stopped: 0
-  _lastEnable: 325.394
+  _instantKillAtCastEnd: 0
 --- !u!1 &3307200288083047120
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +141,7 @@ GameObject:
   - component: {fileID: 9034953273474603446}
   - component: {fileID: 763893891175469571}
   - component: {fileID: 3801284479605335647}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter5(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +228,7 @@ GameObject:
   - component: {fileID: 2362551125448422201}
   - component: {fileID: 8170601986771594705}
   - component: {fileID: 8430990385807606836}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +245,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.03809524, y: 0.03809524, z: 0.03809524}
+  m_LocalScale: {x: 0.4809524, y: 0.04809524, z: 0.4809524}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7210566450821015352}
@@ -331,7 +337,7 @@ GameObject:
   - component: {fileID: 150617133126776680}
   - component: {fileID: 4604237019934192816}
   - component: {fileID: 6379152512891834790}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -438,7 +444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7210566450821015352}
   - component: {fileID: 2250743051474933688}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,10 +485,9 @@ MonoBehaviour:
   _countPerSecond: 10000
   _maxCount: 1
   _hasCastDuration: 0
-  _lifeTimeIsCastDuration: 0
+  _hasFixedDuration: 0
   _duration: 5
-  _stopped: 0
-  _lastEnable: 325.39404
+  _instantKillAtCastEnd: 0
 --- !u!1 &7943093038856268527
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +499,7 @@ GameObject:
   - component: {fileID: 8596466506443114139}
   - component: {fileID: 7661862493770045551}
   - component: {fileID: 1339101344224664644}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -579,7 +584,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1069804772498736342}
   - component: {fileID: 3570568590019566582}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -620,7 +625,6 @@ MonoBehaviour:
   _countPerSecond: 2000
   _maxCount: 1
   _hasCastDuration: 0
-  _lifeTimeIsCastDuration: 0
+  _hasFixedDuration: 0
   _duration: 5
-  _stopped: 0
-  _lastEnable: 325.394
+  _instantKillAtCastEnd: 0

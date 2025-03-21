@@ -19,6 +19,7 @@ public class ParticleGroup : MonoBehaviour
 
     [Header("Loop")]
     [SerializeField] private bool _hasCastDuration; // does it it need a lifetime equal to the cast time
+    [SerializeField] private bool _hasFixedDuration; // does it it need a lifetime equal to the cast time
     [SerializeField] private float _duration = 5f; // should be as long as cast duration
     [SerializeField] private bool _instantKillAtCastEnd;
     private bool _stopped;
@@ -33,7 +34,7 @@ public class ParticleGroup : MonoBehaviour
         }
 
         float now = Now();
-        if (now - _lastEnable > _duration && _hasCastDuration)
+        if (now - _lastEnable > _duration && (_hasCastDuration || _hasFixedDuration))
         {
             _stopped = true;
 
@@ -64,7 +65,10 @@ public class ParticleGroup : MonoBehaviour
     public void ResetTimer(float duration)
     {
         _lastEnable = Now();
-        _duration = duration;
+        if (!_hasFixedDuration)
+        {
+            _duration = duration;
+        }
 
         if (_particles == null || _particles.Length == 0)
         {

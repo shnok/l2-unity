@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7669672642024525561}
   - component: {fileID: 5394276853044740713}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: StoneFrag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,9 +64,10 @@ MonoBehaviour:
   - {fileID: 7259784219377356794}
   _countPerSecond: 1000
   _maxCount: 8
-  _stopped: 0
-  _lastEnable: 26276.922
-  _defaultDurationRange: {x: 0.5, y: 0.9}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &541456849234005583
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +80,7 @@ GameObject:
   - component: {fileID: 4877652268350091562}
   - component: {fileID: 1466695919756311433}
   - component: {fileID: 5644615553281896689}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter2(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9066372063613593006}
   - component: {fileID: 1529088736525243187}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Spark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,9 +237,10 @@ MonoBehaviour:
   - {fileID: 5784547975623577659}
   _countPerSecond: 10000
   _maxCount: 6
-  _stopped: 0
-  _lastEnable: 26276.926
-  _defaultDurationRange: {x: 0.3, y: 0.4}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &1602741052045289779
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +252,7 @@ GameObject:
   - component: {fileID: 744584535417722874}
   - component: {fileID: 4947760793832215149}
   - component: {fileID: 7336814220493373358}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +339,7 @@ GameObject:
   - component: {fileID: 7151652153242156856}
   - component: {fileID: 5762543168954248235}
   - component: {fileID: 94584573919684870}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter2(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +448,7 @@ GameObject:
   - component: {fileID: 6019280191848256223}
   - component: {fileID: 5784547975623577659}
   - component: {fileID: 8978314132181269380}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter2(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,7 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1592436825268073735}
   - component: {fileID: 2178273271227380322}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SparkCone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,9 +595,10 @@ MonoBehaviour:
   - {fileID: 7336814220493373358}
   _countPerSecond: 20
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26276.928
-  _defaultDurationRange: {x: 0.25, y: 0.25}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &3775227767237629249
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,7 +609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7734879077295200705}
   - component: {fileID: 3519397923592633157}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: p_u005_a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -655,10 +658,18 @@ MonoBehaviour:
     _hitEffectIndex: 0
     _caster: {fileID: 0}
     _target: {fileID: 0}
+    _skill:
+      _skillId: 0
+      _skillEffect:
+        _skillId: 0
+        _castingActions: []
+        _shotActions: []
+        _explosionActions: []
     _startingPosition: {x: 0, y: 0, z: 0}
     _endPosition: {x: 0, y: 0, z: 0}
     _hitTime: 0
     _hitSuccess: 0
+    _isArrow: 0
   _particleGroups:
   - {fileID: 5394276853044740713}
   - {fileID: 1529088736525243187}
@@ -676,7 +687,7 @@ GameObject:
   - component: {fileID: 8491241862656521123}
   - component: {fileID: 679331793023710974}
   - component: {fileID: 6719928545718277896}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter0(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +796,7 @@ GameObject:
   - component: {fileID: 6770578384586258658}
   - component: {fileID: 8622529987425774159}
   - component: {fileID: 1712669013300789718}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter2(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -894,7 +905,7 @@ GameObject:
   - component: {fileID: 6026444626117834740}
   - component: {fileID: 8351723380435249645}
   - component: {fileID: 833458599543301055}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1003,7 +1014,7 @@ GameObject:
   - component: {fileID: 555437673623178631}
   - component: {fileID: 206158399174645260}
   - component: {fileID: 7719434657883769338}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1110,7 +1121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4533272268877911200}
   - component: {fileID: 3443155724832793113}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1150,9 +1161,10 @@ MonoBehaviour:
   - {fileID: 2513849485961958549}
   _countPerSecond: 1000
   _maxCount: 1
-  _stopped: 0
-  _lastEnable: 26276.928
-  _defaultDurationRange: {x: 0.25, y: 0.25}
+  _hasCastDuration: 0
+  _hasFixedDuration: 0
+  _duration: 5
+  _instantKillAtCastEnd: 0
 --- !u!1 &6987109694292731569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,7 +1177,7 @@ GameObject:
   - component: {fileID: 5491561757441519947}
   - component: {fileID: 5938882258516996300}
   - component: {fileID: 3891865735921332582}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter0(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1274,7 +1286,7 @@ GameObject:
   - component: {fileID: 7119217617708828576}
   - component: {fileID: 4460603206747081603}
   - component: {fileID: 3512648114410798761}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter0(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1382,7 +1394,7 @@ GameObject:
   - component: {fileID: 9041321440479092334}
   - component: {fileID: 2999454559021101406}
   - component: {fileID: 2513849485961958549}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: MeshEmitter4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1469,7 +1481,7 @@ GameObject:
   - component: {fileID: 1541871025279519187}
   - component: {fileID: 2317411207438872976}
   - component: {fileID: 3649361283424348950}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter0(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1578,7 +1590,7 @@ GameObject:
   - component: {fileID: 3806570096256443390}
   - component: {fileID: 7795365284434454795}
   - component: {fileID: 1756502215548611348}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter0(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1687,7 +1699,7 @@ GameObject:
   - component: {fileID: 2429718646393849496}
   - component: {fileID: 3570299605016033384}
   - component: {fileID: 8334540008336422161}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter0(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1796,7 +1808,7 @@ GameObject:
   - component: {fileID: 5803102905723866821}
   - component: {fileID: 5683805408249680134}
   - component: {fileID: 985746502322071342}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter2(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1905,7 +1917,7 @@ GameObject:
   - component: {fileID: 8608984476875932220}
   - component: {fileID: 7259784219377356794}
   - component: {fileID: 2896742413115291640}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: SpriteEmitter0(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

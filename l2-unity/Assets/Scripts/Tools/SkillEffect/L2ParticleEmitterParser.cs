@@ -96,12 +96,12 @@ public class L2ParticleEmitterParser
             {
                 // Debug.Log(line);
                 line = line.Trim();
-                if (line.StartsWith("Begin Object Class=SpriteEmitter Name=") || line.StartsWith("Begin Object Class=MeshEmitter Name="))
+                if (line.StartsWith("Begin Object Class=SpriteEmitter Name=") || line.StartsWith("Begin Object Class=MeshEmitter Name=") || line.StartsWith("Begin Object Class=BeamEmitter Name="))
                 {
                     L2Emitter emitter = new L2Emitter();
                     emitter.drawScale = drawScale;
                     emitter.effectName = Path.GetFileNameWithoutExtension(path);
-                    emitter.objectName = line.Replace("Begin Object Class=SpriteEmitter Name=", "").Replace("Begin Object Class=MeshEmitter Name=", "");
+                    emitter.objectName = line.Replace("Begin Object Class=SpriteEmitter Name=", "").Replace("Begin Object Class=MeshEmitter Name=", "").Replace("Begin Object Class=BeamEmitter Name=", "");
                     Debug.Log("ObjectName=" + emitter.objectName);
 
                     while ((line = reader.ReadLine()) != null && !line.Contains("End Object"))
@@ -109,6 +109,14 @@ public class L2ParticleEmitterParser
                         line = line.Replace("(", "").Replace(")", "");
                         line = line.Trim();
                         //Debug.Log(line);
+                        if (line.StartsWith("BeamEndPoints0=offset="))
+                        {
+                            emitter.isBeam = true;
+                            line = line.Replace("BeamEndPoints0=", "").Replace("))", "");
+                            emitter.beamEndPointRange = L2MetaDataUtils.ParseRange3D(line);
+                            Debug.Log("BeamEndPointRange=" + emitter.beamEndPointRange);
+                        }
+
                         if (line.StartsWith("StaticMesh="))
                         {
                             emitter.staticMesh = line.Replace("StaticMesh=StaticMesh'", "").Replace("'", "");
@@ -741,6 +749,21 @@ public class L2ParticleEmitterParser
             }
         }
 
+        if (emitter.isBeam)
+        {
+            material.SetFloat("_UseDirectionAs", 3);
+            Vector4 previousOffset = material.GetVector("_StartLocationOffset");
+            material.SetVector("_StartLocationOffset", new Vector3(previousOffset.x / 2f, previousOffset.y / 2f, previousOffset.z / 2f));
+
+            Vector4 previousSizeRangeX = material.GetVector("_SizeRangeX");
+            material.SetVector("_SizeRangeY", new Vector3(Mathf.Abs(previousSizeRangeX.x), Mathf.Abs(previousSizeRangeX.y)));
+
+            Range3D length = emitter.beamEndPointRange;
+            material.SetVector("_SizeRangeX", new Vector3(length.z.min / 2f, length.z.max / 2f));
+
+            material.SetFloat("_SpinParticles", 1);
+            material.SetVector("_StartSpinRangeZ", new Vector2(-0.25f, -0.25f));
+        }
 
         return material;
     }

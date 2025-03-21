@@ -202,17 +202,27 @@ public abstract class Combat : MonoBehaviour
 
             if (!_skillThrown)  //Play launch animation at 75%
             {
-                if (now > _lastSkillUseTime + (int)(_lastSkillHitTime * 0.75f))
+                if (now > _lastSkillUseTime + (int)(_lastSkillHitTime * 0.8f))
                 {
                     _skillThrown = true;
-                    float hitTimeReal = Time.time + (_referenceHolder.Combat.LastSkillHitTime * 0.25f / 1000f);
+
+                    //for now ignore the default 20% of cast time as time to hit targetm and use default proj speed
+                    // float hitTimeReal = Time.time + (_referenceHolder.Combat.LastSkillHitTime * 0.20f / 1000f);
+
+                    float hitTimeReal = 0;
+                    if (_lastSkill.SkillEffect.ShotActions.Count > 0 && !_lastSkill.SkillEffect.ShotActions[0].SpawnOnTarget)
+                    {
+                        float timeToReachTarget = WorldCombat.Instance.CalculateTimeToHitTarget(_referenceHolder.Entity, _lastSkillTarget);
+                        hitTimeReal = Time.time + timeToReachTarget;
+                    }
+
                     WorldCombat.Instance.EntityShootSkill(_referenceHolder.Entity, _lastSkillTarget, _lastSkill, hitTimeReal);
                 }
             }
             else if (now > _lastSkillUseTime + _lastSkillHitTime)
             {
                 _castingSkill = false;
-                WorldCombat.Instance.SkillHitTarget(_referenceHolder.Entity, _lastSkillTarget, _lastSkill);
+                // WorldCombat.Instance.SkillHitTarget(_referenceHolder.Entity, _lastSkillTarget, _lastSkill);
             }
         }
     }
