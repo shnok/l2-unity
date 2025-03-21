@@ -264,7 +264,7 @@ public class ParticleManager : MonoBehaviour
                 return;
             }
 
-            effect.HitTime = hitTime / 1000f * 0.75f; //in seconds
+            effect.HitTime = hitTime / 1000f * 0.90f; //in seconds
 
             effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
 

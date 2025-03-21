@@ -152,13 +152,7 @@ public class WorldCombat : MonoBehaviour
         // Spawn particle
         ParticleManager.Instance.SpawnSkillShotParticle(sender, target, skill, hitTime);
 
-        //Play skill cast animation
-        if (skill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)
-        {
-            sender.LaunchSkill();
-        }
-
-        // Cast skill sound
+        // Shoot skill sound
         if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length < 2)
         {
             Debug.LogWarning($"Skill {skill.SkillId} doesnt have any SoundGrp or can't find sound EventReference.");

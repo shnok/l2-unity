@@ -19,10 +19,12 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private int _lastSkillHitTime;
     [SerializeField] private int _lastSkillReuseDelay;
     [SerializeField] private long _lastSkillUseTime;
+    private long _skillThrowThreshold;
+    private long _skillShootThreshold;
     [SerializeField] private Entity _lastSkillTarget;
     [SerializeField] private bool _castingSkill;
-    [SerializeField] private bool _skillThrown;
-
+    [SerializeField] private bool _skillThrown; // Throw animation threshold reached?
+    [SerializeField] private bool _skillShot; // Projectile threshold reached?
 
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Entity Target { get => _target; set => _target = value; }
@@ -179,7 +181,10 @@ public abstract class Combat : MonoBehaviour
         _lastSkillTarget = target;
         _skillThrown = false;
         _castingSkill = true;
+        _skillShot = false;
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.75f);
+        _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.90f);
 
         Debug.Log($"CastSkill: skill={skill}, hitTime={hitTime}, reuseDelay={reuseDelay}, _lastSkillUseTime={_lastSkillUseTime}");
 
@@ -202,9 +207,23 @@ public abstract class Combat : MonoBehaviour
 
             if (!_skillThrown)  //Play launch animation at 75%
             {
-                if (now > _lastSkillUseTime + (int)(_lastSkillHitTime * 0.75f))
+                if (now > _skillThrowThreshold)
                 {
+
                     _skillThrown = true;
+
+                    //Play skill cast animation
+                    if (_lastSkill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)
+                    {
+                        LaunchSkill();
+                    }
+                }
+            }
+            else if (!_skillShot) //Throw projectile at 90%
+            {
+                if (now > _skillShootThreshold)
+                {
+                    _skillShot = true;
 
                     //for now ignore the default 20% of cast time as time to hit targetm and use default proj speed
                     // float hitTimeReal = Time.time + (_referenceHolder.Combat.LastSkillHitTime * 0.25f / 1000f);
@@ -222,7 +241,6 @@ public abstract class Combat : MonoBehaviour
             else if (now > _lastSkillUseTime + _lastSkillHitTime)
             {
                 _castingSkill = false;
-                // WorldCombat.Instance.SkillHitTarget(_referenceHolder.Entity, _lastSkillTarget, _lastSkill);
             }
         }
     }
