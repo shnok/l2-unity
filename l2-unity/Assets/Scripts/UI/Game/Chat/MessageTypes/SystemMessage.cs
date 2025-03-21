@@ -24,7 +24,7 @@ public class SystemMessage
             {
                 SMParam param = _params[i - 1];
 
-                Debug.LogWarning($"{i}: {param.Type}");
+                // Debug.LogWarning($"{i}: {param.Type}");
 
                 switch (param.Type)
                 {
