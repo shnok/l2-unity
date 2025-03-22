@@ -387,7 +387,6 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
             if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
             {
-                //TODO: Play cast voice line
                 events.OnEnd = PlaySkillCastEndAnimation;
             }
 
@@ -412,17 +411,13 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
             HumanoidAnimationEvent throwAnim = (HumanoidAnimationEvent)skillThrowAnim;
 
-            //TODO: Play throw voice line
-
-            AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingEndVoices[(int)_entityReferenceHolder.Entity.RaceId]);
-
             PlayAnimation((int)throwAnim);
 
             _animancerState.EffectiveSpeed = _castSpdMultiplier;
 
             if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
             {
-                //TODO: Play cast voice line
+                events.Add(0.35f, () => AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingEndVoices[(int)_entityReferenceHolder.Entity.RaceId]));
                 events.OnEnd = Wait;
             }
 
