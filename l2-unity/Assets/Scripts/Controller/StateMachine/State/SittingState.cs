@@ -26,7 +26,7 @@ public class SittingState : StateBase
         }
     }
 
-    public override void HandleEvent(Event evt)
+    public override void HandleEvent(Event evt, object arg0)
     {
         switch (evt)
         {

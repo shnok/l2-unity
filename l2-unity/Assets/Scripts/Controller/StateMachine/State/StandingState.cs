@@ -7,7 +7,7 @@ public class StandingState : StateBase
 
     public StandingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void HandleEvent(Event evt)
+    public override void HandleEvent(Event evt, object arg0)
     {
         switch (evt)
         {

@@ -93,13 +93,12 @@ public class PlayerStateMachine : MonoBehaviour
         _stateInstance = _currentState switch
         {
             PlayerState.IDLE => new IdleState(this),
-            PlayerState.RUNNING => new RunningState(this),
+            PlayerState.MOVING => new MovingState(this),
             PlayerState.ATTACKING => new AttackingState(this),
             PlayerState.DEAD => new DeadState(this),
             PlayerState.SITTING => new SittingState(this),
             PlayerState.SIT_WAIT => new SitWaitState(this),
             PlayerState.STANDING => new StandingState(this),
-            PlayerState.WALKING => new WalkingState(this),
             PlayerState.SKILL => new SkillState(this),
             _ => throw new ArgumentException("Invalid state")
         };
@@ -129,13 +128,18 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool IsInMovableState()
     {
-        return _currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING || _currentState == PlayerState.WALKING;
+        return _currentState == PlayerState.IDLE || _currentState == PlayerState.MOVING;
     }
 
     public void NotifyEvent(Event evt)
     {
+        NotifyEvent(evt, null);
+    }
+
+    public void NotifyEvent(Event evt, object arg0)
+    {
         if (_enableLogs) Debug.Log("[StateMachine][EVENT] " + evt);
-        _stateInstance?.HandleEvent(evt);
+        _stateInstance?.HandleEvent(evt, arg0);
     }
 
     public void OnActionAllowed()

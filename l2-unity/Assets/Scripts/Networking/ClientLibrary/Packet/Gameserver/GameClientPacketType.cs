@@ -22,7 +22,7 @@ public enum GameClientPacketType : byte
     Appearing = 0x30,
     RequestShortcutReg = 0x33,
     RequestShortcutDel = 0x35,
-    RequestUnsetTarget = 0x37,
+    RequestCancel = 0x37,
     SendMessage = 0x38,
     RequestActionUse = 0x45,
     RequestRestart = 0x46,

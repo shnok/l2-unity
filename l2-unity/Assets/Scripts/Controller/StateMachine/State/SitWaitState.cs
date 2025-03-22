@@ -7,7 +7,7 @@ public class SitWaitState : StateBase
         NewPlayerAnimationController.Instance.SitWait();
     }
 
-    public override void HandleEvent(Event evt)
+    public override void HandleEvent(Event evt, object arg0)
     {
         switch (evt)
         {

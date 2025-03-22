@@ -10,7 +10,9 @@ public class TestInput : MonoBehaviour
     {
         if (InputManager.Instance.Test)
         {
-            GameClient.Instance?.ClientPacketHandler.RequestMagicSkillUse(_skillId, _ctrlPressed, _shiftPressed);
+            // GameClient.Instance?.ClientPacketHandler.RequestMagicSkillUse(_skillId, _ctrlPressed, _shiftPressed);
+            Skill skill = SkillTable.Instance.GetSkill(_skillId);
+            PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_SKILL, skill);
         }
     }
 }

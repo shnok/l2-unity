@@ -1,13 +1,12 @@
 using UnityEngine;
-using static AttackingState;
 
-public class RunningState : StateBase
+public class MovingState : StateBase
 {
     private MoveReason _moveReason = MoveReason.DEFAULT;
 
-    public RunningState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    public MovingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void HandleEvent(Event evt)
+    public override void HandleEvent(Event evt, object arg0)
     {
         switch (evt)
         {
@@ -36,10 +35,7 @@ public class RunningState : StateBase
                 }
                 break;
             case Event.MOVE_TYPE_UPDATED:
-                if (!PlayerEntity.Instance.Running)
-                {
-                    _stateMachine.ChangeState(PlayerState.WALKING);
-                }
+                UpdateMoveAnimation();
                 break;
             case Event.DEAD:
                 _stateMachine.ChangeState(PlayerState.DEAD);
@@ -47,9 +43,21 @@ public class RunningState : StateBase
         }
     }
 
+    private void UpdateMoveAnimation()
+    {
+        if (PlayerEntity.Instance.Running)
+        {
+            NewPlayerAnimationController.Instance.Run();
+        }
+        else
+        {
+            NewPlayerAnimationController.Instance.Walk();
+        }
+    }
+
     public override void Enter(object arg0)
     {
-        NewPlayerAnimationController.Instance.Run();
+        UpdateMoveAnimation();
 
         if (arg0 == null || arg0 is Vector3)
         {

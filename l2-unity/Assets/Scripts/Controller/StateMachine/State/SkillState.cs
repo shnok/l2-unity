@@ -29,69 +29,10 @@ public class SkillState : StateBase
         }
     }
 
-    public override void HandleEvent(Event evt)
+    public override void HandleEvent(Event evt, object arg0)
     {
         switch (evt)
         {
-            case Event.ACTION_ALLOWED:
-                NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
-                if (_stateMachine.Intention == Intention.INTENTION_MOVE)
-                {
-                    if (!InputManager.Instance.Move)
-                    {
-                        _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
-                        return;
-                    }
-
-                    if (PlayerEntity.Instance.Running)
-                    {
-                        _stateMachine.ChangeState(PlayerState.RUNNING);
-                    }
-                    else
-                    {
-                        _stateMachine.ChangeState(PlayerState.WALKING);
-                    }
-                }
-                if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
-                {
-                    if (!PlayerController.Instance.IntentionToRun)
-                    {
-                        _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
-                        return;
-                    }
-
-                    //Set state as running first to change to movable state
-                    if (PlayerEntity.Instance.Running)
-                    {
-                        _stateMachine.ChangeState(PlayerState.RUNNING);
-                    }
-                    else
-                    {
-                        _stateMachine.ChangeState(PlayerState.WALKING);
-                    }
-
-                    _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO); //not giving an argument will use last position as destination
-                }
-                if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
-                {
-                    if (PlayerEntity.Instance.Running)
-                    {
-                        _stateMachine.ChangeState(PlayerState.RUNNING, FollowIntention.MoveReason);
-                    }
-                    else
-                    {
-                        _stateMachine.ChangeState(PlayerState.WALKING, FollowIntention.MoveReason);
-                    }
-                }
-                if (_stateMachine.Intention == Intention.INTENTION_IDLE)
-                {
-                    _stateMachine.ChangeState(PlayerState.IDLE);
-                }
-                if (_stateMachine.Intention == Intention.INTENTION_SIT)
-                {
-                    _stateMachine.ChangeState(PlayerState.SITTING);
-                }
-                break;
             // Auto attack stop event
             case Event.CANCEL:
                 _stateMachine.ChangeState(PlayerState.IDLE);

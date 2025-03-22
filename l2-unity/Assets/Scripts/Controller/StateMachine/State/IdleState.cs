@@ -12,23 +12,13 @@ public class IdleState : StateBase
 
     public override void Update()
     {
-        // Does the player want to move ?
-        // if (InputManager.Instance.Move || PlayerController.Instance != null && PlayerController.Instance.RunningToDestination && !TargetManager.Instance.HasAttackTarget())
-        // {
-        //     _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO);
-        // }
-        // else if (PlayerController.Instance != null && PlayerController.Instance.RunningToDestination && TargetManager.Instance.HasAttackTarget())
-        // {
-        //     _stateMachine.ChangeIntention(Intention.INTENTION_FOLLOW);
-        // }
-
         if (InputManager.Instance.Move)
         {
             _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
         }
     }
 
-    public override void HandleEvent(Event evt)
+    public override void HandleEvent(Event evt, object arg0)
     {
         switch (evt)
         {
@@ -44,17 +34,12 @@ public class IdleState : StateBase
             case Event.READY_TO_ATTACK:
                 if (!_stateMachine.WaitingForServerReply)
                 {
-                    // TargetManager.Instance.SetAttackTarget();
-
                     PathFinderController.Instance.ClearPath();
                     PlayerController.Instance.ResetDestination(false);
                     NetworkTransformShare.Instance.SharePosition();
                     NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero);
 
-                    // if (TargetManager.Instance.IsAttackTargetSet())
-                    // {
                     GameClient.Instance.ClientPacketHandler.RequestAttackForce(TargetManager.Instance.Target.Identity.Id);
-                    // }
 
                     _stateMachine.SetWaitingForServerReply(true);
                 }
@@ -74,6 +59,14 @@ public class IdleState : StateBase
                 {
                     _stateMachine.ChangeState(PlayerState.SITTING);
                 }
+                break;
+            case Event.READY_TO_SKILL:
+                if (arg0 == null)
+                {
+                    Debug.LogWarning("READY_TO_SKILL event does not have a skill attached to.");
+                }
+                Skill skill = (Skill)arg0;
+                GameClient.Instance?.ClientPacketHandler.RequestMagicSkillUse(skill.SkillId, true, false);
                 break;
             case Event.ACTION_DENIED:
                 break;

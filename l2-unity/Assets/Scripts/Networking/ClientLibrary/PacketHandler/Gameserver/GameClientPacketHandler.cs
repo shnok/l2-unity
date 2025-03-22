@@ -90,9 +90,9 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
-    public void SendRequestUnsetTarget(bool cancelCast)
+    public void SendRequestCancel(bool cancelCast)
     {
-        RequestUnsetTargetPacket packet = new RequestUnsetTargetPacket(cancelCast);
+        RequestCancelPacket packet = new RequestCancelPacket(cancelCast);
         SendPacket(packet);
     }
 

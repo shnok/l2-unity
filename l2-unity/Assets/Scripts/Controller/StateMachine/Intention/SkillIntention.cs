@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SkillIntention : IntentionBase
 {
-    private Skill _lastSkillItention = null;
+    private static Skill _lastSkillItention = null;
 
     public SkillIntention(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
@@ -22,20 +22,23 @@ public class SkillIntention : IntentionBase
         Skillgrp skillgrp = _lastSkillItention.Skillgrps[0];
 
 
-        if (skillgrp.CastStyle != 2) // target required?
+        if (skillgrp.CastRange != -1) // target required?
         {
-
             Transform target = TargetManager.Instance.Target.transform;
             if (target == null)
             {
                 return;
             }
 
+            // TODO: If buff or heal and require target, if not target selected send skill on self
+
             float skillRange = skillgrp.CastRange / 52.5f * 0.95f; //5% error margin
             Entity targetEntity = TargetManager.Instance.Target;
             Vector3 targetPos = targetEntity.transform.position;
-            float distance = Vector3.Distance(PlayerEntity.Instance.transform.position, targetPos);
 
+            float distance = Vector3.Distance(VectorUtils.To2D(PlayerEntity.Instance.transform.position), VectorUtils.To2D(targetPos));
+
+            Debug.Log($"Distance: {distance} SkillRange: {skillRange}");
             if (distance <= skillRange && !_stateMachine.WaitingForServerReply)
             {
                 Debug.LogWarning("Using skill on target");
@@ -44,7 +47,7 @@ public class SkillIntention : IntentionBase
 
                 if (!targetEntity.IsDead)
                 {
-                    _stateMachine.NotifyEvent(Event.READY_TO_SKILL);
+                    _stateMachine.NotifyEvent(Event.READY_TO_SKILL, _lastSkillItention);
                 }
             }
             else
@@ -58,7 +61,7 @@ public class SkillIntention : IntentionBase
         }
         else
         {
-            Debug.LogWarning("No handle for no target skills");
+            _stateMachine.NotifyEvent(Event.READY_TO_SKILL, _lastSkillItention);
         }
     }
 
