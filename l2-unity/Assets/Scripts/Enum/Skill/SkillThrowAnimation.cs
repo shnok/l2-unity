@@ -20,7 +20,7 @@ public enum SkillThrowAnimation : int
     X = spatk06_hand / spatk07_hand
     */
     None = 0,
-    MagicNoTarget = 59,
-    MagicShot = 60,
-    MagicThrow = 61
+    MagicNoTarget = 15,
+    MagicShot,
+    MagicThrow
 }

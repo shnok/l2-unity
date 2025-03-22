@@ -166,7 +166,6 @@ MonoBehaviour:
   _entity: {fileID: 1830847236195018905}
   _gear: {fileID: -2046524599472184396}
   _combat: {fileID: 0}
-  _animationController: {fileID: 0}
   _newAnimationController: {fileID: 5207852632635664747}
   _animancer: {fileID: 4909035100399470828}
   _audioHandler: {fileID: 5357503985050188206}
@@ -726,6 +725,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entityReferenceHolder: {fileID: 1640291941892263099}
   _lastAnim: 0
+  _lastSkill:
+    _skillId: 0
+    _skillEffect:
+      _skillId: 0
+      _castingActions: []
+      _shotActions: []
+      _explosionActions: []
   _rootBone: {fileID: 1043913814993416653}
   _lastPlayedClipDuration: 0
   _fadeDuration: 0.1
@@ -734,13 +740,18 @@ MonoBehaviour:
   _castSpdMultiplier: 1
   _runSpdMultiplier: 1
   _walkSpdMultiplier: 1
+  _nockArrowRatio: 0.2
+  _shootArrowRatio: 0.6
   _defaultIdleAnimationSpeed: 0.3
   _defaultAtkWaitAnimationSpeed: 0.5
   _defaultRunAnimationSpeed: 0.35
   _defaultWalkAnimationSpeed: 0.4
   _defaultJumpAnimationSpeed: 1.25
   _defaultDieAnimationSpeed: 0.5
-  _animContainer: {fileID: 11400000, guid: 82b6adf323c66a94d85e60fc932409f3, type: 2}
+  _defaultAnimContainer: {fileID: 11400000, guid: 8935f1c9993a39a4eaccbbfcc84a9aea, type: 2}
+  _atkAnimContainer: {fileID: 11400000, guid: f1b40e188da08e0439583c59ed446410, type: 2}
+  _spAtkAnimContainer: {fileID: 11400000, guid: e00e073885d00b9449ed5bd8aa0f8d5e, type: 2}
+  _socialAnimContainer: {fileID: 11400000, guid: 772a7d3cec231ea4589c5e77f38ad574, type: 2}
   _lastAnimationType: 0
   _weaponAnim: 0
   _atkAnimIndex: 0

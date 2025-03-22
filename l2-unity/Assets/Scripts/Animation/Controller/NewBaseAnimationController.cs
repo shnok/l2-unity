@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Animancer;
 using UnityEngine;
 
@@ -45,11 +43,16 @@ public abstract class NewBaseAnimationController : MonoBehaviour
         }
     }
 
-    public virtual void PlayAnimation(int index)
+    public void PlayAnimation(int index)
+    {
+        PlayAnimation(AnimationCategory.Default, index);
+    }
+
+    protected void PlayAnimation(AnimationCategory animationCategory, int index)
     {
         _lastAnim = index;
 
-        AnimationClip clip = GetAnimationClip(index);
+        AnimationClip clip = GetAnimationClip(animationCategory, index);
         if (clip == null)
         {
             Debug.LogWarning($"[{transform.name}] Does not have an animation clip at index {index}.");
@@ -61,7 +64,7 @@ public abstract class NewBaseAnimationController : MonoBehaviour
         _animancerState = _animancer.Play(clip, _fadeDuration);
     }
 
-    protected abstract AnimationClip GetAnimationClip(int index);
+    protected abstract AnimationClip GetAnimationClip(AnimationCategory animationCategory, int index);
 
     public virtual void WeaponAnimChanged(WeaponAnimType weapon) { }
 

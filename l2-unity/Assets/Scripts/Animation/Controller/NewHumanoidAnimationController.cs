@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+#pragma warning disable 414
+
 using Animancer;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ using UnityEngine;
 public class NewHumanoidAnimationController : NewBaseAnimationController
 {
     public WeaponAnimType WeaponAnim { get { return _weaponAnim; } }
-    public HumanoidAnimationEvent LastAnim { get { return (HumanoidAnimationEvent)_lastAnim; } }
+    public HumanoidAnimationDefaultEvent LastAnim { get { return (HumanoidAnimationDefaultEvent)_lastAnim; } }
     private HumanoidAudioHandler AudioHandler { get => (HumanoidAudioHandler)_entityReferenceHolder.AudioHandler; }
 
     [Header("Base Speeds")]
@@ -18,17 +19,20 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     [SerializeField] private float _defaultDieAnimationSpeed = 0.5f;
 
     [Header("Humanoids")]
-    [SerializeField] protected L2HumanoidAnimationContainer _animContainer; //TODO: Cache in Singleton?
-    [SerializeField] protected HumanoidAnimType _lastAnimationType;
+    [SerializeField] protected L2HumanoidAnimationContainerDefault _defaultAnimContainer; //TODO: Cache in Singleton?
+    [SerializeField] protected L2HumanoidAnimationContainerAtk _atkAnimContainer; //TODO: Cache in Singleton?
+    [SerializeField] protected L2HumanoidAnimationContainerSpAtk _spAtkAnimContainer; //TODO: Cache in Singleton?
+    [SerializeField] protected L2HumanoidAnimationContainerSocial _socialAnimContainer; //TODO: Cache in Singleton?
+    [SerializeField] protected HumanoidWeaponAnimType _lastAnimationType;
     [SerializeField] protected WeaponAnimType _weaponAnim;
     [SerializeField] private int _atkAnimIndex;
 
     public override void Initialize()
     {
         base.Initialize();
-        _lastAnimationType = HumanoidAnimType.wait;
+        _lastAnimationType = HumanoidWeaponAnimType.wait;
 
-        if (_animContainer == null)
+        if (_defaultAnimContainer == null)
         {
             Debug.LogWarning($"[{transform.name}] L2Animations was not assigned, please pre-assign it.");
         }
@@ -36,21 +40,36 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         Wait();
     }
 
-    protected override AnimationClip GetAnimationClip(int index)
+    protected override AnimationClip GetAnimationClip(AnimationCategory animationCategory, int index)
     {
-        if (_animContainer == null || index >= _animContainer.Animations.Length)
+        switch (animationCategory)
         {
-            return null;
+            case AnimationCategory.Default:
+                if (_defaultAnimContainer != null && index < _defaultAnimContainer.Animations.Length)
+                    return _defaultAnimContainer.Animations[index].AnimationClip;
+                break;
+            case AnimationCategory.Atk:
+                if (_atkAnimContainer != null && index < _atkAnimContainer.Animations.Length)
+                    return _atkAnimContainer.Animations[index].AnimationClip;
+                break;
+            case AnimationCategory.SpAtk:
+                if (_spAtkAnimContainer != null && index < _spAtkAnimContainer.Animations.Length)
+                    return _spAtkAnimContainer.Animations[index].AnimationClip;
+                break;
+            case AnimationCategory.Social:
+                if (_socialAnimContainer != null && index < _socialAnimContainer.Animations.Length)
+                    return _socialAnimContainer.Animations[index].AnimationClip;
+                break;
         }
 
-        return _animContainer.Animations[index].AnimationClip;
+        return null;
     }
 
     public override void WeaponAnimChanged(WeaponAnimType newWeaponAnim)
     {
         _weaponAnim = newWeaponAnim;
 
-        if (!((int)_lastAnimationType != (int)HumanoidAnimType.other))
+        if (!((int)_lastAnimationType != (int)HumanoidWeaponAnimType.other))
         {
             Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationType}");
             // The last animation was not a weapon animation
@@ -58,31 +77,32 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         }
 
         // Adding weaponanim index to humanoidanimtype will give the correct animationEvent
-        HumanoidAnimationEvent newAnim = (HumanoidAnimationEvent)(int)_lastAnimationType + (int)_weaponAnim;
+        HumanoidAnimationDefaultEvent newAnim = (HumanoidAnimationDefaultEvent)(int)_lastAnimationType + (int)_weaponAnim;
 
         Debug.Log($"New Weapon animation: {newAnim} Last animation type: {_lastAnimationType} Weapon anim: {_weaponAnim}");
 
         switch (_lastAnimationType)
         {
-            case HumanoidAnimType.wait:
+            case HumanoidWeaponAnimType.wait:
                 Wait();
                 break;
-            case HumanoidAnimType.walk:
+            case HumanoidWeaponAnimType.walk:
                 Walk();
                 break;
-            case HumanoidAnimType.run:
+            case HumanoidWeaponAnimType.run:
                 Run();
                 break;
-            case HumanoidAnimType.atkwait:
+            case HumanoidWeaponAnimType.atkwait:
                 AtkWait();
                 break;
         }
+
         PlayAnimation((int)newAnim);
     }
 
     public override void Attack()
     {
-        _lastAnimationType = HumanoidAnimType.atk01;
+        _lastAnimationType = HumanoidWeaponAnimType.other;
         _atkAnimIndex = 0;
         PlayAttackAnimation();
     }
@@ -124,32 +144,32 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     private void PlayAttackAnimation()
     {
-        HumanoidAnimationEvent toPlay;
+        HumanoidAnimationAtkEvent toPlay;
         switch (_weaponAnim)
         {
             case WeaponAnimType._1HS:
-                toPlay = HumanoidAnimationEvent.atk01_1HS;
+                toPlay = HumanoidAnimationAtkEvent.atk01_1HS;
                 break;
             case WeaponAnimType._2HS:
-                toPlay = HumanoidAnimationEvent.atk01_2HS;
+                toPlay = HumanoidAnimationAtkEvent.atk01_2HS;
                 break;
             case WeaponAnimType.bow:
-                toPlay = HumanoidAnimationEvent.atk01_bow;
+                toPlay = HumanoidAnimationAtkEvent.atk01_bow;
                 break;
             case WeaponAnimType.pole:
-                toPlay = HumanoidAnimationEvent.atk01_pole;
+                toPlay = HumanoidAnimationAtkEvent.atk01_pole;
                 break;
             case WeaponAnimType.dual:
-                toPlay = HumanoidAnimationEvent.atk01_dual;
+                toPlay = HumanoidAnimationAtkEvent.atk01_dual;
                 break;
             case WeaponAnimType.shield:
             case WeaponAnimType.hand:
             default:
-                toPlay = HumanoidAnimationEvent.atk01_hand;
+                toPlay = HumanoidAnimationAtkEvent.atk01_hand;
                 break;
         }
 
-        PlayAnimation((int)toPlay + _atkAnimIndex);
+        PlayAnimation(AnimationCategory.Atk, (int)toPlay + _atkAnimIndex);
         UpdateAttackAnimationSpeed(_lastPlayedClipDuration, _atkSpd);
 
         if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
@@ -181,27 +201,27 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void AtkWait()
     {
-        _lastAnimationType = HumanoidAnimType.atkwait;
+        _lastAnimationType = HumanoidWeaponAnimType.atkwait;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
             case WeaponAnimType.hand:
-                PlayAnimation((int)HumanoidAnimationEvent.atkwait_hand);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_hand);
                 break;
             case WeaponAnimType._1HS:
-                PlayAnimation((int)HumanoidAnimationEvent.atkwait_1HS);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_1HS);
                 break;
             case WeaponAnimType._2HS:
-                PlayAnimation((int)HumanoidAnimationEvent.atkwait_2HS);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_2HS);
                 break;
             case WeaponAnimType.bow:
-                PlayAnimation((int)HumanoidAnimationEvent.atkwait_bow);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_bow);
                 break;
             case WeaponAnimType.pole:
-                PlayAnimation((int)HumanoidAnimationEvent.atkwait_pole);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_pole);
                 break;
             case WeaponAnimType.dual:
-                PlayAnimation((int)HumanoidAnimationEvent.atkwait_dual);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_dual);
                 break;
         }
 
@@ -210,27 +230,27 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Run()
     {
-        _lastAnimationType = HumanoidAnimType.run;
+        _lastAnimationType = HumanoidWeaponAnimType.run;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
             case WeaponAnimType.hand:
-                PlayAnimation((int)HumanoidAnimationEvent.run_hand);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_hand);
                 break;
             case WeaponAnimType._1HS:
-                PlayAnimation((int)HumanoidAnimationEvent.run_1HS);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_1HS);
                 break;
             case WeaponAnimType._2HS:
-                PlayAnimation((int)HumanoidAnimationEvent.run_2HS);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_2HS);
                 break;
             case WeaponAnimType.bow:
-                PlayAnimation((int)HumanoidAnimationEvent.run_bow);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_bow);
                 break;
             case WeaponAnimType.pole:
-                PlayAnimation((int)HumanoidAnimationEvent.run_pole);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_pole);
                 break;
             case WeaponAnimType.dual:
-                PlayAnimation((int)HumanoidAnimationEvent.run_dual);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_dual);
                 break;
         }
 
@@ -247,27 +267,27 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Wait()
     {
-        _lastAnimationType = HumanoidAnimType.wait;
+        _lastAnimationType = HumanoidWeaponAnimType.wait;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
             case WeaponAnimType.hand:
-                PlayAnimation((int)HumanoidAnimationEvent.wait_hand);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_hand);
                 break;
             case WeaponAnimType._1HS:
-                PlayAnimation((int)HumanoidAnimationEvent.wait_1HS);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_1HS);
                 break;
             case WeaponAnimType._2HS:
-                PlayAnimation((int)HumanoidAnimationEvent.wait_2HS);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_2HS);
                 break;
             case WeaponAnimType.bow:
-                PlayAnimation((int)HumanoidAnimationEvent.wait_bow);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_bow);
                 break;
             case WeaponAnimType.pole:
-                PlayAnimation((int)HumanoidAnimationEvent.wait_pole);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_pole);
                 break;
             case WeaponAnimType.dual:
-                PlayAnimation((int)HumanoidAnimationEvent.wait_dual);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_dual);
                 break;
         }
 
@@ -277,27 +297,27 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Walk()
     {
-        _lastAnimationType = HumanoidAnimType.walk;
+        _lastAnimationType = HumanoidWeaponAnimType.walk;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
             case WeaponAnimType.hand:
-                PlayAnimation((int)HumanoidAnimationEvent.walk_hand);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_hand);
                 break;
             case WeaponAnimType._1HS:
-                PlayAnimation((int)HumanoidAnimationEvent.walk_1HS);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_1HS);
                 break;
             case WeaponAnimType._2HS:
-                PlayAnimation((int)HumanoidAnimationEvent.walk_2HS);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_2HS);
                 break;
             case WeaponAnimType.bow:
-                PlayAnimation((int)HumanoidAnimationEvent.walk_bow);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_bow);
                 break;
             case WeaponAnimType.pole:
-                PlayAnimation((int)HumanoidAnimationEvent.walk_pole);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_pole);
                 break;
             case WeaponAnimType.dual:
-                PlayAnimation((int)HumanoidAnimationEvent.walk_dual);
+                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_dual);
                 break;
         }
 
@@ -314,8 +334,8 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Sit()
     {
-        _lastAnimationType = HumanoidAnimType.other;
-        PlayAnimation((int)HumanoidAnimationEvent.sit);
+        _lastAnimationType = HumanoidWeaponAnimType.other;
+        PlayAnimation((int)HumanoidAnimationDefaultEvent.sit);
 
         if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
         {
@@ -325,8 +345,8 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Die()
     {
-        _lastAnimationType = HumanoidAnimType.other;
-        PlayAnimation((int)HumanoidAnimationEvent.death);
+        _lastAnimationType = HumanoidWeaponAnimType.other;
+        PlayAnimation((int)HumanoidAnimationDefaultEvent.death);
 
         _animancerState.EffectiveSpeed = _defaultDieAnimationSpeed;
 
@@ -340,8 +360,8 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void DieWait()
     {
-        _lastAnimationType = HumanoidAnimType.other;
-        PlayAnimation((int)HumanoidAnimationEvent.deathwait);
+        _lastAnimationType = HumanoidWeaponAnimType.other;
+        PlayAnimation((int)HumanoidAnimationDefaultEvent.deathwait);
     }
 
     public override void Resurrect()
@@ -350,14 +370,14 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void SitWait()
     {
-        _lastAnimationType = HumanoidAnimType.other;
-        PlayAnimation((int)HumanoidAnimationEvent.sit_wait);
+        _lastAnimationType = HumanoidWeaponAnimType.other;
+        PlayAnimation((int)HumanoidAnimationDefaultEvent.sit_wait);
     }
 
     public override void Stand()
     {
-        _lastAnimationType = HumanoidAnimType.other;
-        PlayAnimation((int)HumanoidAnimationEvent.stand);
+        _lastAnimationType = HumanoidWeaponAnimType.other;
+        PlayAnimation((int)HumanoidAnimationDefaultEvent.stand);
 
         if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
         {
@@ -371,13 +391,15 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         {
             SkillCastAnimation skillCastAnimation = _lastSkill.Skillgrps[0].CastAnimation;
 
-            if ((int)skillCastAnimation >= 100)
+            if (skillCastAnimation >= SkillCastAnimation.SpAtk01)
             {
+                int spAtkIndex = (int)skillCastAnimation - 100;
+
                 Debug.LogWarning("Weapon cast animations not yet handled.");
                 return false;
             }
 
-            HumanoidAnimationEvent castAnim = (HumanoidAnimationEvent)skillCastAnimation;
+            HumanoidAnimationDefaultEvent castAnim = (HumanoidAnimationDefaultEvent)skillCastAnimation;
 
             PlayAnimation((int)castAnim);
 
@@ -400,7 +422,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void PlaySkillCastEndAnimation()
     {
-        PlayAnimation((int)HumanoidAnimationEvent.castend);
+        PlayAnimation((int)HumanoidAnimationDefaultEvent.castend);
     }
 
     public override bool PlaySkillThrowAnimation()
@@ -409,7 +431,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         {
             SkillThrowAnimation skillThrowAnim = _lastSkill.Skillgrps[0].ThrowAnimation;
 
-            HumanoidAnimationEvent throwAnim = (HumanoidAnimationEvent)skillThrowAnim;
+            HumanoidAnimationDefaultEvent throwAnim = (HumanoidAnimationDefaultEvent)skillThrowAnim;
 
             PlayAnimation((int)throwAnim);
 

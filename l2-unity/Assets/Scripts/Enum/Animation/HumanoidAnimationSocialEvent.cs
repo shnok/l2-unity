@@ -1,0 +1,23 @@
+public enum HumanoidAnimationSocialEvent : byte
+{
+    social01,
+    social02,
+    social03,
+    social04,
+    social05,
+    social06,
+    social07,
+    social08,
+    social09,
+    social10,
+    social11,
+    social12,
+    social13,
+    social14,
+    social15,
+    social16,
+    social17,
+    social18,
+    social19,
+    social20,
+}

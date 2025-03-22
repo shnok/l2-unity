@@ -22,7 +22,7 @@ public class NewMonsterAnimationController : NewBaseAnimationController
         Wait();
     }
 
-    protected override AnimationClip GetAnimationClip(int index)
+    protected override AnimationClip GetAnimationClip(AnimationCategory _, int index)
     {
         if (_animContainer == null || index >= _animContainer.Animations.Length)
         {
