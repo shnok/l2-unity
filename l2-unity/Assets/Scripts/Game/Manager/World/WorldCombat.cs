@@ -121,6 +121,11 @@ public class WorldCombat : MonoBehaviour
     // Start default skill casting
     private void CastSkill(Entity entity, Entity target, Skill skill, int hitTime, int reuseDelay)
     {
+        if (entity == PlayerEntity.Instance)
+        {
+            PlayerStateMachine.Instance.OnSkillAllowed(hitTime);
+        }
+
         // Spawn particle
         ParticleManager.Instance.SpawnCastParticles(entity, skill, hitTime);
 

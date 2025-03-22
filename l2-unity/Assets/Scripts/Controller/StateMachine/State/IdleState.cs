@@ -67,6 +67,11 @@ public class IdleState : StateBase
                 }
                 Skill skill = (Skill)arg0;
                 GameClient.Instance?.ClientPacketHandler.RequestMagicSkillUse(skill.SkillId, true, false);
+
+                _stateMachine.SetWaitingForServerReply(true);
+                break;
+            case Event.SKILL_ALLOWED:
+                _stateMachine.ChangeState(PlayerState.SKILL, arg0);
                 break;
             case Event.ACTION_DENIED:
                 break;

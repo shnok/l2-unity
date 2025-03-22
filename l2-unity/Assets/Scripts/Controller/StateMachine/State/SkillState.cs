@@ -3,29 +3,27 @@ using UnityEngine;
 
 public class SkillState : StateBase
 {
-    private Skill _currentSkill = null;
-
-    public Skill CurrentSkill { get => _currentSkill; }
-
+    private float _hitTime;
     public SkillState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
     public override void Enter(object obj0)
     {
         if (obj0 != null)
         {
-            _currentSkill = (Skill)obj0;
+            _hitTime = (int)obj0 / 1000f + Time.time;
         }
     }
 
     public override void Update()
     {
-        if (InputManager.Instance.Move)
+        // if (InputManager.Instance.Move)
+        // {
+        //     _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
+        // }
+
+        if (Time.time > _hitTime)
         {
-            _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
-        }
-        else if (TargetManager.Instance.HasAttackTarget() && TargetManager.Instance.AttackTarget.Status.IsDead)
-        {
-            _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+            _stateMachine.ChangeState(PlayerState.IDLE);
         }
     }
 
@@ -33,16 +31,6 @@ public class SkillState : StateBase
     {
         switch (evt)
         {
-            // Auto attack stop event
-            case Event.CANCEL:
-                _stateMachine.ChangeState(PlayerState.IDLE);
-
-                if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
-                {
-                    // _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.ChangeTarget);
-                    _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK);
-                }
-                break;
             case Event.DEAD:
                 _stateMachine.ChangeState(PlayerState.DEAD);
                 break;

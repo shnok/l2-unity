@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
                 MoveToTargetPosition();
             }
         }
-        else
+        else if (PlayerStateMachine.Instance.CanMove())
         {
             ListenToInputs();
         }
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
             UpdateFinalAngleToLookAt(_lookAtTarget);
         }
 
-        if (PlayerStateMachine.Instance.CanMove() || PlayerStateMachine.Instance.State == PlayerState.ATTACKING)
+        if (PlayerStateMachine.Instance.CanMove() || PlayerStateMachine.Instance.State == PlayerState.ATTACKING || PlayerStateMachine.Instance.State == PlayerState.SKILL)
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
 
 

@@ -3,7 +3,6 @@ public enum PlayerState
     IDLE,
     ATTACKING,
     ANIMATION_LOCKED,
-    CASTING,
     MOVING,
     UNCONTROLLABLE,
     EMOTING,
