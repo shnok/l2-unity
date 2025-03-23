@@ -638,6 +638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serverPosition: {x: 0, y: 0, z: 0}
+  _static: 0
   _positionSyncProtection: 1
   _positionSynced: 0
   _positionSyncPaused: 0
@@ -890,9 +891,20 @@ MonoBehaviour:
   _hitTime: 0
   _attackEndTime: 0
   _hitSuccess: 0
+  _lastSkill:
+    _skillId: 0
+    _skillEffect:
+      _skillId: 0
+      _castingActions: []
+      _shotActions: []
+      _explosionActions: []
   _lastSkillHitTime: 0
   _lastSkillReuseDelay: 0
   _lastSkillUseTime: 0
+  _lastSkillTarget: {fileID: 0}
+  _castingSkill: 0
+  _skillThrown: 0
+  _skillShot: 0
   _attackStance: 0
 --- !u!114 &7484157457786584713
 MonoBehaviour:
@@ -909,7 +921,6 @@ MonoBehaviour:
   _entity: {fileID: 7318286057071185800}
   _gear: {fileID: 6215778527683730313}
   _combat: {fileID: 8478546502743068084}
-  _animationController: {fileID: 0}
   _newAnimationController: {fileID: 3421499230353097245}
   _animancer: {fileID: 8355152483036879606}
   _audioHandler: {fileID: 8476298765554058933}
@@ -998,6 +1009,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entityReferenceHolder: {fileID: 7484157457786584713}
   _lastAnim: 0
+  _lastSkill:
+    _skillId: 0
+    _skillEffect:
+      _skillId: 0
+      _castingActions: []
+      _shotActions: []
+      _explosionActions: []
   _rootBone: {fileID: 2308695362256611899}
   _lastPlayedClipDuration: 0
   _fadeDuration: 0.1
@@ -1006,13 +1024,18 @@ MonoBehaviour:
   _castSpdMultiplier: 1
   _runSpdMultiplier: 1
   _walkSpdMultiplier: 1
+  _nockArrowRatio: 0.2
+  _shootArrowRatio: 0.6
   _defaultIdleAnimationSpeed: 0.3
   _defaultAtkWaitAnimationSpeed: 0.5
   _defaultRunAnimationSpeed: 0.35
   _defaultWalkAnimationSpeed: 0.4
   _defaultJumpAnimationSpeed: 1.25
   _defaultDieAnimationSpeed: 0.5
-  _animContainer: {fileID: 11400000, guid: b81155b3b424c7f44b8c604f78ef7a1c, type: 2}
+  _defaultAnimContainer: {fileID: 11400000, guid: 18e91c388597df748ae35b07d6d86fa6, type: 2}
+  _atkAnimContainer: {fileID: 11400000, guid: f81bc503f1d9c41408ca9e08a373027b, type: 2}
+  _spAtkAnimContainer: {fileID: 11400000, guid: 18feea3870cb89545a11008528031690, type: 2}
+  _socialAnimContainer: {fileID: 11400000, guid: 736a9b35f0163a9459d9ab78b4aa4c37, type: 2}
   _lastAnimationType: 0
   _weaponAnim: 0
   _atkAnimIndex: 0
