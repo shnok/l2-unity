@@ -1,6 +1,7 @@
 .skill-learn-window {
     width: 280px;
-    height: 420px;
+    height: 390px;
+    position: absolute;
 }
 
 .skill-learn-content {
@@ -10,36 +11,10 @@
     background-image: none;
 }
 
-.skill-active-background {
-    margin: 10px 0 0 0;
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-left-color: rgba(55, 51, 43, 0.6);
-    border-right-color: rgba(55, 51, 43, 0.6);
-    border-top-color: rgba(55, 51, 43, 0.6);
-    border-bottom-color: rgba(55, 51, 43, 0.6);
-    border-top-left-radius: 0.3px;
-    border-top-right-radius: 0.3px;
-    border-bottom-right-radius: 0.3px;
-    border-bottom-left-radius: 0.3px;
-    background-color: rgba(0, 0, 0, 0.28);
-}
-
 .skill-learn-list-view {
-    flex-direction: row;
-    align-self: stretch;
     height: 82%;
     min-height: 82%;
-    margin: 0px;
-}
-
-.skill-learn-list-view #unity-content-container {
-    flex-direction: column;
-}
-.skill-learn-list-view .unity-list-view__item:hover {
-    background-color: rgba(0, 0, 0, 0.3);
+    width: 251px;
 }
 
 .skill-group {
@@ -53,6 +28,7 @@
     padding: 7px 30px 7px 0;
     flex-direction: row;
     justify-content: flex-end;
+    margin: 10px 0 0 0;
 }
 
 .user-sp-label {
@@ -64,10 +40,6 @@
     align-self: flex-start;
     justify-content: flex-start;
     height: auto;
-}
-
-.skill-learn-slot:hover {
-    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .skill-group .skill-learn-cost {
@@ -83,18 +55,6 @@
 .skillbar-slot-anchor {
     margin: 4px;
     background-color: black;
-}
-
-.skill-learn-detail-window {
-    width: 280px;
-    height: 420px;
-}
-
-.skill-learn-detail-content {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-image: none;
 }
 
 .skill-description-detail {
@@ -126,7 +86,13 @@
 
 .skill-learn-header-detail {
     flex-direction: row;
-    align-self: flex-start;
-    justify-content: flex-start;
+    align-self: stretch;
     margin: 0;
+}
+
+.skill-active-background {
+    border-width: 1px;
+    border-color: rgba(55, 51, 43, 0.6);
+    border-radius: 0.3px;
+    background-color: rgba(0, 0, 0, 0.28);
 }
