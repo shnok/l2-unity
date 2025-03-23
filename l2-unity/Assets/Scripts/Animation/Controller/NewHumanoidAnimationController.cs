@@ -7,7 +7,7 @@ using UnityEngine;
 public class NewHumanoidAnimationController : NewBaseAnimationController
 {
     public WeaponAnimType WeaponAnim { get { return _weaponAnim; } }
-    public HumanoidAnimationDefaultEvent LastAnim { get { return (HumanoidAnimationDefaultEvent)_lastAnim; } }
+    public HumanoidWeaponAnimType LastAnimationType { get { return _lastAnimationType; } }
     private HumanoidAudioHandler AudioHandler { get => (HumanoidAudioHandler)_entityReferenceHolder.AudioHandler; }
 
     [Header("Base Speeds")]
@@ -69,7 +69,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         _weaponAnim = newWeaponAnim;
 
-        if (!((int)_lastAnimationType != (int)HumanoidWeaponAnimType.other))
+        if (!((int)_lastAnimationType < (int)HumanoidWeaponAnimType.cast))
         {
             Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationType}");
             // The last animation was not a weapon animation
@@ -77,9 +77,9 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         }
 
         // Adding weaponanim index to humanoidanimtype will give the correct animationEvent
-        HumanoidAnimationDefaultEvent newAnim = (HumanoidAnimationDefaultEvent)(int)_lastAnimationType + (int)_weaponAnim;
+        // HumanoidAnimationDefaultEvent newAnim = (HumanoidAnimationDefaultEvent)(int)_lastAnimationType + (int)_weaponAnim;
 
-        Debug.Log($"New Weapon animation: {newAnim} Last animation type: {_lastAnimationType} Weapon anim: {_weaponAnim}");
+        Debug.Log($"Last animation type: {_lastAnimationType} Weapon anim: {_weaponAnim}");
 
         switch (_lastAnimationType)
         {
@@ -97,7 +97,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 break;
         }
 
-        PlayAnimation((int)newAnim);
+        // PlayAnimation((int)newAnim);
     }
 
     public override void Attack()
@@ -389,6 +389,8 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         if (base.PlaySkillCastAnimation())
         {
+            _lastAnimationType = HumanoidWeaponAnimType.cast;
+
             SkillCastAnimation skillCastAnimation = _lastSkill.Skillgrps[0].CastAnimation;
             int castAnim = (int)skillCastAnimation;
 
@@ -461,6 +463,8 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     {
         if (base.PlaySkillThrowAnimation())
         {
+            _lastAnimationType = HumanoidWeaponAnimType.cast_throw;
+
             SkillThrowAnimation skillThrowAnim = _lastSkill.Skillgrps[0].ThrowAnimation;
 
             HumanoidAnimationDefaultEvent throwAnim = (HumanoidAnimationDefaultEvent)skillThrowAnim;

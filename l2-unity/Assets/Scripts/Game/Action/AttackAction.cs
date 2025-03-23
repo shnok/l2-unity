@@ -11,7 +11,7 @@ public class AttackAction : L2Action
         // If has a target and attack key pressed
         if (TargetManager.Instance.HasTarget())
         {
-            Debug.LogWarning("Use attack action.");
+            // Debug.LogWarning("Use attack action.");
 
             Entity targetEntity = TargetManager.Instance.Target;
             EntityType targetType = targetEntity.Identity.EntityType;

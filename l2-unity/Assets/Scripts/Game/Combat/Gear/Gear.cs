@@ -17,7 +17,7 @@ public class Gear : MonoBehaviour
     [Header("Meta")]
     [SerializeField] private Weapon _rightHandWeapon;
     [SerializeField] private Weapon _leftHandWeapon;
-    [SerializeField] private float _weaponSizeRatio;
+    [SerializeField] protected float _weaponSizeRatio;
     [Header("Models")]
     [Header("Right hand")]
     [SerializeField] private WeaponType _rightHandType;
@@ -359,5 +359,13 @@ public class Gear : MonoBehaviour
                 UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_leftHandType == WeaponType.none ? WeaponType.hand : _leftHandType));
             }
         }
+    }
+
+    public virtual void StartTrail()
+    {
+    }
+
+    public virtual void StopTrail()
+    {
     }
 }

@@ -185,14 +185,18 @@ public abstract class Combat : MonoBehaviour
         _skillShot = false;
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         _lastSkillTypeSpAtk = (int)_lastSkill.Skillgrps[0].CastAnimation >= 100;
-        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.70f);
-        _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.90f);
+        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.80f);
+        _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.95f);
 
         Debug.Log($"CastSkill: skill={skill}, hitTime={hitTime}, reuseDelay={reuseDelay}, _lastSkillUseTime={_lastSkillUseTime}");
 
         if (skill.Skillgrps[0]?.CastAnimation != SkillCastAnimation.None)
         {
             _referenceHolder.NewAnimationController.PlaySkillAnimation(skill);
+            if (_lastSkillTypeSpAtk)
+            {
+                _referenceHolder.Gear.StartTrail();
+            }
         }
     }
 
@@ -211,7 +215,6 @@ public abstract class Combat : MonoBehaviour
             {
                 if (now > _skillThrowThreshold)
                 {
-
                     _skillThrown = true;
 
                     //Play skill cast animation
@@ -243,6 +246,7 @@ public abstract class Combat : MonoBehaviour
             else if (now > _lastSkillUseTime + _lastSkillHitTime)
             {
                 _castingSkill = false;
+                _referenceHolder.Gear.StopTrail();
             }
         }
     }

@@ -476,7 +476,6 @@ public class ParticleManager : MonoBehaviour
                 attachTo = entity.Gear.LeftHandBone;
                 break;
             default:
-                Debug.LogWarning($"Unhandled AttachOn: {attachMethod}.");
                 attachTo = entity.transform;
                 break;
         }

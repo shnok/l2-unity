@@ -7,6 +7,12 @@ public class IdleState : StateBase
 
     public override void Enter(object obj0)
     {
+        if (NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.cast_throw)
+        {
+            // Wait for cast throw to finish -> wait is called at the end of the animation anyway
+            return;
+        }
+
         NewPlayerAnimationController.Instance.Wait();
     }
 
