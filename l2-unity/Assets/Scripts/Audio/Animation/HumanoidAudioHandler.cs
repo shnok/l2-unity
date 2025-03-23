@@ -32,12 +32,6 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
         AudioManager.Instance.PlayCharacterSound(soundEvent, _race, transform.position);
     }
 
-    public void PlaySoundFromAnimationClip(int type)
-    {
-        EntitySoundEvent soundEvent = (EntitySoundEvent)type;
-        AudioManager.Instance.PlayCharacterSound(soundEvent, _race, transform.position);
-    }
-
     private void PlayStepSound()
     {
         string currentSurface = _surfaceDetector.GetSurfaceTag();
@@ -92,6 +86,39 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
         }
     }
 
+    public virtual void PlaySpAtkSound()
+    {
+        WeaponAnimType weaponAnim = ((NewHumanoidAnimationController)_entityReferenceHolder.NewAnimationController).WeaponAnim;
+        switch (weaponAnim)
+        {
+            case WeaponAnimType.hand:
+            case WeaponAnimType.dual:
+            case WeaponAnimType.bow:
+            case WeaponAnimType.shield:
+                break;
+            case WeaponAnimType._1HS:
+                PlaySound(EntitySoundEvent.Atk_1H_S);
+                break;
+            case WeaponAnimType._2HS:
+                PlaySound(EntitySoundEvent.Atk_2H_S);
+                break;
+            case WeaponAnimType.pole:
+                PlaySound(EntitySoundEvent.Atk_pole_S);
+                break;
+        }
+    }
+
+
+    public virtual void PlayPreAtkSound(int spAtkIndex)
+    {
+        // WeaponAnimType weaponAnim = ((NewHumanoidAnimationController)_entityReferenceHolder.NewAnimationController).WeaponAnim;
+
+        if (spAtkIndex == 0) //TODO: Verify and update
+        {
+            PlaySound(EntitySoundEvent.PreAtk_1);
+        }
+    }
+
     public override void PlaySkillVoice(string voice)
     {
         string eventName = $"event:/ChrSound/Skill/{voice}";
@@ -102,4 +129,5 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
             AudioManager.Instance.PlaySound(er, transform.position);
         }
     }
+
 }

@@ -144,13 +144,6 @@ public class WorldCombat : MonoBehaviour
         AudioManager.Instance.PlaySound(soundReference, entity.transform.position);
     }
 
-    public void EntityShootSkill(Entity sender, Entity target, int skillId, float hitTime)
-    {
-        Debug.LogWarning($"EntityLaunchSkill: {sender.transform.name} Skill: {skillId} Target: {target.transform.name}");
-        Skill skill = SkillTable.Instance.GetSkill(skillId);
-        EntityShootSkill(sender, target, skill, hitTime);
-    }
-
     // Shoot skill projectile
     public void EntityShootSkill(Entity sender, Entity target, Skill skill, float hitTime)
     {
@@ -180,7 +173,7 @@ public class WorldCombat : MonoBehaviour
         }
 
         // Spawn explosion particle
-        ParticleManager.Instance.SpawnSkillHitParticle(entity, target, skill);
+        ParticleManager.Instance.SpawnSkillExplosionParticle(entity, target, skill);
 
         if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length < 3)
         {

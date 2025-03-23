@@ -90,10 +90,10 @@ public abstract class NewBaseAnimationController : MonoBehaviour
         _atkSpdMultiplier = newAtkSpd;
     }
 
-    public void UpdateCastAnimationSpeed(float clipLength, float skillHitTime)
+    public void UpdateCastAnimationSpeed(float clipLength, float skillHitTime, bool fullDuration)
     {
         float clipLengthMs = clipLength * 1000f;
-        float skillCastEndTime = skillHitTime / 2f; // at 50% of cast time should switch to castend anim
+        float skillCastEndTime = fullDuration ? skillHitTime : skillHitTime / 2f; // at 50% of cast time should switch to castend anim
         float castSpeed = clipLengthMs / skillCastEndTime;
         _castSpdMultiplier = castSpeed;
     }

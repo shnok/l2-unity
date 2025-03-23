@@ -390,27 +390,59 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         if (base.PlaySkillCastAnimation())
         {
             SkillCastAnimation skillCastAnimation = _lastSkill.Skillgrps[0].CastAnimation;
+            int castAnim = (int)skillCastAnimation;
 
             if (skillCastAnimation >= SkillCastAnimation.SpAtk01)
             {
                 int spAtkIndex = (int)skillCastAnimation - 100;
+                HumanoidAnimationSpAtkEvent spAtkEvent = HumanoidAnimationSpAtkEvent.spatk01_1HS;
+                switch (_weaponAnim)
+                {
+                    case WeaponAnimType.shield:
+                    case WeaponAnimType.hand:
+                        spAtkEvent = HumanoidAnimationSpAtkEvent.spatk01_hand;
+                        break;
+                    case WeaponAnimType._1HS:
+                        spAtkEvent = HumanoidAnimationSpAtkEvent.spatk01_1HS;
+                        break;
+                    case WeaponAnimType._2HS:
+                        spAtkEvent = HumanoidAnimationSpAtkEvent.spatk01_2HS;
+                        break;
+                    case WeaponAnimType.bow:
+                        spAtkEvent = HumanoidAnimationSpAtkEvent.spatk01_bow;
+                        break;
+                    case WeaponAnimType.pole:
+                        spAtkEvent = HumanoidAnimationSpAtkEvent.spatk01_pole;
+                        break;
+                    case WeaponAnimType.dual:
+                        spAtkEvent = HumanoidAnimationSpAtkEvent.spatk01_dual;
+                        break;
+                }
 
-                Debug.LogWarning("Weapon cast animations not yet handled.");
-                return false;
+                castAnim = spAtkIndex + (int)spAtkEvent;
+                PlayAnimation(AnimationCategory.SpAtk, castAnim);
+
+                AudioHandler.PlayPreAtkSound(spAtkIndex);
+
+                if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                {
+                    events.Add(0.60f, () => AudioHandler.PlaySpAtkSound());
+                    events.OnEnd = Wait;
+                }
+                UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime, true);
+            }
+            else
+            {
+                PlayAnimation(castAnim);
+                if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                {
+                    events.OnEnd = PlaySkillCastEndAnimation;
+                }
+                UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime, false);
             }
 
-            HumanoidAnimationDefaultEvent castAnim = (HumanoidAnimationDefaultEvent)skillCastAnimation;
-
-            PlayAnimation((int)castAnim);
-
-            UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime);
 
             AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingVoices[(int)_entityReferenceHolder.Entity.RaceId]);
-
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
-            {
-                events.OnEnd = PlaySkillCastEndAnimation;
-            }
 
             _animancerState.EffectiveSpeed = _castSpdMultiplier;
 

@@ -16,9 +16,7 @@ public class ParticleManager : MonoBehaviour
     private GameObject _effectContainer;
     private GameObject _effectPoolContainer;
 
-    [SerializeField] private float _globalEffectScaling = 1f;
     [SerializeField] private float _hitHeightOffsetMultiplier = 1.0f;
-    [SerializeField] private float _skillHitParticleSizeMultiplier = 1.25f;
 
     private GameObject _arrowPrefab;
 
@@ -284,9 +282,9 @@ public class ParticleManager : MonoBehaviour
 
         // Using linear interpolation based on given data points:
         // (0.15, 1.3) and (0.495, 2.2)
-        float ratio = 1.3f + (colRadius - 0.15f) * ((2.2f - 1.3f) / (0.495f - 0.15f));
+        float ratio = 1.45f + (colRadius - 0.15f) * ((2.2f - 1.45f) / (0.495f - 0.15f));
 
-        return Mathf.Max(ratio, 0.5f);
+        return Mathf.Clamp(ratio, 0.5f, 3f);
     }
 
     public void SpawnSkillShotParticle(Entity caster, Entity target, Skill skill, float hitTime)
@@ -318,11 +316,16 @@ public class ParticleManager : MonoBehaviour
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
 
-                // Set initial position
-                UpdateSkillEffectTransform(target, action, effect.GameObject.transform, effect, attachOn);
+                if (skill.Skillgrps[0].CastAnimation >= SkillCastAnimation.SpAtk01 && skill.Skillgrps[0].CastAnimation <= SkillCastAnimation.SpAtk04)
+                {
+                    PlaceHitParticle(effect, caster, target);
+                }
+                else
+                {
+                    // Set initial position
+                    UpdateSkillEffectTransform(target, action, effect.GameObject.transform, effect, attachOn);
+                }
 
-                // Set initial position to current position
-                effect.StartingPosition = effect.GameObject.transform.position;
             }
             else
             {
@@ -356,7 +359,7 @@ public class ParticleManager : MonoBehaviour
         }
     }
 
-    public void SpawnSkillHitParticle(Entity caster, Entity target, Skill skill)
+    public void SpawnSkillExplosionParticle(Entity caster, Entity target, Skill skill)
     {
         List<EffectEmitter> explosionActions = skill.SkillEffect.ExplosionActions;
         if (explosionActions == null || explosionActions.Count == 0)
@@ -378,12 +381,8 @@ public class ParticleManager : MonoBehaviour
 
             effect.Target = target;
             effect.Caster = caster;
-            effect.StartTime = Time.time;
 
-            Vector3 position = CalculateHitParticlePosition(caster, target);
-            PlaceHitParticle(effect, caster, position, 1f);
-
-            effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * _skillHitParticleSizeMultiplier;
+            PlaceHitParticle(effect, caster, target);
 
             ActiveEffects.Enqueue(effect);
         }
@@ -392,7 +391,7 @@ public class ParticleManager : MonoBehaviour
     private void UpdateSkillEffectTransform(Entity caster, EffectEmitter emitter, Transform effectTransform, PooledEffect effect, AttachMethod attachMethod)
     {
         effectTransform.localPosition = new Vector3(0, caster.Appearance.CollisionHeight, 0);
-        Debug.LogWarning(emitter.EffectClass + " " + emitter.RelativeToCylinder + " " + emitter.Offset);
+        // Debug.LogWarning(emitter.EffectClass + " " + emitter.RelativeToCylinder + " " + emitter.Offset);
         if (emitter.RelativeToCylinder)
         {
             //X*=CollisionRadius, Y*=CollisionHeight, Z*=1
@@ -410,7 +409,6 @@ public class ParticleManager : MonoBehaviour
 
         effectTransform.localScale = emitter.ScaleSize > 0 ? Vector3.one * emitter.ScaleSize : Vector3.one;
         effectTransform.localScale *= (attachMethod == AttachMethod.AM_RH || attachMethod == AttachMethod.AM_LH) ? 0.01f : 1f;
-        effectTransform.localScale *= _globalEffectScaling;
         effectTransform.localRotation = Quaternion.Euler(Vector3.zero);
 
         effect.GameObject.SetActive(true);
@@ -491,49 +489,50 @@ public class ParticleManager : MonoBehaviour
     #region Hit Particles
     public void SpawnHitParticle(Entity attacker, Entity target, Hit hit)
     {
-        Vector3 particlePosition = CalculateHitParticlePosition(attacker, target);
-
         if (hit.hasSoulshot()) // Always spawn base hit particle with the soulshot particle
         {
             PooledEffect basecritParticle = SpawnSingleHitParticle(false, false, hit.getSsGrade());
-            PlaceHitParticle(basecritParticle, attacker, particlePosition, 1.25f);
+            PlaceHitParticle(basecritParticle, attacker, target);
             ActiveHitEffects.Enqueue(basecritParticle);
 
             PooledEffect hitParticle = SpawnSingleHitParticle(hit.isCrit(), true, hit.getSsGrade());
-            PlaceHitParticle(hitParticle, attacker, particlePosition, 1f);
+            PlaceHitParticle(hitParticle, attacker, target);
             ActiveHitEffects.Enqueue(hitParticle);
         }
         else
         {
             // Spawn default hit or crit particle 
             PooledEffect baseHitParticle = SpawnSingleHitParticle(hit.isCrit(), false, hit.getSsGrade());
-            PlaceHitParticle(baseHitParticle, attacker, particlePosition, 1.25f);
+            PlaceHitParticle(baseHitParticle, attacker, target);
             ActiveHitEffects.Enqueue(baseHitParticle);
         }
     }
 
     private Vector3 CalculateHitParticlePosition(Entity attacker, Entity target)
     {
-        var heading = attacker.transform.position - target.transform.position;
-        float angle = Vector3.Angle(heading, target.transform.forward);
-        Vector3 cross = Vector3.Cross(heading, target.transform.forward);
-        if (cross.y >= 0) angle = -angle;
-        Vector3 direction = Quaternion.Euler(0, angle, 0) * target.transform.forward;
         float particleHeight = target.Appearance.CollisionHeight * _hitHeightOffsetMultiplier;
-        Vector3 position = target.transform.position + direction * target.Appearance.CollisionRadius + Vector3.up * particleHeight;
+
+        // var heading = attacker.transform.position - target.transform.position;
+        // float angle = Vector3.Angle(heading, target.transform.forward);
+        // Vector3 cross = Vector3.Cross(heading, target.transform.forward);
+        // if (cross.y >= 0) angle = -angle;
+        // Vector3 direction = Quaternion.Euler(0, angle, 0) * target.transform.forward;
+        // Vector3 position = target.transform.position + direction * target.Appearance.CollisionRadius + Vector3.up * particleHeight;
+
+        Vector3 position = target.transform.position + Vector3.up * particleHeight;
 
         return position;
     }
 
-    private void PlaceHitParticle(PooledEffect effect, Entity attacker, Vector3 position, float scale)
+    private void PlaceHitParticle(PooledEffect effect, Entity attacker, Entity target)
     {
         effect.GameObject.SetActive(true);
         effect.GameObject.transform.parent = _effectContainer.transform;
         effect.StartTime = Time.time;
-        effect.GameObject.transform.position = position;
-        effect.GameObject.transform.localScale = Vector3.one * scale;
+        effect.GameObject.transform.position = CalculateHitParticlePosition(attacker, target);
         effect.GameObject.transform.LookAt(attacker.transform);
         effect.GameObject.transform.eulerAngles = new Vector3(0, effect.GameObject.transform.eulerAngles.y - 90f, 0);
+        effect.GameObject.transform.localScale = Vector3.one * CalculateCastParticleSizeRatio(target);
         effect.Restart();
     }
 

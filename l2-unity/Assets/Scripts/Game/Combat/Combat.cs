@@ -21,6 +21,7 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private long _lastSkillUseTime;
     private long _skillThrowThreshold;
     private long _skillShootThreshold;
+    private bool _lastSkillTypeSpAtk;
     [SerializeField] protected Entity _lastSkillTarget;
     [SerializeField] protected bool _castingSkill;
     [SerializeField] private bool _skillThrown; // Throw animation threshold reached?
@@ -183,7 +184,8 @@ public abstract class Combat : MonoBehaviour
         _castingSkill = true;
         _skillShot = false;
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.75f);
+        _lastSkillTypeSpAtk = (int)_lastSkill.Skillgrps[0].CastAnimation >= 100;
+        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.70f);
         _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.90f);
 
         Debug.Log($"CastSkill: skill={skill}, hitTime={hitTime}, reuseDelay={reuseDelay}, _lastSkillUseTime={_lastSkillUseTime}");
@@ -221,7 +223,7 @@ public abstract class Combat : MonoBehaviour
             }
             else if (!_skillShot) //Throw projectile at 90%
             {
-                if (now > _skillShootThreshold)
+                if (now > _skillShootThreshold || _lastSkillTypeSpAtk) // dont wait when skill is a fighter skill
                 {
                     _skillShot = true;
 
