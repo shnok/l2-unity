@@ -89,15 +89,15 @@ public class UserGear : HumanoidGear
         {
             case WeaponAnimType._1HS:
                 scale = 0.8f;
-                offset = -0.03f;
+                offset = -0.003f;
                 break;
             case WeaponAnimType._2HS:
                 scale = 1.5f;
-                offset = -0.04f;
+                offset = -0.004f;
                 break;
             case WeaponAnimType.pole:
                 scale = 2.5f;
-                offset = -0.05f;
+                offset = -0.005f;
                 break;
             default:
                 break;
