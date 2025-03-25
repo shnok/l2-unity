@@ -73,7 +73,7 @@ public class SkillLearnWindow : L2PopupWindow
         if (_skillList == null)
         {
             // preadd skill detail 
-            VisualElement content = _windowEle.Q<VisualElement>(className: "skill-learn-content");
+            VisualElement content = _windowEle.Q<VisualElement>(className: "skill-learn-detail-content");
             _skillDetail = _skillDetailAsset.Instantiate()[0];
             _skillDetail.style.display = DisplayStyle.None;
             content.Add(_skillDetail);
