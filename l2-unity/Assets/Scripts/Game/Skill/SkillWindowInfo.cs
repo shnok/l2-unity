@@ -1,11 +1,9 @@
-using System.Collections.Generic;
-
 public class SkillWindowInfo
 {
     public int SkillId { get; private set; }
     public int Level { get; }
     public string Name { get; }
-    public string Desc { get; }
+    public string Desc { get; private set; }
     public string Icon { get; }
     public string IconPanel { get; }
     public int MpCost { get; }
@@ -14,6 +12,7 @@ public class SkillWindowInfo
     public bool IsMagic { get; }
     public SkillType Type { get; }
     public SkillRequirement[] SkillRequirement { get; set; }
+    public string[] SkillDescParams { get; set; }
 
     public SkillWindowInfo(int skillId, int lvl, int spCost, SkillRequirement[] skillRequirements)
     {
@@ -22,7 +21,7 @@ public class SkillWindowInfo
         SkillId = skillId;
         Level = skillNameData.Level;
         Name = skillNameData.Name;
-        Desc = skillNameData.Desc;
+        Desc = string.IsNullOrEmpty(skillNameData.Desc) ? SkillNameTable.Instance.GetDescription(skillId) : skillNameData.Desc;
         Icon = skillgrp.Icon;
         IconPanel = skillgrp.IconPanel;
         MpCost = skillgrp.MpConsume;
@@ -31,6 +30,7 @@ public class SkillWindowInfo
         IsMagic = skillgrp.IsMagic != IsMagicType.None;
         Type = skillgrp.IconType;
         SkillRequirement = skillRequirements;
+        SkillDescParams = skillNameData.DescParams;
     }
     
     public SkillWindowInfo(int skillId, int lvl) 
@@ -40,12 +40,22 @@ public class SkillWindowInfo
         SkillId = skillId;
         Level = skillNameData.Level;
         Name = skillNameData.Name;
-        Desc = skillNameData.Desc;
+        Desc = string.IsNullOrEmpty(skillNameData.Desc) ? SkillNameTable.Instance.GetDescription(skillId) : skillNameData.Desc;
         Icon = skillgrp.Icon;
         IconPanel = skillgrp.IconPanel;
         MpCost = skillgrp.MpConsume;
         Range = skillgrp.CastRange;
         IsMagic = skillgrp.IsMagic != IsMagicType.None;
         Type = skillgrp.IconType;
+        SkillDescParams = skillNameData.DescParams;
+    }
+    
+    public string ComposeDescription()
+    {
+        for (var i = 0; i < SkillDescParams.Length; i++)
+        {
+            Desc = Desc.Replace($"$s{i+1}", SkillDescParams[i]);
+        }
+        return Desc;
     }
 }

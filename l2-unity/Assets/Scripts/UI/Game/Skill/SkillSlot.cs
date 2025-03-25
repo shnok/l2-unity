@@ -16,11 +16,11 @@ public class SkillSlot : L2DraggableSlot
     {
         StyleBackground background = new StyleBackground(IconTable.Instance.LoadTextureByName(skill.Icon));
         _slotBg.style.backgroundImage = background;
-        AddTooltip(skill.Desc);
             
         _slotElement.RemoveFromClassList("empty");
         _slotDragManipulator.enabled = true;
         Skill = skill;
+        AddTooltip();
     }
 
     public override void ClearManipulators()
@@ -34,8 +34,8 @@ public class SkillSlot : L2DraggableSlot
         }
     }
     
-    private void AddTooltip(string text)
+    private void AddTooltip()
     {
-        _tooltipManipulator?.SetText(text);
+        _tooltipManipulator?.SetText(Skill.ComposeDescription());
     }
 }

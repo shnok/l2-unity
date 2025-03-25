@@ -241,7 +241,7 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
-    public void SendRequestSkill()
+    public void SendRequestSkillList()
     {
         RequestSkillListPacket packet = new RequestSkillListPacket();
         SendPacket(packet);

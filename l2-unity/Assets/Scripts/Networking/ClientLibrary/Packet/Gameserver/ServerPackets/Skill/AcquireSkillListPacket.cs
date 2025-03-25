@@ -8,8 +8,8 @@ public class AcquireSkillListPacket : ServerPacket
 
     public override void Parse()
     {
-        PacketSkillType type = (PacketSkillType)ReadD();
-        int skillsSize = (int)ReadD();
+        PacketSkillType type = (PacketSkillType)ReadI();
+        int skillsSize = ReadI();
         Skills = new SkillWindowInfo[skillsSize];
         for (int i = 0; i < skillsSize; i++)
         {

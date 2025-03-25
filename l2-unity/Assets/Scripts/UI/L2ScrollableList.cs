@@ -31,6 +31,7 @@ public class L2ScrollableList<T> : L2Scrollable
 
     public void RefreshList()
     {
+        _content.Clear();
         for (int i = 0; i < _items.Length; i++)
         {
             AddToList(i);

@@ -127,17 +127,19 @@ public class SkillTable
             Dictionary<int, SkillNameData> skillname = SkillNameTable.Instance.GetNames(kvp.Key);
 
             SkillNameData[] skillNameArray = new SkillNameData[skillname.Keys.Count];
-            for (int i = 0; i < skillname.Keys.Count; i++)
+            int arrIx = 0;
+            foreach(var s in skillname)
             {
-                skillNameArray[i] = skillname[i + 1];
+                skillNameArray[arrIx] = s.Value;
             }
 
             Dictionary<int, Skillgrp> skillgrp = SkillgrpTable.Instance.GetSkillgrp(kvp.Key);
 
             Skillgrp[] skillgrpArray = new Skillgrp[skillgrp.Keys.Count];
-            for (int i = 0; i < skillgrp.Keys.Count; i++)
+            arrIx = 0;
+            foreach(var s in skillgrp)
             {
-                skillgrpArray[i] = skillgrp[i + 1];
+                skillgrpArray[arrIx] = s.Value;
             }
 
             SkillSoundgrp skillSoundgrp = SkillSoundgrpTable.Instance.GetSkillSoundGrp(kvp.Key);

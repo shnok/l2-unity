@@ -9,7 +9,7 @@ public class SkillListPacket : ServerPacket
 
     public override void Parse()
     {
-        int skillSize = (int)ReadD();
+        int skillSize = ReadI();
         Skills = new SkillInfo[skillSize];
         
         for (var i = 0; i < skillSize; i++)

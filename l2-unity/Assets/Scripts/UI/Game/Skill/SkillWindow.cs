@@ -81,7 +81,6 @@ public class SkillWindow : L2PopupWindow
         {
             if (!PlayerSkill.Instance.Initialized) 
             {
-                GameClient.Instance.ClientPacketHandler.SendRequestSkill();
                 SetSkills(PlayerSkill.Instance.GetSkillsForWindow());
             }
             ShowWindow();

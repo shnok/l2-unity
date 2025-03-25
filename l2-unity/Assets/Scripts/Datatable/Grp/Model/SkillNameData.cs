@@ -11,6 +11,7 @@ public class SkillNameData
     [SerializeField] private string _name;
     [SerializeField] private string _desc;
     [SerializeField] private int _prev_skill_id;
+    [SerializeField] private string[] _desc_params;
 
 
     public int Id { get => _id; set => _id = value; }
@@ -19,5 +20,6 @@ public class SkillNameData
     public string Name { get => _name; set => _name = value; }
     public string Desc { get => _desc; set => _desc = value; }
     public int PrevSkillId { get => _prev_skill_id; set => _prev_skill_id = value; }
+    public string[] DescParams { get => _desc_params; set => _desc_params = value; }
 
 }

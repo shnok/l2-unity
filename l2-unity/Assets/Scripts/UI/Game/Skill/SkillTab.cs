@@ -12,6 +12,7 @@ public class SkillTab : L2Tab
     [SerializeField] private SkillTabType _tabType;
     private SkillSlot[] _skillSlots;
     private VisualElement _contentContainer;
+    private short skillSlotIx;
     
     public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
@@ -29,7 +30,8 @@ public class SkillTab : L2Tab
                 slot.ClearManipulators();
             }
         }
-
+        
+        skillSlotIx = 0;
         _contentContainer.Clear();
         if (_tabType == SkillTabType.PASSIVE)
         {
@@ -191,12 +193,11 @@ public class SkillTab : L2Tab
         // maybe use onclick on whole header
         Button btn = section.Q<Button>("PlusMinusBtn");
         btn.RegisterCallback<ClickEvent>(HandleSlotClick, TrickleDown.TrickleDown);
-            
         for (var i = 0; i < skills.Count; ++i) {
             
             VisualElement slotElement = SkillWindow.Instance.SkillSlotTemplate.Instantiate()[0];
             SkillSlot skillSlot = new SkillSlot(i, slotElement, L2Slot.SlotType.Skill);
-            _skillSlots[i] = skillSlot;
+            _skillSlots[skillSlotIx++] = skillSlot;
             skillSlot.AssignSkill(skills[i]);
             
             sectionContainer.Add(slotElement);

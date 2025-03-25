@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -51,6 +52,29 @@ public class SkillNameTable
 
         return skillLevel;
     }
+    
+    public string GetDescription(int id)
+    {
+        _names.TryGetValue(id, out Dictionary<int, SkillNameData> skillLevel);
+        if (skillLevel == null) return null;
+
+        bool found = skillLevel.TryGetValue(0, out SkillNameData skillName);
+        if (found)
+        {
+            return skillName.Desc;
+        }
+
+        string descParams = string.Empty;
+        foreach (KeyValuePair<int, SkillNameData> lvl in skillLevel)
+        {
+            if (!string.IsNullOrEmpty(lvl.Value.Desc))
+            {
+                descParams = lvl.Value.Desc;
+                break;
+            }
+        }
+        return descParams;
+    }
 
     private void ReadActions()
     {
@@ -102,6 +126,9 @@ public class SkillNameTable
                             break;
                         case "prev_skill_id":
                             nameData.PrevSkillId = int.Parse(value);
+                            break;
+                        case "desc_param":
+                            nameData.DescParams = DatUtils.CleanupString(value).Split(';');
                             break;
                     }
                 }

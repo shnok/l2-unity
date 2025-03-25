@@ -25,21 +25,11 @@ public class PlayerSkill : MonoBehaviour
         
         _skills = new List<SkillInfo>();
     }
-    
-    private void Start()
-    {
-        _skills.Clear();
-    }
 
     public void SetSkills(SkillInfo[] skills)
     {
         _skills = skills.ToList();
-        _skills.Add(new SkillInfo(141, 1, true, false));
-        _skills.Add(new SkillInfo(142, 1, true, false));
-        _skills.Add(new SkillInfo(1164, 1, false, false));
-        _skills.Add(new SkillInfo(56, 1, false, false));
-        _skills.Add(new SkillInfo(91, 1, false, false));
-        _skills.Add(new SkillInfo(16, 1, false, false));
+        SkillWindow.Instance.SetSkills(GetSkillsForWindow());
     }
 
     public Skill[] GetSkills()
@@ -79,30 +69,9 @@ public class PlayerSkill : MonoBehaviour
         return result;
     }
 
-    public void AcquireSkill(int skillId, int spCost)
-    {
-        foreach (var s in _skills)
-        {
-            if (s.Id == skillId)
-            {
-                _skillToLearn = (s.Id, s.Level, spCost);
-            }
-        }
-    }
-    
     public void UpdateSkill()
     {
-        for (var i = 0; i < _skills.Count; ++i)
-        {
-            if (_skills[i].Id == _skillToLearn!.Value.SkillId)
-            {
-                _skills[i] = new SkillInfo(_skillToLearn.Value.SkillId, _skillToLearn.Value.Lvl + 1, _skills[i].IsPassive, false);
-            }
-        }
-        WorldCombat.Instance.StatusUpdate(PlayerEntity.Instance, new List<StatusUpdatePacket.Attribute> {
-            new((int)StatusUpdatePacket.AttributeType.SP, ((PlayerStats)PlayerEntity.Instance.Stats).Sp - _skillToLearn!.Value.SpCost)
-        });
-        _skillToLearn = null;
+        GameClient.Instance.ClientPacketHandler.SendRequestSkillList();
     }
     
     public void UseSkill(int skillId)
