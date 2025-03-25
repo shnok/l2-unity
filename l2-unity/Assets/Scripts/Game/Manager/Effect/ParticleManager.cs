@@ -262,7 +262,7 @@ public class ParticleManager : MonoBehaviour
                 return;
             }
 
-            effect.HitTime = hitTime / 1000f * 0.90f; //in seconds
+            effect.HitTime = hitTime / 1000f; //in seconds
 
             effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
 
@@ -316,24 +316,18 @@ public class ParticleManager : MonoBehaviour
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
 
-                if (skill.Skillgrps[0].CastAnimation >= SkillCastAnimation.SpAtk01 && skill.Skillgrps[0].CastAnimation <= SkillCastAnimation.SpAtk04)
-                {
-                    PlaceHitParticle(effect, caster, target);
-                }
-                else
-                {
-                    // Set initial position
-                    UpdateSkillEffectTransform(target, action, effect.GameObject.transform, effect, attachOn);
-                }
-
+                // if (skill.Skillgrps[0].CastAnimation >= SkillCastAnimation.SpAtk01 && skill.Skillgrps[0].CastAnimation <= SkillCastAnimation.SpAtk04)
+                // {
+                PlaceHitParticle(effect, caster, target);
+                // }
+                // else
+                // {
+                // Set initial position
+                // UpdateSkillEffectTransform(target, action, effect.GameObject.transform, effect, attachOn);
+                // }
             }
             else
             {
-                // if (action.Offset == Vector3.zero) //TODO: Needed? Maybe use collision radius instead
-                // {
-                //     action.Offset = new Vector3(0, 0, 5f);
-                // }
-
                 effect.HitSuccess = true;
                 effect.HitTime = hitTime;
                 effect.EffectDurationSec = hitTime - Time.time;

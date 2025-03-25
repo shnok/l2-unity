@@ -105,7 +105,7 @@ public class ProjectileManager : MonoBehaviour
                     else
                     {
                         //TODO: ignore hit effect on first target when skill is shot from skill shot packet?
-                        WorldCombat.Instance.SkillHitTarget(effect.Caster, effect.Target, effect.Skill);
+                        WorldCombat.Instance.SkillProjectileHitTarget(effect.Caster, effect.Target, effect.Skill);
                     }
                 }
             }

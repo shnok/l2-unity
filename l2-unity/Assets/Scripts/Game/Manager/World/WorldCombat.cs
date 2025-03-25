@@ -163,7 +163,7 @@ public class WorldCombat : MonoBehaviour
     }
 
     // Projectile hit target
-    public void SkillHitTarget(Entity entity, Entity target, Skill skill)
+    public void SkillProjectileHitTarget(Entity entity, Entity target, Skill skill)
     {
         // Skill has an explosion action ? (was a projectile) ?
         if (skill.SkillEffect.ExplosionActions == null || skill.SkillEffect.ExplosionActions.Count == 0)

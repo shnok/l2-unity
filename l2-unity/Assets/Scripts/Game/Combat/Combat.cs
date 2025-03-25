@@ -21,7 +21,7 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private long _lastSkillUseTime;
     private long _skillThrowThreshold;
     private long _skillShootThreshold;
-    private bool _lastSkillTypeSpAtk;
+    private bool _isFighterSkill;
     [SerializeField] protected Entity _lastSkillTarget;
     [SerializeField] protected bool _castingSkill;
     [SerializeField] private bool _skillThrown; // Throw animation threshold reached?
@@ -37,6 +37,9 @@ public abstract class Combat : MonoBehaviour
     public int LastSkillHitTime { get => _lastSkillHitTime; }
     public int LastSkillReuseDelay { get => _lastSkillReuseDelay; }
     public long LastSkillUseTime { get => _lastSkillUseTime; }
+
+    public float Throw1 = 0.8f;
+    public float Throw2 = 0.95f;
 
     protected BaseAnimationAudioHandler AudioHandler { get => _referenceHolder.AudioHandler; }
 
@@ -184,16 +187,16 @@ public abstract class Combat : MonoBehaviour
         _castingSkill = true;
         _skillShot = false;
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        _lastSkillTypeSpAtk = (int)_lastSkill.Skillgrps[0].CastAnimation >= 100;
-        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.80f);
-        _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.95f);
+        _isFighterSkill = (int)_lastSkill.Skillgrps[0].CastAnimation >= 100;
+        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.85f);
+        _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 1f);
 
         Debug.Log($"CastSkill: skill={skill}, hitTime={hitTime}, reuseDelay={reuseDelay}, _lastSkillUseTime={_lastSkillUseTime}");
 
         if (skill.Skillgrps[0]?.CastAnimation != SkillCastAnimation.None)
         {
             _referenceHolder.NewAnimationController.PlaySkillAnimation(skill);
-            if (_lastSkillTypeSpAtk)
+            if (_isFighterSkill)
             {
                 _referenceHolder.Gear.StartTrail();
             }
@@ -217,16 +220,16 @@ public abstract class Combat : MonoBehaviour
                 {
                     _skillThrown = true;
 
-                    //Play skill cast animation
-                    if (_lastSkill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)
+                    //Play skill throw animation
+                    if (_lastSkill.Skillgrps[0].ThrowAnimation != SkillThrowAnimation.None)
                     {
-                        LaunchSkill();
+                        ThrowSkill();
                     }
                 }
             }
             else if (!_skillShot) //Throw projectile at 90%
             {
-                if (now > _skillShootThreshold || _lastSkillTypeSpAtk) // dont wait when skill is a fighter skill
+                if (now > _skillShootThreshold)
                 {
                     _skillShot = true;
 
@@ -271,7 +274,7 @@ public abstract class Combat : MonoBehaviour
         return null;
     }
 
-    public virtual void LaunchSkill()
+    public virtual void ThrowSkill()
     {
         _referenceHolder.NewAnimationController.PlaySkillThrowAnimation();
     }

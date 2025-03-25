@@ -145,6 +145,6 @@ public abstract class Entity : MonoBehaviour
 
     public void LaunchSkill()
     {
-        Combat.LaunchSkill();
+        Combat.ThrowSkill();
     }
 }

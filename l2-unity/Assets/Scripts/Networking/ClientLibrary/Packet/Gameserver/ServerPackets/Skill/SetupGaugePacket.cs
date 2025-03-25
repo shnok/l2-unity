@@ -24,5 +24,12 @@ public class SetupGaugePacket : ServerPacket
         Color = (GaugeColor)ReadI();
         Time = ReadI();
         MaxTime = ReadI();
+
+        Debug.LogWarning(ToString());
+    }
+
+    public override string ToString()
+    {
+        return $"Setup Gauge \n Time: {Time} MaxTime: {MaxTime} Color: {Color}";
     }
 }
