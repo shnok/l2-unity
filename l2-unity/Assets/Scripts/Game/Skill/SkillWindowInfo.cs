@@ -9,8 +9,10 @@ public class SkillWindowInfo
     public int MpCost { get; }
     public int SpCost { get; }
     public int Range { get; }
-    public bool IsMagic { get; }
+    public IsMagicType IsMagic { get; }
     public SkillType Type { get; }
+    public float HitTime { get; }
+    public float ReuseDelay { get; }
     public SkillRequirement[] SkillRequirement { get; set; }
     public string[] SkillDescParams { get; set; }
 
@@ -27,8 +29,10 @@ public class SkillWindowInfo
         MpCost = skillgrp.MpConsume;
         SpCost = spCost;
         Range = skillgrp.CastRange;
-        IsMagic = skillgrp.IsMagic != IsMagicType.None;
+        IsMagic = skillgrp.IsMagic;
         Type = skillgrp.IconType;
+        HitTime = skillgrp.HitTime;
+        ReuseDelay = skillgrp.ReuseDelay;
         SkillRequirement = skillRequirements;
         SkillDescParams = skillNameData.DescParams;
     }
@@ -45,8 +49,10 @@ public class SkillWindowInfo
         IconPanel = skillgrp.IconPanel;
         MpCost = skillgrp.MpConsume;
         Range = skillgrp.CastRange;
-        IsMagic = skillgrp.IsMagic != IsMagicType.None;
+        IsMagic = skillgrp.IsMagic;
         Type = skillgrp.IconType;
+        HitTime = skillgrp.HitTime;
+        ReuseDelay = skillgrp.ReuseDelay;
         SkillDescParams = skillNameData.DescParams;
     }
     
@@ -58,4 +64,19 @@ public class SkillWindowInfo
         }
         return Desc;
     }
+
+    public string GetSkillType() =>
+        Type switch
+        {
+            SkillType.Passive or SkillType.EquipmentPassive or SkillType.AbilityPassive or SkillType.Clan => "Passive Skill",
+            _ when Type is SkillType.Damage or SkillType.Toggle or SkillType.CraftAndItems && IsMagic == IsMagicType.None => "Active Skill",
+            _ when Type is SkillType.Damage or SkillType.HealsCubicsRaidsDebuff && IsMagic != IsMagicType.None => "Magic",
+            _ when Type is SkillType.Buff && IsMagic == IsMagicType.DamageBuffHeal => "Synergy/Song/Dance",
+            _ => string.Empty
+        };
+
+    public bool IsMagicSkill() => IsMagic != IsMagicType.None;
+
+    public bool IsPassiveSkill() => 
+        Type is SkillType.Passive or SkillType.EquipmentPassive or SkillType.AbilityPassive or SkillType.Clan;
 }

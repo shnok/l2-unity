@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,7 +7,9 @@ using UnityEngine.UIElements;
 public class L2ToolTip : L2PopupWindow
 {
 
-    private Label _title;
+    private VisualElement _skillTooltip;
+    private VisualElement _labelTooltip;
+    private VisualElement _value;
     private VisualElement _tooltipTarget;
     private Coroutine _updateStyleCoroutine;
 
@@ -32,7 +35,7 @@ public class L2ToolTip : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Components/Tooltip");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Components/L2Tooltip/L2Tooltip");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -41,16 +44,54 @@ public class L2ToolTip : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
-        _title = GetLabelById("Title");
+        _value = GetElementById("Content");
+        _skillTooltip = GetElementById("SkillTooltip");
+        _labelTooltip = GetElementById("LabelTooltip");
     }
 
-    public void UpdateTooltip(string title, VisualElement target)
+    public void UpdateTooltip<T>(L2Slot.SlotType type, T value, VisualElement target)
     {
         _windowEle.style.left = -1000;
         _windowEle.style.opacity = 0;
 
         _tooltipTarget = target;
 
+        switch (type)
+        {
+            case L2Slot.SlotType.Skill:
+                SkillWindowInfo val = value as SkillWindowInfo;
+                if (val is null) break;
+                AddSkillTooltip(val);
+                _skillTooltip.style.display = DisplayStyle.Flex;
+                _labelTooltip.style.display = DisplayStyle.None;
+                break;
+                
+            default:
+                _skillTooltip.style.display = DisplayStyle.None;
+                
+                string stringVal;
+                if (value is SkillWindowInfo info)
+                {
+                    stringVal = info.Name;
+                }
+                else
+                {
+                    stringVal = value as string;
+                }
+
+                if (stringVal != string.Empty)
+                {
+                    GetLabelById("Content").text = stringVal;
+                    _labelTooltip.style.display = DisplayStyle.Flex;
+                }
+                else
+                {
+                    _labelTooltip.style.display = DisplayStyle.None;
+                }
+
+                break;
+        }
+        
         ShowWindow();
 
         if (_updateStyleCoroutine != null)
@@ -58,15 +99,14 @@ public class L2ToolTip : L2PopupWindow
             StopCoroutine(_updateStyleCoroutine);
         }
 
-        _updateStyleCoroutine = StartCoroutine(UpdateToolTipCoroutine(title, target));
+        _updateStyleCoroutine = StartCoroutine(UpdateToolTipCoroutine(target));
     }
 
-    IEnumerator UpdateToolTipCoroutine(string title, VisualElement target)
+    IEnumerator UpdateToolTipCoroutine(VisualElement target)
     {
         while (true)
         {
-            _title.text = title;
-
+            
             yield return new WaitForEndOfFrame();
 
             _windowEle.style.left = target.worldBound.x;
@@ -86,6 +126,57 @@ public class L2ToolTip : L2PopupWindow
             {
                 StopCoroutine(_updateStyleCoroutine);
             }
+        }
+    }
+
+    public void AddSkillTooltip(SkillWindowInfo skill)
+    {
+        StyleBackground background = new StyleBackground(IconTable.Instance.LoadTextureByName(skill.Icon));
+        GetElementById("SkillTooltipIcon").style.backgroundImage = background;
+        GetLabelById("SkillTooltipName").text = skill.Name;
+        GetLabelById("SkillTooltipLevelValue").text = skill.Level.ToString();
+        GetLabelById("SkillTooltipType").text = skill.GetSkillType();
+        Label desc = GetLabelById("SkillTooltipDescription");
+        desc.text = skill.ComposeDescription();
+
+        if (skill.MpCost > 0)
+        {
+            GetLabelById("SkillTooltipMpCostValue").text = skill.MpCost.ToString();
+            GetElementById("SkillTooltipMpCost").style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            GetElementById("SkillTooltipMpCost").style.display = DisplayStyle.None;
+        }
+        
+        if (skill.Range > 0) 
+        {
+            GetLabelById("SkillTooltipRangeValue").text = skill.Range.ToString();
+            GetElementById("SkillTooltipRange").style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            GetElementById("SkillTooltipRange").style.display = DisplayStyle.None;
+        }
+
+        if (skill.HitTime > 0)
+        {
+            GetLabelById("SkillTooltipCastingTimeValue").text = skill.HitTime.ToString(CultureInfo.InvariantCulture);
+            GetElementById("SkillTooltipCastingTime").style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            GetElementById("SkillTooltipCastingTime").style.display = DisplayStyle.None;
+        }
+
+        if (skill.IsPassiveSkill() || skill.Type == SkillType.CraftAndItems)
+        {
+            GetElementById("SkillTooltipReuseTime").style.display = DisplayStyle.None;
+        }
+        else
+        {
+            GetLabelById("SkillTooltipReuseTimeValue").text = skill.ReuseDelay.ToString(CultureInfo.InvariantCulture);
+            GetElementById("SkillTooltipReuseTime").style.display = DisplayStyle.Flex;
         }
     }
 }

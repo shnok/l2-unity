@@ -112,7 +112,7 @@ public class SkillTab : L2Tab
         {
             SkillWindowInfo skill = skills[i];
             if (skill.Type is SkillType.Damage or SkillType.HealsCubicsRaidsDebuff) {
-                if (skill.IsMagic) {
+                if (skill.IsMagicSkill()) {
                     magicSkills.Add(skill);
                 } else {
                     physicalSkills.Add(skill);

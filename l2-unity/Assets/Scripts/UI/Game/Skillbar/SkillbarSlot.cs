@@ -86,6 +86,8 @@ public class SkillbarSlot : L2ClickableSlot
     public void AssignSkill(int skillId, int level)
     {
         SkillWindowInfo skill = new SkillWindowInfo(skillId, level);
+        if (skill.IsPassiveSkill()) return;
+        
         _innerSlot = new SkillSlot(_position, _slotElement, SlotType.SkillBar);
         ((SkillSlot)_innerSlot).AssignSkill(skill);
         ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();

@@ -36,6 +36,6 @@ public class SkillSlot : L2DraggableSlot
     
     private void AddTooltip()
     {
-        _tooltipManipulator?.SetText(Skill.ComposeDescription());
+        _tooltipManipulator?.SetValue(Skill);
     }
 }
