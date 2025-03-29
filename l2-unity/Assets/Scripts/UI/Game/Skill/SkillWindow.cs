@@ -107,7 +107,7 @@ public class SkillWindow : L2PopupWindow
     public override void ShowWindow()
     {
         base.ShowWindow();
-        AudioManager.Instance.PlayUISound("click_01");
+        AudioManager.Instance.PlayUISound("window_open");
         L2GameUI.Instance.WindowOpened(this);
     }
 
@@ -116,7 +116,7 @@ public class SkillWindow : L2PopupWindow
         base.HideWindow(silent);
 
         if (!silent)
-            AudioManager.Instance.PlayUISound("click_02");
+            AudioManager.Instance.PlayUISound("window_close");
 
         L2GameUI.Instance.WindowClosed(this);
     }
