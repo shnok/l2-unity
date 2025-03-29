@@ -97,7 +97,7 @@ public class InventorySlot : L2DraggableSlot
 
         if (_tooltipManipulator != null)
         {
-            _tooltipManipulator.SetText(tooltipText);
+            _tooltipManipulator.SetValue(tooltipText);
         }
     }
 

@@ -1,35 +1,38 @@
 using UnityEngine.UIElements;
 
-public class TooltipManipulator : PointerManipulator
+public class TooltipManipulator : Manipulator
 {
 
-    private string _text;
+    private object _value;
+    private readonly L2Slot.SlotType _type;
     private bool _pointerOver;
 
-    public TooltipManipulator(VisualElement target, string text)
+    public TooltipManipulator(VisualElement target, L2Slot.SlotType type, object value)
     {
         this.target = target;
-        _text = text;
+        _type = type;
+        _value = value;
     }
 
     protected override void RegisterCallbacksOnTarget()
     {
-        target.RegisterCallback<PointerEnterEvent>(PointerInHandler);
-        target.RegisterCallback<MouseOverEvent>(PointerOverHandler);
-        target.RegisterCallback<PointerOutEvent>(PointerOutHandler);
+        target.RegisterCallback<PointerOverEvent>(PointerInHandler, TrickleDown.TrickleDown);
+        target.RegisterCallback<PointerOutEvent>(PointerOutHandler, TrickleDown.TrickleDown);
     }
 
     protected override void UnregisterCallbacksFromTarget()
     {
-        target.UnregisterCallback<PointerEnterEvent>(PointerInHandler);
-        target.UnregisterCallback<MouseOverEvent>(PointerOverHandler);
-        target.UnregisterCallback<PointerOutEvent>(PointerOutHandler);
+        target.UnregisterCallback<PointerOverEvent>(PointerInHandler, TrickleDown.TrickleDown);
+        target.UnregisterCallback<PointerOutEvent>(PointerOutHandler, TrickleDown.TrickleDown);
     }
 
-    private void PointerInHandler(PointerEnterEvent evt)
+    private void PointerInHandler(PointerOverEvent evt)
     {
-        if (_text.Length > 0)
-            L2ToolTip.Instance.UpdateTooltip(_text, target);
+        if (!_pointerOver)
+        {
+            L2ToolTip.Instance.UpdateTooltip(_type, _value, target);
+        }
+        _pointerOver = true;
     }
 
     private void PointerOverHandler(MouseOverEvent evt)
@@ -40,13 +43,17 @@ public class TooltipManipulator : PointerManipulator
     private void PointerOutHandler(PointerOutEvent evt)
     {
         _pointerOver = false;
-        if (_text.Length > 0)
-            L2ToolTip.Instance.HideWindow(target);
+        if (_value is not null) L2ToolTip.Instance.HideWindow(target);
     }
 
-    public void SetText(string text)
+    public void SetValue(string value)
     {
-        _text = text;
+        _value = value;
+    }
+    
+    public void SetValue(SkillWindowInfo value)
+    {
+        _value = value;
     }
 
     public void Clear()
