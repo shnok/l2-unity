@@ -88,6 +88,7 @@ public class SkillLearnWindow : L2PopupWindow
             {
                 LearnSkill();
                 _selectedSkill = null;
+                _skillList?.RemoveSelectedFromList();
                 ToggleShowSkillDetail();
             }, TrickleDown.TrickleDown);
         
@@ -96,7 +97,7 @@ public class SkillLearnWindow : L2PopupWindow
             cancel.AddManipulator(buttonCancelSoundManipulator);
             cancel.RegisterCallback<MouseDownEvent>(_ =>
             {
-                _selectedSkill = null;
+                _skillList?.UnSelect();
                 ToggleShowSkillDetail();
             }, TrickleDown.TrickleDown);
         
@@ -169,6 +170,7 @@ public class SkillLearnWindow : L2PopupWindow
     {
         AudioManager.Instance.PlayUISound("click_01");
         _selectedSkill = _skills[index];
+        _skillList.SelectItem(index);
         GameClient.Instance.ClientPacketHandler.SendRequestAcquireSkillInfo(_selectedSkill.SkillId, _selectedSkill.Level, SkillType);
         
         _skillDetailName.text = _selectedSkill.Name;

@@ -619,8 +619,8 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnAcquireSkillDone(byte[] data)
     {
-        AcquireSkillDonePacket _ = new AcquireSkillDonePacket(data);
-        _eventProcessor.QueueEvent(() => PlayerSkill.Instance.UpdateSkill());
+        // AcquireSkillDonePacket _ = new AcquireSkillDonePacket(data);
+        // do nothing
     }
 
     private void OnBuyListReceived(byte[] data)

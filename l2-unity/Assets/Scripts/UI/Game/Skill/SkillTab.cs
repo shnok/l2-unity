@@ -50,7 +50,7 @@ public class SkillTab : L2Tab
         List<SkillWindowInfo> equipmentSkills = new List<SkillWindowInfo>(5);
         List<SkillWindowInfo> abilitySkills = new List<SkillWindowInfo>(6);
         List<SkillWindowInfo> raceSkills = new List<SkillWindowInfo>();
-        // List<SkillWindowInfo> occupationSkills = new List<SkillWindowInfo>(1); // subclass skills don't exist in interlude
+        // List<SkillWindowInfo> occupationSkills = new List<SkillWindowInfo>(1); // should be for 3rd class + subclass
         List<SkillWindowInfo> clanHeroMentoringSkills = new List<SkillWindowInfo>(5);
         List<SkillWindowInfo> itemSkills = new List<SkillWindowInfo>(10);
 
@@ -74,6 +74,10 @@ public class SkillTab : L2Tab
                 case SkillType.CraftAndItems:
                     itemSkills.Add(skill);
                     break;
+                
+                case SkillType.WeightLimit:
+                    raceSkills.Add(skill);
+                    break;
             }
         }
 
@@ -94,6 +98,11 @@ public class SkillTab : L2Tab
             
         if (itemSkills.Any()) {
             VisualElement section = AddSection(itemSkills, "Item Skills");
+            _contentContainer.Add(section);
+        }
+        
+        if (raceSkills.Any()) {
+            VisualElement section = AddSection(raceSkills, "Race Skills");
             _contentContainer.Add(section);
         }
     }
