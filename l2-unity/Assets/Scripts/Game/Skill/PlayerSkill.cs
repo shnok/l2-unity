@@ -22,7 +22,7 @@ public class PlayerSkill : MonoBehaviour
         {
             Destroy(this);
         }
-        
+
         _skills = new List<SkillInfo>();
     }
 
@@ -46,24 +46,28 @@ public class PlayerSkill : MonoBehaviour
         Initialized = true;
         return skillDetails;
     }
-    
+
     public List<SkillWindowInfo>[] GetSkillsForWindow()
     {
         if (_skills == null) return new List<SkillWindowInfo>[2];
-        
+
         List<SkillWindowInfo>[] result = new List<SkillWindowInfo>[2] { new(10), new(10) };
+
+        Debug.LogWarning("GetSKillsForWindow: " + _skills.Count);
         for (var i = 0; i < _skills.Count; i++)
         {
             SkillWindowInfo skillwInfo = new SkillWindowInfo(_skills[i].Id, _skills[i].Level, 0, null);
             if (_skills[i].IsPassive)
             {
                 result[1].Add(skillwInfo);
-            } 
-            else 
+            }
+            else
             {
                 result[0].Add(skillwInfo);
             }
         }
+
+        Debug.LogWarning("GetSKillsForWindow Result: " + result[0].Count + " - " + result[1].Count);
 
         Initialized = true;
         return result;
@@ -73,7 +77,7 @@ public class PlayerSkill : MonoBehaviour
     {
         GameClient.Instance.ClientPacketHandler.SendRequestSkillList();
     }
-    
+
     public void UseSkill(int skillId)
     {
         // GameClient.Instance.ClientPacketHandler.UseSkill(skillId);

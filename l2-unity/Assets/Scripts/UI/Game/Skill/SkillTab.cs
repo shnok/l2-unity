@@ -127,36 +127,38 @@ public class SkillTab : L2Tab
                     physicalSkills.Add(skill);
                 }
             }
-
-            switch (skill.Type)
+            else
             {
-                case SkillType.Buff:
-                    reinforcementSkills.Add(skill);
-                    break;
+                switch (skill.Type)
+                {
+                    case SkillType.Buff:
+                        reinforcementSkills.Add(skill);
+                        break;
 
-                case SkillType.Debuff:
-                    weakenSkills.Add(skill);
-                    break;
+                    case SkillType.Debuff:
+                        weakenSkills.Add(skill);
+                        break;
 
-                case SkillType.CraftAndItems:
-                    itemSkills.Add(skill);
-                    break;
+                    case SkillType.CraftAndItems:
+                        itemSkills.Add(skill);
+                        break;
 
-                case SkillType.NoblessOrHero or SkillType.Clan:
-                    clanHeroMentoringSkills.Add(skill);
-                    break;
+                    case SkillType.NoblessOrHero or SkillType.Clan:
+                        clanHeroMentoringSkills.Add(skill);
+                        break;
 
-                case SkillType.HealsCubicsRaidsDebuff:
-                    toggleSkills.Add(skill);
-                    break;
+                    case SkillType.HealsCubicsRaidsDebuff:
+                        toggleSkills.Add(skill);
+                        break;
 
-                case SkillType.Toggle:
-                    toggleSkills.Add(skill);
-                    break;
+                    case SkillType.Toggle:
+                        toggleSkills.Add(skill);
+                        break;
 
-                case SkillType.TransformationOrMount:
-                    transformSkills.Add(skill);
-                    break;
+                    case SkillType.TransformationOrMount:
+                        transformSkills.Add(skill);
+                        break;
+                }
             }
         }
 
@@ -208,17 +210,21 @@ public class SkillTab : L2Tab
         section.Q<Label>("SkillsSectionHeaderLabel").text = name;
         VisualElement sectionContainer = section.Q<VisualElement>("SkillsSectionBarContainer");
 
+        //TODO: Use L2SlotContainers
+
         // maybe use onclick on whole header
         Button btn = section.Q<Button>("PlusMinusBtn");
         btn.RegisterCallback<ClickEvent>(HandleSlotClick, TrickleDown.TrickleDown);
+
+        Debug.LogWarning($"Adding section: {name} With {skills.Count} skills");
+        Debug.LogWarning(_skillSlots.Length);
+        Debug.LogWarning(skills.Count);
         for (var i = 0; i < skills.Count; ++i)
         {
-
             VisualElement slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
             SkillSlot skillSlot = new SkillSlot(i, slotElement, L2Slot.SlotType.Skill);
             _skillSlots[skillSlotIx++] = skillSlot;
             skillSlot.AssignSkill(skills[i]);
-
             sectionContainer.Add(slotElement);
         }
 
@@ -237,7 +243,7 @@ public class SkillTab : L2Tab
         {
             VisualElement slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
             slotElement.AddToClassList("skillbar-slot.empty");
-            slotElement.AddToClassList("disabled");
+            // slotElement.AddToClassList("disabled");
             sectionContainer.Add(slotElement);
         }
         return section;

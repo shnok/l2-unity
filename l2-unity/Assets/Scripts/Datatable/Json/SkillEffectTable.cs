@@ -61,7 +61,7 @@ public class SkillEffectTable
         string dataPath = Path.Combine(Application.streamingAssetsPath, $"Data/LineageEffects/{id}.json");
         if (!File.Exists(dataPath))
         {
-            Debug.LogWarning("File not found: " + dataPath);
+            // Debug.LogWarning("File not found: " + dataPath);
             return null;
         }
 
