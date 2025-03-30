@@ -223,3 +223,27 @@
     flex-direction: row;
     -unity-background-scale-mode: scale-to-fit;
 }
+
+.skill-slot.empty .slot-bg-container {
+    border-width: 0;
+    padding: 0;
+    background-image: none;
+}
+
+.skill-slot .slot-bg-container {
+    border-width: 0;
+    padding: 1px;
+}
+
+.skill-slot .slot-bg {
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.skill-slot .slot-bg-container {
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame');
+}
+
+.skill-slot.active .slot-bg-container {
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame_Down');
+}

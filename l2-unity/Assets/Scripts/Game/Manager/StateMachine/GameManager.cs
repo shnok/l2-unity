@@ -125,8 +125,8 @@ public class GameManager : MonoBehaviour
         ArmorgrpTable.Instance.ClearTable();
         EtcItemgrpTable.Instance.ClearTable();
         ItemNameTable.Instance.ClearTable();
-        SkillgrpTable.Instance.ClearTable();
-        SkillNameTable.Instance.ClearTable();
+        // SkillgrpTable.Instance.ClearTable();
+        // SkillNameTable.Instance.ClearTable();
     }
 
     private void Update()

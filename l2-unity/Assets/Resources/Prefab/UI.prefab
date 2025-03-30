@@ -27,6 +27,8 @@ GameObject:
   - component: {fileID: 4401504940725960882}
   - component: {fileID: 2474239185684289479}
   - component: {fileID: 2105183322732982611}
+  - component: {fileID: 4489370494819162024}
+  - component: {fileID: 3762325438608058127}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -82,6 +84,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiLoaded: 0
   _mouseOverUI: 0
+  _windowsLoaded: 0
+  _totalWindowsToLoad: 0
   _mouseEnabled: 1
 --- !u!114 &1625420868165748363
 MonoBehaviour:
@@ -116,8 +120,10 @@ MonoBehaviour:
   _tabs:
   - _tabName: All
     _autoscroll: 1
+    _filteredMessages: 
   - _tabName: System
     _autoscroll: 1
+    _filteredMessages: 
   _chatOpened: 0
   _chatInputCharacterLimit: 64
 --- !u!114 &5054604499374613714
@@ -132,10 +138,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b924f2ee5faed49b55c17e32d096a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nameplateViewDistance: 50
-  _entityMask:
+  nameplateViewDistance: 50
+  entityMask:
     serializedVersion: 2
     m_Bits: 0
+  updatesPerSecond: 200
+  nameplateHeightMultiplier: 1.95
+  playerTransform: {fileID: 0}
+  mainCamera: {fileID: 0}
 --- !u!114 &8375159366462154550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,20 +204,20 @@ MonoBehaviour:
   _tabs:
   - _tabName: All
     _autoscroll: 1
-    _selectedSlot: -1
     _filteredCategories: 
+    _mainTab: 0
   - _tabName: Equip
     _autoscroll: 1
-    _selectedSlot: -1
     _filteredCategories: 000102
+    _mainTab: 0
   - _tabName: Supplies
     _autoscroll: 1
-    _selectedSlot: -1
     _filteredCategories: 0504
+    _mainTab: 0
   - _tabName: Quest
     _autoscroll: 1
-    _selectedSlot: -1
     _filteredCategories: 03
+    _mainTab: 0
   _usedSlots: 0
   _slotCount: 0
   _adenaCount: 0
@@ -334,3 +344,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 471c2b26de5d5484f88ff103c093f17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nodes: []
+--- !u!114 &4489370494819162024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d1da41feb14e428de5c9749e08000f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tabs:
+  - _tabName: Active
+    _autoscroll: 0
+    TabType: 0
+  - _tabName: Passive
+    _autoscroll: 0
+    TabType: 1
+--- !u!114 &3762325438608058127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 877ebcd6cfbd7384dbe5f502ceb4317a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: 0

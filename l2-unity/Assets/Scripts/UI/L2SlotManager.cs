@@ -11,9 +11,13 @@ public class L2SlotManager : L2PopupWindow
     private VisualTreeAsset _actionSlotTemplate;
     private VisualTreeAsset _inventorySlotTemplate;
     private VisualTreeAsset _shopSlotTemplate;
+    private VisualTreeAsset _skillSlotTemplate;
+    private VisualTreeAsset _skillBarSlotTemplate;
     public VisualTreeAsset ActionSlotTemplate { get { return _actionSlotTemplate; } }
     public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
     public VisualTreeAsset ShopSlotTemplate { get { return _shopSlotTemplate; } }
+    public VisualTreeAsset SkillSlotTemplate { get { return _skillSlotTemplate; } }
+    public VisualTreeAsset SkillBarSlotTemplate { get { return _skillBarSlotTemplate; } }
 
     private static L2SlotManager _instance;
     public static L2SlotManager Instance { get { return _instance; } }
@@ -41,6 +45,8 @@ public class L2SlotManager : L2PopupWindow
         _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
         _actionSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/ActionSlot");
         _shopSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
+        _skillSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/SkillSlot");
+        _skillBarSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/SkillbarSlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -107,6 +113,9 @@ public class L2SlotManager : L2PopupWindow
                 break;
             case L2Slot.SlotType.Action:
                 HandleActionDrag();
+                break;
+            case L2Slot.SlotType.Skill:
+                HandleSkillDrag();
                 break;
             case L2Slot.SlotType.Product:
                 HandleProductDrag();
@@ -203,6 +212,36 @@ public class L2SlotManager : L2PopupWindow
         {
             case L2Slot.SlotType.SkillBar:
                 MoveSkillbarSlot();
+                break;
+            default:
+                if (!L2GameUI.Instance.MouseOverUI)
+                {
+                    RemoveSkillbarSlot();
+                }
+                break;
+        }
+    }
+
+    private void HandleSkillDrag()
+    {
+        if (SkillbarWindow.Instance.Locked)
+        {
+            return;
+        }
+
+        if (_hoverSlot == null)
+        {
+            if (!L2GameUI.Instance.MouseOverUI)
+            {
+                RemoveSkillSlot();
+            }
+            return;
+        }
+
+        switch (_hoverSlot.Type)
+        {
+            case L2Slot.SlotType.SkillBar:
+                AddSkillToSkillbar();
                 break;
             default:
                 if (!L2GameUI.Instance.MouseOverUI)
@@ -333,7 +372,23 @@ public class L2SlotManager : L2PopupWindow
     private void RemoveSkillbarSlot()
     {
         int oldSlot = _draggedSlot.Position;
-        Debug.LogWarning($"Renoving skillbar shortcut from slot {oldSlot}.");
+        Debug.LogWarning($"Removing skillbar shortcut from slot {oldSlot}.");
+        PlayerShortcuts.Instance.DeleteShortcut(oldSlot);
+    }
+
+    private void AddSkillToSkillbar()
+    {
+        int skillId = ((SkillSlot)_draggedSlot).Skill.SkillId;
+        int slot = _hoverSlot.Position;
+        Debug.LogWarning($"Add skill {skillId} to skillbar slot {slot}.");
+
+        PlayerShortcuts.Instance.AddShortcut(slot, skillId, Shortcut.TYPE_SKILL);
+    }
+
+    private void RemoveSkillSlot()
+    {
+        int oldSlot = _draggedSlot.Position;
+        Debug.LogWarning($"Removing skillbar shortcut from slot {oldSlot}.");
         PlayerShortcuts.Instance.DeleteShortcut(oldSlot);
     }
 

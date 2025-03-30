@@ -70,6 +70,7 @@ public class InputManager : MonoBehaviour
     [field: SerializeField] public bool OpenCharacerStatus { get; private set; }
     [field: SerializeField] public bool OpenSystemMenu { get; private set; }
     [field: SerializeField] public bool OpenActions { get; private set; }
+    [field: SerializeField] public bool OpenSkills { get; private set; }
     [field: SerializeField] public bool CloseWindow { get; private set; }
     [field: SerializeField] public bool Validate { get; private set; }
 

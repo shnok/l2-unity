@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Template name="WindowTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Components/WindowTemplate.uxml?fileID=9197481963319205126&amp;guid=5ca840f56ef6f1044b4dc077c7d3e6e6&amp;type=3#WindowTemplate" />
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillWindow/SkillWindow.uss?fileID=7433441132597879392&amp;guid=3d1507b2b56445989f31adb160ec9b21&amp;type=3#SkillWindow" />
+    <ui:Instance template="WindowTemplate" name="WindowTemplate" class="skills-window">
+        <AttributeOverrides element-name="windows-name-label" text="Skills" />
+        <ui:VisualElement name="Content" class="skills-window-content-container window-content-margin">
+            <ui:VisualElement name="SkillsContent" class="skills-item-container" style="flex-grow: 1;">
+                <ui:VisualElement name="SkillsTabView" focusable="true" class="skills-tab-view-container">
+                    <ui:VisualElement name="tab-header-container" class="skills-tab-header-container">
+                        <ui:VisualElement name="TabLine" class="skills-tab-line" />
+                    </ui:VisualElement>
+                    <ui:VisualElement focusable="true" name="tab-content-container" class="skills-tab-content-container" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:Instance>
+</ui:UXML>

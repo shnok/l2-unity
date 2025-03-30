@@ -19,7 +19,6 @@ public class SkillbarWindow : L2PopupWindow
     private VisualElement _skillbarContainerVertical;
     private VisualTreeAsset _skillbarHorizontalTemplate;
     private VisualTreeAsset _skillbarVerticalTemplate;
-    private VisualTreeAsset _barSlotTemplate;
     private List<AbstractSkillbar> _skillbars;
     private static SkillbarWindow _instance;
     private List<SkillbarSlot> _toggledSlots;
@@ -27,7 +26,6 @@ public class SkillbarWindow : L2PopupWindow
     public bool Locked { get { return _locked; } set { _locked = value; } }
     public bool Vertical { get { return _vertical; } set { _vertical = value; } }
     public bool TooltipDisabled { get { return _tooltipDisabled; } set { _tooltipDisabled = value; } }
-    public VisualTreeAsset BarSlotTemplate { get { return _barSlotTemplate; } }
     public static SkillbarWindow Instance { get { return _instance; } }
 
     private void Awake()
@@ -56,7 +54,6 @@ public class SkillbarWindow : L2PopupWindow
         _windowTemplate = LoadAsset("Data/UI/_Elements/Game/SkillbarWindow/SkillbarWindow");
         _skillbarHorizontalTemplate = LoadAsset("Data/UI/_Elements/Game/SkillbarWindow/SkillBarHorizontal");
         _skillbarVerticalTemplate = LoadAsset("Data/UI/_Elements/Game/SkillbarWindow/SkillBarVertical");
-        _barSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/SkillbarSlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)

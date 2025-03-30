@@ -44,6 +44,7 @@ public class SkillbarSlot : L2ClickableSlot
             case Shortcut.TYPE_RECIPE:
                 break;
             case Shortcut.TYPE_SKILL:
+                AssignSkill(shortcut.Id, shortcut.Level);
                 break;
         }
     }
@@ -77,6 +78,18 @@ public class SkillbarSlot : L2ClickableSlot
 
         _innerSlot = new ActionSlot(_slotElement, _position, SlotType.SkillBar);
         ((ActionSlot)_innerSlot).AssignAction((ActionType)objectId);
+        ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
+
+        UpdateInputInfo();
+    }
+
+    public void AssignSkill(int skillId, int level)
+    {
+        SkillWindowInfo skill = new SkillWindowInfo(skillId, level);
+        if (skill.IsPassiveSkill()) return;
+        
+        _innerSlot = new SkillSlot(_position, _slotElement, SlotType.SkillBar);
+        ((SkillSlot)_innerSlot).AssignSkill(skill);
         ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
 
         UpdateInputInfo();

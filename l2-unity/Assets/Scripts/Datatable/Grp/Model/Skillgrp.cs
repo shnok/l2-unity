@@ -7,9 +7,9 @@ public class Skillgrp
     [SerializeField] private int _id;
     [SerializeField] private int _level;
     [SerializeField] private int _subLevel;
-    [SerializeField] private int _icon_type;
+    [SerializeField] private SkillType _skill_type;   //0 = damage, 1 = cubics and raid debuffs, 2 = embroider/dwarf buff slot, 3 = debuff, 4 = heroic skill, 11 = equipment passive buffs, 12 = passive magic buffs, 13 = weight limit, 14 = passive buffs (like assassination on dagger), 15 = clan skill
     [SerializeField] private int _magicType;
-    [SerializeField] private int _operate_type;
+    [SerializeField] private int _operate_type; // 0 = dmg skill, 1 = buff/debuff, 2 = clan buffs, 3 = transf pain/activables, 4 = special event consumable buffs, 
     [SerializeField] private int _mp_consume;
     [SerializeField] private int _cast_range;
     [SerializeField] private int _cast_style;
@@ -17,7 +17,7 @@ public class Skillgrp
     [SerializeField] private float _cool_time;
     [SerializeField] private float _reuse_delay;
     [SerializeField] private int _effect_point;
-    [SerializeField] private int _is_magic;
+    [SerializeField] private IsMagicType _is_magic;  // 1 = buff/damage, 3 = songs/dances, 4 = resurrection, 6 = dimensional skills, 
     [SerializeField] private int _is_double;
     [SerializeField] private SkillCastAnimation _castAnimation;
     [SerializeField] private SkillThrowAnimation _throwAnimation;
@@ -36,7 +36,7 @@ public class Skillgrp
     public int Id { get => _id; set => _id = value; }
     public int Level { get => _level; set => _level = value; }
     public int SubLevel { get => _subLevel; set => _subLevel = value; }
-    public int Icon_type { get => _icon_type; set => _icon_type = value; }
+    public SkillType IconType { get => _skill_type; set => _skill_type = value; }
     public int MagicType { get => _magicType; set => _magicType = value; }
     public int OperateType { get => _operate_type; set => _operate_type = value; }
     public int MpConsume { get => _mp_consume; set => _mp_consume = value; }
@@ -46,7 +46,7 @@ public class Skillgrp
     public float CoolTime { get => _cool_time; set => _cool_time = value; }
     public float ReuseDelay { get => _reuse_delay; set => _reuse_delay = value; }
     public int EffectPoint { get => _effect_point; set => _effect_point = value; }
-    public int IsMagic { get => _is_magic; set => _is_magic = value; }
+    public IsMagicType IsMagic { get => _is_magic; set => _is_magic = value; }
     public int IsDouble { get => _is_double; set => _is_double = value; }
     public SkillCastAnimation CastAnimation { get => _castAnimation; set => _castAnimation = value; }
     public SkillThrowAnimation ThrowAnimation { get => _throwAnimation; set => _throwAnimation = value; }
@@ -60,4 +60,28 @@ public class Skillgrp
     public int HpConsume { get => _hp_consume; set => _hp_consume = value; }
     public int RumbleSelf { get => _rumble_self; set => _rumble_self = value; }
     public int RumbleTarget { get => _rumble_target; set => _rumble_target = value; }
+}
+
+public enum SkillType {
+    Damage = 0,
+    HealsCubicsRaidsDebuff = 1,
+    Buff = 2,
+    Debuff = 3,
+    NoblessOrHero = 4,
+    CraftAndItems = 5,
+    Toggle = 6,
+    TransformationOrMount = 7,
+    EquipmentPassive = 11,
+    AbilityPassive = 12,
+    WeightLimit = 13,
+    Passive = 14,
+    Clan = 15,
+}
+
+public enum IsMagicType {
+    None,
+    DamageBuffHeal = 1,
+    SongOrDances = 3,
+    Resurrection = 4,
+    Dimensional = 6
 }

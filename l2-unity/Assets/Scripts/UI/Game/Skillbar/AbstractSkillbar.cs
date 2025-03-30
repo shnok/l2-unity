@@ -97,7 +97,7 @@ public abstract class AbstractSkillbar
         anchor.Clear();
 
         // Create slots
-        VisualElement slotElement = SkillbarWindow.Instance.BarSlotTemplate.Instantiate()[0];
+        VisualElement slotElement = L2SlotManager.Instance.SkillBarSlotTemplate.Instantiate()[0];
         anchor.Add(slotElement);
 
         SkillbarSlot slot = new SkillbarSlot(slotElement, _page * PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR + position, _skillbarIndex, position);
