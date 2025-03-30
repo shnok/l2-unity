@@ -55,9 +55,8 @@ public class SystemMessage
                         value = value.Replace($"$s{i}", param.GetIntValue().ToString());
                         break;
                     case SMParamType.TYPE_SKILL_NAME:
-                        int[] array = param.GetIntArrayValue();
-                        //array[0] = ReadI(); // SkillId
-                        //array[1] = ReadI(); ; // SkillLevel
+                        int[] array = param.GetIntArrayValue(); // SkillId, SkillLvl
+                        value = value.Replace($"$s{i}", SkillNameTable.Instance.GetName(array[0], array[1]).Name);
                         break;
                     case SMParamType.TYPE_ZONE_NAME:
                         float[] array2 = param.GetFloatArrayValue();
