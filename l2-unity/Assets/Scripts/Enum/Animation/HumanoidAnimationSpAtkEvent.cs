@@ -1,0 +1,21 @@
+public enum HumanoidAnimationSpAtkEvent : byte
+{
+    spatk01_1HS,
+    spatk02_1HS,
+    spatk03_1HS,
+    spatk01_2HS,
+    spatk02_2HS,
+    spatk03_2HS,
+    spatk01_bow,
+    spatk02_bow,
+    spatk03_bow,
+    spatk01_dual,
+    spatk02_dual,
+    spatk03_dual,
+    spatk01_hand,
+    spatk02_hand,
+    spatk03_hand,
+    spatk01_pole,
+    spatk02_pole,
+    spatk03_pole,
+}

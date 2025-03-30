@@ -57,7 +57,7 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
 
         ((NetworkEntityReferenceHolder)user.ReferenceHolder).NetworkTransformReceive.enabled = true;
 
-        user.ReferenceHolder.AnimationController.Initialize();
+        user.ReferenceHolder.NewAnimationController.Initialize();
         user.ReferenceHolder.Gear.Initialize(user.Identity.Id, user.RaceId);
         user.Initialize();
     }

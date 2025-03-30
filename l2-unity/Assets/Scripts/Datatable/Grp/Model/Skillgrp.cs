@@ -19,7 +19,8 @@ public class Skillgrp
     [SerializeField] private int _effect_point;
     [SerializeField] private IsMagicType _is_magic;  // 1 = buff/damage, 3 = songs/dances, 4 = resurrection, 6 = dimensional skills, 
     [SerializeField] private int _is_double;
-    [SerializeField] private string _animation;
+    [SerializeField] private SkillCastAnimation _castAnimation;
+    [SerializeField] private SkillThrowAnimation _throwAnimation;
     [SerializeField] private int _skill_visual_effect;
     [SerializeField] private string _icon;
     [SerializeField] private string _icon_panel;
@@ -47,7 +48,8 @@ public class Skillgrp
     public int EffectPoint { get => _effect_point; set => _effect_point = value; }
     public IsMagicType IsMagic { get => _is_magic; set => _is_magic = value; }
     public int IsDouble { get => _is_double; set => _is_double = value; }
-    public string Animation { get => _animation; set => _animation = value; }
+    public SkillCastAnimation CastAnimation { get => _castAnimation; set => _castAnimation = value; }
+    public SkillThrowAnimation ThrowAnimation { get => _throwAnimation; set => _throwAnimation = value; }
     public int SkillVisualEffect { get => _skill_visual_effect; set => _skill_visual_effect = value; }
     public string Icon { get => _icon; set => _icon = value; }
     public string IconPanel { get => _icon_panel; set => _icon_panel = value; }

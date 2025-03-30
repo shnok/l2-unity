@@ -28,6 +28,9 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         InitializePlayer(player, identity, status, stats, appearance, race, raceId, actionInfo);
 
         AddEntity(identity, player);
+
+        Debug.LogWarning($"Spawn player {race} - {raceId}");
+
     }
 
     private void InitializeGameObject(GameObject go, NetworkIdentity identity)
@@ -50,12 +53,12 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         player.RaceId = raceId;
 
         var go = player.gameObject;
+        go.GetComponent<NewPlayerAnimationController>().Initialize();
         go.GetComponent<NetworkTransformShare>().enabled = true;
         go.GetComponent<PlayerController>().enabled = true;
         go.GetComponent<PlayerController>().Initialize();
 
         go.SetActive(true);
-        go.GetComponentInChildren<PlayerAnimationController>().Initialize();
         go.GetComponent<Gear>().Initialize(player.Identity.Id, player.RaceId);
 
         player.Initialize();
@@ -63,6 +66,8 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
 
         CameraController.Instance.enabled = true;
         CameraController.Instance.SetTarget(go);
+
+        PlayerStateMachine.Instance.ChangeState(PlayerState.IDLE);
     }
 
     protected override void AddEntity(NetworkIdentity identity, Entity player)

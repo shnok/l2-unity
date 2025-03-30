@@ -55,14 +55,7 @@ public class MoveToIntention : IntentionBase
 
     private void RunOrWalk(MoveReason moveReason)
     {
-        if (PlayerEntity.Instance.Running)
-        {
-            _stateMachine.ChangeState(PlayerState.RUNNING, moveReason);
-        }
-        else
-        {
-            _stateMachine.ChangeState(PlayerState.WALKING, moveReason);
-        }
+        _stateMachine.ChangeState(PlayerState.MOVING, moveReason);
     }
 
     public override void Exit() { }

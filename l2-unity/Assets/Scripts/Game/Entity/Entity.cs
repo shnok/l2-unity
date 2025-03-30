@@ -26,7 +26,7 @@ public abstract class Entity : MonoBehaviour
     public CharacterModelType RaceId { get { return _raceId; } set { _raceId = value; } }
     public bool EntityLoaded { get { return _entityLoaded; } set { _entityLoaded = value; } }
     public bool Running { get { return _running; } set { _running = value; } }
-    public BaseAnimationController AnimationController { get { return _referenceHolder.AnimationController; } }
+    public NewBaseAnimationController AnimationController { get { return _referenceHolder.NewAnimationController; } }
     public EntityReferenceHolder ReferenceHolder { get { return _referenceHolder; } }
     public Gear Gear { get { return _referenceHolder.Gear; } }
     public Combat Combat { get { return _referenceHolder.Combat; } }
@@ -94,7 +94,7 @@ public abstract class Entity : MonoBehaviour
         _stats.MAtkSpd = mAtkSpd;
 
         float stat = StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
-        AnimationController.SetMAtkSpd(stat);
+        // AnimationController.SetMAtkSpd(stat, 1000);
 
         return stat;
     }
@@ -136,5 +136,15 @@ public abstract class Entity : MonoBehaviour
     public virtual void UpdateMoveType(bool running)
     {
         Running = running;
+    }
+
+    public void CastSkill(Skill skill, Entity target, int hitTime, int reuseDelay)
+    {
+        Combat.CastSkill(skill, target, hitTime, reuseDelay);
+    }
+
+    public void LaunchSkill()
+    {
+        Combat.ThrowSkill();
     }
 }

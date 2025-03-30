@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SelectableCharacterEntity : Entity
 {
-    private HumanoidAnimationController _AnimationController { get { return (HumanoidAnimationController)_referenceHolder.AnimationController; } }
+    private NewHumanoidAnimationController _AnimationController { get { return (NewHumanoidAnimationController)_referenceHolder.NewAnimationController; } }
 
     [SerializeField] private CharacterController _characterController;
 
@@ -56,27 +56,24 @@ public class SelectableCharacterEntity : Entity
     private void StartWalking()
     {
         _walking = true;
-        _AnimationController.SetBool(HumanoidAnimType.sit_wait, false);
-        _AnimationController.SetBool(HumanoidAnimType.wait, false);
 
         UpdateWaitType(ChangeWaitTypePacket.WaitType.WT_STANDING);
 
-        _AnimationController.SetBool(HumanoidAnimType.walk, true);
+        _AnimationController.Walk();
     }
 
     private void StopWalking()
     {
         _walking = false;
-        _AnimationController.SetBool(HumanoidAnimType.walk, false);
 
         if (CharacterInfo.DeleteTimer > 0)
         {
-            _AnimationController.SetBool(HumanoidAnimType.sit_wait, true);
+            _AnimationController.SitWait();
             UpdateWaitType(ChangeWaitTypePacket.WaitType.WT_SITTING);
         }
         else
         {
-            _AnimationController.SetBool(HumanoidAnimType.wait, true);
+            _AnimationController.Wait();
         }
 
         transform.eulerAngles = _destEulerAngles;

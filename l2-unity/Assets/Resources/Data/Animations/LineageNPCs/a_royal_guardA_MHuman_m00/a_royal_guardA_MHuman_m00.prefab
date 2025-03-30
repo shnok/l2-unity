@@ -521,7 +521,10 @@ PrefabInstance:
       addedObject: {fileID: 5487225018605023511}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0cc0769b4cceb59419caff5f9e25265b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4450300688895615520}
+      addedObject: {fileID: 1183413002410396783}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0cc0769b4cceb59419caff5f9e25265b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6714676877688888786}
   m_SourcePrefab: {fileID: 100100000, guid: 0cc0769b4cceb59419caff5f9e25265b, type: 3}
 --- !u!4 &370546424169491633 stripped
 Transform:
@@ -563,7 +566,7 @@ Animator:
   m_GameObject: {fileID: 9105623315471122591}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 101775165bb56174fa48239c10084708, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -588,6 +591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serverPosition: {x: 0, y: 0, z: 0}
+  _static: 0
   _positionSyncProtection: 1
   _positionSynced: 0
   _positionSyncPaused: 0
@@ -821,6 +825,20 @@ MonoBehaviour:
   _hitTime: 0
   _attackEndTime: 0
   _hitSuccess: 0
+  _lastSkill:
+    _skillId: 0
+    _skillEffect:
+      _skillId: 0
+      _castingActions: []
+      _shotActions: []
+      _explosionActions: []
+  _lastSkillHitTime: 0
+  _lastSkillReuseDelay: 0
+  _lastSkillUseTime: 0
+  _lastSkillTarget: {fileID: 0}
+  _castingSkill: 0
+  _skillThrown: 0
+  _skillShot: 0
   _attackStance: 0
 --- !u!114 &7614084906789826373
 MonoBehaviour:
@@ -856,7 +874,8 @@ MonoBehaviour:
   _entity: {fileID: 5321050010621700197}
   _gear: {fileID: 7827516945372332589}
   _combat: {fileID: 4240314638322992647}
-  _animationController: {fileID: 4450300688895615520}
+  _newAnimationController: {fileID: 6714676877688888786}
+  _animancer: {fileID: 1183413002410396783}
   _audioHandler: {fileID: 5487225018605023511}
   _animator: {fileID: 5355844137677002376}
   _clickArea: {fileID: 6474765948221712963}
@@ -914,7 +933,7 @@ MonoBehaviour:
     _lhand: 0
     _maxHp: 0
     _maxMp: 0
---- !u!114 &4450300688895615520
+--- !u!114 &1183413002410396783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -923,11 +942,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 9105623315471122591}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11c36874c9e74a4aabfa2b520cd1a12, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootBone: {fileID: 5109319615741209094}
+  _Animator: {fileID: 5355844137677002376}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0
+--- !u!114 &6714676877688888786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9105623315471122591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d47993eb0d9c354881700540620fdf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _entityReferenceHolder: {fileID: 5744714902501306389}
-  _resetStateOnReceive: 0
+  _lastAnim: 0
+  _lastSkill:
+    _skillId: 0
+    _skillEffect:
+      _skillId: 0
+      _castingActions: []
+      _shotActions: []
+      _explosionActions: []
+  _rootBone: {fileID: 5109319615741209094}
+  _lastPlayedClipDuration: 0
+  _fadeDuration: 0.1
+  _atkSpd: 0
+  _atkSpdMultiplier: 1
+  _castSpdMultiplier: 1
+  _runSpdMultiplier: 1
+  _walkSpdMultiplier: 1
+  _nockArrowRatio: 0.2
+  _shootArrowRatio: 0.6
+  _defaultIdleAnimationSpeed: 0.3
+  _defaultAtkWaitAnimationSpeed: 0.5
+  _defaultRunAnimationSpeed: 0.35
+  _defaultWalkAnimationSpeed: 0.4
+  _defaultJumpAnimationSpeed: 1.25
+  _defaultDieAnimationSpeed: 0.5
+  _defaultAnimContainer: {fileID: 11400000, guid: 5f906edc3f696bc4eacdbe296128a22a, type: 2}
+  _atkAnimContainer: {fileID: 0}
+  _spAtkAnimContainer: {fileID: 0}
+  _socialAnimContainer: {fileID: 11400000, guid: 802ca47e6cfcd5c4693698b2a902a2eb, type: 2}
   _lastAnimationType: 0
   _weaponAnim: 0
+  _atkAnimIndex: 0

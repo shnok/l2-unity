@@ -353,7 +353,7 @@ public class NpcHtmlWindow : L2PopupWindow
 
     private void ProcessHtmlContent(VisualElement container, string html)
     {
-        Debug.LogWarning(StringUtils.Base64Encode(html));
+        // Debug.LogWarning(StringUtils.Base64Encode(html));
 
         _nodes = ParseHtmlIntoNodes(html);
         var currentTextBuilder = new StringBuilder();

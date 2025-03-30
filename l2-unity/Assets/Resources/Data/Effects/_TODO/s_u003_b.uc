@@ -1,0 +1,70 @@
+class s_u003_b extends NskillProjectile;
+
+defaultproperties
+{
+     Begin Object Class=MeshEmitter Name=MeshEmitter0
+         StaticMesh=StaticMesh'LineageEffectsStaticmeshes.Skill_Power.skill_power00'
+         UseMeshBlendMode=False
+         RenderTwoSided=True
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=0.510714,Color=(B=128,G=128,R=128,A=255))
+         ColorScale(2)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         ColorScaleRepeats=5.000000
+         FadeOutStartTime=0.422500
+         FadeOut=True
+         FadeInEndTime=0.026000
+         FadeIn=True
+         MaxParticles=1
+         WeatherSoundCheck=True
+         RespawnDeadParticles=False
+         Name="MeshEmitter0"
+         SpinParticles=True
+         SpinsPerSecondRange=(Z=(Min=3.000000,Max=3.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         StartSizeRange=(X=(Min=0.050000,Max=0.050000),Y=(Min=0.030000,Max=0.030000),Z=(Min=0.030000,Max=0.030000))
+         InitialParticlesPerSecond=100000.000000
+         AutomaticInitialSpawning=False
+         DrawStyle=PTDS_Brighten
+         LifetimeRange=(Min=1.000000,Max=1.000000)
+     End Object
+     Emitters(0)=MeshEmitter'MeshEmitter0'
+     Begin Object Class=MeshEmitter Name=MeshEmitter1
+         StaticMesh=StaticMesh'LineageEffectsStaticmeshes.Wind.windknifewave00'
+         UseMeshBlendMode=False
+         RenderTwoSided=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         Opacity=0.600000
+         FadeOutStartTime=0.270000
+         FadeOut=True
+         FadeInEndTime=0.080000
+         FadeIn=True
+         MaxParticles=12
+         RespawnDeadParticles=False
+         Name="MeshEmitter0"
+         StartLocationOffset=(X=12.000000)
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         SizeScale(0)=(RelativeTime=0.120000,RelativeSize=2.000000)
+         SizeScale(1)=(RelativeTime=1.000000,RelativeSize=5.000000)
+         StartSizeRange=(X=(Min=0.033600,Max=0.033600),Y=(Min=0.012600,Max=0.012600),Z=(Min=0.012600,Max=0.012600))
+         InitialParticlesPerSecond=10.000000
+         AutomaticInitialSpawning=False
+         DrawStyle=PTDS_Brighten
+         LifetimeRange=(Min=1.000000,Max=1.000000)
+         StartVelocityRange=(X=(Min=-60.200001,Max=-60.200001))
+         WarmupTicksPerSecond=5.000000
+         RelativeWarmupTime=0.630000
+     End Object
+     Emitters(1)=MeshEmitter'MeshEmitter1'
+     Physics=PHYS_Trailer
+     bUseDynamicLights=False
+     bLightChanged=True
+     bTrailerSameRotation=True
+     bTrailerPrePivot=True
+     bTrailerNoOwnerDestroy=True
+     bAcceptsProjectors=False
+     bDirectional=True
+}

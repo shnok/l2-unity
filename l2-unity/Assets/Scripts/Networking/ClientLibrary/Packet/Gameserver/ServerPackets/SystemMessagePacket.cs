@@ -38,7 +38,7 @@ public class SystemMessagePacket : ServerPacket
                     case SMParamType.TYPE_PLAYER_NAME:
                         param.SetValue(ReadS());
                         break;
-                    case SMParamType.TYPE_LONG_NUMBER:
+                    case SMParamType.TYPE_ITEM_NUMBER:
                     case SMParamType.TYPE_ITEM_NAME:
                     case SMParamType.TYPE_CASTLE_NAME:
                     case SMParamType.TYPE_INT_NUMBER:

@@ -105,6 +105,22 @@ public class ParticleEffectTable
                     }
                 });
             }
+
+
+            if (kvp.Value.ExplosionActions != null && kvp.Value.ExplosionActions.Count > 0)
+            {
+                kvp.Value.ExplosionActions.ForEach((emitter) =>
+                {
+                    string effectClass = emitter.EffectClass;
+
+                    GameObject particle = LoadEffectEmitter(effectClass);
+                    if (particle != null)
+                    {
+                        ParticleEffects[effectClass] = particle;
+                        Debug.Log($"Loaded particle effect {particle} in ParticleEffectTable.");
+                    }
+                });
+            }
         }
     }
 

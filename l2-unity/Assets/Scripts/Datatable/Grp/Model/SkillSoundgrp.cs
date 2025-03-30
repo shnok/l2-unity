@@ -6,7 +6,7 @@ public class SkillSoundgrp
 {
     public int SkillId { get; set; }
     public SkillSound[] SpellEffectSounds { get; set; } //0: Start cast sound 
-                                                        //1: End cast 
+                                                        //1: Launch sound
                                                         //2: Projectile hit target
     public SkillSound[] ShotEffectSounds { get; set; } //Unused?
     public string[] CastingVoices { get; set; }

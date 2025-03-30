@@ -1713,7 +1713,10 @@ PrefabInstance:
       addedObject: {fileID: 7474140620702760634}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 668e4e2bfb56a7e41a3eaf4661c9ce36, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6820282236893603244}
+      addedObject: {fileID: 7742094974489955060}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 668e4e2bfb56a7e41a3eaf4661c9ce36, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4512257469765097945}
   m_SourcePrefab: {fileID: 100100000, guid: 668e4e2bfb56a7e41a3eaf4661c9ce36, type: 3}
 --- !u!4 &594740204659430736 stripped
 Transform:
@@ -1755,7 +1758,7 @@ Animator:
   m_GameObject: {fileID: 9168378222243607099}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 5de291f54f2933b4c83cd33e1d1bad32, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1780,6 +1783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serverPosition: {x: 0, y: 0, z: 0}
+  _static: 0
   _positionSyncProtection: 1
   _positionSynced: 0
   _positionSyncPaused: 0
@@ -2013,6 +2017,20 @@ MonoBehaviour:
   _hitTime: 0
   _attackEndTime: 0
   _hitSuccess: 0
+  _lastSkill:
+    _skillId: 0
+    _skillEffect:
+      _skillId: 0
+      _castingActions: []
+      _shotActions: []
+      _explosionActions: []
+  _lastSkillHitTime: 0
+  _lastSkillReuseDelay: 0
+  _lastSkillUseTime: 0
+  _lastSkillTarget: {fileID: 0}
+  _castingSkill: 0
+  _skillThrown: 0
+  _skillShot: 0
   _attackStance: 0
 --- !u!114 &8098281626821153655
 MonoBehaviour:
@@ -2048,7 +2066,8 @@ MonoBehaviour:
   _entity: {fileID: 4441818242461402023}
   _gear: {fileID: 1447744958422419585}
   _combat: {fileID: 7994093733216623099}
-  _animationController: {fileID: 6820282236893603244}
+  _newAnimationController: {fileID: 7742094974489955060}
+  _animancer: {fileID: 4512257469765097945}
   _audioHandler: {fileID: 7474140620702760634}
   _animator: {fileID: 3689229742759886789}
   _clickArea: {fileID: 2247953940049167815}
@@ -2106,7 +2125,7 @@ MonoBehaviour:
     _lhand: 0
     _maxHp: 0
     _maxMp: 0
---- !u!114 &6820282236893603244
+--- !u!114 &7742094974489955060
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2115,11 +2134,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 9168378222243607099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11c36874c9e74a4aabfa2b520cd1a12, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d47993eb0d9c354881700540620fdf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootBone: {fileID: 922811846168957289}
   _entityReferenceHolder: {fileID: 4822203140286772179}
-  _resetStateOnReceive: 0
+  _lastAnim: 0
+  _lastSkill:
+    _skillId: 0
+    _skillEffect:
+      _skillId: 0
+      _castingActions: []
+      _shotActions: []
+      _explosionActions: []
+  _rootBone: {fileID: 922811846168957289}
+  _lastPlayedClipDuration: 0
+  _fadeDuration: 0.1
+  _atkSpd: 0
+  _atkSpdMultiplier: 0
+  _castSpdMultiplier: 0
+  _runSpdMultiplier: 0
+  _walkSpdMultiplier: 0
+  _nockArrowRatio: 0.2
+  _shootArrowRatio: 0.6
+  _defaultIdleAnimationSpeed: 0.3
+  _defaultAtkWaitAnimationSpeed: 0.5
+  _defaultRunAnimationSpeed: 0.35
+  _defaultWalkAnimationSpeed: 0.4
+  _defaultJumpAnimationSpeed: 1.25
+  _defaultDieAnimationSpeed: 0.5
+  _defaultAnimContainer: {fileID: 11400000, guid: 559d36ff1f10407479959d4a708f73b4, type: 2}
+  _atkAnimContainer: {fileID: 0}
+  _spAtkAnimContainer: {fileID: 0}
+  _socialAnimContainer: {fileID: 11400000, guid: a13ddc3a6aed3a943ba95b35916393b5, type: 2}
   _lastAnimationType: 0
   _weaponAnim: 0
+  _atkAnimIndex: 0
+--- !u!114 &4512257469765097945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9168378222243607099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 3689229742759886789}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0

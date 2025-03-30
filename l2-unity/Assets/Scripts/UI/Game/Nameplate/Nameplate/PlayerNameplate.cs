@@ -6,7 +6,7 @@ public class PlayerNameplate : Nameplate
     private bool _isGaugeVisible = false;
     public float GaugeStartTime { get; private set; }
     public float GaugeEndTime { get; private set; }
-    public const float GAUGE_WIDTH = 65f;
+    public const float GAUGE_WIDTH = 80f;
 
     private VisualElement _gauge;
 

@@ -145,6 +145,10 @@ public class BaseAnimationAudioHandler : MonoBehaviour
     {
     }
 
+    public virtual void PlaySkillVoice(string voice)
+    {
+    }
+
     public virtual void PlayBowBendSound()
     {
         AudioManager.Instance.Play3DSoundByReferenceName("ChrSound/Bow_Draw", transform.position);
@@ -163,5 +167,15 @@ public class BaseAnimationAudioHandler : MonoBehaviour
         }
 
         return events[UnityEngine.Random.Range(0, events.Count)];
+    }
+
+    public virtual void PlayBreatheSound()
+    {
+        if (!RandomUtils.ShouldEventHappen(_runBreathChance))
+        {
+            return;
+        }
+
+        PlaySound(EntitySoundEvent.Breath);
     }
 }

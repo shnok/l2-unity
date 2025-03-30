@@ -1,11 +1,11 @@
 public enum WeaponAnimType : int
 {
-    hand,
     _1HS,
     _2HS,
-    pole,
-    dual,
     bow,
+    dual,
+    hand,
+    pole,
     shield
 }
 

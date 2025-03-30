@@ -20,13 +20,18 @@ public class L2ParticleEmitterParser
             Debug.Log("Selected file: " + fileToProcess);
 
             GameObject container = new GameObject(Path.GetFileNameWithoutExtension(fileToProcess));
+            container.SetActive(false);
+            L2Particle particle = container.AddComponent<L2Particle>();
+            particle.enabled = false;
 
             foreach (L2Emitter emitter in ParseParticleEmitterFile(fileToProcess))
             {
+                GameObject emitterGroup = new GameObject(emitter.name);
+
                 GameObject emitterObject = BuildEmitter(emitter);
                 if (emitterObject != null)
                 {
-                    emitterObject.transform.SetParent(container.transform);
+                    emitterObject.transform.SetParent(emitterGroup.transform);
                 }
 
                 for (int i = 0; i < emitter.maxParticles - 1; i++)
@@ -34,13 +39,21 @@ public class L2ParticleEmitterParser
                     GameObject copies = GameObject.Instantiate(emitterObject);
                     if (emitterObject != null)
                     {
-                        copies.transform.SetParent(container.transform);
+                        copies.transform.SetParent(emitterGroup.transform);
                     }
                 }
+
+                emitterGroup.SetActive(true);
+
+                ParticleGroup pg = emitterGroup.AddComponent<ParticleGroup>();
+
+                pg.enabled = true;
+                pg.Owner = particle;
+                pg.MaxCount = emitter.maxParticles;
+                pg.CountPerSecond = emitter.initialParticlesPerSecond;
+                emitterGroup.transform.parent = container.transform;
             }
 
-            container.SetActive(false);
-            container.AddComponent<ParticleTimerResetGroup>().enabled = false;
             container.SetActive(true);
 
             string saveFolder = Path.Combine("Assets", "Resources", "Data", "Effects", container.name);
@@ -83,12 +96,12 @@ public class L2ParticleEmitterParser
             {
                 // Debug.Log(line);
                 line = line.Trim();
-                if (line.StartsWith("Begin Object Class=SpriteEmitter Name=") || line.StartsWith("Begin Object Class=MeshEmitter Name="))
+                if (line.StartsWith("Begin Object Class=SpriteEmitter Name=") || line.StartsWith("Begin Object Class=MeshEmitter Name=") || line.StartsWith("Begin Object Class=BeamEmitter Name="))
                 {
                     L2Emitter emitter = new L2Emitter();
                     emitter.drawScale = drawScale;
                     emitter.effectName = Path.GetFileNameWithoutExtension(path);
-                    emitter.objectName = line.Replace("Begin Object Class=SpriteEmitter Name=", "").Replace("Begin Object Class=MeshEmitter Name=", "");
+                    emitter.objectName = line.Replace("Begin Object Class=SpriteEmitter Name=", "").Replace("Begin Object Class=MeshEmitter Name=", "").Replace("Begin Object Class=BeamEmitter Name=", "");
                     Debug.Log("ObjectName=" + emitter.objectName);
 
                     while ((line = reader.ReadLine()) != null && !line.Contains("End Object"))
@@ -96,6 +109,14 @@ public class L2ParticleEmitterParser
                         line = line.Replace("(", "").Replace(")", "");
                         line = line.Trim();
                         //Debug.Log(line);
+                        if (line.StartsWith("BeamEndPoints0=offset="))
+                        {
+                            emitter.isBeam = true;
+                            line = line.Replace("BeamEndPoints0=", "").Replace("))", "");
+                            emitter.beamEndPointRange = L2MetaDataUtils.ParseRange3D(line);
+                            Debug.Log("BeamEndPointRange=" + emitter.beamEndPointRange);
+                        }
+
                         if (line.StartsWith("StaticMesh="))
                         {
                             emitter.staticMesh = line.Replace("StaticMesh=StaticMesh'", "").Replace("'", "");
@@ -165,6 +186,12 @@ public class L2ParticleEmitterParser
                         {
                             emitter.maxParticles = L2MetaDataUtils.ParseInt(line);
                             Debug.Log("MaxParticles=" + emitter.maxParticles);
+                        }
+
+                        if (line.StartsWith("InitialParticlesPerSecond="))
+                        {
+                            emitter.initialParticlesPerSecond = (int)L2MetaDataUtils.ParseFloat(line);
+                            Debug.Log("InitialParticlesPerSecond=" + emitter.initialParticlesPerSecond);
                         }
 
                         if (line.StartsWith("StartLocationOffset="))
@@ -366,17 +393,8 @@ public class L2ParticleEmitterParser
         string texturePath;
 
         bool isTextureEmitter = false;
-        if (emitter.texture != null && emitter.texture.Length > 0)
-        {
-            GameObject resource = (GameObject)Resources.Load("Prefab/SpriteEmitter");
-            go = GameObject.Instantiate(resource);
 
-            string[] textureValues = emitter.texture.Split(".");
-            string textureName = textureValues.Length > 1 ? textureValues[2] : textureValues[1];
-            texturePath = $"Data/SysTextures/{textureValues[0]}/{textureName}";
-            isTextureEmitter = true;
-        }
-        else if (emitter.staticMesh != null && emitter.staticMesh.Length > 0)
+        if (emitter.staticMesh != null && emitter.staticMesh.Length > 0)
         {
 
             string meshPath = StaticMeshUtils.GetMeshPath(emitter.staticMesh);
@@ -400,6 +418,16 @@ public class L2ParticleEmitterParser
             //go.transform.localScale = new Vector3(100 * emitter.drawScale, 100 * emitter.drawScale, 100 * emitter.drawScale);
             go.transform.localScale = new Vector3(1, 1, 1);
             go.transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        else if (emitter.texture != null && emitter.texture.Length > 0)
+        {
+            GameObject resource = (GameObject)Resources.Load("Prefab/SpriteEmitter");
+            go = GameObject.Instantiate(resource);
+
+            string[] textureValues = emitter.texture.Split(".");
+            string textureName = textureValues.Length > 1 ? textureValues[2] : textureValues[1];
+            texturePath = $"Data/SysTextures/{textureValues[0]}/{textureName}";
+            isTextureEmitter = true;
         }
         else
         {
@@ -721,6 +749,21 @@ public class L2ParticleEmitterParser
             }
         }
 
+        if (emitter.isBeam)
+        {
+            material.SetFloat("_UseDirectionAs", 3);
+            Vector4 previousOffset = material.GetVector("_StartLocationOffset");
+            material.SetVector("_StartLocationOffset", new Vector3(previousOffset.x / 2f, previousOffset.y / 2f, previousOffset.z / 2f));
+
+            Vector4 previousSizeRangeX = material.GetVector("_SizeRangeX");
+            material.SetVector("_SizeRangeY", new Vector3(Mathf.Abs(previousSizeRangeX.x), Mathf.Abs(previousSizeRangeX.y)));
+
+            Range3D length = emitter.beamEndPointRange;
+            material.SetVector("_SizeRangeX", new Vector3(length.z.min / 2f, length.z.max / 2f));
+
+            material.SetFloat("_SpinParticles", 1);
+            material.SetVector("_StartSpinRangeZ", new Vector2(-0.25f, -0.25f));
+        }
 
         return material;
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -79,7 +80,7 @@ public class GameClientPacketHandler : ClientPacketHandler
 
     public void UpdateMoveDirection(Vector3 direction, int heading)
     {
-        Debug.LogWarning("Sharing move direction: " + direction);
+        // Debug.LogWarning("Sharing move direction: " + direction);
         RequestMoveDirectionPacket packet = new RequestMoveDirectionPacket(direction, heading);
         SendPacket(packet);
     }
@@ -90,9 +91,9 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
-    public void SendRequestUnsetTarget(bool cancelCast)
+    public void SendRequestCancel(bool cancelCast)
     {
-        RequestUnsetTargetPacket packet = new RequestUnsetTargetPacket(cancelCast);
+        RequestCancelPacket packet = new RequestCancelPacket(cancelCast);
         SendPacket(packet);
     }
 
@@ -268,6 +269,12 @@ public class GameClientPacketHandler : ClientPacketHandler
     public void SendRequestBuyItem(int listId, List<Product> products)
     {
         RequestBuyItemPacket packet = new RequestBuyItemPacket(listId, products);
+        SendPacket(packet);
+    }
+
+    public void RequestMagicSkillUse(int skillId, bool ctrlPressed, bool shiftPressed)
+    {
+        RequestMagicSkillUsePacket packet = new RequestMagicSkillUsePacket(skillId, ctrlPressed, shiftPressed);
         SendPacket(packet);
     }
 }
