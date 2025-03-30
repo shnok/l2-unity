@@ -11,9 +11,13 @@ public class L2SlotManager : L2PopupWindow
     private VisualTreeAsset _actionSlotTemplate;
     private VisualTreeAsset _inventorySlotTemplate;
     private VisualTreeAsset _shopSlotTemplate;
+    private VisualTreeAsset _skillSlotTemplate;
+    private VisualTreeAsset _skillBarSlotTemplate;
     public VisualTreeAsset ActionSlotTemplate { get { return _actionSlotTemplate; } }
     public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
     public VisualTreeAsset ShopSlotTemplate { get { return _shopSlotTemplate; } }
+    public VisualTreeAsset SkillSlotTemplate { get { return _skillSlotTemplate; } }
+    public VisualTreeAsset SkillBarSlotTemplate { get { return _skillBarSlotTemplate; } }
 
     private static L2SlotManager _instance;
     public static L2SlotManager Instance { get { return _instance; } }
@@ -41,6 +45,8 @@ public class L2SlotManager : L2PopupWindow
         _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
         _actionSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/ActionSlot");
         _shopSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
+        _skillSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/SkillSlot");
+        _skillBarSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/SkillbarSlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -110,7 +116,7 @@ public class L2SlotManager : L2PopupWindow
                 break;
             case L2Slot.SlotType.Skill:
                 HandleSkillDrag();
-                break; 
+                break;
             case L2Slot.SlotType.Product:
                 HandleProductDrag();
                 break;
@@ -215,7 +221,7 @@ public class L2SlotManager : L2PopupWindow
                 break;
         }
     }
-    
+
     private void HandleSkillDrag()
     {
         if (SkillbarWindow.Instance.Locked)

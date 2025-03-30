@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class SkillWindowInfo
 {
     public int SkillId { get; private set; }
@@ -36,8 +38,8 @@ public class SkillWindowInfo
         SkillRequirement = skillRequirements;
         SkillDescParams = skillNameData.DescParams;
     }
-    
-    public SkillWindowInfo(int skillId, int lvl) 
+
+    public SkillWindowInfo(int skillId, int lvl)
     {
         Skillgrp skillgrp = SkillgrpTable.Instance.GetSkill(skillId, lvl);
         SkillNameData skillNameData = SkillNameTable.Instance.GetName(skillId, lvl);
@@ -55,12 +57,12 @@ public class SkillWindowInfo
         ReuseDelay = skillgrp.ReuseDelay;
         SkillDescParams = skillNameData.DescParams;
     }
-    
+
     public string ComposeDescription()
     {
         for (var i = 0; i < SkillDescParams.Length; i++)
         {
-            Desc = Desc.Replace($"$s{i+1}", SkillDescParams[i]);
+            Desc = Desc.Replace($"$s{i + 1}", SkillDescParams[i]);
         }
         return Desc;
     }
@@ -77,6 +79,6 @@ public class SkillWindowInfo
 
     public bool IsMagicSkill() => IsMagic != IsMagicType.None;
 
-    public bool IsPassiveSkill() => 
+    public bool IsPassiveSkill() =>
         Type is SkillType.Passive or SkillType.EquipmentPassive or SkillType.AbilityPassive or SkillType.Clan;
 }
