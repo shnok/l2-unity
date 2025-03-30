@@ -63,14 +63,14 @@ public class UserGear : HumanoidGear
 
     public override void StartTrail()
     {
-        Debug.Log("Start weapon trail");
+        // Debug.Log("Start weapon trail");
         _weaponTrail.gameObject.SetActive(true);
         _weaponTrail.Play();
     }
 
     public override void StopTrail()
     {
-        Debug.LogWarning("Stop weapon trail");
+        // Debug.LogWarning("Stop weapon trail");
         _weaponTrail.Stop();
         _weaponTrail.gameObject.SetActive(false);
     }

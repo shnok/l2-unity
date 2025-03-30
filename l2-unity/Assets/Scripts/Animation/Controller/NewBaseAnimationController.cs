@@ -35,7 +35,6 @@ public abstract class NewBaseAnimationController : MonoBehaviour
         if (_animancer == null)
         {
             _animancer = _entityReferenceHolder.Animancer;
-            Debug.LogWarning($"[{transform.name}] Animancer was not assigned, please pre-assign it to avoid unecessary load.");
         }
         if (_rootBone == null)
         {
