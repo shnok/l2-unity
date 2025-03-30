@@ -1,17 +1,22 @@
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
+[Serializable]
 public class Skill
 {
-    public int SkillId { get; private set; }
-    public int EffectId { get { return Skillgrps[0].SkillVisualEffect; } }
+    [SerializeField] private int _skillId;
+    [SerializeField] private L2SkillEffect _skillEffect;
+    public int SkillId { get => _skillId; }
+    public int EffectId { get => Skillgrps[0].SkillVisualEffect; }
     public SkillNameData[] SkillNameDatas { get; private set; }
     public Skillgrp[] Skillgrps { get; private set; }
-    public L2SkillEffect SkillEffect { get; set; }
+    public L2SkillEffect SkillEffect { get => _skillEffect; set => _skillEffect = value; }
     public SkillSoundgrp SkillSoundgrp { get; private set; }
 
     public Skill(int skillId, SkillNameData[] skillNameDatas, Skillgrp[] skillgrps, SkillSoundgrp skillSoundgrp)
     {
-        SkillId = skillId;
+        _skillId = skillId;
         SkillNameDatas = skillNameDatas;
         Skillgrps = skillgrps;
         SkillSoundgrp = skillSoundgrp;

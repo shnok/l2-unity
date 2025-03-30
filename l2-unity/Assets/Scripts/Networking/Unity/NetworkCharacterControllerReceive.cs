@@ -90,6 +90,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         if (_distanceToDestination > _stopAtRangeDefault + stopAtRange)
         {
             _networkTransformReceive.PausePositionSync();
+            _entity.AnimationController.Move();
         }
     }
 
@@ -102,11 +103,13 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
             if (_direction != Vector3.zero)
             {
                 _entity.OnStopMoving();
+                _entity.AnimationController.Wait();
                 //TODO check if has target and is attacking
             }
 
             _direction = Vector3.zero;
             _networkTransformReceive.ResumePositionSync();
+
 
             // adjust the network position with the attack range
             if (_stopAtRange > 0)
@@ -119,6 +122,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     public void ResetDestination()
     {
         _destination = transform.position;
+        _direction = Vector3.zero;
     }
 
     public bool IsMoving()

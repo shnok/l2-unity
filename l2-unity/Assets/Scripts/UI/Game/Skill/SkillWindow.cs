@@ -11,11 +11,10 @@ public class SkillWindow : L2PopupWindow
     private VisualTreeAsset _tabHeaderTemplate;
     private VisualTreeAsset _minimizedTemplate;
     public VisualTreeAsset SkillSectionTemplate { get; private set; }
-    public VisualTreeAsset SkillSlotTemplate { get; private set; }
     private VisualElement _skillsTabView;
     private VisualElement _content;
     private SkillTab _activeTab;
-    
+
     [SerializeField] private SkillTab[] _tabs;
     private L2TabView _l2TabView;
     private static SkillWindow _instance;
@@ -44,7 +43,6 @@ public class SkillWindow : L2PopupWindow
         _tabTemplate = LoadAsset("Data/UI/_Elements/Game/SkillWindow/SkillTab");
         _tabHeaderTemplate = LoadAsset("Data/UI/_Elements/Game/SkillWindow/SkillTabHeader");
         _minimizedTemplate = LoadAsset("Data/UI/_Elements/Game/SkillWindow/SkillTabSmall");
-        SkillSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/SkillSlot");
         SkillSectionTemplate = LoadAsset("Data/UI/_Elements/Game/SkillWindow/SkillSection");
     }
 
@@ -63,23 +61,23 @@ public class SkillWindow : L2PopupWindow
     protected override IEnumerator BuildWindow(VisualElement root)
     {
         InitWindow(root);
-        
+
         _windowEle.style.left = new Length(50, LengthUnit.Percent);
         _windowEle.style.top = new Length(50, LengthUnit.Percent);
         _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
 
         CreateTabs();
-        
+
         yield return new WaitForEndOfFrame();
 
         L2GameUI.Instance.WindowLoadComplete();
     }
-    
+
     public override void ToggleHideWindow()
     {
         if (_isWindowHidden)
         {
-            if (!PlayerSkill.Instance.Initialized) 
+            if (!PlayerSkill.Instance.Initialized)
             {
                 SetSkills(PlayerSkill.Instance.GetSkillsForWindow());
             }
@@ -97,13 +95,13 @@ public class SkillWindow : L2PopupWindow
         {
             skills = Array.Empty<List<SkillWindowInfo>>();
         }
-        
+
         foreach (var t in _tabs)
         {
             t.UpdateSkills(skills);
         }
     }
-    
+
     public override void ShowWindow()
     {
         base.ShowWindow();
@@ -113,6 +111,11 @@ public class SkillWindow : L2PopupWindow
 
     public override void HideWindow(bool silent)
     {
+        if (_isWindowHidden)
+        {
+            return;
+        }
+
         base.HideWindow(silent);
 
         if (!silent)
@@ -120,7 +123,7 @@ public class SkillWindow : L2PopupWindow
 
         L2GameUI.Instance.WindowClosed(this);
     }
-    
+
     private void CreateTabs()
     {
         _skillsTabView = GetElementById("SkillsTabView");

@@ -32,12 +32,6 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
         AudioManager.Instance.PlayCharacterSound(soundEvent, _race, transform.position);
     }
 
-    public void PlaySoundFromAnimationClip(int type)
-    {
-        EntitySoundEvent soundEvent = (EntitySoundEvent)type;
-        AudioManager.Instance.PlayCharacterSound(soundEvent, _race, transform.position);
-    }
-
     private void PlayStepSound()
     {
         string currentSurface = _surfaceDetector.GetSurfaceTag();
@@ -65,7 +59,7 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
         }
     }
 
-    public virtual void PlayAtkSoundAtRatio(float ratio)
+    public virtual void PlayAtkSound()
     {
         // Dont always play atk voiceline (20 % chance?)
         if (!RandomUtils.ShouldEventHappen(20))
@@ -73,20 +67,67 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
             return;
         }
 
-        WeaponAnimType weaponAnim = ((HumanoidAnimationController)_entityReferenceHolder.AnimationController).WeaponAnim;
+        WeaponAnimType weaponAnim = ((NewHumanoidAnimationController)_entityReferenceHolder.NewAnimationController).WeaponAnim;
         switch (weaponAnim)
         {
             case WeaponAnimType.hand:
             case WeaponAnimType.dual:
             case WeaponAnimType.shield:
             case WeaponAnimType._1HS:
-                PlaySoundAtRatio(EntitySoundEvent.Atk_1H, ratio);
+                // PlaySoundAtRatio(EntitySoundEvent.Atk_1H, _atkRatio);
+                PlaySound(EntitySoundEvent.Atk_1H);
                 break;
             case WeaponAnimType._2HS:
             case WeaponAnimType.pole:
             case WeaponAnimType.bow:
-                PlaySoundAtRatio(EntitySoundEvent.Atk_2H, ratio);
+                // PlaySoundAtRatio(EntitySoundEvent.Atk_2H, _atkRatio);
+                PlaySound(EntitySoundEvent.Atk_2H);
                 break;
         }
     }
+
+    public virtual void PlaySpAtkSound()
+    {
+        WeaponAnimType weaponAnim = ((NewHumanoidAnimationController)_entityReferenceHolder.NewAnimationController).WeaponAnim;
+        switch (weaponAnim)
+        {
+            case WeaponAnimType.hand:
+            case WeaponAnimType.dual:
+            case WeaponAnimType.bow:
+            case WeaponAnimType.shield:
+                break;
+            case WeaponAnimType._1HS:
+                PlaySound(EntitySoundEvent.Atk_1H_S);
+                break;
+            case WeaponAnimType._2HS:
+                PlaySound(EntitySoundEvent.Atk_2H_S);
+                break;
+            case WeaponAnimType.pole:
+                PlaySound(EntitySoundEvent.Atk_pole_S);
+                break;
+        }
+    }
+
+
+    public virtual void PlayPreAtkSound(int spAtkIndex)
+    {
+        // WeaponAnimType weaponAnim = ((NewHumanoidAnimationController)_entityReferenceHolder.NewAnimationController).WeaponAnim;
+
+        if (spAtkIndex == 0) //TODO: Verify and update
+        {
+            PlaySound(EntitySoundEvent.PreAtk_1);
+        }
+    }
+
+    public override void PlaySkillVoice(string voice)
+    {
+        string eventName = $"event:/ChrSound/Skill/{voice}";
+        Debug.LogWarning(eventName);
+        EventReference er = RuntimeManager.PathToEventReference(eventName);
+        if (!er.IsNull)
+        {
+            AudioManager.Instance.PlaySound(er, transform.position);
+        }
+    }
+
 }

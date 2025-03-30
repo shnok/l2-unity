@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using FMODUnity;
 using UnityEngine;
@@ -56,6 +57,14 @@ public class MonsterAudioHandler : BaseAnimationAudioHandler
         if (!soundEvent.IsNull)
         {
             AudioManager.Instance.PlaySound(soundEvent, transform.position);
+        }
+    }
+
+    public void PlayWaitSound()
+    {
+        if (RandomUtils.ShouldEventHappen(WaitSoundChance))
+        {
+            PlaySound(EntitySoundEvent.Breathe);
         }
     }
 }

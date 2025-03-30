@@ -11,6 +11,8 @@ public class L2Emitter
     public List<ColorScale> colorScales;
     public Range3D colorMultiplierRange;
     public float opacity;
+    public bool isBeam;
+    public Range3D beamEndPointRange;
     public bool fadeOut;
     public float fadeOutStartTime;
     public bool fadeIn;
@@ -46,5 +48,6 @@ public class L2Emitter
     public float drawScale;
     public Vector3 acceleration;
     public Range initialDelayRange;
+    public int initialParticlesPerSecond;
 }
 #endif

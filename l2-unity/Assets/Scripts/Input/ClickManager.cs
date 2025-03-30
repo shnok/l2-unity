@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 public class ClickManager : MonoBehaviour
 {
     [SerializeField] private GameObject _locator;
-    [SerializeField] private GameObject _locatorBaseEffect;
-    [SerializeField] private GameObject _locatorReachedEffect;
+    [SerializeField] private L2Particle _locatorBaseEffect;
+    [SerializeField] private L2Particle _locatorReachedEffect;
     [SerializeField] private ObjectData _targetObjectData;
     [SerializeField] private ObjectData _hoverObjectData;
 
@@ -40,8 +40,8 @@ public class ClickManager : MonoBehaviour
     void Start()
     {
         _locator = GameObject.Find("Locator");
-        _locatorBaseEffect = _locator.transform.GetChild(0).gameObject;
-        _locatorReachedEffect = _locator.transform.GetChild(1).gameObject;
+        _locatorBaseEffect = _locator.transform.GetChild(0).gameObject.GetComponent<L2Particle>();
+        _locatorReachedEffect = _locator.transform.GetChild(1).gameObject.GetComponent<L2Particle>();
         _mainCamera = CameraController.Instance.GetComponent<Camera>();
 
         HideLocator(false);
@@ -171,28 +171,33 @@ public class ClickManager : MonoBehaviour
         _locator.SetActive(true);
 
         _locator.gameObject.transform.position = position;
-        _locatorBaseEffect.GetComponent<ParticleTimerResetGroup>().SurfaceNormal = normal;
-        _locatorReachedEffect.SetActive(false);
-        _locatorBaseEffect.SetActive(false);
+
+        _locatorReachedEffect.gameObject.SetActive(false);
+        _locatorBaseEffect.gameObject.SetActive(false);
 
         yield return new WaitForFixedUpdate();
-        _locatorBaseEffect.SetActive(true);
+        _locatorBaseEffect.gameObject.SetActive(true);
+
+        _locatorBaseEffect.SurfaceNormal = normal;
+        _locatorBaseEffect.ResetTimer();
     }
 
     public void HideLocator(bool targetReached)
     {
         if (targetReached)
         {
-            Vector3 normal = _locatorBaseEffect.GetComponent<ParticleTimerResetGroup>().SurfaceNormal;
-            _locatorReachedEffect.GetComponent<ParticleTimerResetGroup>().SurfaceNormal = normal;
-            _locatorReachedEffect.SetActive(true);
+            Vector3 normal = _locatorBaseEffect.GetComponent<L2Particle>().SurfaceNormal;
+            _locatorReachedEffect.gameObject.SetActive(true);
+
+            _locatorReachedEffect.SurfaceNormal = normal;
+            _locatorReachedEffect.ResetTimer();
         }
         else
         {
             _locator.SetActive(false);
-            _locatorReachedEffect.SetActive(false);
+            _locatorReachedEffect.gameObject.SetActive(false);
         }
 
-        _locatorBaseEffect.SetActive(false);
+        _locatorBaseEffect.gameObject.SetActive(false);
     }
 }

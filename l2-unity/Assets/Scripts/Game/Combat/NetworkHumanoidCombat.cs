@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class NetworkHumanoidCombat : NetworkCombat
 {
-    public HumanoidAnimationController HumanoidAnimationController { get { return (HumanoidAnimationController)_referenceHolder.AnimationController; } }
+    public NewHumanoidAnimationController HumanoidAnimationController { get { return (NewHumanoidAnimationController)_referenceHolder.NewAnimationController; } }
     public HumanoidGear Gear { get { return (HumanoidGear)_referenceHolder.Gear; } }
 
     public override void OnDeath()
     {
         base.OnDeath();
-        HumanoidAnimationController.SetBool(HumanoidAnimType.death, true);
+        HumanoidAnimationController.Die();
     }
 
     public override void OnRevive()
     {
         base.OnRevive();
-        HumanoidAnimationController.SetBool(HumanoidAnimType.wait, true);
+        HumanoidAnimationController.Wait(); //TODO: Revive anim
     }
 
     protected override void OnHit(Hit hit)
@@ -24,7 +24,7 @@ public class NetworkHumanoidCombat : NetworkCombat
         base.OnHit(hit);
     }
 
-    // public override void StartAttackStance()
+    // public override void StartAttackStance() 
     // {
     //     base.StartAttackStance();
 
@@ -47,7 +47,8 @@ public class NetworkHumanoidCombat : NetworkCombat
         Debug.LogWarning("AttackOnce");
         if (base.AttackOnce(hitTime, atkEndTime, hitSuccess, attackTarget))
         {
-            HumanoidAnimationController.SetBool(HumanoidAnimType.atk01, true);
+            // HumanoidAnimationController.SetBool(HumanoidAnimType.atk01, true);
+            HumanoidAnimationController.Attack();
             return true;
         }
         else

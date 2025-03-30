@@ -71,7 +71,7 @@ public class PawnCreator : MonoBehaviour
         GameObject pawnObject = CreatePawn(raceId, appearance);
 
         EntityReferenceHolder referenceHolder = pawnObject.GetComponent<EntityReferenceHolder>();
-        HumanoidAnimationController animController = (HumanoidAnimationController)referenceHolder.AnimationController;
+        NewHumanoidAnimationController animController = (NewHumanoidAnimationController)referenceHolder.NewAnimationController;
 
         if (animController == null)
         {
@@ -191,7 +191,7 @@ public class PawnCreator : MonoBehaviour
         gear.EquipAllWeapons(appearance);
     }
 
-    public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container, HumanoidAnimationController animController, UserGear gear)
+    public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container, NewHumanoidAnimationController animController, UserGear gear)
     {
         UpdatePawnPosAndRot(pawnObject, pawnData);
         pawnObject.transform.name = name;
@@ -200,7 +200,7 @@ public class PawnCreator : MonoBehaviour
 
         pawnObject.SetActive(true);
 
-        animController.SetBool(HumanoidAnimType.wait, true);
+        animController.Wait();
         animController.SetWalkSpeed(2.5f);
     }
 

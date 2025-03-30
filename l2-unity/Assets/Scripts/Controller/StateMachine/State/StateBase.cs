@@ -10,5 +10,5 @@ public abstract class StateBase
     public virtual void Enter(object arg0) { }
     public virtual void Exit() { }
     public virtual void Update() { }
-    public virtual void HandleEvent(Event evt) { }
+    public virtual void HandleEvent(Event evt, object arg0) { }
 }

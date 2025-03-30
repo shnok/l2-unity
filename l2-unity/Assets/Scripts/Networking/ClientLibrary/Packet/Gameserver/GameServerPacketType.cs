@@ -44,6 +44,7 @@ public enum GameServerPacketType : int
     ValidateLocation = 0x61,
     SystemMessage = 0x64,
     SetupGauge = 0x6d,
+    MagicSkillLaunched = 0x76,
     LeaveWorld = 0x7e,
     AcquireSkillList = 0x8a,
     AcquireSkillInfo = 0x8b,

@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class NetworkMonsterCombat : NetworkCombat
 {
-    public MonsterAnimationController MonsterAnimationController { get { return (MonsterAnimationController)_referenceHolder.AnimationController; } }
+    public NewMonsterAnimationController MonsterAnimationController { get { return (NewMonsterAnimationController)_referenceHolder.NewAnimationController; } }
 
     public override void OnDeath()
     {
         base.OnDeath();
-        MonsterAnimationController.SetBool(MonsterAnimationEvent.death, true);
+        MonsterAnimationController.Die();
     }
 
     public override void OnRevive()
     {
         base.OnRevive();
-        MonsterAnimationController.SetBool(MonsterAnimationEvent.wait, true);
+        MonsterAnimationController.Wait();
     }
 
     protected override void OnHit(Hit hit)
@@ -44,7 +44,7 @@ public class NetworkMonsterCombat : NetworkCombat
         Debug.LogWarning("AttackOnce");
         if (base.AttackOnce(hitTime, atkEndTime, hitSuccess, attackTarget))
         {
-            MonsterAnimationController.SetBool(MonsterAnimationEvent.atk01, true);
+            MonsterAnimationController.Attack();
             return true;
         }
         else

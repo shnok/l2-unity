@@ -23,7 +23,7 @@ public class SkillTable
 
     public Dictionary<int, EffectEmitter> SkillEffects { get; private set; }
 
-    private bool _loadAll = false;
+    private bool _loadAll = true;
 
     public void Initialize()
     {
@@ -128,7 +128,7 @@ public class SkillTable
 
             SkillNameData[] skillNameArray = new SkillNameData[skillname.Keys.Count];
             int arrIx = 0;
-            foreach(var s in skillname)
+            foreach (var s in skillname)
             {
                 skillNameArray[arrIx] = s.Value;
             }
@@ -137,7 +137,7 @@ public class SkillTable
 
             Skillgrp[] skillgrpArray = new Skillgrp[skillgrp.Keys.Count];
             arrIx = 0;
-            foreach(var s in skillgrp)
+            foreach (var s in skillgrp)
             {
                 skillgrpArray[arrIx] = s.Value;
             }

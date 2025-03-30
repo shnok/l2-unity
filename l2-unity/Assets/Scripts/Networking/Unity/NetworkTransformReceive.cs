@@ -7,6 +7,7 @@ public class NetworkTransformReceive : MonoBehaviour
     private Vector3 _lastPos;
     private float _newRotation;
     private float _posLerpValue;
+    [SerializeField] private bool _static = false;
     [SerializeField] private bool _positionSyncProtection = true;
     [SerializeField] private bool _positionSynced = false;
     [SerializeField] private bool _positionSyncPaused = false;
@@ -20,12 +21,6 @@ public class NetworkTransformReceive : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (World.Instance.OfflineMode)
-        {
-            this.enabled = false;
-            return;
-        }
-
         _lastPos = transform.position;
         _newRotation = transform.eulerAngles.y;
         _serverPosition = transform.position;
@@ -34,7 +29,7 @@ public class NetworkTransformReceive : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_positionSyncProtection && !_positionSyncPaused)
+        if (_positionSyncProtection && !_positionSyncPaused && !_static)
         {
             UpdatePosition();
         }
@@ -70,7 +65,12 @@ public class NetworkTransformReceive : MonoBehaviour
 
     protected virtual float GetPositionSyncThreshold()
     {
-        return GameClient.Instance.ServerEntityPositionSyncThreshold;
+        if (GameClient.Instance != null)
+        {
+            return GameClient.Instance.ServerEntityPositionSyncThreshold;
+        }
+
+        return 0.1f;
     }
 
     /* Safety measure to keep the transform position synced */

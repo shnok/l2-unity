@@ -9,7 +9,6 @@ public class HumanoidGear : Gear
     public override void Initialize(int ownderId, CharacterModelType raceId)
     {
         base.Initialize(ownderId, raceId);
-        //UpdateWeaponAnim("hand");
     }
 
     protected override void UpdateWeaponType(WeaponType weaponType)
@@ -19,7 +18,7 @@ public class HumanoidGear : Gear
 
     public override void UpdateWeaponAnim(WeaponAnimType weaponAnim)
     {
-        Debug.LogWarning("UpdateWeaponAnim: " + weaponAnim);
+        // Debug.LogWarning("UpdateWeaponAnim: " + weaponAnim);
         _weaponAnim = weaponAnim;
         NotifyAnimator(_weaponAnim);
     }

@@ -222,7 +222,13 @@ public class CharSelectWindow : L2Window
 
         if (GameManager.Instance.AutoLogin)
         {
-            StartGamePressed();
+            StartCoroutine(AutoLogin());
         }
+    }
+
+    private IEnumerator AutoLogin()
+    {
+        yield return new WaitForSeconds(1f);
+        StartGamePressed();
     }
 }

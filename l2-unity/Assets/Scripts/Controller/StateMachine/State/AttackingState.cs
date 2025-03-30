@@ -7,18 +7,15 @@ public class AttackingState : StateBase
 
     public override void Enter(object obj0)
     {
-        // PlayerCombat.Instance.StartAttackStance();
-        // PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
+        NewPlayerAnimationController.Instance.Attack();
     }
 
     public override void Update()
     {
         if (InputManager.Instance.Move)
-        // if (InputManager.Instance.Move || PlayerController.Instance.RunningToDestination && !TargetManager.Instance.HasAttackTarget())
         {
             _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
         }
-        // else if (!TargetManager.Instance.HasAttackTarget() || TargetManager.Instance.HasAttackTarget() && TargetManager.Instance.AttackTarget.Status.IsDead)
         else if (TargetManager.Instance.HasAttackTarget() && TargetManager.Instance.AttackTarget.Status.IsDead)
         {
             _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
@@ -48,7 +45,7 @@ public class AttackingState : StateBase
         }
     }
 
-    public override void HandleEvent(Event evt)
+    public override void HandleEvent(Event evt, object arg0)
     {
         switch (evt)
         {
@@ -62,14 +59,7 @@ public class AttackingState : StateBase
                         return;
                     }
 
-                    if (PlayerEntity.Instance.Running)
-                    {
-                        _stateMachine.ChangeState(PlayerState.RUNNING);
-                    }
-                    else
-                    {
-                        _stateMachine.ChangeState(PlayerState.WALKING);
-                    }
+                    _stateMachine.ChangeState(PlayerState.MOVING);
                 }
                 if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
                 {
@@ -80,27 +70,13 @@ public class AttackingState : StateBase
                     }
 
                     //Set state as running first to change to movable state
-                    if (PlayerEntity.Instance.Running)
-                    {
-                        _stateMachine.ChangeState(PlayerState.RUNNING);
-                    }
-                    else
-                    {
-                        _stateMachine.ChangeState(PlayerState.WALKING);
-                    }
+                    _stateMachine.ChangeState(PlayerState.MOVING);
 
                     _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO); //not giving an argument will use last position as destination
                 }
                 if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
                 {
-                    if (PlayerEntity.Instance.Running)
-                    {
-                        _stateMachine.ChangeState(PlayerState.RUNNING, FollowIntention.MoveReason);
-                    }
-                    else
-                    {
-                        _stateMachine.ChangeState(PlayerState.WALKING, FollowIntention.MoveReason);
-                    }
+                    _stateMachine.ChangeState(PlayerState.MOVING, FollowIntention.MoveReason);
                 }
                 if (_stateMachine.Intention == Intention.INTENTION_IDLE)
                 {
@@ -117,7 +93,6 @@ public class AttackingState : StateBase
 
                 if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
                 {
-                    // _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.ChangeTarget);
                     _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK);
                 }
                 break;

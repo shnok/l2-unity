@@ -17,7 +17,7 @@ public class Gear : MonoBehaviour
     [Header("Meta")]
     [SerializeField] private Weapon _rightHandWeapon;
     [SerializeField] private Weapon _leftHandWeapon;
-    [SerializeField] private float _weaponSizeRatio;
+    [SerializeField] protected float _weaponSizeRatio;
     [Header("Models")]
     [Header("Right hand")]
     [SerializeField] private WeaponType _rightHandType;
@@ -27,7 +27,7 @@ public class Gear : MonoBehaviour
     [SerializeField] private WeaponType _leftHandType;
     [SerializeField] protected Transform _leftHand;
 
-    protected BaseAnimationController AnimationController { get { return _referenceHolder.AnimationController; } }
+    protected NewBaseAnimationController AnimationController { get { return _referenceHolder.NewAnimationController; } }
     public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
     public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
     public CharacterModelType RaceId { get { return _raceId; } set { _raceId = value; } }
@@ -166,7 +166,7 @@ public class Gear : MonoBehaviour
             float collisionHeight = _referenceHolder.Entity.Appearance.CollisionHeight;
             float ratio = 1 + (collisionHeight - 0.45f) / 0.45f;
 
-            Debug.Log("WeaponSizeRatio: " + ratio);
+            // Debug.Log("WeaponSizeRatio: " + ratio);
 
             _weaponSizeRatio = ratio;
         }
@@ -359,5 +359,13 @@ public class Gear : MonoBehaviour
                 UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_leftHandType == WeaponType.none ? WeaponType.hand : _leftHandType));
             }
         }
+    }
+
+    public virtual void StartTrail()
+    {
+    }
+
+    public virtual void StopTrail()
+    {
     }
 }

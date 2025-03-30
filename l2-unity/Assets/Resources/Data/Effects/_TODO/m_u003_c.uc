@@ -1,0 +1,115 @@
+class m_u003_c extends Emitter;
+
+defaultproperties
+{
+     Begin Object Class=MeshEmitter Name=MeshEmitter34
+         StaticMesh=StaticMesh'LineageEffectsStaticmeshes.Black.black_vampire01'
+         UseMeshBlendMode=False
+         UseParticleColor=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255))
+         ColorScale(1)=(RelativeTime=0.514286,Color=(B=198,G=198,R=198))
+         ColorScale(2)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255))
+         ColorScaleRepeats=10.000000
+         FadeOutStartTime=1.180000
+         FadeOut=True
+         FadeInEndTime=0.180000
+         FadeIn=True
+         MaxParticles=1
+         ResetAfterChange=True
+         RespawnDeadParticles=False
+         Name="VampireEye"
+         StartLocationOffset=(Z=-14.000000)
+         UseRotationFrom=PTRS_Actor
+         SpinParticles=True
+         SpinCCWorCW=(X=0.000000,Y=0.000000,Z=0.000000)
+         StartSpinRange=(X=(Min=1.000000,Max=1.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         UniformSize=True
+         SizeScale(0)=(RelativeSize=1.000000)
+         SizeScale(1)=(RelativeTime=0.500000,RelativeSize=1.005000)
+         SizeScale(2)=(RelativeTime=1.000000,RelativeSize=1.000000)
+         SizeScaleRepeats=1.800000
+         StartSizeRange=(X=(Min=0.525920,Max=0.525920),Y=(Min=1.384000,Max=1.384000),Z=(Min=1.384000,Max=1.384000))
+         InitialParticlesPerSecond=1000.000000
+         AutomaticInitialSpawning=False
+         DrawStyle=PTDS_AlphaBlend
+         LifetimeRange=(Min=2.000000,Max=2.000000)
+     End Object
+     Emitters(0)=MeshEmitter'MeshEmitter34'
+     Begin Object Class=SpriteEmitter Name=SpriteEmitter10
+         UseDirectionAs=PTDU_Up
+         ProjectionNormal=(X=1.000000,Z=0.000000)
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=0.567857,Color=(B=165,G=165,R=165,A=255))
+         ColorScale(2)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         ColorScaleRepeats=25.000000
+         FadeOutStartTime=0.974610
+         FadeOut=True
+         FadeInEndTime=0.191100
+         FadeIn=True
+         MaxParticles=1
+         RespawnDeadParticles=False
+         Name="VampireBlink"
+         StartLocationOffset=(X=-7.000000,Z=1.600000)
+         UseRotationFrom=PTRS_Actor
+         StartSizeRange=(X=(Min=5.000000,Max=5.000000),Y=(Min=10.000000,Max=10.000000),Z=(Min=10.000000,Max=10.000000))
+         InitialParticlesPerSecond=3000.000000
+         AutomaticInitialSpawning=False
+         DrawStyle=PTDS_Brighten
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0006'
+         TextureUSubdivisions=4
+         TextureVSubdivisions=2
+         SubdivisionStart=4
+         SubdivisionEnd=5
+         LifetimeRange=(Min=1.911000,Max=1.911000)
+         StartVelocityRange=(Z=(Max=0.010000))
+     End Object
+     Emitters(1)=SpriteEmitter'SpriteEmitter10'
+     Begin Object Class=SpriteEmitter Name=SpriteEmitter0
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         Opacity=0.600000
+         FadeOut=True
+         MaxParticles=2
+         RespawnDeadParticles=False
+         Name="VampireFlash"
+         StartLocationOffset=(X=-7.000000,Z=2.000000)
+         StartLocationShape=PTLS_Sphere
+         SpinParticles=True
+         StartSpinRange=(X=(Max=1.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         UniformSize=True
+         SizeScale(0)=(RelativeSize=2.000000)
+         SizeScale(1)=(RelativeTime=0.140000,RelativeSize=5.000000)
+         SizeScale(2)=(RelativeTime=0.280000,RelativeSize=5.500000)
+         SizeScale(3)=(RelativeTime=0.620000,RelativeSize=6.000000)
+         SizeScale(4)=(RelativeTime=1.000000,RelativeSize=6.200000)
+         StartSizeRange=(X=(Min=2.000000,Max=4.000000),Y=(Min=2.000000,Max=4.000000),Z=(Min=2.000000,Max=4.000000))
+         InitialParticlesPerSecond=10000.000000
+         AutomaticInitialSpawning=False
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0005'
+         TextureUSubdivisions=2
+         TextureVSubdivisions=2
+         SubdivisionStart=2
+         SubdivisionEnd=3
+         LifetimeRange=(Min=0.800000,Max=0.800000)
+         InitialDelayRange=(Min=0.200000,Max=0.200000)
+     End Object
+     Emitters(2)=SpriteEmitter'SpriteEmitter0'
+     AutoReset=True
+     Physics=PHYS_Trailer
+     bUseDynamicLights=False
+     bLightChanged=True
+     bNoDelete=False
+     bTrailerPrePivot=True
+     bAcceptsProjectors=False
+     Tag="Emitter"
+     bSunAffect=True
+     Location=(X=105.412704,Y=-5.460236,Z=-469.121063)
+     DrawScale=0.050000
+     bDirectional=True
+     bSelected=True
+}

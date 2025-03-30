@@ -187,7 +187,7 @@ public class CharSelectionInfoPacket : ServerPacket
             sb.AppendLine($"    Delete Timer: {character.DeleteTimer}");
             sb.AppendLine($"    Selected: {character.Selected}");
             sb.AppendLine($"    Appearance:");
-            sb.AppendLine($"      Race: {character.PlayerAppearance.Race}");
+            sb.AppendLine($"      Race: {(CharacterRace)character.PlayerAppearance.Race}");
             sb.AppendLine($"      Sex: {character.PlayerAppearance.Sex}");
             sb.AppendLine($"      Hair Style: {character.PlayerAppearance.HairStyle}");
             sb.AppendLine($"      Hair Color: {character.PlayerAppearance.HairColor}");

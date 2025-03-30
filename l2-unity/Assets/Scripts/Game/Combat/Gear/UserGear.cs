@@ -21,6 +21,8 @@ public class UserGear : HumanoidGear
     [SerializeField] private GameObject _gloves;
     [SerializeField] private GameObject _boots;
 
+    [Header("Trail")]
+    [SerializeField] private ParticleSystem _weaponTrail;
 
     public override void Initialize(int ownderId, CharacterModelType raceId)
     {
@@ -37,6 +39,72 @@ public class UserGear : HumanoidGear
             Debug.LogWarning($"[{transform.name}] SkinnedMeshSync was not assigned, please pre-assign it to avoid unecessary load.");
             _skinnedMeshSync = _bodypartsContainer.GetComponentInChildren<SkinnedMeshSync>();
         }
+
+        if (_weaponTrail == null)
+        {
+            Debug.LogWarning($"[{transform.name}] WeaponTrail was not assigned, please pre-assign it to avoid unecessary load.");
+            Transform _ = _rightHandBone.Find("weapon_trail");
+            _weaponTrail = _?.GetComponent<ParticleSystem>();
+
+            if (_weaponTrail == null)
+            {
+                Debug.LogError($"[{transform.name}] WeaponTrail is null!");
+            }
+            else
+            {
+                StopTrail();
+            }
+        }
+        else
+        {
+            StopTrail();
+        }
+    }
+
+    public override void StartTrail()
+    {
+        // Debug.Log("Start weapon trail");
+        _weaponTrail.gameObject.SetActive(true);
+        _weaponTrail.Play();
+    }
+
+    public override void StopTrail()
+    {
+        // Debug.LogWarning("Stop weapon trail");
+        _weaponTrail.Stop();
+        _weaponTrail.gameObject.SetActive(false);
+    }
+
+    public override void EquipWeapon(int weaponId, Weapon weapon, bool leftSlot)
+    {
+        base.EquipWeapon(weaponId, weapon, leftSlot);
+        UpdateTrailScale();
+    }
+
+    private void UpdateTrailScale()
+    {
+        float scale = 0;
+        float offset = 0;
+        switch (_weaponAnim)
+        {
+            case WeaponAnimType._1HS:
+                scale = 0.8f;
+                offset = -0.003f;
+                break;
+            case WeaponAnimType._2HS:
+                scale = 1.5f;
+                offset = -0.004f;
+                break;
+            case WeaponAnimType.pole:
+                scale = 2.5f;
+                offset = -0.005f;
+                break;
+            default:
+                break;
+        }
+
+        _weaponTrail.transform.localScale = Vector3.one * 0.1f * scale * _weaponSizeRatio;
+        _weaponTrail.transform.localPosition = new Vector3(offset, 0, 0);
     }
 
     protected override Transform GetLeftHandBone()

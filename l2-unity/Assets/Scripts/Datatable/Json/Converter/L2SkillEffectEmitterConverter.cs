@@ -17,17 +17,26 @@ public class L2SkillEffectEmitterConverter : JsonConverter
         EffectEmitter emitter = new EffectEmitter
         {
             AttachOn = ParseAttachOnType(jObject["AttachOn"]?.ToString()),
-            SpawnOnTarget = jObject["bSpawnOnTarget"]?.ToString().ToLower() == "true",
-            RelativeToCylinder = jObject["bRelativeToCylinder"]?.ToString().ToLower() == "true",
+            SpawnOnTarget = jObject["bSpawnOnTarget"]?.ToString().ToLower() == "false" ? false : true,
+            RelativeToCylinder = jObject["bRelativeToCylinder"]?.ToString().ToLower() == "false" ? false : true,
             EffectClass =
             (jObject["EffectClass"] != null && jObject["EffectClass"].ToString().Length > 0)
             ? jObject["EffectClass"].ToString().Split(".")[1] : null,
             ScaleSize = jObject["ScaleSize"]?.Value<float>() ?? 1.0f,
-            Offset = L2JsonConverterCommonFunctions.ParseVector3(jObject["Offset"]?.ToString()),
+            Offset = L2JsonConverterCommonFunctions.ParseVector3(jObject["offset"]?.ToString()), //
             EtcEffect = ParseEtcEffect(jObject["EtcEffect"]?.ToString()),
             EtcEffectInfo = ParseEtcEffectInfo(jObject["EtcEffectInfo"]?.ToString()),
             PawnLight = jObject["bPawnLight"]?.ToString().ToLower() == "true",
         };
+
+        /* defaultproperties
+        {
+            bSpawnOnTarget=True
+            bRelativeToCylinder=True // If true, this.Offset will be scaled by X*=CollisionRadius, Y*=CollisionHeight, Z*=1
+            bAdjustLifeTime=True
+            EffectPawnClassID=-1
+            bEffectPawnIsNpc=True
+        } */
 
         if (emitter.EffectClass == null)
         {

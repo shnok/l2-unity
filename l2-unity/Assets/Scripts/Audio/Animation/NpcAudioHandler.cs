@@ -73,12 +73,12 @@ public class NpcAudioHandler : HumanoidAudioHandler
         }
     }
 
-    public override void PlayAtkSoundAtRatio(float ratio)
+    public override void PlayAtkSound()
     {
         EventReference soundEvent = GetRandomEvent(_npcgrp.AttackSoundsEvents);
         if (!soundEvent.IsNull)
         {
-            PlaySoundAtRatio(soundEvent, ratio);
+            PlaySoundAtRatio(soundEvent, _atkRatio);
         }
     }
 }

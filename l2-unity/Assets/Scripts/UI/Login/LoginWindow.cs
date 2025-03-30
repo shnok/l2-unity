@@ -187,7 +187,16 @@ public class LoginWindow : L2Window
 
         if (GameManager.Instance.AutoLogin)
         {
-            LoginButtonPressed();
+            {
+                StartCoroutine(AutoLogin());
+            }
         }
+    }
+
+    private IEnumerator AutoLogin()
+    {
+        yield return new WaitForSeconds(1f);
+        LoginButtonPressed();
+
     }
 }

@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 [System.Serializable]
@@ -13,11 +10,22 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private int _targetId;
     [SerializeField] protected Entity _target;
     [SerializeField] protected Entity _attackTarget;
-    // [SerializeField] private long _stopAutoAttackTime;
     [SerializeField] private long _combatTimestamp;
     [SerializeField] private float _hitTime;
     [SerializeField] private float _attackEndTime;
     [SerializeField] private bool _hitSuccess;
+    [Header("Skill")]
+    [SerializeField] private Skill _lastSkill;
+    [SerializeField] private int _lastSkillHitTime;
+    [SerializeField] private int _lastSkillReuseDelay;
+    [SerializeField] private long _lastSkillUseTime;
+    private long _skillThrowThreshold;
+    private long _skillShootThreshold;
+    private bool _isFighterSkill;
+    [SerializeField] protected Entity _lastSkillTarget;
+    [SerializeField] protected bool _castingSkill;
+    [SerializeField] private bool _skillThrown; // Throw animation threshold reached?
+    [SerializeField] private bool _skillShot; // Projectile threshold reached?
 
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Entity Target { get => _target; set => _target = value; }
@@ -25,8 +33,15 @@ public abstract class Combat : MonoBehaviour
     public float AttackEndTime { get => _attackEndTime; }
     public long CombatTimestamp { get => _combatTimestamp; }
     protected Status Status { get => _referenceHolder.Entity.Status; }
+    public Skill LastSkill { get => _lastSkill; }
+    public int LastSkillHitTime { get => _lastSkillHitTime; }
+    public int LastSkillReuseDelay { get => _lastSkillReuseDelay; }
+    public long LastSkillUseTime { get => _lastSkillUseTime; }
+
+    public float Throw1 = 0.8f;
+    public float Throw2 = 0.95f;
+
     protected BaseAnimationAudioHandler AudioHandler { get => _referenceHolder.AudioHandler; }
-    protected BaseAnimationController AnimationController { get => _referenceHolder.AnimationController; }
 
     private void Awake()
     {
@@ -35,6 +50,8 @@ public abstract class Combat : MonoBehaviour
             Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
             _referenceHolder = GetComponent<EntityReferenceHolder>();
         }
+
+        _skillThrown = true;
     }
 
     public virtual void Initialize()
@@ -143,7 +160,7 @@ public abstract class Combat : MonoBehaviour
 
     protected virtual void LookAtTarget()
     {
-
+        Debug.LogWarning("Wrong call");
     }
 
     public virtual void NockArrow()
@@ -158,5 +175,107 @@ public abstract class Combat : MonoBehaviour
         // Debug.Log($"[{transform.name}] Shoot arrow");
         WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity, AttackTarget, _referenceHolder.Gear.Arrow, _hitTime, _hitSuccess);
         _referenceHolder.Gear.HideArrow();
+    }
+
+    public virtual void CastSkill(Skill skill, Entity target, int hitTime, int reuseDelay)
+    {
+        _lastSkill = skill;
+        _lastSkillHitTime = hitTime;
+        _lastSkillReuseDelay = reuseDelay;
+        _lastSkillTarget = target;
+        _skillThrown = false;
+        _castingSkill = true;
+        _skillShot = false;
+        _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        _isFighterSkill = (int)_lastSkill.Skillgrps[0].CastAnimation >= 100;
+        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.85f);
+        _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 1f);
+
+        Debug.Log($"CastSkill: skill={skill}, hitTime={hitTime}, reuseDelay={reuseDelay}, _lastSkillUseTime={_lastSkillUseTime}");
+
+        if (skill.Skillgrps[0]?.CastAnimation != SkillCastAnimation.None)
+        {
+            _referenceHolder.NewAnimationController.PlaySkillAnimation(skill);
+            if (_isFighterSkill)
+            {
+                _referenceHolder.Gear.StartTrail();
+            }
+        }
+    }
+
+    void Update()
+    {
+        if (_castingSkill)
+        {
+            long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            // Debug.Log($"Update: now={now}, endTime={endTime}, timeToThrow={timeToThrow}, difference={endTime - now}");
+
+            // Debug.Log($"Progress: {(endTime - now) / (float)timeToThrow * 100f}%");
+
+            LookAtTarget();
+
+            if (!_skillThrown)  //Play launch animation at 75%
+            {
+                if (now > _skillThrowThreshold)
+                {
+                    _skillThrown = true;
+
+                    //Play skill throw animation
+                    if (_lastSkill.Skillgrps[0].ThrowAnimation != SkillThrowAnimation.None)
+                    {
+                        ThrowSkill();
+                    }
+                }
+            }
+            else if (!_skillShot) //Throw projectile at 90%
+            {
+                if (now > _skillShootThreshold)
+                {
+                    _skillShot = true;
+
+                    //for now ignore the default 20% of cast time as time to hit targetm and use default proj speed
+                    // float hitTimeReal = Time.time + (_referenceHolder.Combat.LastSkillHitTime * 0.25f / 1000f);
+
+                    float hitTimeReal = 0;
+                    if (_lastSkill.SkillEffect.ShotActions.Count > 0 && !_lastSkill.SkillEffect.ShotActions[0].SpawnOnTarget)
+                    {
+                        float timeToReachTarget = WorldCombat.Instance.CalculateTimeToHitTarget(_referenceHolder.Entity, _lastSkillTarget);
+                        hitTimeReal = Time.time + timeToReachTarget;
+                    }
+
+                    WorldCombat.Instance.EntityShootSkill(_referenceHolder.Entity, _lastSkillTarget, _lastSkill, hitTimeReal);
+                }
+            }
+            else if (now > _lastSkillUseTime + _lastSkillHitTime)
+            {
+                _castingSkill = false;
+                _referenceHolder.Gear.StopTrail();
+            }
+        }
+    }
+
+    protected Transform GetTargetToLookAt()
+    {
+        if (Status.IsDead)
+        {
+            return null;
+        }
+
+        if (_castingSkill && _lastSkillTarget != null)
+        {
+            return _lastSkillTarget.transform;
+        }
+
+        if (AttackTarget != null)
+        {
+            return AttackTarget.transform;
+        }
+
+        return null;
+    }
+
+    public virtual void ThrowSkill()
+    {
+        _referenceHolder.NewAnimationController.PlaySkillThrowAnimation();
     }
 }

@@ -25,7 +25,7 @@ public class SkillNameTable
     public void Initialize()
     {
         _names = new Dictionary<int, Dictionary<int, SkillNameData>>();
-        ReadActions();
+        ParseSkillNameGrps();
     }
 
     public void ClearTable()
@@ -52,7 +52,7 @@ public class SkillNameTable
 
         return skillLevel;
     }
-    
+
     public string GetDescription(int id)
     {
         _names.TryGetValue(id, out Dictionary<int, SkillNameData> skillLevel);
@@ -76,7 +76,7 @@ public class SkillNameTable
         return descParams;
     }
 
-    private void ReadActions()
+    private void ParseSkillNameGrps()
     {
 
         string dataPath = Path.Combine(Application.streamingAssetsPath, "Data/Meta/SkillName_Classic-eu.txt");

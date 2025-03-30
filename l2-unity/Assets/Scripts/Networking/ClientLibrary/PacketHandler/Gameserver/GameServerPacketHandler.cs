@@ -167,16 +167,13 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.SellList:
                 OnSellListReceived(data);
                 break;
+            case GameServerPacketType.MagicSkillLaunched:
+                OnSkillLaunched(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
         }
-    }
-
-    private void OnMagicSkillUse(byte[] data)
-    {
-        MagicSkillUsePacket packet = new MagicSkillUsePacket(data);
-        WorldCombat.Instance.OnMagicSkillUse(packet);
     }
 
     protected override byte[] DecryptPacket(byte[] data)
@@ -643,5 +640,17 @@ public class GameServerPacketHandler : ServerPacketHandler
             ShopWindow.Instance.ShowWindow();
             ShopWindow.Instance.RefreshProductList(-1, packet.Adena, packet.Products, ShopTab.ShopTabType.SELL, packet.OpenTab);
         });
+    }
+
+    private void OnMagicSkillUse(byte[] data)
+    {
+        MagicSkillUsePacket packet = new MagicSkillUsePacket(data);
+        WorldCombat.Instance.OnMagicSkillUse(packet);
+    }
+
+    private void OnSkillLaunched(byte[] data)
+    {
+        MagicSkillLaunchedPacked packet = new MagicSkillLaunchedPacked(data);
+        WorldCombat.Instance.OnMagicSkillLaunched(packet);
     }
 }

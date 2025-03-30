@@ -137,7 +137,60 @@ public class SkillgrpTable
                             skillGrp.IsDouble = int.Parse(value);
                             break;
                         case "animation":
-                            skillGrp.Animation = DatUtils.CleanupString(value);
+                            string val = DatUtils.CleanupString(value).Replace("}", "").Replace("{", "");
+                            switch (val.ToUpper())
+                            {
+                                case "A":
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastShort;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicNoTarget;
+                                    break;
+                                case "B":
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastShort;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicShot;
+                                    break;
+                                case "C":
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastShort;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicThrow;
+                                    break;
+                                case "D":
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastMid;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicNoTarget;
+                                    break;
+                                case "E":
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastMid;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicShot;
+                                    break;
+                                case "F":
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastMid;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicThrow;
+                                    break;
+                                case "G":
+                                    skillGrp.CastAnimation = SkillCastAnimation.CastLong;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicNoTarget;
+                                    break;
+                                case "J":
+                                    skillGrp.CastAnimation = SkillCastAnimation.NoCast;
+                                    skillGrp.ThrowAnimation = SkillThrowAnimation.MagicNoTarget;
+                                    break;
+                                case "S":
+                                    skillGrp.CastAnimation = SkillCastAnimation.SpAtk01;
+                                    break;
+                                case "T":
+                                    skillGrp.CastAnimation = SkillCastAnimation.SpAtk02;
+                                    break;
+                                case "U":
+                                    skillGrp.CastAnimation = SkillCastAnimation.Spatk03;
+                                    break;
+                                case "V":
+                                    skillGrp.CastAnimation = SkillCastAnimation.SpAtk04;
+                                    break;
+                                case "X":
+                                    skillGrp.CastAnimation = SkillCastAnimation.WarriorBuff01;
+                                    break;
+                                default:
+                                    skillGrp.CastAnimation = SkillCastAnimation.None;
+                                    break;
+                            }
                             break;
                         case "skill_visual_effect":
                             string visualEffect = DatUtils.CleanupString(value); ;

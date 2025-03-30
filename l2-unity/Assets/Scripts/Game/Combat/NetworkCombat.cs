@@ -14,10 +14,6 @@ public abstract class NetworkCombat : Combat
     {
         base.OnDeath();
 
-        if (AnimationController != null)
-        {
-            AnimationController.enabled = false;
-        }
         if (NetworkTransformReceive != null)
         {
             NetworkTransformReceive.enabled = false;
@@ -36,10 +32,6 @@ public abstract class NetworkCombat : Combat
     {
         base.OnRevive();
 
-        if (AnimationController != null)
-        {
-            AnimationController.enabled = true;
-        }
         if (NetworkTransformReceive != null)
         {
             NetworkTransformReceive.enabled = true;
@@ -52,10 +44,10 @@ public abstract class NetworkCombat : Combat
 
     protected override void LookAtTarget()
     {
-        Debug.LogWarning(AttackTarget);
-        if (AttackTarget != null && !Status.IsDead)
+        Transform target = GetTargetToLookAt();
+        if (target != null)
         {
-            NetworkTransformReceive.LookAt(_attackTarget.transform);
+            NetworkTransformReceive.LookAt(target);
         }
     }
 
@@ -109,7 +101,7 @@ public abstract class NetworkCombat : Combat
     {
         if (base.AttackOnce(hitTime, atkEndTime, hitSuccess, attackTarget))
         {
-            Debug.Log("Look At Target");
+            ((NetworkEntityReferenceHolder)_referenceHolder).NetworkCharacterControllerReceive.ResetDestination();
             return true;
         }
         else

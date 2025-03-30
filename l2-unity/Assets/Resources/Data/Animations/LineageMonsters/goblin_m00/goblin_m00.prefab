@@ -423,13 +423,16 @@ PrefabInstance:
       addedObject: {fileID: -839073889199292983}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed078e18a5c407147839139075a05559, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3973326740415013539}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed078e18a5c407147839139075a05559, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1162518998874043463}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed078e18a5c407147839139075a05559, type: 3}
       insertIndex: -1
       addedObject: {fileID: 847156244279608377}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed078e18a5c407147839139075a05559, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1867379314334158476}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed078e18a5c407147839139075a05559, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2084920139326632576}
   m_SourcePrefab: {fileID: 100100000, guid: ed078e18a5c407147839139075a05559, type: 3}
 --- !u!4 &196512667761605547 stripped
 Transform:
@@ -471,7 +474,7 @@ Animator:
   m_GameObject: {fileID: 4496910498173814819}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 8c027fb12ff54514dbea68ca035b2795, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -757,22 +760,6 @@ MonoBehaviour:
   _arrow: {fileID: 0}
   _leftHandType: 0
   _leftHand: {fileID: 0}
---- !u!114 &3973326740415013539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4496910498173814819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 338484d3f45eee84881eb77639612ffd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rootBone: {fileID: 1148851755455918711}
-  _entityReferenceHolder: {fileID: 847156244279608377}
-  _resetStateOnReceive: 1
-  _lastAnim: 0
 --- !u!114 &1162518998874043463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,6 +780,9 @@ MonoBehaviour:
   _hitTime: 0
   _attackEndTime: 0
   _hitSuccess: 0
+  _lastSkillHitTime: 0
+  _lastSkillReuseDelay: 0
+  _lastSkillUseTime: 0
   _attackStance: 0
 --- !u!114 &847156244279608377
 MonoBehaviour:
@@ -809,9 +799,49 @@ MonoBehaviour:
   _entity: {fileID: 6735643768421010114}
   _gear: {fileID: -839073889199292983}
   _combat: {fileID: 1162518998874043463}
-  _animationController: {fileID: 3973326740415013539}
+  _animationController: {fileID: 0}
+  _newAnimationController: {fileID: 1867379314334158476}
+  _animancer: {fileID: 2084920139326632576}
   _audioHandler: {fileID: 3088177361645624235}
   _animator: {fileID: 4074059588675112136}
-  _clickArea: {fileID: 0}
+  _clickArea: {fileID: 6583002803214869924}
   _networkTransformReceive: {fileID: 56833143339352812}
   _networkCharacterControllerReceive: {fileID: 1186886100513359367}
+--- !u!114 &1867379314334158476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4496910498173814819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d034599a650a74c8fbc9edc689eede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entityReferenceHolder: {fileID: 847156244279608377}
+  _lastAnim: 0
+  _rootBone: {fileID: 1148851755455918711}
+  _lastPlayedClipDuration: 0
+  _fadeDuration: 0.1
+  _atkSpd: 0
+  _atkSpdMultiplier: 1
+  _castSpdMultiplier: 1
+  _runSpdMultiplier: 1
+  _walkSpdMultiplier: 1
+  _animContainer: {fileID: 11400000, guid: a75df42103101564c8992adb1186d05f, type: 2}
+--- !u!114 &2084920139326632576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4496910498173814819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ad50f81b1d25c441943c37a89ba23f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Animator: {fileID: 4074059588675112136}
+  _Transitions: {fileID: 0}
+  _ActionOnDisable: 0

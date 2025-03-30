@@ -11,8 +11,7 @@ public abstract class NetworkEntity : Entity
     public override float UpdateMAtkSpeed(int mAtkSpd)
     {
         float converted = base.UpdateMAtkSpeed(mAtkSpd);
-        AnimationController.SetMAtkSpd(converted);
-
+        // AnimationController.SetMAtkSpd(converted, 1000);
         return converted;
     }
 

@@ -7,6 +7,7 @@ using static StatusUpdatePacket;
 public class WorldCombat : MonoBehaviour
 {
     [SerializeField] private List<Hit> _hits;
+    [SerializeField] private float _projectilesSpeed = 10f;
     private EventProcessor _eventProcessor;
     private WorldSpawner _worldSpawner;
 
@@ -77,21 +78,60 @@ public class WorldCombat : MonoBehaviour
     {
         return _worldSpawner.ExecuteWithEntitiesAsync(packet.ObjectId, packet.TargetId, (targeter, targeted) =>
         {
-            EntityCastSkill(targeter, packet.SkillId);
+            EntityCastSkill(targeter, targeted, packet.SkillId, packet.HitTime, packet.ReuseDelay);
         });
+    }
+
+    public Task OnMagicSkillLaunched(MagicSkillLaunchedPacked packet)
+    {
+
+        // TODO: Handle multiple targets
+        // TODO: Handle skill explosion
+        if (packet.TargetCount == 0)
+        {
+            return _worldSpawner.ExecuteWithEntityAsync(packet.ObjectId, (targeter) =>
+            {
+                // EntityShootSkill(targeter, targeter, packet.SkillId);
+            });
+        }
+        else
+        {
+            return _worldSpawner.ExecuteWithEntitiesAsync(packet.ObjectId, packet.Targets[0], (targeter, targeted) =>
+            {
+                // EntityShootSkill(targeter, targeted, packet.SkillId);
+            });
+        }
+
+    }
+
+    public void EntityCastSkill(Entity entity, Entity target, int skillId, int hitTime, int reuseDelay)
+    {
+        Debug.LogWarning($"EntityCastSkill: {entity.transform.name} Skill: {skillId}");
+        Skill skill = SkillTable.Instance.GetSkill(skillId);
+        CastSkill(entity, target, skill, hitTime, reuseDelay);
     }
 
     public void EntityCastSkill(Entity entity, int skillId)
     {
         Debug.LogWarning($"EntityCastSkill: {entity.transform.name} Skill: {skillId}");
         Skill skill = SkillTable.Instance.GetSkill(skillId);
-        CastSkill(entity, skill);
+        CastSkill(entity, null, skill, -1, -1);
     }
 
-    private void CastSkill(Entity entity, Skill skill)
+    // Start default skill casting
+    private void CastSkill(Entity entity, Entity target, Skill skill, int hitTime, int reuseDelay)
     {
+        if (entity == PlayerEntity.Instance)
+        {
+            PlayerStateMachine.Instance.OnSkillAllowed(hitTime);
+        }
+
         // Spawn particle
-        ParticleManager.Instance.SpawnCastParticles(entity, skill);
+        ParticleManager.Instance.SpawnCastParticles(entity, skill, hitTime);
+
+        //Play skill cast animation
+        if (skill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)
+            entity.CastSkill(skill, target, hitTime, reuseDelay);
 
         // Cast skill sound
         if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length == 0)
@@ -102,6 +142,47 @@ public class WorldCombat : MonoBehaviour
 
         EventReference soundReference = skill.SkillSoundgrp.SpellEffectSounds[0].SoundEvent;
         AudioManager.Instance.PlaySound(soundReference, entity.transform.position);
+    }
+
+    // Shoot skill projectile
+    public void EntityShootSkill(Entity sender, Entity target, Skill skill, float hitTime)
+    {
+        // Spawn particle
+        ParticleManager.Instance.SpawnSkillShotParticle(sender, target, skill, hitTime);
+
+        // Shoot skill sound
+        if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length < 2)
+        {
+            Debug.LogWarning($"Skill {skill.SkillId} doesnt have any SoundGrp or can't find sound EventReference.");
+            return;
+        }
+
+        EventReference soundReference = skill.SkillSoundgrp.SpellEffectSounds[1].SoundEvent;
+
+        AudioManager.Instance.PlaySound(soundReference, sender.transform.position);
+    }
+
+    // Projectile hit target
+    public void SkillProjectileHitTarget(Entity entity, Entity target, Skill skill)
+    {
+        // Skill has an explosion action ? (was a projectile) ?
+        if (skill.SkillEffect.ExplosionActions == null || skill.SkillEffect.ExplosionActions.Count == 0)
+        {
+            Debug.LogWarning($"Skill {skill.SkillId} doesnt have any explosion action.");
+            return;
+        }
+
+        // Spawn explosion particle
+        ParticleManager.Instance.SpawnSkillExplosionParticle(entity, target, skill);
+
+        if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length < 3)
+        {
+            Debug.LogWarning($"Skill {skill.SkillId} doesnt have any SoundGrp or can't find sound EventReference.");
+            return;
+        }
+
+        EventReference soundReference = skill.SkillSoundgrp.SpellEffectSounds[2].SoundEvent;
+        AudioManager.Instance.PlaySound(soundReference, target.transform.position);
     }
 
     public Task UpdateEntityTarget(int id, int targetId, Vector3 position)
@@ -349,8 +430,9 @@ public class WorldCombat : MonoBehaviour
     #region Maths
     public float CalculateTimeToHitTarget(Entity senderEntity, Entity targetEntity)
     {
-        return Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / 16f; //20 meters per second
+        return Vector3.Distance(senderEntity.transform.position, targetEntity.transform.position) / _projectilesSpeed; //16 meters per second
     }
+
     public float GetRealAttackRange(Entity attacker, Entity target)
     {
         // return attacker.Appearance.CollisionRadius + target.Appearance.CollisionRadius + attacker.Stats.AttackRange;
@@ -379,9 +461,9 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
-    public void EntityShootArrow(Entity caster, Entity target, Transform arrowObject, float hitTime, bool hitSuccess)
+    public void EntityShootArrow(Entity caster, Entity target, Transform arrowObject, float hitTimeSec, bool hitSuccess)
     {
-        ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTime, hitSuccess);
+        ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTimeSec, hitSuccess);
     }
 
     public Task RelationChanged(int owner, int karma, int pvpFlag)

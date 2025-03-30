@@ -153,7 +153,7 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
 
     private void InitializeNpcComponents(Entity npc)
     {
-        npc.ReferenceHolder.AnimationController.Initialize();
+        npc.ReferenceHolder.NewAnimationController.Initialize();
         npc.ReferenceHolder.Gear.Initialize(npc.Identity.Id, npc.RaceId);
         npc.Initialize();
     }

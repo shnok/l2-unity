@@ -1,0 +1,110 @@
+class s_u002_a extends Emitter;//°­°ø°Ý
+
+defaultproperties
+{
+     Begin Object Class=MeshEmitter Name=MeshEmitter2
+         StaticMesh=StaticMesh'LineageEffectsStaticmeshes.Skill_Power.skill_power01'
+         UseMeshBlendMode=False
+         RenderTwoSided=True
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=0.357143,Color=(B=255,G=255,R=255,A=191))
+         ColorScale(2)=(RelativeTime=0.789286,Color=(B=128,G=128,R=128,A=255))
+         ColorScale(3)=(RelativeTime=0.914286,Color=(B=255,G=255,R=255,A=191))
+         ColorScale(4)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         ColorScaleRepeats=15.000000
+         Opacity=0.720000
+         FadeOutStartTime=0.252000
+         FadeOut=True
+         FadeInEndTime=0.184500
+         FadeIn=True
+         MaxParticles=11
+         RespawnDeadParticles=False
+         Name="MeshEmitter2"
+         SpinParticles=True
+         StartSpinRange=(X=(Max=1.000000),Y=(Max=1.000000),Z=(Max=1.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         SizeScale(0)=(RelativeSize=1.000000)
+         SizeScale(1)=(RelativeTime=0.700000,RelativeSize=0.500000)
+         SizeScale(2)=(RelativeTime=1.000000,RelativeSize=0.010000)
+         StartSizeRange=(X=(Min=0.110000,Max=0.220000),Y=(Min=0.110000,Max=0.220000),Z=(Min=0.110000,Max=0.220000))
+         InitialParticlesPerSecond=9.000000
+         AutomaticInitialSpawning=False
+         LifetimeRange=(Min=0.450000,Max=0.450000)
+     End Object
+     Emitters(0)=MeshEmitter'MeshEmitter2'
+     Begin Object Class=SpriteEmitter Name=SpriteEmitter2
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=0.300000,Color=(B=255,G=255,R=255,A=255))
+         ColorScale(2)=(RelativeTime=0.857143,Color=(B=93,G=93,R=93,A=255))
+         ColorScale(3)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         ColorScaleRepeats=20.000000
+         Opacity=0.800000
+         FadeOutStartTime=1.200000
+         FadeOut=True
+         FadeInEndTime=0.435000
+         FadeIn=True
+         MaxParticles=1
+         ForcedFade=True
+         RespawnDeadParticles=False
+         Name="SpriteEmitter2"
+         SpinParticles=True
+         StartSpinRange=(X=(Max=1.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         UniformSize=True
+         SizeScale(0)=(RelativeTime=0.250000,RelativeSize=1.400000)
+         SizeScale(1)=(RelativeTime=0.650000,RelativeSize=1.700000)
+         SizeScale(2)=(RelativeTime=0.900000,RelativeSize=1.900000)
+         SizeScale(3)=(RelativeTime=1.000000,RelativeSize=1.900000)
+         StartSizeRange=(X=(Min=4.180000,Max=4.180000),Y=(Min=4.180000,Max=4.180000),Z=(Min=4.180000,Max=4.180000))
+         InitialParticlesPerSecond=1000.000000
+         AutomaticInitialSpawning=False
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0002'
+         LifetimeRange=(Min=1.500000,Max=1.500000)
+     End Object
+     Emitters(1)=SpriteEmitter'SpriteEmitter2'
+     Begin Object Class=MeshEmitter Name=MeshEmitter5
+         StaticMesh=StaticMesh'LineageEffectsStaticmeshes.Skill_Power.skill_charge01'
+         UseMeshBlendMode=False
+         RenderTwoSided=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=1.000000,Color=(A=255))
+         ColorScaleRepeats=1.000000
+         FadeOutStartTime=0.069000
+         FadeOut=True
+         FadeInEndTime=0.039000
+         FadeIn=True
+         MaxParticles=7
+         RespawnDeadParticles=False
+         Name="MeshEmitter5"
+         SpinParticles=True
+         SpinsPerSecondRange=(X=(Min=0.300000,Max=0.300000),Y=(Min=0.300000,Max=0.300000),Z=(Min=0.300000,Max=0.300000))
+         StartSpinRange=(X=(Max=1.000000),Y=(Max=1.000000),Z=(Max=1.000000))
+         UseSizeScale=True
+         UniformSize=True
+         StartSizeRange=(X=(Min=0.275000,Max=0.275000),Y=(Min=0.275000,Max=0.275000),Z=(Min=0.275000,Max=0.275000))
+         InitialParticlesPerSecond=10.000000
+         AutomaticInitialSpawning=False
+         DrawStyle=PTDS_Brighten
+         LifetimeRange=(Min=0.400000,Max=0.400000)
+         InitialDelayRange=(Min=0.500000,Max=0.500000)
+         StartVelocityRange=(X=(Min=-33.000000,Max=33.000000),Y=(Min=-33.000000,Max=33.000000),Z=(Min=-33.000000,Max=33.000000))
+         VelocityLossRange=(X=(Min=2.000000,Max=2.000000),Y=(Min=2.000000,Max=2.000000),Z=(Min=2.000000,Max=2.000000))
+     End Object
+     Emitters(2)=MeshEmitter'MeshEmitter5'
+     AutoReplay=True
+     bUseDynamicLights=False
+     bLightChanged=True
+     bNoDelete=False
+     bAcceptsProjectors=False
+     Tag="Emitter"
+     bSunAffect=True
+     Location=(X=-1.174793,Y=7.374109,Z=-493.961548)
+     DrawScale=0.050000
+     bUnlit=False
+     bSelected=True
+     TexModifyInfo=(Color=(B=255,G=255,R=255,A=255),AlphaOp=1,ColorOp=1)
+}

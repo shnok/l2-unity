@@ -7,7 +7,7 @@ public class StandingState : StateBase
 
     public StandingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void HandleEvent(Event evt)
+    public override void HandleEvent(Event evt, object arg0)
     {
         switch (evt)
         {
@@ -20,6 +20,7 @@ public class StandingState : StateBase
     private float _enterTime;
     public override void Enter(object obj0)
     {
+        NewPlayerAnimationController.Instance.Stand();
         _sitting = true;
         _enterTime = Time.time;
     }

@@ -8,6 +8,8 @@ public class SkillEffectTest : MonoBehaviour
     public Entity caster;
     public Entity target;
     public float spawnDelay = 1f;
+    public int skillId = 1177;
+    public int hitTime = 3000;
 
     void Awake()
     {
@@ -15,12 +17,14 @@ public class SkillEffectTest : MonoBehaviour
         {
             caster = GameObject.Find("Caster").GetComponent<Entity>();
             //caster.Initialize();
+            caster.GetComponent<NewHumanoidAnimationController>().Initialize();
             caster.GetComponent<Gear>().Initialize(0, CharacterModelType.FDarkElf);
         }
         if (target == null)
         {
-            target = GameObject.Find("Caster").GetComponent<Entity>();
+            target = GameObject.Find("Target").GetComponent<Entity>();
             //caster.Initialize();
+            target.GetComponent<NewHumanoidAnimationController>().Initialize();
             target.GetComponent<Gear>().Initialize(0, CharacterModelType.FDarkElf);
         }
     }
@@ -49,25 +53,14 @@ public class SkillEffectTest : MonoBehaviour
         // Skill ss = SkillTable.Instance.GetSkill(2039);
         // Skill sps = SkillTable.Instance.GetSkill(2047);
 
+
+        caster.EquipAllWeapons();
+
+
+        caster.ReferenceHolder.NewAnimationController.Initialize();
         while (true)
         {
-            flags = 0;
-            if (soulshot)
-            {
-                flags |= HITFLAG_USESS | ssGrade;
-            }
-            if (crit)
-            {
-                flags |= HITFLAG_CRIT;
-            }
-            if (shld > 0)
-            {
-                flags |= HITFLAG_SHLD;
-            }
-            if (miss)
-            {
-                flags |= HITFLAG_MISS;
-            }
+
             // ParticleManager.Instance.SpawnSkillParticles(caster, ss);
             // ParticleManager.Instance.SpawnSkillParticles(target, sps);
 
@@ -75,14 +68,42 @@ public class SkillEffectTest : MonoBehaviour
             // ParticleManager.Instance.SpawnHitParticle(target, caster, true, true, (int)EtcEffectInfo.EEP_GRADENONE);
             // ParticleManager.Instance.SpawnHitParticle(caster, target, false, true, (int)EtcEffectInfo.EEP_GRADENONE);
 
-            Hit hit = new Hit(target.Identity.Id, 10, flags);
             // Debug.Log($"Inflicting attack with flags: {flags} ss:{hit.hasSoulshot()} miss:{hit.isMiss()} crit:{hit.isCrit()}");
             // WorldCombat.Instance.InflictAttack(caster, target, new Hit(target.Identity.Id, 10, flags));
 
             // WorldCombat.Instance.EntityCastSkill(caster, spiritshot ? 2047 : 2039);
-            WorldCombat.Instance.EntityCastSkill(caster, 2122);
+            caster.Combat.Target = target;
+            caster.Combat.AttackTarget = target;
+            WorldCombat.Instance.EntityCastSkill(caster, target, skillId, hitTime, 3);
+            if (spiritshot)
+                WorldCombat.Instance.EntityCastSkill(caster, 2047);
+            if (soulshot)
+                WorldCombat.Instance.EntityCastSkill(caster, 2039);
             yield return new WaitForSeconds(spawnDelay);
         }
+    }
+
+    private void DebugHit()
+    {
+        flags = 0;
+        if (soulshot)
+        {
+            flags |= HITFLAG_USESS | ssGrade;
+        }
+        if (crit)
+        {
+            flags |= HITFLAG_CRIT;
+        }
+        if (shld > 0)
+        {
+            flags |= HITFLAG_SHLD;
+        }
+        if (miss)
+        {
+            flags |= HITFLAG_MISS;
+        }
+        Hit hit = new Hit(target.Identity.Id, 10, flags);
+        WorldCombat.Instance.EntityCastSkill(caster, 2122);
     }
 }
 #endif
