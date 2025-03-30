@@ -34,7 +34,7 @@ public class SkillTable
     {
         _skillToLoad = new List<int> {
             16, 56, 3, 1216, 1236, 1177, 1012, 1011, 1168, 4345, 1040, 1027, 1015,
-            1147, 1164, 91, 77, 70, 29, 1090, 1100, 1097, 1010, 1095,
+            1147, 1164, 91, 77, 70, 29, 1090, 1100, 1097, 1010, 1095, 141, 142,
             2039, 2150, 2151, 2152, 2153, 2154, // Soulshots
             2061, 2160, 2161, 2162, 2163, 2164, // Blessed Spiritshots
             2047, 2155, 2156, 2157, 2158, 2159, // Spiritshots
@@ -127,17 +127,19 @@ public class SkillTable
             Dictionary<int, SkillNameData> skillname = SkillNameTable.Instance.GetNames(kvp.Key);
 
             SkillNameData[] skillNameArray = new SkillNameData[skillname.Keys.Count];
-            for (int i = 0; i < skillname.Keys.Count; i++)
+            int arrIx = 0;
+            foreach(var s in skillname)
             {
-                skillNameArray[i] = skillname[i + 1];
+                skillNameArray[arrIx] = s.Value;
             }
 
             Dictionary<int, Skillgrp> skillgrp = SkillgrpTable.Instance.GetSkillgrp(kvp.Key);
 
             Skillgrp[] skillgrpArray = new Skillgrp[skillgrp.Keys.Count];
-            for (int i = 0; i < skillgrp.Keys.Count; i++)
+            arrIx = 0;
+            foreach(var s in skillgrp)
             {
-                skillgrpArray[i] = skillgrp[i + 1];
+                skillgrpArray[arrIx] = s.Value;
             }
 
             SkillSoundgrp skillSoundgrp = SkillSoundgrpTable.Instance.GetSkillSoundGrp(kvp.Key);

@@ -70,7 +70,7 @@ public class L2Slot
 
         if (_tooltipManipulator == null)
         {
-            _tooltipManipulator = new TooltipManipulator(_slotElement, "");
+            _tooltipManipulator = new TooltipManipulator(_slotElement, _slotType, "");
             _slotElement.AddManipulator(_tooltipManipulator);
         }
 

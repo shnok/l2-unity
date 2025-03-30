@@ -31,6 +31,9 @@ public enum GameClientPacketType : byte
     RequestCharRestore = 0x62,
     RequestRestartPoint = 0x6d,
     DoubleOPCode = 0xd0,
+    RequestSkillList = 0x3f,
+    RequestAcquireSkillInfo = 0x6b,
+    RequestAcquireSkill = 0x6c,
 
 
     //deprecated

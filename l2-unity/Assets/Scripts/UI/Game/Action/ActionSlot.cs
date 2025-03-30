@@ -38,7 +38,7 @@ public class ActionSlot : L2DraggableSlot
 
         if (_tooltipManipulator != null)
         {
-            _tooltipManipulator.SetText(Action.Name);
+            _tooltipManipulator.SetValue(Action.Name);
         }
     }
 }

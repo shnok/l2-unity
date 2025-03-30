@@ -33,8 +33,9 @@ public class GameClientPacketHandler : ClientPacketHandler
     public void SendAuth()
     {
         GameAuthRequestPacket authPacket =
-            new GameAuthRequestPacket(LoginClient.Instance.Account, GameClient.Instance.PlayKey1, GameClient.Instance.PlayKey2,
-            GameClient.Instance.SessionKey1, GameClient.Instance.SessionKey2);
+            new GameAuthRequestPacket(LoginClient.Instance.Account, GameClient.Instance.PlayKey1,
+                GameClient.Instance.PlayKey2,
+                GameClient.Instance.SessionKey1, GameClient.Instance.SessionKey2);
 
 
         SendPacket(authPacket);
@@ -190,9 +191,11 @@ public class GameClientPacketHandler : ClientPacketHandler
         SendPacket(packet);
     }
 
-    public void SendRequestCreateCharacter(string name, CharacterRace race, CharacterSex sex, CharacterClass clazz, int hairstyle, int haircolor, int face)
+    public void SendRequestCreateCharacter(string name, CharacterRace race, CharacterSex sex, CharacterClass clazz,
+        int hairstyle, int haircolor, int face)
     {
-        RequestCharCreatePacket packet = new RequestCharCreatePacket(name, race, sex, clazz, hairstyle, haircolor, face);
+        RequestCharCreatePacket packet =
+            new RequestCharCreatePacket(name, race, sex, clazz, hairstyle, haircolor, face);
         SendPacket(packet);
     }
 
@@ -235,6 +238,24 @@ public class GameClientPacketHandler : ClientPacketHandler
     public void SendRequestRestoreCharacter(int slot)
     {
         RequestCharRestorePacket packet = new RequestCharRestorePacket(slot);
+        SendPacket(packet);
+    }
+
+    public void SendRequestSkillList()
+    {
+        RequestSkillListPacket packet = new RequestSkillListPacket();
+        SendPacket(packet);
+    }
+
+    public void SendRequestAcquireSkill(int skillId, int skillLvl, PacketSkillType skillType)
+    {
+        RequestAcquireSkillPacket packet = new RequestAcquireSkillPacket(skillId, skillLvl, skillType);
+        SendPacket(packet);
+    }
+
+    public void SendRequestAcquireSkillInfo(int skillId, int skillLvl, PacketSkillType skillType)
+    {
+        RequestAcquireSkillInfoPacket packet = new RequestAcquireSkillInfoPacket(skillId, skillLvl, skillType);
         SendPacket(packet);
     }
 

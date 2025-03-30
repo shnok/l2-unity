@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -100,7 +101,7 @@ public class SkillgrpTable
                             skillGrp.SubLevel = int.Parse(value);
                             break;
                         case "icon_type":
-                            skillGrp.Icon_type = int.Parse(value);
+                            skillGrp.IconType = Enum.Parse<SkillType>(value, true);
                             break;
                         case "MagicType":
                             skillGrp.MagicType = int.Parse(value);
@@ -130,7 +131,7 @@ public class SkillgrpTable
                             skillGrp.EffectPoint = int.Parse(value);
                             break;
                         case "is_magic":
-                            skillGrp.IsMagic = int.Parse(value);
+                            skillGrp.IsMagic = Enum.Parse<IsMagicType>(value, true);
                             break;
                         case "origin_skill":
                             skillGrp.IsDouble = int.Parse(value);
