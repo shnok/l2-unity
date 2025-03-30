@@ -98,6 +98,7 @@ public class SkillLearnWindow : L2PopupWindow
             cancel.RegisterCallback<MouseDownEvent>(_ =>
             {
                 _skillList?.UnSelect();
+                _selectedSkill = null;
                 ToggleShowSkillDetail();
             }, TrickleDown.TrickleDown);
         
