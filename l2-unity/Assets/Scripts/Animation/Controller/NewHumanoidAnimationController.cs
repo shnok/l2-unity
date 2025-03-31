@@ -292,7 +292,6 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         }
 
         _animancerState.EffectiveSpeed = _defaultIdleAnimationSpeed;
-
     }
 
     public override void Walk()

@@ -284,7 +284,7 @@ public class WorldCombat : MonoBehaviour
                     referenceHolder.Combat.AttackTarget = targetEntity;
                 }
 
-                Debug.LogWarning("Attacker position: " + attackerPosition);
+                Debug.Log("Attacker position: " + attackerPosition);
                 referenceHolder.NetworkTransformReceive.SetNewPosition(attackerPosition, false);
 
                 // User destination does not matter, only move direction does

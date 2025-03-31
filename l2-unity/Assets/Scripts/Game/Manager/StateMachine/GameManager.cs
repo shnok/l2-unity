@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator StopLoadingCoroutine()
     {
-        Debug.LogWarning("STOP LOADING!");
+        Debug.Log("Stop Loading!");
         yield return new WaitForSeconds(0.15f);
 
         _loading = false;

@@ -41,7 +41,7 @@ public class SkillIntention : IntentionBase
             Debug.Log($"Distance: {distance} SkillRange: {skillRange}");
             if (distance <= skillRange && !_stateMachine.WaitingForServerReply)
             {
-                Debug.LogWarning("Using skill on target");
+                Debug.Log("Using skill on target");
 
                 _stateMachine.ChangeState(PlayerState.IDLE);
 

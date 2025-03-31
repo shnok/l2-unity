@@ -102,7 +102,6 @@ public class WorldSpawner : MonoBehaviour
 
     public Task RemoveObject(int id)
     {
-        Debug.LogWarning("DESTROY ID: " + id);
         if (IsEntityPresent(id, true))
         {
             return ExecuteWithEntityAsync(id, e =>
@@ -111,7 +110,7 @@ public class WorldSpawner : MonoBehaviour
                 _npcs.TryRemove(id, out Entity removed2);
                 _objects.TryRemove(id, out Entity removed3);
 
-                Debug.LogWarning("Gameobject destroyed : " + e.gameObject.name);
+                Debug.Log("Gameobject destroyed : " + e.gameObject.name);
 
                 NameplatesManagerGame.Instance.RemoveNameplate(id);
 

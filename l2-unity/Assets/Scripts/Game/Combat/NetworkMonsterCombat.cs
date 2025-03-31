@@ -41,7 +41,6 @@ public class NetworkMonsterCombat : NetworkCombat
 
     public override bool AttackOnce(float hitTime, float atkEndTime, bool hitSuccess, Entity attackTarget)
     {
-        Debug.LogWarning("AttackOnce");
         if (base.AttackOnce(hitTime, atkEndTime, hitSuccess, attackTarget))
         {
             MonsterAnimationController.Attack();

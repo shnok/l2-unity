@@ -60,9 +60,11 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         {
             _networkTransformReceive.PausePositionSync();
             _networkTransformReceive.SetFinalRotation(VectorUtils.CalculateMoveDirectionAngle(direction.x, direction.z));
+            _entity.AnimationController.Move();
         }
         else
         {
+            _entity.AnimationController.Wait();
             _networkTransformReceive.ResumePositionSync();
         }
     }

@@ -84,7 +84,7 @@ public class PlayerShortcuts : MonoBehaviour
 
     public void UseShortcut(Shortcut shortcut)
     {
-        Debug.LogWarning($"Use shortcut {shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR + shortcut.Slot}.");
+        Debug.Log($"Use shortcut {shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR + shortcut.Slot}.");
         switch (shortcut.Type)
         {
             case Shortcut.TYPE_ITEM:
@@ -209,7 +209,6 @@ public class PlayerShortcuts : MonoBehaviour
 
     public void ToggleShortcutItem(int id, bool enable)
     {
-        Debug.LogWarning("Toggle update from server");
         if (enable)
         {
             if (!_toggledItemIds.Contains(id))

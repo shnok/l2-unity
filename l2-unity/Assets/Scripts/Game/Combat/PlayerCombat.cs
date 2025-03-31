@@ -41,7 +41,6 @@ public class PlayerCombat : Combat
     {
         if (base.AttackOnce(hitTime, atkEndTime, hitSuccess, attackTarget))
         {
-            Debug.LogWarning("Attack Once");
             PlayerStateMachine.Instance.OnAttackAllowed();
             return true;
         }

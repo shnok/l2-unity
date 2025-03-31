@@ -43,13 +43,15 @@ public abstract class NewBaseAnimationController : MonoBehaviour
         }
     }
 
-    public void PlayAnimation(int index)
+    protected void PlayAnimation(int index)
     {
         PlayAnimation(AnimationCategory.Default, index);
     }
 
     protected void PlayAnimation(AnimationCategory animationCategory, int index)
     {
+        Debug.Log("PlayAnim! " + transform.name + " - " + index);
+
         _lastAnim = index;
 
         AnimationClip clip = GetAnimationClip(animationCategory, index);

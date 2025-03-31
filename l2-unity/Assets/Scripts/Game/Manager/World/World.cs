@@ -255,7 +255,7 @@ public class World : MonoBehaviour
 
         return _worldSpawner.ExecuteWithEntityAsync(objectId, e =>
         {
-            Debug.LogWarning("Entity level up!");
+            Debug.Log("Entity level up!");
             WorldCombat.Instance.EntityCastSkill(e, 2122);
         });
     }

@@ -53,7 +53,6 @@ public class PlayerSkill : MonoBehaviour
 
         List<SkillWindowInfo>[] result = new List<SkillWindowInfo>[2] { new(10), new(10) };
 
-        Debug.LogWarning("GetSKillsForWindow: " + _skills.Count);
         for (var i = 0; i < _skills.Count; i++)
         {
             SkillWindowInfo skillwInfo = new SkillWindowInfo(_skills[i].Id, _skills[i].Level, 0, null);
@@ -66,8 +65,6 @@ public class PlayerSkill : MonoBehaviour
                 result[0].Add(skillwInfo);
             }
         }
-
-        Debug.LogWarning("GetSKillsForWindow Result: " + result[0].Count + " - " + result[1].Count);
 
         Initialized = true;
         return result;

@@ -73,7 +73,7 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
     protected override void UpdateEntity(Entity entity, NetworkIdentity identity,
         PlayerStatus status, Stats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
-        Debug.LogWarning("[" + Thread.CurrentThread.ManagedThreadId + "] UPDATE ENTITY FUNC");
+        // Debug.LogWarning("[" + Thread.CurrentThread.ManagedThreadId + "] UPDATE ENTITY FUNC");
 
         UpdateEntityComponents((NetworkHumanoidEntity)entity, identity, status, stats, appearance, actionInfo);
     }

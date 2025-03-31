@@ -122,7 +122,7 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
     public override void PlaySkillVoice(string voice)
     {
         string eventName = $"event:/ChrSound/Skill/{voice}";
-        Debug.LogWarning(eventName);
+        // Debug.LogWarning(eventName);
         EventReference er = RuntimeManager.PathToEventReference(eventName);
         if (!er.IsNull)
         {
