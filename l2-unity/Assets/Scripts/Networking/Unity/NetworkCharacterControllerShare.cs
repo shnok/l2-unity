@@ -73,7 +73,7 @@ public class NetworkCharacterControllerShare : MonoBehaviour
                 NetworkTransformShare.Instance.ShouldShareRotation = true;
             }
 
-            ShareMoveDirection(newDirection);
+            ShareMoveDirection(newDirection, 0.0f, false, Vector3.zero);
             _lastDirection = newDirection;
         }
     }
@@ -108,25 +108,25 @@ public class NetworkCharacterControllerShare : MonoBehaviour
 
     public void ForceShareMoveDirection()
     {
-        ShareMoveDirection(PlayerController.Instance.MoveDirection.normalized, true);
+        ShareMoveDirection(PlayerController.Instance.MoveDirection.normalized, true, 0.0f, false, Vector3.zero);
     }
 
-    public void ShareMoveDirection(Vector3 moveDirection)
+    public void ShareMoveDirection(Vector3 moveDirection, float verticalVelocity, bool sharePosition, Vector3 position)
     {
-        ShareMoveDirection(moveDirection, false);
+        ShareMoveDirection(moveDirection, false, verticalVelocity, sharePosition, position);
     }
 
-    public void ShareMoveDirection(Vector3 moveDirection, bool isForced)
+    public void ShareMoveDirection(Vector3 moveDirection, bool isForced, float verticalVelocity, bool sharePosition, Vector3 position)
     {
         Vector3 previousDirection = isForced ? _lastForcedDirection : _lastDirection;
-        if (previousDirection.x == moveDirection.x && previousDirection.z == moveDirection.z)
+        /* if (previousDirection.x == moveDirection.x && previousDirection.z == moveDirection.z)
         {
             // The direction hasnt changed
             return;
-        }
+        } */
 
         float directionAngle = VectorUtils.CalculateMoveDirectionAngle(moveDirection.x, moveDirection.z);
-        if (!isForced)
+        /* if (!isForced)
         {
             if (Math.Abs(Math.Abs(directionAngle) - Math.Abs(_lastDirectionAngle)) < 2f)
             {
@@ -134,7 +134,7 @@ public class NetworkCharacterControllerShare : MonoBehaviour
                 // The direction change is too small to share
                 return;
             }
-        }
+        } */
 
         _lastDirectionAngle = directionAngle;
 
@@ -153,7 +153,7 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             _lastForcedDirection = moveDirection;
         }
 
-        GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(moveDirection, Heading);
+        GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(moveDirection, Heading, verticalVelocity, sharePosition, position);
     }
 
     private int CalculateHeading(float directionAngle)

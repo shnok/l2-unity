@@ -32,7 +32,7 @@ public class IdleState : StateBase
                 PathFinderController.Instance.ClearPath();
                 PlayerController.Instance.ResetDestination(false);
                 NetworkTransformShare.Instance.SharePosition();
-                NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero);
+                NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero, 0.0f, false, Vector3.zero);
 
                 // Wait for server reply?
                 GameClient.Instance.ClientPacketHandler.SendRequestAction(TargetManager.Instance.Target.Identity.Id);
@@ -43,7 +43,7 @@ public class IdleState : StateBase
                     PathFinderController.Instance.ClearPath();
                     PlayerController.Instance.ResetDestination(false);
                     NetworkTransformShare.Instance.SharePosition();
-                    NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero);
+                    NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero, 0.0f, false, Vector3.zero);
 
                     GameClient.Instance.ClientPacketHandler.RequestAttackForce(TargetManager.Instance.Target.Identity.Id);
 
