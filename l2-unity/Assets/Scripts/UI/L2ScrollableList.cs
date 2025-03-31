@@ -15,7 +15,7 @@ public class L2ScrollableList<T> : L2Scrollable
 
     private bool _alternatingRowColor;
     private bool _isAlternatedRow;
-    private int _currentSelectedItemId;
+    private int _currentSelectedItemId; // currently support only 1 selected
 
     public virtual void Initialize(VisualElement container, IEnumerable<T> items, ActionOut<int, VisualElement> bindItem, bool alternatingRowColor)
     {
@@ -57,10 +57,18 @@ public class L2ScrollableList<T> : L2Scrollable
 
     public void RemoveFromList(int index)
     {
-        RemoveItem(_content.Children().ElementAt(index), _currentSelectedItemId);
+        RemoveItem(_content.Children().ElementAt(index), index);
         _items[index] = _items[^1];
         Array.Resize(ref _items, _items.Length - 1);
         _content.RemoveAt(index);
+    }
+
+    public void RemoveSelectedFromList()
+    {
+        RemoveItem(_content.Children().ElementAt(_currentSelectedItemId), _currentSelectedItemId);
+        _items[_currentSelectedItemId] = _items[^1];
+        Array.Resize(ref _items, _items.Length - 1);
+        _content.RemoveAt(_currentSelectedItemId);
     }
 
     private void SelectDefaultSlot()
@@ -75,21 +83,21 @@ public class L2ScrollableList<T> : L2Scrollable
     {
         if (_currentSelectedItemId != -1)
         {
-            UnSelect(index);
+            UnSelect();
         }
         SetSelected(index);
         _currentSelectedItemId = index;
     }
 
-    public void SetSelected(int index)
+    private void SetSelected(int index)
     {
         VisualElement el = _content.ElementAt(index);
         el.AddToClassList("selected");
     }
 
-    public void UnSelect(int index)
+    public void UnSelect()
     {
-        VisualElement el = _content.ElementAt(index);
+        VisualElement el = _content.ElementAt(_currentSelectedItemId);
         el.RemoveFromClassList("selected");
         _content.style.display = DisplayStyle.Flex;
     }
