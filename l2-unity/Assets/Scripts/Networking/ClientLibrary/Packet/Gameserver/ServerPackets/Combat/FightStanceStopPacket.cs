@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 
-public class AttackStanceStartPacket : ServerPacket
+public class FightStanceStopPacket : ServerPacket
 {
     public int EntityId { get; private set; }
 
-    public AttackStanceStartPacket(byte[] d) : base(d)
+    public FightStanceStopPacket(byte[] d) : base(d)
     {
         Parse();
     }

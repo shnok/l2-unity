@@ -74,6 +74,11 @@ public class NewMonsterAnimationController : NewBaseAnimationController
 
     public override void Wait()
     {
+        if (AtkWait())
+        {
+            return;
+        }
+
         PlayAnimation((int)MonsterAnimationEvent.wait);
 
         if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
@@ -82,11 +87,18 @@ public class NewMonsterAnimationController : NewBaseAnimationController
         }
     }
 
-    public override void AtkWait()
+    public override bool AtkWait()
     {
+        if (!base.AtkWait())
+        {
+            return false;
+        }
+
         PlayAnimation((int)MonsterAnimationEvent.atkwait);
 
         // play any sound ?
+
+        return true;
     }
 
     public override void Walk()
@@ -129,5 +141,21 @@ public class NewMonsterAnimationController : NewBaseAnimationController
 
     public override void Resurrect()
     {
+    }
+
+    public override void FightStanceStarted()
+    {
+        if (_lastAnim == (int)MonsterAnimationEvent.wait)
+        {
+            AtkWait();
+        }
+    }
+
+    public override void FightStanceStopped()
+    {
+        if (_lastAnim == (int)MonsterAnimationEvent.atkwait)
+        {
+            Wait();
+        }
     }
 }

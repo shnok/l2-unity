@@ -453,6 +453,22 @@ public class WorldCombat : MonoBehaviour
         _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.ToggleShortcutItem(itemId, enable));
     }
 
+    public void OnFightStanceStart(int entityId)
+    {
+        _worldSpawner.ExecuteWithEntityAsync(entityId, (e) =>
+        {
+            e.Combat.FightStanceStart();
+        });
+    }
+
+    public void OnFightStanceStop(int entityId)
+    {
+        _worldSpawner.ExecuteWithEntityAsync(entityId, (e) =>
+        {
+            e.Combat.FightStanceStop();
+        });
+    }
+
     public void SetupGauge(SetupGaugePacket.GaugeColor color, int time, int maxTime)
     {
         _eventProcessor.QueueEvent(() =>

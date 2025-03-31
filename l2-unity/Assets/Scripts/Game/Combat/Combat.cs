@@ -14,6 +14,7 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private float _hitTime;
     [SerializeField] private float _attackEndTime;
     [SerializeField] private bool _hitSuccess;
+    [SerializeField] private bool _fightStanceStarted;
     [Header("Skill")]
     [SerializeField] private Skill _lastSkill;
     [SerializeField] private int _lastSkillHitTime;
@@ -37,9 +38,7 @@ public abstract class Combat : MonoBehaviour
     public int LastSkillHitTime { get => _lastSkillHitTime; }
     public int LastSkillReuseDelay { get => _lastSkillReuseDelay; }
     public long LastSkillUseTime { get => _lastSkillUseTime; }
-
-    public float Throw1 = 0.8f;
-    public float Throw2 = 0.95f;
+    public bool IsInFightStance { get => _fightStanceStarted; }
 
     protected BaseAnimationAudioHandler AudioHandler { get => _referenceHolder.AudioHandler; }
 
@@ -277,5 +276,17 @@ public abstract class Combat : MonoBehaviour
     public virtual void ThrowSkill()
     {
         _referenceHolder.NewAnimationController.PlaySkillThrowAnimation();
+    }
+
+    public void FightStanceStart()
+    {
+        _fightStanceStarted = true;
+        _referenceHolder.NewAnimationController.FightStanceStarted();
+    }
+
+    public void FightStanceStop()
+    {
+        _fightStanceStarted = false;
+        _referenceHolder.NewAnimationController.FightStanceStopped();
     }
 }

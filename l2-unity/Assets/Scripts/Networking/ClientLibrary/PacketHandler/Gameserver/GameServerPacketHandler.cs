@@ -170,6 +170,12 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.MagicSkillLaunched:
                 OnSkillLaunched(data);
                 break;
+            case GameServerPacketType.FightStanceStart:
+                OnFightStanceStart(data);
+                break;
+            case GameServerPacketType.FightStanceStop:
+                OnFightStanceStop(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -595,19 +601,19 @@ public class GameServerPacketHandler : ServerPacketHandler
         CharDeleteFailPacket packet = new CharDeleteFailPacket(data);
         Debug.LogWarning("Char Delete Failed: " + packet.Reason);
     }
-    
+
     private void OnSkillList(byte[] data)
     {
         SkillListPacket packet = new SkillListPacket(data);
         _eventProcessor.QueueEvent(() => PlayerSkill.Instance.SetSkills(packet.Skills));
     }
-    
+
     private void OnAcquireSkillList(byte[] data)
     {
         AcquireSkillListPacket packet = new AcquireSkillListPacket(data);
         _eventProcessor.QueueEvent(() => SkillLearnWindow.Instance.InitSkillsList(packet.Skills));
     }
-    
+
     private void OnAcquireSkillInfo(byte[] data)
     {
         AcquireSkillInfoPacket packet = new AcquireSkillInfoPacket(data);
@@ -652,5 +658,17 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         MagicSkillLaunchedPacked packet = new MagicSkillLaunchedPacked(data);
         WorldCombat.Instance.OnMagicSkillLaunched(packet);
+    }
+
+    private void OnFightStanceStart(byte[] data)
+    {
+        FightStanceStartPacket packet = new FightStanceStartPacket(data);
+        WorldCombat.Instance.OnFightStanceStart(packet.EntityId);
+    }
+
+    private void OnFightStanceStop(byte[] data)
+    {
+        FightStanceStopPacket packet = new FightStanceStopPacket(data);
+        WorldCombat.Instance.OnFightStanceStop(packet.EntityId);
     }
 }

@@ -199,8 +199,13 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         _animancerState.EffectiveSpeed = _atkSpdMultiplier;
     }
 
-    public override void AtkWait()
+    public override bool AtkWait()
     {
+        if (!base.AtkWait())
+        {
+            return false;
+        }
+
         _lastAnimationType = HumanoidWeaponAnimType.atkwait;
         switch (_weaponAnim)
         {
@@ -226,6 +231,8 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         }
 
         _animancerState.EffectiveSpeed = _defaultAtkWaitAnimationSpeed;
+
+        return true;
     }
 
     public override void Run()
@@ -267,6 +274,11 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Wait()
     {
+        if (AtkWait())
+        {
+            return;
+        }
+
         _lastAnimationType = HumanoidWeaponAnimType.wait;
         switch (_weaponAnim)
         {
@@ -482,5 +494,21 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         }
 
         return false;
+    }
+
+    public override void FightStanceStarted()
+    {
+        if (_lastAnimationType == HumanoidWeaponAnimType.wait)
+        {
+            AtkWait();
+        }
+    }
+
+    public override void FightStanceStopped()
+    {
+        if (_lastAnimationType == HumanoidWeaponAnimType.atkwait)
+        {
+            Wait();
+        }
     }
 }

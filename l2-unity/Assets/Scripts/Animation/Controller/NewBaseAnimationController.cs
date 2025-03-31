@@ -1,3 +1,4 @@
+using System;
 using Animancer;
 using UnityEngine;
 
@@ -110,7 +111,15 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     public abstract void Run();
     public abstract void Wait();
     public abstract void Walk();
-    public abstract void AtkWait();
+    public virtual bool AtkWait()
+    {
+        if (_entityReferenceHolder.Combat == null)
+        {
+            return false;
+        }
+
+        return _entityReferenceHolder.Combat.IsInFightStance;
+    }
 
     public virtual void PlaySkillAnimation(Skill skill)
     {
@@ -141,4 +150,8 @@ public abstract class NewBaseAnimationController : MonoBehaviour
             Walk();
         }
     }
+
+    public abstract void FightStanceStarted();
+
+    public abstract void FightStanceStopped();
 }

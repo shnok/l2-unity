@@ -80,6 +80,7 @@ public abstract class DefaultClient : MonoBehaviour
     protected virtual void OnConnectionSuccess()
     {
         _connected = true;
+        _lastSocketPoll = Time.time;
     }
 
     public virtual void OnConnectionFailed()
