@@ -16,6 +16,13 @@ public class NetworkCharacterControllerShare : MonoBehaviour
 
     public int Heading { get { return _heading; } set { _heading = value; } }
 
+
+    [SerializeField] private int _sharingPositionDelayMs = 500;
+    [SerializeField] private long _lastSharingPosition = 0;
+
+    public bool _isSharedJumping = false;
+
+
     private static NetworkCharacterControllerShare _instance;
     public static NetworkCharacterControllerShare Instance { get { return _instance; } }
 
@@ -72,14 +79,69 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             {
                 NetworkTransformShare.Instance.ShouldShareRotation = true;
             }
+            bool sharePosition = false;
+            Vector3 position = Vector3.zero;
+            if (ShouldSharePosition(now))
+            {
+                sharePosition = true;
+                position = transform.position;
+                _lastSharingPosition = now;
+            }
+            float verticalVelocity = 0.0f;
 
-            ShareMoveDirection(newDirection, 0.0f, false, Vector3.zero);
+            if (ShouldShareJumping())
+            {
+                //TODO: Maybe we need validate if the player is falling or not
+                verticalVelocity = PlayerController.Instance._verticalVelocity;
+                _isSharedJumping = true;
+            }
+
+
+            ShareMoveDirection(newDirection, verticalVelocity, sharePosition, position);
             _lastDirection = newDirection;
         }
     }
+    private bool ShouldSharePosition(long timestamp)
+    {
+        if (timestamp - _lastSharingPosition >= _sharingPositionDelayMs)
+        {
+            Debug.LogWarning("Sharing move direction: Should share position: passed time" + timestamp);
+            return true;
+        }
+        return false;
+    }
+    private bool ShouldShareJumping()
+    {
+        if (!PlayerController.Instance.IsJumping() && _isSharedJumping)
+        {
+            _isSharedJumping = false;
+        }
 
+        if (PlayerController.Instance.IsJumping() && !_isSharedJumping)
+        {
+            Debug.LogWarning("Sharing move direction: Should share jump");
+            return true;
+        }
+        return false;
+    }
     private bool ShouldShareMoveDirection(Vector3 newDirection, long timestamp)
     {
+        if (ShouldShareJumping())
+        {
+            return true;
+        }
+
+        if (VectorUtils.IsVectorZero2D(newDirection) && VectorUtils.IsVectorZero2D(_lastDirection))
+        {
+            // player just stopped and is not moving
+            return false;
+        }
+        if (ShouldSharePosition(timestamp))
+        {
+            return true;
+        }
+        /*
+        Removed these validations because they are not needed anymore
         if (_lastDirection == newDirection)
         {
             return false;
@@ -96,9 +158,9 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             // player just stopped
             return true;
         }
-
+        */
         // Basic loop delay
-        if (timestamp - _lastSharingTimestamp >= _sharingLoopDelayMs && newDirection != _lastDirection)
+        if (timestamp - _lastSharingTimestamp >= _sharingLoopDelayMs)
         {
             return true;
         }

@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _axis;
 
     /* Gravity */
-    private float _verticalVelocity = 0;
+    public float _verticalVelocity = 0;
     [SerializeField] private float _jumpForce = 10;
     [SerializeField] private float _gravity = 28;
 
@@ -371,5 +371,9 @@ public class PlayerController : MonoBehaviour
     {
         // ResetDestination(false);
         _moveDirection = new Vector3(0, _moveDirection.y, 0);
+    }
+    public bool IsJumping()
+    {
+        return _controller.isGrounded == false && _verticalVelocity > 0;
     }
 }

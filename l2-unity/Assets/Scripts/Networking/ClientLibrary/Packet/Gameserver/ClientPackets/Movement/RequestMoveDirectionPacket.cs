@@ -12,9 +12,9 @@ public class RequestMoveDirectionPacket : ClientPacket
         WriteB(sharePosition ? (byte)1 : (byte)0);
         if (sharePosition)
         {
-            WriteI((int)(pos.z * 52.5f));
-            WriteI((int)(pos.x * 52.5f));
-            WriteI((int)(pos.y * 52.5f));
+            WriteI((int)(position.z * 52.5f));
+            WriteI((int)(position.x * 52.5f));
+            WriteI((int)(position.y * 52.5f));
         }
         BuildPacket();
     }
