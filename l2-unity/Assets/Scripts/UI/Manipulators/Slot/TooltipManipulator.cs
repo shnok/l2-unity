@@ -16,17 +16,17 @@ public class TooltipManipulator : Manipulator
 
     protected override void RegisterCallbacksOnTarget()
     {
-        target.RegisterCallback<PointerOverEvent>(PointerInHandler, TrickleDown.TrickleDown);
+        target.RegisterCallback<PointerEnterEvent>(PointerInHandler, TrickleDown.TrickleDown);
         target.RegisterCallback<PointerOutEvent>(PointerOutHandler, TrickleDown.TrickleDown);
     }
 
     protected override void UnregisterCallbacksFromTarget()
     {
-        target.UnregisterCallback<PointerOverEvent>(PointerInHandler, TrickleDown.TrickleDown);
+        target.UnregisterCallback<PointerEnterEvent>(PointerInHandler, TrickleDown.TrickleDown);
         target.UnregisterCallback<PointerOutEvent>(PointerOutHandler, TrickleDown.TrickleDown);
     }
 
-    private void PointerInHandler(PointerOverEvent evt)
+    private void PointerInHandler(PointerEnterEvent evt)
     {
         if (!_pointerOver)
         {
