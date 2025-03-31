@@ -29,7 +29,7 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
 
         AddEntity(identity, player);
 
-        Debug.LogWarning($"Spawn player {race} - {raceId}");
+        Debug.Log($"Spawn player {race} - {raceId}");
 
     }
 

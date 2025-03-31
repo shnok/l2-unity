@@ -44,7 +44,6 @@ public class NetworkHumanoidCombat : NetworkCombat
 
     public override bool AttackOnce(float hitTime, float atkEndTime, bool hitSuccess, Entity attackTarget)
     {
-        Debug.LogWarning("AttackOnce");
         if (base.AttackOnce(hitTime, atkEndTime, hitSuccess, attackTarget))
         {
             // HumanoidAnimationController.SetBool(HumanoidAnimType.atk01, true);

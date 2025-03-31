@@ -1,3 +1,4 @@
+using System;
 using Animancer;
 using UnityEngine;
 
@@ -43,25 +44,29 @@ public abstract class NewBaseAnimationController : MonoBehaviour
         }
     }
 
-    public void PlayAnimation(int index)
+    protected bool PlayAnimation(int index)
     {
-        PlayAnimation(AnimationCategory.Default, index);
+        return PlayAnimation(AnimationCategory.Default, index);
     }
 
-    protected void PlayAnimation(AnimationCategory animationCategory, int index)
+    protected bool PlayAnimation(AnimationCategory animationCategory, int index)
     {
+        Debug.Log("PlayAnim! " + transform.name + " - " + index);
+
         _lastAnim = index;
 
         AnimationClip clip = GetAnimationClip(animationCategory, index);
         if (clip == null)
         {
             Debug.LogWarning($"[{transform.name}] Does not have an animation clip at index {index}.");
-            return;
+            return false;
         }
 
         _lastPlayedClipDuration = clip.length;
 
         _animancerState = _animancer.Play(clip, _fadeDuration);
+
+        return true;
     }
 
     protected abstract AnimationClip GetAnimationClip(AnimationCategory animationCategory, int index);
@@ -108,7 +113,17 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     public abstract void Run();
     public abstract void Wait();
     public abstract void Walk();
-    public abstract void AtkWait();
+    public abstract void Emote(int action);
+
+    public virtual bool AtkWait()
+    {
+        if (_entityReferenceHolder.Combat == null)
+        {
+            return false;
+        }
+
+        return _entityReferenceHolder.Combat.IsInFightStance;
+    }
 
     public virtual void PlaySkillAnimation(Skill skill)
     {
@@ -139,4 +154,8 @@ public abstract class NewBaseAnimationController : MonoBehaviour
             Walk();
         }
     }
+
+    public abstract void FightStanceStarted();
+
+    public abstract void FightStanceStopped();
 }

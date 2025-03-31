@@ -338,7 +338,7 @@ public class Gear : MonoBehaviour
 
         if (weapon != null)
         {
-            Debug.LogWarning("Unequip weapon: " + weapon);
+            Debug.Log("Unequip weapon: " + weapon);
             Destroy(weapon.gameObject);
 
             if (WeaponType == WeaponType.bow)

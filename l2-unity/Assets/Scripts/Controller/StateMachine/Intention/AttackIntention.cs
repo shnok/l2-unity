@@ -40,7 +40,7 @@ public class AttackIntention : IntentionBase
         if (distance <= attackRange * 0.95f && !_stateMachine.WaitingForServerReply)
         {
             // PlayerController.Instance.UpdateFinalAngleToLookAt(targetEntity.transform); -> Update angle once attack is allowed instead
-            Debug.LogWarning("Attacking a new target");
+            Debug.Log("Attacking a new target");
 
             _stateMachine.ChangeState(PlayerState.IDLE);
 

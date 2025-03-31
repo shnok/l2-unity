@@ -284,7 +284,7 @@ public class WorldCombat : MonoBehaviour
                     referenceHolder.Combat.AttackTarget = targetEntity;
                 }
 
-                Debug.LogWarning("Attacker position: " + attackerPosition);
+                Debug.Log("Attacker position: " + attackerPosition);
                 referenceHolder.NetworkTransformReceive.SetNewPosition(attackerPosition, false);
 
                 // User destination does not matter, only move direction does
@@ -451,6 +451,22 @@ public class WorldCombat : MonoBehaviour
     public void ExAutoSoulshotReceived(int itemId, bool enable)
     {
         _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.ToggleShortcutItem(itemId, enable));
+    }
+
+    public void OnFightStanceStart(int entityId)
+    {
+        _worldSpawner.ExecuteWithEntityAsync(entityId, (e) =>
+        {
+            e.Combat.FightStanceStart();
+        });
+    }
+
+    public void OnFightStanceStop(int entityId)
+    {
+        _worldSpawner.ExecuteWithEntityAsync(entityId, (e) =>
+        {
+            e.Combat.FightStanceStop();
+        });
     }
 
     public void SetupGauge(SetupGaugePacket.GaugeColor color, int time, int maxTime)

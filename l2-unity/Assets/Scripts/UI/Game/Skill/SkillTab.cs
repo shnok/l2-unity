@@ -225,9 +225,6 @@ public class SkillTab : L2Tab
         Button btn = section.Q<Button>("PlusMinusBtn");
         btn.RegisterCallback<ClickEvent>(HandleSlotClick, TrickleDown.TrickleDown);
 
-        Debug.LogWarning($"Adding section: {name} With {skills.Count} skills");
-        Debug.LogWarning(_skillSlots.Length);
-        Debug.LogWarning(skills.Count);
         for (var i = 0; i < skills.Count; ++i)
         {
             VisualElement slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];

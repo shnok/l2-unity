@@ -169,192 +169,226 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 break;
         }
 
-        PlayAnimation(AnimationCategory.Atk, (int)toPlay + _atkAnimIndex);
-        UpdateAttackAnimationSpeed(_lastPlayedClipDuration, _atkSpd);
-
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation(AnimationCategory.Atk, (int)toPlay + _atkAnimIndex))
         {
+            UpdateAttackAnimationSpeed(_lastPlayedClipDuration, _atkSpd);
 
-            if (_weaponAnim == WeaponAnimType.bow)
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
             {
-                events.Add(_nockArrowRatio, () =>
-                {
-                    _entityReferenceHolder.Combat.NockArrow();
-                    AudioHandler.PlayBowBendSound();
-                });
 
-                events.Add(_shootArrowRatio, () =>
+                if (_weaponAnim == WeaponAnimType.bow)
                 {
-                    _entityReferenceHolder.Combat.ShootArrow();
-                    AudioHandler.PlayArrowShootSound();
-                });
+                    events.Add(_nockArrowRatio, () =>
+                    {
+                        _entityReferenceHolder.Combat.NockArrow();
+                        AudioHandler.PlayBowBendSound();
+                    });
+
+                    events.Add(_shootArrowRatio, () =>
+                    {
+                        _entityReferenceHolder.Combat.ShootArrow();
+                        AudioHandler.PlayArrowShootSound();
+                    });
+                }
+                else
+                {
+                    events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
+                }
+                events.OnEnd = NextAttack;
             }
-            else
-            {
-                events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
-            }
-            events.OnEnd = NextAttack;
+
+            _animancerState.EffectiveSpeed = _atkSpdMultiplier;
         }
-
-        _animancerState.EffectiveSpeed = _atkSpdMultiplier;
     }
 
-    public override void AtkWait()
+    public override bool AtkWait()
     {
+        if (!base.AtkWait())
+        {
+            return false;
+        }
+
         _lastAnimationType = HumanoidWeaponAnimType.atkwait;
+        HumanoidAnimationDefaultEvent animEvent;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
             case WeaponAnimType.hand:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_hand);
+                animEvent = HumanoidAnimationDefaultEvent.atkwait_hand;
                 break;
             case WeaponAnimType._1HS:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_1HS);
+                animEvent = HumanoidAnimationDefaultEvent.atkwait_1HS;
                 break;
             case WeaponAnimType._2HS:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_2HS);
+                animEvent = HumanoidAnimationDefaultEvent.atkwait_2HS;
                 break;
             case WeaponAnimType.bow:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_bow);
+                animEvent = HumanoidAnimationDefaultEvent.atkwait_bow;
                 break;
             case WeaponAnimType.pole:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_pole);
+                animEvent = HumanoidAnimationDefaultEvent.atkwait_pole;
                 break;
-            case WeaponAnimType.dual:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.atkwait_dual);
+            default:
+                animEvent = HumanoidAnimationDefaultEvent.atkwait_dual;
                 break;
         }
 
-        _animancerState.EffectiveSpeed = _defaultAtkWaitAnimationSpeed;
+        if (PlayAnimation((int)animEvent))
+        {
+            _animancerState.EffectiveSpeed = _defaultAtkWaitAnimationSpeed;
+            return true;
+        }
+
+        return false;
     }
 
     public override void Run()
     {
         _lastAnimationType = HumanoidWeaponAnimType.run;
+        HumanoidAnimationDefaultEvent animEvent;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
             case WeaponAnimType.hand:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_hand);
+                animEvent = HumanoidAnimationDefaultEvent.run_hand;
                 break;
             case WeaponAnimType._1HS:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_1HS);
+                animEvent = HumanoidAnimationDefaultEvent.run_1HS;
                 break;
             case WeaponAnimType._2HS:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_2HS);
+                animEvent = HumanoidAnimationDefaultEvent.run_2HS;
                 break;
             case WeaponAnimType.bow:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_bow);
+                animEvent = HumanoidAnimationDefaultEvent.run_bow;
                 break;
             case WeaponAnimType.pole:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_pole);
+                animEvent = HumanoidAnimationDefaultEvent.run_pole;
                 break;
-            case WeaponAnimType.dual:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.run_dual);
+            default:
+                animEvent = HumanoidAnimationDefaultEvent.run_dual;
                 break;
         }
 
-        _animancerState.EffectiveSpeed = _runSpdMultiplier * _defaultRunAnimationSpeed;
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)animEvent))
         {
-            foreach (float ratio in AudioHandler.RunStepRatios)
+            _animancerState.EffectiveSpeed = _runSpdMultiplier * _defaultRunAnimationSpeed;
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
             {
-                events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
-                events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                foreach (float ratio in AudioHandler.RunStepRatios)
+                {
+                    events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
+                    events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                }
             }
         }
     }
 
     public override void Wait()
     {
+        if (AtkWait())
+        {
+            return;
+        }
+
         _lastAnimationType = HumanoidWeaponAnimType.wait;
+        HumanoidAnimationDefaultEvent animEvent;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
             case WeaponAnimType.hand:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_hand);
+                animEvent = HumanoidAnimationDefaultEvent.wait_hand;
                 break;
             case WeaponAnimType._1HS:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_1HS);
+                animEvent = HumanoidAnimationDefaultEvent.wait_1HS;
                 break;
             case WeaponAnimType._2HS:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_2HS);
+                animEvent = HumanoidAnimationDefaultEvent.wait_2HS;
                 break;
             case WeaponAnimType.bow:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_bow);
+                animEvent = HumanoidAnimationDefaultEvent.wait_bow;
                 break;
             case WeaponAnimType.pole:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_pole);
+                animEvent = HumanoidAnimationDefaultEvent.wait_pole;
                 break;
-            case WeaponAnimType.dual:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.wait_dual);
+            default:
+                animEvent = HumanoidAnimationDefaultEvent.wait_dual;
                 break;
         }
 
-        _animancerState.EffectiveSpeed = _defaultIdleAnimationSpeed;
-
+        if (PlayAnimation((int)animEvent))
+        {
+            _animancerState.EffectiveSpeed = _defaultIdleAnimationSpeed;
+        }
     }
 
     public override void Walk()
     {
         _lastAnimationType = HumanoidWeaponAnimType.walk;
+
+        HumanoidAnimationDefaultEvent animEvent;
         switch (_weaponAnim)
         {
             case WeaponAnimType.shield:
             case WeaponAnimType.hand:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_hand);
+                animEvent = HumanoidAnimationDefaultEvent.walk_hand;
                 break;
             case WeaponAnimType._1HS:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_1HS);
+                animEvent = HumanoidAnimationDefaultEvent.walk_1HS;
                 break;
             case WeaponAnimType._2HS:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_2HS);
+                animEvent = HumanoidAnimationDefaultEvent.walk_2HS;
                 break;
             case WeaponAnimType.bow:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_bow);
+                animEvent = HumanoidAnimationDefaultEvent.walk_bow;
                 break;
             case WeaponAnimType.pole:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_pole);
+                animEvent = HumanoidAnimationDefaultEvent.walk_pole;
                 break;
-            case WeaponAnimType.dual:
-                PlayAnimation((int)HumanoidAnimationDefaultEvent.walk_dual);
+            default:
+                animEvent = HumanoidAnimationDefaultEvent.walk_dual;
                 break;
         }
 
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)animEvent))
         {
-            foreach (float ratio in AudioHandler.WalkStepRatios)
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
             {
-                events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                foreach (float ratio in AudioHandler.WalkStepRatios)
+                {
+                    events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                }
             }
-        }
 
-        _animancerState.EffectiveSpeed = _walkSpdMultiplier * _defaultWalkAnimationSpeed;
+            _animancerState.EffectiveSpeed = _walkSpdMultiplier * _defaultWalkAnimationSpeed;
+        }
     }
 
     public override void Sit()
     {
         _lastAnimationType = HumanoidWeaponAnimType.other;
-        PlayAnimation((int)HumanoidAnimationDefaultEvent.sit);
-
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)HumanoidAnimationDefaultEvent.sit))
         {
-            events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Sitdown));
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            {
+                events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Sitdown));
+            }
         }
     }
 
     public override void Die()
     {
         _lastAnimationType = HumanoidWeaponAnimType.other;
-        PlayAnimation((int)HumanoidAnimationDefaultEvent.death);
-
-        _animancerState.EffectiveSpeed = _defaultDieAnimationSpeed;
-
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)HumanoidAnimationDefaultEvent.death))
         {
-            events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
-            events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
-            events.OnEnd = DieWait;
+            _animancerState.EffectiveSpeed = _defaultDieAnimationSpeed;
+
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            {
+                events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
+                events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
+                events.OnEnd = DieWait;
+            }
+
         }
     }
 
@@ -377,11 +411,12 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     public override void Stand()
     {
         _lastAnimationType = HumanoidWeaponAnimType.other;
-        PlayAnimation((int)HumanoidAnimationDefaultEvent.stand);
-
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)HumanoidAnimationDefaultEvent.stand))
         {
-            events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Standup));
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            {
+                events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Standup));
+            }
         }
     }
 
@@ -422,27 +457,29 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 }
 
                 castAnim = spAtkIndex + (int)spAtkEvent;
-                PlayAnimation(AnimationCategory.SpAtk, castAnim);
-
-                AudioHandler.PlayPreAtkSound(spAtkIndex);
-
-                if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                if (PlayAnimation(AnimationCategory.SpAtk, castAnim))
                 {
-                    events.Add(0.60f, () => AudioHandler.PlaySpAtkSound());
-                    events.OnEnd = Wait;
+                    AudioHandler.PlayPreAtkSound(spAtkIndex);
+
+                    if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                    {
+                        events.Add(0.60f, () => AudioHandler.PlaySpAtkSound());
+                        events.OnEnd = Wait;
+                    }
+                    UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime, true);
                 }
-                UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime, true);
             }
             else
             {
-                PlayAnimation(castAnim);
-                if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                if (PlayAnimation(castAnim))
                 {
-                    events.OnEnd = PlaySkillCastEndAnimation;
+                    if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                    {
+                        events.OnEnd = PlaySkillCastEndAnimation;
+                    }
+                    UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime, false);
                 }
-                UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime, false);
             }
-
 
             AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingVoices[(int)_entityReferenceHolder.Entity.RaceId]);
 
@@ -469,19 +506,50 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
             HumanoidAnimationDefaultEvent throwAnim = (HumanoidAnimationDefaultEvent)skillThrowAnim;
 
-            PlayAnimation((int)throwAnim);
-
-            _animancerState.EffectiveSpeed = _castSpdMultiplier;
-
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (PlayAnimation((int)throwAnim))
             {
-                events.Add(0.35f, () => AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingEndVoices[(int)_entityReferenceHolder.Entity.RaceId]));
-                events.OnEnd = Wait;
+                _animancerState.EffectiveSpeed = _castSpdMultiplier;
+
+                if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                {
+                    events.Add(0.35f, () => AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingEndVoices[(int)_entityReferenceHolder.Entity.RaceId]));
+                    events.OnEnd = Wait;
+                }
+
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         return false;
+    }
+
+    public override void FightStanceStarted()
+    {
+        if (_lastAnimationType == HumanoidWeaponAnimType.wait)
+        {
+            AtkWait();
+        }
+    }
+
+    public override void FightStanceStopped()
+    {
+        if (_lastAnimationType == HumanoidWeaponAnimType.atkwait)
+        {
+            Wait();
+        }
+    }
+
+    public override void Emote(int action)
+    {
+        Debug.Log($"[{transform.name}] Social Action: {action}");
+        if (PlayAnimation(AnimationCategory.Social, action))
+        {
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            {
+                events.OnEnd = Wait;
+            }
+        }
     }
 }
