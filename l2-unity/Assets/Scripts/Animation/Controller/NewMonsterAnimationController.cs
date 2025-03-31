@@ -44,30 +44,32 @@ public class NewMonsterAnimationController : NewBaseAnimationController
 
     public override void Attack()
     {
-        PlayAnimation((int)MonsterAnimationEvent.atk01);
-
-        _animancerState.EffectiveSpeed = _atkSpdMultiplier;
-
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)MonsterAnimationEvent.atk01))
         {
-            events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Atk));
+            _animancerState.EffectiveSpeed = _atkSpdMultiplier;
 
-            //TODO: Detect if monster has a bow ?
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            {
+                events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Atk));
+
+                //TODO: Detect if monster has a bow ?
+            }
         }
     }
 
     public override void Run()
     {
-        PlayAnimation((int)MonsterAnimationEvent.run);
-
-        _animancerState.EffectiveSpeed = _runSpdMultiplier;
-
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)MonsterAnimationEvent.run))
         {
-            foreach (float ratio in AudioHandler.RunStepRatios)
+            _animancerState.EffectiveSpeed = _runSpdMultiplier;
+
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
             {
-                events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
-                events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                foreach (float ratio in AudioHandler.RunStepRatios)
+                {
+                    events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
+                    events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                }
             }
         }
     }
@@ -79,11 +81,12 @@ public class NewMonsterAnimationController : NewBaseAnimationController
             return;
         }
 
-        PlayAnimation((int)MonsterAnimationEvent.wait);
-
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)MonsterAnimationEvent.wait))
         {
-            events.Add(0.5f, () => AudioHandler.PlayWaitSound()); // breathe?
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            {
+                events.Add(0.5f, () => AudioHandler.PlayWaitSound()); // breathe?
+            }
         }
     }
 
@@ -94,24 +97,23 @@ public class NewMonsterAnimationController : NewBaseAnimationController
             return false;
         }
 
-        PlayAnimation((int)MonsterAnimationEvent.atkwait);
-
         // play any sound ?
 
-        return true;
+        return PlayAnimation((int)MonsterAnimationEvent.atkwait);
     }
 
     public override void Walk()
     {
-        PlayAnimation((int)MonsterAnimationEvent.walk);
-
-        _animancerState.EffectiveSpeed = _runSpdMultiplier;
-
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)MonsterAnimationEvent.walk))
         {
-            foreach (float ratio in AudioHandler.WalkStepRatios)
+            _animancerState.EffectiveSpeed = _runSpdMultiplier;
+
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
             {
-                events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                foreach (float ratio in AudioHandler.WalkStepRatios)
+                {
+                    events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                }
             }
         }
     }
@@ -120,13 +122,14 @@ public class NewMonsterAnimationController : NewBaseAnimationController
 
     public override void Die()
     {
-        PlayAnimation((int)MonsterAnimationEvent.death);
-
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (PlayAnimation((int)MonsterAnimationEvent.death))
         {
-            events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
-            events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
-            events.OnEnd = DieWait;
+            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            {
+                events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
+                events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
+                events.OnEnd = DieWait;
+            }
         }
     }
 
@@ -156,6 +159,16 @@ public class NewMonsterAnimationController : NewBaseAnimationController
         if (_lastAnim == (int)MonsterAnimationEvent.atkwait)
         {
             Wait();
+        }
+    }
+
+    public override void Emote(int action)
+    {
+        Debug.Log($"[{transform.name}] Social Action: {action}");
+        PlayAnimation((int)MonsterAnimationEvent.spwait);
+        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        {
+            events.OnEnd = Wait;
         }
     }
 }

@@ -247,16 +247,17 @@ public class World : MonoBehaviour
 
     public Task SocialActionReceived(int objectId, int action)
     {
-        if (action != SocialActionPacket.LEVELUP_ACTION)
-        {
-            Debug.LogWarning("REGULAR SOCIAL ACTIONS ARE NOT YET HANDLED");
-            return null;
-        }
-
         return _worldSpawner.ExecuteWithEntityAsync(objectId, e =>
         {
-            Debug.Log("Entity level up!");
-            WorldCombat.Instance.EntityCastSkill(e, 2122);
+            if (action == SocialActionPacket.LEVELUP_ACTION)
+            {
+                Debug.Log("Entity level up!");
+                WorldCombat.Instance.EntityCastSkill(e, 2122);
+            }
+            else
+            {
+                e.AnimationController.Emote(action);
+            }
         });
     }
 }
