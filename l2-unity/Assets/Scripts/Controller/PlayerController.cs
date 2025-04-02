@@ -74,6 +74,10 @@ public class PlayerController : MonoBehaviour
         {
             ResetDestination(false);
         }
+        if (InputManager.Instance.Jump)
+        {
+            Jump();
+        }
 
         if (_runningToDestination)
         {

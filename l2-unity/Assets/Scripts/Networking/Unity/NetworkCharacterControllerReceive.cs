@@ -16,6 +16,8 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     [SerializeField] private float _stopAtRange = 0;
     [SerializeField] private float _stopAtRangeDefault = 0.05f;
 
+    public long lastUpdateTimestamp = 0;
+
     public Vector3 MoveDirection { get { return _direction; } set { _direction = value; } }
 
     void Start()
@@ -50,15 +52,23 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     }
 
     // Player move direction packets
-    public void UpdateMoveDirection(Vector3 direction)
+    public void UpdateMoveDirection(Vector3 position, Vector3 direction, long timestamp)
     {
-        Debug.LogWarning("UpdateMoveDirection: " + direction);
+        if (lastUpdateTimestamp > timestamp)
+        {
+            Debug.LogWarning("UpdateMoveDirection: is outdated " + direction + " timestamp: " + timestamp + " lastUpdateTimestamp: " + lastUpdateTimestamp);
+            return;
+        }
+        _networkTransformReceive.SetNewPosition(position);
+        lastUpdateTimestamp = timestamp;
+
         _speed = _entity.Running ? _entity.Stats.ScaledRunSpeed : _entity.Stats.ScaledWalkSpeed;
         _direction = direction;
 
         if (direction.x != 0 || direction.z != 0)
         {
-            _networkTransformReceive.PausePositionSync();
+            _networkTransformReceive.ResumePositionSync();
+            //_networkTransformReceive.PausePositionSync();
             _networkTransformReceive.SetFinalRotation(VectorUtils.CalculateMoveDirectionAngle(direction.x, direction.z));
             _entity.AnimationController.Move();
         }
