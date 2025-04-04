@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _defaultRunSpeed = 4;
     [SerializeField] private float _defaultWalkSpeed = 4;
     [SerializeField] private bool _running = true;
+    [SerializeField] private bool _jumping = true;
     [SerializeField] private float _measuredSpeed;
     private Vector3 _currentPos;
     private Vector3 _lastPos;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public bool RunningToDestination { get { return _runningToDestination; } }
     public bool IntentionToRun { get { return _intentionToRun; } set { _intentionToRun = value; } }
     public bool Running { get { return _running; } set { _running = value; } }
+    public bool Jumping { get { return _jumping; } set { _jumping = value; } }
     public Vector3 MoveDirection { get { return _moveDirection; } }
 
     private static PlayerController _instance;
@@ -378,6 +380,6 @@ public class PlayerController : MonoBehaviour
     }
     public bool IsJumping()
     {
-        return _controller.isGrounded == false && _verticalVelocity > 0;
+        return _controller.isGrounded == false;
     }
 }

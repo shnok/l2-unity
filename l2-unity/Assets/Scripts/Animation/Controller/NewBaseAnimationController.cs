@@ -115,6 +115,8 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     public abstract void Walk();
     public abstract void Emote(int action);
 
+    public abstract void Jump();
+
     public virtual bool AtkWait()
     {
         if (_entityReferenceHolder.Combat == null)

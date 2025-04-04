@@ -1,6 +1,7 @@
 public enum EntitySoundEvent : int
 {
     Step,
+    Jump_1,
     Death,
     Swish,
     Atk,

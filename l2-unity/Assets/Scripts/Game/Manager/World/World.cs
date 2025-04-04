@@ -159,12 +159,12 @@ public class World : MonoBehaviour
         referenceHolder.NetworkTransformReceive.LookAt(destination);
     }
 
-    public Task UpdateObjectMoveDirection(int id, Vector3 position, Vector3 direction, long timestamp)
+    public Task UpdateObjectMoveDirection(int id, Vector3 position, Vector3 direction, float verticalVelocity, long timestamp)
     {
 
         return _worldSpawner.ExecuteWithEntityAsync(id, e =>
         {
-            ((NetworkEntityReferenceHolder)e.ReferenceHolder).NetworkCharacterControllerReceive.UpdateMoveDirection(position, direction, timestamp);
+            ((NetworkEntityReferenceHolder)e.ReferenceHolder).NetworkCharacterControllerReceive.UpdateMoveDirection(position, direction, verticalVelocity, timestamp);
         });
     }
 

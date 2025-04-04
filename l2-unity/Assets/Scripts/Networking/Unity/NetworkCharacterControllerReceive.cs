@@ -16,8 +16,11 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     [SerializeField] private float _stopAtRange = 0;
     [SerializeField] private float _stopAtRangeDefault = 0.05f;
 
-    public long lastUpdateTimestamp = 0;
 
+
+    public long lastUpdateTimestamp = 0;
+    private float _verticalVelocity = 0;
+    public bool _isJumping = false;
     public Vector3 MoveDirection { get { return _direction; } set { _direction = value; } }
 
     void Start()
@@ -46,13 +49,35 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         {
             CheckIfDestinationReached();
         }
-
-        Vector3 ajustedDirection = _direction * _speed * _moveSpeedMultiplier + Vector3.down * _gravity;
+        Vector3 ajustedDirection = _direction * _speed * _moveSpeedMultiplier + Vector3.down;
+        ajustedDirection = ApplyGravity(ajustedDirection);
         _characterController.Move(ajustedDirection * Time.deltaTime);
+        UpdateMovementAnimation(_direction);
     }
+    private Vector3 ApplyGravity(Vector3 dir)
+    {
+        /* Handle gravity */
+        if (_characterController.isGrounded)
+        {
+            if (_verticalVelocity < -1.25f)
+            {
+                _verticalVelocity = -1.25f;
 
+            }
+            _isJumping = false;
+
+        }
+        else
+        {
+            _verticalVelocity -= _gravity * Time.deltaTime;
+            _isJumping = true;
+        }
+        dir.y = _verticalVelocity;
+
+        return dir;
+    }
     // Player move direction packets
-    public void UpdateMoveDirection(Vector3 position, Vector3 direction, long timestamp)
+    public void UpdateMoveDirection(Vector3 position, Vector3 direction, float verticalVelocity, long timestamp)
     {
         if (lastUpdateTimestamp > timestamp)
         {
@@ -70,15 +95,51 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
             _networkTransformReceive.ResumePositionSync();
             //_networkTransformReceive.PausePositionSync();
             _networkTransformReceive.SetFinalRotation(VectorUtils.CalculateMoveDirectionAngle(direction.x, direction.z));
-            _entity.AnimationController.Move();
+
         }
         else
         {
-            _entity.AnimationController.Wait();
             _networkTransformReceive.ResumePositionSync();
         }
+        if (verticalVelocity >= 8.0f)
+        {
+            Jump(verticalVelocity);
+        }
+
     }
 
+    public void Jump(float _jumpForce)
+    {
+        if (_characterController.isGrounded)
+        {
+            _verticalVelocity = _jumpForce;
+        }
+    }
+    public void UpdateMovementAnimation(Vector3 direction)
+    {
+        if (direction.x != 0 || direction.z != 0)
+        {
+            if (!_isJumping)
+            {
+                _entity.AnimationController.Move();
+            }
+            else
+            {
+                _entity.AnimationController.Jump();
+            }
+        }
+        else
+        {
+            if (!_isJumping)
+            {
+                _entity.AnimationController.Wait();
+            }
+            else
+            {
+                _entity.AnimationController.Jump();
+            }
+        }
+    }
     // Move to destination packets
     public void SetDestination(Vector3 destination, float stopAtRange)
     {
@@ -102,7 +163,6 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         if (_distanceToDestination > _stopAtRangeDefault + stopAtRange)
         {
             _networkTransformReceive.PausePositionSync();
-            _entity.AnimationController.Move();
         }
     }
 

@@ -100,6 +100,7 @@ public class PlayerStateMachine : MonoBehaviour
             PlayerState.SIT_WAIT => new SitWaitState(this),
             PlayerState.STANDING => new StandingState(this),
             PlayerState.SKILL => new SkillState(this),
+            PlayerState.JUMPING => new JumpingState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }
@@ -117,6 +118,7 @@ public class PlayerStateMachine : MonoBehaviour
             Intention.INTENTION_STAND => new StandIntention(this),
             Intention.INTENTION_MOVE => new MoveIntention(this),
             Intention.INTENTION_SKILL => new SkillIntention(this),
+            Intention.INTENTION_JUMP => new JumpIntention(this),
             _ => throw new ArgumentException("Invalid intention")
         };
     }
@@ -128,7 +130,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool IsInMovableState()
     {
-        return _currentState == PlayerState.IDLE || _currentState == PlayerState.MOVING;
+        return _currentState == PlayerState.IDLE || _currentState == PlayerState.MOVING || _currentState == PlayerState.JUMPING;
     }
 
     public void NotifyEvent(Event evt)

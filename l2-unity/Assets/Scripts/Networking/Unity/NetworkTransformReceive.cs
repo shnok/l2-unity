@@ -46,6 +46,7 @@ public class NetworkTransformReceive : MonoBehaviour
     {
         // Debug.LogWarning($"[{transform.name}] SetNewPosition");
 
+
         if (calculateY)
         {
             /* adjust y to ground height */
@@ -111,9 +112,10 @@ public class NetworkTransformReceive : MonoBehaviour
                 return;
             }
 
-            transform.position = Vector3.Lerp(_lastPos, _serverPosition, _posLerpValue);
+            Vector3 newPosition = Vector3.Lerp(_lastPos, _serverPosition, _posLerpValue);
             _posLerpValue += 1 / _lerpDuration * Time.deltaTime;
-
+            newPosition.y = transform.position.y; // Keep the current y position
+            transform.position = newPosition;
         }
 
     }
