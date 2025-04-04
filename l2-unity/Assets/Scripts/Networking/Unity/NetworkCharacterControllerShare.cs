@@ -173,6 +173,10 @@ public class NetworkCharacterControllerShare : MonoBehaviour
 
     public void ShareMoveDirection(Vector3 moveDirection, bool isForced, float verticalVelocity, Vector3 position)
     {
+        if (position == Vector3.zero)
+        {
+            position = transform.position;
+        }
         Vector3 previousDirection = isForced ? _lastForcedDirection : _lastDirection;
         /* if (previousDirection.x == moveDirection.x && previousDirection.z == moveDirection.z)
         {

@@ -117,6 +117,10 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
     }
     public void UpdateMovementAnimation(Vector3 direction)
     {
+        if (_entity.AnimationController == null)
+        {
+            return;
+        }
         if (direction.x != 0 || direction.z != 0)
         {
             if (!_isJumping)

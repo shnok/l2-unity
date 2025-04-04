@@ -126,6 +126,7 @@ public class WorldSpawner : MonoBehaviour
     // Execute action after entity is loaded
     public async Task ExecuteWithEntityAsync(int id, Action<Entity> action)
     {
+        Debug.Log($"ExecuteWithEntityAsync - ID: {id}  Action: {action}");
         if (id == GameClient.Instance.CurrentPlayerId)
         {
             _eventProcessor.QueueEvent(() => action(PlayerEntity.Instance));
