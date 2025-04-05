@@ -33,7 +33,7 @@ public class SkillIntention : IntentionBase
 
         if (_lastSkillIntentionGrp.CastRange != -1) // target required?
         {
-            Transform target = TargetManager.Instance.Target.transform;
+            Transform target = TargetManager.Instance.Target?.transform;
             if (target == null)
             {
                 return;

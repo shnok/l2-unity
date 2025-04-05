@@ -367,6 +367,7 @@ public class SkillbarWindow : L2PopupWindow
                     //Todo: play the skill cooldown end animation and sound
                     _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground();
                     _skillsOnCooldown.RemoveAt(i);
+                    AudioManager.Instance.PlayUISound("cooltime_end");
                     continue;
                 }
 
