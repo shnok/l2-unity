@@ -344,7 +344,15 @@ public class GameServerPacketHandler : ServerPacketHandler
         if (messageData != null)
         {
             SystemMessage systemMessage = new SystemMessage(smParams, messageData);
-            _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(systemMessage));
+            _eventProcessor.QueueEvent(() =>
+            {
+                if (messageData.Id == 113)
+                { // unsuitable terms
+                    WorldCombat.Instance.OnSkillNotAllowed(smParams[0].GetIntArrayValue()[0]);
+                }
+
+                ChatWindow.Instance.ReceiveSystemMessage(systemMessage);
+            });
         }
         else
         {

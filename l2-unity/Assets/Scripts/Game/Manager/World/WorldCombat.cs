@@ -116,6 +116,17 @@ public class WorldCombat : MonoBehaviour
         CastSkill(entity, target, skill, hitTime, reuseDelay);
     }
 
+    public void OnSkillNotAllowed(int skillId)
+    {
+        Debug.LogWarning($"SkillNotAllowed: ID: {skillId}");
+        PlayerStateMachine.Instance.OnSkillNotAllowed(skillId);
+    }
+
+    public void OnSkillAllowed(int hitTime)
+    {
+        PlayerStateMachine.Instance.OnSkillAllowed(hitTime);
+    }
+
     public void EntityCastSkill(Entity entity, int skillId)
     {
         Debug.LogWarning($"EntityCastSkill: {entity.transform.name} Skill: {skillId}");
@@ -128,7 +139,7 @@ public class WorldCombat : MonoBehaviour
     {
         if (entity == PlayerEntity.Instance)
         {
-            PlayerStateMachine.Instance.OnSkillAllowed(hitTime);
+            OnSkillAllowed(hitTime);
         }
 
         // Spawn particle
@@ -495,4 +506,5 @@ public class WorldCombat : MonoBehaviour
             e.Identity.PvpFlag = pvpFlag;
         });
     }
+
 }

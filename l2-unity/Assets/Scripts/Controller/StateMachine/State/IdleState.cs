@@ -84,6 +84,8 @@ public class IdleState : StateBase
             case Event.SKILL_ALLOWED:
                 _stateMachine.ChangeState(PlayerState.SKILL, arg0);
                 break;
+            case Event.SKILL_DENIED:
+                break;
             case Event.ACTION_DENIED:
                 break;
             case Event.DEAD:
