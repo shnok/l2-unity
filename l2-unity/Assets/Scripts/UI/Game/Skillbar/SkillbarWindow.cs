@@ -300,6 +300,45 @@ public class SkillbarWindow : L2PopupWindow
             });
     }
 
+    private SkillbarSlot GetSlotAt(int page, int slot)
+    {
+        foreach (AbstractSkillbar skillbar in _skillbars)
+        {
+            if (skillbar.Page == page)
+            {
+                if (skillbar.BarSlots.Count <= slot)
+                {
+                    Debug.LogWarning($"Skillbar slot error: {slot}");
+                    return null;
+                }
+
+                return skillbar.BarSlots[slot];
+            }
+        }
+
+        return null;
+    }
+
+    public void AddToggledSlot(int page, int slot)
+    {
+        SkillbarSlot skillbarSlot = GetSlotAt(page, slot);
+        if (skillbarSlot != null)
+        {
+            skillbarSlot.Toggled = true;
+            AddToggledSlot(skillbarSlot);
+        }
+    }
+
+    public void RemoveToggledSlot(int page, int slot)
+    {
+        SkillbarSlot skillbarSlot = GetSlotAt(page, slot);
+        if (skillbarSlot != null)
+        {
+            skillbarSlot.Toggled = false;
+            RemoveToggledSlot(skillbarSlot);
+        }
+    }
+
     public void AddToggledSlot(SkillbarSlot slot)
     {
         if (!_toggledSlots.Contains(slot))
@@ -312,6 +351,7 @@ public class SkillbarWindow : L2PopupWindow
     {
         if (_toggledSlots.Contains(slot))
         {
+            slot.SlotEffect.style.backgroundImage = new StyleBackground();
             _toggledSlots.Remove(slot);
         }
     }
@@ -334,6 +374,18 @@ public class SkillbarWindow : L2PopupWindow
             {
                 toggleCount = 0;
             }
+        }
+    }
+
+    public void AddSkillOnCooldown(int page, int slot, SkillInfo skillInfo)
+    {
+        SkillbarSlot skillbarSlot = GetSlotAt(page, slot);
+        if (skillbarSlot != null)
+        {
+            skillbarSlot.CooldownStartTime = skillInfo.CooldownStartTime;
+            skillbarSlot.CooldownEndTime = skillInfo.CooldownEndTime;
+
+            AddSkillOnCooldown(skillbarSlot);
         }
     }
 

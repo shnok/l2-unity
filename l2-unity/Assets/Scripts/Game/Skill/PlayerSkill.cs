@@ -117,7 +117,7 @@ public class PlayerSkill : MonoBehaviour
             skillInfo.CooldownStartTime = Time.time;
             skillInfo.CooldownEndTime = Time.time + reuseDelay / 1000f;
 
-            PlayerShortcuts.Instance.OnSkillUsed();
+            PlayerShortcuts.Instance.OnSkillUsed(skillInfo);
         }
     }
 

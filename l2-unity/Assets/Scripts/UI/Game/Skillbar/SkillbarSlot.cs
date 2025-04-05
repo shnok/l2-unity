@@ -11,10 +11,10 @@ public class SkillbarSlot : L2ClickableSlot
     private int _slot;
     private VisualElement _keyElement;
     private bool _toggled;
-    public float CooldownStartTime { get; private set; }
-    public float CooldownEndTime { get; private set; }
+    public float CooldownStartTime { get; set; }
+    public float CooldownEndTime { get; set; }
 
-    public bool Toggled { get { return _toggled; } }
+    public bool Toggled { get => _toggled; set => _toggled = value; }
 
     public SkillbarSlot(VisualElement slotElement, int position, int skillbarId, int slot) : base(slotElement, position, SlotType.SkillBar, true, false)
     {
