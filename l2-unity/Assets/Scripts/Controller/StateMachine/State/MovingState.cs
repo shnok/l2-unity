@@ -77,6 +77,11 @@ public class MovingState : StateBase
 
     public override void Update()
     {
+        if (PlayerController.Instance.IsJumping())
+        {
+            _stateMachine.ChangeIntention(Intention.INTENTION_JUMP);
+            return;
+        }
         if (InputManager.Instance.Move)
         {
             _moveReason = MoveReason.DEFAULT;

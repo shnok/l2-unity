@@ -41,7 +41,7 @@ public class NewMonsterAnimationController : NewBaseAnimationController
     {
         _walkSpdMultiplier = value;
     }
-
+    public override void Jump() { }
     public override void Attack()
     {
         if (PlayAnimation((int)MonsterAnimationEvent.atk01))

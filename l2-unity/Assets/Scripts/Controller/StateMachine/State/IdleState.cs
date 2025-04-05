@@ -18,6 +18,11 @@ public class IdleState : StateBase
 
     public override void Update()
     {
+        if (PlayerController.Instance != null && PlayerController.Instance.IsJumping())
+        {
+            _stateMachine.ChangeIntention(Intention.INTENTION_JUMP);
+            return;
+        }
         if (InputManager.Instance.Move)
         {
             _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
@@ -32,7 +37,7 @@ public class IdleState : StateBase
                 PathFinderController.Instance.ClearPath();
                 PlayerController.Instance.ResetDestination(false);
                 NetworkTransformShare.Instance.SharePosition();
-                NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero);
+                NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero, 0.0f, Vector3.zero);
 
                 // Wait for server reply?
                 GameClient.Instance.ClientPacketHandler.SendRequestAction(TargetManager.Instance.Target.Identity.Id);
@@ -43,7 +48,7 @@ public class IdleState : StateBase
                     PathFinderController.Instance.ClearPath();
                     PlayerController.Instance.ResetDestination(false);
                     NetworkTransformShare.Instance.SharePosition();
-                    NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero);
+                    NetworkCharacterControllerShare.Instance.ShareMoveDirection(Vector3.zero, 0.0f, Vector3.zero);
 
                     GameClient.Instance.ClientPacketHandler.RequestAttackForce(TargetManager.Instance.Target.Identity.Id);
 

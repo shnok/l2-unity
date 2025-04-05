@@ -51,7 +51,7 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
     protected bool PlayAnimation(AnimationCategory animationCategory, int index)
     {
-        Debug.Log("PlayAnim! " + transform.name + " - " + index);
+        // Debug.Log("PlayAnim! " + transform.name + " - " + index);
 
         _lastAnim = index;
 
@@ -114,6 +114,8 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     public abstract void Wait();
     public abstract void Walk();
     public abstract void Emote(int action);
+
+    public abstract void Jump();
 
     public virtual bool AtkWait()
     {

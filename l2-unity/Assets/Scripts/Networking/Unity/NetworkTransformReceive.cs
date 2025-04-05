@@ -46,6 +46,7 @@ public class NetworkTransformReceive : MonoBehaviour
     {
         // Debug.LogWarning($"[{transform.name}] SetNewPosition");
 
+
         if (calculateY)
         {
             /* adjust y to ground height */
@@ -57,8 +58,8 @@ public class NetworkTransformReceive : MonoBehaviour
         }
 
         _serverPosition = pos;
-
         /* reset states */
+        _positionSynced = false; // Force sync with each new position
         _lastPos = transform.position;
         _posLerpValue = 0;
     }
@@ -102,17 +103,21 @@ public class NetworkTransformReceive : MonoBehaviour
     protected virtual void OnPositionNotSynced()
     {
         _lastDesyncDuration = DateTimeOffset.Now.ToUnixTimeMilliseconds() - _lastDesyncTime;
-        if (_lastDesyncDuration > _maximumAllowedDesyncTimeMs)
+        if (_lastDesyncDuration >= _maximumAllowedDesyncTimeMs)
         {
+
             if (_positionDelta < _finalLerpDelta)
             {
                 _positionSynced = true;
                 return;
             }
 
-            transform.position = Vector3.Lerp(_lastPos, _serverPosition, _posLerpValue);
+            Vector3 newPosition = Vector3.Lerp(_lastPos, _serverPosition, _posLerpValue);
             _posLerpValue += 1 / _lerpDuration * Time.deltaTime;
+            newPosition.y = transform.position.y; // Keep the current y position
+            transform.position = newPosition;
         }
+
     }
 
     /* Ajust rotation */

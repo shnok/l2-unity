@@ -69,6 +69,7 @@ public class PlayerEntity : Entity
 
     public override void UpdateMoveType(bool running)
     {
+
         base.UpdateMoveType(running);
 
         if (PlayerController.Instance != null)

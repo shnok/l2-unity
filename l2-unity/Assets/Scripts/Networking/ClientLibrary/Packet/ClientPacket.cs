@@ -53,7 +53,11 @@ public abstract class ClientPacket : Packet
         // Array.Reverse(data);
         _buffer.AddRange(data);
     }
-
+    public void WriteL(long i)
+    {
+        byte[] data = BitConverter.GetBytes(i);
+        _buffer.AddRange(data);
+    }
     private void Write(byte[] data)
     {
         _buffer.Add((byte)data.Length);
