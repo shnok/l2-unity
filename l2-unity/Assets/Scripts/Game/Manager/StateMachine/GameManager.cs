@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
         SkillEffectTable.Instance.Initialize();
         ParticleEffectTable.Instance.Initialize();
         IconTable.Instance.Initialize();
-        KeyImageTable.Instance.Initialize();
+        SkillbarImageTable.Instance.Initialize();
 
         // Memory cleanup
         ArmorgrpTable.Instance.ClearTable();

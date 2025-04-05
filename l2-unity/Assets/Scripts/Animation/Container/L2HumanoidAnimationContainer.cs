@@ -12,13 +12,24 @@ public abstract class L2HumanoidAnimationContainer<TEvent, TAnimation> : Scripta
 
     protected virtual void Awake()
     {
-        if (_animations != null && _animations.Length > 0)
+        if (_animations != null && _animations.Length > 0 && _animations.Length == Enum.GetValues(typeof(TEvent)).Length)
         {
             return;
         }
 
-        _animations = new TAnimation[Enum.GetValues(typeof(TEvent)).Length];
-        for (int i = 0; i < _animations.Length; i++)
+        int startIndex = 0;
+        if (_animations == null || _animations.Length == 0)
+        {
+            _animations = new TAnimation[Enum.GetValues(typeof(TEvent)).Length];
+        }
+        else
+        {
+            startIndex = _animations.Length - 1;
+
+            Array.Resize(ref _animations, Enum.GetValues(typeof(TEvent)).Length);
+        }
+
+        for (int i = startIndex; i < _animations.Length; i++)
         {
             _animations[i] = new TAnimation();
             _animations[i].SetEvent((TEvent)Enum.ToObject(typeof(TEvent), i));

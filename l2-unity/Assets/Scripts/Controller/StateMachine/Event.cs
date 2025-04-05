@@ -17,5 +17,6 @@ public enum Event
     ATTACK_ALLOWED,
     ACTION_DENIED,
     SKILL_ALLOWED,
+    SKILL_DENIED,
     MOVE_TYPE_UPDATED
 }

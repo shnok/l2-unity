@@ -76,13 +76,15 @@ public class IdleState : StateBase
                 {
                     Debug.LogWarning("READY_TO_SKILL event does not have a skill attached to.");
                 }
-                Skill skill = (Skill)arg0;
-                GameClient.Instance?.ClientPacketHandler.RequestMagicSkillUse(skill.SkillId, true, false);
+                SkillInfo skill = (SkillInfo)arg0;
+                GameClient.Instance?.ClientPacketHandler.RequestMagicSkillUse(skill.Id, SkillIntention.CtrlPressed, SkillIntention.ShiftPressed);
 
                 _stateMachine.SetWaitingForServerReply(true);
                 break;
             case Event.SKILL_ALLOWED:
                 _stateMachine.ChangeState(PlayerState.SKILL, arg0);
+                break;
+            case Event.SKILL_DENIED:
                 break;
             case Event.ACTION_DENIED:
                 break;

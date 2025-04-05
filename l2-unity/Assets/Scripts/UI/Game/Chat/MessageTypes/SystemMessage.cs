@@ -6,17 +6,17 @@ public class SystemMessage
 {
 
     private SMParam[] _params;
-    private SystemMessageDat _messageData;
+    public SystemMessageDat MessageData;
 
     public SystemMessage(SMParam[] smParams, SystemMessageDat messageData)
     {
         _params = smParams;
-        _messageData = messageData;
+        MessageData = messageData;
     }
 
     public override string ToString()
     {
-        string value = String.Copy(_messageData.Message);
+        string value = String.Copy(MessageData.Message);
 
         if (_params != null && _params.Length > 0)
         {
@@ -87,6 +87,6 @@ public class SystemMessage
             }
         }
 
-        return $"<color=#{_messageData.Color}>{value}</color>";
+        return $"<color=#{MessageData.Color}>{value}</color>";
     }
 }

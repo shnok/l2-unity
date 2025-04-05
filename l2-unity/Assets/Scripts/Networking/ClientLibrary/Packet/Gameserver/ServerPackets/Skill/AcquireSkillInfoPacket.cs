@@ -1,7 +1,7 @@
-public class AcquireSkillInfoPacket : ServerPacket
+public class AcquireSkillLearnInfoPacket : ServerPacket
 {
     public SkillRequirement[] Requirements;
-    public AcquireSkillInfoPacket(byte[] d) : base(d)
+    public AcquireSkillLearnInfoPacket(byte[] d) : base(d)
     {
         Parse();
     }
@@ -12,10 +12,10 @@ public class AcquireSkillInfoPacket : ServerPacket
         int lvl = ReadI();
         int spCost = ReadI();
         int mode = ReadI();
-        
+
         int skillRequirementsSize = ReadI();
         Requirements = new SkillRequirement[skillRequirementsSize];
-        
+
         for (int i = 0; i < skillRequirementsSize; i++)
         {
             SkillRequirementType type = (SkillRequirementType)ReadI();

@@ -22,6 +22,7 @@ public class InputManager : MonoBehaviour
     private InputAction _targetSelfAction;
     private InputAction _sitAction;
     private InputAction _ctrlAction;
+    private InputAction _shiftAction;
     // UI
     private InputAction _inventoryAction;
     private InputAction _characterStatusAction;
@@ -63,6 +64,7 @@ public class InputManager : MonoBehaviour
     [field: SerializeField] public bool TargetSelf { get; private set; }
     [field: SerializeField] public bool Sit { get; private set; }
     [field: SerializeField] public bool Ctrl { get; private set; }
+    [field: SerializeField] public bool Shift { get; private set; }
 
     // UI
     [field: Header("UI")]
@@ -121,6 +123,7 @@ public class InputManager : MonoBehaviour
         _attackAction = _playerInput.actions["Attack"];
         _sitAction = _playerInput.actions["Sit"];
         _ctrlAction = _playerInput.actions["Ctrl"];
+        _shiftAction = _playerInput.actions["Shift"];
 
         _inventoryAction = _playerInput.actions["Inventory"];
         _characterStatusAction = _playerInput.actions["CharacterStatus"];
@@ -163,6 +166,7 @@ public class InputManager : MonoBehaviour
         CloseWindow = _closeWindowAction.WasPerformedThisFrame();
         Validate = _validateAction.WasPerformedThisFrame();
         Ctrl = _ctrlAction.IsPressed();
+        Shift = _shiftAction.IsPressed();
 
         if (!L2GameUI.Instance.MouseOverUI)
         {

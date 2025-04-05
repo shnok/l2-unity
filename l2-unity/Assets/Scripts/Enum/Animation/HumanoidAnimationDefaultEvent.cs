@@ -42,4 +42,8 @@ public enum HumanoidAnimationDefaultEvent : int
     walk_pole,
     buff01,
     buff02,
+    swim,
+    swim_death,
+    swim_death_wait,
+    swim_wait,
 }

@@ -15,6 +15,8 @@ public abstract class AbstractSkillbar
     protected List<SkillbarSlot> _barSlots;
     protected ArrowInputManipulator _arrowInputManipulator;
 
+    public List<SkillbarSlot> BarSlots { get => _barSlots; }
+
     public int Page { get { return _page; } }
     public int SkillbarIndex { get { return _skillbarIndex; } }
 

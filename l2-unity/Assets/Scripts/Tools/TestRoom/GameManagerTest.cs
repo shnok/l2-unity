@@ -31,7 +31,7 @@ public class GameManagerTest : MonoBehaviour
         LogongrpTable.Instance.Initialize();
         SystemMessageTable.Instance.Initialize();
         IconTable.Instance.Initialize();
-        KeyImageTable.Instance.Initialize();
+        SkillbarImageTable.Instance.Initialize();
 
         // // Caching
         ItemTable.Instance.CacheItems();

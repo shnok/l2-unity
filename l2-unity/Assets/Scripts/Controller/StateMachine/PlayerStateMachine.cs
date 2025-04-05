@@ -177,6 +177,13 @@ public class PlayerStateMachine : MonoBehaviour
         if (_enableLogs) Debug.Log("[StateMachine] Stop autoattack");
         NotifyEvent(Event.CANCEL);
     }
+
+    public void OnSkillNotAllowed(int skillId)
+    {
+        if (_enableLogs) Debug.Log("[StateMachine] Skill denied");
+        SetWaitingForServerReply(false);
+        NotifyEvent(Event.SKILL_DENIED);
+    }
 }
 
 
