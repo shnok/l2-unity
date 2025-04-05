@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ShortcutInitPacket : ServerPacket
 {
@@ -45,5 +46,22 @@ public class ShortcutInitPacket : ServerPacket
             Shortcut shortcut = new Shortcut(slot % 12, slot / 12, type, id, level);
             Shortcuts.Add(shortcut);
         }
+
+        Debug.LogWarning(ToString());
+    }
+
+    public override string ToString()
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("ShortcutInitPacket:");
+        sb.AppendLine($"  Shortcut Count: {Shortcuts.Count}");
+
+        for (int i = 0; i < Shortcuts.Count; i++)
+        {
+            var sc = Shortcuts[i];
+            sb.AppendLine($"  [{i}] Slot: ({sc.Slot} Type: {sc.Type}, Id: {sc.Id}, Level: {sc.Level}");
+        }
+
+        return sb.ToString();
     }
 }

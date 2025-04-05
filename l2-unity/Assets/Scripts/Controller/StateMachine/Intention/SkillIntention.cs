@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class SkillIntention : IntentionBase
 {
-    private static Skill _lastSkillItention = null;
+    private static SkillInfo _lastSkillIntention = null;
+    private static Skillgrp _lastSkillIntentionGrp = null;
+    public static bool CtrlPressed = false;
+    public static bool ShiftPressed = false;
 
     public SkillIntention(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
@@ -10,19 +13,25 @@ public class SkillIntention : IntentionBase
     {
         if (arg0 != null)
         {
-            _lastSkillItention = (Skill)arg0;
+            _lastSkillIntention = (SkillInfo)arg0;
+            CtrlPressed = InputManager.Instance.Ctrl;
+            ShiftPressed = InputManager.Instance.Shift;
+            _lastSkillIntentionGrp = SkillgrpTable.Instance.GetSkillgrp(_lastSkillIntention.Id)?[_lastSkillIntention.Level];
         }
 
-        if (_lastSkillItention == null)
+        if (_lastSkillIntention == null)
         {
             return;
         }
 
         //TODO: Use skill levels skillgrp
-        Skillgrp skillgrp = _lastSkillItention.Skillgrps[0];
+        if (_lastSkillIntentionGrp == null || _lastSkillIntentionGrp.Id != _lastSkillIntention.Id)
+        {
+            Debug.LogWarning($"Can't retrieve skillgrp for skill id: {_lastSkillIntentionGrp.Id}.");
+            return;
+        }
 
-
-        if (skillgrp.CastRange != -1) // target required?
+        if (_lastSkillIntentionGrp.CastRange != -1) // target required?
         {
             Transform target = TargetManager.Instance.Target.transform;
             if (target == null)
@@ -32,7 +41,7 @@ public class SkillIntention : IntentionBase
 
             // TODO: If buff or heal and require target, if not target selected send skill on self
 
-            float skillRange = skillgrp.CastRange / 52.5f * 0.95f; //5% error margin
+            float skillRange = _lastSkillIntentionGrp.CastRange / 52.5f * 0.95f; //5% error margin
             Entity targetEntity = TargetManager.Instance.Target;
             Vector3 targetPos = targetEntity.transform.position;
 
@@ -47,7 +56,7 @@ public class SkillIntention : IntentionBase
 
                 if (!targetEntity.IsDead)
                 {
-                    _stateMachine.NotifyEvent(Event.READY_TO_SKILL, _lastSkillItention);
+                    _stateMachine.NotifyEvent(Event.READY_TO_SKILL, _lastSkillIntention);
                 }
             }
             else
@@ -61,7 +70,7 @@ public class SkillIntention : IntentionBase
         }
         else
         {
-            _stateMachine.NotifyEvent(Event.READY_TO_SKILL, _lastSkillItention);
+            _stateMachine.NotifyEvent(Event.READY_TO_SKILL, _lastSkillIntention);
         }
     }
 

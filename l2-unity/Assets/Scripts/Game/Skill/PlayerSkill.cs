@@ -77,11 +77,10 @@ public class PlayerSkill : MonoBehaviour
 
     public void UseSkill(int skillId)
     {
-        // GameClient.Instance.ClientPacketHandler.UseSkill(skillId);
         SkillInfo skill = _skills.FirstOrDefault(s => s.Id == skillId);
         if (skill is not null)
         {
-            // skill.UseSkill();
+            PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_SKILL, skill);
         }
         else
         {

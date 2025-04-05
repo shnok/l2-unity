@@ -97,6 +97,7 @@ public class PlayerShortcuts : MonoBehaviour
                 PlayerSkill.Instance.UseSkill(shortcut.Id);
                 break;
             default:
+                Debug.LogWarning("Unkown shortcut type.");
                 break;
         }
     }
