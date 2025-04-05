@@ -20,7 +20,7 @@ public class ShopTab : L2Tab
     private VisualElement _weightBar;
     private VisualElement _weightBarBg;
     private int _rowLength = 6;
-    private int _minimumRows = 7;
+    // private int _minimumRows = 7;
     private int _listId = 0;
 
     [SerializeField] private ShopTabType _shopTabType;

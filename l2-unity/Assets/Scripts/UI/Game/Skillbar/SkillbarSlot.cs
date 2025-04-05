@@ -11,6 +11,8 @@ public class SkillbarSlot : L2ClickableSlot
     private int _slot;
     private VisualElement _keyElement;
     private bool _toggled;
+    public float CooldownStartTime { get; private set; }
+    public float CooldownEndTime { get; private set; }
 
     public bool Toggled { get { return _toggled; } }
 
@@ -87,10 +89,18 @@ public class SkillbarSlot : L2ClickableSlot
     {
         SkillWindowInfo skill = new SkillWindowInfo(skillId, level);
         if (skill.IsPassiveSkill()) return;
-        
+
         _innerSlot = new SkillSlot(_position, _slotElement, SlotType.SkillBar);
         ((SkillSlot)_innerSlot).AssignSkill(skill);
         ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
+
+        SkillInfo skillInfo = PlayerSkill.Instance.GetSkillInfo(skillId);
+        if (skillInfo.IsSkillOnCooldown)
+        {
+            CooldownStartTime = skillInfo.CooldownStartTime;
+            CooldownEndTime = skillInfo.CooldownEndTime;
+            SkillbarWindow.Instance.AddSkillOnCooldown(this);
+        }
 
         UpdateInputInfo();
     }
@@ -101,7 +111,7 @@ public class SkillbarSlot : L2ClickableSlot
 
         string key = PlayerShortcuts.Instance.GetKeybindForShortcut(_skillbarId, _slot);
 
-        Texture2D inputTexture = KeyImageTable.Instance.LoadTextureByKey(key);
+        Texture2D inputTexture = SkillbarImageTable.Instance.LoadTextureByKey(key);
 
         if (inputTexture != null)
         {
@@ -137,7 +147,7 @@ public class SkillbarSlot : L2ClickableSlot
             if (_shortcut.Type == Shortcut.TYPE_ITEM)
             {
                 ItemName itemName = ((InventorySlot)_innerSlot).ItemName;
-                if (itemName.DefaultAction == "action_soulshot")
+                if (itemName.DefaultAction == "action_soulshot" || itemName.DefaultAction == "action_bless_spiritshot" || itemName.DefaultAction == "action_spiritshot")
                 {
                     Debug.LogWarning($"Toggle bar slot {_position}.");
                     PlayerShortcuts.Instance.RequestToggleShortcutItem(itemName.Id, _toggled);

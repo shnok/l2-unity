@@ -226,11 +226,16 @@ public class PlayerShortcuts : MonoBehaviour
         }
 
         //Refresh skillbar
-        StartCoroutine(SkillbarWindow.Instance.UpdateAllShortcuts(_shortcuts.Values.ToList()));
+        StartCoroutine(SkillbarWindow.Instance.UpdateAllShortcuts(_shortcuts.Values.ToList())); // TODO: Change this to only update the correct slot -> SkillbarWindow.Instance.AddToggledSlot
     }
 
     public bool IsItemToggled(int itemId)
     {
         return _toggledItemIds.Contains(itemId);
+    }
+
+    public void OnSkillUsed()
+    {
+        StartCoroutine(SkillbarWindow.Instance.UpdateAllShortcuts(_shortcuts.Values.ToList())); // TODO: Change this to only update the correct slot -> SkillbarWindow.Instance.AddSkillOnCooldown
     }
 }

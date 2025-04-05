@@ -78,6 +78,11 @@ public class WorldCombat : MonoBehaviour
     {
         return _worldSpawner.ExecuteWithEntitiesAsync(packet.ObjectId, packet.TargetId, (targeter, targeted) =>
         {
+            if (packet.ObjectId == PlayerEntity.Instance.Identity.Id)
+            {
+                PlayerSkill.Instance.OnSkillUsed(packet.SkillId, packet.ReuseDelay);
+            }
+
             EntityCastSkill(targeter, targeted, packet.SkillId, packet.HitTime, packet.ReuseDelay);
         });
     }
@@ -453,17 +458,17 @@ public class WorldCombat : MonoBehaviour
         _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.ToggleShortcutItem(itemId, enable));
     }
 
-    public void OnFightStanceStart(int entityId)
+    public Task OnFightStanceStart(int entityId)
     {
-        _worldSpawner.ExecuteWithEntityAsync(entityId, (e) =>
+        return _worldSpawner.ExecuteWithEntityAsync(entityId, (e) =>
         {
             e.Combat.FightStanceStart();
         });
     }
 
-    public void OnFightStanceStop(int entityId)
+    public Task OnFightStanceStop(int entityId)
     {
-        _worldSpawner.ExecuteWithEntityAsync(entityId, (e) =>
+        return _worldSpawner.ExecuteWithEntityAsync(entityId, (e) =>
         {
             e.Combat.FightStanceStop();
         });

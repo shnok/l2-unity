@@ -28,6 +28,7 @@ public class L2Slot
     protected bool _empty = true;
     protected VisualElement _slotElement;
     protected VisualElement _slotBg;
+    protected VisualElement _slotEffect;
     protected TooltipManipulator _tooltipManipulator;
     protected SlotHoverDetectManipulator _hoverManipulator;
 
@@ -39,6 +40,7 @@ public class L2Slot
     public string Icon { get { return _icon; } set { _icon = value; } }
     public VisualElement SlotBg { get { return _slotBg; } }
     public VisualElement SlotElement { get { return _slotElement; } }
+    public VisualElement SlotEffect { get { return _slotEffect; } }
     public bool Empty { get { return _empty; } }
 
     public L2Slot(VisualElement slotElement)
@@ -46,6 +48,7 @@ public class L2Slot
         _slotElement = slotElement;
         _slotElement.AddToClassList("dragged");
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
+        _slotEffect = _slotElement.Q<VisualElement>(null, "toggle-effect");
 
         _position = -1;
         _id = -1;
@@ -67,6 +70,7 @@ public class L2Slot
         }
 
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
+        _slotEffect = _slotElement.Q<VisualElement>(null, "toggle-effect");
 
         if (_tooltipManipulator == null)
         {

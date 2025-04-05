@@ -187,7 +187,7 @@ public class InventoryWindow : L2PopupWindow
             UpdateItemList(_playerItems);
         }
 
-        evt.PreventDefault();
+        evt.StopPropagation();
     }
 
     private void CreateMinimizedWindow()

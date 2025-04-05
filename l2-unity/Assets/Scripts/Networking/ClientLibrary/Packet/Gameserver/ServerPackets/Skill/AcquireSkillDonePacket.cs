@@ -1,7 +1,7 @@
-public class AcquireSkillDonePacket : ServerPacket
+public class AcquireSkillLearnDonePacket : ServerPacket
 {
 
-    public AcquireSkillDonePacket(byte[] d) : base(d)
+    public AcquireSkillLearnDonePacket(byte[] d) : base(d)
     {
         Parse();
     }

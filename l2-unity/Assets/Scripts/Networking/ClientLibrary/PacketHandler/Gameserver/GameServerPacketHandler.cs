@@ -152,13 +152,16 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.SkillList:
                 OnSkillList(data);
                 break;
-            case GameServerPacketType.AcquireSkillList:
-                OnAcquireSkillList(data);
+            case GameServerPacketType.SkillCoolTime:
+                OnSkillCoolTime(data);
                 break;
-            case GameServerPacketType.AcquireSkillInfo:
-                OnAcquireSkillInfo(data);
+            case GameServerPacketType.AcquireSkillLearnList:
+                OnAcquireSkillLearnList(data);
                 break;
-            case GameServerPacketType.AcquireSkillDone:
+            case GameServerPacketType.AcquireSkillLearnInfo:
+                OnAcquireSkillLearnInfo(data);
+                break;
+            case GameServerPacketType.AcquireSkillLearnDone:
                 OnAcquireSkillDone(data);
                 break;
             case GameServerPacketType.BuyList:
@@ -609,15 +612,21 @@ public class GameServerPacketHandler : ServerPacketHandler
         _eventProcessor.QueueEvent(() => PlayerSkill.Instance.SetSkills(packet.Skills));
     }
 
-    private void OnAcquireSkillList(byte[] data)
+    private void OnSkillCoolTime(byte[] data)
     {
-        AcquireSkillListPacket packet = new AcquireSkillListPacket(data);
+        SkillCoolTimePacket packet = new SkillCoolTimePacket(data);
+        _eventProcessor.QueueEvent(() => PlayerSkill.Instance.UpdateSkillCoolTimes(packet.Cooltimes));
+    }
+
+    private void OnAcquireSkillLearnList(byte[] data)
+    {
+        AcquireSkillLearnListPacket packet = new AcquireSkillLearnListPacket(data);
         _eventProcessor.QueueEvent(() => SkillLearnWindow.Instance.InitSkillsList(packet.Skills));
     }
 
-    private void OnAcquireSkillInfo(byte[] data)
+    private void OnAcquireSkillLearnInfo(byte[] data)
     {
-        AcquireSkillInfoPacket packet = new AcquireSkillInfoPacket(data);
+        AcquireSkillLearnInfoPacket packet = new AcquireSkillLearnInfoPacket(data);
         _eventProcessor.QueueEvent(() => SkillLearnWindow.Instance.ShowSkillDetail(packet.Requirements));
     }
 

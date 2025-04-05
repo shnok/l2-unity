@@ -1,3 +1,4 @@
+// Default Player skill list on player log in
 public class SkillListPacket : ServerPacket
 {
     public SkillInfo[] Skills { get; private set; }
@@ -11,7 +12,7 @@ public class SkillListPacket : ServerPacket
     {
         int skillSize = ReadI();
         Skills = new SkillInfo[skillSize];
-        
+
         for (var i = 0; i < skillSize; i++)
         {
             bool isPassive = ReadI() == 1;

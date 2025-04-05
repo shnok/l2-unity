@@ -3,8 +3,6 @@ using UnityEngine;
 public class TestInput : MonoBehaviour
 {
     [SerializeField] private int _skillId = 1177;
-    [SerializeField] private bool _ctrlPressed = true;
-    [SerializeField] private bool _shiftPressed = false;
 
     void Update()
     {

@@ -90,14 +90,14 @@ public class LoginWindow : L2Window
                 _passwordInput.Focus();
             }
 
-            evt.PreventDefault();
+            evt.StopPropagation();
 
         }
         else if (keyCode == KeyCode.Return || keyCode == KeyCode.KeypadEnter)
         {
             AudioManager.Instance.PlayUISound("click_01");
             LoginButtonPressed();
-            evt.PreventDefault();
+            evt.StopPropagation();
         }
     }
 
