@@ -408,6 +408,8 @@ public class SkillbarWindow : L2PopupWindow
     private IEnumerator PlayCooldownAnimations()
     {
         Texture2D[] cooltimeImages = SkillbarImageTable.Instance.CooltimeTextures;
+        Texture2D[] cooltimeEndTextures = SkillbarImageTable.Instance.CooltimeEndTextures;
+        float skillEndAnimationDuration = 0.25f;
 
         while (true)
         {
@@ -416,22 +418,36 @@ public class SkillbarWindow : L2PopupWindow
             {
                 if (now >= _skillsOnCooldown[i].CooldownEndTime)
                 {
-                    //Todo: play the skill cooldown end animation and sound
-                    _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground();
-                    _skillsOnCooldown.RemoveAt(i);
-                    AudioManager.Instance.PlayUISound("cooltime_end");
-                    continue;
+                    if (now >= _skillsOnCooldown[i].CooldownEndTime + skillEndAnimationDuration)
+                    {
+                        AudioManager.Instance.PlayUISound("cooltime_end");
+                        _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground();
+                        _skillsOnCooldown.RemoveAt(i);
+                        continue;
+                    }
+                    else
+                    {
+                        float elapsedSinceCooldownEnd = now - _skillsOnCooldown[i].CooldownEndTime;
+                        float skillEndRatio = elapsedSinceCooldownEnd / skillEndAnimationDuration;
+                        Debug.Log(skillEndRatio);
+                        int skillEndRatioIndex = Mathf.Clamp((int)Mathf.Round(skillEndRatio * cooltimeEndTextures.Length - 1), 0, cooltimeEndTextures.Length - 1);
+                        Debug.Log(skillEndRatioIndex);
+                        _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground(cooltimeEndTextures[skillEndRatioIndex]);
+                        Debug.Log(cooltimeEndTextures[skillEndRatioIndex]);
+                    }
                 }
+                else
+                {
+                    float elapsed = now - _skillsOnCooldown[i].CooldownStartTime;
+                    float duration = _skillsOnCooldown[i].CooldownEndTime - _skillsOnCooldown[i].CooldownStartTime;
+                    float ratio = elapsed / duration;
+                    int imageIndex = Mathf.Clamp((int)Mathf.Round(ratio * cooltimeImages.Length - 1), 0, cooltimeImages.Length - 1);
 
-                float elapsed = now - _skillsOnCooldown[i].CooldownStartTime;
-                float duration = _skillsOnCooldown[i].CooldownEndTime - _skillsOnCooldown[i].CooldownStartTime;
-                float ratio = elapsed / duration;
-                int imageIndex = Mathf.Clamp((int)Mathf.Round(ratio * cooltimeImages.Length - 1), 0, cooltimeImages.Length - 1);
-
-                _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground(cooltimeImages[imageIndex]);
+                    _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground(cooltimeImages[imageIndex]);
+                }
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1 / 30f); // 30 fps
         }
     }
 
