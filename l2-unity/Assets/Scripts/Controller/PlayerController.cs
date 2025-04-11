@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetDestination(Vector3 position, float distance)
     {
-        //Debug.Log($"Set destination: {position}");
+        Debug.LogWarning($"Set destination: {position}");
         _intentionToRun = true;
         _runningToDestination = true;
         _stopAtRange = distance;

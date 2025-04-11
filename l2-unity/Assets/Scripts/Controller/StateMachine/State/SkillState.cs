@@ -16,14 +16,12 @@ public class SkillState : StateBase
 
     public override void Update()
     {
-        // if (InputManager.Instance.Move)
-        // {
-        //     _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
-        // }
-
         if (Time.time > _hitTime)
         {
-            _stateMachine.ChangeState(PlayerState.IDLE);
+            if (_stateMachine.Intention != Intention.INTENTION_MOVE_TO)
+            {
+                _stateMachine.ChangeState(PlayerState.IDLE);
+            }
         }
     }
 
@@ -31,6 +29,22 @@ public class SkillState : StateBase
     {
         switch (evt)
         {
+            case Event.ACTION_ALLOWED:
+                NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
+                if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
+                {
+                    if (!PlayerController.Instance.IntentionToRun)
+                    {
+                        _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+                        return;
+                    }
+
+                    //Set state as running first to change to movable state
+                    _stateMachine.ChangeState(PlayerState.MOVING);
+
+                    _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO); //not giving an argument will use last position as destination
+                }
+                break;
             case Event.DEAD:
                 _stateMachine.ChangeState(PlayerState.DEAD);
                 break;
@@ -39,7 +53,6 @@ public class SkillState : StateBase
 
     public override void Exit()
     {
-        // PlayerCombat.Instance.StopAttackStance();
         PlayerController.Instance.StopLookAt();
     }
 }

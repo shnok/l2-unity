@@ -350,6 +350,11 @@ public class GameServerPacketHandler : ServerPacketHandler
                     WorldCombat.Instance.OnSkillNotAllowed(smParams[0].GetIntArrayValue()[0]);
                 }
 
+                if (messageData.Id == 109)
+                {
+                    PlayerStateMachine.Instance.OnActionDenied();
+                }
+
                 ChatWindow.Instance.ReceiveSystemMessage(systemMessage);
             });
         }

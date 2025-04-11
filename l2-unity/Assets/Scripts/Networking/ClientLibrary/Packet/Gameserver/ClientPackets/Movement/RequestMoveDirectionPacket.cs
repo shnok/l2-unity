@@ -13,7 +13,7 @@ public class RequestMoveDirectionPacket : ClientPacket
         WriteI((int)(position.x * 52.5f));
         WriteI((int)(position.y * 52.5f));
         WriteL(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
-        Debug.Log($"RequestMoveDirectionPacket: {direction} {heading} {verticalVelocity} {position} {DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}");
+        // Debug.Log($"RequestMoveDirectionPacket: {direction} {heading} {verticalVelocity} {position} {DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}");
         BuildPacket();
     }
 }

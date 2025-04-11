@@ -77,8 +77,10 @@ public class IdleState : StateBase
                     Debug.LogWarning("READY_TO_SKILL event does not have a skill attached to.");
                 }
                 SkillInfo skill = (SkillInfo)arg0;
+                PathFinderController.Instance.ClearPath();
+                PlayerController.Instance.ResetDestination(false);
+                NetworkTransformShare.Instance.SharePosition();
                 GameClient.Instance?.ClientPacketHandler.RequestMagicSkillUse(skill.Id, SkillIntention.CtrlPressed, SkillIntention.ShiftPressed);
-
                 _stateMachine.SetWaitingForServerReply(true);
                 break;
             case Event.SKILL_ALLOWED:
