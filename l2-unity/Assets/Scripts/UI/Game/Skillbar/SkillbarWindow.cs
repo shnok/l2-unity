@@ -429,11 +429,8 @@ public class SkillbarWindow : L2PopupWindow
                     {
                         float elapsedSinceCooldownEnd = now - _skillsOnCooldown[i].CooldownEndTime;
                         float skillEndRatio = elapsedSinceCooldownEnd / skillEndAnimationDuration;
-                        Debug.Log(skillEndRatio);
                         int skillEndRatioIndex = Mathf.Clamp((int)Mathf.Round(skillEndRatio * cooltimeEndTextures.Length - 1), 0, cooltimeEndTextures.Length - 1);
-                        Debug.Log(skillEndRatioIndex);
                         _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground(cooltimeEndTextures[skillEndRatioIndex]);
-                        Debug.Log(cooltimeEndTextures[skillEndRatioIndex]);
                     }
                 }
                 else

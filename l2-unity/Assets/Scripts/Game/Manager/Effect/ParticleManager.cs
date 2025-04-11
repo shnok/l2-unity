@@ -266,9 +266,10 @@ public class ParticleManager : MonoBehaviour
 
             effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
 
-            effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * CalculateCastParticleSizeRatio(caster);
-
             UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
+
+            float effectRatio = CalculateCastParticleSizeRatio(caster);
+            effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * effectRatio;
 
             ActiveEffects.Enqueue(effect);
         }
@@ -277,12 +278,12 @@ public class ParticleManager : MonoBehaviour
     private float CalculateCastParticleSizeRatio(Entity caster)
     {
         float colRadius = caster.Appearance.CollisionRadius;
-        // FDarkElf     radius 0.15     ratio 1.3
+        // FDarkElf     radius 0.15     ratio 1.45
         // GiantSpider  radius 0.495    ratio 2.2
 
         // Using linear interpolation based on given data points:
-        // (0.15, 1.3) and (0.495, 2.2)
-        float ratio = 1.45f + (colRadius - 0.15f) * ((2.2f - 1.45f) / (0.495f - 0.15f));
+        // (0.15, 1.45) and (0.495, 2.2)
+        float ratio = 1.42f + (colRadius - 0.14f) * ((2.5f - 1.42f) / (0.495f - 0.14f));
 
         return Mathf.Clamp(ratio, 0.5f, 3f);
     }
@@ -316,15 +317,7 @@ public class ParticleManager : MonoBehaviour
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
 
-                // if (skill.Skillgrps[0].CastAnimation >= SkillCastAnimation.SpAtk01 && skill.Skillgrps[0].CastAnimation <= SkillCastAnimation.SpAtk04)
-                // {
                 PlaceHitParticle(effect, caster, target);
-                // }
-                // else
-                // {
-                // Set initial position
-                // UpdateSkillEffectTransform(target, action, effect.GameObject.transform, effect, attachOn);
-                // }
             }
             else
             {
@@ -487,10 +480,12 @@ public class ParticleManager : MonoBehaviour
             PooledEffect basecritParticle = SpawnSingleHitParticle(false, false, hit.getSsGrade());
             PlaceHitParticle(basecritParticle, attacker, target);
             ActiveHitEffects.Enqueue(basecritParticle);
+            basecritParticle.GameObject.transform.parent = _effectContainer.transform;
 
             PooledEffect hitParticle = SpawnSingleHitParticle(hit.isCrit(), true, hit.getSsGrade());
             PlaceHitParticle(hitParticle, attacker, target);
             ActiveHitEffects.Enqueue(hitParticle);
+            hitParticle.GameObject.transform.parent = _effectContainer.transform;
         }
         else
         {
@@ -498,6 +493,7 @@ public class ParticleManager : MonoBehaviour
             PooledEffect baseHitParticle = SpawnSingleHitParticle(hit.isCrit(), false, hit.getSsGrade());
             PlaceHitParticle(baseHitParticle, attacker, target);
             ActiveHitEffects.Enqueue(baseHitParticle);
+            baseHitParticle.GameObject.transform.parent = _effectContainer.transform;
         }
     }
 
@@ -520,7 +516,6 @@ public class ParticleManager : MonoBehaviour
     private void PlaceHitParticle(PooledEffect effect, Entity attacker, Entity target)
     {
         effect.GameObject.SetActive(true);
-        effect.GameObject.transform.parent = _effectContainer.transform;
         effect.StartTime = Time.time;
         effect.GameObject.transform.position = CalculateHitParticlePosition(attacker, target);
         effect.GameObject.transform.LookAt(attacker.transform);

@@ -55,8 +55,6 @@ public class Gear : MonoBehaviour
 
     public bool IsWeaponAlreadyEquipped(int itemId, bool leftSlot)
     {
-        Debug.Log($"IsWeaponAlreadyEquipped ({itemId},{leftSlot})");
-
         if (leftSlot)
         {
             if (_leftHandWeapon == null)
