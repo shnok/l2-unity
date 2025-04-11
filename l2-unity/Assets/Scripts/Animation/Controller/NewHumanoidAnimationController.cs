@@ -71,7 +71,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         if (!((int)_lastAnimationType < (int)HumanoidWeaponAnimType.cast))
         {
-            Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationType}");
+            // Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationType}");
             // The last animation was not a weapon animation
             return;
         }

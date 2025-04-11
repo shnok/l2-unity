@@ -85,7 +85,7 @@ public class StatusUpdatePacket : ServerPacket
             _attributes.Add(new Attribute(attributeId, attributeValue));
         }
 
-        Debug.LogWarning(ToString());
+        // Debug.LogWarning(ToString());
     }
 
     public override string ToString()

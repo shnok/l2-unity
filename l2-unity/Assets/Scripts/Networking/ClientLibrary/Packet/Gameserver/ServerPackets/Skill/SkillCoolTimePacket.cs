@@ -34,7 +34,7 @@ public class SkillCoolTimePacket : ServerPacket
             };
         }
 
-        Debug.LogWarning(ToString());
+        // Debug.LogWarning(ToString());
     }
 
     public override string ToString()

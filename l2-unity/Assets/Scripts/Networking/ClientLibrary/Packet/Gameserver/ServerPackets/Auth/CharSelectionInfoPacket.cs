@@ -145,7 +145,7 @@ public class CharSelectionInfoPacket : ServerPacket
             _characters.Add(character);
         }
 
-        Debug.LogWarning(ToString());
+        // Debug.LogWarning(ToString());
     }
 
     public override string ToString()

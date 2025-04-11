@@ -17,7 +17,6 @@ public class L2Scrollable
         _container = container;
         _autoscroll = autoscroll;
 
-        Debug.LogWarning("Initialize scrollable from Element " + container);
         InitScroller();
     }
 
