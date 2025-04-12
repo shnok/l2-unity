@@ -20,6 +20,7 @@ public abstract class Combat : MonoBehaviour
     [SerializeField] private int _lastSkillHitTime;
     [SerializeField] private int _lastSkillReuseDelay;
     [SerializeField] private long _lastSkillUseTime;
+    [SerializeField] private PooledEffect[] _castingEffects;
     private long _skillThrowThreshold;
     private long _skillShootThreshold;
     private bool _isFighterSkill;
@@ -39,6 +40,7 @@ public abstract class Combat : MonoBehaviour
     public int LastSkillReuseDelay { get => _lastSkillReuseDelay; }
     public long LastSkillUseTime { get => _lastSkillUseTime; }
     public bool IsInFightStance { get => _fightStanceStarted; }
+
 
     protected BaseAnimationAudioHandler AudioHandler { get => _referenceHolder.AudioHandler; }
 
@@ -176,7 +178,7 @@ public abstract class Combat : MonoBehaviour
         _referenceHolder.Gear.HideArrow();
     }
 
-    public virtual void CastSkill(Skill skill, Entity target, int hitTime, int reuseDelay)
+    public virtual void CastSkill(Skill skill, Entity target, int hitTime, int reuseDelay, PooledEffect[] castEffects)
     {
         _lastSkill = skill;
         _lastSkillHitTime = hitTime;
@@ -189,6 +191,7 @@ public abstract class Combat : MonoBehaviour
         _isFighterSkill = (int)_lastSkill.Skillgrps[0].CastAnimation >= 100;
         _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.85f);
         _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 1f);
+        _castingEffects = castEffects;
 
         Debug.Log($"CastSkill: skill={skill}, hitTime={hitTime}, reuseDelay={reuseDelay}, _lastSkillUseTime={_lastSkillUseTime}");
 
@@ -206,6 +209,17 @@ public abstract class Combat : MonoBehaviour
     {
         _castingSkill = false;
         _referenceHolder.Gear.StopTrail();
+
+        // Disable effects
+        if (_castingEffects != null)
+        {
+            foreach (PooledEffect effect in _castingEffects)
+            {
+                effect.GameObject.SetActive(false);
+            }
+
+            _castingEffects = null;
+        }
     }
 
     void Update()

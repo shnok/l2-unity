@@ -95,6 +95,7 @@ public class WorldCombat : MonoBehaviour
                    if (packet.ObjectId == PlayerEntity.Instance.Identity.Id)
                    {
                        PlayerStateMachine.Instance.NotifyEvent(Event.CANCEL);
+                       NameplatesManagerGame.Instance.StopCasting();
                    }
                    else
                    {
@@ -166,11 +167,11 @@ public class WorldCombat : MonoBehaviour
         }
 
         // Spawn particle
-        ParticleManager.Instance.SpawnCastParticles(entity, skill, hitTime);
+        PooledEffect[] castEffects = ParticleManager.Instance.SpawnCastParticles(entity, skill, hitTime);
 
         //Play skill cast animation
         if (skill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)
-            entity.CastSkill(skill, target, hitTime, reuseDelay);
+            entity.CastSkill(skill, target, hitTime, reuseDelay, castEffects);
 
         // Cast skill sound
         if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length == 0)

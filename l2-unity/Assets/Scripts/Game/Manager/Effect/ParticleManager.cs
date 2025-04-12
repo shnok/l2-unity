@@ -232,17 +232,20 @@ public class ParticleManager : MonoBehaviour
     #endregion
 
     #region Skill Particles
-    public void SpawnCastParticles(Entity caster, Skill skill, int hitTime)
+    public PooledEffect[] SpawnCastParticles(Entity caster, Skill skill, int hitTime)
     {
         List<EffectEmitter> castingActions = skill.SkillEffect.CastingActions;
         if (castingActions == null || castingActions.Count == 0)
         {
             Debug.Log("Skill doesn't have any casting action.");
-            return;
+            return null;
         }
 
-        foreach (EffectEmitter action in castingActions)
+        PooledEffect[] castEffects = new PooledEffect[castingActions.Count];
+
+        for (int i = 0; i < castingActions.Count; i++)
         {
+            EffectEmitter action = castingActions[i];
             AttachMethod attachOn = action.AttachOn;
             string effectClass = action.EffectClass;
 
@@ -259,7 +262,7 @@ public class ParticleManager : MonoBehaviour
             if (effect == null || effect.GameObject == null)
             {
                 Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
-                return;
+                return null;
             }
 
             effect.HitTime = hitTime / 1000f; //in seconds
@@ -272,7 +275,11 @@ public class ParticleManager : MonoBehaviour
             effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * effectRatio;
 
             ActiveEffects.Enqueue(effect);
+
+            castEffects[i] = effect;
         }
+
+        return castEffects;
     }
 
     private float CalculateCastParticleSizeRatio(Entity caster)
