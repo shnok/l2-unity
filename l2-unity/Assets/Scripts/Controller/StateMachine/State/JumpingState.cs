@@ -8,7 +8,12 @@ public class JumpingState : StateBase
 
     public override void HandleEvent(Event evt, object arg0)
     {
-
+        switch (evt)
+        {
+            case Event.CLICK_TO_MOVE:
+                _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, (Vector3)arg0);
+                break;
+        }
     }
 
     private void UpdateMoveAnimation()
@@ -41,8 +46,5 @@ public class JumpingState : StateBase
                 _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
             }
         }
-
-
-
     }
 }

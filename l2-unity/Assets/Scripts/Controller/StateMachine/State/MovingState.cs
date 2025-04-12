@@ -6,43 +6,6 @@ public class MovingState : StateBase
 
     public MovingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void HandleEvent(Event evt, object arg0)
-    {
-        switch (evt)
-        {
-            case Event.ARRIVED:
-                if (_moveReason == MoveReason.ATTACK)
-                {
-                    _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK);
-                }
-                else if (_moveReason == MoveReason.INTERACT)
-                {
-                    _stateMachine.ChangeIntention(Intention.INTENTION_INTERACT);
-                }
-                else if (_moveReason == MoveReason.SKILL)
-                {
-                    _stateMachine.ChangeIntention(Intention.INTENTION_SKILL);
-                }
-                else
-                {
-                    _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
-                }
-                break;
-            case Event.ACTION_ALLOWED:
-                if (_stateMachine.Intention == Intention.INTENTION_SIT)
-                {
-                    _stateMachine.ChangeState(PlayerState.SITTING);
-                }
-                break;
-            case Event.MOVE_TYPE_UPDATED:
-                UpdateMoveAnimation();
-                break;
-            case Event.DEAD:
-                _stateMachine.ChangeState(PlayerState.DEAD);
-                break;
-        }
-    }
-
     private void UpdateMoveAnimation()
     {
         if (PlayerEntity.Instance.Running)
@@ -98,6 +61,46 @@ public class MovingState : StateBase
         {
             // Cancel follow target
             TargetManager.Instance.ClearAttackTarget();
+        }
+    }
+
+    public override void HandleEvent(Event evt, object arg0)
+    {
+        switch (evt)
+        {
+            case Event.CLICK_TO_MOVE:
+                _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, (Vector3)arg0);
+                break;
+            case Event.ARRIVED:
+                if (_moveReason == MoveReason.ATTACK)
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK);
+                }
+                else if (_moveReason == MoveReason.INTERACT)
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_INTERACT);
+                }
+                else if (_moveReason == MoveReason.SKILL)
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_SKILL);
+                }
+                else
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+                }
+                break;
+            case Event.ACTION_ALLOWED:
+                if (_stateMachine.Intention == Intention.INTENTION_SIT)
+                {
+                    _stateMachine.ChangeState(PlayerState.SITTING);
+                }
+                break;
+            case Event.MOVE_TYPE_UPDATED:
+                UpdateMoveAnimation();
+                break;
+            case Event.DEAD:
+                _stateMachine.ChangeState(PlayerState.DEAD);
+                break;
         }
     }
 }

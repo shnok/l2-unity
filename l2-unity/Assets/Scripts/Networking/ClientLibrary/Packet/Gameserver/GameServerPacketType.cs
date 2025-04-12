@@ -38,6 +38,7 @@ public enum GameServerPacketType : int
     ShortcutDelete = 0x46,
     StopMove = 0x47,
     MagicSkillUse = 0x48,
+    MagicSkillCanceled = 0x49,
     CreatureSay = 0x4a,
     SkillList = 0x58,
     RestartReponse = 0x5F,

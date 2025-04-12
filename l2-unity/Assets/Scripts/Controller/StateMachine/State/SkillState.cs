@@ -22,6 +22,14 @@ public class SkillState : StateBase
             {
                 _stateMachine.ChangeState(PlayerState.IDLE);
             }
+
+            return;
+        }
+
+        if (InputManager.Instance.CloseWindow)
+        {
+            _stateMachine.SetWaitingForServerReply(true);
+            GameClient.Instance.ClientPacketHandler.SendRequestCancel(true);
         }
     }
 
@@ -29,6 +37,12 @@ public class SkillState : StateBase
     {
         switch (evt)
         {
+            case Event.CANCEL:
+                _stateMachine.ChangeState(PlayerState.IDLE, true);
+                break;
+            case Event.CLICK_TO_MOVE:
+                _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, (Vector3)arg0);
+                break;
             case Event.ACTION_ALLOWED:
                 NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
                 if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)

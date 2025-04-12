@@ -49,6 +49,9 @@ public class AttackingState : StateBase
     {
         switch (evt)
         {
+            case Event.CLICK_TO_MOVE:
+                _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, (Vector3)arg0);
+                break;
             case Event.ACTION_ALLOWED:
                 NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
                 if (_stateMachine.Intention == Intention.INTENTION_MOVE)

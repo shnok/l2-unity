@@ -87,6 +87,29 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
+
+    public Task OnMagicSkillCanceled(MagicSkillCanceledPacket packet)
+    {
+        return _worldSpawner.ExecuteWithEntityAsync(packet.ObjectId, (entity) =>
+               {
+                   if (packet.ObjectId == PlayerEntity.Instance.Identity.Id)
+                   {
+                       PlayerStateMachine.Instance.NotifyEvent(Event.CANCEL);
+                   }
+                   else
+                   {
+                       entity.ReferenceHolder.NewAnimationController.Wait();
+                   }
+
+                   EntityCancelCastSkill(entity);
+               });
+    }
+
+    private void EntityCancelCastSkill(Entity entity)
+    {
+        entity.Combat.AbortCast();
+    }
+
     public Task OnMagicSkillLaunched(MagicSkillLaunchedPacked packet)
     {
 
@@ -506,5 +529,4 @@ public class WorldCombat : MonoBehaviour
             e.Identity.PvpFlag = pvpFlag;
         });
     }
-
 }

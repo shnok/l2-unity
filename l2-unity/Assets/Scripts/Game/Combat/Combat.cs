@@ -202,6 +202,12 @@ public abstract class Combat : MonoBehaviour
         }
     }
 
+    public virtual void AbortCast()
+    {
+        _castingSkill = false;
+        _referenceHolder.Gear.StopTrail();
+    }
+
     void Update()
     {
         if (_castingSkill)

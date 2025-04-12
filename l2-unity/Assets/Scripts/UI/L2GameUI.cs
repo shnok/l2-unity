@@ -199,6 +199,11 @@ public class L2GameUI : L2UI
 
         if (InputManager.Instance.CloseWindow)
         {
+            if (PlayerStateMachine.Instance?.State == PlayerState.SKILL) // Prioritize skill cast cancel
+            {
+                return;
+            }
+
             if (ChatWindow.Instance != null && ChatWindow.Instance.ChatOpened)
             {
                 ChatWindow.Instance.CloseChat(false);
@@ -214,7 +219,7 @@ public class L2GameUI : L2UI
                 SystemMenuWindow.Instance.ToggleHideWindow();
             }
         }
-        
+
         if (InputManager.Instance.OpenCharacerStatus)
         {
             if (CharacterInfoWindow.Instance != null)
@@ -222,7 +227,7 @@ public class L2GameUI : L2UI
                 CharacterInfoWindow.Instance.ToggleHideWindow();
             }
         }
-        
+
         if (InputManager.Instance.OpenSkills)
         {
             if (SkillWindow.Instance != null)

@@ -179,6 +179,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.FightStanceStop:
                 OnFightStanceStop(data);
                 break;
+            case GameServerPacketType.MagicSkillCanceled:
+                OnMagicSkillCanceled(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -674,6 +677,12 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         MagicSkillUsePacket packet = new MagicSkillUsePacket(data);
         WorldCombat.Instance.OnMagicSkillUse(packet);
+    }
+
+    private void OnMagicSkillCanceled(byte[] data)
+    {
+        MagicSkillCanceledPacket packet = new MagicSkillCanceledPacket(data);
+        WorldCombat.Instance.OnMagicSkillCanceled(packet);
     }
 
     private void OnSkillLaunched(byte[] data)

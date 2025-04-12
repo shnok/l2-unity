@@ -5,12 +5,13 @@ public class IdleState : StateBase
 {
     public IdleState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Enter(object obj0)
+    public override void Enter(object wasCanceled)
     {
         if (NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.cast_throw || NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.cast)
         {
-            // Wait for cast throw to finish -> wait is called at the end of the animation anyway
-            return;
+            if (wasCanceled == null || (bool)wasCanceled == false)
+                // Wait for cast throw to finish -> wait is called at the end of the animation anyway
+                return;
         }
 
         NewPlayerAnimationController.Instance.Wait();
@@ -33,6 +34,9 @@ public class IdleState : StateBase
     {
         switch (evt)
         {
+            case Event.CLICK_TO_MOVE:
+                _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, (Vector3)arg0);
+                break;
             case Event.READY_TO_INTERACT:
                 PathFinderController.Instance.ClearPath();
                 PlayerController.Instance.ResetDestination(false);
