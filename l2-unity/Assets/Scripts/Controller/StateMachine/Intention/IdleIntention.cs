@@ -9,7 +9,7 @@ public class IdleIntention : IntentionBase
         if (_stateMachine.State != PlayerState.ATTACKING)
         {
             // IdleIntention is not triggerable by player, no need to ask server for permission
-            _stateMachine.ChangeState(PlayerState.IDLE);
+            _stateMachine.ChangeState(PlayerState.IDLE, arg0);
         }
     }
 

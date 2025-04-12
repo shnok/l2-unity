@@ -10,8 +10,11 @@ public class IdleState : StateBase
         if (NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.cast_throw || NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.cast)
         {
             if (wasCanceled == null || (bool)wasCanceled == false)
+            {
                 // Wait for cast throw to finish -> wait is called at the end of the animation anyway
                 return;
+            }
+
         }
 
         NewPlayerAnimationController.Instance.Wait();
@@ -27,6 +30,10 @@ public class IdleState : StateBase
         if (InputManager.Instance.Move)
         {
             _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
+        }
+        if (InputManager.Instance.Jump)
+        {
+            _stateMachine.ChangeIntention(Intention.INTENTION_JUMP);
         }
     }
 

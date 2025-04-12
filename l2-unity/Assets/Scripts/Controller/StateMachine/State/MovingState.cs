@@ -62,6 +62,11 @@ public class MovingState : StateBase
             // Cancel follow target
             TargetManager.Instance.ClearAttackTarget();
         }
+
+        if (InputManager.Instance.Jump)
+        {
+            _stateMachine.ChangeIntention(Intention.INTENTION_JUMP);
+        }
     }
 
     public override void HandleEvent(Event evt, object arg0)

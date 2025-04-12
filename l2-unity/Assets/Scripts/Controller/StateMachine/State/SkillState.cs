@@ -5,6 +5,8 @@ public class SkillState : StateBase
 {
     private float _hitTime;
     public SkillState(PlayerStateMachine stateMachine) : base(stateMachine) { }
+    private bool _intentionToRun;
+    private Vector3 _intentionToRunDestination;
 
     public override void Enter(object obj0)
     {
@@ -20,17 +22,27 @@ public class SkillState : StateBase
         {
             if (_stateMachine.Intention != Intention.INTENTION_MOVE_TO)
             {
-                _stateMachine.ChangeState(PlayerState.IDLE);
+                _stateMachine.ChangeIntention(Intention.INTENTION_IDLE, true);
             }
 
             return;
         }
 
-        if (InputManager.Instance.CloseWindow)
+        if (InputManager.Instance.CloseWindow || InputManager.Instance.Move || InputManager.Instance.Jump)
         {
-            _stateMachine.SetWaitingForServerReply(true);
-            GameClient.Instance.ClientPacketHandler.SendRequestCancel(true);
+            TryCancelCast();
         }
+    }
+
+    private void TryCancelCast()
+    {
+        if (_stateMachine.WaitingForServerReply)
+        {
+            return;
+        }
+
+        _stateMachine.SetWaitingForServerReply(true);
+        GameClient.Instance.ClientPacketHandler.SendRequestCancel(true);
     }
 
     public override void HandleEvent(Event evt, object arg0)
@@ -38,10 +50,19 @@ public class SkillState : StateBase
         switch (evt)
         {
             case Event.CANCEL:
-                _stateMachine.ChangeState(PlayerState.IDLE, true);
+                if (_intentionToRun)
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, _intentionToRunDestination);
+                }
+                else
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_IDLE, true);
+                }
                 break;
             case Event.CLICK_TO_MOVE:
-                _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, (Vector3)arg0);
+                _intentionToRun = true;
+                _intentionToRunDestination = (Vector3)arg0;
+                TryCancelCast();
                 break;
             case Event.ACTION_ALLOWED:
                 NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
