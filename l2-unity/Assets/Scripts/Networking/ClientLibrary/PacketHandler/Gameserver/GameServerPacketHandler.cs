@@ -56,7 +56,7 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.EntityTargetSet:
                 OnEntityTargetSet(data);
                 break;
-            case GameServerPacketType.EntityTargetUnset:
+            case GameServerPacketType.TargetUnselected:
                 OnEntityTargetUnset(data);
                 break;
             case GameServerPacketType.MyTargetSet:

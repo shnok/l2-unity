@@ -27,7 +27,7 @@ public enum GameServerPacketType : int
     ServerClose = 0x26,
     TeleportToLocation = 0x28,
     EntityTargetSet = 0x29,
-    EntityTargetUnset = 0x2a,
+    TargetUnselected = 0x2a,
     FightStanceStart = 0x2b,
     FightStanceStop = 0x2c,
     SocialAction = 0x2d,

@@ -248,6 +248,11 @@ public class WorldCombat : MonoBehaviour
     {
         return _worldSpawner.ExecuteWithEntityAsync(id, e =>
         {
+            if (id == PlayerEntity.Instance.Identity.Id)
+            {
+                TargetManager.Instance.ClearTarget();
+            }
+
             e.Combat.TargetId = -1;
             e.Combat.Target = null;
         });
