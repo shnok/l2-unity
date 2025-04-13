@@ -182,7 +182,17 @@ public class TargetManager : MonoBehaviour
             return;
         }
 
-        _target = target.ObjectTransform.GetComponent<Entity>();
+        SetTarget(target.ObjectTransform.GetComponent<Entity>());
+    }
+
+    public void SetTarget(Entity target)
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        _target = target;
 
         PlayerCombat.Instance.TargetId = _target.Identity.Id;
         PlayerCombat.Instance.Target = _target;

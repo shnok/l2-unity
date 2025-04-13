@@ -59,23 +59,23 @@ public class SkillTab : L2Tab
             SkillWindowInfo skill = skills[i];
             switch (skill.Type)
             {
-                case SkillType.EquipmentPassive:
+                case SkillIconType.EquipmentPassive:
                     equipmentSkills.Add(skill);
                     break;
 
-                case SkillType.AbilityPassive or SkillType.Passive:
+                case SkillIconType.AbilityPassive or SkillIconType.Passive:
                     abilitySkills.Add(skill);
                     break;
 
-                case SkillType.Clan or SkillType.NoblessOrHero:
+                case SkillIconType.Clan or SkillIconType.NoblessOrHero:
                     clanHeroMentoringSkills.Add(skill);
                     break;
 
-                case SkillType.CraftAndItems:
+                case SkillIconType.CraftAndItems:
                     itemSkills.Add(skill);
                     break;
-                
-                case SkillType.WeightLimit:
+
+                case SkillIconType.WeightLimit:
                     raceSkills.Add(skill);
                     break;
             }
@@ -104,8 +104,9 @@ public class SkillTab : L2Tab
             VisualElement section = AddSection(itemSkills, "Item Skills");
             _contentContainer.Add(section);
         }
-        
-        if (raceSkills.Any()) {
+
+        if (raceSkills.Any())
+        {
             VisualElement section = AddSection(raceSkills, "Race Skills");
             _contentContainer.Add(section);
         }
@@ -125,7 +126,7 @@ public class SkillTab : L2Tab
         for (var i = 0; i < skills.Count; i++)
         {
             SkillWindowInfo skill = skills[i];
-            if (skill.Type is SkillType.Damage or SkillType.HealsCubicsRaidsDebuff)
+            if (skill.Type is SkillIconType.Physical or SkillIconType.Magic)
             {
                 if (skill.IsMagicSkill())
                 {
@@ -140,31 +141,31 @@ public class SkillTab : L2Tab
             {
                 switch (skill.Type)
                 {
-                    case SkillType.Buff:
+                    case SkillIconType.Buff:
                         reinforcementSkills.Add(skill);
                         break;
 
-                    case SkillType.Debuff:
+                    case SkillIconType.Debuff:
                         weakenSkills.Add(skill);
                         break;
 
-                    case SkillType.CraftAndItems:
+                    case SkillIconType.CraftAndItems:
                         itemSkills.Add(skill);
                         break;
 
-                    case SkillType.NoblessOrHero or SkillType.Clan:
+                    case SkillIconType.NoblessOrHero or SkillIconType.Clan:
                         clanHeroMentoringSkills.Add(skill);
                         break;
 
-                    case SkillType.HealsCubicsRaidsDebuff:
+                    case SkillIconType.Magic:
                         toggleSkills.Add(skill);
                         break;
 
-                    case SkillType.Toggle:
+                    case SkillIconType.Toggle:
                         toggleSkills.Add(skill);
                         break;
 
-                    case SkillType.TransformationOrMount:
+                    case SkillIconType.TransformationOrMount:
                         transformSkills.Add(skill);
                         break;
                 }

@@ -101,13 +101,13 @@ public class SkillgrpTable
                             skillGrp.SubLevel = int.Parse(value);
                             break;
                         case "icon_type":
-                            skillGrp.IconType = Enum.Parse<SkillType>(value, true);
+                            skillGrp.IconType = Enum.Parse<SkillIconType>(value, true);
                             break;
                         case "MagicType":
                             skillGrp.MagicType = int.Parse(value);
                             break;
                         case "operate_type":
-                            skillGrp.OperateType = int.Parse(value);
+                            skillGrp.OperateType = (SkillOperateType)int.Parse(value);
                             break;
                         case "mp_consume":
                             skillGrp.MpConsume = int.Parse(value);
@@ -131,7 +131,7 @@ public class SkillgrpTable
                             skillGrp.EffectPoint = int.Parse(value);
                             break;
                         case "is_magic":
-                            skillGrp.IsMagic = Enum.Parse<IsMagicType>(value, true);
+                            skillGrp.IsMagic = Enum.Parse<SkillMagicType>(value, true);
                             break;
                         case "origin_skill":
                             skillGrp.IsDouble = int.Parse(value);

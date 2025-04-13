@@ -22,7 +22,7 @@ public class SkillState : StateBase
         {
             if (_stateMachine.Intention != Intention.INTENTION_MOVE_TO)
             {
-                _stateMachine.ChangeIntention(Intention.INTENTION_IDLE, true);
+                _stateMachine.ChangeIntention(Intention.INTENTION_IDLE, false);
             }
 
             return;

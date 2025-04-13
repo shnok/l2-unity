@@ -65,10 +65,10 @@ public class L2ToolTip : L2PopupWindow
                 _skillTooltip.style.display = DisplayStyle.Flex;
                 _labelTooltip.style.display = DisplayStyle.None;
                 break;
-                
+
             default:
                 _skillTooltip.style.display = DisplayStyle.None;
-                
+
                 string stringVal;
                 if (value is SkillWindowInfo info)
                 {
@@ -91,7 +91,7 @@ public class L2ToolTip : L2PopupWindow
 
                 break;
         }
-        
+
         ShowWindow();
 
         if (_updateStyleCoroutine != null)
@@ -106,7 +106,7 @@ public class L2ToolTip : L2PopupWindow
     {
         while (true)
         {
-            
+
             yield return new WaitForEndOfFrame();
 
             _windowEle.style.left = target.worldBound.x;
@@ -148,8 +148,8 @@ public class L2ToolTip : L2PopupWindow
         {
             GetElementById("SkillTooltipMpCost").style.display = DisplayStyle.None;
         }
-        
-        if (skill.Range > 0) 
+
+        if (skill.Range > 0)
         {
             GetLabelById("SkillTooltipRangeValue").text = skill.Range.ToString();
             GetElementById("SkillTooltipRange").style.display = DisplayStyle.Flex;
@@ -169,7 +169,7 @@ public class L2ToolTip : L2PopupWindow
             GetElementById("SkillTooltipCastingTime").style.display = DisplayStyle.None;
         }
 
-        if (skill.IsPassiveSkill() || skill.Type == SkillType.CraftAndItems)
+        if (skill.IsPassiveSkill() || skill.Type == SkillIconType.CraftAndItems)
         {
             GetElementById("SkillTooltipReuseTime").style.display = DisplayStyle.None;
         }
