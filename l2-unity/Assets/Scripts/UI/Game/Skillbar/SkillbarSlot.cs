@@ -15,6 +15,7 @@ public class SkillbarSlot : L2ClickableSlot
     public float CooldownEndTime { get; set; }
 
     public bool Toggled { get => _toggled; set => _toggled = value; }
+    public int Slot { get => _slot; }
 
     public SkillbarSlot(VisualElement slotElement, int position, int skillbarId, int slot) : base(slotElement, position, SlotType.SkillBar, true, false)
     {

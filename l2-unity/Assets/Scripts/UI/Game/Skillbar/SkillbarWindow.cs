@@ -291,6 +291,10 @@ public class SkillbarWindow : L2PopupWindow
         int slot = oldSlot % PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR;
         int page = oldSlot / PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR;
 
+        // Debug.LogWarning($"Remove slotAnimations slot: oldSlot={oldSlot} page={page} slot={slot}");
+        RemoveToggledSlot(page, slot);
+        RemoveOnCooldownSkill(page, slot);
+
         _skillbars.ForEach((skillbar) =>
             {
                 if (skillbar.Page == page)
@@ -300,8 +304,10 @@ public class SkillbarWindow : L2PopupWindow
             });
     }
 
-    private SkillbarSlot GetSlotAt(int page, int slot)
+    private List<SkillbarSlot> GetAllSlotsAt(int page, int slot)
     {
+        List<SkillbarSlot> _toBeUpdated = new List<SkillbarSlot>();
+
         foreach (AbstractSkillbar skillbar in _skillbars)
         {
             if (skillbar.Page == page)
@@ -309,20 +315,22 @@ public class SkillbarWindow : L2PopupWindow
                 if (skillbar.BarSlots.Count <= slot)
                 {
                     Debug.LogWarning($"Skillbar slot error: {slot}");
-                    return null;
                 }
-
-                return skillbar.BarSlots[slot];
+                else
+                {
+                    _toBeUpdated.Add(skillbar.GetSlotAt(slot));
+                }
             }
         }
 
-        return null;
+        return _toBeUpdated;
     }
+
 
     public void AddToggledSlot(int page, int slot)
     {
-        SkillbarSlot skillbarSlot = GetSlotAt(page, slot);
-        if (skillbarSlot != null)
+        List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
+        foreach (SkillbarSlot skillbarSlot in skillbarSlots)
         {
             skillbarSlot.Toggled = true;
             AddToggledSlot(skillbarSlot);
@@ -331,8 +339,8 @@ public class SkillbarWindow : L2PopupWindow
 
     public void RemoveToggledSlot(int page, int slot)
     {
-        SkillbarSlot skillbarSlot = GetSlotAt(page, slot);
-        if (skillbarSlot != null)
+        List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
+        foreach (SkillbarSlot skillbarSlot in skillbarSlots)
         {
             skillbarSlot.Toggled = false;
             RemoveToggledSlot(skillbarSlot);
@@ -379,13 +387,24 @@ public class SkillbarWindow : L2PopupWindow
 
     public void AddSkillOnCooldown(int page, int slot, SkillInfo skillInfo)
     {
-        SkillbarSlot skillbarSlot = GetSlotAt(page, slot);
-        if (skillbarSlot != null)
+        List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
+        foreach (SkillbarSlot skillbarSlot in skillbarSlots)
         {
             skillbarSlot.CooldownStartTime = skillInfo.CooldownStartTime;
             skillbarSlot.CooldownEndTime = skillInfo.CooldownEndTime;
 
+            // Debug.LogWarning($"Skillbarslot match skillondooldown: Page:{page} Slot:{slot} SkillbarSlot-Position:{skillbarSlot.Position} SkillbarSlot-Slot:{skillbarSlot.Slot}");
+
             AddSkillOnCooldown(skillbarSlot);
+        }
+    }
+
+    public void RemoveOnCooldownSkill(int page, int slot)
+    {
+        List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
+        foreach (SkillbarSlot skillbarSlot in skillbarSlots)
+        {
+            RemoveOnCooldownSkill(skillbarSlot);
         }
     }
 
@@ -401,6 +420,7 @@ public class SkillbarWindow : L2PopupWindow
     {
         if (_skillsOnCooldown.Contains(slot))
         {
+            slot.SlotEffect.style.backgroundImage = new StyleBackground();
             _skillsOnCooldown.Remove(slot);
         }
     }
@@ -416,13 +436,17 @@ public class SkillbarWindow : L2PopupWindow
             float now = Time.time;
             for (int i = _skillsOnCooldown.Count - 1; i >= 0; i--)
             {
-                if (now >= _skillsOnCooldown[i].CooldownEndTime)
+                if (i < 0 || i >= _skillsOnCooldown.Count)
                 {
-                    if (now >= _skillsOnCooldown[i].CooldownEndTime + skillEndAnimationDuration)
+                    continue;
+                }
+
+                if (now >= _skillsOnCooldown[i]?.CooldownEndTime)
+                {
+                    if (now >= _skillsOnCooldown[i]?.CooldownEndTime + skillEndAnimationDuration)
                     {
                         AudioManager.Instance.PlayUISound("cooltime_end");
-                        _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground();
-                        _skillsOnCooldown.RemoveAt(i);
+                        RemoveOnCooldownSkill(_skillsOnCooldown[i]);
                         continue;
                     }
                     else

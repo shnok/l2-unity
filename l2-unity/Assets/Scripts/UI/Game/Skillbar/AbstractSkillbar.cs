@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UIElements;
 
 public abstract class AbstractSkillbar
@@ -117,6 +118,19 @@ public abstract class AbstractSkillbar
                 break;
             }
         }
+    }
+
+    public SkillbarSlot GetSlotAt(int slot)
+    {
+        foreach (SkillbarSlot barSlot in _barSlots)
+        {
+            if (slot == barSlot.Slot)
+            {
+                return barSlot;
+            }
+        }
+
+        return null;
     }
 
     protected abstract void UpdateVisuals();
