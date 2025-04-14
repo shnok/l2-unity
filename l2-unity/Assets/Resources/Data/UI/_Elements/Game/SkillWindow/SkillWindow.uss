@@ -420,8 +420,7 @@
 
 .skills-bar-container {
     height: auto;
-    padding: 2px 0 0 2px;
-    background-color: rgba(0, 0, 0, 0.28);
+    padding-top: 2px;
     flex-grow: 1;
     flex-direction: row;
     display: flex;
@@ -444,4 +443,21 @@
     -unity-slice-right: 2;
     -unity-slice-top: 2;
     -unity-slice-scale: 0.1;
+}
+
+.skills-section-container  #SkillSectionInner {
+    flex-grow: 1;
+}
+
+.skills-section-container  #SkillSectionInner #TabLabel {
+    display: none;
+}
+
+.skills-section-container  #SkillSectionInner #ScrollView {
+    background-color: transparent;
+    border-width: 0;
+}
+
+.skills-section-container  #SkillSectionInner #unity-content-viewport {
+    margin: 0;
 }

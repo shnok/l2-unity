@@ -59,35 +59,13 @@ public class L2ToolTip : L2PopupWindow
         switch (type)
         {
             case L2Slot.SlotType.Skill:
-                SkillWindowInfo val = value as SkillWindowInfo;
-                if (val is null) break;
-                AddSkillTooltip(val);
-                _skillTooltip.style.display = DisplayStyle.Flex;
                 _labelTooltip.style.display = DisplayStyle.None;
+                DisplaySkillTooltip(value);
                 break;
 
             default:
                 _skillTooltip.style.display = DisplayStyle.None;
-
-                string stringVal;
-                if (value is SkillWindowInfo info)
-                {
-                    stringVal = info.Name;
-                }
-                else
-                {
-                    stringVal = value as string;
-                }
-
-                if (stringVal != string.Empty)
-                {
-                    GetLabelById("Content").text = stringVal;
-                    _labelTooltip.style.display = DisplayStyle.Flex;
-                }
-                else
-                {
-                    _labelTooltip.style.display = DisplayStyle.None;
-                }
+                DisplayDefaultTooltip(value);
 
                 break;
         }
@@ -100,6 +78,43 @@ public class L2ToolTip : L2PopupWindow
         }
 
         _updateStyleCoroutine = StartCoroutine(UpdateToolTipCoroutine(target));
+    }
+
+    private void DisplaySkillTooltip<T>(T value)
+    {
+        SkillWindowInfo val = value as SkillWindowInfo;
+        if (val is null)
+        {
+            _skillTooltip.style.display = DisplayStyle.None;
+            return;
+        }
+
+        AddSkillTooltip(val);
+        _skillTooltip.style.display = DisplayStyle.Flex;
+    }
+
+    private void DisplayDefaultTooltip<T>(T value)
+    {
+        string stringVal;
+
+        if (value is SkillWindowInfo info)
+        {
+            stringVal = info.Name;
+        }
+        else
+        {
+            stringVal = value as string;
+        }
+
+        if (stringVal != string.Empty)
+        {
+            GetLabelById("Content").text = stringVal;
+            _labelTooltip.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            _labelTooltip.style.display = DisplayStyle.None;
+        }
     }
 
     IEnumerator UpdateToolTipCoroutine(VisualElement target)

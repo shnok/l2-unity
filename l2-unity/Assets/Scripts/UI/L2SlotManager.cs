@@ -231,10 +231,6 @@ public class L2SlotManager : L2PopupWindow
 
         if (_hoverSlot == null)
         {
-            if (!L2GameUI.Instance.MouseOverUI)
-            {
-                RemoveSkillSlot();
-            }
             return;
         }
 
@@ -244,10 +240,6 @@ public class L2SlotManager : L2PopupWindow
                 AddSkillToSkillbar();
                 break;
             default:
-                if (!L2GameUI.Instance.MouseOverUI)
-                {
-                    RemoveSkillbarSlot();
-                }
                 break;
         }
     }

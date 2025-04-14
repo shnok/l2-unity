@@ -47,12 +47,12 @@ public class SkillTab : L2Tab
 
     private void ShowPassiveSkills(List<SkillWindowInfo> skills)
     {
-        List<SkillWindowInfo> equipmentSkills = new List<SkillWindowInfo>(5);
-        List<SkillWindowInfo> abilitySkills = new List<SkillWindowInfo>(6);
+        List<SkillWindowInfo> equipmentSkills = new List<SkillWindowInfo>();
+        List<SkillWindowInfo> abilitySkills = new List<SkillWindowInfo>();
         List<SkillWindowInfo> raceSkills = new List<SkillWindowInfo>();
         // List<SkillWindowInfo> occupationSkills = new List<SkillWindowInfo>(1); // should be for 3rd class + subclass
-        List<SkillWindowInfo> clanHeroMentoringSkills = new List<SkillWindowInfo>(5);
-        List<SkillWindowInfo> itemSkills = new List<SkillWindowInfo>(10);
+        List<SkillWindowInfo> clanHeroMentoringSkills = new List<SkillWindowInfo>();
+        List<SkillWindowInfo> itemSkills = new List<SkillWindowInfo>();
 
         for (var i = 0; i < skills.Count; i++)
         {
@@ -226,33 +226,44 @@ public class SkillTab : L2Tab
         Button btn = section.Q<Button>("PlusMinusBtn");
         btn.RegisterCallback<ClickEvent>(HandleSlotClick, TrickleDown.TrickleDown);
 
+        // for (var i = 0; i < skills.Count; ++i)
+        // {
+        //     VisualElement slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
+        //     SkillSlot skillSlot = new SkillSlot(i, slotElement, L2Slot.SlotType.Skill);
+        //     _skillSlots[skillSlotIx++] = skillSlot;
+        //     skillSlot.AssignSkill(skills[i]);
+        //     sectionContainer.Add(slotElement);
+        // }
+
+        // int rowLength = 6;
+        // int padSlot = 0;
+        // if (skills.Count < 8 * rowLength)
+        // {
+        //     padSlot = 8 * rowLength - skills.Count;
+        // }
+        // else if (skills.Count % rowLength != 0)
+        // {
+        //     padSlot = rowLength - skills.Count % rowLength;
+        // }
+
+        // for (int i = 0; i < padSlot; i++)
+        // {
+        //     VisualElement slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
+        //     slotElement.AddToClassList("skillbar-slot.empty");
+        //     // slotElement.AddToClassList("disabled");
+        //     sectionContainer.Add(slotElement);
+        // }
+        // return section;
+
+        L2SlotContainer basicSlotContainer = new L2SlotContainer();
+        basicSlotContainer.Initialize(sectionContainer, 6, 6);
+        basicSlotContainer.CreateSlots(skills.Count, L2Slot.SlotType.Skill);
+
         for (var i = 0; i < skills.Count; ++i)
         {
-            VisualElement slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
-            SkillSlot skillSlot = new SkillSlot(i, slotElement, L2Slot.SlotType.Skill);
-            _skillSlots[skillSlotIx++] = skillSlot;
-            skillSlot.AssignSkill(skills[i]);
-            sectionContainer.Add(slotElement);
+            basicSlotContainer.AssignSkill(i, skills[i]);
         }
 
-        int rowLength = 6;
-        int padSlot = 0;
-        if (skills.Count < 8 * rowLength)
-        {
-            padSlot = 8 * rowLength - skills.Count;
-        }
-        else if (skills.Count % rowLength != 0)
-        {
-            padSlot = rowLength - skills.Count % rowLength;
-        }
-
-        for (int i = 0; i < padSlot; i++)
-        {
-            VisualElement slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
-            slotElement.AddToClassList("skillbar-slot.empty");
-            // slotElement.AddToClassList("disabled");
-            sectionContainer.Add(slotElement);
-        }
         return section;
     }
 

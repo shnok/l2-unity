@@ -56,7 +56,7 @@ public class ShopSlotContainer : L2SlotContainer
             _items.Add(item);
         }
 
-        UpdateSlots(_items.Count, _slotType);
+        CreateSlots(_items.Count, _slotType);
 
         AssignItemsToSlots(_items);
         AssignProductsToSlots();
