@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 [System.Serializable]
@@ -10,9 +9,7 @@ public class SkillTab : L2Tab
     public enum SkillTabType { ACTIVE, PASSIVE }
 
     [SerializeField] private SkillTabType _tabType;
-    private SkillSlot[] _skillSlots;
     private VisualElement _contentContainer;
-    private short skillSlotIx;
 
     public override void Initialize(L2TabView tabView, VisualElement tabContainer, VisualElement tabHeader)
     {
@@ -22,25 +19,14 @@ public class SkillTab : L2Tab
 
     public void UpdateSkills(List<SkillWindowInfo>[] skills)
     {
-        if (_skillSlots != null)
-        {
-            foreach (SkillSlot slot in _skillSlots)
-            {
-                slot.UnregisterClickableCallback();
-                slot.ClearManipulators();
-            }
-        }
-
-        skillSlotIx = 0;
         _contentContainer.Clear();
+
         if (_tabType == SkillTabType.PASSIVE)
         {
-            _skillSlots = new SkillSlot[skills[1].Count];
             ShowPassiveSkills(skills[1]);
         }
         else if (_tabType == SkillTabType.ACTIVE)
         {
-            _skillSlots = new SkillSlot[skills[0].Count];
             ShowActiveSkills(skills[0]);
         }
     }
@@ -83,31 +69,31 @@ public class SkillTab : L2Tab
 
         if (equipmentSkills.Any())
         {
-            VisualElement section = AddSection(equipmentSkills, "Equipment Skills");
+            VisualElement section = AddSection(equipmentSkills, SysStringTable.Instance.GetSysString(1702).Name);
             _contentContainer.Add(section);
         }
 
         if (abilitySkills.Any())
         {
-            VisualElement section = AddSection(abilitySkills, "Ability Skills");
+            VisualElement section = AddSection(abilitySkills, SysStringTable.Instance.GetSysString(1703).Name);
             _contentContainer.Add(section);
         }
 
         if (clanHeroMentoringSkills.Any())
         {
-            VisualElement section = AddSection(clanHeroMentoringSkills, "Clan/Hero/Mentoring Skills");
+            VisualElement section = AddSection(clanHeroMentoringSkills, SysStringTable.Instance.GetSysString(1699).Name);
             _contentContainer.Add(section);
         }
 
         if (itemSkills.Any())
         {
-            VisualElement section = AddSection(itemSkills, "Item Skills");
+            VisualElement section = AddSection(itemSkills, SysStringTable.Instance.GetSysString(1700).Name);
             _contentContainer.Add(section);
         }
 
         if (raceSkills.Any())
         {
-            VisualElement section = AddSection(raceSkills, "Race Skills");
+            VisualElement section = AddSection(raceSkills, SysStringTable.Instance.GetSysString(1704).Name);
             _contentContainer.Add(section);
         }
     }
@@ -174,42 +160,42 @@ public class SkillTab : L2Tab
 
         if (physicalSkills.Any())
         {
-            VisualElement section = AddSection(physicalSkills, "Physical Skills");
+            VisualElement section = AddSection(physicalSkills, SysStringTable.Instance.GetSysString(1694).Name);
             _contentContainer.Add(section);
         }
         if (magicSkills.Any())
         {
-            VisualElement section = AddSection(magicSkills, "Magical Skills");
+            VisualElement section = AddSection(magicSkills, SysStringTable.Instance.GetSysString(1695).Name);
             _contentContainer.Add(section);
         }
         if (reinforcementSkills.Any())
         {
-            VisualElement section = AddSection(reinforcementSkills, "Reinforcement Skills");
+            VisualElement section = AddSection(reinforcementSkills, SysStringTable.Instance.GetSysString(1696).Name);
             _contentContainer.Add(section);
         }
         if (weakenSkills.Any())
         {
-            VisualElement section = AddSection(weakenSkills, "Weaken Skills");
+            VisualElement section = AddSection(weakenSkills, SysStringTable.Instance.GetSysString(1697).Name);
             _contentContainer.Add(section);
         }
         if (clanHeroMentoringSkills.Any())
         {
-            VisualElement section = AddSection(clanHeroMentoringSkills, "Clan/Hero/Mentoring Skills");
+            VisualElement section = AddSection(clanHeroMentoringSkills, SysStringTable.Instance.GetSysString(1699).Name);
             _contentContainer.Add(section);
         }
         if (itemSkills.Any())
         {
-            VisualElement section = AddSection(itemSkills, "Item Skills");
+            VisualElement section = AddSection(itemSkills, SysStringTable.Instance.GetSysString(1700).Name);
             _contentContainer.Add(section);
         }
         if (toggleSkills.Any())
         {
-            VisualElement section = AddSection(toggleSkills, "Toggle Skills");
+            VisualElement section = AddSection(toggleSkills, SysStringTable.Instance.GetSysString(1698).Name);
             _contentContainer.Add(section);
         }
         if (transformSkills.Any())
         {
-            VisualElement section = AddSection(transformSkills, "Transform Skills");
+            VisualElement section = AddSection(transformSkills, SysStringTable.Instance.GetSysString(1701).Name);
             _contentContainer.Add(section);
         }
     }
@@ -220,40 +206,9 @@ public class SkillTab : L2Tab
         section.Q<Label>("SkillsSectionHeaderLabel").text = name;
         VisualElement sectionContainer = section.Q<VisualElement>("SkillsSectionBarContainer");
 
-        //TODO: Use L2SlotContainers
-
         // maybe use onclick on whole header
         Button btn = section.Q<Button>("PlusMinusBtn");
         btn.RegisterCallback<ClickEvent>(HandleSlotClick, TrickleDown.TrickleDown);
-
-        // for (var i = 0; i < skills.Count; ++i)
-        // {
-        //     VisualElement slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
-        //     SkillSlot skillSlot = new SkillSlot(i, slotElement, L2Slot.SlotType.Skill);
-        //     _skillSlots[skillSlotIx++] = skillSlot;
-        //     skillSlot.AssignSkill(skills[i]);
-        //     sectionContainer.Add(slotElement);
-        // }
-
-        // int rowLength = 6;
-        // int padSlot = 0;
-        // if (skills.Count < 8 * rowLength)
-        // {
-        //     padSlot = 8 * rowLength - skills.Count;
-        // }
-        // else if (skills.Count % rowLength != 0)
-        // {
-        //     padSlot = rowLength - skills.Count % rowLength;
-        // }
-
-        // for (int i = 0; i < padSlot; i++)
-        // {
-        //     VisualElement slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
-        //     slotElement.AddToClassList("skillbar-slot.empty");
-        //     // slotElement.AddToClassList("disabled");
-        //     sectionContainer.Add(slotElement);
-        // }
-        // return section;
 
         L2SlotContainer basicSlotContainer = new L2SlotContainer();
         basicSlotContainer.Initialize(sectionContainer, 6, 6);
@@ -262,15 +217,10 @@ public class SkillTab : L2Tab
         for (var i = 0; i < skills.Count; ++i)
         {
             basicSlotContainer.AssignSkill(i, skills[i]);
+            SkillWindow.Instance.AddSlot(basicSlotContainer.Slots[i]);
         }
 
         return section;
-    }
-
-    public override void SelectSlot(int slotPosition)
-    {
-        // use skill
-
     }
 
     private void HandleSlotClick(ClickEvent evt)

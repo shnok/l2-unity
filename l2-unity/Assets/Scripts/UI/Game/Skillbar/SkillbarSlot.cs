@@ -2,22 +2,17 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class SkillbarSlot : L2ClickableSlot
+public class SkillbarSlot : SkillSlot
 {
-    private ButtonClickSoundManipulator _buttonClickSoundManipulator;
     private L2Slot _innerSlot;
     private Shortcut _shortcut;
     private int _skillbarId;
     private int _slot;
     private VisualElement _keyElement;
-    private bool _toggled;
-    public float CooldownStartTime { get; set; }
-    public float CooldownEndTime { get; set; }
 
-    public bool Toggled { get => _toggled; set => _toggled = value; }
     public int Slot { get => _slot; }
 
-    public SkillbarSlot(VisualElement slotElement, int position, int skillbarId, int slot) : base(slotElement, position, SlotType.SkillBar, true, false)
+    public SkillbarSlot(VisualElement slotElement, int position, int skillbarId, int slot) : base(position, slotElement, SlotType.SkillBar)
     {
         _slotElement = slotElement;
         _position = position;
@@ -61,6 +56,8 @@ public class SkillbarSlot : L2ClickableSlot
         ((InventorySlot)_innerSlot).AssignItem(item);
         ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
 
+        _slotAnimationManipulator = new SlotAnimationManipulator(_slotEffect, this);
+
         UpdateInputInfo();
 
         if (PlayerShortcuts.Instance.IsItemToggled(item.ItemId))
@@ -91,15 +88,18 @@ public class SkillbarSlot : L2ClickableSlot
         SkillWindowInfo skill = new SkillWindowInfo(skillId, level);
         if (skill.IsPassiveSkill()) return;
 
+        _slotAnimationManipulator = new SlotAnimationManipulator(_slotEffect, this);
+
         _innerSlot = new SkillSlot(_position, _slotElement, SlotType.SkillBar);
         ((SkillSlot)_innerSlot).AssignSkill(skill);
         ((L2ClickableSlot)_innerSlot).UnregisterClickableCallback();
 
-        SkillInfo skillInfo = PlayerSkill.Instance.GetSkillInfo(skillId);
-        if (skillInfo.IsSkillOnCooldown)
+        _skillInfo = PlayerSkill.Instance.GetSkillInfo(skillId);
+
+        if (_skillInfo.IsSkillOnCooldown)
         {
-            CooldownStartTime = skillInfo.CooldownStartTime;
-            CooldownEndTime = skillInfo.CooldownEndTime;
+            // CooldownStartTime = skillInfo.CooldownStartTime;
+            // CooldownEndTime = skillInfo.CooldownEndTime;
             SkillbarWindow.Instance.AddSkillOnCooldown(this);
         }
 
@@ -124,12 +124,6 @@ public class SkillbarSlot : L2ClickableSlot
     public override void ClearManipulators()
     {
         base.ClearManipulators();
-
-        if (_buttonClickSoundManipulator != null)
-        {
-            _slotElement.RemoveManipulator(_buttonClickSoundManipulator);
-            _buttonClickSoundManipulator = null;
-        }
     }
 
     protected override void HandleLeftClick()

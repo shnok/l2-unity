@@ -100,32 +100,38 @@ public class L2SlotContainer : L2Scrollable
     {
         for (int i = 0; i < slotCount; i++)
         {
-            VisualElement slotElement = L2SlotManager.Instance.InventorySlotTemplate.Instantiate()[0];
-            _slotContainerElement.Add(slotElement);
-            L2Slot slot = null;
+            VisualElement slotElement;
+            L2Slot slot;
 
             switch (slotType)
             {
                 case L2Slot.SlotType.Inventory:
                 case L2Slot.SlotType.InventoryBis:
+                    slotElement = L2SlotManager.Instance.InventorySlotTemplate.Instantiate()[0];
                     slot = new InventorySlot(i, slotElement, this, slotType);
                     break;
                 case L2Slot.SlotType.Action:
+                    slotElement = L2SlotManager.Instance.ActionSlotTemplate.Instantiate()[0];
                     slot = new ActionSlot(slotElement, i, slotType);
                     break;
                 case L2Slot.SlotType.Product:
+                    slotElement = L2SlotManager.Instance.ShopSlotTemplate.Instantiate()[0];
                     slot = new ProductSlot(i, slotElement, this, slotType);
                     break;
                 case L2Slot.SlotType.Basket:
+                    slotElement = L2SlotManager.Instance.ShopSlotTemplate.Instantiate()[0];
                     slot = new BasketSlot(i, slotElement, this, slotType);
                     break;
                 case L2Slot.SlotType.Skill:
+                    slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
                     slot = new SkillSlot(i, slotElement, slotType);
                     break;
                 default:
                     Debug.LogWarning("Invalid slot type assigned to slot container!");
-                    break;
+                    continue;
             }
+
+            _slotContainerElement.Add(slotElement);
 
             _slots[i] = slot;
         }

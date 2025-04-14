@@ -8,7 +8,6 @@ public class PlayerSkill : MonoBehaviour
     private static PlayerSkill _instance;
     public static PlayerSkill Instance => _instance;
     private Dictionary<int, SkillInfo> _skills;
-    private (int SkillId, int Lvl, int SpCost)? _skillToLearn;
 
     public bool Initialized { get; private set; }
 
@@ -39,21 +38,6 @@ public class PlayerSkill : MonoBehaviour
         SkillWindow.Instance.SetSkills(GetSkillsForWindow());
     }
 
-    // public Skill[] GetSkills()
-    // {
-    //     if (_skills == null) return Array.Empty<Skill>();
-
-    //     Skill[] skillDetails = new Skill[_skills.Count];
-    //     for (var i = 0; i < _skills.Count; i++)
-    //     {
-    //         Skill skill = SkillTable.Instance.GetSkill(_skills[i].Id);
-    //         skillDetails[i] = skill;
-    //     }
-
-    //     Initialized = true;
-    //     return skillDetails;
-    // }
-
     public SkillInfo GetSkillInfo(int skillId)
     {
         if (_skills == null)
@@ -67,6 +51,16 @@ public class PlayerSkill : MonoBehaviour
         }
 
         return null;
+    }
+
+    public List<SkillInfo> GetAllSkills()
+    {
+        if (_skills == null)
+        {
+            return new List<SkillInfo>();
+        }
+
+        return _skills.Values.ToList();
     }
 
     public List<SkillWindowInfo>[] GetSkillsForWindow()

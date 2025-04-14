@@ -16,6 +16,8 @@ public class SkillWindow : L2PopupWindow
     private SkillTab _activeTab;
 
     [SerializeField] private SkillTab[] _tabs;
+    [SerializeField] private List<SkillSlot> _slots;
+    private Coroutine _slotAnimationCoroutine;
     private L2TabView _l2TabView;
     private static SkillWindow _instance;
     public static SkillWindow Instance => _instance;
@@ -34,6 +36,7 @@ public class SkillWindow : L2PopupWindow
 
     private void OnDestroy()
     {
+        if (_slotAnimationCoroutine != null) StopCoroutine(_slotAnimationCoroutine);
         _instance = null;
     }
 
@@ -56,21 +59,26 @@ public class SkillWindow : L2PopupWindow
 
         RegisterCloseWindowEvent("btn-close-frame");
         RegisterClickWindowEvent(_windowEle, dragArea);
+
+        _slots = new List<SkillSlot>();
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
     {
         InitWindow(root);
 
-        _windowEle.style.left = new Length(50, LengthUnit.Percent);
-        _windowEle.style.top = new Length(50, LengthUnit.Percent);
-        _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
+        CenterWindow();
+        // _windowEle.style.left = new Length(50, LengthUnit.Percent);
+        // _windowEle.style.top = new Length(50, LengthUnit.Percent);
+        // _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
 
         CreateTabs();
 
         yield return new WaitForEndOfFrame();
 
         L2GameUI.Instance.WindowLoadComplete();
+
+        _slotAnimationCoroutine = StartCoroutine(PlayAnimations());
     }
 
     public override void ToggleHideWindow()
@@ -91,6 +99,8 @@ public class SkillWindow : L2PopupWindow
 
     public void SetSkills(List<SkillWindowInfo>[] skills)
     {
+        _slots.Clear();
+
         if (skills == null)
         {
             skills = Array.Empty<List<SkillWindowInfo>>();
@@ -130,5 +140,33 @@ public class SkillWindow : L2PopupWindow
 
         _l2TabView = new L2TabView();
         _l2TabView.Initialize(_skillsTabView, _tabs, _tabTemplate, _tabHeaderTemplate, true);
+    }
+
+    private IEnumerator PlayAnimations()
+    {
+        while (true)
+        {
+            if (!_isWindowHidden)
+            {
+                float now = Time.time;
+
+                foreach (SkillSlot slot in _slots)
+                {
+                    if (slot.SkillInfo.IsPassive)
+                    {
+                        continue;
+                    }
+
+                    slot.SlotAnimationManipulator.AnimateCoolTime(now);
+                }
+            }
+
+            yield return new WaitForSeconds(1 / 30f); // 30 fps
+        }
+    }
+
+    public void AddSlot(L2Slot l2Slot)
+    {
+        _slots.Add((SkillSlot)l2Slot);
     }
 }
