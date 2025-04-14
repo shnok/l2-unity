@@ -170,6 +170,18 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.MagicSkillLaunched:
                 OnSkillLaunched(data);
                 break;
+            case GameServerPacketType.ShortBuffStatusUpdate:
+                OnShortBuffStatusUpdate(data);
+                break;
+            case GameServerPacketType.AbnormalStatusUpdate:
+                OnAbnormalStatusUpdate(data);
+                break;
+            case GameServerPacketType.PartyEffect:
+                OnPartyEffect(data);
+                break;
+            case GameServerPacketType.EtcStatusUpdate:
+                OnEtcStatusUpdate(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -564,6 +576,7 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnExAutoSoulshot(byte[] data)
     {
+        // TODO: manage different 0xfe packets if we use them
         ExAutoSoulshotPacket packet = new ExAutoSoulshotPacket(data);
         WorldCombat.Instance.ExAutoSoulshotReceived(packet.ItemId, packet.Enable);
     }
@@ -652,5 +665,31 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         MagicSkillLaunchedPacked packet = new MagicSkillLaunchedPacked(data);
         WorldCombat.Instance.OnMagicSkillLaunched(packet);
+    }
+    
+    private void OnShortBuffStatusUpdate(byte[] data)
+    {
+        ShortBuffStatusUpdatePacket packet = new ShortBuffStatusUpdatePacket(data);
+        BuffWindow.Instance.UpsertBuff(packet.SkillId, packet.SkillLvl, packet.Duration);
+    }
+    
+    private void OnAbnormalStatusUpdate(byte[] data)
+    {
+        AbnormalStatusUpdatePacket packet = new AbnormalStatusUpdatePacket(data);
+        _eventProcessor.QueueEvent(() => BuffWindow.Instance.UpsertPlayerBuffs(packet.Effects));
+    }
+    
+    private void OnPartyEffect(byte[] data)
+    {
+        PartyEffectPacket packet = new PartyEffectPacket(data);
+        _eventProcessor.QueueEvent(() => BuffWindow.Instance.UpsertBuffs(packet.ObjectId, packet.Type, packet.Effects));
+    }
+    
+    private void OnEtcStatusUpdate(byte[] data)
+    {
+        EtcStatusUpdatePacket packet = new EtcStatusUpdatePacket(data);
+        _eventProcessor.QueueEvent(() => BuffWindow.Instance.UpsertPlayerStatus(
+            new PlayerBuffStatus(packet.Charges, packet.WeightPenalty, packet.IsBlockingAllPlayers, 
+                packet.IsInsideDangerZone, packet.HasPenalty, packet.HasCharmOfCourage, packet.DeathPenaltyLvl)));
     }
 }

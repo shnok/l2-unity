@@ -107,7 +107,7 @@ public class SkillgrpTable
                             skillGrp.MagicType = int.Parse(value);
                             break;
                         case "operate_type":
-                            skillGrp.OperateType = int.Parse(value);
+                            skillGrp.OperateType = Enum.Parse<SkillOperateType>(value, true);
                             break;
                         case "mp_consume":
                             skillGrp.MpConsume = int.Parse(value);

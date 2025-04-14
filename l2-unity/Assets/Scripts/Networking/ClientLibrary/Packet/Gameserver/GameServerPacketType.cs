@@ -46,12 +46,16 @@ public enum GameServerPacketType : int
     SetupGauge = 0x6d,
     MagicSkillLaunched = 0x76,
     LeaveWorld = 0x7e,
+    AbnormalStatusUpdate = 0x7f,
     AcquireSkillList = 0x8a,
     AcquireSkillInfo = 0x8b,
     AcquireSkillDone = 0x8e,
     MyTargetSet = 0xA6,
     ObjectMoveDirection = 0xC6,
     RelationChanged = 0xCE,
+    PartyEffect = 0xee,
+    EtcStatusUpdate = 0xF3,
+    ShortBuffStatusUpdate = 0xF4,
     ExAutoSoulshot = 0xFE,
 
 

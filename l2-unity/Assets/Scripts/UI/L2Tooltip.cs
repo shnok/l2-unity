@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Globalization;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,6 +11,7 @@ public class L2ToolTip : L2PopupWindow
 
     private VisualElement _skillTooltip;
     private VisualElement _labelTooltip;
+    private VisualElement _effectTooltip;
     private VisualElement _value;
     private VisualElement _tooltipTarget;
     private Coroutine _updateStyleCoroutine;
@@ -47,6 +50,7 @@ public class L2ToolTip : L2PopupWindow
         _value = GetElementById("Content");
         _skillTooltip = GetElementById("SkillTooltip");
         _labelTooltip = GetElementById("LabelTooltip");
+        _effectTooltip = GetElementById("EffectTooltip");
     }
 
     public void UpdateTooltip<T>(L2Slot.SlotType type, T value, VisualElement target)
@@ -64,10 +68,21 @@ public class L2ToolTip : L2PopupWindow
                 AddSkillTooltip(val);
                 _skillTooltip.style.display = DisplayStyle.Flex;
                 _labelTooltip.style.display = DisplayStyle.None;
+                _effectTooltip.style.display = DisplayStyle.None;
                 break;
                 
+            case L2Slot.SlotType.Effect:
+                Buff effect = value as Buff;
+                if (effect is null) break;
+                AddEffectTooltip(effect);
+                _skillTooltip.style.display = DisplayStyle.None;
+                _labelTooltip.style.display = DisplayStyle.None;
+                _effectTooltip.style.display = DisplayStyle.Flex;
+                break;
+
             default:
                 _skillTooltip.style.display = DisplayStyle.None;
+                _effectTooltip.style.display = DisplayStyle.None;
                 
                 string stringVal;
                 if (value is SkillWindowInfo info)
@@ -109,9 +124,14 @@ public class L2ToolTip : L2PopupWindow
             
             yield return new WaitForEndOfFrame();
 
-            _windowEle.style.left = target.worldBound.x;
-            _windowEle.style.top = target.worldBound.y - _windowEle.resolvedStyle.height;
+            int margin = 5;
+            float leftPos = Math.Min(target.worldBound.x, Math.Max(Screen.width - _windowEle.resolvedStyle.width, 0));
+            float topPosUp = Math.Max(target.worldBound.y - _windowEle.resolvedStyle.height - margin, 0);
+            float topPosDown = target.worldBound.y + target.resolvedStyle.height + margin;
+            float topPos = (target.worldBound.y >= _windowEle.resolvedStyle.height + margin) ? topPosUp : topPosDown;
 
+            _windowEle.style.left = leftPos;
+            _windowEle.style.top = topPos;
             _windowEle.style.opacity = 1;
         }
     }
@@ -178,5 +198,37 @@ public class L2ToolTip : L2PopupWindow
             GetLabelById("SkillTooltipReuseTimeValue").text = skill.ReuseDelay.ToString(CultureInfo.InvariantCulture);
             GetElementById("SkillTooltipReuseTime").style.display = DisplayStyle.Flex;
         }
+    }
+
+    public void AddEffectTooltip(Buff effect)
+    {
+        GetLabelById("EffectTooltipName").text = effect.Name;
+        GetLabelById("EffectTooltipLevelValue").text = effect.Level.ToString();
+        Label durationLabel = GetLabelById("EffectTooltipDurationValue");
+        if (effect.Duration == -1)
+        {
+            durationLabel.style.display = DisplayStyle.None;
+        }
+        else 
+        {
+            int duration = (int)effect.StartTime + effect.Duration - (int)Time.unscaledTime;
+            double hours = duration * 0.00027777778f;
+            double remainderAfterHours = duration - ((int)hours * 3600);
+            double minutes = Math.Floor(remainderAfterHours * 0.0166666667f);
+            double seconds = duration - ((int)hours * 3600) - (minutes * 60);
+            StringBuilder durationStr = new();
+            if ((int)hours > 0) {
+                durationStr.Append((int)hours);
+                durationStr.Append("h ");
+            }
+            if ((int)minutes > 0) {
+                durationStr.Append((int)minutes);
+                durationStr.Append("m ");
+            }
+            durationStr.Append((int)seconds);
+            durationStr.Append("s");
+            durationLabel.text = durationStr.ToString();
+        }
+        GetLabelById("EffectTooltipDescription").text = effect.Description;
     }
 }
