@@ -80,6 +80,9 @@ public class SkillState : StateBase
                     _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO); //not giving an argument will use last position as destination
                 }
                 break;
+            case Event.ACTION_DENIED:
+                Debug.Log("Failed to cancel cast.");
+                break;
             case Event.DEAD:
                 _stateMachine.ChangeState(PlayerState.DEAD);
                 break;

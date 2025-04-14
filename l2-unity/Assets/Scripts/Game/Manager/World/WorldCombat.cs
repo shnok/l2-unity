@@ -250,7 +250,7 @@ public class WorldCombat : MonoBehaviour
         {
             if (id == PlayerEntity.Instance.Identity.Id)
             {
-                TargetManager.Instance.ClearTarget();
+                TargetManager.Instance.ClearTarget(false);
             }
 
             e.Combat.TargetId = -1;

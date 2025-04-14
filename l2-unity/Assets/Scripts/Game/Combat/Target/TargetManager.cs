@@ -224,11 +224,19 @@ public class TargetManager : MonoBehaviour
 
     public void ClearTarget()
     {
+        ClearTarget(true);
+    }
+
+    public void ClearTarget(bool request)
+    {
         if (HasTarget())
         {
             if (PlayerCombat.Instance.TargetId != -1)
             {
-                GameClient.Instance.ClientPacketHandler.SendRequestCancel(false);
+                if (request)
+                {
+                    GameClient.Instance.ClientPacketHandler.SendRequestCancel(false);
+                }
                 PlayerCombat.Instance.TargetId = -1;
                 PlayerCombat.Instance.Target = null;
             }
