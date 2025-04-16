@@ -84,6 +84,7 @@ public abstract class Entity : MonoBehaviour
         _stats.PAtkSpd = pAtkSpd;
 
         float stat = StatsConverter.Instance.ConvertStat(Stat.PHYS_ATTACK_SPEED, pAtkSpd);
+
         AnimationController.SetPAtkSpd(stat);
 
         return stat;

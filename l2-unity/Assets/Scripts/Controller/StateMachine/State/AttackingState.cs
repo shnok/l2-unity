@@ -49,6 +49,9 @@ public class AttackingState : StateBase
     {
         switch (evt)
         {
+            case Event.ATTACK_ALLOWED:
+                NewPlayerAnimationController.Instance.Attack();
+                break;
             case Event.CLICK_TO_MOVE:
                 _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, (Vector3)arg0);
                 break;

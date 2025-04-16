@@ -102,6 +102,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Attack()
     {
+        Debug.LogWarning(transform.name + " Attack");
         _lastAnimationType = HumanoidWeaponAnimType.other;
         _atkAnimIndex = 0;
         PlayAttackAnimation();
@@ -144,6 +145,17 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     private void PlayAttackAnimation()
     {
+        // Clear previous event to avoid calling Wait at the 
+        // end of the previous animation if a new attack packet was received
+        // if (_animancerState != null && _animancerState.HasEvents)
+        // {
+        //     // _animancerState.Destroy();
+        //     // AnimancerEvent.Sequence events = _animancerState.OwnedEvents;
+        //     // events.OnEnd = null;
+        //     // Debug.LogWarning(transform.name + " Clearing OnEnd event.");
+        // }
+        _atkAnimancerState?.Destroy();
+
         HumanoidAnimationAtkEvent toPlay;
         switch (_weaponAnim)
         {
@@ -169,13 +181,13 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 break;
         }
 
+        _lastAnimationType = HumanoidWeaponAnimType.atk;
         if (PlayAnimation(AnimationCategory.Atk, (int)toPlay + _atkAnimIndex))
         {
             UpdateAttackAnimationSpeed(_lastPlayedClipDuration, _atkSpd);
 
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (_atkAnimancerState.Events(null, out AnimancerEvent.Sequence events))
             {
-
                 if (_weaponAnim == WeaponAnimType.bow)
                 {
                     events.Add(_nockArrowRatio, () =>
@@ -194,10 +206,15 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 {
                     events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
                 }
-                events.OnEnd = NextAttack;
+
+                Debug.LogWarning(transform.name + " Setting OnEnd event.");
+                events.OnEnd = (() =>
+                {
+                    Wait();
+                });
             }
 
-            _animancerState.EffectiveSpeed = _atkSpdMultiplier;
+            _atkAnimancerState.EffectiveSpeed = _atkSpdMultiplier;
         }
     }
 
@@ -285,6 +302,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Wait()
     {
+        Debug.LogWarning(transform.name + " Wait");
         if (AtkWait())
         {
             return;
@@ -392,6 +410,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Die()
     {
+        _attacking = false;
         _lastAnimationType = HumanoidWeaponAnimType.other;
         if (PlayAnimation((int)HumanoidAnimationDefaultEvent.death))
         {

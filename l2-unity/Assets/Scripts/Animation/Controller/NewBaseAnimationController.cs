@@ -22,8 +22,10 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     [Header("Bow")]
     [SerializeField] protected float _nockArrowRatio = 0.2f;
     [SerializeField] protected float _shootArrowRatio = 0.6f;
+    protected bool _attacking = false;
 
     protected AnimancerState _animancerState;
+    protected AnimancerState _atkAnimancerState;
     public float PAtkSpd { get => _atkSpd; }
 
     public virtual void Initialize()
@@ -64,7 +66,14 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
         _lastPlayedClipDuration = clip.length;
 
-        _animancerState = _animancer.Play(clip, _fadeDuration);
+        if (animationCategory == AnimationCategory.Atk)
+        {
+            _atkAnimancerState = _animancer.Play(clip, _fadeDuration);
+        }
+        else
+        {
+            _animancerState = _animancer.Play(clip, _fadeDuration);
+        }
 
         return true;
     }
@@ -85,13 +94,19 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
     public virtual void SetPAtkSpd(float value)
     {
+        Debug.LogWarning("Updating entity attack speed: " + value);
+
         _atkSpd = value;
         UpdateAttackAnimationSpeed(_lastPlayedClipDuration, value);
+
+        Debug.LogWarning("New atk speed multiplier: " + _atkSpdMultiplier);
+
     }
 
     public virtual void UpdateAttackAnimationSpeed(float clipLength, float patkspd)
     {
-        float newAtkSpd = clipLength * 1000f / patkspd;
+        float buffer = 0.1f; // make the animation slightly faster than server to avoid issues when ping is 0
+        float newAtkSpd = (clipLength + _fadeDuration + buffer) * 1000f / patkspd;
         _atkSpdMultiplier = newAtkSpd;
     }
 

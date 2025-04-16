@@ -7,7 +7,9 @@ public class IdleState : StateBase
 
     public override void Enter(object wasCanceled)
     {
-        if (NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.cast_throw || NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.cast)
+        if (NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.cast_throw
+        || NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.cast
+        || NewPlayerAnimationController.Instance.LastAnimationType == HumanoidWeaponAnimType.atk)
         {
             if (wasCanceled == null || (bool)wasCanceled == false)
             {

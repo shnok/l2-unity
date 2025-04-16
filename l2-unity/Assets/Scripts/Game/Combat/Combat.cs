@@ -32,7 +32,7 @@ public abstract class Combat : MonoBehaviour
     public int TargetId { get => _targetId; set => _targetId = value; }
     public Entity Target { get => _target; set => _target = value; }
     public Entity AttackTarget { get => _attackTarget; set => _attackTarget = value; }
-    public float AttackEndTime { get => _attackEndTime; }
+    // public float AttackEndTime { get => _attackEndTime; }
     public long CombatTimestamp { get => _combatTimestamp; }
     protected Status Status { get => _referenceHolder.Entity.Status; }
     public Skill LastSkill { get => _lastSkill; }
@@ -143,7 +143,7 @@ public abstract class Combat : MonoBehaviour
 
         _hitTime = hitTime;
         _hitSuccess = hitSuccess;
-        _attackEndTime = atkEndTime;
+        // _attackEndTime = atkEndTime;
 
         SetAttackTarget(attackTarget);
 

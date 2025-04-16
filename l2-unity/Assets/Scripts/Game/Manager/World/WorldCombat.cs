@@ -300,19 +300,24 @@ public class WorldCombat : MonoBehaviour
             //TODO: Handle AOE
             hit.Attacker = senderEntity;
             hit.Target = targetEntity;
-            float atkEndTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f;
 
-            if (senderEntity.Gear.WeaponType == WeaponType.bow)
-            {
-                float timeToReachTarget = CalculateTimeToHitTarget(senderEntity, targetEntity);
-                float shootTime = senderEntity.AnimationController.PAtkSpd / 1000f * 0.65f;
-                hit.HitTime = Time.time + shootTime + timeToReachTarget;
-            }
-            else
-            {
-                //TODO: Maybe change hit time based on other weapon types
-                hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
-            }
+
+            // float atkEndTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f;
+            float atkEndTime = 0;
+
+            // if (senderEntity.Gear.WeaponType == WeaponType.bow)
+            // {
+            //     float timeToReachTarget = CalculateTimeToHitTarget(senderEntity, targetEntity);
+            //     float shootTime = senderEntity.AnimationController.PAtkSpd / 1000f * 0.65f;
+            //     hit.HitTime = Time.time + shootTime + timeToReachTarget;
+            // }
+            // else
+            // {
+            //     //TODO: Maybe change hit time based on other weapon types
+            //     hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
+            // }
+
+            hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
 
             _hits.Add(hit);
 
@@ -329,7 +334,7 @@ public class WorldCombat : MonoBehaviour
                     referenceHolder.Combat.AttackTarget = targetEntity;
                 }
 
-                Debug.Log("Attacker position: " + attackerPosition);
+                // Debug.Log("Attacker position: " + attackerPosition);
                 referenceHolder.NetworkTransformReceive.SetNewPosition(attackerPosition, false);
 
                 // User destination does not matter, only move direction does
