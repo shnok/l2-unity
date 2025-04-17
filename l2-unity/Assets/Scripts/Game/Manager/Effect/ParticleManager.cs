@@ -295,6 +295,19 @@ public class ParticleManager : MonoBehaviour
         return Mathf.Clamp(ratio, 0.5f, 3f);
     }
 
+    private float CalculateHitParticleSizeRatio(Entity target)
+    {
+        float colHeight = target.Appearance.CollisionHeight;
+        /*
+        a_common_people_FElf_m00  			rad: 7 				height: 0.485		ratio: 1.25
+        gremlin					  			rad: 10 			height: 0.285		ratio: 1		
+        a_smith_MDwarf_m00  				rad: 7 				height: 0.314		ratio: ?
+        */
+        float ratio = 1.25f * colHeight + 0.64375f;
+        ratio *= 1.1f;
+        return Mathf.Clamp(ratio, 0.5f, 3f);
+    }
+
     public void SpawnSkillShotParticle(Entity caster, Entity target, Skill skill, float hitTime)
     {
         List<EffectEmitter> shotActions = skill.SkillEffect.ShotActions;
@@ -325,7 +338,8 @@ public class ParticleManager : MonoBehaviour
             effect.Target = target;
             effect.Caster = caster;
 
-            if (action.SpawnOnTarget && !action.ChargedArrow)
+            if ((action.SpawnOnTarget || skill.Skillgrps[0].IconType == SkillIconType.Physical) && !action.ChargedArrow) //To verify
+                                                                                                                         // SpawnOnTarget value is inconsistent
             {
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
@@ -336,7 +350,7 @@ public class ParticleManager : MonoBehaviour
             {
                 effect.HitSuccess = true;
                 effect.HitTime = hitTime;
-                effect.EffectDurationSec = hitTime - Time.time;
+                effect.EffectDurationSec = Mathf.Max(0.5f, hitTime - Time.time);
 
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
@@ -534,13 +548,13 @@ public class ParticleManager : MonoBehaviour
 
     private void PlaceHitParticle(PooledEffect effect, Entity attacker, Entity target)
     {
-        // Debug.LogWarning("PlaceHitParticle!");
+        Debug.LogWarning("PlaceHitParticle!");
         effect.GameObject.SetActive(true);
         effect.StartTime = Time.time;
         effect.GameObject.transform.position = CalculateHitParticlePosition(attacker, target);
         effect.GameObject.transform.LookAt(attacker.transform);
         effect.GameObject.transform.eulerAngles = new Vector3(0, effect.GameObject.transform.eulerAngles.y - 90f, 0);
-        effect.GameObject.transform.localScale = Vector3.one * CalculateCastParticleSizeRatio(target);
+        effect.GameObject.transform.localScale = Vector3.one * CalculateHitParticleSizeRatio(target);
         effect.Restart();
     }
 
