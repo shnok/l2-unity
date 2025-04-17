@@ -344,7 +344,7 @@ public class ParticleManager : MonoBehaviour
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
 
-                PlaceHitParticle(effect, caster, target);
+                PlaceHitParticle(effect, caster, target, action);
             }
             else
             {
@@ -402,7 +402,7 @@ public class ParticleManager : MonoBehaviour
             effect.Target = target;
             effect.Caster = caster;
 
-            PlaceHitParticle(effect, caster, target);
+            PlaceHitParticle(effect, caster, target, action);
 
             ActiveEffects.Enqueue(effect);
         }
@@ -416,6 +416,7 @@ public class ParticleManager : MonoBehaviour
         {
             //X*=CollisionRadius, Y*=CollisionHeight, Z*=1
             effectTransform.localPosition += new Vector3(emitter.Offset.x, emitter.Offset.y * caster.Appearance.CollisionHeight, emitter.Offset.z * caster.Appearance.CollisionRadius);
+            Debug.LogWarning("UpdateSkillEffectTransform: " + emitter.Offset + " " + effectTransform.localPosition);
         }
         else if (attachMethod == AttachMethod.AM_TRAIL || attachMethod == AttachMethod.AM_NONE)
         {
@@ -511,12 +512,12 @@ public class ParticleManager : MonoBehaviour
         if (hit.hasSoulshot()) // Always spawn base hit particle with the soulshot particle
         {
             PooledEffect basecritParticle = SpawnSingleHitParticle(false, false, hit.getSsGrade());
-            PlaceHitParticle(basecritParticle, attacker, target);
+            PlaceHitParticle(basecritParticle, attacker, target, null);
             ActiveHitEffects.Enqueue(basecritParticle);
             basecritParticle.GameObject.transform.parent = _effectContainer.transform;
 
             PooledEffect hitParticle = SpawnSingleHitParticle(hit.isCrit(), true, hit.getSsGrade());
-            PlaceHitParticle(hitParticle, attacker, target);
+            PlaceHitParticle(hitParticle, attacker, target, null);
             ActiveHitEffects.Enqueue(hitParticle);
             hitParticle.GameObject.transform.parent = _effectContainer.transform;
         }
@@ -524,15 +525,24 @@ public class ParticleManager : MonoBehaviour
         {
             // Spawn default hit or crit particle 
             PooledEffect baseHitParticle = SpawnSingleHitParticle(hit.isCrit(), false, hit.getSsGrade());
-            PlaceHitParticle(baseHitParticle, attacker, target);
+            PlaceHitParticle(baseHitParticle, attacker, target, null);
             ActiveHitEffects.Enqueue(baseHitParticle);
             baseHitParticle.GameObject.transform.parent = _effectContainer.transform;
         }
     }
 
-    private Vector3 CalculateHitParticlePosition(Entity attacker, Entity target)
+    private Vector3 CalculateHitParticlePosition(Entity attacker, Entity target, EffectEmitter action)
     {
-        float particleHeight = target.Appearance.CollisionHeight * _hitHeightOffsetMultiplier;
+        float particleHeight;
+
+        if (action != null)
+        {
+            particleHeight = target.Appearance.CollisionHeight + target.Appearance.CollisionHeight * action.Offset.y;
+        }
+        else
+        {
+            particleHeight = target.Appearance.CollisionHeight * _hitHeightOffsetMultiplier;
+        }
 
         // var heading = attacker.transform.position - target.transform.position;
         // float angle = Vector3.Angle(heading, target.transform.forward);
@@ -546,15 +556,15 @@ public class ParticleManager : MonoBehaviour
         return position;
     }
 
-    private void PlaceHitParticle(PooledEffect effect, Entity attacker, Entity target)
+    private void PlaceHitParticle(PooledEffect effect, Entity attacker, Entity target, EffectEmitter action)
     {
         Debug.LogWarning("PlaceHitParticle!");
         effect.GameObject.SetActive(true);
         effect.StartTime = Time.time;
-        effect.GameObject.transform.position = CalculateHitParticlePosition(attacker, target);
+        effect.GameObject.transform.position = CalculateHitParticlePosition(attacker, target, action);
         effect.GameObject.transform.LookAt(attacker.transform);
         effect.GameObject.transform.eulerAngles = new Vector3(0, effect.GameObject.transform.eulerAngles.y - 90f, 0);
-        effect.GameObject.transform.localScale = Vector3.one * CalculateHitParticleSizeRatio(target);
+        effect.GameObject.transform.localScale = (action != null ? action.ScaleSize : 1) * CalculateHitParticleSizeRatio(target) * Vector3.one;
         effect.Restart();
     }
 
