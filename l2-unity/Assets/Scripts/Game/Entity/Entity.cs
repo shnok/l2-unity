@@ -72,6 +72,7 @@ public abstract class Entity : MonoBehaviour
     public virtual void OnStopMoving()
     {
         // Debug.LogWarning("On stop moving base");
+        AnimationController.Wait();
     }
 
     public virtual void OnStartMoving(bool walking)

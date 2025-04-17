@@ -41,6 +41,12 @@ public class MonsterAudioHandler : BaseAnimationAudioHandler
         AudioManager.Instance.PlayMonsterSound(soundEvent, _npcgrp.ClassName, transform.position);
     }
 
+    public void PlayAtkSound()
+    {
+        Debug.LogWarning("Monster Play atk sound");
+        PlaySound(EntitySoundEvent.Atk);
+    }
+
     public override void PlaySwishSound()
     {
         PlaySound(EntitySoundEvent.Swish);
