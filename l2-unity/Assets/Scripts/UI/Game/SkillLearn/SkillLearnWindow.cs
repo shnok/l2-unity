@@ -8,7 +8,7 @@ public class SkillLearnWindow : L2PopupWindow
 {
     private VisualElement _skillDetail;
     private VisualElement _spGroup;
-    
+
     private Label _skillDetailName;
     private VisualElement _skillDetailIcon;
     private Label _detailLevelValue;
@@ -77,10 +77,10 @@ public class SkillLearnWindow : L2PopupWindow
             _skillDetail = _skillDetailAsset.Instantiate()[0];
             _skillDetail.style.display = DisplayStyle.None;
             content.Add(_skillDetail);
-        
+
             _spGroup = _windowEle.Q<VisualElement>("UserSPGroup");
             _userSpValue = _windowEle.Q<Label>("UserSPValue");
-        
+
             TemplateContainer learn = _skillDetail.Q<TemplateContainer>("LearnButton");
             ButtonClickSoundManipulator buttonLearnSoundManipulator = new ButtonClickSoundManipulator(learn);
             learn.AddManipulator(buttonLearnSoundManipulator);
@@ -91,7 +91,7 @@ public class SkillLearnWindow : L2PopupWindow
                 _skillList?.RemoveSelectedFromList();
                 ToggleShowSkillDetail();
             }, TrickleDown.TrickleDown);
-        
+
             TemplateContainer cancel = _skillDetail.Q<TemplateContainer>("CancelButton");
             ButtonClickSoundManipulator buttonCancelSoundManipulator = new ButtonClickSoundManipulator(cancel);
             cancel.AddManipulator(buttonCancelSoundManipulator);
@@ -101,7 +101,7 @@ public class SkillLearnWindow : L2PopupWindow
                 _selectedSkill = null;
                 ToggleShowSkillDetail();
             }, TrickleDown.TrickleDown);
-        
+
             _skillDetailName = _skillDetail.Q<Label>("SkillDetailName");
             _skillDetailIcon = _skillDetail.Q<VisualElement>("SkillDetailIcon");
             _detailLevelValue = _skillDetail.Q<Label>("DetailLevelValue");
@@ -113,10 +113,10 @@ public class SkillLearnWindow : L2PopupWindow
             _detailRangeStats = _skillDetail.Q<VisualElement>("DetailRangeStats");
             _detailRangeValue = _skillDetail.Q<Label>("DetailRangeValue");
             _userSpDetailValue = _skillDetail.Q<Label>("UserSPValue");
-            
+
             ToggleHideWindow();
         }
-        
+
         _skillList = new L2ScrollableList<SkillWindowInfo>();
         _skillList.Initialize(_windowEle.Q<VisualElement>("ListView"), _skills, BindSkill, alternatingRowColor: true);
         _skillList.RemoveItem = RemoveSkill;
@@ -124,7 +124,7 @@ public class SkillLearnWindow : L2PopupWindow
         _userSpValue.text = playerSp.ToString();
         _userSpDetailValue.text = playerSp.ToString();
     }
-    
+
     protected override void InitWindow(VisualElement root)
     {
         base.InitWindow(root);
@@ -140,17 +140,17 @@ public class SkillLearnWindow : L2PopupWindow
     protected override IEnumerator BuildWindow(VisualElement root)
     {
         InitWindow(root);
-        
+
         yield return new WaitForEndOfFrame();
 
         L2GameUI.Instance.WindowLoadComplete();
     }
-    
+
     private void BindSkill(int index, out VisualElement item)
     {
         item = _skillItemAsset.Instantiate()[0];
         item?.RegisterCallback<PointerDownEvent>(_ => OnItemSelected(index));
-        
+
         StyleBackground background = new StyleBackground(IconTable.Instance.LoadTextureByName(_skills[index].Icon));
         VisualElement icon = item.Q<VisualElement>("SkillIcon");
         icon.style.backgroundImage = background;
@@ -161,7 +161,7 @@ public class SkillLearnWindow : L2PopupWindow
         levelLabel.text = _skills[index].Level.ToString();
         spCostLabel.text = _skills[index].SpCost.ToString();
     }
-    
+
     private void RemoveSkill(VisualElement item, int index)
     {
         item.UnregisterCallback<PointerDownEvent>(_ => OnItemSelected(index));
@@ -173,7 +173,7 @@ public class SkillLearnWindow : L2PopupWindow
         _selectedSkill = _skills[index];
         _skillList.SelectItem(index);
         GameClient.Instance.ClientPacketHandler.SendRequestAcquireSkillInfo(_selectedSkill.SkillId, _selectedSkill.Level, SkillType);
-        
+
         _skillDetailName.text = _selectedSkill.Name;
         _skillDetailIcon.style.backgroundImage = IconTable.Instance.LoadTextureByName(_selectedSkill.Icon);
         _detailLevelValue.text = _selectedSkill.Level.ToString();
@@ -181,9 +181,9 @@ public class SkillLearnWindow : L2PopupWindow
         _detailSpValue.text = _selectedSkill.SpCost.ToString();
         _userSpDetailValue.text = playerSp.ToString();
         _detailType.text = _selectedSkill.GetSkillType();
-        
-        if (_selectedSkill.Type is global::SkillType.Passive or global::SkillType.EquipmentPassive or 
-            global::SkillType.WeightLimit or global::SkillType.CraftAndItems)
+
+        if (_selectedSkill.Type is global::SkillIconType.Passive or global::SkillIconType.EquipmentPassive or
+            global::SkillIconType.WeightLimit or global::SkillIconType.CraftAndItems)
         {
             _detailRangeStats.style.display = DisplayStyle.None;
             _detailMpStats.style.display = DisplayStyle.None;
@@ -206,18 +206,18 @@ public class SkillLearnWindow : L2PopupWindow
         {
             SkillRequirement skillReq = _selectedSkill.SkillRequirement[i];
             VisualElement skillRequirementVisual = _skillRequirementAsset.Instantiate()[0];
-            
+
             skillRequirementVisual.Q<Label>("SkillRequirementIcon").style.backgroundImage = new StyleBackground(
                 IconTable.Instance.GetIcon(skillReq.ItemId));
-            skillRequirementVisual.Q<Label>("SkillRequirementName").text = 
+            skillRequirementVisual.Q<Label>("SkillRequirementName").text =
                 $"{ItemTable.Instance.EtcItems[skillReq.ItemId]} x{skillReq.Count}";
             conditions.Add(skillRequirementVisual);
         }
     }
 
-    private void ToggleShowSkillDetail() 
+    private void ToggleShowSkillDetail()
     {
-        if (_selectedSkill != null) 
+        if (_selectedSkill != null)
         {
             _spGroup.style.display = DisplayStyle.None;
             _skillDetail.style.display = DisplayStyle.Flex;
@@ -229,7 +229,7 @@ public class SkillLearnWindow : L2PopupWindow
         }
         _skillList.ToggleShowHide();
     }
-    
+
     private void LearnSkill()
     {
         GameClient.Instance.ClientPacketHandler.SendRequestAcquireSkill(_selectedSkill.SkillId, _selectedSkill.Level, SkillType);

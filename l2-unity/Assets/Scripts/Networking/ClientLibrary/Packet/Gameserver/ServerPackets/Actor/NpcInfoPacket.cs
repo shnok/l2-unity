@@ -92,7 +92,7 @@ public class NpcInfoPacket : ServerPacket
             Stats.MaxHp = ReadI();
             Stats.Level = ReadI();
 
-            Debug.LogWarning(ToString());
+            // Debug.LogWarning(ToString());
         }
         catch (Exception e)
         {

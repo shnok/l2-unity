@@ -69,7 +69,7 @@ public class ActionWindow : L2PopupWindow
 
         L2SlotContainer basicSlotContainer = new L2SlotContainer();
         basicSlotContainer.Initialize(_basicContainer, SLOTS_PER_ROW, 32);
-        basicSlotContainer.UpdateSlots(32, L2Slot.SlotType.Action);
+        basicSlotContainer.CreateSlots(32, L2Slot.SlotType.Action);
 
         basicSlotContainer.AssignAction(0, ActionType.Sit);
         basicSlotContainer.AssignAction(1, ActionType.WalkRun);
@@ -80,15 +80,15 @@ public class ActionWindow : L2PopupWindow
 
         L2SlotContainer partySlotContainer = new L2SlotContainer();
         partySlotContainer.Initialize(_partyContainer, SLOTS_PER_ROW, 16);
-        partySlotContainer.UpdateSlots(16, L2Slot.SlotType.Action);
+        partySlotContainer.CreateSlots(16, L2Slot.SlotType.Action);
 
         L2SlotContainer tokenSlotContainer = new L2SlotContainer();
         tokenSlotContainer.Initialize(_tokenContainer, SLOTS_PER_ROW, 16);
-        tokenSlotContainer.UpdateSlots(16, L2Slot.SlotType.Action);
+        tokenSlotContainer.CreateSlots(16, L2Slot.SlotType.Action);
 
         L2SlotContainer socialSlotContainer = new L2SlotContainer();
         socialSlotContainer.Initialize(_socialContainer, SLOTS_PER_ROW, 16);
-        socialSlotContainer.UpdateSlots(17, L2Slot.SlotType.Action); //-> Will add a padding
+        socialSlotContainer.CreateSlots(17, L2Slot.SlotType.Action); //-> Will add a padding
 
         L2GameUI.Instance.WindowLoadComplete();
     }

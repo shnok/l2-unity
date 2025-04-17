@@ -182,7 +182,17 @@ public class TargetManager : MonoBehaviour
             return;
         }
 
-        _target = target.ObjectTransform.GetComponent<Entity>();
+        SetTarget(target.ObjectTransform.GetComponent<Entity>());
+    }
+
+    public void SetTarget(Entity target)
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        _target = target;
 
         PlayerCombat.Instance.TargetId = _target.Identity.Id;
         PlayerCombat.Instance.Target = _target;
@@ -214,11 +224,19 @@ public class TargetManager : MonoBehaviour
 
     public void ClearTarget()
     {
+        ClearTarget(true);
+    }
+
+    public void ClearTarget(bool request)
+    {
         if (HasTarget())
         {
             if (PlayerCombat.Instance.TargetId != -1)
             {
-                GameClient.Instance.ClientPacketHandler.SendRequestCancel(false);
+                if (request)
+                {
+                    GameClient.Instance.ClientPacketHandler.SendRequestCancel(false);
+                }
                 PlayerCombat.Instance.TargetId = -1;
                 PlayerCombat.Instance.Target = null;
             }

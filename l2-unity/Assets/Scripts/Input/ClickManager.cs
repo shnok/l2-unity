@@ -132,7 +132,8 @@ public class ClickManager : MonoBehaviour
 
         if (PlayerStateMachine.Instance != null)
         {
-            PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_MOVE_TO, _lastClickPosition);
+            PlayerStateMachine.Instance.NotifyEvent(Event.CLICK_TO_MOVE, _lastClickPosition);
+            // PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_MOVE_TO, _lastClickPosition);
         }
 
         if (TargetManager.Instance != null)

@@ -47,7 +47,7 @@ public abstract class AbstractItemPacket : ServerPacket
         // In interlude slot is not shared?
         Slot = ReadI();
 
-        Debug.LogWarning(ToString());
+        // Debug.LogWarning(ToString());
 
         return new ItemInstance(
             ObjectId, ItemId, ItemLocation, Slot, Count, Type1, Type2,

@@ -14,8 +14,7 @@ public class SkillbarWindow : L2PopupWindow
 
     private List<Coroutine> _expandCoroutines;
     private List<Coroutine> _minimizeCoroutines;
-    private Coroutine _slotToggleAnimationCoroutine;
-    private Coroutine _cooldownAnimationCoroutine;
+    private Coroutine _slotsAnimationCoroutine;
     private VisualElement _skillbarContainerHorizontal;
     private VisualElement _skillbarContainerVertical;
     private VisualTreeAsset _skillbarHorizontalTemplate;
@@ -50,8 +49,7 @@ public class SkillbarWindow : L2PopupWindow
     private void OnDestroy()
     {
         _instance = null;
-        if (_slotToggleAnimationCoroutine != null) StopCoroutine(_slotToggleAnimationCoroutine);
-        if (_cooldownAnimationCoroutine != null) StopCoroutine(_cooldownAnimationCoroutine);
+        if (_slotsAnimationCoroutine != null) StopCoroutine(_slotsAnimationCoroutine);
     }
 
     protected override void LoadAssets()
@@ -117,8 +115,7 @@ public class SkillbarWindow : L2PopupWindow
             AddSkillbar();
         }
 
-        _slotToggleAnimationCoroutine = StartCoroutine(PlayToggleAnimations());
-        _cooldownAnimationCoroutine = StartCoroutine(PlayCooldownAnimations());
+        _slotsAnimationCoroutine = StartCoroutine(PlayAnimations());
 
 #if UNITY_EDITOR
         // DebugData();
@@ -291,6 +288,10 @@ public class SkillbarWindow : L2PopupWindow
         int slot = oldSlot % PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR;
         int page = oldSlot / PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR;
 
+        // Debug.LogWarning($"Remove slotAnimations slot: oldSlot={oldSlot} page={page} slot={slot}");
+        RemoveToggledSlot(page, slot);
+        RemoveOnCooldownSkill(page, slot);
+
         _skillbars.ForEach((skillbar) =>
             {
                 if (skillbar.Page == page)
@@ -300,8 +301,10 @@ public class SkillbarWindow : L2PopupWindow
             });
     }
 
-    private SkillbarSlot GetSlotAt(int page, int slot)
+    private List<SkillbarSlot> GetAllSlotsAt(int page, int slot)
     {
+        List<SkillbarSlot> _toBeUpdated = new List<SkillbarSlot>();
+
         foreach (AbstractSkillbar skillbar in _skillbars)
         {
             if (skillbar.Page == page)
@@ -309,20 +312,22 @@ public class SkillbarWindow : L2PopupWindow
                 if (skillbar.BarSlots.Count <= slot)
                 {
                     Debug.LogWarning($"Skillbar slot error: {slot}");
-                    return null;
                 }
-
-                return skillbar.BarSlots[slot];
+                else
+                {
+                    _toBeUpdated.Add(skillbar.GetSlotAt(slot));
+                }
             }
         }
 
-        return null;
+        return _toBeUpdated;
     }
+
 
     public void AddToggledSlot(int page, int slot)
     {
-        SkillbarSlot skillbarSlot = GetSlotAt(page, slot);
-        if (skillbarSlot != null)
+        List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
+        foreach (SkillbarSlot skillbarSlot in skillbarSlots)
         {
             skillbarSlot.Toggled = true;
             AddToggledSlot(skillbarSlot);
@@ -331,8 +336,8 @@ public class SkillbarWindow : L2PopupWindow
 
     public void RemoveToggledSlot(int page, int slot)
     {
-        SkillbarSlot skillbarSlot = GetSlotAt(page, slot);
-        if (skillbarSlot != null)
+        List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
+        foreach (SkillbarSlot skillbarSlot in skillbarSlots)
         {
             skillbarSlot.Toggled = false;
             RemoveToggledSlot(skillbarSlot);
@@ -356,36 +361,22 @@ public class SkillbarWindow : L2PopupWindow
         }
     }
 
-    private IEnumerator PlayToggleAnimations()
+    public void AddSkillOnCooldown(int page, int slot, SkillInfo skillInfo)
     {
-        Texture2D[] toggleImages = SkillbarImageTable.Instance.ToggleTextures;
-
-        int toggleCount = 0;
-        while (true)
+        List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
+        foreach (SkillbarSlot skillbarSlot in skillbarSlots)
         {
-            _toggledSlots.ForEach((slot) =>
-            {
-                slot.SlotEffect.style.backgroundImage = new StyleBackground(toggleImages[toggleCount]);
-            });
-
-            yield return new WaitForSeconds(0.1f);
-
-            if (toggleCount++ >= 12)
-            {
-                toggleCount = 0;
-            }
+            // Debug.LogWarning($"Skillbarslot match skillondooldown: Page:{page} Slot:{slot} SkillbarSlot-Position:{skillbarSlot.Position} SkillbarSlot-Slot:{skillbarSlot.Slot}");
+            AddSkillOnCooldown(skillbarSlot);
         }
     }
 
-    public void AddSkillOnCooldown(int page, int slot, SkillInfo skillInfo)
+    public void RemoveOnCooldownSkill(int page, int slot)
     {
-        SkillbarSlot skillbarSlot = GetSlotAt(page, slot);
-        if (skillbarSlot != null)
+        List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
+        foreach (SkillbarSlot skillbarSlot in skillbarSlots)
         {
-            skillbarSlot.CooldownStartTime = skillInfo.CooldownStartTime;
-            skillbarSlot.CooldownEndTime = skillInfo.CooldownEndTime;
-
-            AddSkillOnCooldown(skillbarSlot);
+            RemoveOnCooldownSkill(skillbarSlot);
         }
     }
 
@@ -401,37 +392,45 @@ public class SkillbarWindow : L2PopupWindow
     {
         if (_skillsOnCooldown.Contains(slot))
         {
+            slot.SlotEffect.style.backgroundImage = new StyleBackground();
             _skillsOnCooldown.Remove(slot);
         }
     }
 
-    private IEnumerator PlayCooldownAnimations()
+    private IEnumerator PlayAnimations()
     {
-        Texture2D[] cooltimeImages = SkillbarImageTable.Instance.CooltimeTextures;
-
         while (true)
         {
             float now = Time.time;
+
             for (int i = _skillsOnCooldown.Count - 1; i >= 0; i--)
             {
-                if (now >= _skillsOnCooldown[i].CooldownEndTime)
+                if (i < 0 || i >= _skillsOnCooldown.Count)
                 {
-                    //Todo: play the skill cooldown end animation and sound
-                    _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground();
-                    _skillsOnCooldown.RemoveAt(i);
-                    AudioManager.Instance.PlayUISound("cooltime_end");
                     continue;
                 }
 
-                float elapsed = now - _skillsOnCooldown[i].CooldownStartTime;
-                float duration = _skillsOnCooldown[i].CooldownEndTime - _skillsOnCooldown[i].CooldownStartTime;
-                float ratio = elapsed / duration;
-                int imageIndex = Mathf.Clamp((int)Mathf.Round(ratio * cooltimeImages.Length - 1), 0, cooltimeImages.Length - 1);
-
-                _skillsOnCooldown[i].SlotEffect.style.backgroundImage = new StyleBackground(cooltimeImages[imageIndex]);
+                if (_skillsOnCooldown[i].SlotAnimationManipulator != null)
+                {
+                    if (_skillsOnCooldown[i].SlotAnimationManipulator.AnimateCoolTime(now))
+                    {
+                        AudioManager.Instance.PlayUISound("cooltime_end");
+                        RemoveOnCooldownSkill(_skillsOnCooldown[i]);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Skill is on cooldown but slot doesn't have any animation manipulator.");
+                    RemoveOnCooldownSkill(_skillsOnCooldown[i]);
+                }
             }
 
-            yield return new WaitForSeconds(0.1f);
+            _toggledSlots.ForEach((slot) =>
+           {
+               slot.SlotAnimationManipulator.AnimateToggle(now);
+           });
+
+            yield return new WaitForSeconds(1 / 30f); // 30 fps
         }
     }
 

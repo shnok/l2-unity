@@ -61,13 +61,5 @@ public class MoveToIntention : IntentionBase
     public override void Exit() { }
     public override void Update()
     {
-        // if (_stateMachine.WaitingForServerReply)
-        // {
-        //     if (InputManager.Instance.Move)
-        //     {
-        //         NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
-        //     }
-        //     PlayerController.Instance.StopMoving();
-        // }
     }
 }

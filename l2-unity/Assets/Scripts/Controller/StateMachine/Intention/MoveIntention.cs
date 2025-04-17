@@ -41,11 +41,14 @@ public class MoveIntention : IntentionBase
     {
         if (_stateMachine.WaitingForServerReply)
         {
+            PlayerController.Instance.StopMoving();
+        }
+        else
+        {
             if (InputManager.Instance.Move)
             {
                 NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
             }
-            PlayerController.Instance.StopMoving();
         }
     }
 }

@@ -8,11 +8,11 @@ public class JumpIntention : IntentionBase
 
     public override void Enter(object arg0)
     {
-        _stateMachine.ChangeState(PlayerState.JUMPING);
+        _stateMachine.ChangeState(PlayerState.JUMPING, _stateMachine.State);
     }
     public override void Exit() { }
     public override void Update()
     {
-        _stateMachine.ChangeState(PlayerState.JUMPING);
+        // _stateMachine.ChangeState(PlayerState.JUMPING);
     }
 }

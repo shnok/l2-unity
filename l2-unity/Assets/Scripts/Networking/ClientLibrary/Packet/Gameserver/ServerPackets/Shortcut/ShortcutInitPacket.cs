@@ -47,7 +47,7 @@ public class ShortcutInitPacket : ServerPacket
             Shortcuts.Add(shortcut);
         }
 
-        Debug.LogWarning(ToString());
+        // Debug.LogWarning(ToString());
     }
 
     public override string ToString()

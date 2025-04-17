@@ -7,7 +7,7 @@ using static StatusUpdatePacket;
 public class WorldCombat : MonoBehaviour
 {
     [SerializeField] private List<Hit> _hits;
-    [SerializeField] private float _projectilesSpeed = 10f;
+    [SerializeField] private float _projectilesSpeed = 20f;
     private EventProcessor _eventProcessor;
     private WorldSpawner _worldSpawner;
 
@@ -87,6 +87,30 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
+
+    public Task OnMagicSkillCanceled(MagicSkillCanceledPacket packet)
+    {
+        return _worldSpawner.ExecuteWithEntityAsync(packet.ObjectId, (entity) =>
+               {
+                   if (packet.ObjectId == PlayerEntity.Instance.Identity.Id)
+                   {
+                       PlayerStateMachine.Instance.NotifyEvent(Event.CANCEL);
+                       NameplatesManagerGame.Instance.StopCasting();
+                   }
+                   else
+                   {
+                       entity.ReferenceHolder.NewAnimationController.Wait();
+                   }
+
+                   EntityCancelCastSkill(entity);
+               });
+    }
+
+    private void EntityCancelCastSkill(Entity entity)
+    {
+        entity.Combat.AbortCast();
+    }
+
     public Task OnMagicSkillLaunched(MagicSkillLaunchedPacked packet)
     {
 
@@ -143,11 +167,11 @@ public class WorldCombat : MonoBehaviour
         }
 
         // Spawn particle
-        ParticleManager.Instance.SpawnCastParticles(entity, skill, hitTime);
+        PooledEffect[] castEffects = ParticleManager.Instance.SpawnCastParticles(entity, skill, hitTime);
 
         //Play skill cast animation
         if (skill.Skillgrps[0].CastAnimation != SkillCastAnimation.None)
-            entity.CastSkill(skill, target, hitTime, reuseDelay);
+            entity.CastSkill(skill, target, hitTime, reuseDelay, castEffects);
 
         // Cast skill sound
         if (skill.SkillSoundgrp == null || skill.SkillSoundgrp.SpellEffectSounds == null || skill.SkillSoundgrp.SpellEffectSounds.Length == 0)
@@ -224,6 +248,11 @@ public class WorldCombat : MonoBehaviour
     {
         return _worldSpawner.ExecuteWithEntityAsync(id, e =>
         {
+            if (id == PlayerEntity.Instance.Identity.Id)
+            {
+                TargetManager.Instance.ClearTarget(false);
+            }
+
             e.Combat.TargetId = -1;
             e.Combat.Target = null;
         });
@@ -271,17 +300,29 @@ public class WorldCombat : MonoBehaviour
             //TODO: Handle AOE
             hit.Attacker = senderEntity;
             hit.Target = targetEntity;
-            float atkEndTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f;
+
+
+            // float atkEndTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f;
+            float atkEndTime = 0;
+
+            // if (senderEntity.Gear.WeaponType == WeaponType.bow)
+            // {
+            //     float timeToReachTarget = CalculateTimeToHitTarget(senderEntity, targetEntity);
+            //     float shootTime = senderEntity.AnimationController.PAtkSpd / 1000f * 0.65f;
+            //     hit.HitTime = Time.time + shootTime + timeToReachTarget;
+            // }
+            // else
+            // {
+            //     //TODO: Maybe change hit time based on other weapon types
+            //     hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
+            // }
 
             if (senderEntity.Gear.WeaponType == WeaponType.bow)
             {
-                float timeToReachTarget = CalculateTimeToHitTarget(senderEntity, targetEntity);
-                float shootTime = senderEntity.AnimationController.PAtkSpd / 1000f * 0.65f;
-                hit.HitTime = Time.time + shootTime + timeToReachTarget;
+                hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f;
             }
             else
             {
-                //TODO: Maybe change hit time based on other weapon types
                 hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
             }
 
@@ -300,7 +341,7 @@ public class WorldCombat : MonoBehaviour
                     referenceHolder.Combat.AttackTarget = targetEntity;
                 }
 
-                Debug.Log("Attacker position: " + attackerPosition);
+                // Debug.Log("Attacker position: " + attackerPosition);
                 referenceHolder.NetworkTransformReceive.SetNewPosition(attackerPosition, false);
 
                 // User destination does not matter, only move direction does
@@ -493,9 +534,9 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
-    public void EntityShootArrow(Entity caster, Entity target, Transform arrowObject, float hitTimeSec, bool hitSuccess)
+    public void EntityShootArrow(Entity caster, Entity target, float hitTimeSec, bool hitSuccess)
     {
-        ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTimeSec, hitSuccess);
+        ParticleManager.Instance.SpawnArrowProjectile(caster, target, hitTimeSec, hitSuccess);
     }
 
     public Task RelationChanged(int owner, int karma, int pvpFlag)
@@ -506,5 +547,4 @@ public class WorldCombat : MonoBehaviour
             e.Identity.PvpFlag = pvpFlag;
         });
     }
-
 }

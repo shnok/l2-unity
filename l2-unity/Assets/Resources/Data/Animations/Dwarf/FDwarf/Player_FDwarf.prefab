@@ -545,6 +545,7 @@ MonoBehaviour:
   _hitTime: 0
   _attackEndTime: 0
   _hitSuccess: 0
+  _fightStanceStarted: 0
   _lastSkill:
     _skillId: 0
     _skillEffect:
@@ -559,8 +560,6 @@ MonoBehaviour:
   _castingSkill: 0
   _skillThrown: 0
   _skillShot: 0
-  Throw1: 0.8
-  Throw2: 0.95
 --- !u!114 &3064332933061382819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,6 +632,9 @@ MonoBehaviour:
   _lastDirectionAngle: 0
   _lastSharingTimestamp: 0
   _heading: 0
+  _sharingPositionDelayMs: 500
+  _lastSharingPosition: 0
+  _isSharedJumping: 0
 --- !u!114 &5136009980192550727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,7 +652,9 @@ MonoBehaviour:
   _defaultRunSpeed: 4
   _defaultWalkSpeed: 4
   _running: 1
+  _jumping: 1
   _measuredSpeed: 0
+  _verticalVelocity: 0
   _jumpForce: 10
   _gravity: 28
   _targetPosition: {x: 0, y: 0, z: 0}
@@ -672,7 +676,7 @@ MonoBehaviour:
   _bodyPartsContainer: {fileID: 5484018681619218061}
   _rootSkinnedRenderer: {fileID: 6656235256214479691}
   _destSkinnedRenderer: []
-  _rootBone: {fileID: 0}
+  _rootBone: {fileID: 5479286923392898938}
 --- !u!114 &7789503678066825442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +704,7 @@ MonoBehaviour:
   _waitSoundChance: 5
   _runBreathChance: 5
   _race: 5
-  _surfaceDetector: {fileID: 0}
+  _surfaceDetector: {fileID: 2799417177160615027}
 --- !u!114 &2799417177160615027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -752,7 +756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05cba2950cf2dde409c401cba1291ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entityReferenceHolder: {fileID: 0}
+  _entityReferenceHolder: {fileID: 4737926542357803258}
   _lastAnim: 0
   _lastSkill:
     _skillId: 0
@@ -761,7 +765,7 @@ MonoBehaviour:
       _castingActions: []
       _shotActions: []
       _explosionActions: []
-  _rootBone: {fileID: 0}
+  _rootBone: {fileID: 5479286923392898938}
   _lastPlayedClipDuration: 0
   _fadeDuration: 0.1
   _atkSpd: 0
@@ -943,6 +947,11 @@ Transform:
 --- !u!4 &2501961852599239095 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6188836239713335783, guid: b4888cecb95916847b7b78c5b6fe2540, type: 3}
+  m_PrefabInstance: {fileID: 8600723866080049232}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5479286923392898938 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4274407135144193834, guid: b4888cecb95916847b7b78c5b6fe2540, type: 3}
   m_PrefabInstance: {fileID: 8600723866080049232}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5667232163731310797 stripped

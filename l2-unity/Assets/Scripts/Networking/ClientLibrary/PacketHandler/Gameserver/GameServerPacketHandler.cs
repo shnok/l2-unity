@@ -56,7 +56,7 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.EntityTargetSet:
                 OnEntityTargetSet(data);
                 break;
-            case GameServerPacketType.EntityTargetUnset:
+            case GameServerPacketType.TargetUnselected:
                 OnEntityTargetUnset(data);
                 break;
             case GameServerPacketType.MyTargetSet:
@@ -179,6 +179,9 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.FightStanceStop:
                 OnFightStanceStop(data);
                 break;
+            case GameServerPacketType.MagicSkillCanceled:
+                OnMagicSkillCanceled(data);
+                break;
             default:
                 Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
@@ -233,7 +236,6 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnCharSelectionInfoReceive(byte[] data)
     {
-        Debug.LogWarning("OnCharSelectionInfoReceive");
         CharSelectionInfoPacket packet = new CharSelectionInfoPacket(data);
 
         CharacterSelector.Instance.Characters = packet.Characters;
@@ -349,6 +351,11 @@ public class GameServerPacketHandler : ServerPacketHandler
                 if (messageData.Id == 113)
                 { // unsuitable terms
                     WorldCombat.Instance.OnSkillNotAllowed(smParams[0].GetIntArrayValue()[0]);
+                }
+
+                if (messageData.Id == 109)
+                {
+                    PlayerStateMachine.Instance.OnActionDenied();
                 }
 
                 ChatWindow.Instance.ReceiveSystemMessage(systemMessage);
@@ -670,6 +677,12 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         MagicSkillUsePacket packet = new MagicSkillUsePacket(data);
         WorldCombat.Instance.OnMagicSkillUse(packet);
+    }
+
+    private void OnMagicSkillCanceled(byte[] data)
+    {
+        MagicSkillCanceledPacket packet = new MagicSkillCanceledPacket(data);
+        WorldCombat.Instance.OnMagicSkillCanceled(packet);
     }
 
     private void OnSkillLaunched(byte[] data)

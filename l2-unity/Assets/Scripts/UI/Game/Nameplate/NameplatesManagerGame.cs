@@ -204,6 +204,11 @@ public class NameplatesManagerGame : NameplatesManagerBase
         playerNameplate?.ShowGauge(color, Time.time, durationMs);
     }
 
+    public void StopCasting()
+    {
+        playerNameplate?.HideGauge();
+    }
+
     private void UpdatePlayerGauge()
     {
         if (playerNameplate == null) return;

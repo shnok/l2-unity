@@ -71,7 +71,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         if (!((int)_lastAnimationType < (int)HumanoidWeaponAnimType.cast))
         {
-            Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationType}");
+            // Debug.LogWarning($"The last animation was not a weapon animation: {_lastAnimationType}");
             // The last animation was not a weapon animation
             return;
         }
@@ -102,15 +102,18 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Attack()
     {
-        _lastAnimationType = HumanoidWeaponAnimType.other;
-        _atkAnimIndex = 0;
-        PlayAttackAnimation();
+        // Debug.LogWarning(transform.name + " Attack");
+        if (_lastAnimationType != HumanoidWeaponAnimType.atkwait && _lastAnimationType != HumanoidWeaponAnimType.atk)
+        {
+            _atkAnimIndex = 0; // Reset atk animation index
+        }
+
+        _lastAnimationType = HumanoidWeaponAnimType.atk;
+        NextAttack(false);
     }
 
-    private void NextAttack()
+    private void NextAttack(bool retry)
     {
-        _atkAnimIndex += 1;
-
         //1HS has 3 anims
         //2HS has 3 anims
         //Pole has 3 anims
@@ -134,16 +137,18 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 break;
         }
 
-        if (_atkAnimIndex > maxAttackAnimIndex)
+        if (++_atkAnimIndex > maxAttackAnimIndex)
         {
             _atkAnimIndex = 0;
         }
 
-        PlayAttackAnimation();
+        PlayAttackAnimation(retry);
     }
 
-    private void PlayAttackAnimation()
+    private void PlayAttackAnimation(bool retry)
     {
+        _atkAnimancerState?.Destroy(); // usefull?
+
         HumanoidAnimationAtkEvent toPlay;
         switch (_weaponAnim)
         {
@@ -169,22 +174,21 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 break;
         }
 
+        _lastAnimationType = HumanoidWeaponAnimType.atk;
         if (PlayAnimation(AnimationCategory.Atk, (int)toPlay + _atkAnimIndex))
         {
             UpdateAttackAnimationSpeed(_lastPlayedClipDuration, _atkSpd);
-
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_atkAnimancerState.HasEvents)
             {
-
                 if (_weaponAnim == WeaponAnimType.bow)
                 {
-                    events.Add(_nockArrowRatio, () =>
+                    _atkAnimancerState.Events.Add(_nockArrowRatio, () =>
                     {
                         _entityReferenceHolder.Combat.NockArrow();
                         AudioHandler.PlayBowBendSound();
                     });
 
-                    events.Add(_shootArrowRatio, () =>
+                    _atkAnimancerState.Events.Add(_shootArrowRatio, () =>
                     {
                         _entityReferenceHolder.Combat.ShootArrow();
                         AudioHandler.PlayArrowShootSound();
@@ -192,12 +196,33 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 }
                 else
                 {
-                    events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
+                    _atkAnimancerState.Events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
                 }
-                events.OnEnd = NextAttack;
+
+                // Debug.LogWarning(transform.name + " Setting OnEnd event.");
+                _atkAnimancerState.Events.OnEnd = (() =>
+                {
+                    Wait();
+                });
             }
 
-            _animancerState.EffectiveSpeed = _atkSpdMultiplier;
+            if (toPlay == HumanoidAnimationAtkEvent.atk01_bow)
+            {
+                _atkAnimancerState.EffectiveSpeed = _atkSpdMultiplier * 0.75f; // since arrow has to hit the target at _hitTime, slow down the attack animation to have faster arrows
+            }
+            else
+            {
+                _atkAnimancerState.EffectiveSpeed = _atkSpdMultiplier;
+            }
+        }
+        else
+        {
+            _atkAnimIndex = 0;
+
+            if (!retry)
+            {
+                NextAttack(true);
+            }
         }
     }
 
@@ -272,12 +297,13 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         if (PlayAnimation((int)animEvent))
         {
             _animancerState.EffectiveSpeed = _runSpdMultiplier * _defaultRunAnimationSpeed;
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
+                _animancerState.Events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
+
                 foreach (float ratio in AudioHandler.RunStepRatios)
                 {
-                    events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
-                    events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                    _animancerState.Events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
                 }
             }
         }
@@ -285,6 +311,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
     public override void Wait()
     {
+        // Debug.LogWarning(transform.name + " Wait");
         if (AtkWait())
         {
             return;
@@ -329,10 +356,10 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         {
             _animancerState.EffectiveSpeed = _defaultJumpAnimationSpeed;
 
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
                 // We need to change to Jump Sound
-                events.Add(0.1f, () => AudioHandler.PlaySound(EntitySoundEvent.Jump_1));
+                _animancerState.Events.Add(0.1f, () => AudioHandler.PlaySound(EntitySoundEvent.Jump_1));
             }
         }
     }
@@ -366,11 +393,11 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
         if (PlayAnimation((int)animEvent))
         {
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
                 foreach (float ratio in AudioHandler.WalkStepRatios)
                 {
-                    events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                    _animancerState.Events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
                 }
             }
 
@@ -383,9 +410,9 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         _lastAnimationType = HumanoidWeaponAnimType.other;
         if (PlayAnimation((int)HumanoidAnimationDefaultEvent.sit))
         {
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
-                events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Sitdown));
+                _animancerState.Events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Sitdown));
             }
         }
     }
@@ -397,11 +424,11 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         {
             _animancerState.EffectiveSpeed = _defaultDieAnimationSpeed;
 
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
-                events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
-                events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
-                events.OnEnd = DieWait;
+                _animancerState.Events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
+                _animancerState.Events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
+                _animancerState.Events.OnEnd = DieWait;
             }
 
         }
@@ -428,9 +455,9 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         _lastAnimationType = HumanoidWeaponAnimType.other;
         if (PlayAnimation((int)HumanoidAnimationDefaultEvent.stand))
         {
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
-                events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Standup));
+                _animancerState.Events.Add(0, () => AudioHandler.PlaySound(EntitySoundEvent.Standup));
             }
         }
     }
@@ -476,10 +503,27 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 {
                     AudioHandler.PlayPreAtkSound(spAtkIndex);
 
-                    if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                    if (!_animancerState.HasEvents)
                     {
-                        events.Add(0.60f, () => AudioHandler.PlaySpAtkSound());
-                        events.OnEnd = Wait;
+                        if (_weaponAnim != WeaponAnimType.bow)
+                        {
+                            _animancerState.Events.Add(0.60f, () => AudioHandler.PlaySpAtkSound());
+                        }
+                        else
+                        {
+                            _animancerState.Events.Add(_nockArrowRatio, () =>
+                            {
+                                _entityReferenceHolder.Combat.NockArrow();
+                                AudioHandler.PlayBowBendSound();
+                            });
+
+                            _animancerState.Events.Add(_shootArrowRatio, () =>
+                            {
+                                _entityReferenceHolder.Gear.HideArrow();
+                            });
+                        }
+
+                        _animancerState.Events.OnEnd = Wait;
                     }
                     UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime, true);
                 }
@@ -488,9 +532,9 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
             {
                 if (PlayAnimation(castAnim))
                 {
-                    if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                    if (!_animancerState.HasEvents)
                     {
-                        events.OnEnd = PlaySkillCastEndAnimation;
+                        _animancerState.Events.OnEnd = PlaySkillCastEndAnimation;
                     }
                     UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime, false);
                 }
@@ -525,10 +569,10 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
             {
                 _animancerState.EffectiveSpeed = _castSpdMultiplier;
 
-                if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+                if (!_animancerState.HasEvents)
                 {
-                    events.Add(0.35f, () => AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingEndVoices[(int)_entityReferenceHolder.Entity.RaceId]));
-                    events.OnEnd = Wait;
+                    _animancerState.Events.Add(0.35f, () => AudioHandler.PlaySkillVoice(_lastSkill.SkillSoundgrp.CastingEndVoices[(int)_entityReferenceHolder.Entity.RaceId]));
+                    _animancerState.Events.OnEnd = Wait;
                 }
 
                 return true;
@@ -561,9 +605,9 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         Debug.Log($"[{transform.name}] Social Action: {action}");
         if (PlayAnimation(AnimationCategory.Social, action))
         {
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
-                events.OnEnd = Wait;
+                _animancerState.Events.OnEnd = Wait;
             }
         }
     }

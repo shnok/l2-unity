@@ -107,7 +107,6 @@ public class ShopTab : L2Tab
     {
         if (PlayerEntity.Instance == null)
         {
-            Debug.LogWarning("Player does not exist, weight refresh canceled.");
             return;
         }
 

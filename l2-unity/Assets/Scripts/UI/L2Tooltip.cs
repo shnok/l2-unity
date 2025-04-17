@@ -59,39 +59,17 @@ public class L2ToolTip : L2PopupWindow
         switch (type)
         {
             case L2Slot.SlotType.Skill:
-                SkillWindowInfo val = value as SkillWindowInfo;
-                if (val is null) break;
-                AddSkillTooltip(val);
-                _skillTooltip.style.display = DisplayStyle.Flex;
                 _labelTooltip.style.display = DisplayStyle.None;
+                DisplaySkillTooltip(value);
                 break;
-                
+
             default:
                 _skillTooltip.style.display = DisplayStyle.None;
-                
-                string stringVal;
-                if (value is SkillWindowInfo info)
-                {
-                    stringVal = info.Name;
-                }
-                else
-                {
-                    stringVal = value as string;
-                }
-
-                if (stringVal != string.Empty)
-                {
-                    GetLabelById("Content").text = stringVal;
-                    _labelTooltip.style.display = DisplayStyle.Flex;
-                }
-                else
-                {
-                    _labelTooltip.style.display = DisplayStyle.None;
-                }
+                DisplayDefaultTooltip(value);
 
                 break;
         }
-        
+
         ShowWindow();
 
         if (_updateStyleCoroutine != null)
@@ -102,11 +80,48 @@ public class L2ToolTip : L2PopupWindow
         _updateStyleCoroutine = StartCoroutine(UpdateToolTipCoroutine(target));
     }
 
+    private void DisplaySkillTooltip<T>(T value)
+    {
+        SkillWindowInfo val = value as SkillWindowInfo;
+        if (val is null)
+        {
+            _skillTooltip.style.display = DisplayStyle.None;
+            return;
+        }
+
+        AddSkillTooltip(val);
+        _skillTooltip.style.display = DisplayStyle.Flex;
+    }
+
+    private void DisplayDefaultTooltip<T>(T value)
+    {
+        string stringVal;
+
+        if (value is SkillWindowInfo info)
+        {
+            stringVal = info.Name;
+        }
+        else
+        {
+            stringVal = value as string;
+        }
+
+        if (stringVal != string.Empty)
+        {
+            GetLabelById("Content").text = stringVal;
+            _labelTooltip.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            _labelTooltip.style.display = DisplayStyle.None;
+        }
+    }
+
     IEnumerator UpdateToolTipCoroutine(VisualElement target)
     {
         while (true)
         {
-            
+
             yield return new WaitForEndOfFrame();
 
             _windowEle.style.left = target.worldBound.x;
@@ -148,8 +163,8 @@ public class L2ToolTip : L2PopupWindow
         {
             GetElementById("SkillTooltipMpCost").style.display = DisplayStyle.None;
         }
-        
-        if (skill.Range > 0) 
+
+        if (skill.Range > 0)
         {
             GetLabelById("SkillTooltipRangeValue").text = skill.Range.ToString();
             GetElementById("SkillTooltipRange").style.display = DisplayStyle.Flex;
@@ -169,7 +184,7 @@ public class L2ToolTip : L2PopupWindow
             GetElementById("SkillTooltipCastingTime").style.display = DisplayStyle.None;
         }
 
-        if (skill.IsPassiveSkill() || skill.Type == SkillType.CraftAndItems)
+        if (skill.IsPassiveSkill() || skill.Type == SkillIconType.CraftAndItems)
         {
             GetElementById("SkillTooltipReuseTime").style.display = DisplayStyle.None;
         }

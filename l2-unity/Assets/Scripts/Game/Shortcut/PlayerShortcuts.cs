@@ -211,6 +211,7 @@ public class PlayerShortcuts : MonoBehaviour
         {
             if (!_toggledIds.Contains(itemId))
             {
+                Debug.LogWarning($"Adding toggled item with id: {itemId}");
                 _toggledIds.Add(itemId);
             }
         }
@@ -218,6 +219,7 @@ public class PlayerShortcuts : MonoBehaviour
         {
             if (_toggledIds.Contains(itemId))
             {
+                Debug.LogWarning($"Removing toggled item with id: {itemId}");
                 _toggledIds.Remove(itemId);
             }
         }
@@ -260,6 +262,7 @@ public class PlayerShortcuts : MonoBehaviour
         {
             if (shortcut.Type == Shortcut.TYPE_SKILL && shortcut.Id == skillInfo.Id)
             {
+                // Debug.LogWarning($"Set shortcut on cooldown: Skill={skillInfo.Id} Page={shortcut.Page} Slot={shortcut.Slot}");
                 SkillbarWindow.Instance.AddSkillOnCooldown(shortcut.Page, shortcut.Slot, skillInfo);
             }
         }

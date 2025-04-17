@@ -53,7 +53,7 @@ public class PlayerCombat : Combat
     protected override void LookAtTarget()
     {
         Transform target = GetTargetToLookAt();
-        if (target != null)
+        if (target != null && target != transform)
         {
             PlayerController.Instance.UpdateFinalAngleToLookAt(target);
         }

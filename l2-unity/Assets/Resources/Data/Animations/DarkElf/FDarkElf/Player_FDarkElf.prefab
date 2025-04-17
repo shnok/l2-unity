@@ -146,6 +146,7 @@ MonoBehaviour:
   _hitTime: 0
   _attackEndTime: 0
   _hitSuccess: 0
+  _fightStanceStarted: 0
   _lastSkill:
     _skillId: 0
     _skillEffect:
@@ -546,7 +547,9 @@ MonoBehaviour:
   _defaultRunSpeed: 4
   _defaultWalkSpeed: 4
   _running: 1
+  _jumping: 1
   _measuredSpeed: 0
+  _verticalVelocity: 0
   _jumpForce: 10
   _gravity: 28
   _targetPosition: {x: 0, y: 0, z: 0}
@@ -625,6 +628,9 @@ MonoBehaviour:
   _lastDirectionAngle: 0
   _lastSharingTimestamp: 0
   _heading: 0
+  _sharingPositionDelayMs: 500
+  _lastSharingPosition: 0
+  _isSharedJumping: 0
 --- !u!114 &223533845830030767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,7 +654,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _rootBone: {fileID: 0}
+  _rootBone: {fileID: 1871717110391119983}
 --- !u!114 &63905802493393558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,7 +717,7 @@ MonoBehaviour:
   _bodyPartsContainer: {fileID: 7691915665186450115}
   _rootSkinnedRenderer: {fileID: 5828016634818891321}
   _destSkinnedRenderer: []
-  _rootBone: {fileID: 0}
+  _rootBone: {fileID: 1871717110391119983}
 --- !u!114 &-14512947334514877
 MonoBehaviour:
   m_ObjectHideFlags: 0

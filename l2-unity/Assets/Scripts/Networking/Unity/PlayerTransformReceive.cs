@@ -32,7 +32,7 @@ public class PlayerTransformReceive : NetworkTransformReceive
     /* Set new theorical position */
     public override void SetNewPosition(Vector3 pos, bool calculateY)
     {
-        Debug.LogWarning("Adjust player position error");
+        // Debug.LogWarning("Adjust player position error");
         base.SetNewPosition(pos, calculateY);
         ResumePositionSync();
     }

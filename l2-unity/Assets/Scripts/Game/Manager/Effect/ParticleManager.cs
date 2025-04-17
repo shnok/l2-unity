@@ -232,17 +232,20 @@ public class ParticleManager : MonoBehaviour
     #endregion
 
     #region Skill Particles
-    public void SpawnCastParticles(Entity caster, Skill skill, int hitTime)
+    public PooledEffect[] SpawnCastParticles(Entity caster, Skill skill, int hitTime)
     {
         List<EffectEmitter> castingActions = skill.SkillEffect.CastingActions;
         if (castingActions == null || castingActions.Count == 0)
         {
             Debug.Log("Skill doesn't have any casting action.");
-            return;
+            return null;
         }
 
-        foreach (EffectEmitter action in castingActions)
+        PooledEffect[] castEffects = new PooledEffect[castingActions.Count];
+
+        for (int i = 0; i < castingActions.Count; i++)
         {
+            EffectEmitter action = castingActions[i];
             AttachMethod attachOn = action.AttachOn;
             string effectClass = action.EffectClass;
 
@@ -259,31 +262,49 @@ public class ParticleManager : MonoBehaviour
             if (effect == null || effect.GameObject == null)
             {
                 Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
-                return;
+                return null;
             }
 
             effect.HitTime = hitTime / 1000f; //in seconds
 
             effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
 
-            effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * CalculateCastParticleSizeRatio(caster);
-
             UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
 
+            float effectRatio = CalculateCastParticleSizeRatio(caster);
+            effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * effectRatio;
+
             ActiveEffects.Enqueue(effect);
+
+            castEffects[i] = effect;
         }
+
+        return castEffects;
     }
 
     private float CalculateCastParticleSizeRatio(Entity caster)
     {
         float colRadius = caster.Appearance.CollisionRadius;
-        // FDarkElf     radius 0.15     ratio 1.3
+        // FDarkElf     radius 0.15     ratio 1.45
         // GiantSpider  radius 0.495    ratio 2.2
 
         // Using linear interpolation based on given data points:
-        // (0.15, 1.3) and (0.495, 2.2)
-        float ratio = 1.45f + (colRadius - 0.15f) * ((2.2f - 1.45f) / (0.495f - 0.15f));
+        // (0.15, 1.45) and (0.495, 2.2)
+        float ratio = 1.42f + (colRadius - 0.14f) * ((2.5f - 1.42f) / (0.495f - 0.14f));
 
+        return Mathf.Clamp(ratio, 0.5f, 3f);
+    }
+
+    private float CalculateHitParticleSizeRatio(Entity target)
+    {
+        float colHeight = target.Appearance.CollisionHeight;
+        /*
+        a_common_people_FElf_m00  			rad: 7 				height: 0.485		ratio: 1.25
+        gremlin					  			rad: 10 			height: 0.285		ratio: 1		
+        a_smith_MDwarf_m00  				rad: 7 				height: 0.314		ratio: ?
+        */
+        float ratio = 1.25f * colHeight + 0.64375f;
+        ratio *= 1.1f;
         return Mathf.Clamp(ratio, 0.5f, 3f);
     }
 
@@ -298,6 +319,12 @@ public class ParticleManager : MonoBehaviour
 
         foreach (EffectEmitter action in shotActions)
         {
+            if (action.Arrow)
+            {
+                SpawnArrowProjectile(caster, target, hitTime, true);
+                continue;
+            }
+
             AttachMethod attachOn = action.AttachOn;
             string effectClass = action.EffectClass;
 
@@ -311,32 +338,31 @@ public class ParticleManager : MonoBehaviour
             effect.Target = target;
             effect.Caster = caster;
 
-            if (action.SpawnOnTarget)
+            if ((action.SpawnOnTarget || skill.Skillgrps[0].IconType == SkillIconType.Physical) && !action.ChargedArrow) //To verify
+                                                                                                                         // SpawnOnTarget value is inconsistent
             {
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
 
-                // if (skill.Skillgrps[0].CastAnimation >= SkillCastAnimation.SpAtk01 && skill.Skillgrps[0].CastAnimation <= SkillCastAnimation.SpAtk04)
-                // {
-                PlaceHitParticle(effect, caster, target);
-                // }
-                // else
-                // {
-                // Set initial position
-                // UpdateSkillEffectTransform(target, action, effect.GameObject.transform, effect, attachOn);
-                // }
+                PlaceHitParticle(effect, caster, target, action);
             }
             else
             {
                 effect.HitSuccess = true;
                 effect.HitTime = hitTime;
-                effect.EffectDurationSec = hitTime - Time.time;
+                effect.EffectDurationSec = Mathf.Max(0.5f, hitTime - Time.time);
 
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
 
                 // Set initial position
                 UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
+
+                if (action.ChargedArrow) // Effect is supposed to follow arrow position
+                {
+                    effect.GameObject.transform.SetPositionAndRotation(caster.Gear.Arrow.position, caster.Gear.Arrow.rotation);
+                    effect.StartingPosition = effect.GameObject.transform.position;
+                }
 
                 // Remove effect for attach transform
                 effect.GameObject.transform.parent = _effectContainer.transform;
@@ -376,7 +402,7 @@ public class ParticleManager : MonoBehaviour
             effect.Target = target;
             effect.Caster = caster;
 
-            PlaceHitParticle(effect, caster, target);
+            PlaceHitParticle(effect, caster, target, action);
 
             ActiveEffects.Enqueue(effect);
         }
@@ -390,6 +416,7 @@ public class ParticleManager : MonoBehaviour
         {
             //X*=CollisionRadius, Y*=CollisionHeight, Z*=1
             effectTransform.localPosition += new Vector3(emitter.Offset.x, emitter.Offset.y * caster.Appearance.CollisionHeight, emitter.Offset.z * caster.Appearance.CollisionRadius);
+            Debug.LogWarning("UpdateSkillEffectTransform: " + emitter.Offset + " " + effectTransform.localPosition);
         }
         else if (attachMethod == AttachMethod.AM_TRAIL || attachMethod == AttachMethod.AM_NONE)
         {
@@ -485,25 +512,37 @@ public class ParticleManager : MonoBehaviour
         if (hit.hasSoulshot()) // Always spawn base hit particle with the soulshot particle
         {
             PooledEffect basecritParticle = SpawnSingleHitParticle(false, false, hit.getSsGrade());
-            PlaceHitParticle(basecritParticle, attacker, target);
+            PlaceHitParticle(basecritParticle, attacker, target, null);
             ActiveHitEffects.Enqueue(basecritParticle);
+            basecritParticle.GameObject.transform.parent = _effectContainer.transform;
 
             PooledEffect hitParticle = SpawnSingleHitParticle(hit.isCrit(), true, hit.getSsGrade());
-            PlaceHitParticle(hitParticle, attacker, target);
+            PlaceHitParticle(hitParticle, attacker, target, null);
             ActiveHitEffects.Enqueue(hitParticle);
+            hitParticle.GameObject.transform.parent = _effectContainer.transform;
         }
         else
         {
             // Spawn default hit or crit particle 
             PooledEffect baseHitParticle = SpawnSingleHitParticle(hit.isCrit(), false, hit.getSsGrade());
-            PlaceHitParticle(baseHitParticle, attacker, target);
+            PlaceHitParticle(baseHitParticle, attacker, target, null);
             ActiveHitEffects.Enqueue(baseHitParticle);
+            baseHitParticle.GameObject.transform.parent = _effectContainer.transform;
         }
     }
 
-    private Vector3 CalculateHitParticlePosition(Entity attacker, Entity target)
+    private Vector3 CalculateHitParticlePosition(Entity attacker, Entity target, EffectEmitter action)
     {
-        float particleHeight = target.Appearance.CollisionHeight * _hitHeightOffsetMultiplier;
+        float particleHeight;
+
+        if (action != null)
+        {
+            particleHeight = target.Appearance.CollisionHeight + target.Appearance.CollisionHeight * action.Offset.y;
+        }
+        else
+        {
+            particleHeight = target.Appearance.CollisionHeight * _hitHeightOffsetMultiplier;
+        }
 
         // var heading = attacker.transform.position - target.transform.position;
         // float angle = Vector3.Angle(heading, target.transform.forward);
@@ -517,15 +556,14 @@ public class ParticleManager : MonoBehaviour
         return position;
     }
 
-    private void PlaceHitParticle(PooledEffect effect, Entity attacker, Entity target)
+    private void PlaceHitParticle(PooledEffect effect, Entity attacker, Entity target, EffectEmitter action)
     {
         effect.GameObject.SetActive(true);
-        effect.GameObject.transform.parent = _effectContainer.transform;
         effect.StartTime = Time.time;
-        effect.GameObject.transform.position = CalculateHitParticlePosition(attacker, target);
+        effect.GameObject.transform.position = CalculateHitParticlePosition(attacker, target, action);
         effect.GameObject.transform.LookAt(attacker.transform);
         effect.GameObject.transform.eulerAngles = new Vector3(0, effect.GameObject.transform.eulerAngles.y - 90f, 0);
-        effect.GameObject.transform.localScale = Vector3.one * CalculateCastParticleSizeRatio(target);
+        effect.GameObject.transform.localScale = (action != null ? action.ScaleSize : 1) * CalculateHitParticleSizeRatio(target) * Vector3.one;
         effect.Restart();
     }
 
@@ -571,11 +609,11 @@ public class ParticleManager : MonoBehaviour
     #endregion
 
     #region Arrow
-    public void SpawnArrowProjectile(Entity caster, Entity target, Transform entityArrow, float hitTime, bool hitSuccess)
+    public void SpawnArrowProjectile(Entity caster, Entity target, float hitTime, bool hitSuccess)
     {
         PooledEffect arrowEffect = SpawnArrow();
         arrowEffect.GameObject.SetActive(true);
-        arrowEffect.Restart();
+        // arrowEffect.Restart();
 
         arrowEffect.StartTime = Time.time;
         arrowEffect.Caster = caster;
@@ -583,8 +621,7 @@ public class ParticleManager : MonoBehaviour
         arrowEffect.HitTime = hitTime;
         arrowEffect.HitSuccess = hitSuccess;
 
-        arrowEffect.GameObject.transform.position = entityArrow.position;
-        arrowEffect.GameObject.transform.rotation = entityArrow.rotation;
+        arrowEffect.GameObject.transform.SetPositionAndRotation(caster.Gear.Arrow.position, caster.Gear.Arrow.rotation);
         arrowEffect.StartingPosition = arrowEffect.GameObject.transform.position;
         arrowEffect.GameObject.transform.localScale = Vector3.one * 100f;
         arrowEffect.IsArrow = true;
