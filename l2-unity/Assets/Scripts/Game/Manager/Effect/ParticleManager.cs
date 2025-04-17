@@ -558,7 +558,6 @@ public class ParticleManager : MonoBehaviour
 
     private void PlaceHitParticle(PooledEffect effect, Entity attacker, Entity target, EffectEmitter action)
     {
-        Debug.LogWarning("PlaceHitParticle!");
         effect.GameObject.SetActive(true);
         effect.StartTime = Time.time;
         effect.GameObject.transform.position = CalculateHitParticlePosition(attacker, target, action);
