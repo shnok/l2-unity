@@ -306,6 +306,12 @@ public class ParticleManager : MonoBehaviour
 
         foreach (EffectEmitter action in shotActions)
         {
+            if (action.Arrow)
+            {
+                SpawnArrowProjectile(caster, target, hitTime, true);
+                continue;
+            }
+
             AttachMethod attachOn = action.AttachOn;
             string effectClass = action.EffectClass;
 
@@ -319,7 +325,7 @@ public class ParticleManager : MonoBehaviour
             effect.Target = target;
             effect.Caster = caster;
 
-            if (action.SpawnOnTarget)
+            if (action.SpawnOnTarget && !action.ChargedArrow)
             {
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);
@@ -337,6 +343,12 @@ public class ParticleManager : MonoBehaviour
 
                 // Set initial position
                 UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
+
+                if (action.ChargedArrow) // Effect is supposed to follow arrow position
+                {
+                    effect.GameObject.transform.SetPositionAndRotation(caster.Gear.Arrow.position, caster.Gear.Arrow.rotation);
+                    effect.StartingPosition = effect.GameObject.transform.position;
+                }
 
                 // Remove effect for attach transform
                 effect.GameObject.transform.parent = _effectContainer.transform;
@@ -522,6 +534,7 @@ public class ParticleManager : MonoBehaviour
 
     private void PlaceHitParticle(PooledEffect effect, Entity attacker, Entity target)
     {
+        // Debug.LogWarning("PlaceHitParticle!");
         effect.GameObject.SetActive(true);
         effect.StartTime = Time.time;
         effect.GameObject.transform.position = CalculateHitParticlePosition(attacker, target);
@@ -573,11 +586,11 @@ public class ParticleManager : MonoBehaviour
     #endregion
 
     #region Arrow
-    public void SpawnArrowProjectile(Entity caster, Entity target, Transform entityArrow, float hitTime, bool hitSuccess)
+    public void SpawnArrowProjectile(Entity caster, Entity target, float hitTime, bool hitSuccess)
     {
         PooledEffect arrowEffect = SpawnArrow();
         arrowEffect.GameObject.SetActive(true);
-        arrowEffect.Restart();
+        // arrowEffect.Restart();
 
         arrowEffect.StartTime = Time.time;
         arrowEffect.Caster = caster;
@@ -585,8 +598,7 @@ public class ParticleManager : MonoBehaviour
         arrowEffect.HitTime = hitTime;
         arrowEffect.HitSuccess = hitSuccess;
 
-        arrowEffect.GameObject.transform.position = entityArrow.position;
-        arrowEffect.GameObject.transform.rotation = entityArrow.rotation;
+        arrowEffect.GameObject.transform.SetPositionAndRotation(caster.Gear.Arrow.position, caster.Gear.Arrow.rotation);
         arrowEffect.StartingPosition = arrowEffect.GameObject.transform.position;
         arrowEffect.GameObject.transform.localScale = Vector3.one * 100f;
         arrowEffect.IsArrow = true;

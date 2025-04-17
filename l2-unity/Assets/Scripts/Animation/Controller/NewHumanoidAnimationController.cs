@@ -494,7 +494,24 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
 
                     if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
                     {
-                        events.Add(0.60f, () => AudioHandler.PlaySpAtkSound());
+                        if (_weaponAnim != WeaponAnimType.bow)
+                        {
+                            events.Add(0.60f, () => AudioHandler.PlaySpAtkSound());
+                        }
+                        else
+                        {
+                            events.Add(_nockArrowRatio, () =>
+                            {
+                                _entityReferenceHolder.Combat.NockArrow();
+                                AudioHandler.PlayBowBendSound();
+                            });
+
+                            events.Add(_shootArrowRatio, () =>
+                            {
+                                _entityReferenceHolder.Gear.HideArrow();
+                            });
+                        }
+
                         events.OnEnd = Wait;
                     }
                     UpdateCastAnimationSpeed(_lastPlayedClipDuration, _entityReferenceHolder.Combat.LastSkillHitTime, true);

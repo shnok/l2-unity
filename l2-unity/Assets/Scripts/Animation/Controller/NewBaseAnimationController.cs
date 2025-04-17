@@ -21,7 +21,7 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     [SerializeField] protected float _walkSpdMultiplier = 1;
     [Header("Bow")]
     [SerializeField] protected float _nockArrowRatio = 0.2f;
-    [SerializeField] protected float _shootArrowRatio = 0.7f;
+    [SerializeField] protected float _shootArrowRatio = 0.65f;
 
     protected AnimancerState _animancerState;
     protected AnimancerState _atkAnimancerState;

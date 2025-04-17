@@ -15,6 +15,8 @@ public class EffectEmitter
     [SerializeField] private EtcEffectInfo _etcEffectInfo;
     [SerializeField] private bool _pawnLight;
     [SerializeField] private EffectPawnLightParam _pawnLightParam;
+    [SerializeField] private bool _arrow;
+    [SerializeField] private bool _chargedArrow;
 
     public AttachMethod AttachOn { get { return _attachOn; } set { _attachOn = value; } }
     public bool SpawnOnTarget { get { return _spawnOnTarget; } set { _spawnOnTarget = value; } }
@@ -28,5 +30,7 @@ public class EffectEmitter
     public EtcEffectInfo EtcEffectInfo { get { return _etcEffectInfo; } set { _etcEffectInfo = value; } }
     public bool PawnLight { get { return _pawnLight; } set { _pawnLight = value; } }
     public EffectPawnLightParam PawnLightParam { get { return _pawnLightParam; } set { _pawnLightParam = value; } }
+    public bool Arrow { get => _arrow; set => _arrow = value; }
+    public bool ChargedArrow { get => _chargedArrow; set => _chargedArrow = value; }
 
 }

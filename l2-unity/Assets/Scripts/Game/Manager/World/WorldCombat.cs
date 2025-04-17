@@ -7,7 +7,7 @@ using static StatusUpdatePacket;
 public class WorldCombat : MonoBehaviour
 {
     [SerializeField] private List<Hit> _hits;
-    [SerializeField] private float _projectilesSpeed = 16f;
+    [SerializeField] private float _projectilesSpeed = 20f;
     private EventProcessor _eventProcessor;
     private WorldSpawner _worldSpawner;
 
@@ -534,9 +534,9 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
-    public void EntityShootArrow(Entity caster, Entity target, Transform arrowObject, float hitTimeSec, bool hitSuccess)
+    public void EntityShootArrow(Entity caster, Entity target, float hitTimeSec, bool hitSuccess)
     {
-        ParticleManager.Instance.SpawnArrowProjectile(caster, target, arrowObject, hitTimeSec, hitSuccess);
+        ParticleManager.Instance.SpawnArrowProjectile(caster, target, hitTimeSec, hitSuccess);
     }
 
     public Task RelationChanged(int owner, int karma, int pvpFlag)

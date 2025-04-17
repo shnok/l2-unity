@@ -177,12 +177,13 @@ public abstract class Combat : MonoBehaviour
         float timeToReachTarget = WorldCombat.Instance.CalculateTimeToHitTarget(_referenceHolder.Entity, AttackTarget);
         float hitTimeReal = Time.time + timeToReachTarget;
 
-        WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity, AttackTarget, _referenceHolder.Gear.Arrow, hitTimeReal, _hitSuccess);
+        WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity, AttackTarget, hitTimeReal, _hitSuccess);
         _referenceHolder.Gear.HideArrow();
     }
 
     public virtual void CastSkill(Skill skill, Entity target, int hitTime, int reuseDelay, PooledEffect[] castEffects)
     {
+        _hitSuccess = true;
         _lastSkill = skill;
         _lastSkillHitTime = hitTime;
         _lastSkillReuseDelay = reuseDelay;
@@ -192,8 +193,8 @@ public abstract class Combat : MonoBehaviour
         _skillShot = false;
         _lastSkillUseTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         _isFighterSkill = (int)_lastSkill.Skillgrps[0].CastAnimation >= 100;
-        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.85f);
-        _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 1f);
+        _skillThrowThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.75f);
+        _skillShootThreshold = _lastSkillUseTime + (int)(_lastSkillHitTime * 0.90f);
         _castingEffects = castEffects;
 
         Debug.Log($"CastSkill: skill={skill}, hitTime={hitTime}, reuseDelay={reuseDelay}, _lastSkillUseTime={_lastSkillUseTime}");
@@ -212,6 +213,7 @@ public abstract class Combat : MonoBehaviour
     {
         _castingSkill = false;
         _referenceHolder.Gear.StopTrail();
+        _referenceHolder.Gear.HideArrow();
 
         // Disable effects
         if (_castingEffects != null)

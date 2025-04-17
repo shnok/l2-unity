@@ -46,6 +46,18 @@ public class L2SkillEffectEmitterConverter : JsonConverter
                 emitter.SecondaryEffectClass = emitter.EffectClass.Replace("stick", "book");
             }
         }
+        else
+        {
+            if (emitter.EffectClass == "s_u003_d")
+            {
+                emitter.Arrow = true;
+            }
+
+            if (emitter.EffectClass == "s_u003_b")
+            {
+                emitter.ChargedArrow = true;
+            }
+        }
 
         if (jObject["PawnLightParam"] != null)
         {
