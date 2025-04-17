@@ -51,8 +51,8 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         }
         Vector3 ajustedDirection = _direction * _speed * _moveSpeedMultiplier + Vector3.down;
         ajustedDirection = ApplyGravity(ajustedDirection);
-        _characterController.Move(ajustedDirection * Time.deltaTime);
-        UpdateMovementAnimation(_direction);
+
+        _characterController.Move(ajustedDirection * Time.fixedDeltaTime);
     }
     private Vector3 ApplyGravity(Vector3 dir)
     {
@@ -76,6 +76,7 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
 
         return dir;
     }
+
     // Player move direction packets
     public void UpdateMoveDirection(Vector3 position, Vector3 direction, float verticalVelocity, long timestamp)
     {
@@ -92,58 +93,31 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
 
         if (direction.x != 0 || direction.z != 0)
         {
-            _networkTransformReceive.ResumePositionSync();
+            _entity.AnimationController.Move();
+
             //_networkTransformReceive.PausePositionSync();
             _networkTransformReceive.SetFinalRotation(VectorUtils.CalculateMoveDirectionAngle(direction.x, direction.z));
 
         }
-        else
-        {
-            _networkTransformReceive.ResumePositionSync();
-        }
+
+        _networkTransformReceive.ResumePositionSync();
+
         if (verticalVelocity >= 8.0f)
         {
             Jump(verticalVelocity);
         }
-
     }
 
     public void Jump(float _jumpForce)
     {
         if (_characterController.isGrounded)
         {
+            _entity.AnimationController.Jump();
+
             _verticalVelocity = _jumpForce;
         }
     }
-    public void UpdateMovementAnimation(Vector3 direction)
-    {
-        if (_entity.AnimationController == null)
-        {
-            return;
-        }
-        if (direction.x != 0 || direction.z != 0)
-        {
-            if (!_isJumping)
-            {
-                _entity.AnimationController.Move();
-            }
-            else
-            {
-                _entity.AnimationController.Jump();
-            }
-        }
-        else
-        {
-            if (!_isJumping)
-            {
-                _entity.AnimationController.Wait();
-            }
-            else
-            {
-                _entity.AnimationController.Jump();
-            }
-        }
-    }
+
     // Move to destination packets
     public void SetDestination(Vector3 destination, float stopAtRange)
     {
@@ -164,8 +138,10 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         _distanceToDestination = Vector3.Distance(transformFlat, destinationFlat);
         _direction = (destinationFlat - transformFlat).normalized;
 
+
         if (_distanceToDestination > _stopAtRangeDefault + stopAtRange)
         {
+            _entity.AnimationController.Move();
             _networkTransformReceive.PausePositionSync();
         }
     }
@@ -179,7 +155,6 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
             if (_direction != Vector3.zero)
             {
                 _entity.OnStopMoving();
-                _entity.AnimationController.Wait();
                 //TODO check if has target and is attacking
             }
 

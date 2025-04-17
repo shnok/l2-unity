@@ -50,9 +50,24 @@ public class NewMonsterAnimationController : NewBaseAnimationController
 
             if (!_animancerState.HasEvents)
             {
-                _animancerState.Events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Atk));
+                _animancerState.Events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
 
-                //TODO: Detect if monster has a bow ?
+                if (_entityReferenceHolder.Gear.WeaponType == WeaponType.bow)
+                {
+                    _animancerState.Events.Add(_nockArrowRatio, () =>
+                    {
+                        _entityReferenceHolder.Combat.NockArrow();
+                        AudioHandler.PlayBowBendSound();
+                    });
+
+                    _animancerState.Events.Add(_shootArrowRatio, () =>
+                    {
+                        _entityReferenceHolder.Combat.ShootArrow();
+                        AudioHandler.PlayArrowShootSound();
+                    });
+                }
+
+                _animancerState.Events.OnEnd += Wait;
             }
         }
     }
@@ -65,9 +80,10 @@ public class NewMonsterAnimationController : NewBaseAnimationController
 
             if (!_animancerState.HasEvents)
             {
+                _animancerState.Events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
+
                 foreach (float ratio in AudioHandler.RunStepRatios)
                 {
-                    _animancerState.Events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
                     _animancerState.Events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
                 }
             }

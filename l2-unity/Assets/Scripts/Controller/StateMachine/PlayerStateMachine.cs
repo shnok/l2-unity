@@ -13,6 +13,8 @@ public class PlayerStateMachine : MonoBehaviour
     public Intention Intention { get { return _currentIntention; } }
     public PlayerState State { get { return _currentState; } }
     [SerializeField] private bool _waitingForServerReply;
+    private float _waitingForServerReplyTimestamp;
+    private const float STATE_TIMEOUT_SEC = 1f;
 
     public bool WaitingForServerReply { get { return _waitingForServerReply; } }
     public bool LogsEnabled { get { return _enableLogs; } }
@@ -44,7 +46,12 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void SetWaitingForServerReply(bool value)
     {
-        // Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
+        if (_enableLogs) Debug.Log($"[StateMachine] Waiting for server reply: {value}");
+        if (value == true)
+        {
+            _waitingForServerReplyTimestamp = Time.time;
+        }
+
         _waitingForServerReply = value;
     }
 
@@ -52,6 +59,19 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _stateInstance?.Update();
         _intentionInstance?.Update();
+        WatchDog();
+    }
+
+    private void WatchDog()
+    {
+        if (_waitingForServerReply)
+        {
+            if (Time.time - _waitingForServerReplyTimestamp > STATE_TIMEOUT_SEC)
+            {
+                Debug.LogError($"[StateMachine] Waiting for server response timeout. State:{_currentState} Intention:{_currentIntention}");
+                _waitingForServerReply = false;
+            }
+        }
     }
 
     public void ChangeState(PlayerState newState)
