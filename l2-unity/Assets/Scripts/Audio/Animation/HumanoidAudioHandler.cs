@@ -111,7 +111,12 @@ public class HumanoidAudioHandler : BaseAnimationAudioHandler
 
     public virtual void PlayPreAtkSound(int spAtkIndex)
     {
-        // WeaponAnimType weaponAnim = ((NewHumanoidAnimationController)_entityReferenceHolder.NewAnimationController).WeaponAnim;
+        WeaponAnimType weaponAnim = ((NewHumanoidAnimationController)_entityReferenceHolder.NewAnimationController).WeaponAnim;
+
+        if (weaponAnim == WeaponAnimType.bow)
+        {
+            return; // bow attacks dont have voicelines
+        }
 
         if (spAtkIndex == 0) //TODO: Verify and update
         {
