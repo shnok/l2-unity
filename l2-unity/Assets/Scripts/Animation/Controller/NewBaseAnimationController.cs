@@ -21,8 +21,7 @@ public abstract class NewBaseAnimationController : MonoBehaviour
     [SerializeField] protected float _walkSpdMultiplier = 1;
     [Header("Bow")]
     [SerializeField] protected float _nockArrowRatio = 0.2f;
-    [SerializeField] protected float _shootArrowRatio = 0.6f;
-    protected bool _attacking = false;
+    [SerializeField] protected float _shootArrowRatio = 0.7f;
 
     protected AnimancerState _animancerState;
     protected AnimancerState _atkAnimancerState;
@@ -94,12 +93,8 @@ public abstract class NewBaseAnimationController : MonoBehaviour
 
     public virtual void SetPAtkSpd(float value)
     {
-        Debug.LogWarning("Updating entity attack speed: " + value);
-
         _atkSpd = value;
         UpdateAttackAnimationSpeed(_lastPlayedClipDuration, value);
-
-        Debug.LogWarning("New atk speed multiplier: " + _atkSpdMultiplier);
 
     }
 

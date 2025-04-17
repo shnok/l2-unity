@@ -174,7 +174,10 @@ public abstract class Combat : MonoBehaviour
     public virtual void ShootArrow()
     {
         // Debug.Log($"[{transform.name}] Shoot arrow");
-        WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity, AttackTarget, _referenceHolder.Gear.Arrow, _hitTime, _hitSuccess);
+        float timeToReachTarget = WorldCombat.Instance.CalculateTimeToHitTarget(_referenceHolder.Entity, AttackTarget);
+        float hitTimeReal = Time.time + timeToReachTarget;
+
+        WorldCombat.Instance.EntityShootArrow(_referenceHolder.Entity, AttackTarget, _referenceHolder.Gear.Arrow, hitTimeReal, _hitSuccess);
         _referenceHolder.Gear.HideArrow();
     }
 

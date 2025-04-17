@@ -7,7 +7,7 @@ using static StatusUpdatePacket;
 public class WorldCombat : MonoBehaviour
 {
     [SerializeField] private List<Hit> _hits;
-    [SerializeField] private float _projectilesSpeed = 10f;
+    [SerializeField] private float _projectilesSpeed = 16f;
     private EventProcessor _eventProcessor;
     private WorldSpawner _worldSpawner;
 
@@ -317,7 +317,14 @@ public class WorldCombat : MonoBehaviour
             //     hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
             // }
 
-            hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
+            if (senderEntity.Gear.WeaponType == WeaponType.bow)
+            {
+                hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f;
+            }
+            else
+            {
+                hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
+            }
 
             _hits.Add(hit);
 
