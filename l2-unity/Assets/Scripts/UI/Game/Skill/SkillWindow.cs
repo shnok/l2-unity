@@ -12,8 +12,6 @@ public class SkillWindow : L2PopupWindow
     private VisualTreeAsset _minimizedTemplate;
     public VisualTreeAsset SkillSectionTemplate { get; private set; }
     private VisualElement _skillsTabView;
-    private VisualElement _content;
-    private SkillTab _activeTab;
 
     [SerializeField] private SkillTab[] _tabs;
     [SerializeField] private List<SkillSlot> _slots;
@@ -68,9 +66,6 @@ public class SkillWindow : L2PopupWindow
         InitWindow(root);
 
         CenterWindow();
-        // _windowEle.style.left = new Length(50, LengthUnit.Percent);
-        // _windowEle.style.top = new Length(50, LengthUnit.Percent);
-        // _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
 
         CreateTabs();
 

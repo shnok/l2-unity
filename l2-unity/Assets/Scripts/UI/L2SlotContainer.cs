@@ -12,6 +12,7 @@ public class L2SlotContainer : L2Scrollable
     [SerializeField] private int _currentSelectedSlotId;
     [SerializeField] private int _rowLength;
     [SerializeField] private int _minimumContainerSize;
+    [SerializeField] private L2Slot.SlotType _containerSlotType;
 
     public virtual void Initialize(VisualElement container, int rowLength, int minimumContainerSize)
     {
@@ -50,10 +51,12 @@ public class L2SlotContainer : L2Scrollable
 
         for (int i = 0; i < padSlot; i++)
         {
-            VisualElement slotElement = L2SlotManager.Instance.InventorySlotTemplate.Instantiate()[0];
-            slotElement.AddToClassList("inventory-slot");
-            slotElement.AddToClassList("disabled");
-            _slotContainerElement.Add(slotElement);
+            // VisualElement slotElement = L2SlotManager.Instance.InventorySlotTemplate.Instantiate()[0];
+            // slotElement.AddToClassList("inventory-slot");
+            // slotElement.AddToClassList("disabled");
+            // _slotContainerElement.Add(slotElement);
+            L2Slot slot = InstantiateSlot(_containerSlotType, i + slotCount);
+            slot.SlotElement.AddToClassList("disabled");
         }
     }
 
@@ -89,6 +92,8 @@ public class L2SlotContainer : L2Scrollable
         // Create empty slots
         _slots = new L2Slot[slotCount];
 
+        _containerSlotType = slotType;
+
         CreateSlotElements(slotCount, slotType);
 
         PadSlots(slotCount);
@@ -100,41 +105,51 @@ public class L2SlotContainer : L2Scrollable
     {
         for (int i = 0; i < slotCount; i++)
         {
-            VisualElement slotElement;
-            L2Slot slot;
-
-            switch (slotType)
-            {
-                case L2Slot.SlotType.Inventory:
-                case L2Slot.SlotType.InventoryBis:
-                    slotElement = L2SlotManager.Instance.InventorySlotTemplate.Instantiate()[0];
-                    slot = new InventorySlot(i, slotElement, this, slotType);
-                    break;
-                case L2Slot.SlotType.Action:
-                    slotElement = L2SlotManager.Instance.ActionSlotTemplate.Instantiate()[0];
-                    slot = new ActionSlot(slotElement, i, slotType);
-                    break;
-                case L2Slot.SlotType.Product:
-                    slotElement = L2SlotManager.Instance.ShopSlotTemplate.Instantiate()[0];
-                    slot = new ProductSlot(i, slotElement, this, slotType);
-                    break;
-                case L2Slot.SlotType.Basket:
-                    slotElement = L2SlotManager.Instance.ShopSlotTemplate.Instantiate()[0];
-                    slot = new BasketSlot(i, slotElement, this, slotType);
-                    break;
-                case L2Slot.SlotType.Skill:
-                    slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
-                    slot = new SkillSlot(i, slotElement, slotType);
-                    break;
-                default:
-                    Debug.LogWarning("Invalid slot type assigned to slot container!");
-                    continue;
-            }
-
-            _slotContainerElement.Add(slotElement);
+            L2Slot slot = InstantiateSlot(slotType, i);
 
             _slots[i] = slot;
         }
+    }
+
+    private L2Slot InstantiateSlot(L2Slot.SlotType slotType, int slotIndex)
+    {
+        VisualElement slotElement = null;
+        L2Slot slot = null;
+
+        switch (slotType)
+        {
+            case L2Slot.SlotType.Inventory:
+            case L2Slot.SlotType.InventoryBis:
+                slotElement = L2SlotManager.Instance.InventorySlotTemplate.Instantiate()[0];
+                slot = new InventorySlot(slotIndex, slotElement, this, slotType);
+                break;
+            case L2Slot.SlotType.Action:
+                slotElement = L2SlotManager.Instance.ActionSlotTemplate.Instantiate()[0];
+                slot = new ActionSlot(slotElement, slotIndex, slotType);
+                break;
+            case L2Slot.SlotType.Product:
+                slotElement = L2SlotManager.Instance.ShopSlotTemplate.Instantiate()[0];
+                slot = new ProductSlot(slotIndex, slotElement, this, slotType);
+                break;
+            case L2Slot.SlotType.Basket:
+                slotElement = L2SlotManager.Instance.ShopSlotTemplate.Instantiate()[0];
+                slot = new BasketSlot(slotIndex, slotElement, this, slotType);
+                break;
+            case L2Slot.SlotType.Skill:
+                slotElement = L2SlotManager.Instance.SkillSlotTemplate.Instantiate()[0];
+                slot = new SkillSlot(slotIndex, slotElement, slotType);
+                break;
+            default:
+                Debug.LogWarning("Invalid slot type assigned to slot container!");
+                break;
+        }
+
+        if (slotElement != null)
+        {
+            _slotContainerElement.Add(slotElement);
+        }
+
+        return slot;
     }
 
 
