@@ -20,10 +20,10 @@ RenderSettings:
   m_FogDensity: 0.03
   m_LinearFogStart: 203.9
   m_LinearFogEnd: 371.6
-  m_AmbientSkyColor: {r: 0.30980393, g: 0.30980393, b: 0.30980393, a: 1}
+  m_AmbientSkyColor: {r: 0.43528906, g: 0.43079743, b: 0.39067242, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0.2
+  m_AmbientIntensity: 0.5
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 1, g: 1, b: 1, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 74e09fc0417b6f94c95b3a55ae362ec9, type: 2}
@@ -885,76 +885,6 @@ Material:
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!21 &448632337
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Override
-  m_Shader: {fileID: 4800000, guid: a3a3bc8785681554d9558e2ea68f100e, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _AdvancedCat: 1
-    - _Banner: 1
-    - _DirectionalCat: 1
-    - _DirectionalFalloff: 2
-    - _DirectionalIntensity: 1
-    - _FarDistanceHeight: 0
-    - _FarDistanceOffset: 0
-    - _FogAxisMode: 1
-    - _FogCameraMode: 0
-    - _FogCat: 1
-    - _FogColorDuo: 1
-    - _FogDistanceEnd: 100
-    - _FogDistanceFalloff: 2
-    - _FogDistanceStart: 0
-    - _FogHeightEnd: 100
-    - _FogHeightFalloff: 2
-    - _FogHeightStart: 0
-    - _FogIntensity: 1
-    - _FogLayersMode: 0
-    - _IsHeightFogPreset: 1
-    - _IsHeightFogShader: 1
-    - _JitterIntensity: 1
-    - _NoiseCat: 1
-    - _NoiseDistanceEnd: 50
-    - _NoiseIntensity: 1
-    - _NoiseMax: 1
-    - _NoiseMin: 0
-    - _NoiseModeBlend: 1
-    - _NoiseScale: 30
-    - _SkyboxCat: 1
-    - _SkyboxFogBottom: 0
-    - _SkyboxFogFalloff: 1
-    - _SkyboxFogFill: 1
-    - _SkyboxFogHeight: 1
-    - _SkyboxFogIntensity: 1
-    - _SkyboxFogOffset: 0
-    m_Colors:
-    - _DirectionalColor: {r: 1, g: 0.7793103, b: 0.5, a: 1}
-    - _DirectionalDir: {r: 0, g: 0, b: 0, a: 0}
-    - _FogAxisOption: {r: 0, g: 0, b: 0, a: 0}
-    - _FogColorEnd: {r: 0.8862745, g: 1.443137, b: 2, a: 1}
-    - _FogColorStart: {r: 0.4411765, g: 0.722515, b: 1, a: 1}
-    - _NoiseSpeed: {r: 0.5, g: 0, b: 0.5, a: 0}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &581901347
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,7 +952,6 @@ Transform:
   - {fileID: 1913599226}
   - {fileID: 1678428050}
   - {fileID: 734945106}
-  - {fileID: 1093349308}
   m_Father: {fileID: 760118614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!21 &734869360
@@ -1797,192 +1726,6 @@ Transform:
   - {fileID: 1713459356}
   m_Father: {fileID: 760118614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1093349307
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 702052364}
-    m_Modifications:
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _interiorProfile
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightMaxIntensity
-      value: 1.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Color.b
-      value: 0.59607846
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Color.g
-      value: 0.43137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Color.r
-      value: 0.39607844
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Intensity
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_ColorTemperature
-      value: 20000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_RenderingLayerMask
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dayColor.b
-      value: 0.5188679
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dayColor.g
-      value: 0.36589974
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dayColor.r
-      value: 0.090557136
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightMaxIntensity
-      value: 1.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _ambientLightDayColor.b
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _ambientLightDayColor.g
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4278919830997632640, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _ambientLightDayColor.r
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5761803617169700733, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_RenderingLayers
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _timeHour
-      value: 03:01:53
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _startClock
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _timeElapsed
-      value: 1818.94
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.dayRatio
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.darkRatio
-      value: 0.7160589
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.dawnRatio
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.duskRatio
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.nightRatio
-      value: 0.7188983
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.totalRatio
-      value: 0.12631525
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.brightRatio
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dayDurationMinutes
-      value: 240
-      objectReference: {fileID: 0}
-    - target: {fileID: 7616108795757726014, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Name
-      value: Directional Light
-      objectReference: {fileID: 0}
-    - target: {fileID: 7616108795757726014, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 39.779785
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.37715253
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.84339154
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.1562217
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.34934425
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 164.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
---- !u!4 &1093349308 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-  m_PrefabInstance: {fileID: 1093349307}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1153321995
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,7 +2272,7 @@ Material:
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!21 &1590278144
+--- !u!21 &1608221805
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -2573,209 +2316,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 702052364}
     m_Modifications:
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dayColor.b
-      value: 0.4716981
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dayColor.g
-      value: 0.32468975
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dayColor.r
-      value: 0.06007476
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dayTemperature
-      value: 6000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dawnTemperature
-      value: 3556
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _duskTemperature
-      value: 3556
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _exteriorProfile
-      value: 
-      objectReference: {fileID: 11400000, guid: 1fd05a4451d32bb43a5e03422764febe, type: 2}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _nightTemperature
-      value: 20000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightDayColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightDayColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightDayColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightDawnColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightDawnColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightDawnColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightduskColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightduskColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightduskColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightMaxIntensity
-      value: 0.51
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightNightColor.b
-      value: 0.7921569
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightNightColor.g
-      value: 0.75686276
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _mainLightNightColor.r
-      value: 0.7529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _ambientLightDayColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _ambientLightDayColor.b
-      value: 0.49261305
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _ambientLightDayColor.g
-      value: 0.49928033
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _ambientLightDayColor.r
-      value: 0.509434
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _exteriorExposureRange.y
-      value: 1.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _interiorExposureRange.x
-      value: 1.19
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _interiorExposureRange.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _dayHorizonCloudsOpcacity
-      value: 0.32
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _exteriorBrightnessRange.y
-      value: 1.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _interiorBrightnessRange.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1227905388046833727, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _interiorBrightnessRange.y
-      value: 1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Color.b
-      value: 0.7921569
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Color.g
-      value: 0.75686276
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Color.r
-      value: 0.7529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_Intensity
-      value: 0.2
-      objectReference: {fileID: 0}
     - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_ColorTemperature
-      value: 20000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4181994143891002370, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_UseColorTemperature
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _timeHour
-      value: 20:46:20
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _startClock
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _timeElapsed
-      value: 12463.41
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.dayRatio
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.darkRatio
-      value: 0.11734252
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.dawnRatio
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.duskRatio
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.nightRatio
-      value: 0.12616909
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.totalRatio
-      value: 0.8655144
-      objectReference: {fileID: 0}
-    - target: {fileID: 6026827821703622600, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: _clock.brightRatio
-      value: 0
+      value: 4637.142
       objectReference: {fileID: 0}
     - target: {fileID: 7616108795757726014, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_Name
       value: DayNight
-      objectReference: {fileID: 0}
-    - target: {fileID: 7616108795757726014, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2791,19 +2338,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9105817
+      value: 0.89782333
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.15618688
+      value: 0.21786842
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.37717533
+      value: 0.37189063
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.064694725
+      value: -0.09024406
       objectReference: {fileID: 0}
     - target: {fileID: 7988497584237515198, guid: 824ee6870a432f9439e35ee4e771a1f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2977,6 +2524,76 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4330486478705041542, guid: 0b573420c3186dc46b4707903a1da7de, type: 3}
   m_PrefabInstance: {fileID: 1713459355}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1823556631
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Override
+  m_Shader: {fileID: 4800000, guid: a3a3bc8785681554d9558e2ea68f100e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _AdvancedCat: 1
+    - _Banner: 1
+    - _DirectionalCat: 1
+    - _DirectionalFalloff: 2
+    - _DirectionalIntensity: 1
+    - _FarDistanceHeight: 0
+    - _FarDistanceOffset: 0
+    - _FogAxisMode: 1
+    - _FogCameraMode: 0
+    - _FogCat: 1
+    - _FogColorDuo: 1
+    - _FogDistanceEnd: 100
+    - _FogDistanceFalloff: 2
+    - _FogDistanceStart: 0
+    - _FogHeightEnd: 100
+    - _FogHeightFalloff: 2
+    - _FogHeightStart: 0
+    - _FogIntensity: 1
+    - _FogLayersMode: 0
+    - _IsHeightFogPreset: 1
+    - _IsHeightFogShader: 1
+    - _JitterIntensity: 1
+    - _NoiseCat: 1
+    - _NoiseDistanceEnd: 50
+    - _NoiseIntensity: 1
+    - _NoiseMax: 1
+    - _NoiseMin: 0
+    - _NoiseModeBlend: 1
+    - _NoiseScale: 30
+    - _SkyboxCat: 1
+    - _SkyboxFogBottom: 0
+    - _SkyboxFogFalloff: 1
+    - _SkyboxFogFill: 1
+    - _SkyboxFogHeight: 1
+    - _SkyboxFogIntensity: 1
+    - _SkyboxFogOffset: 0
+    m_Colors:
+    - _DirectionalColor: {r: 1, g: 0.7793103, b: 0.5, a: 1}
+    - _DirectionalDir: {r: 0, g: 0, b: 0, a: 0}
+    - _FogAxisOption: {r: 0, g: 0, b: 0, a: 0}
+    - _FogColorEnd: {r: 0.8862745, g: 1.443137, b: 2, a: 1}
+    - _FogColorStart: {r: 0.4411765, g: 0.722515, b: 1, a: 1}
+    - _NoiseSpeed: {r: 0.5, g: 0, b: 0.5, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!21 &1839614457
 Material:
   serializedVersion: 8

@@ -45,8 +45,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 0.90588236, g: 0.8745098, b: 0.77254903, a: 1}
-  m_Intensity: 0.27
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.51
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -89,8 +89,8 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
+  m_ColorTemperature: 4629.411
+  m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
@@ -142,7 +142,7 @@ MonoBehaviour:
   _sunTiling: {x: 1.5, y: 1.5}
   _moonTexture: {fileID: 2800000, guid: b443728fc86061b4f8ecbe8a96c9d2ef, type: 3}
   _moonTiling: {x: 2.5, y: 2.5}
-  _dayColor: {r: 0, g: 0.3529412, b: 0.54901963, a: 1}
+  _dayColor: {r: 0.06007476, g: 0.32468975, b: 0.4716981, a: 1}
   _dawnColor: {r: 0.07450981, g: 0.13725491, b: 0.21568628, a: 1}
   _duskColor: {r: 0.27450982, g: 0.20784314, b: 0.16862746, a: 1}
   _nightColor: {r: -0.003921569, g: -0.003921569, b: -0.007843138, a: -1}
@@ -152,28 +152,32 @@ MonoBehaviour:
   _nightFogColorEnd: {r: 0.2404893, g: 0.24918169, b: 0.263669, a: 0.7388527}
   _dayDirectionalIntensity: 0.25
   _nightDirectionalIntensity: 0
-  _mainLightDayColor: {r: 0.90588236, g: 0.8745098, b: 0.77254903, a: 1}
-  _mainLightNightColor: {r: 0.39607844, g: 0.43137255, b: 0.59607846, a: 1}
-  _mainLightduskColor: {r: 1, g: 0.80784315, b: 0.61960787, a: 1}
-  _mainLightDawnColor: {r: 1, g: 0.80784315, b: 0.61960787, a: 1}
-  _ambientLightDayColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0.5}
+  _mainLightDayColor: {r: 1, g: 1, b: 1, a: 1}
+  _mainLightNightColor: {r: 0.7529412, g: 0.75686276, b: 0.7921569, a: 1}
+  _mainLightduskColor: {r: 1, g: 1, b: 1, a: 1}
+  _mainLightDawnColor: {r: 1, g: 1, b: 1, a: 1}
+  _dayTemperature: 6000
+  _nightTemperature: 20000
+  _duskTemperature: 3556
+  _dawnTemperature: 3556
+  _ambientLightDayColor: {r: 0.509434, g: 0.49928033, b: 0.49261305, a: 1}
   _ambientLightNightColor: {r: 0.30980393, g: 0.30980393, b: 0.30980393, a: 1}
   _ambientLightduskColor: {r: 0.32156864, g: 0.25490198, b: 0.16078432, a: 1}
   _ambientLightDawnColor: {r: 0.3764706, g: 0.3764706, b: 0.30980393, a: 1}
   _dayCloudsOpcacity: 2.54
   _nightCloudsOpacity: 0.12
-  _dayHorizonCloudsOpcacity: 1
+  _dayHorizonCloudsOpcacity: 0.32
   _nightHorizonCloudsOpacity: 0.05
   _ambientMinIntensity: 0.2
   _ambientMaxIntensity: 0.5
   _mainLightMinIntensity: 0.2
-  _mainLightMaxIntensity: 0.27
-  _exteriorProfile: {fileID: 11400000, guid: 2606cb68fb3b8fa44b4cbf69f8fdc10e, type: 2}
+  _mainLightMaxIntensity: 0.51
+  _exteriorProfile: {fileID: 11400000, guid: 1fd05a4451d32bb43a5e03422764febe, type: 2}
   _interiorProfile: {fileID: 11400000, guid: 87449e04dc9037245bcfeb599e33a5bc, type: 2}
-  _exteriorExposureRange: {x: 1.75, y: 1.38}
-  _exteriorBrightnessRange: {x: 1.41, y: 2.58}
-  _interiorExposureRange: {x: 1.75, y: 1.17}
-  _interiorBrightnessRange: {x: 1.41, y: 2.88}
+  _exteriorExposureRange: {x: 1.75, y: 1.02}
+  _exteriorBrightnessRange: {x: 1.41, y: 1.24}
+  _interiorExposureRange: {x: 1.19, y: 0.8}
+  _interiorBrightnessRange: {x: 0.8, y: 1.7}
 --- !u!114 &6026827821703622600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,8 +191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dayDurationMinutes: 240
-  _timeHour: 11:32:11
-  _timeElapsed: 6921.861
+  _timeHour: 08:16:35
+  _timeElapsed: 4965.993
   _startClock: 1
   _worldTimer:
     dayStartTime: 0.25
@@ -198,10 +202,10 @@ MonoBehaviour:
     sunsetStartTime: 0.89
     sunsetEndTime: 0.99
   _clock:
-    totalRatio: 0.4806848
-    dayRatio: 0.41193712
+    totalRatio: 0.34486064
+    dayRatio: 0.169394
     nightRatio: 0
     dawnRatio: 1
-    brightRatio: 0.39485714
+    brightRatio: 0.08784051
     duskRatio: 0
     darkRatio: 1
