@@ -103,15 +103,17 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
     public override void Attack()
     {
         // Debug.LogWarning(transform.name + " Attack");
-        _lastAnimationType = HumanoidWeaponAnimType.other;
-        _atkAnimIndex = 0;
-        PlayAttackAnimation();
+        if (_lastAnimationType != HumanoidWeaponAnimType.atkwait && _lastAnimationType != HumanoidWeaponAnimType.atk)
+        {
+            _atkAnimIndex = 0; // Reset atk animation index
+        }
+
+        _lastAnimationType = HumanoidWeaponAnimType.atk;
+        NextAttack(false);
     }
 
-    private void NextAttack()
+    private void NextAttack(bool retry)
     {
-        _atkAnimIndex += 1;
-
         //1HS has 3 anims
         //2HS has 3 anims
         //Pole has 3 anims
@@ -135,15 +137,15 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 break;
         }
 
-        if (_atkAnimIndex > maxAttackAnimIndex)
+        if (++_atkAnimIndex > maxAttackAnimIndex)
         {
             _atkAnimIndex = 0;
         }
 
-        PlayAttackAnimation();
+        PlayAttackAnimation(retry);
     }
 
-    private void PlayAttackAnimation()
+    private void PlayAttackAnimation(bool retry)
     {
         _atkAnimancerState?.Destroy(); // usefull?
 
@@ -212,6 +214,15 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
             else
             {
                 _atkAnimancerState.EffectiveSpeed = _atkSpdMultiplier;
+            }
+        }
+        else
+        {
+            _atkAnimIndex = 0;
+
+            if (!retry)
+            {
+                NextAttack(true);
             }
         }
     }
