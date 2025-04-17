@@ -48,9 +48,9 @@ public class NewMonsterAnimationController : NewBaseAnimationController
         {
             _animancerState.EffectiveSpeed = _atkSpdMultiplier;
 
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
-                events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Atk));
+                _animancerState.Events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Atk));
 
                 //TODO: Detect if monster has a bow ?
             }
@@ -63,12 +63,12 @@ public class NewMonsterAnimationController : NewBaseAnimationController
         {
             _animancerState.EffectiveSpeed = _runSpdMultiplier;
 
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
                 foreach (float ratio in AudioHandler.RunStepRatios)
                 {
-                    events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
-                    events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                    _animancerState.Events.Add(0.5f, () => AudioHandler.PlayBreatheSound());
+                    _animancerState.Events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
                 }
             }
         }
@@ -83,9 +83,9 @@ public class NewMonsterAnimationController : NewBaseAnimationController
 
         if (PlayAnimation((int)MonsterAnimationEvent.wait))
         {
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
-                events.Add(0.5f, () => AudioHandler.PlayWaitSound()); // breathe?
+                _animancerState.Events.Add(0.5f, () => AudioHandler.PlayWaitSound()); // breathe?
             }
         }
     }
@@ -108,11 +108,11 @@ public class NewMonsterAnimationController : NewBaseAnimationController
         {
             _animancerState.EffectiveSpeed = _runSpdMultiplier;
 
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
                 foreach (float ratio in AudioHandler.WalkStepRatios)
                 {
-                    events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
+                    _animancerState.Events.Add(ratio, () => AudioHandler.PlaySound(EntitySoundEvent.Step));
                 }
             }
         }
@@ -124,11 +124,11 @@ public class NewMonsterAnimationController : NewBaseAnimationController
     {
         if (PlayAnimation((int)MonsterAnimationEvent.death))
         {
-            if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+            if (!_animancerState.HasEvents)
             {
-                events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
-                events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
-                events.OnEnd = DieWait;
+                _animancerState.Events.Add(AudioHandler.DeathRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Death));
+                _animancerState.Events.Add(AudioHandler.FallRatio, () => AudioHandler.PlaySound(EntitySoundEvent.Fall));
+                _animancerState.Events.OnEnd = DieWait;
             }
         }
     }
@@ -166,9 +166,9 @@ public class NewMonsterAnimationController : NewBaseAnimationController
     {
         Debug.Log($"[{transform.name}] Social Action: {action}");
         PlayAnimation((int)MonsterAnimationEvent.spwait);
-        if (_animancerState.Events(null, out AnimancerEvent.Sequence events))
+        if (!_animancerState.HasEvents)
         {
-            events.OnEnd = Wait;
+            _animancerState.Events.OnEnd = Wait;
         }
     }
 }
