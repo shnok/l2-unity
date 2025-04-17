@@ -44,7 +44,6 @@ public class NewMonsterAnimationController : NewBaseAnimationController
     public override void Jump() { }
     public override void Attack()
     {
-        Debug.LogWarning("Monster attack!");
         if (PlayAnimation((int)MonsterAnimationEvent.atk01))
         {
             _animancerState.EffectiveSpeed = _atkSpdMultiplier;
@@ -53,8 +52,22 @@ public class NewMonsterAnimationController : NewBaseAnimationController
             {
                 _animancerState.Events.Add(AudioHandler.AtkRatio, () => AudioHandler.PlayAtkSound());
 
+                if (_entityReferenceHolder.Gear.WeaponType == WeaponType.bow)
+                {
+                    _animancerState.Events.Add(_nockArrowRatio, () =>
+                    {
+                        _entityReferenceHolder.Combat.NockArrow();
+                        AudioHandler.PlayBowBendSound();
+                    });
+
+                    _animancerState.Events.Add(_shootArrowRatio, () =>
+                    {
+                        _entityReferenceHolder.Combat.ShootArrow();
+                        AudioHandler.PlayArrowShootSound();
+                    });
+                }
+
                 _animancerState.Events.OnEnd += Wait;
-                //TODO: Detect if monster has a bow ?
             }
         }
     }
@@ -79,7 +92,6 @@ public class NewMonsterAnimationController : NewBaseAnimationController
 
     public override void Wait()
     {
-        Debug.LogWarning("Monster Wait!");
         if (AtkWait())
         {
             return;

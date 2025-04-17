@@ -43,7 +43,6 @@ public class MonsterAudioHandler : BaseAnimationAudioHandler
 
     public void PlayAtkSound()
     {
-        Debug.LogWarning("Monster Play atk sound");
         PlaySound(EntitySoundEvent.Atk);
     }
 
