@@ -139,6 +139,11 @@ public class L2GameUI : L2UI
             SkillLearnWindow.Instance.AddWindow(_rootVisualContainer);
             SkillLearnWindow.Instance.HideWindow(true);
         }
+        if (BuffWindow.Instance != null)
+        {
+            BuffWindow.Instance.AddWindow(_rootVisualContainer);
+            BuffWindow.Instance.HideWindow(true);
+        }
     }
 
     public void EnableMouse()

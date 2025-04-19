@@ -56,6 +56,11 @@ public class TooltipManipulator : Manipulator
         _value = value;
     }
 
+    public void SetValue(Buff value)
+    {
+        _value = value;
+    }
+
     public void Clear()
     {
         if (_pointerOver)

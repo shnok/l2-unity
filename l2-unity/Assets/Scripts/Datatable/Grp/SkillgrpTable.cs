@@ -101,7 +101,7 @@ public class SkillgrpTable
                             skillGrp.SubLevel = int.Parse(value);
                             break;
                         case "icon_type":
-                            skillGrp.IconType = Enum.Parse<SkillIconType>(value, true);
+                            skillGrp.IconType = Enum.Parse<SkillType>(value, true);
                             break;
                         case "MagicType":
                             skillGrp.MagicType = int.Parse(value);

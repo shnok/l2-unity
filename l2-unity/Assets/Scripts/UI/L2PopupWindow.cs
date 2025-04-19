@@ -64,14 +64,8 @@ public abstract class L2PopupWindow : L2Window
 
     public void CenterWindow()
     {
-        float root_width = _root.worldBound.width / 2;
-        float window_width = _windowEle.worldBound.width / 2;
-        float width = root_width - window_width;
-
-        float root_height = _root.worldBound.height / 2;
-        float window_height = _windowEle.worldBound.height / 2;
-        float height = root_height - window_height;
-        Vector2 center = new Vector2(_root.worldBound.x + width, _root.worldBound.y + height);
-        _windowEle.transform.position = center;
+        _windowEle.style.left = new Length(50, LengthUnit.Percent);
+        _windowEle.style.top = new Length(50, LengthUnit.Percent);
+        _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
     }
 }

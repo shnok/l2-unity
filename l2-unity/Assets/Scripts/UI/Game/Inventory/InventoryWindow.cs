@@ -137,9 +137,7 @@ public class InventoryWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
-        _windowEle.style.left = new Length(50, LengthUnit.Percent);
-        _windowEle.style.top = new Length(50, LengthUnit.Percent);
-        _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
+        CenterWindow();
 
         CreateTabs();
 

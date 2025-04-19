@@ -7,7 +7,7 @@ public class Skillgrp
     [SerializeField] private int _id;
     [SerializeField] private int _level;
     [SerializeField] private int _subLevel;
-    [SerializeField] private SkillIconType _skill_type;   //0 = damage, 1 = cubics and raid debuffs, 2 = embroider/dwarf buff slot, 3 = debuff, 4 = heroic skill, 11 = equipment passive buffs, 12 = passive magic buffs, 13 = weight limit, 14 = passive buffs (like assassination on dagger), 15 = clan skill
+    [SerializeField] private SkillType _skill_type;   //0 = damage, 1 = cubics and raid debuffs, 2 = embroider/dwarf buff slot, 3 = debuff, 4 = heroic skill, 11 = equipment passive buffs, 12 = passive magic buffs, 13 = weight limit, 14 = passive buffs (like assassination on dagger), 15 = clan skill
     [SerializeField] private int _magicType;
     [SerializeField] private SkillOperateType _operate_type; // 0 = dmg skill, 1 = buff/debuff, 2 = clan buffs, 3 = transf pain/activables, 4 = special event consumable buffs, 
     [SerializeField] private int _mp_consume;
@@ -36,7 +36,7 @@ public class Skillgrp
     public int Id { get => _id; set => _id = value; }
     public int Level { get => _level; set => _level = value; }
     public int SubLevel { get => _subLevel; set => _subLevel = value; }
-    public SkillIconType IconType { get => _skill_type; set => _skill_type = value; }
+    public SkillType IconType { get => _skill_type; set => _skill_type = value; }
     public int MagicType { get => _magicType; set => _magicType = value; }
     public SkillOperateType OperateType { get => _operate_type; set => _operate_type = value; }
     public int MpConsume { get => _mp_consume; set => _mp_consume = value; }

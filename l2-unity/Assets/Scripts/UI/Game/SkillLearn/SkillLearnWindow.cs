@@ -182,8 +182,8 @@ public class SkillLearnWindow : L2PopupWindow
         _userSpDetailValue.text = playerSp.ToString();
         _detailType.text = _selectedSkill.GetSkillType();
 
-        if (_selectedSkill.Type is global::SkillIconType.Passive or global::SkillIconType.EquipmentPassive or
-            global::SkillIconType.WeightLimit or global::SkillIconType.CraftAndItems)
+        if (_selectedSkill.Type is global::SkillType.Passive or global::SkillType.EquipmentPassive or
+            global::SkillType.WeightLimit or global::SkillType.CraftAndItems)
         {
             _detailRangeStats.style.display = DisplayStyle.None;
             _detailMpStats.style.display = DisplayStyle.None;

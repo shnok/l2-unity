@@ -65,11 +65,11 @@ public class SkillWindow : L2PopupWindow
     {
         InitWindow(root);
 
-        CenterWindow();
-
         CreateTabs();
 
         yield return new WaitForEndOfFrame();
+
+        CenterWindow();
 
         L2GameUI.Instance.WindowLoadComplete();
 
