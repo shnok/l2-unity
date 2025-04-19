@@ -1,10 +1,6 @@
-using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
-using Mono.Cecil.Cil;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,29 +9,25 @@ public class BuffWindow : L2Window
 {
     private BuffSlot[][] _buffs;
     private int _prevNormalBuffsIx = -1;
-    private int _prevDancesBuffsIx = -1;
     private int _prevSpecialBuffsIx = -1;
     private int _prevToggleBuffsIx = -1;
     private int _prevDebuffBuffsIx = -1;
     private int _normalBuffsIx = -1;
-    private int _dancesBuffsIx = -1;
     private int _specialBuffsIx = -1;
     private int _toggleBuffsIx = -1;
     private int _debuffBuffsIx = -1;
     [SerializeField] private int normalBuffsCount = 24;
-    [SerializeField] private int danceBuffsCount = 12;
     [SerializeField] private int specialBuffsCount = 12;
     [SerializeField] private int toggleBuffsCount = 10;
     [SerializeField] private int debuffBuffsCount = 10;
     [SerializeField] private int maxRowNormalBuffs = 12;
-    private int _buffCount;
-    private bool isUpdating = false;
     private VisualTreeAsset _buffSlot;
     private VisualElement _normalBuffsContainer;
-    private VisualElement _danceSongBuffsContainer;
     private VisualElement _specialBuffsContainer;
     private VisualElement _toggleBuffsContainer;
     private VisualElement _debuffBuffsContainer;
+    private int _buffCount;
+    private bool isUpdating = false;
     private static BuffWindow _instance;
     public static BuffWindow Instance { get { return _instance; } }
 
@@ -72,13 +64,11 @@ public class BuffWindow : L2Window
         DragManipulator drag = new DragManipulator(dragArea, _windowEle, this);
         dragArea.AddManipulator(drag);
         
-        _buffs = new BuffSlot[4][];
+        _buffs = new BuffSlot[3][];
         _buffs[0] = new BuffSlot[normalBuffsCount];
-        _buffs[1] = new BuffSlot[danceBuffsCount];
-        _buffs[2] = new BuffSlot[toggleBuffsCount];
-        _buffs[3] = new BuffSlot[specialBuffsCount];
+        _buffs[1] = new BuffSlot[toggleBuffsCount];
+        _buffs[2] = new BuffSlot[specialBuffsCount];
         _normalBuffsContainer = _windowEle.Q<VisualElement>("NormalBuffs");
-        _danceSongBuffsContainer = _windowEle.Q<VisualElement>("DanceSongBuffs");
         _specialBuffsContainer = _windowEle.Q<VisualElement>("SpecialBuffs");
         _toggleBuffsContainer = _windowEle.Q<VisualElement>("ToggleBuffs");
         _debuffBuffsContainer = _windowEle.Q<VisualElement>("DebuffBuffs");
@@ -91,16 +81,18 @@ public class BuffWindow : L2Window
     public void UpsertBuffs(int objectId, TargetType type, BuffEffect[] buffs)
     {
         // update target buffs/debuffs
-        // foreach (Buff e in buffs)
-        // {
-        //     UpsertBuff(e.SkillId, e.SkillLvl, e.Duration);
-        // }
     }
 
-    public void RemoveBuff(int typeIndex, int index)
+    public void RemoveLastBuff(int typeIndex, int index)
     {
         _buffs[typeIndex][index].SlotElement.style.display = DisplayStyle.None;
         _buffs[typeIndex][index].SlotElement.Q<Label>("Duration").style.display = DisplayStyle.None;
+        _buffCount--;
+    }
+    
+    public void RemoveBuff(int typeIndex, int index)
+    {
+        _buffs[typeIndex][index].SlotElement.style.display = DisplayStyle.None;
         _buffCount--;
     }
     
@@ -109,22 +101,22 @@ public class BuffWindow : L2Window
         Buff buff;
         foreach (BuffSlot b in _buffs[(int)BuffType.Special])
         {
-            if (status.WeightPenalty > 0)
-            {
-                UpsertBuff(4270, status.WeightPenalty, -50);
-            }
-            if (status.Charges > 0)
-            {
-                // skillid - duelist sonic focus = 8 or tyrant focus force = 50 
-                UpsertBuff(8, status.Charges, 600);
-            }
+            // to fix: skillid - duelist sonic focus = 8 or tyrant focus force = 50 
+            if (status.Charges > 0) UpsertBuff(8, status.Charges, 600);
+
+            // treat it as debuff
+            if (status.IsInsideDangerZone) UpsertBuff(4268, 1, -100);
+            if (status.IsBlockingAllPlayers) UpsertBuff(4269, 1, -100);
+            if (status.WeightPenalty > 0) UpsertBuff(4270, status.WeightPenalty, -50);
+            if (status.HasCharmOfCourage) UpsertBuff(5041, 1, -100);
+            if (status.DeathPenaltyLvl > 0) // needs fix
+            if (status.HasGradePenalty) UpsertBuff(6209, 1, -100); //needs fix: 6209 for armor, 6213 for weapon
         }
     }
     
     public void UpsertPlayerBuffs(BuffEffect[] buffs)
     {
         _normalBuffsIx = -1;
-        _dancesBuffsIx = -1;
         _specialBuffsIx = -1;
         _toggleBuffsIx = -1;
         _debuffBuffsIx = -1;
@@ -136,7 +128,11 @@ public class BuffWindow : L2Window
                 for (int i = 0; i < _buffs.Length; i++) {
                     for (int k = 0; k < _buffs[i].Length; k++) {
                         if (e.SkillId == _buffs[i][k].Id) {
-                            RemoveBuff(i, k);
+                            if (k < _buffs[i].Length - 1) {
+                                RemoveBuff(i, k);
+                            } else {
+                                RemoveLastBuff(i, k);
+                            }
                             break;
                         }
                     }
@@ -159,12 +155,12 @@ public class BuffWindow : L2Window
 
         BuffType type = Buff.ResolveBuffType(skillgrp);
 
-        // add or update buff
         StyleBackground background = new StyleBackground(IconTable.Instance.LoadTextureByName(skillgrp.Icon));
         string description = ComposeDescription(desc, skillNameData.DescParams);
         BuffSlot buffSlot;
         VisualElement visualBuff;
         (VisualElement visualContainer, int ix) = GetContainerAndBuffIndex(type, increment: true);
+        // insert new slot
         if (visualContainer.childCount <= ix) {
             visualBuff = _buffSlot.Instantiate()[0];
             visualBuff.Q<VisualElement>("SlotBg").style.backgroundImage = background;
@@ -174,14 +170,26 @@ public class BuffWindow : L2Window
         }
         else 
         {
+            // update old slot
             visualBuff = visualContainer[ix];
             visualBuff.Q<VisualElement>("SlotBg").style.backgroundImage = background;
             visualContainer.Children().ToArray()[ix] = visualBuff;
             buffSlot = _buffs[(int)type][ix];
             buffSlot.Buff.Level = skillLvl;
-            buffSlot.Buff.Duration = duration;
             buffSlot.Buff.Type = type;
             buffSlot.Buff.StartTime = Time.unscaledTime;
+            if (buffSlot.Id != skillId || duration > buffSlot.Buff.Duration + 1) {
+                buffSlot.Buff.Duration = duration;
+            }
+            if (duration >= 60) {
+                buffSlot.SlotElement.Q<Label>("Duration").style.display = DisplayStyle.None;
+                buffSlot.SlotElement.style.opacity = 1;
+            } else if (duration > -0.5f && duration < 60) {
+                ShowRemainingDuration(buffSlot.SlotElement, duration);
+            }
+            if (buffSlot.SlotElement.style.display == DisplayStyle.None) {
+                buffSlot.SlotElement.style.display = DisplayStyle.Flex;
+            }
         }
         buffSlot.Position = ix;
         buffSlot.Id = skillId;
@@ -223,37 +231,37 @@ public class BuffWindow : L2Window
                     
                     switch (duration)
                     {
-                        case > 0 and <= 30:
-                            // pulse and show remaining seconds
+                        case > -0.5f and <= 30f:
                             TogglePulse(effect);
-                            if (duration < 30) {
-                                Label remaining = effect.Q<Label>("Duration");
-                                remaining.text = Mathf.Ceil(duration).ToString(CultureInfo.InvariantCulture);
-                                if (remaining.style.display != DisplayStyle.Flex) remaining.style.display = DisplayStyle.Flex;
-                            }
+                            ShowRemainingDuration(effect, duration);
                             break;
                         case > 30 and < 60:
-                            // show remaining seconds
-                            Label remain = effect.Q<Label>("Duration");
-                            remain.text = Mathf.Ceil(duration).ToString(CultureInfo.InvariantCulture);
-                            if (remain.style.display != DisplayStyle.Flex) remain.style.display = DisplayStyle.Flex;
+                            ShowRemainingDuration(effect, duration);
                             break;
-                        case -1:
-                            // pulse because toggle
+                        case -1: //toggle
                             TogglePulse(effect);
                             break;
-                        case <= 0 when removedBuffs == _buffCount:
-                            RemoveBuff(i, k);
+                        case -100: //infinite
+                            break;
+                        case <= -0.5f when removedBuffs == _buffCount:
+                            effect.style.opacity = 1;
+                            RemoveLastBuff(i, k);
                             break;
                     }
                 }
             }
             if (_buffCount == 0) _windowEle.style.display = DisplayStyle.None;
     
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
         
         isUpdating = false;
+    }
+
+    private void ShowRemainingDuration(VisualElement effect, float duration) {
+        Label remaining = effect.Q<Label>("Duration");
+        remaining.text = Mathf.Ceil(duration).ToString(CultureInfo.InvariantCulture);
+        if (remaining.style.display != DisplayStyle.Flex) remaining.style.display = DisplayStyle.Flex;
     }
     
     private string ComposeDescription(string desc, string[] descParams)
@@ -268,7 +276,6 @@ public class BuffWindow : L2Window
     private (VisualElement, int) GetContainerAndBuffIndex(BuffType type, bool increment) => type switch
         {
             BuffType.Normal => (_normalBuffsContainer, increment ? ++_normalBuffsIx : _normalBuffsIx),
-            BuffType.DanceSong => (_danceSongBuffsContainer, increment ? ++_dancesBuffsIx : _dancesBuffsIx),
             BuffType.Special => (_specialBuffsContainer, increment ? ++_specialBuffsIx : _specialBuffsIx),
             BuffType.Toggle => (_toggleBuffsContainer, increment ? ++_toggleBuffsIx : _toggleBuffsIx),
             BuffType.Debuff => (_debuffBuffsContainer, increment ? ++_debuffBuffsIx : _debuffBuffsIx),
@@ -290,10 +297,6 @@ public class BuffWindow : L2Window
             RemoveBuff((int)BuffType.Normal, i);
         }
         
-        for (int i = _dancesBuffsIx+1; i < _prevDancesBuffsIx+1; i++) {
-            RemoveBuff((int)BuffType.DanceSong, i);
-        }
-        
         for (int i = _specialBuffsIx+1; i < _prevSpecialBuffsIx+1; i++) {
             RemoveBuff((int)BuffType.Special, i);
         }
@@ -309,7 +312,6 @@ public class BuffWindow : L2Window
 
     private void UpdateBuffsCount() {
         _prevNormalBuffsIx = _normalBuffsIx;
-        _prevDancesBuffsIx = _dancesBuffsIx;
         _prevSpecialBuffsIx = _specialBuffsIx;
         _prevToggleBuffsIx = _toggleBuffsIx;
         _prevDebuffBuffsIx = _debuffBuffsIx;

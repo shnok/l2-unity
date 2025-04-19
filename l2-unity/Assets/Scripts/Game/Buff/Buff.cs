@@ -31,7 +31,7 @@ public class Buff
         {
             SkillType.Special or SkillType.AbilityPassive => BuffType.Special,
             SkillType.CraftAndItems or SkillType.Buff when skill.OperateType is SkillOperateType.SpecialEvent => BuffType.Special,
-            SkillType.Buff when skill.IsMagic == IsMagicType.SongOrDances => BuffType.DanceSong,
+            // SkillType.Buff when skill.IsMagic == IsMagicType.SongOrDances => BuffType.DanceSong, // this is for later than interlude
             SkillType.Buff or SkillType.CraftAndItems or SkillType.Damage => BuffType.Normal,
             SkillType.Toggle => BuffType.Toggle,
             SkillType.Debuff => BuffType.Debuff,

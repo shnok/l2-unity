@@ -211,11 +211,11 @@ public class L2ToolTip : L2PopupWindow
         }
         else 
         {
-            int duration = (int)effect.StartTime + effect.Duration - (int)Time.unscaledTime;
-            double hours = duration * 0.00027777778f;
-            double remainderAfterHours = duration - ((int)hours * 3600);
-            double minutes = Math.Floor(remainderAfterHours * 0.0166666667f);
-            double seconds = duration - ((int)hours * 3600) - (minutes * 60);
+            float duration = effect.StartTime + effect.Duration - Time.unscaledTime;
+            float hours = duration * 0.00027777778f;
+            float remainderAfterHours = duration - ((int)hours * 3600);
+            float minutes = Mathf.Floor(remainderAfterHours * 0.0166666667f);
+            float seconds = duration - ((int)hours * 3600) - (minutes * 60);
             StringBuilder durationStr = new();
             if ((int)hours > 0) {
                 durationStr.Append((int)hours);
@@ -225,7 +225,7 @@ public class L2ToolTip : L2PopupWindow
                 durationStr.Append((int)minutes);
                 durationStr.Append("m ");
             }
-            durationStr.Append((int)seconds);
+            durationStr.Append(Mathf.Ceil(seconds + 0.8f));
             durationStr.Append("s");
             durationLabel.text = durationStr.ToString();
         }
