@@ -106,7 +106,7 @@ public class SkillIntention : IntentionBase
     private bool SkillIsABuffOrHeal()
     {
         Skillgrp skillgrp = _lastSkillIntentionGrp;
-        bool isBuff = skillgrp.IconType == SkillIconType.Buff;
+        bool isBuff = skillgrp.IconType == SkillType.Buff;
         bool isHeal = skillgrp.OperateType == SkillOperateType.Heal;
         //TODO: 
         // Create an operate type for heals so that they can behave like buffs 

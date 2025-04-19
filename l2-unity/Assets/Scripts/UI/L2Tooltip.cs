@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Globalization;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,6 +11,7 @@ public class L2ToolTip : L2PopupWindow
 
     private VisualElement _skillTooltip;
     private VisualElement _labelTooltip;
+    private VisualElement _effectTooltip;
     private VisualElement _value;
     private VisualElement _tooltipTarget;
     private Coroutine _updateStyleCoroutine;
@@ -47,6 +50,7 @@ public class L2ToolTip : L2PopupWindow
         _value = GetElementById("Content");
         _skillTooltip = GetElementById("SkillTooltip");
         _labelTooltip = GetElementById("LabelTooltip");
+        _effectTooltip = GetElementById("EffectTooltip");
     }
 
     public void UpdateTooltip<T>(L2Slot.SlotType type, T value, VisualElement target)
@@ -56,17 +60,20 @@ public class L2ToolTip : L2PopupWindow
 
         _tooltipTarget = target;
 
+        _skillTooltip.style.display = DisplayStyle.None;
+        _labelTooltip.style.display = DisplayStyle.None;
+        _effectTooltip.style.display = DisplayStyle.None;
+
         switch (type)
         {
             case L2Slot.SlotType.Skill:
-                _labelTooltip.style.display = DisplayStyle.None;
                 DisplaySkillTooltip(value);
                 break;
-
+            case L2Slot.SlotType.Effect:
+                DisplayEffectTooltip(value);
+                break;
             default:
-                _skillTooltip.style.display = DisplayStyle.None;
                 DisplayDefaultTooltip(value);
-
                 break;
         }
 
@@ -124,9 +131,14 @@ public class L2ToolTip : L2PopupWindow
 
             yield return new WaitForEndOfFrame();
 
-            _windowEle.style.left = target.worldBound.x;
-            _windowEle.style.top = target.worldBound.y - _windowEle.resolvedStyle.height;
+            int margin = 5;
+            float leftPos = Math.Min(target.worldBound.x, Math.Max(Screen.width - _windowEle.resolvedStyle.width, 0));
+            float topPosUp = Math.Max(target.worldBound.y - _windowEle.resolvedStyle.height - margin, 0);
+            float topPosDown = target.worldBound.y + target.resolvedStyle.height + margin;
+            float topPos = (target.worldBound.y >= _windowEle.resolvedStyle.height + margin) ? topPosUp : topPosDown;
 
+            _windowEle.style.left = leftPos;
+            _windowEle.style.top = topPos;
             _windowEle.style.opacity = 1;
         }
     }
@@ -184,7 +196,7 @@ public class L2ToolTip : L2PopupWindow
             GetElementById("SkillTooltipCastingTime").style.display = DisplayStyle.None;
         }
 
-        if (skill.IsPassiveSkill() || skill.Type == SkillIconType.CraftAndItems)
+        if (skill.IsPassiveSkill() || skill.Type == SkillType.CraftAndItems)
         {
             GetElementById("SkillTooltipReuseTime").style.display = DisplayStyle.None;
         }
@@ -193,5 +205,54 @@ public class L2ToolTip : L2PopupWindow
             GetLabelById("SkillTooltipReuseTimeValue").text = skill.ReuseDelay.ToString(CultureInfo.InvariantCulture);
             GetElementById("SkillTooltipReuseTime").style.display = DisplayStyle.Flex;
         }
+    }
+
+    private void DisplayEffectTooltip<T>(T value)
+    {
+        Buff val = value as Buff;
+        if (val is null)
+        {
+            _effectTooltip.style.display = DisplayStyle.None;
+            return;
+        }
+
+        AddEffectTooltip(val);
+
+        _effectTooltip.style.display = DisplayStyle.Flex;
+    }
+
+    public void AddEffectTooltip(Buff effect)
+    {
+        GetLabelById("EffectTooltipName").text = effect.Name;
+        GetLabelById("EffectTooltipLevelValue").text = effect.Level.ToString();
+        Label durationLabel = GetLabelById("EffectTooltipDurationValue");
+
+        if (effect.Duration == -1)
+        {
+            durationLabel.style.display = DisplayStyle.None;
+        }
+        else
+        {
+            float duration = effect.StartTime + effect.Duration - Time.unscaledTime;
+            float hours = duration * 0.00027777778f;
+            float remainderAfterHours = duration - ((int)hours * 3600);
+            float minutes = Mathf.Floor(remainderAfterHours * 0.0166666667f);
+            float seconds = duration - ((int)hours * 3600) - (minutes * 60);
+            StringBuilder durationStr = new();
+            if ((int)hours > 0)
+            {
+                durationStr.Append((int)hours);
+                durationStr.Append("h ");
+            }
+            if ((int)minutes > 0)
+            {
+                durationStr.Append((int)minutes);
+                durationStr.Append("m ");
+            }
+            durationStr.Append(Mathf.Ceil(seconds + 0.8f));
+            durationStr.Append("s");
+            durationLabel.text = durationStr.ToString();
+        }
+        GetLabelById("EffectTooltipDescription").text = effect.Description;
     }
 }

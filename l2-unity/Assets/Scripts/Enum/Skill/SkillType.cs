@@ -1,4 +1,4 @@
-public enum SkillIconType
+public enum SkillType
 {
     Physical = 0,
     Magic = 1,
@@ -13,4 +13,5 @@ public enum SkillIconType
     WeightLimit = 13,
     Passive = 14,
     Clan = 15,
+    Special = 16,
 }

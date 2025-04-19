@@ -12,7 +12,7 @@ public class SkillWindowInfo
     public int SpCost { get; }
     public int Range { get; }
     public SkillMagicType IsMagic { get; }
-    public SkillIconType Type { get; }
+    public SkillType Type { get; }
     public float HitTime { get; }
     public float ReuseDelay { get; }
     public SkillRequirement[] SkillRequirement { get; set; }
@@ -70,15 +70,15 @@ public class SkillWindowInfo
     public string GetSkillType() =>
         Type switch
         {
-            SkillIconType.Passive or SkillIconType.EquipmentPassive or SkillIconType.AbilityPassive or SkillIconType.Clan => "Passive Skill",
-            _ when Type is SkillIconType.Physical or SkillIconType.Toggle or SkillIconType.CraftAndItems && IsMagic == SkillMagicType.None => "Active Skill",
-            _ when Type is SkillIconType.Physical or SkillIconType.Magic && IsMagic != SkillMagicType.None => "Magic",
-            _ when Type is SkillIconType.Buff && IsMagic == SkillMagicType.DamageBuffHeal => "Synergy/Song/Dance",
+            SkillType.Passive or SkillType.EquipmentPassive or SkillType.AbilityPassive or SkillType.Clan => "Passive Skill",
+            _ when Type is SkillType.Physical or SkillType.Toggle or SkillType.CraftAndItems && IsMagic == SkillMagicType.None => "Active Skill",
+            _ when Type is SkillType.Physical or SkillType.Magic && IsMagic != SkillMagicType.None => "Magic",
+            _ when Type is SkillType.Buff && IsMagic == SkillMagicType.DamageBuffHeal => "Synergy/Song/Dance",
             _ => string.Empty
         };
 
     public bool IsMagicSkill() => IsMagic != SkillMagicType.None;
 
     public bool IsPassiveSkill() =>
-        Type is SkillIconType.Passive or SkillIconType.EquipmentPassive or SkillIconType.AbilityPassive or SkillIconType.Clan;
+        Type is SkillType.Passive or SkillType.EquipmentPassive or SkillType.AbilityPassive or SkillType.Clan;
 }

@@ -338,8 +338,8 @@ public class ParticleManager : MonoBehaviour
             effect.Target = target;
             effect.Caster = caster;
 
-            if ((action.SpawnOnTarget || skill.Skillgrps[0].IconType == SkillIconType.Physical) && !action.ChargedArrow) //To verify
-                                                                                                                         // SpawnOnTarget value is inconsistent
+            if ((action.SpawnOnTarget || skill.Skillgrps[0].IconType == SkillType.Physical) && !action.ChargedArrow) //To verify
+                                                                                                                     // SpawnOnTarget value is inconsistent
             {
                 // Transform to attach
                 effect.GameObject.transform.parent = GetAttachTransform(target, attachOn);

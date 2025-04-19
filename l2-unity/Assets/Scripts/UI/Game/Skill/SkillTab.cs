@@ -45,23 +45,23 @@ public class SkillTab : L2Tab
             SkillWindowInfo skill = skills[i];
             switch (skill.Type)
             {
-                case SkillIconType.EquipmentPassive:
+                case SkillType.EquipmentPassive:
                     equipmentSkills.Add(skill);
                     break;
 
-                case SkillIconType.AbilityPassive or SkillIconType.Passive:
+                case SkillType.AbilityPassive or SkillType.Passive:
                     abilitySkills.Add(skill);
                     break;
 
-                case SkillIconType.Clan or SkillIconType.NoblessOrHero:
+                case SkillType.Clan or SkillType.NoblessOrHero:
                     clanHeroMentoringSkills.Add(skill);
                     break;
 
-                case SkillIconType.CraftAndItems:
+                case SkillType.CraftAndItems:
                     itemSkills.Add(skill);
                     break;
 
-                case SkillIconType.WeightLimit:
+                case SkillType.WeightLimit:
                     raceSkills.Add(skill);
                     break;
             }
@@ -112,7 +112,7 @@ public class SkillTab : L2Tab
         for (var i = 0; i < skills.Count; i++)
         {
             SkillWindowInfo skill = skills[i];
-            if (skill.Type is SkillIconType.Physical or SkillIconType.Magic)
+            if (skill.Type is SkillType.Physical or SkillType.Magic)
             {
                 if (skill.IsMagicSkill())
                 {
@@ -127,31 +127,31 @@ public class SkillTab : L2Tab
             {
                 switch (skill.Type)
                 {
-                    case SkillIconType.Buff:
+                    case SkillType.Buff:
                         reinforcementSkills.Add(skill);
                         break;
 
-                    case SkillIconType.Debuff:
+                    case SkillType.Debuff:
                         weakenSkills.Add(skill);
                         break;
 
-                    case SkillIconType.CraftAndItems:
+                    case SkillType.CraftAndItems:
                         itemSkills.Add(skill);
                         break;
 
-                    case SkillIconType.NoblessOrHero or SkillIconType.Clan:
+                    case SkillType.NoblessOrHero or SkillType.Clan:
                         clanHeroMentoringSkills.Add(skill);
                         break;
 
-                    case SkillIconType.Magic:
+                    case SkillType.Magic:
                         toggleSkills.Add(skill);
                         break;
 
-                    case SkillIconType.Toggle:
+                    case SkillType.Toggle:
                         toggleSkills.Add(skill);
                         break;
 
-                    case SkillIconType.TransformationOrMount:
+                    case SkillType.TransformationOrMount:
                         transformSkills.Add(skill);
                         break;
                 }

@@ -64,16 +64,16 @@ public class SkillNameTable
             return skillName.Desc;
         }
 
-        string descParams = string.Empty;
+        string desc = string.Empty;
         foreach (KeyValuePair<int, SkillNameData> lvl in skillLevel)
         {
             if (!string.IsNullOrEmpty(lvl.Value.Desc))
             {
-                descParams = lvl.Value.Desc;
+                desc = lvl.Value.Desc;
                 break;
             }
         }
-        return descParams;
+        return desc;
     }
 
     private void ParseSkillNameGrps()
