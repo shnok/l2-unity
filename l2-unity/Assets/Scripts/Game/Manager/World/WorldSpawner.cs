@@ -7,10 +7,6 @@ using UnityEngine;
 public class WorldSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
-    [SerializeField] private GameObject _playerPlaceholder;
-    [SerializeField] private GameObject _userPlaceholder;
-    [SerializeField] private GameObject _npcPlaceHolder;
-    [SerializeField] private GameObject _monsterPlaceholder;
 
     [SerializeField] private GameObject _monstersContainer;
     [SerializeField] private GameObject _npcsContainer;
@@ -42,16 +38,12 @@ public class WorldSpawner : MonoBehaviour
         }
 
         _eventProcessor = EventProcessor.Instance;
-        _playerPlaceholder = Resources.Load<GameObject>("Prefab/Player_FDarkElf");
-        _userPlaceholder = Resources.Load<GameObject>("Prefab/User_FDarkElf");
-        // _npcPlaceHolder = Resources.Load<GameObject>("Prefab/Npc");
-        // _monsterPlaceholder = Resources.Load<GameObject>("Data/Animations/LineageMonsters/gremlin/gremlin_prefab");
         _npcsContainer = GameObject.Find("Npcs");
         _monstersContainer = GameObject.Find("Monsters");
         _usersContainer = GameObject.Find("Users");
 
         _playerSpawner = new PlayerSpawner(_eventProcessor);
-        _npcSpawner = new NpcSpawner(_eventProcessor, _npcsContainer.transform, _monstersContainer.transform, _npcPlaceHolder, _monsterPlaceholder);
+        _npcSpawner = new NpcSpawner(_eventProcessor, _npcsContainer.transform, _monstersContainer.transform);
         _userSpawner = new UserSpawner(_eventProcessor, _usersContainer.transform);
     }
 

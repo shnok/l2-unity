@@ -11,15 +11,13 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
     public NpcSpawner(
         EventProcessor eventProcessor,
         Transform npcsContainer,
-        Transform monstersContainer,
-        GameObject npcPlaceholder,
-        GameObject monsterPlaceholder)
+        Transform monstersContainer)
         : base(eventProcessor)
     {
         _npcsContainer = npcsContainer;
         _monstersContainer = monstersContainer;
-        _npcPlaceHolder = npcPlaceholder;
-        _monsterPlaceholder = monsterPlaceholder;
+        _npcPlaceHolder = ModelTable.Instance.GetNpc("LineageNPCs.a_smith_MDwarf_m00");
+        _monsterPlaceholder = ModelTable.Instance.GetNpc("LineageMonsters.gremlin_m00");
     }
 
     #region Spawn
