@@ -94,7 +94,7 @@ public class SystemMenuWindow : L2PopupWindow
     public override void ShowWindow()
     {
         base.ShowWindow();
-        AudioManager.Instance.PlayUISound("window_open");
+        AudioManager.Instance.PlayUISound("system_open_01");
         L2GameUI.Instance.WindowOpened(this);
     }
 
@@ -103,7 +103,7 @@ public class SystemMenuWindow : L2PopupWindow
         base.HideWindow(silent);
 
         if (!silent)
-            AudioManager.Instance.PlayUISound("window_close");
+            AudioManager.Instance.PlayUISound("system_close_01");
 
         L2GameUI.Instance.WindowClosed(this);
     }

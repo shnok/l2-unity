@@ -176,6 +176,8 @@ public class CharacterSelector : MonoBehaviour
             return;
         }
 
+        AudioManager.Instance.PlayUISound("game_start");
+
         GameClient.Instance.ClientPacketHandler.SendRequestSelectCharacter(SelectedSlot);
     }
 

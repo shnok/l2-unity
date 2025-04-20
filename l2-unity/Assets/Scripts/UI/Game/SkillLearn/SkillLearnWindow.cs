@@ -148,6 +148,8 @@ public class SkillLearnWindow : L2PopupWindow
 
         yield return new WaitForEndOfFrame();
 
+        CenterWindow();
+
         L2GameUI.Instance.WindowLoadComplete();
     }
 

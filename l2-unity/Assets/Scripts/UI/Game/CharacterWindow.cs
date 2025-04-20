@@ -340,7 +340,7 @@ public class CharacterInfoWindow : L2PopupWindow
     public override void ShowWindow()
     {
         base.ShowWindow();
-        AudioManager.Instance.PlayUISound("window_open");
+        AudioManager.Instance.PlayUISound("charstat_open_01");
         L2GameUI.Instance.WindowOpened(this);
         UpdateValues();
     }
@@ -350,7 +350,7 @@ public class CharacterInfoWindow : L2PopupWindow
         base.HideWindow(silent);
 
         if (!silent)
-            AudioManager.Instance.PlayUISound("window_close");
+            AudioManager.Instance.PlayUISound("charstat_close_01");
 
         L2GameUI.Instance.WindowClosed(this);
     }

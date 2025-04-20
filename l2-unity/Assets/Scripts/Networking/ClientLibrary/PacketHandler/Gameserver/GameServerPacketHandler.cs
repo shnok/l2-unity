@@ -370,6 +370,14 @@ public class GameServerPacketHandler : ServerPacketHandler
                     PlayerStateMachine.Instance.OnActionDenied();
                 }
 
+                Debug.LogWarning(messageData.Id);
+                Debug.LogWarning(messageData.Sound);
+
+                if (messageData.Sound != null)
+                {
+                    AudioManager.Instance.PlayUISound(messageData.Sound);
+                }
+
                 ChatWindow.Instance.ReceiveSystemMessage(systemMessage);
             });
         }
