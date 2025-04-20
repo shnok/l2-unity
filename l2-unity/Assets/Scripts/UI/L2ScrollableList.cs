@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 [System.Serializable]
@@ -38,9 +39,11 @@ public class L2ScrollableList<T> : L2Scrollable
         }
         SelectDefaultSlot();
     }
-    
+
     public void AddToList(int index)
     {
+        Debug.Log("Adding skill to index: " + index);
+
         _bindItem(index, out VisualElement newListItem);
         newListItem.AddToClassList("l2-list-view-item");
         if (_alternatingRowColor)
@@ -78,7 +81,7 @@ public class L2ScrollableList<T> : L2Scrollable
             SelectItem(_currentSelectedItemId);
         }
     }
-    
+
     public void SelectItem(int index)
     {
         if (_currentSelectedItemId != -1)
@@ -105,5 +108,15 @@ public class L2ScrollableList<T> : L2Scrollable
     public void ToggleShowHide()
     {
         _container.style.display = _container.style.display.value == DisplayStyle.None ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    public void Show()
+    {
+        _container.style.display = DisplayStyle.Flex;
+    }
+
+    public void Hide()
+    {
+        _container.style.display = DisplayStyle.None;
     }
 }

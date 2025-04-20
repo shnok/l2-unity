@@ -113,8 +113,6 @@ public class SkillLearnWindow : L2PopupWindow
             _detailRangeStats = _skillDetail.Q<VisualElement>("DetailRangeStats");
             _detailRangeValue = _skillDetail.Q<Label>("DetailRangeValue");
             _userSpDetailValue = _skillDetail.Q<Label>("UserSPValue");
-
-            ShowWindow();
         }
 
         _skillList = new L2ScrollableList<SkillWindowInfo>();
@@ -123,6 +121,13 @@ public class SkillLearnWindow : L2PopupWindow
         playerSp = ((PlayerStats)PlayerEntity.Instance.Stats).Sp;
         _userSpValue.text = playerSp.ToString();
         _userSpDetailValue.text = playerSp.ToString();
+
+        _selectedSkill = null;
+        _spGroup.style.display = DisplayStyle.Flex;
+        _skillDetail.style.display = DisplayStyle.None;
+        _skillList.Show();
+
+        ShowWindow();
     }
 
     protected override void InitWindow(VisualElement root)
@@ -157,6 +162,7 @@ public class SkillLearnWindow : L2PopupWindow
         Label skillLabel = item.Q<Label>("SkillName");
         Label levelLabel = item.Q<Label>("LevelValue");
         Label spCostLabel = item.Q<Label>("SPCostValue");
+
         skillLabel.text = _skills[index].Name;
         levelLabel.text = _skills[index].Level.ToString();
         spCostLabel.text = _skills[index].SpCost.ToString();
@@ -251,6 +257,7 @@ public class SkillLearnWindow : L2PopupWindow
             _spGroup.style.display = DisplayStyle.Flex;
             _skillDetail.style.display = DisplayStyle.None;
         }
+
         _skillList.ToggleShowHide();
     }
 
