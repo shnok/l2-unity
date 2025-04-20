@@ -111,15 +111,14 @@ public class InventoryWindow : L2PopupWindow
 
         Button adenaDistribution = (Button)GetElementById("AdenaDistribBtn");
         adenaDistribution.AddManipulator(new ButtonClickSoundManipulator(adenaDistribution));
-        adenaDistribution.AddManipulator(new TooltipManipulator(adenaDistribution, L2Slot.SlotType.Trash, "Adena distribution"));
+        adenaDistribution.AddManipulator(new TooltipManipulator(adenaDistribution, L2Slot.SlotType.Trash, SysStringTable.Instance.GetSysString(3137).Name));
 
         Button compoundBtn = (Button)GetElementById("CompoundBtn");
         compoundBtn.AddManipulator(new ButtonClickSoundManipulator(compoundBtn));
-        compoundBtn.AddManipulator(new TooltipManipulator(adenaDistribution, L2Slot.SlotType.Trash, "Compound"));
+        compoundBtn.AddManipulator(new TooltipManipulator(compoundBtn, L2Slot.SlotType.Trash, SysStringTable.Instance.GetSysString(3189).Name));
 
         Button trashBtn = (Button)GetElementById("TrashBtn");
         trashBtn.AddManipulator(new ButtonClickSoundManipulator(trashBtn));
-        trashBtn.AddManipulator(new TooltipManipulator(adenaDistribution, L2Slot.SlotType.Trash, "Trash"));
         L2Slot trashSlot = new L2Slot(trashBtn, 0, L2Slot.SlotType.Trash);
 
         _inventoryCountLabel = GetLabelById("InventoryCount");
