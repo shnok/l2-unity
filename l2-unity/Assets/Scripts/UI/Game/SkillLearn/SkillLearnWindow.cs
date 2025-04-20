@@ -103,7 +103,7 @@ public class SkillLearnWindow : L2PopupWindow
             }, TrickleDown.TrickleDown);
 
             _skillDetailName = _skillDetail.Q<Label>("SkillDetailName");
-            _skillDetailIcon = _skillDetail.Q<VisualElement>("SkillDetailIcon");
+            _skillDetailIcon = _skillDetail.Q<VisualElement>("SkillDetailcon").Q("SlotBg");
             _detailLevelValue = _skillDetail.Q<Label>("DetailLevelValue");
             _detailDescription = _skillDetail.Q<Label>("DetailDescription");
             _detailSpValue = _skillDetail.Q<Label>("DetailSPValue");
@@ -114,7 +114,7 @@ public class SkillLearnWindow : L2PopupWindow
             _detailRangeValue = _skillDetail.Q<Label>("DetailRangeValue");
             _userSpDetailValue = _skillDetail.Q<Label>("UserSPValue");
 
-            ToggleHideWindow();
+            ShowWindow();
         }
 
         _skillList = new L2ScrollableList<SkillWindowInfo>();
@@ -152,7 +152,7 @@ public class SkillLearnWindow : L2PopupWindow
         item?.RegisterCallback<PointerDownEvent>(_ => OnItemSelected(index));
 
         StyleBackground background = new StyleBackground(IconTable.Instance.LoadTextureByName(_skills[index].Icon));
-        VisualElement icon = item.Q<VisualElement>("SkillIcon");
+        VisualElement icon = item.Q<VisualElement>("SlotBg");
         icon.style.backgroundImage = background;
         Label skillLabel = item.Q<Label>("SkillName");
         Label levelLabel = item.Q<Label>("LevelValue");
@@ -182,19 +182,41 @@ public class SkillLearnWindow : L2PopupWindow
         _userSpDetailValue.text = playerSp.ToString();
         _detailType.text = _selectedSkill.GetSkillType();
 
-        if (_selectedSkill.Type is global::SkillType.Passive or global::SkillType.EquipmentPassive or
-            global::SkillType.WeightLimit or global::SkillType.CraftAndItems)
+        // if (_selectedSkill.Type is global::SkillType.Passive or global::SkillType.EquipmentPassive or
+        //     global::SkillType.WeightLimit or global::SkillType.CraftAndItems)
+        // {
+        //     _detailRangeStats.style.display = DisplayStyle.None;
+        //     _detailMpStats.style.display = DisplayStyle.None;
+        // }
+        // else
+        // {
+        //     _detailRangeValue.text = _selectedSkill.Range.ToString();
+        //     _detailRangeStats.style.display = DisplayStyle.Flex;
+        //     _detailMpCostValue.text = _selectedSkill.MpCost.ToString();
+        //     _detailMpStats.style.display = DisplayStyle.Flex;
+        // }
+
+        if (_selectedSkill.MpCost == 0)
+        {
+            _detailMpStats.style.display = DisplayStyle.None;
+        }
+        else
+        {
+            _detailMpCostValue.text = _selectedSkill.MpCost.ToString();
+            _detailMpStats.style.display = DisplayStyle.Flex;
+        }
+
+        if (_selectedSkill.Range == 0 || _selectedSkill.Range == -1)
         {
             _detailRangeStats.style.display = DisplayStyle.None;
-            _detailMpStats.style.display = DisplayStyle.None;
+
         }
         else
         {
             _detailRangeValue.text = _selectedSkill.Range.ToString();
             _detailRangeStats.style.display = DisplayStyle.Flex;
-            _detailMpCostValue.text = _selectedSkill.MpCost.ToString();
-            _detailMpStats.style.display = DisplayStyle.Flex;
         }
+
         ToggleShowSkillDetail();
     }
 
@@ -217,6 +239,8 @@ public class SkillLearnWindow : L2PopupWindow
 
     private void ToggleShowSkillDetail()
     {
+        AudioManager.Instance.PlayUISound("window_open");
+
         if (_selectedSkill != null)
         {
             _spGroup.style.display = DisplayStyle.None;
@@ -233,5 +257,22 @@ public class SkillLearnWindow : L2PopupWindow
     private void LearnSkill()
     {
         GameClient.Instance.ClientPacketHandler.SendRequestAcquireSkill(_selectedSkill.SkillId, _selectedSkill.Level, SkillType);
+    }
+
+    public override void ShowWindow()
+    {
+        base.ShowWindow();
+        AudioManager.Instance.PlayUISound("window_open");
+        L2GameUI.Instance.WindowOpened(this);
+    }
+
+    public override void HideWindow(bool silent)
+    {
+        base.HideWindow(silent);
+
+        if (!silent)
+            AudioManager.Instance.PlayUISound("window_close");
+
+        L2GameUI.Instance.WindowClosed(this);
     }
 }
