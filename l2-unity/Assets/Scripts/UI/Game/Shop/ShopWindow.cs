@@ -162,6 +162,7 @@ public class ShopWindow : L2PopupWindow
     public override void ShowWindow()
     {
         base.ShowWindow();
+        InventoryWindow.Instance?.HideWindow(false);
         AudioManager.Instance.PlayUISound("window_open");
         L2GameUI.Instance.WindowOpened(this);
     }

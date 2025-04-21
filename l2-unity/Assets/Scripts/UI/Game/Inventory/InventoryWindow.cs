@@ -345,10 +345,10 @@ public class InventoryWindow : L2PopupWindow
 
     public override void HideWindow(bool silent)
     {
-        base.HideWindow(silent);
-
-        if (!silent)
+        if (!silent && !_isWindowHidden)
             AudioManager.Instance.PlayUISound("inventory_close_01");
+
+        base.HideWindow(silent);
 
         L2GameUI.Instance.WindowClosed(this);
     }

@@ -312,35 +312,42 @@ public class L2SlotManager : L2PopupWindow
 
     private void DropItem()
     {
+        Debug.LogWarning("TODO: Item drops. For now dropping an item destroys it.");
+
         // Drop item logic
         InventorySlot slot = (InventorySlot)_draggedSlot;
-        Debug.Log($"Drop {slot.Id}.");
+        SMParam[] smParams = new SMParam[1];
+        smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, slot.Id);
+
         if (slot.Count <= 1)
         {
-            SMParam[] smParams = new SMParam[1];
-            smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, slot.Id);
             SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[400]);
             L2ConfirmWindow.Instance.ShowWindow(systemMessage, () =>
             {
                 PlayerInventory.Instance.DestroyItem(slot.ObjectId, 1);
-                Debug.LogWarning("TODO: Item drops. For now dropping an item destroys it.");
             }, () => { });
         }
         else
         {
             //Discard amount systemMessageId => 71
-            Debug.LogWarning("TODO: Count window");
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[71]);
+            L2InputAmountWindow.Instance.ShowWindow(systemMessage, slot.Count, (amount) =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, amount);
+            }, () => { });
         }
+
+        Debug.Log($"Drop {slot.Id}.");
     }
 
     private void DestroyItem()
     {
         // Destroy item logic
         InventorySlot slot = (InventorySlot)_draggedSlot;
+        SMParam[] smParams = new SMParam[1];
+        smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, slot.Id);
         if (slot.Count <= 1)
         {
-            SMParam[] smParams = new SMParam[1];
-            smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, slot.Id);
             SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[74]);
             L2ConfirmWindow.Instance.ShowWindow(systemMessage, () =>
             {
@@ -349,8 +356,11 @@ public class L2SlotManager : L2PopupWindow
         }
         else
         {
-            Debug.LogWarning("TODO: Count window");
-            //Discard amount systemMessageId => 73
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[73]);
+            L2InputAmountWindow.Instance.ShowWindow(systemMessage, slot.Count, (amount) =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, amount);
+            }, () => { });
         }
 
         Debug.Log($"Destroy {slot.Id}.");

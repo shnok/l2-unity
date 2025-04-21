@@ -24,6 +24,22 @@ public class BasketSlot : ProductSlot
 
     public override void SwapBasket()
     {
-        ((ShopSlotContainer)_currentSlotContainer).AddToBasket(Product, -1);
+        //Discard amount systemMessageId => 71
+        SMParam[] smParams = new SMParam[1];
+        smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, Product.ItemId);
+        SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[72]);
+
+        if (Product.Count == 1)
+        {
+            ((ShopSlotContainer)_currentSlotContainer).AddToBasket(Product, -1);
+        }
+        else
+        {
+            L2InputAmountWindow.Instance.ShowWindow(systemMessage, Product.Count, (amount) =>
+            {
+                ((ShopSlotContainer)_currentSlotContainer).AddToBasket(Product, -amount);
+            }, () => { });
+        }
+
     }
 }

@@ -41,6 +41,20 @@ public class ProductSlot : InventorySlot
 
     public virtual void SwapBasket()
     {
-        ((ShopSlotContainer)_currentSlotContainer).AdjacentContainer.AddToBasket(Product, 1);
+        if (Product.Type1 != ItemType1.TYPE1_ITEM_QUESTITEM_ADENA)
+        {
+            ((ShopSlotContainer)_currentSlotContainer).AdjacentContainer.AddToBasket(Product, 1);
+        }
+        else
+        {
+            SMParam[] smParams = new SMParam[1];
+            smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, Product.ItemId);
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[72]);
+
+            L2InputAmountWindow.Instance.ShowWindow(systemMessage, Product.Count, (amount) =>
+            {
+                ((ShopSlotContainer)_currentSlotContainer).AdjacentContainer.AddToBasket(Product, amount);
+            }, () => { });
+        }
     }
 }
