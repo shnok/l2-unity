@@ -312,8 +312,31 @@ public class L2SlotManager : L2PopupWindow
 
     private void DropItem()
     {
+        Debug.LogWarning("TODO: Item drops. For now dropping an item destroys it.");
+
         // Drop item logic
         InventorySlot slot = (InventorySlot)_draggedSlot;
+        SMParam[] smParams = new SMParam[1];
+        smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, slot.Id);
+
+        if (slot.Count <= 1)
+        {
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[400]);
+            L2ConfirmWindow.Instance.ShowWindow(systemMessage, () =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, 1);
+            }, () => { });
+        }
+        else
+        {
+            //Discard amount systemMessageId => 71
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[71]);
+            L2InputAmountWindow.Instance.ShowWindow(systemMessage, slot.Count, (amount) =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, amount);
+            }, () => { });
+        }
+
         Debug.Log($"Drop {slot.Id}.");
     }
 
@@ -321,8 +344,26 @@ public class L2SlotManager : L2PopupWindow
     {
         // Destroy item logic
         InventorySlot slot = (InventorySlot)_draggedSlot;
+        SMParam[] smParams = new SMParam[1];
+        smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, slot.Id);
+        if (slot.Count <= 1)
+        {
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[74]);
+            L2ConfirmWindow.Instance.ShowWindow(systemMessage, () =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, 1);
+            }, () => { });
+        }
+        else
+        {
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[73]);
+            L2InputAmountWindow.Instance.ShowWindow(systemMessage, slot.Count, (amount) =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, amount);
+            }, () => { });
+        }
+
         Debug.Log($"Destroy {slot.Id}.");
-        PlayerInventory.Instance.DestroyItem(slot.ObjectId, 1);
     }
 
     private void AddActionToSkillbar()

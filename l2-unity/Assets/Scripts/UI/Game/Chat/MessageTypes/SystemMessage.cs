@@ -16,6 +16,11 @@ public class SystemMessage
 
     public override string ToString()
     {
+        return PrintMessage(true);
+    }
+
+    public string PrintMessage(bool colored)
+    {
         string value = String.Copy(MessageData.Message);
 
         if (_params != null && _params.Length > 0)
@@ -87,6 +92,9 @@ public class SystemMessage
             }
         }
 
-        return $"<color=#{MessageData.Color}>{value}</color>";
+        if (colored)
+            return $"<color=#{MessageData.Color}>{value}</color>";
+        else
+            return value;
     }
 }

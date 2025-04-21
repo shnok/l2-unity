@@ -8,25 +8,19 @@ public class L2ConfirmWindow : L2PopupWindow
     private Action _confirmAction;
     private Action _cancelAction;
     private Label _contentLabel;
+    private VisualElement _cancelButton;
 
     private static L2ConfirmWindow _instance;
     public static L2ConfirmWindow Instance { get { return _instance; } }
 
     private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+        _instance = this;
     }
 
     private void OnDestroy()
     {
-        _instance = null;
+        // _instance = null;
     }
 
     protected override void LoadAssets()
@@ -44,9 +38,10 @@ public class L2ConfirmWindow : L2PopupWindow
         DragManipulator drag = new DragManipulator(dragArea, _windowEle, this);
         dragArea.AddManipulator(drag);
 
-        Button cancelButton = GetElementById("CancelButton").Q<Button>("L2Button");
-        cancelButton.AddManipulator(new ButtonClickSoundManipulator(cancelButton));
-        cancelButton.RegisterCallback<MouseUpEvent>(evt =>
+        _cancelButton = GetElementById("CancelButton");
+        Button button = _cancelButton.Q<Button>("L2Button");
+        button.AddManipulator(new ButtonClickSoundManipulator(button));
+        button.RegisterCallback<MouseUpEvent>(evt =>
         {
             HideWindow(false);
             if (_cancelAction != null)
@@ -59,6 +54,7 @@ public class L2ConfirmWindow : L2PopupWindow
         okButton.AddManipulator(new ButtonClickSoundManipulator(okButton));
         okButton.RegisterCallback<MouseUpEvent>(evt =>
         {
+            HideWindow(false);
             if (_confirmAction != null)
             {
                 _confirmAction();
@@ -83,20 +79,31 @@ public class L2ConfirmWindow : L2PopupWindow
         HideWindow(true);
     }
 
-
     public void ShowWindow(int systemMessageId, Action confirmAction, Action cancelAction)
     {
         string content = SystemMessageTable.Instance.GetSystemMessage(systemMessageId).Message;
 
         if (content == null)
         {
-            _contentLabel.text = "Unkown SystemMessageId.";
-        }
-        else
-        {
-            _contentLabel.text = content;
+            content = "Unkown SystemMessageId.";
         }
 
+        ShowWindow(content, confirmAction, cancelAction);
+    }
+
+    public void ShowWindow(SystemMessage systemMessage, Action confirmAction, Action cancelAction)
+    {
+        ShowWindow(systemMessage.PrintMessage(false), confirmAction, cancelAction);
+    }
+
+    private void ShowWindow(string content, Action confirmAction, Action cancelAction)
+    {
+        if (cancelAction == null)
+        {
+            _cancelButton.style.display = DisplayStyle.None;
+        }
+
+        _contentLabel.text = content;
         _confirmAction = confirmAction;
         _cancelAction = cancelAction;
 
@@ -110,6 +117,11 @@ public class L2ConfirmWindow : L2PopupWindow
 
     public override void HideWindow(bool silent)
     {
+        if (_cancelButton != null)
+        {
+            _cancelButton.style.display = DisplayStyle.Flex;
+        }
+
         if (!silent && !_isWindowHidden)
             AudioManager.Instance.PlayUISound("window_close");
 

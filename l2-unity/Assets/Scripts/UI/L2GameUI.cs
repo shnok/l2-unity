@@ -12,6 +12,7 @@ public class L2GameUI : L2UI
 
     private static L2GameUI _instance;
     public static L2GameUI Instance { get { return _instance; } }
+    public bool IsTyping { get; set; }
 
     private void Awake()
     {
@@ -143,6 +144,16 @@ public class L2GameUI : L2UI
         {
             BuffWindow.Instance.AddWindow(_rootVisualContainer);
             BuffWindow.Instance.HideWindow(true);
+        }
+        if (L2ConfirmWindow.Instance != null)
+        {
+            L2ConfirmWindow.Instance.AddWindow(_popupVisualContainer);
+            L2ConfirmWindow.Instance.HideWindow(true);
+        }
+        if (L2InputAmountWindow.Instance != null)
+        {
+            L2InputAmountWindow.Instance.AddWindow(_popupVisualContainer);
+            L2InputAmountWindow.Instance.HideWindow(true);
         }
     }
 

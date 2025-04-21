@@ -75,7 +75,7 @@ public class L2Slot
 
         if (_tooltipManipulator == null)
         {
-            _tooltipManipulator = new TooltipManipulator(_slotElement, _slotType, "");
+            _tooltipManipulator = new TooltipManipulator(_slotElement, _slotType, type == SlotType.Trash ? SysStringTable.Instance.GetSysString(890).Name : "");
             _slotElement.AddManipulator(_tooltipManipulator);
         }
 

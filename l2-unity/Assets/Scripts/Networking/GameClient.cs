@@ -87,7 +87,12 @@ public class GameClient : DefaultClient
     public override void OnDisconnect()
     {
         base.OnDisconnect();
+
+        L2ConfirmWindow.Instance.ShowWindow(127, () =>
+        {
+            GameManager.Instance.NotifyEvent(GameEvent.GAME_DISCONNECTED);
+        }, null);
+
         Debug.Log("Disconnected from GameServer.");
-        GameManager.Instance.NotifyEvent(GameEvent.GAME_DISCONNECTED);
     }
 }
