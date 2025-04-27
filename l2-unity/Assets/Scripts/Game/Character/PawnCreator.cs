@@ -63,10 +63,17 @@ public class PawnCreator : MonoBehaviour
 
     public void SpawnPawnWithId(int id)
     {
-        CharacterModelType raceId = CharacterModelType.FDarkElf;
         PlayerAppearance appearance = new PlayerAppearance();
 
         List<Logongrp> pawnData = LogongrpTable.Instance.Logongrps;
+
+        CharacterModelType raceId = GetCharacterTypeFromPawnId(id);
+
+        if (raceId != CharacterModelType.FDwarf && raceId != CharacterModelType.MDwarf && raceId != CharacterModelType.FDarkElf)
+        {
+            Debug.LogWarning($"Race {raceId} is not yet added to the game.");
+            raceId = CharacterModelType.FDwarf;
+        }
 
         GameObject pawnObject = CreatePawn(raceId, appearance);
 
@@ -94,6 +101,13 @@ public class PawnCreator : MonoBehaviour
     }
 
     public void SelectPawn(string race, string pawnClass, string gender)
+    {
+        int index = GetPawnIndex(race, pawnClass, gender);
+        currentPawnIndex = index;
+        currentPawn = pawns[index];
+    }
+
+    public int GetPawnIndex(string race, string pawnClass, string gender)
     {
         int index = 0;
         switch (race)
@@ -125,8 +139,48 @@ public class PawnCreator : MonoBehaviour
             index += 1;
         }
 
-        currentPawnIndex = index;
-        currentPawn = pawns[index];
+        return index;
+    }
+
+    private CharacterModelType GetCharacterTypeFromPawnId(int id)
+    {
+        if (id >= 24)
+        {
+            // Dwarf
+            return (id % 2 == 0) ? CharacterModelType.MDwarf : CharacterModelType.FDwarf;
+        }
+
+        if (id >= 20 && id < 24)
+        {
+            // Orc
+            if (id % 4 == 0) return CharacterModelType.MOrc;
+            if (id % 4 == 1) return CharacterModelType.FOrc;
+            if (id % 4 == 2) return CharacterModelType.MShaman;
+            return CharacterModelType.FShaman;
+        }
+
+        if (id >= 16 && id < 20)
+        {
+            // Dark Elf
+            return (id % 2 == 0) ? CharacterModelType.MDarkElf : CharacterModelType.FDarkElf;
+        }
+
+        if (id >= 12 && id < 16)
+        {
+            // Elf
+            return (id % 2 == 0) ? CharacterModelType.MElf : CharacterModelType.FElf;
+        }
+
+        if (id >= 8 && id < 12)
+        {
+            // Human
+            if (id % 4 == 0) return CharacterModelType.MFighter;
+            if (id % 4 == 1) return CharacterModelType.FFighter;
+            if (id % 4 == 2) return CharacterModelType.MMagic;
+            return CharacterModelType.FMagic;
+        }
+
+        return CharacterModelType.FDwarf;
     }
 
     public void ResetPawnSelection()

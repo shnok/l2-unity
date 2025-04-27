@@ -73,7 +73,7 @@ public class ParticleEffectTable
                     if (particle != null)
                     {
                         ParticleEffects[effectClass] = particle;
-                        Debug.Log($"Loaded particle effect {particle} in ParticleEffectTable.");
+                        // Debug.Log($"Loaded particle effect {particle} in ParticleEffectTable.");
                     }
 
 
@@ -85,7 +85,7 @@ public class ParticleEffectTable
                         if (particle != null)
                         {
                             ParticleEffects[effectClass] = particle;
-                            Debug.Log($"Loaded secondary particle effect {particle} in ParticleEffectTable.");
+                            // Debug.Log($"Loaded secondary particle effect {particle} in ParticleEffectTable.");
                         }
                     }
                 });
@@ -101,7 +101,7 @@ public class ParticleEffectTable
                     if (particle != null)
                     {
                         ParticleEffects[effectClass] = particle;
-                        Debug.Log($"Loaded particle effect {particle} in ParticleEffectTable.");
+                        // Debug.Log($"Loaded particle effect {particle} in ParticleEffectTable.");
                     }
                 });
             }

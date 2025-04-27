@@ -314,7 +314,7 @@ public class ModelTable
         }
         else
         {
-            Debug.Log($"Successfully loaded weapon {model} model.");
+            // Debug.Log($"Successfully loaded weapon {model} model.");
         }
 
         return weapon;

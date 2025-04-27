@@ -79,12 +79,13 @@ public class ChargrpTable
                                 hairStyle.AhModel = hairVals[x];
                                 hairStyle.BhModel = hairVals[x + 2];
 
+                                hairStyle.AhTextures = new string[4];
 
                                 if (hairStyle.AhModel != null && hairStyle.AhModel.Length > 0)
                                 {
-                                    hairStyle.AhTextures = new string[4];
                                     hairStyle.AhTextures[0] = hairVals[x + 1];
                                 }
+
                                 hairStyle.BhTextures = new string[4];
                                 hairStyle.BhTextures[0] = hairVals[x + 3];
 
