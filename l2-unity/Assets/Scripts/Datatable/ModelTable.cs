@@ -658,6 +658,7 @@ public class ModelTable
         if (prefab == null)
         {
             Debug.LogError($"Can't find hairstyle model {hairStyle} haircolor {hairColor} for race {raceId} at index {raceId},{hairStyle}");
+            return null;
         }
 
         Material material = _hairMaterials[(byte)raceId, hairStyle, hairColor];

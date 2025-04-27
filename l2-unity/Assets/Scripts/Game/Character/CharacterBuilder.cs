@@ -30,9 +30,9 @@ public class CharacterBuilder : MonoBehaviour
 
         Transform container = entity.transform.GetChild(0).GetChild(1);
 
-        face.transform.SetParent(container.transform, false);
-        hair1.transform.SetParent(container.transform, false);
-        hair2.transform.SetParent(container.transform, false);
+        face?.transform.SetParent(container.transform, false);
+        hair1?.transform.SetParent(container.transform, false);
+        hair2?.transform.SetParent(container.transform, false);
 
         return entity;
     }
