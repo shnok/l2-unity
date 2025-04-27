@@ -15,17 +15,17 @@ public class Gear : MonoBehaviour
 
     [Header("Weapons")]
     [Header("Meta")]
-    [SerializeField] private Weapon _rightHandWeapon;
-    [SerializeField] private Weapon _leftHandWeapon;
+    [SerializeField] private Weapon _rightHandWeaponData;
+    [SerializeField] private Weapon _leftHandWeaponData;
     [SerializeField] protected float _weaponSizeRatio;
     [Header("Models")]
     [Header("Right hand")]
     [SerializeField] private WeaponType _rightHandType;
-    [SerializeField] protected Transform _rightHand;
+    [SerializeField] protected Transform _rightHandWeapon;
     [SerializeField] protected Transform _arrow;
     [Header("LeftHand")]
     [SerializeField] private WeaponType _leftHandType;
-    [SerializeField] protected Transform _leftHand;
+    [SerializeField] protected Transform _leftHandWeapon;
 
     protected NewBaseAnimationController AnimationController { get { return _referenceHolder.NewAnimationController; } }
     public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
@@ -57,13 +57,13 @@ public class Gear : MonoBehaviour
     {
         if (leftSlot)
         {
-            if (_leftHandWeapon == null)
+            if (_leftHandWeaponData == null)
             {
                 Debug.Log("Left hand metadata is null, weapon not equiped.");
                 return false;
             }
 
-            bool idMatch = itemId == _leftHandWeapon.Id;
+            bool idMatch = itemId == _leftHandWeaponData.Id;
             if (!idMatch)
             {
                 Debug.Log("Left hand weapon id did not match, weapon not equiped.");
@@ -73,13 +73,13 @@ public class Gear : MonoBehaviour
         }
         else
         {
-            if (_rightHandWeapon == null)
+            if (_rightHandWeaponData == null)
             {
                 Debug.Log("Right hand metadata is null, weapon not equiped.");
                 return false;
             }
 
-            bool idMatch = itemId == _rightHandWeapon.Id;
+            bool idMatch = itemId == _rightHandWeaponData.Id;
             if (!idMatch)
             {
                 Debug.Log("Right hand weapon id did not match, weapon not equiped.");
@@ -232,12 +232,12 @@ public class Gear : MonoBehaviour
         // Updating weapon type
         if (leftSlot)
         {
-            _leftHandWeapon = weapon;
+            _leftHandWeaponData = weapon;
             _leftHandType = weapon.Weapongrp.WeaponType;
         }
         else
         {
-            _rightHandWeapon = weapon;
+            _rightHandWeaponData = weapon;
             _rightHandType = weapon.Weapongrp.WeaponType;
         }
 
@@ -253,18 +253,17 @@ public class Gear : MonoBehaviour
 
         if (weapon.Weapongrp.WeaponType == WeaponType.none)
         {
+            _leftHandWeapon = go.transform;
             go.transform.SetParent(GetShieldBone(), false);
         }
-        else if (weapon.Weapongrp.WeaponType == WeaponType.bow)
+        else if (weapon.Weapongrp.WeaponType == WeaponType.bow || leftSlot)
         {
-            go.transform.SetParent(GetLeftHandBone(), false);
-        }
-        else if (leftSlot)
-        {
+            _leftHandWeapon = go.transform;
             go.transform.SetParent(GetLeftHandBone(), false);
         }
         else
         {
+            _rightHandWeapon = go.transform;
             go.transform.SetParent(GetRightHandBone(), false);
         }
 
@@ -336,7 +335,6 @@ public class Gear : MonoBehaviour
 
         if (weapon != null)
         {
-            Debug.Log("Unequip weapon: " + weapon);
             Destroy(weapon.gameObject);
 
             if (WeaponType == WeaponType.bow)
@@ -346,13 +344,13 @@ public class Gear : MonoBehaviour
 
             if (leftSlot)
             {
-                _leftHandWeapon = null;
+                _leftHandWeaponData = null;
                 _leftHandType = WeaponType.hand;
                 UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_rightHandType == WeaponType.none ? WeaponType.hand : _rightHandType));
             }
             else
             {
-                _rightHandWeapon = null;
+                _rightHandWeaponData = null;
                 _rightHandType = WeaponType.hand;
                 UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_leftHandType == WeaponType.none ? WeaponType.hand : _leftHandType));
             }

@@ -123,7 +123,7 @@ public class ParticleManager : MonoBehaviour
                 continue;
             }
 
-            Debug.Log("Prepared effect pool: " + kvp.Key);
+            // Debug.Log("Prepared effect pool: " + kvp.Key);
             EffectPool.Add(kvp.Key, new Queue<PooledEffect>());
         }
 
