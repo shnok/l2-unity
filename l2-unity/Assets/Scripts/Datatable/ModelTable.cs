@@ -156,7 +156,7 @@ public class ModelTable
         GameObject face = (GameObject)Resources.Load(modelPath);
         if (face == null)
         {
-            // Debug.LogWarning($"Can't find face model at {modelPath}");
+            Debug.LogWarning($"Can't find face model at {modelPath}");
         }
         else
         {
@@ -177,7 +177,7 @@ public class ModelTable
         Material material = (Material)Resources.Load(materialPath);
         if (material == null)
         {
-            // Debug.LogWarning($"Can't find face material at {materialPath}");
+            Debug.LogWarning($"Can't find face material at {materialPath}");
         }
         else
         {
@@ -626,6 +626,7 @@ public class ModelTable
         if (prefab == null)
         {
             Debug.LogError($"Can't find face model for race {raceId} at index {raceId},{face}");
+            return null;
         }
 
         Material material = _faceMaterials[(byte)raceId, face];

@@ -51,7 +51,6 @@ GameObject:
   - component: {fileID: 3064332933061382819}
   - component: {fileID: 5186500308137901694}
   - component: {fileID: 2816631728359154816}
-  - component: {fileID: 223533845830030767}
   - component: {fileID: 63905802493393558}
   - component: {fileID: 2332054955548525016}
   - component: {fileID: 7310616880131423470}
@@ -236,7 +235,7 @@ MonoBehaviour:
   _rightHandBone: {fileID: 5808883666234568151}
   _leftHandBone: {fileID: 9146635473710952671}
   _shieldBone: {fileID: 7542526033970980175}
-  _rightHandWeapon:
+  _rightHandWeaponData:
     _id: 0
     _icon: 
     _itemName:
@@ -276,7 +275,7 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
-  _leftHandWeapon:
+  _leftHandWeaponData:
     _id: 0
     _icon: 
     _itemName:
@@ -318,12 +317,12 @@ MonoBehaviour:
       _crystallizable: 0
   _weaponSizeRatio: 0
   _rightHandType: 0
-  _rightHand: {fileID: 0}
+  _rightHandWeapon: {fileID: 0}
   _arrow: {fileID: 0}
   _leftHandType: 0
-  _leftHand: {fileID: 0}
+  _leftHandWeapon: {fileID: 0}
   _weaponAnim: 0
-  _skinnedMeshSync: {fileID: 223533845830030767}
+  _skinnedMeshSync: {fileID: 0}
   _bodypartsContainer: {fileID: 9076616163763288160}
   _torsoMeta:
     _id: 0
@@ -632,30 +631,6 @@ MonoBehaviour:
   _sharingPositionDelayMs: 500
   _lastSharingPosition: 0
   _isSharedJumping: 0
---- !u!114 &223533845830030767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6373500069190494077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 466f0e7aad09a4b4b9d0c4fecc18ecb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bodyPartsContainer: {fileID: 7691915665186450115}
-  _rootSkinnedRenderer: {fileID: 5828016634818891321}
-  _destSkinnedRenderer:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  _rootBone: {fileID: 1871717110391119983}
 --- !u!114 &63905802493393558
 MonoBehaviour:
   m_ObjectHideFlags: 0

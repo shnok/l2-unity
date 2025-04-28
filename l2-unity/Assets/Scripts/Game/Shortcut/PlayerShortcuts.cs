@@ -116,6 +116,11 @@ public class PlayerShortcuts : MonoBehaviour
             _shortcuts.Add(shortcut.Slot + shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR, shortcut);
         }
 
+        if (SkillbarWindow.Instance == null)
+        {
+            Debug.LogError("Skillbar window is not ready but already trying to update shortcuts.");
+            return;
+        }
         StartCoroutine(SkillbarWindow.Instance.UpdateAllShortcuts(shortcuts));
     }
 
