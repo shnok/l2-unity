@@ -73,7 +73,8 @@ public class PawnCreator : MonoBehaviour
         raceId != CharacterModelType.MDwarf &&
         raceId != CharacterModelType.FDarkElf &&
         raceId != CharacterModelType.MDarkElf &&
-        raceId != CharacterModelType.FElf)
+        raceId != CharacterModelType.FElf &&
+        raceId != CharacterModelType.MElf)
         {
             Debug.LogWarning($"Race {raceId} is not yet added to the game.");
             raceId = CharacterModelType.FDwarf;

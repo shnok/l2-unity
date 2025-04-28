@@ -38,7 +38,7 @@ public class CharacterBuilder : MonoBehaviour
             if (hair2.tag == "Hair") // this hair doesnt have an armature and needs to be placed manually under the head bone
             {
 
-                Transform headBone = entity.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0);
+                Transform headBone = entity.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0); //TODO: Need to optimize?
 
                 Vector3 origin = hair2.transform.localPosition;
                 Vector3 originEuler = hair2.transform.eulerAngles;
@@ -47,8 +47,6 @@ public class CharacterBuilder : MonoBehaviour
 
                 hair2.transform.localPosition = origin;
                 hair2.transform.localEulerAngles = originEuler;
-                // hair2.transform.SetParent(container.transform.parent, false);
-                // hair2.GetComponent<SkinnedMeshRenderer>().rootBone = entity.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0);
             }
             else
             {
