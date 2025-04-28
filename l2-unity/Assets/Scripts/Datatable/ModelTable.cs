@@ -670,7 +670,24 @@ public class ModelTable
         }
 
         GameObject go = GameObject.Instantiate(prefab);
-        go.GetComponentInChildren<SkinnedMeshRenderer>().material = material;
+        SkinnedMeshRenderer skinnedMeshRenderer = go.GetComponentInChildren<SkinnedMeshRenderer>();
+        if (skinnedMeshRenderer != null)
+        {
+            skinnedMeshRenderer.material = material;
+        }
+        else
+        {
+            MeshRenderer meshRenderer = go.GetComponentInChildren<MeshRenderer>();
+            if (meshRenderer != null)
+            {
+                meshRenderer.material = material;
+            }
+            else
+            {
+                Debug.LogError($"Hairstyle material {hairStyle} haircolor {hairColor} for race {raceId} doesn't have any renderer.");
+            }
+        }
+
 
         return go;
     }
