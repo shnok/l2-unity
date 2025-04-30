@@ -52,7 +52,6 @@ public abstract class AbstractEffectWindow : L2Window
     
     public void RemoveLastBuff(int typeIndex, int index)
     {
-        Debug.LogError($"Remove last: {_buffs[typeIndex][index].Buff.Name}");
         _buffs[typeIndex][index].SlotElement.style.display = DisplayStyle.None;
         _buffs[typeIndex][index].SlotElement.Q<Label>("Duration").style.display = DisplayStyle.None;
         _buffCount--;
@@ -60,7 +59,6 @@ public abstract class AbstractEffectWindow : L2Window
 
     public void RemoveBuff(int typeIndex, int index)
     {
-        Debug.LogError($"Remove: {index}");
         _buffs[typeIndex][index].SlotElement.style.display = DisplayStyle.None;
         _buffCount--;
     }
@@ -107,7 +105,7 @@ public abstract class AbstractEffectWindow : L2Window
     public void UpsertBuff(int skillId, int skillLvl, int duration, Skillgrp skillgrp, BuffType type)
     {
         SkillNameData skillNameData = SkillNameTable.Instance.GetName(skillId, skillLvl);
-        Debug.LogError($"Inserting: {skillNameData.Name}, duration: {duration}");
+        Debug.Log($"Received buff: {skillNameData.Name}, duration: {duration}");
         string desc = string.IsNullOrEmpty(skillNameData.Desc) ? SkillNameTable.Instance.GetDescription(skillId) : skillNameData.Desc;
 
         int buffTypeIndex = type == BuffType.Debuff ? 0 : (int)type;
