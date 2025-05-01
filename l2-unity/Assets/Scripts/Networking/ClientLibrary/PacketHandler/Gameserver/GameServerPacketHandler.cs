@@ -727,13 +727,14 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnShortBuffStatusUpdate(byte[] data)
     {
         ShortBuffStatusUpdatePacket packet = new ShortBuffStatusUpdatePacket(data);
-        BuffWindow.Instance.UpsertBuff(packet.SkillId, packet.SkillLvl, packet.Duration);
+        BuffWindow.Instance.UpsertEffect(packet.SkillId, packet.SkillLvl, packet.Duration,BuffType.Special);
     }
 
     private void OnAbnormalStatusUpdate(byte[] data)
     {
         AbnormalStatusUpdatePacket packet = new AbnormalStatusUpdatePacket(data);
         _eventProcessor.QueueEvent(() => BuffWindow.Instance.UpsertPlayerBuffs(packet.Effects));
+        _eventProcessor.QueueEvent(() => DebuffWindow.Instance.UpsertPlayerBuffs(packet.Effects));
     }
 
     private void OnPartyEffect(byte[] data)

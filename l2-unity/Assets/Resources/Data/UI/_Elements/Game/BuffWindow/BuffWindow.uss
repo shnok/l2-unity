@@ -27,14 +27,15 @@
 
 .buff-duration {
     margin: 0; 
-    padding: 0; 
-    color: rgba(210, 210, 210, 0.8);
-    letter-spacing: 20px; 
+    padding: 0 0 1px 0; 
+    color: rgba(235, 235, 235, 0.65);
+    letter-spacing: 15px;
     align-self: center; 
-    font-size: 14px;
+    font-size: 15px;
     position: absolute;
-    padding-bottom: 1px;
     display: none;
+    -unity-text-outline-width: 0.55px;
+    -unity-text-outline-color: rgba(0, 0, 0, 1);
 }
 
 .buff-row {
@@ -49,16 +50,40 @@
     max-width: 28px; 
     max-height: 28px; 
     -unity-background-image-tint-color: rgb(255, 235, 182); 
-    border-color: rgba(0, 0, 0, 0.65); 
+    border-color: rgba(200, 200, 200, 0.75);
+    border-width: 0.5px;
+    justify-content: flex-end;
+}
+
+.debuff-slot {
+    width: 28px; 
+    height: 28px; 
+    max-width: 28px; 
+    max-height: 28px; 
+    -unity-background-image-tint-color: rgb(255, 235, 182); 
+    border-color: rgba(200, 18, 18, 0.75);
+    border-width: 1px;
     justify-content: flex-end;
 }
 
 .fade-low {
     opacity: 0.4;
-    transition: opacity 2s ease-in-out;
+    transition: opacity 1s ease-in-out;
 }
 
 .fade-high {
     opacity: 0.9;
-    transition: opacity 2s ease-in-out;
+    transition: opacity 1s ease-in-out;
+}
+
+.fade-low-red {
+  opacity: 0.4;
+  -unity-background-image-tint-color: rgba(150, 0, 0, 0.2);
+  transition: opacity 1s ease-in-out, -unity-background-image-tint-color 1s ease-in-out;
+}
+
+.fade-high-red {
+  opacity: 0.9;
+  -unity-background-image-tint-color: rgba(150, 0, 0, 0.6);
+  transition: opacity 1s ease-in-out, -unity-background-image-tint-color 1s ease-in-out;
 }

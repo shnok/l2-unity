@@ -145,6 +145,11 @@ public class L2GameUI : L2UI
             BuffWindow.Instance.AddWindow(_rootVisualContainer);
             BuffWindow.Instance.HideWindow(true);
         }
+        if (DebuffWindow.Instance != null)
+        {
+            DebuffWindow.Instance.AddWindow(_rootVisualContainer);
+            DebuffWindow.Instance.HideWindow(true);
+        }
         if (L2ConfirmWindow.Instance != null)
         {
             L2ConfirmWindow.Instance.AddWindow(_popupVisualContainer);
