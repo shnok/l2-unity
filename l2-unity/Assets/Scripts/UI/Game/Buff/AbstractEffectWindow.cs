@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
-using System.Globalization;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,15 +8,13 @@ public abstract class AbstractEffectWindow : L2Window
 {
     protected VisualTreeAsset _buffSlot;
     protected VisualElement[] _buffRowContainers;
-    protected int[] _buffRows;
     protected EffectType _effectType;
-    protected int[] _prevBuffsIx;
-    protected int[] _buffsIx;
-    private BuffSlot[][] _buffs;
-    private int _buffCount;
-    private bool isUpdating = false;
+    private List<BuffSlot> _effectSlots;
+    private List<BuffSlot> _specialEffectSlots;
+    private Coroutine _effectCoroutine;
 
-    protected enum EffectType {
+    protected enum EffectType
+    {
         Buff, Debuff
     }
 
@@ -34,236 +30,113 @@ public abstract class AbstractEffectWindow : L2Window
         MouseOverDetectionManipulator mouseOverDetectionManipulator = new MouseOverDetectionManipulator(_windowEle);
         _windowEle.AddManipulator(mouseOverDetectionManipulator);
 
-        _prevBuffsIx = new int[_buffRows.Length];
-        _buffsIx = new int[_buffRows.Length];
-        Array.Fill(_buffsIx, -1);
-        Array.Fill(_prevBuffsIx, -1);
-        
-        _buffs = new BuffSlot[_buffRows.Length][];
-        for (int i = 0; i < _buffs.Length; i++) {
-            _buffs[i] = new BuffSlot[_buffRows[i]];
-        }
-    }
-    
-    public void UpsertBuffs(int objectId, TargetType type, BuffEffect[] buffs)
-    {
-        // update target buffs/debuffs
-    }
-    
-    public void RemoveLastBuff(int typeIndex, int index)
-    {
-        _buffs[typeIndex][index].SlotElement.style.display = DisplayStyle.None;
-        _buffs[typeIndex][index].SlotElement.Q<Label>("Duration").style.display = DisplayStyle.None;
-        _buffCount--;
+        _effectSlots = new List<BuffSlot>();
+        _specialEffectSlots = new List<BuffSlot>();
+
+        _effectCoroutine = StartCoroutine(UpdateBuffTimers());
     }
 
-    public void RemoveBuff(int typeIndex, int index)
+    public void RemoveEffect(BuffSlot slot)
     {
-        _buffs[typeIndex][index].SlotElement.style.display = DisplayStyle.None;
-        _buffCount--;
-    }
-
-    public void UpsertPlayerBuffs(BuffEffect[] buffs)
-    {
-        for (int i = 0; i < _buffsIx.Length; i++) {
-            _buffsIx[i] = -1;
-        }
-
-        foreach (BuffEffect e in buffs)
+        if (_effectSlots.Count == 0 && _specialEffectSlots.Count == 0)
         {
-            UpsertEffect(e.SkillId, e.SkillLvl, e.Duration);
-        }
-        CleanupOldBuffs();
-        UpdateBuffsCount();
-
-        if (_buffCount == 0) _windowEle.style.display = DisplayStyle.None;
-    }
-
-    public void UpsertEffect(int skillId, int skillLvl, int duration)
-    {
-        Skillgrp skillgrp = SkillgrpTable.Instance.GetSkill(skillId, skillLvl);
-        BuffType type = Buff.ResolveBuffType(skillgrp);
-        if ((type == BuffType.Debuff && _effectType != EffectType.Debuff) ||
-            (type != BuffType.Debuff && _effectType == EffectType.Debuff)) {
-            return;
-        }
-
-        UpsertBuff(skillId, skillLvl, duration, skillgrp, type);
-    }
-    
-    public void UpsertEffect(int skillId, int skillLvl, int duration, BuffType type)
-    {
-        Skillgrp skillgrp = SkillgrpTable.Instance.GetSkill(skillId, skillLvl);
-        if ((type == BuffType.Debuff && _effectType != EffectType.Debuff) ||
-            (type != BuffType.Debuff && _effectType == EffectType.Debuff)) {
-            return;
-        }
-
-        UpsertBuff(skillId, skillLvl, duration, skillgrp, type);
-    }
-
-    public void UpsertBuff(int skillId, int skillLvl, int duration, Skillgrp skillgrp, BuffType type)
-    {
-        SkillNameData skillNameData = SkillNameTable.Instance.GetName(skillId, skillLvl);
-        Debug.Log($"Received buff: {skillNameData.Name}, duration: {duration}");
-        string desc = string.IsNullOrEmpty(skillNameData.Desc) ? SkillNameTable.Instance.GetDescription(skillId) : skillNameData.Desc;
-
-        int buffTypeIndex = type == BuffType.Debuff ? 0 : (int)type;
-        
-        StyleBackground background = new StyleBackground(IconTable.Instance.LoadTextureByName(skillgrp.Icon));
-        string description = ComposeDescription(desc, skillNameData.DescParams);
-        BuffSlot buffSlot;
-        VisualElement visualBuff;
-        (VisualElement visualContainer, int ix) = GetContainerAndBuffIndex(buffTypeIndex, increment: true);
-        // insert new slot
-        if (visualContainer.childCount <= ix)
-        {
-            visualBuff = _buffSlot.Instantiate()[0];
-            visualBuff.Q<VisualElement>("SlotBg").style.backgroundImage = background;
-            buffSlot = new BuffSlot(visualBuff, ix, new Buff(skillNameData.Name, description, skillgrp.Icon, skillLvl, duration, type, Time.unscaledTime));
-            visualContainer.Add(visualBuff);
-            _buffCount++;
-        }
-        else
-        {
-            // update old slot
-            visualBuff = visualContainer[ix];
-            visualBuff.Q<VisualElement>("SlotBg").style.backgroundImage = background;
-            visualContainer.Children().ToArray()[ix] = visualBuff;
-            buffSlot = _buffs[buffTypeIndex][ix];
-            buffSlot.Buff.Level = skillLvl;
-            buffSlot.Buff.Type = type;
-            float remainingDuration = GetRemainingDuration(buffSlot.Buff);
-            if (buffSlot.Id != skillId || duration > remainingDuration + 1)
+            if (!_isWindowHidden)
             {
-                buffSlot.Buff.StartTime = Time.unscaledTime;
-                buffSlot.Buff.Duration = duration;
-                remainingDuration = GetRemainingDuration(buffSlot.Buff);
-            }
-            if (remainingDuration >= 60)
-            {
-                buffSlot.SlotElement.Q<Label>("Duration").style.display = DisplayStyle.None;
-                buffSlot.SlotElement.style.opacity = 1;
-            }
-            else if (remainingDuration > -0.5f && remainingDuration < 60)
-            {
-                ShowRemainingDuration(buffSlot.SlotElement, remainingDuration);
-            }
-            if (buffSlot.SlotElement.style.display == DisplayStyle.None)
-            {
-                _buffCount++;
-                buffSlot.SlotElement.style.display = DisplayStyle.Flex;
+                HideWindow(true);
             }
         }
-        buffSlot.Position = ix;
-        buffSlot.Id = skillId;
-        buffSlot.Icon = skillgrp.Icon;
-        buffSlot.Buff.Name = skillNameData.Name;
-        buffSlot.Buff.Description = description;
-        buffSlot.Buff.Icon = skillgrp.Icon;
-        buffSlot.AssignEffect();
+    }
 
-        _buffs[buffTypeIndex][ix] = buffSlot;
-
-        if (_windowEle.style.display == DisplayStyle.None)
+    private void CleanupAllNormalEffects()
+    {
+        for (int i = _effectSlots.Count - 1; i >= 0; i--)
         {
-            _windowEle.style.display = DisplayStyle.Flex;
+            _buffRowContainers[0].RemoveAt(i);
+            _effectSlots.RemoveAt(i);
         }
+    }
 
-        if (!isUpdating)
+    private void CleanupAllSpecialEffects()
+    {
+        for (int i = _specialEffectSlots.Count - 1; i >= 0; i--)
         {
-            StartCoroutine(UpdateBuffTimers());
+            _buffRowContainers[1].RemoveAt(i);
+            _specialEffectSlots.RemoveAt(i);
+        }
+    }
+
+    public void SetEffects(BuffEffect[] buffEffects)
+    {
+        CleanupAllNormalEffects();
+
+        foreach (BuffEffect buffEffect in buffEffects)
+        {
+            Skillgrp skillgrp = SkillgrpTable.Instance.GetSkill(buffEffect.SkillId, buffEffect.SkillLvl);
+            if (skillgrp == null) continue;
+
+            if (skillgrp.IconType == SkillType.Buff && _effectType == EffectType.Buff ||
+                skillgrp.IconType == SkillType.Debuff && _effectType == EffectType.Debuff)
+            {
+                // newEffects.Add(buffEffect);
+                AddEffect(buffEffect.SkillId, buffEffect.SkillLvl, buffEffect.Duration, _effectType == EffectType.Buff ? BuffType.Normal : BuffType.Debuff);
+            }
+        }
+    }
+
+    public void SetEtcEffects()
+    {
+
+    }
+
+    public void AddEffect(int effectId, int effectLevel, int duration, BuffType type)
+    {
+        Debug.Log($"Received buff: {effectId}, duration: {duration}");
+
+        List<BuffSlot> buffSlots = type == BuffType.Special ? _specialEffectSlots : _effectSlots;
+        int containerIndex = type == BuffType.Special ? 1 : 0;
+
+        VisualElement visualElement = _buffSlot.Instantiate()[0];
+        BuffSlot buffSlot = new BuffSlot(visualElement);
+        _buffRowContainers[containerIndex].Add(buffSlot.SlotElement);
+        buffSlots.Add(buffSlot);
+
+        buffSlot.AssignEffect(effectId, effectLevel, duration, type);
+
+        if (_isWindowHidden)
+        {
+            ShowWindow();
         }
     }
 
     private IEnumerator UpdateBuffTimers()
     {
-        isUpdating = true;
-
-        while (_buffCount > 0)
+        while (true)
         {
-            int removedBuffs = 0;
-            for (var i = 0; i < _buffs.Length; ++i)
+            if (_isWindowHidden)
             {
-                (VisualElement visualContainer, int buffIndexes) = GetContainerAndBuffIndex(i, increment: false);
-                for (var k = 0; k <= buffIndexes; ++k)
-                {
-                    BuffSlot buff = _buffs[i][k];
-                    if (buff is null) continue;
-
-                    VisualElement effect = visualContainer[buff.Position];
-                    float duration = GetRemainingDuration(buff.Buff);
-
-                    switch (duration)
-                    {
-                        case > -0.5f and <= 30f:
-                            TogglePulse(effect);
-                            ShowRemainingDuration(effect, duration);
-                            break;
-                        case > 30 and < 60:
-                            ShowRemainingDuration(effect, duration);
-                            break;
-                        case -1: //toggle
-                            TogglePulse(effect);
-                            break;
-                        case -100: //infinite
-                            break;
-                        case <= -0.5f when removedBuffs == _buffCount:
-                            effect.style.opacity = 1;
-                            RemoveLastBuff(i, k);
-                            break;
-                    }
-                }
+                yield return new WaitForSeconds(1f);
+                continue;
             }
-            if (_buffCount == 0) _windowEle.style.display = DisplayStyle.None;
+
+            foreach (BuffSlot buffSlot in _effectSlots)
+            {
+                buffSlot.UpdateRemainingDuration();
+            }
 
             yield return new WaitForSeconds(1f);
         }
-
-        isUpdating = false;
     }
 
-    private void ShowRemainingDuration(VisualElement effect, float duration)
+    private void OnDestroy()
     {
-        Label remaining = effect.Q<Label>("Duration");
-        remaining.text = Mathf.Ceil(duration).ToString(CultureInfo.InvariantCulture);
-        if (remaining.style.display != DisplayStyle.Flex) remaining.style.display = DisplayStyle.Flex;
-    }
-
-    private string ComposeDescription(string desc, string[] descParams)
-    {
-        for (var i = 0; i < descParams.Length; i++)
+        if (_effectCoroutine != null)
         {
-            desc = desc.Replace($"$s{i + 1}", descParams[i]);
-        }
-        return desc;
-    }
-
-    private (VisualElement, int) GetContainerAndBuffIndex(int typeIndex, bool increment)
-    {
-        VisualElement row = _buffRowContainers[typeIndex];
-        return (row, increment ? ++_buffsIx[typeIndex] : _buffsIx[typeIndex]);
-    }
-
-    protected abstract void TogglePulse(VisualElement element);
-
-    private void CleanupOldBuffs()
-    {
-        for (int i = 0; i < _buffsIx.Length; i++) {
-            for (int k = _buffsIx[i] + 1; k < _prevBuffsIx[i] + 1; k++) {
-                RemoveBuff(i, k);
-            }
+            StopCoroutine(_effectCoroutine);
         }
     }
 
-    private void UpdateBuffsCount()
+    public virtual void SetEtcEffects(PlayerBuffStatus status)
     {
-        for (int i = 0; i < _prevBuffsIx.Length; i++) {
-            _prevBuffsIx[i] = _buffsIx[i];
-        }
-    }
-
-    private float GetRemainingDuration(Buff buff) {
-        return buff.StartTime + buff.Duration - Time.unscaledTime;
+        CleanupAllSpecialEffects();
     }
 }

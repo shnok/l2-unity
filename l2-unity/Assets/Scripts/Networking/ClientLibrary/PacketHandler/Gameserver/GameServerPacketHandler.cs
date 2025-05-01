@@ -724,26 +724,30 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnShortBuffStatusUpdate(byte[] data)
     {
         ShortBuffStatusUpdatePacket packet = new ShortBuffStatusUpdatePacket(data);
-        BuffWindow.Instance.UpsertEffect(packet.SkillId, packet.SkillLvl, packet.Duration, BuffType.Special);
+        BuffWindow.Instance.AddEffect(packet.SkillId, packet.SkillLvl, packet.Duration, BuffType.Special);
     }
 
     private void OnAbnormalStatusUpdate(byte[] data)
     {
         AbnormalStatusUpdatePacket packet = new AbnormalStatusUpdatePacket(data);
-        _eventProcessor.QueueEvent(() => BuffWindow.Instance.UpsertPlayerBuffs(packet.Effects));
-        _eventProcessor.QueueEvent(() => DebuffWindow.Instance.UpsertPlayerBuffs(packet.Effects));
+        _eventProcessor.QueueEvent(() => BuffWindow.Instance.SetEffects(packet.Effects));
+        _eventProcessor.QueueEvent(() => DebuffWindow.Instance.SetEffects(packet.Effects));
     }
 
     private void OnPartyEffect(byte[] data)
     {
         PartyEffectPacket packet = new PartyEffectPacket(data);
-        _eventProcessor.QueueEvent(() => BuffWindow.Instance.UpsertBuffs(packet.ObjectId, packet.Type, packet.Effects));
+        Debug.LogWarning("Part effects not yet handled!");
+        // _eventProcessor.QueueEvent(() => BuffWindow.Instance.UpsertBuffs(packet.ObjectId, packet.Type, packet.Effects));
     }
 
     private void OnEtcStatusUpdate(byte[] data)
     {
         EtcStatusUpdatePacket packet = new EtcStatusUpdatePacket(data);
-        _eventProcessor.QueueEvent(() => BuffWindow.Instance.UpsertPlayerStatus(
+        _eventProcessor.QueueEvent(() => BuffWindow.Instance.SetEtcEffects(
+            new PlayerBuffStatus(packet.Charges, packet.WeightPenalty, packet.IsBlockingAllPlayers,
+                packet.IsInsideDangerZone, packet.HasPenalty, packet.HasCharmOfCourage, packet.DeathPenaltyLvl)));
+        _eventProcessor.QueueEvent(() => DebuffWindow.Instance.SetEtcEffects(
             new PlayerBuffStatus(packet.Charges, packet.WeightPenalty, packet.IsBlockingAllPlayers,
                 packet.IsInsideDangerZone, packet.HasPenalty, packet.HasCharmOfCourage, packet.DeathPenaltyLvl)));
     }

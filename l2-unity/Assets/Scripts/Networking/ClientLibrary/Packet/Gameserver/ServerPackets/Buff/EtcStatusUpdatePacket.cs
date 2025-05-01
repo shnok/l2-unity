@@ -24,6 +24,6 @@ public class EtcStatusUpdatePacket : ServerPacket
         HasPenalty = ReadI() != 0;
         HasCharmOfCourage = ReadI() != 0;
         DeathPenaltyLvl = ReadI();
-        Debug.LogError($"Received EtcStatusUpdatePacket WeightPenalty: {WeightPenalty}, IsBlockingAllPlayers: {IsBlockingAllPlayers} Charges: {Charges} HasPenalty: {HasPenalty} DeathPenaltyLvl: {DeathPenaltyLvl}");
+        // Debug.LogError($"Received EtcStatusUpdatePacket WeightPenalty: {WeightPenalty}, IsBlockingAllPlayers: {IsBlockingAllPlayers} Charges: {Charges} HasPenalty: {HasPenalty} DeathPenaltyLvl: {DeathPenaltyLvl}");
     }
 }
