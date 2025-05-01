@@ -53,28 +53,33 @@ public class SkillNameTable
         return skillLevel;
     }
 
-    public string GetDescription(int id)
-    {
-        _names.TryGetValue(id, out Dictionary<int, SkillNameData> skillLevel);
-        if (skillLevel == null) return null;
+    // public string GetDescription(int id)
+    // {
+    //     return GetDescription(id, 1);
+    // }
 
-        bool found = skillLevel.TryGetValue(0, out SkillNameData skillName);
-        if (found)
-        {
-            return skillName.Desc;
-        }
+    // public string GetDescription(int id, int level)
+    // {
+    //     _names.TryGetValue(id, out Dictionary<int, SkillNameData> skillLevel);
+    //     if (skillLevel == null) return null;
 
-        string desc = string.Empty;
-        foreach (KeyValuePair<int, SkillNameData> lvl in skillLevel)
-        {
-            if (!string.IsNullOrEmpty(lvl.Value.Desc))
-            {
-                desc = lvl.Value.Desc;
-                break;
-            }
-        }
-        return desc;
-    }
+    //     bool found = skillLevel.TryGetValue(level, out SkillNameData skillName);
+    //     if (found)
+    //     {
+    //         return skillName.Desc;
+    //     }
+
+    //     string desc = string.Empty;
+    //     foreach (KeyValuePair<int, SkillNameData> lvl in skillLevel)
+    //     {
+    //         if (!string.IsNullOrEmpty(lvl.Value.Desc))
+    //         {
+    //             desc = lvl.Value.Desc;
+    //             break;
+    //         }
+    //     }
+    //     return desc;
+    // }
 
     private void ParseSkillNameGrps()
     {

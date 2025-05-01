@@ -20,7 +20,7 @@ public class AbnormalStatusUpdatePacket : ServerPacket
             int skillLvl = ReadH();
             int duration = ReadI();
             Effects[i] = new BuffEffect(skillId, skillLvl, duration);
-            Debug.LogError($"Received buff id: {skillId}, duration: {duration}");
+            // Debug.LogError($"Received buff id: {skillId}, duration: {duration}");
         }
     }
 }

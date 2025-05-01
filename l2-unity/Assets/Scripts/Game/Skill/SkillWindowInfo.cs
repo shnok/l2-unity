@@ -25,7 +25,8 @@ public class SkillWindowInfo
         SkillId = skillId;
         Level = skillNameData.Level;
         Name = skillNameData.Name;
-        Desc = string.IsNullOrEmpty(skillNameData.Desc) ? SkillNameTable.Instance.GetDescription(skillId) : skillNameData.Desc;
+        // Desc = string.IsNullOrEmpty(skillNameData.Desc) ? SkillNameTable.Instance.GetDescription(skillId) : skillNameData.Desc;
+        Desc = skillNameData.Desc;
         Icon = skillgrp.Icon;
         IconPanel = skillgrp.IconPanel;
         MpCost = skillgrp.MpConsume;
@@ -46,7 +47,8 @@ public class SkillWindowInfo
         SkillId = skillId;
         Level = skillNameData.Level;
         Name = skillNameData.Name;
-        Desc = string.IsNullOrEmpty(skillNameData.Desc) ? SkillNameTable.Instance.GetDescription(skillId) : skillNameData.Desc;
+        // Desc = string.IsNullOrEmpty(skillNameData.Desc) ? SkillNameTable.Instance.GetDescription(skillId) : skillNameData.Desc;
+        Desc = skillNameData.Desc;
         Icon = skillgrp.Icon;
         IconPanel = skillgrp.IconPanel;
         MpCost = skillgrp.MpConsume;

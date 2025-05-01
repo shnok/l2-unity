@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class EtcStatusUpdatePacket : ServerPacket
 {
     public int Charges { get; private set; }
@@ -7,12 +9,12 @@ public class EtcStatusUpdatePacket : ServerPacket
     public bool HasPenalty { get; private set; }
     public bool HasCharmOfCourage { get; private set; }
     public int DeathPenaltyLvl { get; private set; }
-    
+
     public EtcStatusUpdatePacket(byte[] d) : base(d)
     {
         Parse();
     }
-    
+
     public override void Parse()
     {
         Charges = ReadI();
@@ -22,5 +24,6 @@ public class EtcStatusUpdatePacket : ServerPacket
         HasPenalty = ReadI() != 0;
         HasCharmOfCourage = ReadI() != 0;
         DeathPenaltyLvl = ReadI();
+        // Debug.LogError($"Received EtcStatusUpdatePacket WeightPenalty: {WeightPenalty}, IsBlockingAllPlayers: {IsBlockingAllPlayers} Charges: {Charges} HasPenalty: {HasPenalty} DeathPenaltyLvl: {DeathPenaltyLvl}");
     }
 }
