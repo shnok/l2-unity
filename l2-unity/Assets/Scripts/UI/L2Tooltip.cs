@@ -131,7 +131,7 @@ public class L2ToolTip : L2PopupWindow
 
             yield return new WaitForEndOfFrame();
 
-            int margin = 5;
+            int margin = 0;
             float leftPos = Math.Min(target.worldBound.x, Math.Max(Screen.width - _windowEle.resolvedStyle.width, 0));
             float topPosUp = Math.Max(target.worldBound.y - _windowEle.resolvedStyle.height - margin, 0);
             float topPosDown = target.worldBound.y + target.resolvedStyle.height + margin;

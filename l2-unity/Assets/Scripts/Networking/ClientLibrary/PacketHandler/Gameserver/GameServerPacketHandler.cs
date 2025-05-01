@@ -370,9 +370,6 @@ public class GameServerPacketHandler : ServerPacketHandler
                     PlayerStateMachine.Instance.OnActionDenied();
                 }
 
-                Debug.LogWarning(messageData.Id);
-                Debug.LogWarning(messageData.Sound);
-
                 if (messageData.Sound != null)
                 {
                     AudioManager.Instance.PlayUISound(messageData.Sound);
@@ -727,7 +724,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnShortBuffStatusUpdate(byte[] data)
     {
         ShortBuffStatusUpdatePacket packet = new ShortBuffStatusUpdatePacket(data);
-        BuffWindow.Instance.UpsertEffect(packet.SkillId, packet.SkillLvl, packet.Duration,BuffType.Special);
+        BuffWindow.Instance.UpsertEffect(packet.SkillId, packet.SkillLvl, packet.Duration, BuffType.Special);
     }
 
     private void OnAbnormalStatusUpdate(byte[] data)
