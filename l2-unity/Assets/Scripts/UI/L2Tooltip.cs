@@ -15,6 +15,7 @@ public class L2ToolTip : L2PopupWindow
     private VisualElement _value;
     private VisualElement _tooltipTarget;
     private Coroutine _updateStyleCoroutine;
+    private Coroutine _updateTimerCoroutine;
 
     private static L2ToolTip _instance;
     public static L2ToolTip Instance { get { return _instance; } }
@@ -33,6 +34,9 @@ public class L2ToolTip : L2PopupWindow
 
     private void OnDestroy()
     {
+        if (_updateStyleCoroutine != null) StopCoroutine(_updateStyleCoroutine);
+        if (_updateTimerCoroutine != null) StopCoroutine(_updateTimerCoroutine);
+
         _instance = null;
     }
 
@@ -128,6 +132,11 @@ public class L2ToolTip : L2PopupWindow
     {
         while (true)
         {
+            if (_isWindowHidden)
+            {
+                yield return new WaitForEndOfFrame();
+                continue;
+            }
 
             yield return new WaitForEndOfFrame();
 
@@ -140,6 +149,43 @@ public class L2ToolTip : L2PopupWindow
             _windowEle.style.left = leftPos;
             _windowEle.style.top = topPos;
             _windowEle.style.opacity = 1;
+        }
+    }
+
+    IEnumerator UpdateTimerCoroutine(Buff effect)
+    {
+        VisualElement durationContainer = GetElementById("EffectTooltipDurationContainer");
+        Label durationLabel = GetLabelById("EffectTooltipDurationValue");
+
+        while (true)
+        {
+            if (_isWindowHidden || _effectTooltip.style.display == DisplayStyle.None || durationContainer.style.display == DisplayStyle.None)
+            {
+                yield return new WaitForEndOfFrame();
+                continue;
+            }
+
+            float duration = effect.StartTime + effect.Duration - Time.unscaledTime;
+            float hours = duration * 0.00027777778f;
+            float remainderAfterHours = duration - ((int)hours * 3600);
+            float minutes = Mathf.Floor(remainderAfterHours * 0.0166666667f);
+            float seconds = duration - ((int)hours * 3600) - (minutes * 60);
+            StringBuilder durationStr = new();
+            if ((int)hours > 0)
+            {
+                durationStr.Append((int)hours);
+                durationStr.Append("h ");
+            }
+            if ((int)minutes > 0)
+            {
+                durationStr.Append((int)minutes);
+                durationStr.Append("m ");
+            }
+            durationStr.Append(Mathf.Ceil(seconds + 0.8f));
+            durationStr.Append("s");
+            durationLabel.text = durationStr.ToString();
+
+            yield return new WaitForSeconds(1);
         }
     }
 
@@ -223,36 +269,26 @@ public class L2ToolTip : L2PopupWindow
 
     public void AddEffectTooltip(Buff effect)
     {
+        if (_updateTimerCoroutine != null)
+        {
+            StopCoroutine(_updateTimerCoroutine);
+        }
+
         GetLabelById("EffectTooltipName").text = effect.Name;
         GetLabelById("EffectTooltipLevelValue").text = effect.Level.ToString();
-        Label durationLabel = GetLabelById("EffectTooltipDurationValue");
+        VisualElement durationContainer = GetElementById("EffectTooltipDurationContainer");
 
-        if (effect.Duration == -1)
+        if (effect.Duration <= -1)
         {
-            durationLabel.style.display = DisplayStyle.None;
+            durationContainer.style.display = DisplayStyle.None;
         }
         else
         {
-            float duration = effect.StartTime + effect.Duration - Time.unscaledTime;
-            float hours = duration * 0.00027777778f;
-            float remainderAfterHours = duration - ((int)hours * 3600);
-            float minutes = Mathf.Floor(remainderAfterHours * 0.0166666667f);
-            float seconds = duration - ((int)hours * 3600) - (minutes * 60);
-            StringBuilder durationStr = new();
-            if ((int)hours > 0)
-            {
-                durationStr.Append((int)hours);
-                durationStr.Append("h ");
-            }
-            if ((int)minutes > 0)
-            {
-                durationStr.Append((int)minutes);
-                durationStr.Append("m ");
-            }
-            durationStr.Append(Mathf.Ceil(seconds + 0.8f));
-            durationStr.Append("s");
-            durationLabel.text = durationStr.ToString();
+            _updateTimerCoroutine = StartCoroutine(UpdateTimerCoroutine(effect));
+            durationContainer.style.display = DisplayStyle.Flex;
         }
+
+
         GetLabelById("EffectTooltipDescription").text = effect.Description;
     }
 }
