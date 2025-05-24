@@ -5,7 +5,10 @@ public enum CharacterRace : byte
     DarkElf = 2,
     Orc = 3,
     Dwarf = 4,
-    Monster = 5
+    Monster = 5,
+    Fighter = 6,
+    Magic = 7,
+    Shaman = 8
 }
 
 public static class CharacterRaceParser
@@ -25,14 +28,16 @@ public static class CharacterRaceParser
                 return CharacterRace.Elf;
             case CharacterModelType.MShaman:
             case CharacterModelType.FShaman:
+                return CharacterRace.Shaman;
             case CharacterModelType.MOrc:
             case CharacterModelType.FOrc:
                 return CharacterRace.Orc;
             case CharacterModelType.MFighter:
             case CharacterModelType.FFighter:
+                return CharacterRace.Fighter;
             case CharacterModelType.MMagic:
             case CharacterModelType.FMagic:
-                return CharacterRace.Human;
+                return CharacterRace.Magic;
             default:
                 return CharacterRace.Dwarf;
         }

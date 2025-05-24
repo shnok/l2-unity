@@ -380,7 +380,7 @@ public class ModelTable
 
                 if (l2Model == null || l2Model.baseModel == null)
                 {
-                    //Debug.LogWarning($"Armor {kvp.Key} model cannot be loaded for race {(CharacterRaceAnimation)i} at {model}");
+                    Debug.LogWarning($"Armor {kvp.Key} model cannot be loaded for race {(CharacterModelType)i} at {model}");
                     continue;
                 }
 
@@ -395,7 +395,7 @@ public class ModelTable
 
                 if (armorMaterial == null)
                 {
-                    // Debug.LogWarning($"Armor {kvp.Key} material cannot be loaded for race {(CharacterRaceAnimation)i} at {texture}");
+                    Debug.LogWarning($"Armor {kvp.Key} material cannot be loaded for race {(CharacterModelType)i} at {texture}");
                     continue;
                 }
 
@@ -420,11 +420,11 @@ public class ModelTable
         GameObject armorPiece = (GameObject)Resources.Load(modelPath);
         if (armorPiece == null)
         {
-            //Debug.LogWarning($"Can't find armor model at {modelPath}");
+            // Debug.LogWarning($"Can't find armor model at {modelPath}");
         }
         else
         {
-            // Debug.Log($"Successfully loaded armor model at {modelPath}");
+            Debug.Log($"Successfully loaded armor model at {modelPath}");
         }
 
         return armorPiece;
