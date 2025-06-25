@@ -69,7 +69,7 @@ public class PawnCreator : MonoBehaviour
 
         CharacterModelType raceId = GetCharacterTypeFromPawnId(id);
 
-        if (raceId == CharacterModelType.MOrc || raceId == CharacterModelType.FOrc || raceId == CharacterModelType.MShaman || raceId == CharacterModelType.FShaman || raceId == CharacterModelType.MMagic)
+        if (raceId == CharacterModelType.MOrc || raceId == CharacterModelType.FOrc || raceId == CharacterModelType.MShaman || raceId == CharacterModelType.FShaman)
         {
             Debug.LogWarning($"Race {raceId} is not yet added to the game.");
             raceId = CharacterModelType.FDwarf;
