@@ -97,7 +97,8 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
     {
         entity.Stats.UpdateStats(stats);
 
-        ((PlayerAppearance)entity.Appearance).UpdateAppearance(appearance);
+        entity.UpdateAppearance(appearance);
+        // ((PlayerAppearance)entity.Appearance).UpdateAppearance(appearance);
 
         entity.UpdatePAtkSpeed(stats.PAtkSpd);
         entity.UpdateMAtkSpeed(stats.MAtkSpd);

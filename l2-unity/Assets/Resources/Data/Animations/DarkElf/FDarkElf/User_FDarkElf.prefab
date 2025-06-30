@@ -290,6 +290,7 @@ MonoBehaviour:
   _lastSkillHitTime: 0
   _lastSkillReuseDelay: 0
   _lastSkillUseTime: 0
+  _castingEffects: []
   _lastSkillTarget: {fileID: 0}
   _castingSkill: 0
   _skillThrown: 0
@@ -311,7 +312,7 @@ MonoBehaviour:
   _rightHandBone: {fileID: 7738824338791007278}
   _leftHandBone: {fileID: 4978729188798552358}
   _shieldBone: {fileID: 6004688250336840886}
-  _rightHandWeapon:
+  _rightHandWeaponData:
     _id: 0
     _icon: 
     _itemName:
@@ -351,7 +352,7 @@ MonoBehaviour:
       _equipSound: 
       _inventoryType: 
       _crystallizable: 0
-  _leftHandWeapon:
+  _leftHandWeaponData:
     _id: 0
     _icon: 
     _itemName:
@@ -393,10 +394,10 @@ MonoBehaviour:
       _crystallizable: 0
   _weaponSizeRatio: 0
   _rightHandType: 0
-  _rightHand: {fileID: 0}
+  _rightHandWeapon: {fileID: 0}
   _arrow: {fileID: 0}
   _leftHandType: 0
-  _leftHand: {fileID: 0}
+  _leftHandWeapon: {fileID: 0}
   _weaponAnim: 0
   _skinnedMeshSync: {fileID: 8225435087090614378}
   _bodypartsContainer: {fileID: 3534923513669810036}
@@ -605,6 +606,10 @@ MonoBehaviour:
   _legs: {fileID: 0}
   _gloves: {fileID: 0}
   _boots: {fileID: 0}
+  _headBone: {fileID: 4026334862073811674}
+  _hairs: []
+  _face: {fileID: 0}
+  _bodyReady: 0
   _weaponTrail: {fileID: 1115936694925125911}
 --- !u!114 &5733643542121449354
 MonoBehaviour:
@@ -725,7 +730,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Animator: {fileID: 1192131085231929996}
-  _Transitions: {fileID: 0}
   _ActionOnDisable: 0
 --- !u!114 &239579943271151312
 MonoBehaviour:
@@ -907,6 +911,11 @@ Animator:
 --- !u!4 &2450296411121633686 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1173960283076727529, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}
+  m_PrefabInstance: {fileID: 3624145574768761727}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4026334862073811674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 408674227228182949, guid: 1aaed6ac5de1e6a468c07b16e771f1fb, type: 3}
   m_PrefabInstance: {fileID: 3624145574768761727}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &4978729188798552358 stripped

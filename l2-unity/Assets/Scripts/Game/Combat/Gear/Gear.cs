@@ -364,4 +364,8 @@ public class Gear : MonoBehaviour
     public virtual void StopTrail()
     {
     }
+
+    public virtual void UpdateAppearance(Appearance oldAppearance, Appearance newAppearance)
+    {
+    }
 }

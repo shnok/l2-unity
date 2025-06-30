@@ -149,4 +149,11 @@ public abstract class Entity : MonoBehaviour
     {
         Combat.ThrowSkill();
     }
+
+
+    public virtual void UpdateAppearance(Appearance appearance)
+    {
+        Gear.UpdateAppearance(Appearance, appearance);
+        Appearance = appearance;
+    }
 }

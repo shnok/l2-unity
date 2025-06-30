@@ -380,7 +380,7 @@ public class ModelTable
 
                 if (l2Model == null || l2Model.baseModel == null)
                 {
-                    Debug.LogWarning($"Armor {kvp.Key} model cannot be loaded for race {(CharacterModelType)i} at {model}");
+                    // Debug.LogWarning($"Armor {kvp.Key} model cannot be loaded for race {(CharacterModelType)i} at {model}");
                     continue;
                 }
 
@@ -395,7 +395,7 @@ public class ModelTable
 
                 if (armorMaterial == null)
                 {
-                    Debug.LogWarning($"Armor {kvp.Key} material cannot be loaded for race {(CharacterModelType)i} at {texture}");
+                    // Debug.LogWarning($"Armor {kvp.Key} material cannot be loaded for race {(CharacterModelType)i} at {texture}");
                     continue;
                 }
 

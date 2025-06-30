@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class UserGear : HumanoidGear
@@ -21,6 +22,16 @@ public class UserGear : HumanoidGear
     [SerializeField] private GameObject _gloves;
     [SerializeField] private GameObject _boots;
 
+    [Header("Bodyparts")]
+    [SerializeField] private GameObject _headBone; // Used in some cases when the hair model doesnt have an armature
+    [SerializeField] private GameObject[] _hairs;
+    [SerializeField] private GameObject _face;
+    [SerializeField] private bool _bodyReady;
+
+    public GameObject[] Hairs { get => _hairs; set => _hairs = value; }
+    public GameObject Face { get => _face; set => _face = value; }
+    public GameObject HeadBone { get => _headBone; set => _headBone = value; }
+
     [Header("Trail")]
     [SerializeField] private ParticleSystem _weaponTrail;
 
@@ -38,6 +49,21 @@ public class UserGear : HumanoidGear
         {
             Debug.LogWarning($"[{transform.name}] SkinnedMeshSync was not assigned, please pre-assign it to avoid unecessary load.");
             _skinnedMeshSync = _bodypartsContainer.GetComponentInChildren<SkinnedMeshSync>();
+        }
+
+        if (_headBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Headbone was not assigned, please pre-assign it to avoid unecessary load.");
+            _headBone = transform.GetChild(0)
+                .GetChild(0)
+                .GetChild(0)
+                .GetChild(0)
+                .GetChild(0)
+                .GetChild(0)
+                .GetChild(2)
+                .GetChild(0)
+                .GetChild(0)
+                .GetChild(0).gameObject;
         }
 
         if (_weaponTrail == null)
@@ -298,6 +324,79 @@ public class UserGear : HumanoidGear
                 _bootsMeta = armor;
                 break;
         }
+
+        _skinnedMeshSync.SyncMesh();
+    }
+
+    public override void UpdateAppearance(Appearance oldAppearance, Appearance newAppearance)
+    {
+        base.UpdateAppearance(oldAppearance, newAppearance);
+
+        PlayerAppearance pnewAppearance = (PlayerAppearance)newAppearance;
+        PlayerAppearance poldAppearance = pnewAppearance;
+        if (_bodyReady)
+        {
+            poldAppearance = (PlayerAppearance)oldAppearance;
+        }
+        else
+        {
+            _hairs = new GameObject[3];
+        }
+
+        CharacterModelType raceId = _referenceHolder.Entity.RaceId;
+
+        if (poldAppearance.HairColor != pnewAppearance.HairColor || poldAppearance.HairStyle != pnewAppearance.HairStyle || !_bodyReady)
+        {
+            // Update hairstyle
+            GameObject hair1 = ModelTable.Instance.GetHair(raceId, pnewAppearance.HairStyle, pnewAppearance.HairColor, false);
+            GameObject hair2 = ModelTable.Instance.GetHair(raceId, pnewAppearance.HairStyle, pnewAppearance.HairColor, true);
+
+            if (_hairs[(int)HairType.AH] != null)
+            {
+                Destroy(_hairs[(int)HairType.AH]);
+            }
+            if (_hairs[(int)HairType.BH] != null)
+            {
+                Destroy(_hairs[(int)HairType.BH]);
+            }
+
+            _hairs[(int)HairType.AH] = hair1;
+            _hairs[(int)HairType.BH] = hair2;
+
+            hair1?.transform.SetParent(_bodypartsContainer.transform, false);
+
+            if (hair2 != null)
+            {
+                if (hair2.CompareTag("Hair")) // this hair doesnt have an armature and needs to be placed manually under the head bone
+                {
+
+                    Vector3 origin = hair2.transform.localPosition;
+                    Vector3 originEuler = hair2.transform.eulerAngles;
+
+                    hair2.transform.SetParent(_headBone.transform);
+
+                    hair2.transform.localPosition = origin;
+                    hair2.transform.localEulerAngles = originEuler;
+                }
+                else
+                {
+                    hair2.transform.SetParent(_bodypartsContainer.transform, false);
+                }
+            }
+        }
+
+        if (poldAppearance.Face != pnewAppearance.Face || !_bodyReady)
+        {
+            if (_face != null)
+            {
+                Destroy(_face);
+            }
+            // Update face
+            GameObject face = ModelTable.Instance.GetFace(raceId, pnewAppearance.Face);
+            face?.transform.SetParent(_bodypartsContainer.transform, false);
+        }
+
+        _bodyReady = true;
 
         _skinnedMeshSync.SyncMesh();
     }

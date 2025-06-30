@@ -96,7 +96,10 @@ public class CharacterSelector : MonoBehaviour
 
         gear.Initialize(-1, _characters[id].CharacterRaceAnimation);
 
-        PawnCreator.Instance.GearUpPawn(_characters[id].PlayerAppearance, gear);
+        // PawnCreator.Instance.GearUpPawn(_characters[id].PlayerAppearance, gear);
+
+        referenceHolder.Entity.EquipAllArmors();
+        referenceHolder.Entity.EquipAllWeapons();
 
         pawnObject.GetComponent<SelectableCharacterEntity>().CharacterInfo = _characters[id];
 

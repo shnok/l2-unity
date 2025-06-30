@@ -57,11 +57,11 @@ public class PawnCreator : MonoBehaviour
 
         for (var i = 8; i < pawnData.Count; i++)
         {
-            SpawnPawnWithId(i);
+            SpawnCharacterCreationPawn(i);
         }
     }
 
-    public void SpawnPawnWithId(int id)
+    public void SpawnCharacterCreationPawn(int id)
     {
         PlayerAppearance appearance = new PlayerAppearance();
 
@@ -95,7 +95,9 @@ public class PawnCreator : MonoBehaviour
 
         gear.Initialize(-1, raceId);
 
-        GearUpPawn(appearance, gear);
+        referenceHolder.Entity.EquipAllArmors();
+        referenceHolder.Entity.EquipAllWeapons();
+        // GearUpPawn(appearance, gear);
 
         PlacePawn(pawnObject, pawnData[id], "Pawn" + id, _pawnContainer, animController, gear);
     }
@@ -190,7 +192,7 @@ public class PawnCreator : MonoBehaviour
             // Restore pawn appearance and rotation
             Destroy(currentPawn);
 
-            SpawnPawnWithId(currentPawnIndex);
+            SpawnCharacterCreationPawn(currentPawnIndex);
         }
 
         currentPawn = null;
@@ -204,46 +206,46 @@ public class PawnCreator : MonoBehaviour
         return pawnObject;
     }
 
-    public void GearUpPawn(PlayerAppearance appearance, UserGear gear)
-    {
-        if (appearance.Chest != 0)
-        {
-            gear.EquipArmor(appearance.Chest, ItemSlot.SLOT_CHEST);
-        }
-        else
-        {
-            gear.EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.SLOT_CHEST);
-        }
+    // public void GearUpPawn(PlayerAppearance appearance, UserGear gear)
+    // {
+    //     if (appearance.Chest != 0)
+    //     {
+    //         gear.EquipArmor(appearance.Chest, ItemSlot.SLOT_CHEST);
+    //     }
+    //     else
+    //     {
+    //         gear.EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.SLOT_CHEST);
+    //     }
 
-        if (appearance.Legs != 0)
-        {
-            gear.EquipArmor(appearance.Legs, ItemSlot.SLOT_LEGS);
-        }
-        else
-        {
-            gear.EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.SLOT_LEGS);
-        }
+    //     if (appearance.Legs != 0)
+    //     {
+    //         gear.EquipArmor(appearance.Legs, ItemSlot.SLOT_LEGS);
+    //     }
+    //     else
+    //     {
+    //         gear.EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.SLOT_LEGS);
+    //     }
 
-        if (appearance.Gloves != 0)
-        {
-            gear.EquipArmor(appearance.Gloves, ItemSlot.SLOT_GLOVES);
-        }
-        else
-        {
-            gear.EquipArmor(ItemTable.NAKED_GLOVES, ItemSlot.SLOT_GLOVES);
-        }
+    //     if (appearance.Gloves != 0)
+    //     {
+    //         gear.EquipArmor(appearance.Gloves, ItemSlot.SLOT_GLOVES);
+    //     }
+    //     else
+    //     {
+    //         gear.EquipArmor(ItemTable.NAKED_GLOVES, ItemSlot.SLOT_GLOVES);
+    //     }
 
-        if (appearance.Feet != 0)
-        {
-            gear.EquipArmor(appearance.Feet, ItemSlot.SLOT_FEET);
-        }
-        else
-        {
-            gear.EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.SLOT_FEET);
-        }
+    //     if (appearance.Feet != 0)
+    //     {
+    //         gear.EquipArmor(appearance.Feet, ItemSlot.SLOT_FEET);
+    //     }
+    //     else
+    //     {
+    //         gear.EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.SLOT_FEET);
+    //     }
 
-        gear.EquipAllWeapons(appearance);
-    }
+    //     gear.EquipAllWeapons(appearance);
+    // }
 
     public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container, NewHumanoidAnimationController animController, UserGear gear)
     {
