@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PawnCreator : MonoBehaviour
+public class CharacterCreator : MonoBehaviour
 {
     [SerializeField] private GameObject[] pawns = new GameObject[26];
     [SerializeField] private int currentPawnIndex = -1;
@@ -13,8 +14,8 @@ public class PawnCreator : MonoBehaviour
     private GameObject _pawnContainer;
     public int PawnIndex { get { return currentPawnIndex; } }
 
-    private static PawnCreator _instance;
-    public static PawnCreator Instance { get { return _instance; } }
+    private static CharacterCreator _instance;
+    public static CharacterCreator Instance { get { return _instance; } }
 
     void Awake()
     {
@@ -72,10 +73,11 @@ public class PawnCreator : MonoBehaviour
         if (raceId == CharacterModelType.MOrc || raceId == CharacterModelType.FOrc || raceId == CharacterModelType.MShaman || raceId == CharacterModelType.FShaman)
         {
             Debug.LogWarning($"Race {raceId} is not yet added to the game.");
-            raceId = CharacterModelType.FDwarf;
+            return;
         }
 
         GameObject pawnObject = CreatePawn(raceId, appearance);
+        pawns[id] = pawnObject;
 
         EntityReferenceHolder referenceHolder = pawnObject.GetComponent<EntityReferenceHolder>();
         NewHumanoidAnimationController animController = (NewHumanoidAnimationController)referenceHolder.NewAnimationController;
@@ -84,8 +86,6 @@ public class PawnCreator : MonoBehaviour
         {
             Debug.LogError("Pawn object animation controller is null");
         }
-
-        animController.Initialize();
 
         UserGear gear = (UserGear)referenceHolder.Gear;
         if (gear == null)
@@ -206,47 +206,6 @@ public class PawnCreator : MonoBehaviour
         return pawnObject;
     }
 
-    // public void GearUpPawn(PlayerAppearance appearance, UserGear gear)
-    // {
-    //     if (appearance.Chest != 0)
-    //     {
-    //         gear.EquipArmor(appearance.Chest, ItemSlot.SLOT_CHEST);
-    //     }
-    //     else
-    //     {
-    //         gear.EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.SLOT_CHEST);
-    //     }
-
-    //     if (appearance.Legs != 0)
-    //     {
-    //         gear.EquipArmor(appearance.Legs, ItemSlot.SLOT_LEGS);
-    //     }
-    //     else
-    //     {
-    //         gear.EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.SLOT_LEGS);
-    //     }
-
-    //     if (appearance.Gloves != 0)
-    //     {
-    //         gear.EquipArmor(appearance.Gloves, ItemSlot.SLOT_GLOVES);
-    //     }
-    //     else
-    //     {
-    //         gear.EquipArmor(ItemTable.NAKED_GLOVES, ItemSlot.SLOT_GLOVES);
-    //     }
-
-    //     if (appearance.Feet != 0)
-    //     {
-    //         gear.EquipArmor(appearance.Feet, ItemSlot.SLOT_FEET);
-    //     }
-    //     else
-    //     {
-    //         gear.EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.SLOT_FEET);
-    //     }
-
-    //     gear.EquipAllWeapons(appearance);
-    // }
-
     public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container, NewHumanoidAnimationController animController, UserGear gear)
     {
         UpdatePawnPosAndRot(pawnObject, pawnData);
@@ -256,6 +215,7 @@ public class PawnCreator : MonoBehaviour
 
         pawnObject.SetActive(true);
 
+        animController.Initialize();
         animController.Wait();
         animController.SetWalkSpeed(2.5f);
     }
@@ -277,5 +237,57 @@ public class PawnCreator : MonoBehaviour
     public void StopRotatingPawn()
     {
         _pawnRotating = false;
+    }
+
+    public void ChangeCharacterFace(int faceIndex)
+    {
+        PlayerAppearance newAppearance = CopyAppearance();
+        newAppearance.Face = (byte)faceIndex;
+
+        if (newAppearance != null)
+        {
+            currentPawn.GetComponent<Entity>().UpdateAppearance(newAppearance);
+        }
+    }
+
+    public void ChangeCharacterHairStyle(int hairStyleIndex)
+    {
+        PlayerAppearance newAppearance = CopyAppearance();
+        newAppearance.HairStyle = (byte)hairStyleIndex;
+
+        if (newAppearance != null)
+        {
+            currentPawn.GetComponent<Entity>().UpdateAppearance(newAppearance);
+        }
+    }
+
+    public void ChangeCharacterHairColor(int hairColorIndex)
+    {
+        PlayerAppearance newAppearance = CopyAppearance();
+        newAppearance.HairColor = (byte)hairColorIndex;
+
+        if (newAppearance != null)
+        {
+            currentPawn.GetComponent<Entity>().UpdateAppearance(newAppearance);
+        }
+    }
+
+    private PlayerAppearance CopyAppearance()
+    {
+        if (currentPawnIndex == -1 || currentPawn == null)
+        {
+            Debug.LogWarning("Current pawn is null.");
+            return null;
+        }
+
+        Entity entity = currentPawn.GetComponent<Entity>();
+
+        PlayerAppearance oldAppearance = (PlayerAppearance)entity.Appearance;
+        Debug.LogWarning("oldAppearance: " + oldAppearance.Face);
+
+        PlayerAppearance newAppearance = new PlayerAppearance();
+        newAppearance.UpdateAppearance(oldAppearance);
+
+        return newAppearance;
     }
 }

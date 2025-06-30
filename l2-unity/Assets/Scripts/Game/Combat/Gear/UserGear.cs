@@ -332,6 +332,7 @@ public class UserGear : HumanoidGear
     {
         base.UpdateAppearance(oldAppearance, newAppearance);
 
+
         PlayerAppearance pnewAppearance = (PlayerAppearance)newAppearance;
         PlayerAppearance poldAppearance = pnewAppearance;
         if (_bodyReady)
@@ -342,6 +343,7 @@ public class UserGear : HumanoidGear
         {
             _hairs = new GameObject[3];
         }
+        // Debug.LogWarning($"UpdateAppearance: OldFace:{poldAppearance.Face} NewFace:{pnewAppearance.Face}");
 
         CharacterModelType raceId = _referenceHolder.Entity.RaceId;
 
@@ -391,9 +393,16 @@ public class UserGear : HumanoidGear
             {
                 Destroy(_face);
             }
+
             // Update face
             GameObject face = ModelTable.Instance.GetFace(raceId, pnewAppearance.Face);
-            face?.transform.SetParent(_bodypartsContainer.transform, false);
+            if (face != null)
+            {
+                _face = face;
+                _face.transform.SetParent(_bodypartsContainer.transform, false);
+                _face.transform.localScale = Vector3.one;
+                _face.transform.localPosition = Vector3.zero;
+            }
         }
 
         _bodyReady = true;

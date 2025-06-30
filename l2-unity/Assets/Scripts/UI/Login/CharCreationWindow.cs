@@ -73,22 +73,22 @@ public class CharCreationWindow : L2Window
 
         pawnRotateLeftButton.RegisterCallback<PointerDownEvent>((evt) =>
         {
-            PawnCreator.Instance.RotatePawn(true);
+            CharacterCreator.Instance.RotatePawn(true);
         }, TrickleDown.TrickleDown);
 
         pawnRotateRightButton.RegisterCallback<PointerDownEvent>((evt) =>
         {
-            PawnCreator.Instance.RotatePawn(false);
+            CharacterCreator.Instance.RotatePawn(false);
         }, TrickleDown.TrickleDown);
 
         pawnRotateLeftButton.RegisterCallback<PointerUpEvent>((evt) =>
         {
-            PawnCreator.Instance.StopRotatingPawn();
+            CharacterCreator.Instance.StopRotatingPawn();
         });
 
         pawnRotateRightButton.RegisterCallback<PointerUpEvent>((evt) =>
         {
-            PawnCreator.Instance.StopRotatingPawn();
+            CharacterCreator.Instance.StopRotatingPawn();
         });
 
         pawnZoominButton.RegisterCallback<ClickEvent>((evt) =>
@@ -106,31 +106,37 @@ public class CharCreationWindow : L2Window
 
         hairstyleManipulator = new ArrowInputManipulator(hairstyleInput, "Hairstyle", new string[] { "Type A", "Type B", "Type C", "Type D", "Type E" }, -1, (index, value) =>
         {
-            if (PawnCreator.Instance.PawnIndex == -1)
+            if (CharacterCreator.Instance.PawnIndex == -1)
             {
                 hairstyleManipulator.ClearInput();
                 return;
             }
+
+            CharacterCreator.Instance.ChangeCharacterHairStyle(index);
         });
         hairstyleInput.AddManipulator(hairstyleManipulator);
 
         hairColorManipulator = new ArrowInputManipulator(hairColorInput, "Hair Color", new string[] { "Type A", "Type B", "Type C", "Type D" }, -1, (index, value) =>
         {
-            if (PawnCreator.Instance.PawnIndex == -1)
+            if (CharacterCreator.Instance.PawnIndex == -1)
             {
                 hairColorManipulator.ClearInput();
                 return;
             }
+
+            CharacterCreator.Instance.ChangeCharacterHairColor(index);
         });
         hairColorInput.AddManipulator(hairColorManipulator);
 
         faceManipulator = new ArrowInputManipulator(faceInput, "Face", new string[] { "Type A", "Type B", "Type C" }, -1, (index, value) =>
         {
-            if (PawnCreator.Instance.PawnIndex == -1)
+            if (CharacterCreator.Instance.PawnIndex == -1)
             {
                 faceManipulator.ClearInput();
                 return;
             }
+
+            CharacterCreator.Instance.ChangeCharacterFace(index);
         });
         faceInput.AddManipulator(faceManipulator);
 
@@ -153,8 +159,8 @@ public class CharCreationWindow : L2Window
             faceManipulator.ResetInput();
 
             ShowRotatePawnWindow();
-            PawnCreator.Instance.ResetPawnSelection();
-            PawnCreator.Instance.SelectPawn(raceManipulator.Value, classManipulator.Value, value);
+            CharacterCreator.Instance.ResetPawnSelection();
+            CharacterCreator.Instance.SelectPawn(raceManipulator.Value, classManipulator.Value, value);
         });
         genderInput.AddManipulator(genderManipulator);
 
@@ -184,7 +190,7 @@ public class CharCreationWindow : L2Window
             faceManipulator.ClearInput();
 
             HideRotatePawnWindow();
-            PawnCreator.Instance.ResetPawnSelection();
+            CharacterCreator.Instance.ResetPawnSelection();
         });
         classInput.AddManipulator(classManipulator);
 
@@ -198,7 +204,7 @@ public class CharCreationWindow : L2Window
             faceManipulator.ClearInput();
 
             HideRotatePawnWindow();
-            PawnCreator.Instance.ResetPawnSelection();
+            CharacterCreator.Instance.ResetPawnSelection();
         });
         raceInput.AddManipulator(raceManipulator);
 

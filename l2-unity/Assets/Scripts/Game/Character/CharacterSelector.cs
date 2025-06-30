@@ -62,13 +62,13 @@ public class CharacterSelector : MonoBehaviour
 
         for (int i = 0; i < _characters.Count; i++)
         {
-            SpawnCharacterSlot(i);
+            SpawnCharacter(i);
         }
     }
 
-    public void SpawnCharacterSlot(int id)
+    public void SpawnCharacter(int id)
     {
-        GameObject pawnObject = PawnCreator.Instance.CreatePawn(_characters[id].CharacterRaceAnimation, _characters[id].PlayerAppearance);
+        GameObject pawnObject = CharacterCreator.Instance.CreatePawn(_characters[id].CharacterRaceAnimation, _characters[id].PlayerAppearance);
 
         EntityReferenceHolder referenceHolder = pawnObject.GetComponent<EntityReferenceHolder>();
         NewHumanoidAnimationController animController = (NewHumanoidAnimationController)referenceHolder.NewAnimationController;
@@ -86,8 +86,6 @@ public class CharacterSelector : MonoBehaviour
 
         animController.Initialize();
 
-
-
         UserGear gear = (UserGear)referenceHolder.Gear;
         if (gear == null)
         {
@@ -96,20 +94,19 @@ public class CharacterSelector : MonoBehaviour
 
         gear.Initialize(-1, _characters[id].CharacterRaceAnimation);
 
-        // PawnCreator.Instance.GearUpPawn(_characters[id].PlayerAppearance, gear);
-
         referenceHolder.Entity.EquipAllArmors();
         referenceHolder.Entity.EquipAllWeapons();
 
         pawnObject.GetComponent<SelectableCharacterEntity>().CharacterInfo = _characters[id];
 
-        PawnCreator.Instance.PlacePawn(pawnObject, _pawnData[id], _characters[id].Name, _container, animController, gear);
+        CharacterCreator.Instance.PlacePawn(pawnObject, _pawnData[id], _characters[id].Name, _container, animController, gear);
 
         if (_characters[id].DeleteTimer > 0)
         {
             referenceHolder.Entity.UpdateWaitType(ChangeWaitTypePacket.WaitType.WT_SITTING);
             animController.SitWait();
         }
+
         _characterGameObjects.Add(pawnObject);
     }
 

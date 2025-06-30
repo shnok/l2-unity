@@ -29,7 +29,7 @@ public class StartingGameState : GameStateBase
             case GameEvent.LOADING_COMPLETE:
                 LoginWindow.Instance.ShowWindow();
                 LoginWindow.Instance.ShowLogo();
-                PawnCreator.Instance.SpawnAllPawns();
+                CharacterCreator.Instance.SpawnAllPawns();
 
                 _stateMachine.ChangeState(GameState.LOGIN_SCREEN);
                 break;

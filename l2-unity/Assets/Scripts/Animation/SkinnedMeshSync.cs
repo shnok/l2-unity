@@ -47,16 +47,16 @@ public class SkinnedMeshSync : MonoBehaviour
             _rootSkinnedRenderer = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
         }
 
-        float startTime = Time.time;
-        while (_bodyPartsContainer.childCount > 7)
-        {
-            yield return new WaitForEndOfFrame();
-            if (Time.time - startTime < 1.0f)
-            {
-                Debug.LogWarning("Could not sync mesh.");
-                yield break;
-            }
-        }
+        // float startTime = Time.time;
+        // while (_bodyPartsContainer.childCount > 8)
+        // {
+        yield return new WaitForEndOfFrame();
+        //     if (Time.time - startTime < 1.0f)
+        //     {
+        //         Debug.LogWarning("Could not sync mesh.");
+        //         yield break;
+        //     }
+        // }
 
         DoSync();
     }
