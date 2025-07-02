@@ -96,7 +96,7 @@ public class L2ConfirmWindow : L2PopupWindow
         ShowWindow(systemMessage.PrintMessage(false), confirmAction, cancelAction);
     }
 
-    private void ShowWindow(string content, Action confirmAction, Action cancelAction)
+    public void ShowWindow(string content, Action confirmAction, Action cancelAction)
     {
         if (cancelAction == null)
         {

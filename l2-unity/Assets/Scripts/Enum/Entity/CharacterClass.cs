@@ -70,6 +70,50 @@ public enum CharacterClass : byte
 
 public class CharacterClassParser
 {
+    public static CharacterClass ParseClass(CharacterModelType characterModelType, bool isMage)
+    {
+        switch (characterModelType)
+        {
+            case CharacterModelType.MDwarf:
+            case CharacterModelType.FDwarf:
+                return CharacterClass.DwarvenFighter;
+            case CharacterModelType.MShaman:
+            case CharacterModelType.FShaman:
+                return CharacterClass.OrcMage;
+            case CharacterModelType.MDarkElf:
+            case CharacterModelType.FDarkElf:
+                if (isMage)
+                {
+                    return CharacterClass.DarkMage;
+                }
+                else
+                {
+                    return CharacterClass.DarkFighter;
+                }
+            case CharacterModelType.MFighter:
+            case CharacterModelType.FFighter:
+                return CharacterClass.Fighter;
+            case CharacterModelType.FOrc:
+            case CharacterModelType.MOrc:
+                return CharacterClass.OrcFighter;
+            case CharacterModelType.MMagic:
+            case CharacterModelType.FMagic:
+                return CharacterClass.Mage;
+            case CharacterModelType.MElf:
+            case CharacterModelType.FElf:
+                if (isMage)
+                {
+                    return CharacterClass.ElvenMage;
+                }
+                else
+                {
+                    return CharacterClass.ElvenFighter;
+                }
+            default:
+                return CharacterClass.Fighter;
+        }
+    }
+
     public static bool IsMage(CharacterClass characterClass)
     {
         switch (characterClass)

@@ -34,11 +34,11 @@ public class LoginCameraManager : MonoBehaviour
 
         cameras.Add("Login", GameObject.Find("Login").GetComponent<Camera>());
         cameras.Add("CharSelect", GameObject.Find("CharSelect").GetComponent<Camera>());
-        cameras.Add("Dark Elf", GameObject.Find("DarkElf").GetComponent<Camera>());
-        cameras.Add("Orc", GameObject.Find("Orc").GetComponent<Camera>());
-        cameras.Add("Dwarf", GameObject.Find("Dwarf").GetComponent<Camera>());
-        cameras.Add("Elf", GameObject.Find("Elf").GetComponent<Camera>());
-        cameras.Add("Human", GameObject.Find("Human").GetComponent<Camera>());
+        cameras.Add(SysStringTable.Instance.GetSysString(172).Name, GameObject.Find("DarkElf").GetComponent<Camera>());
+        cameras.Add(SysStringTable.Instance.GetSysString(173).Name, GameObject.Find("Orc").GetComponent<Camera>());
+        cameras.Add(SysStringTable.Instance.GetSysString(174).Name, GameObject.Find("Dwarf").GetComponent<Camera>());
+        cameras.Add(SysStringTable.Instance.GetSysString(171).Name, GameObject.Find("Elf").GetComponent<Camera>());
+        cameras.Add(SysStringTable.Instance.GetSysString(170).Name, GameObject.Find("Human").GetComponent<Camera>());
 
         DisableCameras();
 
@@ -47,11 +47,11 @@ public class LoginCameraManager : MonoBehaviour
         // GameManager.Instance.NotifyEvent(GameEvent.LOADING_COMPLETE);
     }
 
-    public Camera SelectClassCamera(string race, string charClass)
+    public Camera SelectClassCamera(string race, int charClass)
     {
         if (cameras.TryGetValue(race, out Camera camera))
         {
-            if (charClass == "Fighter")
+            if (charClass == 0)
             {
                 return camera.transform.GetChild(0).GetComponent<Camera>();
             }
@@ -63,12 +63,12 @@ public class LoginCameraManager : MonoBehaviour
         return null;
     }
 
-    public Camera SelectGenderCamera(string race, string charClass, string gender)
+    public Camera SelectGenderCamera(string race, int charClass, int gender)
     {
         Camera classCamera = SelectClassCamera(race, charClass);
         if (classCamera != null)
         {
-            if (gender == "Male")
+            if (gender == 0)
             {
                 return classCamera.transform.GetChild(0).GetComponent<Camera>();
             }
@@ -79,7 +79,7 @@ public class LoginCameraManager : MonoBehaviour
         return null;
     }
 
-    public Camera SelectHeadCamera(string race, string charClass, string gender)
+    public Camera SelectHeadCamera(string race, int charClass, int gender)
     {
         Camera genderCamera = SelectGenderCamera(race, charClass, gender);
         if (genderCamera != null)

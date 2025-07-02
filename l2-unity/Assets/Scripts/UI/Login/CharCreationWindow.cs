@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -49,6 +51,7 @@ public class CharCreationWindow : L2Window
 
         userInputField = (TextField)GetElementById("UserInputField").Q<TextField>("L2Input");
         userInputField.AddManipulator(new BlinkingCursorManipulator(userInputField));
+        userInputField.RegisterValueChangedCallback(evt => ValidateNewName(evt));
 
         Button createButton = (Button)GetElementById("CreateButton").Q<Button>("L2Button");
         createButton.AddManipulator(new ButtonClickSoundManipulator(createButton));
@@ -104,7 +107,12 @@ public class CharCreationWindow : L2Window
         VisualElement faceInput = _arrowInputTemplate.Instantiate()[0];
 
 
-        hairstyleManipulator = new ArrowInputManipulator(hairstyleInput, "Hairstyle", new string[] { "Type A", "Type B", "Type C", "Type D", "Type E" }, -1, (index, value) =>
+        hairstyleManipulator = new ArrowInputManipulator(hairstyleInput, SysStringTable.Instance.GetSysString(167).Name, new string[] {
+            SysStringTable.Instance.GetSysString(179).Name,
+            SysStringTable.Instance.GetSysString(180).Name,
+            SysStringTable.Instance.GetSysString(181).Name,
+            SysStringTable.Instance.GetSysString(182).Name,
+            SysStringTable.Instance.GetSysString(186).Name }, -1, (index, value) =>
         {
             if (CharacterCreator.Instance.PawnIndex == -1)
             {
@@ -116,7 +124,11 @@ public class CharCreationWindow : L2Window
         });
         hairstyleInput.AddManipulator(hairstyleManipulator);
 
-        hairColorManipulator = new ArrowInputManipulator(hairColorInput, "Hair Color", new string[] { "Type A", "Type B", "Type C", "Type D" }, -1, (index, value) =>
+        hairColorManipulator = new ArrowInputManipulator(hairColorInput, SysStringTable.Instance.GetSysString(168).Name, new string[] {
+            SysStringTable.Instance.GetSysString(179).Name,
+            SysStringTable.Instance.GetSysString(180).Name,
+            SysStringTable.Instance.GetSysString(181).Name,
+            SysStringTable.Instance.GetSysString(182).Name }, -1, (index, value) =>
         {
             if (CharacterCreator.Instance.PawnIndex == -1)
             {
@@ -128,7 +140,10 @@ public class CharCreationWindow : L2Window
         });
         hairColorInput.AddManipulator(hairColorManipulator);
 
-        faceManipulator = new ArrowInputManipulator(faceInput, "Face", new string[] { "Type A", "Type B", "Type C" }, -1, (index, value) =>
+        faceManipulator = new ArrowInputManipulator(faceInput, SysStringTable.Instance.GetSysString(169).Name, new string[] {
+            SysStringTable.Instance.GetSysString(179).Name,
+            SysStringTable.Instance.GetSysString(180).Name,
+            SysStringTable.Instance.GetSysString(181).Name }, -1, (index, value) =>
         {
             if (CharacterCreator.Instance.PawnIndex == -1)
             {
@@ -140,7 +155,9 @@ public class CharCreationWindow : L2Window
         });
         faceInput.AddManipulator(faceManipulator);
 
-        genderManipulator = new ArrowInputManipulator(genderInput, "Gender", new string[] { "Male", "Female" }, -1, (index, value) =>
+        genderManipulator = new ArrowInputManipulator(genderInput, SysStringTable.Instance.GetSysString(166).Name, new string[] {
+            SysStringTable.Instance.GetSysString(177).Name,
+            SysStringTable.Instance.GetSysString(178).Name }, -1, (index, value) =>
         {
             if (classManipulator.Value == "")
             {
@@ -148,7 +165,7 @@ public class CharCreationWindow : L2Window
                 return;
             }
 
-            Camera cam = LoginCameraManager.Instance.SelectGenderCamera(raceManipulator.Value, classManipulator.Value, value);
+            Camera cam = LoginCameraManager.Instance.SelectGenderCamera(raceManipulator.Value, classManipulator.Index, index);
             if (cam != null)
             {
                 LoginCameraManager.Instance.SwitchCamera(cam);
@@ -160,13 +177,15 @@ public class CharCreationWindow : L2Window
 
             ShowRotatePawnWindow();
             CharacterCreator.Instance.ResetPawnSelection();
-            CharacterCreator.Instance.SelectPawn(raceManipulator.Value, classManipulator.Value, value);
+            CharacterCreator.Instance.SelectPawn(raceManipulator.Index, classManipulator.Index, index);
         });
         genderInput.AddManipulator(genderManipulator);
 
-        classManipulator = new ArrowInputManipulator(classInput, "Class", new string[] { "Fighter", "Mystic" }, -1, (index, value) =>
+        classManipulator = new ArrowInputManipulator(classInput, SysStringTable.Instance.GetSysString(165).Name, new string[] {
+            SysStringTable.Instance.GetSysString(175).Name,
+            SysStringTable.Instance.GetSysString(176).Name }, -1, (index, value) =>
         {
-            if (raceManipulator.Value == "Dwarf" && value == "Mystic")
+            if (raceManipulator.Index == 4 && index == 1)
             {
                 classManipulator.ResetInput();
                 return;
@@ -178,7 +197,10 @@ public class CharCreationWindow : L2Window
                 return;
             }
 
-            Camera cam = LoginCameraManager.Instance.SelectClassCamera(raceManipulator.Value, value);
+            Camera cam = LoginCameraManager.Instance.SelectClassCamera(raceManipulator.Value, index);
+            Debug.LogWarning(raceManipulator.Value);
+            Debug.LogWarning(value);
+            Debug.LogWarning(cam);
             if (cam != null)
             {
                 LoginCameraManager.Instance.SwitchCamera(cam);
@@ -194,7 +216,12 @@ public class CharCreationWindow : L2Window
         });
         classInput.AddManipulator(classManipulator);
 
-        raceManipulator = new ArrowInputManipulator(raceInput, "Race", new string[] { "Human", "Elf", "Dark Elf", "Orc", "Dwarf" }, -1, (index, value) =>
+        raceManipulator = new ArrowInputManipulator(raceInput, SysStringTable.Instance.GetSysString(164).Name, new string[] {
+            SysStringTable.Instance.GetSysString(170).Name,
+            SysStringTable.Instance.GetSysString(171).Name,
+            SysStringTable.Instance.GetSysString(172).Name,
+            SysStringTable.Instance.GetSysString(173).Name,
+            SysStringTable.Instance.GetSysString(174).Name }, -1, (index, value) =>
         {
             LoginCameraManager.Instance.SwitchCamera(value);
             classManipulator.ClearInput();
@@ -220,13 +247,39 @@ public class CharCreationWindow : L2Window
         L2LoginUI.Instance.WindowLoadComplete();
     }
 
+    private void ValidateNewName(ChangeEvent<string> evt)
+    {
+        var regex = new Regex(@"^[a-zA-Z0-9]{0,12}$");
+        if (!regex.IsMatch(evt.newValue))
+        {
+            userInputField.value = evt.previousValue;
+            return;
+        }
+    }
 
     private void CreateButtonPressed()
     {
-        GameClient.Instance.ClientPacketHandler.SendRequestCreateCharacter(StringUtils.GenerateRandomString(), CharacterRace.Dwarf, CharacterSex.Female, CharacterClass.DwarvenFighter, 0, 0, 0);
+        if (raceManipulator.Index == 3)
+        {
+            L2ConfirmWindow.Instance.ShowWindow("Orcs are not available yet.", () => { }, null);
+            return;
+        }
+
+        if (userInputField.value.Length == 0)
+        {
+            L2ConfirmWindow.Instance.ShowWindow(205, () => { }, null);
+            return;
+        }
+
+        if (CharacterCreator.Instance.PawnIndex == -1)
+        {
+            return;
+        }
+
+        CharacterCreator.Instance.ValidateCharacterCreation(userInputField.value, classManipulator.Index == 1);
     }
 
-    private void PreviousButtonPressed()
+    private void ClearInputs()
     {
         classManipulator.ClearInput();
         genderManipulator.ClearInput();
@@ -235,6 +288,11 @@ public class CharCreationWindow : L2Window
         faceManipulator.ClearInput();
         raceManipulator.ClearInput();
         userInputField.value = "";
+    }
+
+    private void PreviousButtonPressed()
+    {
+        ClearInputs();
 
         GameManager.Instance.NotifyEvent(GameEvent.RETURN);
     }
@@ -269,5 +327,12 @@ public class CharCreationWindow : L2Window
 
             pawnZoominButton.AddToClassList("toggle");
         }
+    }
+
+    public override void ShowWindow()
+    {
+        base.ShowWindow();
+
+        ClearInputs();
     }
 }

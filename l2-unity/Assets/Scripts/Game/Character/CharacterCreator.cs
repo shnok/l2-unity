@@ -102,41 +102,41 @@ public class CharacterCreator : MonoBehaviour
         PlacePawn(pawnObject, pawnData[id], "Pawn" + id, _pawnContainer, animController, gear);
     }
 
-    public void SelectPawn(string race, string pawnClass, string gender)
+    public void SelectPawn(int raceIndex, int classIndex, int genderIndex)
     {
-        int index = GetPawnIndex(race, pawnClass, gender);
+        int index = GetPawnIndex(raceIndex, classIndex, genderIndex);
         currentPawnIndex = index;
         currentPawn = pawns[index];
     }
 
-    public int GetPawnIndex(string race, string pawnClass, string gender)
+    public int GetPawnIndex(int raceIndex, int classIndex, int genderIndex)
     {
         int index = 0;
-        switch (race)
+        switch (raceIndex)
         {
-            case "Human":
+            case 0: //"Human":
                 index = 8;
                 break;
-            case "Elf":
+            case 1: //"Elf":
                 index = 12;
                 break;
-            case "Dark Elf":
+            case 2: //"Dark Elf":
                 index = 16;
                 break;
-            case "Orc":
+            case 3:// "Orc":
                 index = 20;
                 break;
-            case "Dwarf":
+            case 4: //"Dwarf":
                 index = 24;
                 break;
         }
 
-        if (pawnClass == "Mystic")
+        if (classIndex == 1)
         {
             index += 2;
         }
 
-        if (gender == "Female")
+        if (genderIndex == 1)
         {
             index += 1;
         }
@@ -283,11 +283,30 @@ public class CharacterCreator : MonoBehaviour
         Entity entity = currentPawn.GetComponent<Entity>();
 
         PlayerAppearance oldAppearance = (PlayerAppearance)entity.Appearance;
-        Debug.LogWarning("oldAppearance: " + oldAppearance.Face);
 
         PlayerAppearance newAppearance = new PlayerAppearance();
         newAppearance.UpdateAppearance(oldAppearance);
 
         return newAppearance;
+    }
+
+    public void ValidateCharacterCreation(string characterName, bool isMage)
+    {
+        if (currentPawnIndex == -1 || currentPawn == null)
+        {
+            Debug.LogWarning("Current pawn is null.");
+            return;
+        }
+
+        Entity entity = currentPawn.GetComponent<Entity>();
+
+        GameClient.Instance.ClientPacketHandler.SendRequestCreateCharacter(
+            characterName,
+            CharacterRaceParser.ParseRaceBase(entity.RaceId),
+            CharacterSexParser.ParseSex(entity.RaceId),
+            CharacterClassParser.ParseClass(entity.RaceId, isMage),
+            ((PlayerAppearance)entity.Appearance).HairStyle,
+            ((PlayerAppearance)entity.Appearance).HairColor,
+            ((PlayerAppearance)entity.Appearance).Face);
     }
 }
