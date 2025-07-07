@@ -96,7 +96,7 @@ public class SkillbarSlot : SkillSlot
 
         _skillInfo = PlayerSkill.Instance.GetSkillInfo(skillId);
 
-        if (_skillInfo.IsSkillOnCooldown)
+        if (_skillInfo.IsSkillOnCooldown) //TODO: FIX CAN CRASH HERE
         {
             // CooldownStartTime = skillInfo.CooldownStartTime;
             // CooldownEndTime = skillInfo.CooldownEndTime;
