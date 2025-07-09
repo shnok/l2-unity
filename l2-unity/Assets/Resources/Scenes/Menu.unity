@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.509434, g: 0.49928033, b: 0.49261305, a: 1}
+  m_AmbientSkyColor: {r: 0.43516204, g: 0.4306801, b: 0.39049777, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.5
@@ -476,17 +476,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6358783125614899406, guid: 0bc1ac855144891449abb0e4e74728ed, type: 3}
   m_PrefabInstance: {fileID: 4204589043120698458}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &576186967 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4565256171594102790, guid: a21ed0f290fe2a74b95fff92dfe8ddfd, type: 3}
-  m_PrefabInstance: {fileID: 3866200442312394226}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &577923690 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 366637757882526997, guid: fb229ea28f4fa39459067629d99bca80, type: 3}
-  m_PrefabInstance: {fileID: 583370724813813285}
-  m_PrefabAsset: {fileID: 0}
---- !u!21 &617568423
+--- !u!21 &567018843
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -556,6 +546,16 @@ Material:
     - _NoiseSpeed: {r: 0.5, g: 0, b: 0.5, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!4 &576186967 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4565256171594102790, guid: a21ed0f290fe2a74b95fff92dfe8ddfd, type: 3}
+  m_PrefabInstance: {fileID: 3866200442312394226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &577923690 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 366637757882526997, guid: fb229ea28f4fa39459067629d99bca80, type: 3}
+  m_PrefabInstance: {fileID: 583370724813813285}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &624066251 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5598476727830390111, guid: bdf1b8af6b09ee64a929728eda6b68fe, type: 3}
@@ -856,6 +856,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3901452868625493304, guid: 46cfe1d5067543d45ba537becf8a92f2, type: 3}
   m_PrefabInstance: {fileID: 4603386674236267716}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &886241851
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Height Fog Global
+  m_Shader: {fileID: 4800000, guid: 3a7ef1b66bafb7a448a880ef76d2e6e6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _AdvancedCat: 1
+    - _Banner: 1
+    - _DirectionalCat: 1
+    - _FogCat: 1
+    - _HeightFogGlobal: 1
+    - _IsHeightFogShader: 1
+    - _NoiseCat: 1
+    - _SkyboxCat: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!4 &944372683 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1746505862048201007, guid: 398d1a85336d84a408b6351a9a8d114d, type: 3}
@@ -1128,7 +1164,7 @@ PrefabInstance:
     - target: {fileID: 14083907825353274, guid: 8742fc349ac4f354d9cfb98ebb79a0e3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 1217673812}
+      objectReference: {fileID: 1574095685}
     - target: {fileID: 2134954596300280144, guid: 8742fc349ac4f354d9cfb98ebb79a0e3, type: 3}
       propertyPath: m_Name
       value: Height Fog Global
@@ -1302,42 +1338,6 @@ Transform:
   - {fileID: 368858973}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1217673812
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Height Fog Global
-  m_Shader: {fileID: 4800000, guid: 3a7ef1b66bafb7a448a880ef76d2e6e6, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _AdvancedCat: 1
-    - _Banner: 1
-    - _DirectionalCat: 1
-    - _FogCat: 1
-    - _HeightFogGlobal: 1
-    - _IsHeightFogShader: 1
-    - _NoiseCat: 1
-    - _SkyboxCat: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!4 &1233662225 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 13034266571843662, guid: 0d2bb6df87fc7134797bbea74d8f0c0b, type: 3}
@@ -1640,6 +1640,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7273747146219291017, guid: daa16e8f69b1e9a4eb8496940aa8443b, type: 3}
   m_PrefabInstance: {fileID: 8996659760844049068}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1574095685
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Height Fog Global
+  m_Shader: {fileID: 4800000, guid: 3a7ef1b66bafb7a448a880ef76d2e6e6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _AdvancedCat: 1
+    - _Banner: 1
+    - _DirectionalCat: 1
+    - _FogCat: 1
+    - _HeightFogGlobal: 1
+    - _IsHeightFogShader: 1
+    - _NoiseCat: 1
+    - _SkyboxCat: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!4 &1578784320 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7910795701136625094, guid: 78490bfed2c48b445a38e6e6e71288ed, type: 3}
@@ -1723,42 +1759,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1650858035
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Height Fog Global
-  m_Shader: {fileID: 4800000, guid: 3a7ef1b66bafb7a448a880ef76d2e6e6, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _AdvancedCat: 1
-    - _Banner: 1
-    - _DirectionalCat: 1
-    - _FogCat: 1
-    - _HeightFogGlobal: 1
-    - _IsHeightFogShader: 1
-    - _NoiseCat: 1
-    - _SkyboxCat: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!4 &1658182756 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2675806561273761961, guid: fc179e6cb358bce4e85f7670580e5f92, type: 3}
