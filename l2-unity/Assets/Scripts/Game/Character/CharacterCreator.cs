@@ -217,7 +217,7 @@ public class CharacterCreator : MonoBehaviour
 
         animController.Initialize();
         animController.Wait();
-        animController.SetWalkSpeed(2.5f);
+        animController.SetWalkSpeed(1.9f);
     }
 
     public void UpdatePawnPosAndRot(GameObject pawnObject, Logongrp pawnData)

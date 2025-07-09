@@ -137,7 +137,7 @@ public class ModelTable
 
                 _faceModels[r] = faceModel;
 
-                for (int i = 0; i < chargrp.FaceTextures.Length; i++)
+                for (int i = 0; i < chargrp.FaceTextures.Length; i++) //Hardcoded to 3 for now
                 {
                     _faceMaterials[r, i] = LoadFaceMaterial(chargrp.FaceTextures[i]);
                 }
@@ -177,7 +177,7 @@ public class ModelTable
         Material material = (Material)Resources.Load(materialPath);
         if (material == null)
         {
-            Debug.LogWarning($"Can't find face material at {materialPath}");
+            // Debug.LogWarning($"Can't find face material at {materialPath}");
         }
         else
         {
