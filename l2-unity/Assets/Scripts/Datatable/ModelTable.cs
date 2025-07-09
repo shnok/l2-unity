@@ -501,26 +501,26 @@ public class ModelTable
         string model = armor.Armorgrp.Model[(byte)raceId];
         if (!_armors.ContainsKey(model))
         {
-            Debug.LogWarning($"Can't find armor model {model} in ModelTable");
+            Debug.LogWarning($"Can't find armor model {model} in ModelTable. Material is {armor.Armorgrp.Texture[(byte)raceId]}.");
             return null;
         }
 
         GameObject baseModel = _armors[model].baseModel;
         if (baseModel == null)
         {
-            Debug.LogWarning($"Can't find armor model {model} for {raceId} in ModelTable");
+            Debug.LogWarning($"Can't find armor model {model} for {raceId} in ModelTable. Material is {armor.Armorgrp.Texture[(byte)raceId]}.");
             return null;
         }
 
         if (_armors[model].materials == null)
         {
-            Debug.LogWarning($"Can't find armor material for {model} and {raceId} in ModelTable");
+            Debug.LogWarning($"Can't find armor material for {model} and {raceId} in ModelTable. Material is {armor.Armorgrp.Texture[(byte)raceId]}.");
             return null;
         }
 
         if (armor.Armorgrp.Texture == null || armor.Armorgrp.Texture.Length < RACE_COUNT || armor.Armorgrp.Texture[(byte)raceId] == null)
         {
-            Debug.LogWarning($"Can't find armor material for {model} and {raceId} in ModelTable");
+            Debug.LogWarning($"Can't find armor material for {model} and {raceId} in ModelTable. Material is {armor.Armorgrp.Texture[(byte)raceId]}.");
             return null;
         }
 
@@ -529,7 +529,7 @@ public class ModelTable
 
         if (material == null)
         {
-            Debug.LogWarning($"Can't find armor material for {model} and {raceId} in ModelTable");
+            Debug.LogWarning($"Can't find armor material for {model} and {raceId} in ModelTable. Material is {armor.Armorgrp.Texture[(byte)raceId]}.");
             return null;
         }
 
