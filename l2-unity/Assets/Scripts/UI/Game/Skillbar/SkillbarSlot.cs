@@ -2,12 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[System.Serializable]
 public class SkillbarSlot : SkillSlot
 {
     private L2Slot _innerSlot;
     private Shortcut _shortcut;
-    private int _skillbarId;
-    private int _slot;
+    [SerializeField] private int _skillbarId;
+    [SerializeField] private int _slot;
     private VisualElement _keyElement;
 
     public int Slot { get => _slot; }
