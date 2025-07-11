@@ -112,7 +112,7 @@ public class CharacterSelector : MonoBehaviour
 
     public void SelectDefaultCharacter()
     {
-        Debug.LogWarning("Selecting default slot " + DefaultSelectedSlot);
+        Debug.Log("Selecting default slot " + DefaultSelectedSlot);
 
         // Select first character if default selected slot is not set
         if (DefaultSelectedSlot == -1 && Characters.Count > 0)
