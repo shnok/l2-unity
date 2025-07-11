@@ -285,6 +285,28 @@ public class GameServerPacketHandler : ServerPacketHandler
         CharCreateFailPacket packet = new CharCreateFailPacket(data);
         CharCreateFailPacket.CreateFailReason reason = (CharCreateFailPacket.CreateFailReason)packet.Reason;
         Debug.LogWarning($"Character creation failed: {reason}.");
+        int systemMessageId = 128;
+        _eventProcessor.QueueEvent(() =>
+        {
+            switch (reason)
+            {
+                case CharCreateFailPacket.CreateFailReason.REASON_CREATION_FAILED:
+                    systemMessageId = 128;
+                    break;
+                case CharCreateFailPacket.CreateFailReason.REASON_NAME_ALREADY_EXISTS:
+                    systemMessageId = 79;
+                    break;
+                case CharCreateFailPacket.CreateFailReason.REASON_TOO_MANY_CHARACTERS:
+                    systemMessageId = 77;
+                    break;
+                case CharCreateFailPacket.CreateFailReason.REASON_INCORRECT_NAME:
+                    systemMessageId = 205;
+                    break;
+            }
+            L2ConfirmWindow.Instance.ShowWindow(systemMessageId, () =>
+            {
+            }, null);
+        });
     }
 
     private void OnCharCreateOk(byte[] data)
@@ -637,6 +659,25 @@ public class GameServerPacketHandler : ServerPacketHandler
     {
         CharDeleteFailPacket packet = new CharDeleteFailPacket(data);
         Debug.LogWarning("Char Delete Failed: " + packet.Reason);
+        int systemMessageId = 128;
+        _eventProcessor.QueueEvent(() =>
+        {
+            switch ((CharDeleteFailPacket.CharDeleteFailReason)packet.Reason)
+            {
+                case CharDeleteFailPacket.CharDeleteFailReason.REASON_DELETION_FAILED:
+                    systemMessageId = 306;
+                    break;
+                case CharDeleteFailPacket.CharDeleteFailReason.REASON_YOU_MAY_NOT_DELETE_CLAN_MEMBER:
+                    systemMessageId = 541;
+                    break;
+                case CharDeleteFailPacket.CharDeleteFailReason.REASON_CLAN_LEADERS_MAY_NOT_BE_DELETED:
+                    systemMessageId = 540;
+                    break;
+            }
+            L2ConfirmWindow.Instance.ShowWindow(systemMessageId, () =>
+            {
+            }, null);
+        });
     }
 
     private void OnSkillList(byte[] data)

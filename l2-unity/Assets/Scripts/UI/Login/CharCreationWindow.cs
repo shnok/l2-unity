@@ -288,6 +288,7 @@ public class CharCreationWindow : L2Window
         faceManipulator.ClearInput();
         raceManipulator.ClearInput();
         userInputField.value = "";
+        CharacterCreator.Instance.ResetPawnSelection();
     }
 
     private void PreviousButtonPressed()

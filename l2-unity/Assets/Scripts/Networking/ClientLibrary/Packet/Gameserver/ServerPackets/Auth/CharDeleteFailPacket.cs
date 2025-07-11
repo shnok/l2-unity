@@ -1,6 +1,6 @@
 public class CharDeleteFailPacket : ServerPacket
 {
-    public enum CharDeleteFailReason
+    public enum CharDeleteFailReason : int
     {
         REASON_DELETION_FAILED = 0x01,
         REASON_YOU_MAY_NOT_DELETE_CLAN_MEMBER = 0x02,

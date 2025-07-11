@@ -658,7 +658,7 @@ public class ModelTable
         GameObject prefab = _hairModels[(byte)raceId, hairStyle];
         if (prefab == null)
         {
-            Debug.LogError($"Can't find hairstyle model {hairStyle} haircolor {hairColor} for race {raceId} at index {raceId},{hairStyle}");
+            // Debug.LogError($"Can't find hairstyle model {hairStyle} haircolor {hairColor} for race {raceId} at index {raceId},{hairStyle}");
             return null;
         }
 

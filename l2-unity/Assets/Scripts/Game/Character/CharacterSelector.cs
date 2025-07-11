@@ -213,7 +213,12 @@ public class CharacterSelector : MonoBehaviour
             return;
         }
 
-        L2ConfirmWindow.Instance.ShowWindow(4076, () =>
+        SystemMessageDat sm = SystemMessageTable.Instance.GetSystemMessage(4076);
+        string message = sm.Message;
+        string characterName = _selectedCharacter.Name;
+        message = message.Replace("$s1", characterName);
+
+        L2ConfirmWindow.Instance.ShowWindow(message, () =>
         {
             ConfirmDelete();
         }, () =>
