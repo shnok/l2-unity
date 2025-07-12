@@ -8,10 +8,10 @@ public class NetworkTransformShare : MonoBehaviour
     private float _lastSharedPosTime;
 
     [SerializeField] public Vector3 _serverPosition;
-    [SerializeField] public bool _shouldShareRotation;
+    // [SerializeField] public bool _shouldShareRotation;
     public bool _rotationShareEnabled;
 
-    public bool ShouldShareRotation { get { return _shouldShareRotation; } set { _shouldShareRotation = value; } }
+    // public bool ShouldShareRotation { get { return _shouldShareRotation; } set { _shouldShareRotation = value; } }
 
     private static NetworkTransformShare _instance;
     public static NetworkTransformShare Instance { get { return _instance; } }

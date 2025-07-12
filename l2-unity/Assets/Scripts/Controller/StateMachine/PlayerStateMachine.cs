@@ -97,8 +97,13 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (_waitingForServerReply)
         {
+            Debug.LogWarning("Was waiting for another reply!");
             //TODO: Set this new intention in a "NextIntention" in temporary variable
             return;
+        }
+        else
+        {
+            Debug.LogWarning("[StateMachine][INTENTION] " + newIntention);
         }
 
         if (_enableLogs) Debug.Log("[StateMachine][INTENTION] " + newIntention);
@@ -183,6 +188,13 @@ public class PlayerStateMachine : MonoBehaviour
         if (_enableLogs) Debug.Log("[StateMachine] Skill allowed");
         SetWaitingForServerReply(false);
         NotifyEvent(Event.SKILL_ALLOWED, hitTime);
+    }
+
+    public void OnMagicSkillCanceled()
+    {
+        if (_enableLogs) Debug.Log("[StateMachine] Skill allowed");
+        SetWaitingForServerReply(false);
+        NotifyEvent(Event.CANCEL);
     }
 
     public void OnActionDenied()

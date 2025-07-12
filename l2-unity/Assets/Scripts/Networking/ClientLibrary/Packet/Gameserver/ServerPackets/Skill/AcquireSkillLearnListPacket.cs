@@ -23,7 +23,7 @@ public class AcquireSkillLearnListPacket : ServerPacket
             Skills[i] = new SkillWindowInfo(skillId, lvl, cost, null);
         }
 
-        Debug.LogWarning(ToString());
+        // Debug.LogWarning(ToString());
     }
 
     public override string ToString()

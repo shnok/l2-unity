@@ -17,6 +17,11 @@ public abstract class ClientPacket : Packet
         _buffer.Add(b);
     }
 
+    public void WriteB(bool b)
+    {
+        _buffer.Add(b ? (byte)1 : (byte)0);
+    }
+
     public void WriteB(byte[] b)
     {
         foreach (byte b2 in b)

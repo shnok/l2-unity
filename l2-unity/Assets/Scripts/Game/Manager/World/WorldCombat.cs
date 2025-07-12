@@ -94,7 +94,7 @@ public class WorldCombat : MonoBehaviour
                {
                    if (packet.ObjectId == PlayerEntity.Instance.Identity.Id)
                    {
-                       PlayerStateMachine.Instance.NotifyEvent(Event.CANCEL);
+                       PlayerStateMachine.Instance.OnMagicSkillCanceled();
                        NameplatesManagerGame.Instance.StopCasting();
                    }
                    else

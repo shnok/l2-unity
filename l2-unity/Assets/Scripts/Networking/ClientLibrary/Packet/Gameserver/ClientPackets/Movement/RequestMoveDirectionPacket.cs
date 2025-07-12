@@ -3,8 +3,9 @@ using System;
 public class RequestMoveDirectionPacket : ClientPacket
 {
 
-    public RequestMoveDirectionPacket(Vector3 direction, int heading, float verticalVelocity, Vector3 position) : base((byte)GameClientPacketType.RequestMoveDirection)
+    public RequestMoveDirectionPacket(Vector3 direction, int heading, float verticalVelocity, Vector3 position, bool requireResponse) : base((byte)GameClientPacketType.RequestMoveDirection)
     {
+        WriteB(requireResponse);
         WriteD(direction.x);
         WriteD(direction.z);
         WriteI(heading);
