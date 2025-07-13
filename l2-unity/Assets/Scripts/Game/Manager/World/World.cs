@@ -233,12 +233,13 @@ public class World : MonoBehaviour
             }
             else
             {
-                if (loadingScreen)
-                {
-                    Debug.LogWarning("TODO: HANDLE TELEPORT LOADING SCREEN");
-                }
-                PlayerTransformReceive.Instance.SetNewPosition(teleportTo);
-                GameClient.Instance.ClientPacketHandler.NotifyAppearing();
+                // if (loadingScreen)
+                // {
+                //     Debug.LogWarning("TODO: HANDLE TELEPORT LOADING SCREEN");
+                // }
+                // PlayerTransformReceive.Instance.SetNewPosition(teleportTo);
+                // GameClient.Instance.ClientPacketHandler.NotifyAppearing();
+                GameManager.Instance.NotifyEvent(GameEvent.TELEPORTING);
             }
 
             e.Identity.Position = teleportTo;
@@ -259,5 +260,13 @@ public class World : MonoBehaviour
                 e.AnimationController.Emote(action);
             }
         });
+    }
+
+    public void DestroyWorld()
+    {
+        ProjectileManager.Instance.DestroyAllProjectiles();
+        ParticleManager.Instance.DestroyAllParticles();
+        WorldSpawner.Instance.DestroyEntities();
+        WorldSpawner.Instance.ClearEntities();
     }
 }

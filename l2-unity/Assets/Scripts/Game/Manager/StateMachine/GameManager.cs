@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour
             GameState.IN_GAME => new InGameState(this),
             GameState.RESTARTING => new RestartingState(this),
             GameState.DISONNECTING => new DisconnectingState(this),
+            GameState.TELEPORTING => new TeleportingState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }

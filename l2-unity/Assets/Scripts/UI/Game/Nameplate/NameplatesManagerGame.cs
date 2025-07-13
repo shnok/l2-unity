@@ -228,4 +228,19 @@ public class NameplatesManagerGame : NameplatesManagerBase
         nameplates.Clear();
         instance = null;
     }
+
+    public override void ClearNameplates()
+    {
+        base.ClearNameplates();
+
+        if (playerNameplate != null)
+        {
+            if (playerNameplate.NameplateEle != null)
+            {
+                rootElement.Remove(playerNameplate.NameplateEle);
+            }
+
+            playerNameplate = null;
+        }
+    }
 }

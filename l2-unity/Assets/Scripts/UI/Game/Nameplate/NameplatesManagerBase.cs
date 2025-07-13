@@ -107,7 +107,7 @@ public class NameplatesManagerBase : MonoBehaviour
         }
     }
 
-    protected void ClearNameplates()
+    public virtual void ClearNameplates()
     {
         foreach (int id in nameplates.Keys.ToList())
         {

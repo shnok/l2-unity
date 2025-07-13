@@ -611,6 +611,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnTeleportToLocation(byte[] data)
     {
         TeleportToLocationPacket packet = new TeleportToLocationPacket(data);
+        Debug.LogWarning("Teleport screen!");
         World.Instance.EntityTeleported(packet.EntityId, packet.TeleportTo, packet.LoadingScreen);
     }
 
