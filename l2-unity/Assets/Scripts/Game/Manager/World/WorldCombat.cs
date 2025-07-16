@@ -56,6 +56,11 @@ public class WorldCombat : MonoBehaviour
 
     public void InflictAttack(Entity attacker, Entity target, Hit hit)
     {
+        if (attacker.IsDead)
+        {
+            return;
+        }
+
         ApplyDamage(target, hit);
 
         if (hit.isMiss())

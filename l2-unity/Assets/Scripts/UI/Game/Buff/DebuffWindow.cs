@@ -63,5 +63,7 @@ public class DebuffWindow : AbstractEffectWindow
         if (status.HasCharmOfCourage) AddEffect(5041, 1, -100, BuffType.Special);
         if (status.HasGradePenalty) AddEffect(4267, 1, -100, BuffType.Special); //Calvaz: needs fix: 6209 for armor, 6213 for weapon
                                                                                 //Shnok: It looks like interlude doesnt have different level of weight penalty, the effect id is 4267
+
+        HideWindowIfNeeded();
     }
 }
