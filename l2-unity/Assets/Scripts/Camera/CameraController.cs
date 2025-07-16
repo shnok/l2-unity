@@ -98,14 +98,13 @@ public class CameraController : MonoBehaviour
     public void SetTarget(GameObject go)
     {
         _target = go.transform;
-
-        _lerpTargetPos = _targetPos;
-
-        transform.position = _targetPos;
-
         _rootBone = _target.transform.FindRecursive(child => child.tag == "Root");
         _rootBoneHeight = _rootBone.position.y - _target.position.y;
         _collisionDetector = new CameraCollisionDetection(_mainCamera, _target, _camOffset, _collisionMask);
+
+        _lerpTargetPos = Vector3.zero;
+        UpdatePosition();
+        transform.position = _targetPos;
     }
 
     public bool IsObjectVisible(Transform target)

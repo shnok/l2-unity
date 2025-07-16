@@ -695,7 +695,7 @@ public class ParticleManager : MonoBehaviour
             DestroyQueue(queue);
         }
 
-        pool.Clear();
+        // pool.Clear();
     }
 
     private void DestroyQueue(Queue<PooledEffect> queue)
