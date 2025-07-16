@@ -98,6 +98,9 @@ public class CameraController : MonoBehaviour
     public void SetTarget(GameObject go)
     {
         _target = go.transform;
+
+        _lerpTargetPos = _targetPos;
+
         transform.position = _targetPos;
 
         _rootBone = _target.transform.FindRecursive(child => child.tag == "Root");
