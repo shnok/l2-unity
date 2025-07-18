@@ -20,11 +20,11 @@ public abstract class EntitySpawnStrategy<TAppearance, TStats, TStatus> where TA
         }
         else
         {
-            _eventProcessor.QueueEvent(() => FindAndUpdateEntity(identity, status, stats, appearance, actionInfo));
+            _eventProcessor.QueueEvent(() => UpdateEntity(identity, status, stats, appearance, actionInfo));
         }
     }
 
-    protected virtual void FindAndUpdateEntity(NetworkIdentity identity, TStatus status, TStats stats,
+    protected virtual void UpdateEntity(NetworkIdentity identity, TStatus status, TStats stats,
         TAppearance appearance, EntityActionInfo actionInfo)
     {
         // Don't need to block thread

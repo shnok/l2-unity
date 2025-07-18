@@ -6,9 +6,9 @@ public class HumanoidGear : Gear
 
     public WeaponAnimType WeaponAnim { get { return _weaponAnim; } }
 
-    public override void Initialize(int ownderId, CharacterModelType raceId)
+    public override void Initialize(int ownderId)
     {
-        base.Initialize(ownderId, raceId);
+        base.Initialize(ownderId);
     }
 
     protected override void UpdateWeaponType(WeaponType weaponType)

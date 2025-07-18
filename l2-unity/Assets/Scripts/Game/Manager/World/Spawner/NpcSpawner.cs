@@ -92,33 +92,24 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         NpcName npcName,
         EntityActionInfo actionInfo)
     {
-        ConfigureAppearance(appearance, npcgrp);
+        // ConfigureAppearance(appearance, npcgrp);
         ConfigureIdentity(npc, identity, npcgrp, npcName);
-        ConfigureStats(npc, status, stats, npcgrp);
 
-        npc.Appearance = appearance;
+        npc.Status = status;
+        // npc.Stats = stats;
+        npc.Status.Hp = npc.Stats.MaxHp;
+
+        // npc.Appearance = appearance;
         npc.Running = actionInfo.Running;
 
         var npcGo = npc.gameObject;
         npcGo.transform.name = identity.Name;
         npcGo.SetActive(true);
 
-        InitializeNpcComponents(npc);
-    }
-
-    private void ConfigureAppearance(Appearance appearance, Npcgrp npcgrp)
-    {
-        if (appearance.RHand == 0)
-            appearance.RHand = npcgrp.Rhand;
-
-        if (appearance.LHand == 0)
-            appearance.LHand = npcgrp.Lhand;
-
-        if (appearance.CollisionRadius == 0)
-            appearance.CollisionRadius = npcgrp.CollisionRadius;
-
-        if (appearance.CollisionHeight == 0)
-            appearance.CollisionHeight = npcgrp.CollisionHeight;
+        npc.ReferenceHolder.NewAnimationController.Initialize();
+        npc.ReferenceHolder.Gear.Initialize(npc.Identity.Id);
+        npc.UpdateAppearance(appearance);
+        npc.Initialize();
     }
 
     private void ConfigureIdentity(Entity npc, NetworkIdentity identity, Npcgrp npcgrp, NpcName npcName)
@@ -138,22 +129,6 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         }
 
         npc.Appearance.ServerTitleColor = npcName.TitleColor;
-    }
-
-    private void ConfigureStats(Entity npc, Status status, Stats stats, Npcgrp npcgrp)
-    {
-        npc.Status = status;
-        npc.Stats = stats;
-        // npc.Stats.MaxHp = (int)npcgrp.MaxHp; //Now shared by server
-        // npc.Status.Hp = (int)npcgrp.MaxHp;
-        npc.Status.Hp = npc.Stats.MaxHp;
-    }
-
-    private void InitializeNpcComponents(Entity npc)
-    {
-        npc.ReferenceHolder.NewAnimationController.Initialize();
-        npc.ReferenceHolder.Gear.Initialize(npc.Identity.Id, npc.RaceId);
-        npc.Initialize();
     }
 
     protected override void AddEntity(NetworkIdentity identity, Entity npc)
@@ -182,15 +157,15 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
 
         var networkTransform = ((NetworkEntityReferenceHolder)entity.ReferenceHolder).NetworkTransformReceive;
         networkTransform.SetNewPosition(identity.Position);
-
-        entity.Stats.UpdateStats(stats);
+        entity.UpdateAppearance(appearance);
         entity.Running = actionInfo.Running;
 
         entity.UpdatePAtkSpeed(stats.PAtkSpd);
         entity.UpdateMAtkSpeed(stats.MAtkSpd);
         entity.UpdateWalkSpeed(stats.WalkSpeed);
         entity.UpdateRunSpeed(stats.RunSpeed);
-        entity.EquipAllWeapons();
+
+        entity.Stats.UpdateStats(stats);
 
         UpdateAction(entity, actionInfo);
     }

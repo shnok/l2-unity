@@ -6,7 +6,6 @@ public class Gear : MonoBehaviour
     [SerializeField] protected EntityReferenceHolder _referenceHolder;
 
     protected int _ownerId;
-    protected CharacterModelType _raceId;
 
     [Header("Bones")]
     [SerializeField] protected Transform _rightHandBone;
@@ -30,13 +29,12 @@ public class Gear : MonoBehaviour
     protected NewBaseAnimationController AnimationController { get { return _referenceHolder.NewAnimationController; } }
     public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
     public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
-    public CharacterModelType RaceId { get { return _raceId; } set { _raceId = value; } }
 
     public Transform RightHandBone { get { return _rightHandBone; } }
     public Transform LeftHandBone { get { return _leftHandBone; } }
     public Transform Arrow { get { return _arrow; } }
 
-    public virtual void Initialize(int ownderId, CharacterModelType raceId)
+    public virtual void Initialize(int ownderId)
     {
         if (_referenceHolder == null)
         {
@@ -45,7 +43,6 @@ public class Gear : MonoBehaviour
         }
 
         _ownerId = ownderId;
-        _raceId = raceId;
 
         GetLeftHandBone();
         GetRightHandBone();
@@ -373,5 +370,15 @@ public class Gear : MonoBehaviour
 
     public virtual void UpdateAppearance(Appearance oldAppearance, Appearance newAppearance)
     {
+        if (oldAppearance.ShouldUpdateWeapons(newAppearance))
+        {
+            if (oldAppearance.ShouldUpdateColSize(newAppearance))
+            {
+                oldAppearance.CollisionHeight = newAppearance.CollisionHeight;
+                oldAppearance.CollisionRadius = newAppearance.CollisionRadius;
+            }
+
+            EquipAllWeapons(newAppearance);
+        }
     }
 }

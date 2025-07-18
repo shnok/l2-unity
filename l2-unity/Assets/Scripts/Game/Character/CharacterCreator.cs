@@ -76,7 +76,7 @@ public class CharacterCreator : MonoBehaviour
             return;
         }
 
-        GameObject pawnObject = CreatePawn(raceId, appearance);
+        GameObject pawnObject = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, EntityType.Pawn);
         pawns[id] = pawnObject;
 
         EntityReferenceHolder referenceHolder = pawnObject.GetComponent<EntityReferenceHolder>();
@@ -93,10 +93,10 @@ public class CharacterCreator : MonoBehaviour
             Debug.LogError("Pawn object UserGear is null");
         }
 
-        gear.Initialize(-1, raceId);
-
-        referenceHolder.Entity.EquipAllArmors();
-        referenceHolder.Entity.EquipAllWeapons();
+        gear.Initialize(-1);
+        referenceHolder.Entity.UpdateAppearance(appearance);
+        // referenceHolder.Entity.EquipAllArmors();
+        // referenceHolder.Entity.EquipAllWeapons();
         // GearUpPawn(appearance, gear);
 
         PlacePawn(pawnObject, pawnData[id], "Pawn" + id, _pawnContainer, animController, gear);
@@ -197,13 +197,6 @@ public class CharacterCreator : MonoBehaviour
 
         currentPawn = null;
         currentPawnIndex = -1;
-    }
-
-    public GameObject CreatePawn(CharacterModelType raceId, PlayerAppearance appearance)
-    {
-        GameObject pawnObject = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, EntityType.Pawn);
-
-        return pawnObject;
     }
 
     public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container, NewHumanoidAnimationController animController, UserGear gear)

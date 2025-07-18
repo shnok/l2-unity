@@ -48,17 +48,24 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
     {
         user.Status = status;
         user.Identity = identity;
-        user.Appearance = appearance;
-        user.Stats = stats;
-        user.Race = race;
-        user.RaceId = raceId;
+        // user.Appearance = appearance;
+        user.Stats = new Stats();
+        // user.Race = race;
+        // user.RaceId = raceId;
 
         // user.UpdateMoveType(running);
+
+
 
         ((NetworkEntityReferenceHolder)user.ReferenceHolder).NetworkTransformReceive.enabled = true;
 
         user.ReferenceHolder.NewAnimationController.Initialize();
-        user.ReferenceHolder.Gear.Initialize(user.Identity.Id, user.RaceId);
+        user.ReferenceHolder.Gear.Initialize(user.Identity.Id);
+
+        UpdateIdentityAndStatus(user, identity, status);
+        UpdateStatsAndAppearance(user, stats, appearance, null);
+
+        // user.UpdateAppearance(appearance);
         user.Initialize();
     }
 
@@ -95,7 +102,6 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
     private void UpdateStatsAndAppearance(NetworkHumanoidEntity entity, Stats stats,
         PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
-        entity.Stats.UpdateStats(stats);
 
         entity.UpdateAppearance(appearance);
         // ((PlayerAppearance)entity.Appearance).UpdateAppearance(appearance);
@@ -104,10 +110,14 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
         entity.UpdateMAtkSpeed(stats.MAtkSpd);
         entity.UpdateWalkSpeed(stats.WalkSpeed);
         entity.UpdateRunSpeed(stats.RunSpeed);
-        entity.EquipAllWeapons();
-        entity.EquipAllArmors();
 
-        UpdateAction(entity, actionInfo);
+        entity.Stats.UpdateStats(stats);
+        // entity.EquipAllWeapons();
+        // entity.EquipAllArmors();
+        if (actionInfo != null)
+        {
+            UpdateAction(entity, actionInfo);
+        }
     }
     #endregion
 }

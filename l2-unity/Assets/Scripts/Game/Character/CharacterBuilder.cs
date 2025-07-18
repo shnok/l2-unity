@@ -31,59 +31,9 @@ public class CharacterBuilder : MonoBehaviour
         }
         else
         {
-            entity.UpdateAppearance(appearance);
+            entity.Appearance.CollisionHeight = appearance.CollisionHeight;
+            entity.Appearance.CollisionRadius = appearance.CollisionRadius;
         }
-
-        // GameObject face = ModelTable.Instance.GetFace(raceId, appearance.Face);
-        // GameObject hair1 = ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, false);
-        // GameObject hair2 = ModelTable.Instance.GetHair(raceId, appearance.HairStyle, appearance.HairColor, true);
-
-        // Transform container = entity.transform.GetChild(0).GetChild(1);
-
-        // face?.transform.SetParent(container.transform, false);
-        // hair1?.transform.SetParent(container.transform, false);
-
-        // UserGear gear = (UserGear)entity.GetComponent<Entity>().Gear;
-
-        // Transform headBone = gear.HeadBone?.transform;
-
-        // if (headBone == null)
-        // {
-        //     gear.HeadBone = entity.transform
-        //                     .GetChild(0)
-        //                     .GetChild(0)
-        //                     .GetChild(0)
-        //                     .GetChild(0)
-        //                     .GetChild(0)
-        //                     .GetChild(0)
-        //                     .GetChild(2)
-        //                     .GetChild(0)
-        //                     .GetChild(0)
-        //                     .GetChild(0).gameObject;
-        // }
-
-        // if (hair2 != null)
-        // {
-        //     if (hair2.tag == "Hair") // this hair doesnt have an armature and needs to be placed manually under the head bone
-        //     {
-
-        //         Vector3 origin = hair2.transform.localPosition;
-        //         Vector3 originEuler = hair2.transform.eulerAngles;
-
-        //         hair2.transform.SetParent(headBone);
-
-        //         hair2.transform.localPosition = origin;
-        //         hair2.transform.localEulerAngles = originEuler;
-        //     }
-        //     else
-        //     {
-        //         hair2.transform.SetParent(container.transform, false);
-        //     }
-        // }
-
-        // gear.Hairs[(int)HairType.AH] = hair1?.gameObject;
-        // gear.Hairs[(int)HairType.BH] = hair2?.gameObject;
-        // gear.Face = face;
 
         return entity.gameObject;
     }

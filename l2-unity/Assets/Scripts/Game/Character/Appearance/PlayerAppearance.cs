@@ -1,7 +1,8 @@
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerAppearance : Appearance {
+public class PlayerAppearance : Appearance
+{
     [SerializeField] private byte _race;
     [SerializeField] private byte _sex;
     [SerializeField] private byte _face;
@@ -22,9 +23,12 @@ public class PlayerAppearance : Appearance {
     public int Gloves { get { return _gloves; } set { _gloves = value; } }
     public int Feet { get { return _feet; } set { _feet = value; } }
 
-    public void UpdateAppearance(PlayerAppearance appearance) {
+    public PlayerAppearance() { }
+
+    public void UpdateAppearance(PlayerAppearance appearance)
+    {
         base.UpdateAppearance(appearance);
-        
+
         _race = appearance.Race;
         _sex = appearance.Sex;
         _face = appearance.Face;
@@ -34,5 +38,29 @@ public class PlayerAppearance : Appearance {
         _legs = appearance.Legs;
         _gloves = appearance.Gloves;
         _feet = appearance.Feet;
+    }
+
+    public bool ShouldUpdateFace(PlayerAppearance newAppearance)
+    {
+        return Face != newAppearance.Face;
+    }
+
+    public bool ShouldUpdateHair(PlayerAppearance newAppearance)
+    {
+        return HairColor != newAppearance.HairColor || HairStyle != newAppearance.HairStyle;
+    }
+
+    public bool ShouldUpdateArmors(PlayerAppearance newAppearance)
+    {
+        return Legs != newAppearance.Legs || Chest != newAppearance.Chest || Gloves != newAppearance.Gloves || Feet != newAppearance.Feet;
+    }
+
+    public override string ToString()
+    {
+        return $"PlayerAppearance: \n" +
+               $"  Race: {_race}, Sex: {_sex}, Face: {_face}, HairStyle: {_hairStyle}, HairColor: {_hairColor}\n" +
+               $"  Chest: {_chest}, Legs: {_legs}, Gloves: {_gloves}, Feet: {_feet}\n" +
+               $"  CollisionHeight: {CollisionHeight}, CollisionRadius: {CollisionRadius}\n" +
+               $"  LHand: {LHand}, RHand: {RHand}, ServerNameColor: {ServerNameColor}, ServerTitleColor: {ServerTitleColor}";
     }
 }
