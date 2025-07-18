@@ -26,8 +26,7 @@ public class InflictDamagePacket : ServerPacket
         currentPos.y = ReadI() / 52.5f;
         AttackerPosition = currentPos;
 
-        ReadB();
-        byte hitCount = ReadB();
+        int hitCount = ReadH();
         _hits = new Hit[hitCount + 1];
         _hits[0] = new Hit(targetId, damage, flags);
 

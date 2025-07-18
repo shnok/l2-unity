@@ -50,6 +50,7 @@ public class WorldCombat : MonoBehaviour
             {
                 _hits.RemoveAt(i);
                 InflictAttack(hit.Attacker, hit.Target, hit);
+                Debug.LogWarning($"Hit: Apply hit! Attacker: {hit.Attacker.gameObject.name}");
             }
         }
     }
@@ -58,6 +59,7 @@ public class WorldCombat : MonoBehaviour
     {
         if (attacker.IsDead)
         {
+            Debug.LogWarning($"Hit: Attacker {attacker.gameObject.name} is dead.");
             return;
         }
 
@@ -65,6 +67,7 @@ public class WorldCombat : MonoBehaviour
 
         if (hit.isMiss())
         {
+            Debug.LogWarning("Hit: Hit is miss.");
             attacker.ReferenceHolder.AudioHandler.PlaySwishSound();
             return;
         }
@@ -298,30 +301,15 @@ public class WorldCombat : MonoBehaviour
         });
     }
 
-    public Task EntityAttacks(Vector3 attackerPosition, int sender, Hit hit)
+    public Task EntityAttacks(Vector3 attackerPosition, int sender, Hit hit, int hitIndex)
     {
         return _worldSpawner.ExecuteWithEntitiesAsync(sender, hit.TargetId, (senderEntity, targetEntity) =>
         {
-            //TODO: Handle AOE
             hit.Attacker = senderEntity;
             hit.Target = targetEntity;
 
-
             // float atkEndTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f;
             float atkEndTime = 0;
-
-            // if (senderEntity.Gear.WeaponType == WeaponType.bow)
-            // {
-            //     float timeToReachTarget = CalculateTimeToHitTarget(senderEntity, targetEntity);
-            //     float shootTime = senderEntity.AnimationController.PAtkSpd / 1000f * 0.65f;
-            //     hit.HitTime = Time.time + shootTime + timeToReachTarget;
-            // }
-            // else
-            // {
-            //     //TODO: Maybe change hit time based on other weapon types
-            //     hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
-            // }
-
             if (senderEntity.Gear.WeaponType == WeaponType.bow)
             {
                 hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 1000f;
@@ -334,6 +322,10 @@ public class WorldCombat : MonoBehaviour
             _hits.Add(hit);
 
             // Debug.Log($"Hit scheduled in {senderEntity.AnimationController.PAtkSpd / 2f} ms - Now: {Time.time} - HitTime: {hit.HitTime}");
+            if (hitIndex > 0)
+            {
+                return;
+            }
 
             if (sender != GameClient.Instance.CurrentPlayerId)
             {

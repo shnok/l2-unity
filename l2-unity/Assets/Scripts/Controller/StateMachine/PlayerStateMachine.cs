@@ -101,10 +101,6 @@ public class PlayerStateMachine : MonoBehaviour
             //TODO: Set this new intention in a "NextIntention" in temporary variable
             return;
         }
-        else
-        {
-            Debug.LogWarning("[StateMachine][INTENTION] " + newIntention);
-        }
 
         if (_enableLogs) Debug.Log("[StateMachine][INTENTION] " + newIntention);
         _intentionInstance?.Exit();

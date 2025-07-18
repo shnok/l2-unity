@@ -463,7 +463,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         {
             if (hits[i] != null)
             {
-                WorldCombat.Instance.EntityAttacks(packet.AttackerPosition, packet.SenderId, hits[i]);
+                WorldCombat.Instance.EntityAttacks(packet.AttackerPosition, packet.SenderId, hits[i], i);
             }
         }
     }
