@@ -10,11 +10,6 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
     {
     }
 
-    protected override void AddEntity(NetworkIdentity identity, Entity entity)
-    {
-        throw new System.NotImplementedException();
-    }
-
     #region Spawn
     protected override void SpawnEntity(NetworkIdentity identity, PlayerStatus status,
         PlayerStats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
@@ -65,7 +60,7 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
     protected override void UpdateEntity(NetworkIdentity identity, PlayerStatus status, PlayerStats stats,
     PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
-        PlayerEntity.Instance.gameObject.layer = LayerMask.NameToLayer("Player"); //TODO: TO REMOVE?
+        // PlayerEntity.Instance.gameObject.layer = LayerMask.NameToLayer("Player"); //TODO: TO REMOVE?
 
         PlayerEntity.Instance.Identity.UpdateEntity(identity);
         PlayerEntity.Instance.Status.UpdateStatus(status);

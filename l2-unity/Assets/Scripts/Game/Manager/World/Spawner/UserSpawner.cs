@@ -32,7 +32,8 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
 
         UpdateEntityComponents(user, identity, status, stats, appearance, actionInfo);
 
-        AddEntity(identity, user);
+        WorldSpawner.Instance.AddObject(identity.Id, user);
+        WorldSpawner.Instance.AddPlayer(identity.Id, user);
     }
 
     private void InitializeGameObject(GameObject go, NetworkIdentity identity)
@@ -67,12 +68,6 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
 
         // user.UpdateAppearance(appearance);
         user.Initialize();
-    }
-
-    protected override void AddEntity(NetworkIdentity identity, Entity player)
-    {
-        WorldSpawner.Instance.AddObject(identity.Id, player);
-        WorldSpawner.Instance.AddPlayer(identity.Id, player);
     }
     #endregion
 

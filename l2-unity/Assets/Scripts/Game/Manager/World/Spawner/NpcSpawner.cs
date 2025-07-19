@@ -24,8 +24,8 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
     protected override void SpawnEntity(NetworkIdentity identity, NpcStatus status,
         Stats stats, Appearance appearance, EntityActionInfo actionInfo)
     {
-        var npcgrp = NpcgrpTable.Instance.GetNpcgrp(identity.NpcId);
-        var npcName = NpcNameTable.Instance.GetNpcName(identity.NpcId);
+        Npcgrp npcgrp = NpcgrpTable.Instance.GetNpcgrp(identity.NpcId);
+        NpcName npcName = NpcNameTable.Instance.GetNpcName(identity.NpcId);
 
         if (npcName == null || npcgrp == null)
         {
@@ -34,40 +34,9 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         }
 
         identity.EntityType = npcgrp.Type;
-        var npcGo = CreateNpcGameObject(npcgrp, identity);
+        GameObject npcGo = CreateNpcGameObject(npcgrp, identity);
         if (npcGo == null) return;
 
-        var npc = InitializeNpcEntity(npcGo, identity);
-        if (npc == null) return;
-
-        ConfigureNpcComponents(npc, identity, status, stats, appearance, npcgrp, npcName, actionInfo);
-
-        AddEntity(identity, npc);
-    }
-
-    private GameObject CreateNpcGameObject(Npcgrp npcgrp, NetworkIdentity identity)
-    {
-        var prefab = ModelTable.Instance.GetNpc(npcgrp.Mesh);
-        if (prefab == null)
-        {
-            prefab = identity.EntityType == EntityType.Monster ? _monsterPlaceholder : _npcPlaceHolder;
-            Debug.LogError($"Npc {identity.NpcId} could not be loaded correctly, loaded placeholder instead.");
-        }
-
-        identity.SetPosY(World.Instance.GetGroundHeight(identity.Position));
-        var npcGo = GameObject.Instantiate(prefab, identity.Position, Quaternion.identity);
-
-        npcGo.transform.eulerAngles = new Vector3(
-            npcGo.transform.eulerAngles.x,
-            VectorUtils.ConvertRotToUnity(identity.Heading),
-            npcGo.transform.eulerAngles.z
-        );
-
-        return npcGo;
-    }
-
-    private Entity InitializeNpcEntity(GameObject npcGo, NetworkIdentity identity)
-    {
         Entity npc;
         if (identity.EntityType == EntityType.NPC)
         {
@@ -79,41 +48,8 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
             npcGo.transform.SetParent(_monstersContainer);
             npc = npcGo.GetComponent<NetworkMonsterEntity>();
         }
-        return npc;
-    }
+        if (npc == null) return;
 
-    private void ConfigureNpcComponents(
-        Entity npc,
-        NetworkIdentity identity,
-        Status status,
-        Stats stats,
-        Appearance appearance,
-        Npcgrp npcgrp,
-        NpcName npcName,
-        EntityActionInfo actionInfo)
-    {
-        // ConfigureAppearance(appearance, npcgrp);
-        ConfigureIdentity(npc, identity, npcgrp, npcName);
-
-        npc.Status = status;
-        // npc.Stats = stats;
-        npc.Status.Hp = npc.Stats.MaxHp;
-
-        // npc.Appearance = appearance;
-        npc.Running = actionInfo.Running;
-
-        var npcGo = npc.gameObject;
-        npcGo.transform.name = identity.Name;
-        npcGo.SetActive(true);
-
-        npc.ReferenceHolder.NewAnimationController.Initialize();
-        npc.ReferenceHolder.Gear.Initialize(npc.Identity.Id);
-        npc.UpdateAppearance(appearance);
-        npc.Initialize();
-    }
-
-    private void ConfigureIdentity(Entity npc, NetworkIdentity identity, Npcgrp npcgrp, NpcName npcName)
-    {
         npc.Identity = identity;
         npc.Identity.NpcClass = npcgrp.ClassName;
         npc.Identity.IsHpShowable = npcgrp.HpVisible;
@@ -129,12 +65,43 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         }
 
         npc.Appearance.ServerTitleColor = npcName.TitleColor;
-    }
+        npcGo.transform.name = identity.Name;
+        npcGo.SetActive(true);
 
-    protected override void AddEntity(NetworkIdentity identity, Entity npc)
-    {
+        npc.Status = status;
+        // npc.Status.Hp = npc.Stats.MaxHp; // TODO: Error?
+        // npc.Running = actionInfo.Running;
+
+        npc.ReferenceHolder.NewAnimationController.Initialize();
+        npc.ReferenceHolder.Gear.Initialize(npc.Identity.Id);
+        npc.UpdateAppearance(appearance);
+        npc.Initialize();
+
+        UpdateStatsAndAppearance(npc, identity, status, stats, appearance, actionInfo);
+
         WorldSpawner.Instance.AddNpc(identity.Id, npc);
         WorldSpawner.Instance.AddObject(identity.Id, npc);
+    }
+
+    private GameObject CreateNpcGameObject(Npcgrp npcgrp, NetworkIdentity identity)
+    {
+        GameObject prefab = ModelTable.Instance.GetNpc(npcgrp.Mesh);
+        if (prefab == null)
+        {
+            prefab = identity.EntityType == EntityType.Monster ? _monsterPlaceholder : _npcPlaceHolder;
+            Debug.LogError($"Npc {identity.NpcId} could not be loaded correctly, loaded placeholder instead.");
+        }
+
+        identity.SetPosY(World.Instance.GetGroundHeight(identity.Position));
+        GameObject npcGo = GameObject.Instantiate(prefab, identity.Position, Quaternion.identity);
+
+        npcGo.transform.eulerAngles = new Vector3(
+            npcGo.transform.eulerAngles.x,
+            VectorUtils.ConvertRotToUnity(identity.Heading),
+            npcGo.transform.eulerAngles.z
+        );
+
+        return npcGo;
     }
     #endregion
 
@@ -142,10 +109,10 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
     protected override void UpdateEntity(Entity entity, NetworkIdentity identity,
         NpcStatus status, Stats stats, Appearance appearance, EntityActionInfo actionInfo)
     {
-        UpdateNpcComponents(entity, identity, status, stats, appearance, actionInfo);
+        UpdateStatsAndAppearance(entity, identity, status, stats, appearance, actionInfo);
     }
 
-    private void UpdateNpcComponents(
+    private void UpdateStatsAndAppearance(
         Entity entity,
         NetworkIdentity identity,
         NpcStatus status,
@@ -165,7 +132,7 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         entity.UpdateWalkSpeed(stats.WalkSpeed);
         entity.UpdateRunSpeed(stats.RunSpeed);
 
-        entity.Stats.UpdateStats(stats);
+        // entity.Stats.UpdateStats(stats); //TODO: Needed?
 
         UpdateAction(entity, actionInfo);
     }

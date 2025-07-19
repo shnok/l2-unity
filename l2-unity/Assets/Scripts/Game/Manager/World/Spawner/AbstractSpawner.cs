@@ -45,8 +45,6 @@ public abstract class EntitySpawnStrategy<TAppearance, TStats, TStatus> where TA
     protected abstract void UpdateEntity(Entity entity, NetworkIdentity identity,
         TStatus status, TStats stats, TAppearance appearance, EntityActionInfo actionInfo);
 
-    protected abstract void AddEntity(NetworkIdentity identity, Entity entity);
-
     protected void UpdateAction(Entity entity, EntityActionInfo actionInfo)
     {
         entity.UpdateMoveType(actionInfo.Running);
