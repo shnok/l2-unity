@@ -66,6 +66,7 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             newDirection = PlayerController.Instance.MoveDirection.normalized;
         }
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
         if (ShouldShareMoveDirection(newDirection, now))
         {
             _lastSharingTimestamp = now;
@@ -92,13 +93,14 @@ public class NetworkCharacterControllerShare : MonoBehaviour
 
 
             ShareMoveDirection(newDirection, verticalVelocity, transform.position);
-            _lastDirection = newDirection;
+            // _lastDirection = newDirection;
         }
-        else
-        {
-            _lastDirection = Vector3.zero;
-        }
+        // else
+        // {
+        //     _lastDirection = Vector3.zero;
+        // }
     }
+
     // private bool ShouldSharePosition(long timestamp)
     // {
     //     if (timestamp - _lastSharingPosition >= _sharingPositionDelayMs)
@@ -108,6 +110,7 @@ public class NetworkCharacterControllerShare : MonoBehaviour
     //     }
     //     return false;
     // }
+
     private bool ShouldShareJumping()
     {
         if (!PlayerController.Instance.IsJumping() && _isSharedJumping)
@@ -129,8 +132,11 @@ public class NetworkCharacterControllerShare : MonoBehaviour
         {
             return true;
         }
+
+        // Debug.LogWarning($"Check: Last: {_lastDirection} New: {newDirection}");
         if (!VectorUtils.IsVectorZero2D(_lastDirection) && VectorUtils.IsVectorZero2D(newDirection))
         {
+            Debug.LogWarning("Player just stopped");
             // player just stopped
             return true;
         }
@@ -142,16 +148,17 @@ public class NetworkCharacterControllerShare : MonoBehaviour
         if (!VectorUtils.IsVectorZero2D(newDirection) && VectorUtils.IsVectorZero2D(_lastDirection))
         {
             // player just moved
+            Debug.LogWarning("Player just moved");
             return true;
         }
 
         // Debug.Log(_lastDirection + " _ " + newDirection);
 
         // Direction didnt change
-        if (_lastDirection == newDirection)
-        {
-            return false;
-        }
+        // if (_lastDirection == newDirection)
+        // {
+        //     return false;
+        // }
         /*    if (ShouldSharePosition(timestamp))
            {
                return true;
@@ -193,7 +200,7 @@ public class NetworkCharacterControllerShare : MonoBehaviour
         {
             position = transform.position;
         }
-        Vector3 previousDirection = isForced ? _lastForcedDirection : _lastDirection;
+        // Vector3 previousDirection = isForced ? _lastForcedDirection : _lastDirection;
         /* if (previousDirection.x == moveDirection.x && previousDirection.z == moveDirection.z)
         {
             // The direction hasnt changed
@@ -218,16 +225,19 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             Heading = CalculateHeading(directionAngle);
         }
 
-        if (!isForced)
-        {
-            _lastForcedDirection = Vector3.one;
-            _lastDirection = moveDirection;
-        }
-        else
-        {
-            _lastForcedDirection = moveDirection;
-        }
+        _lastDirection = moveDirection;
 
+        // if (!isForced)
+        // {
+        //     _lastForcedDirection = Vector3.one;
+        //     _lastDirection = moveDirection;
+        // }
+        // else
+        // {
+        //     _lastForcedDirection = moveDirection;
+        // }
+
+        Debug.LogWarning("Sharing: " + moveDirection);
         GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(moveDirection, Heading, verticalVelocity, position, isForced);
     }
 
