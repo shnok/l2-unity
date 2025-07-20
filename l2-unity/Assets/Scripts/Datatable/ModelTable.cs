@@ -156,7 +156,7 @@ public class ModelTable
         GameObject face = (GameObject)Resources.Load(modelPath);
         if (face == null)
         {
-            Debug.LogWarning($"Can't find face model at {modelPath}");
+            // Debug.LogWarning($"Can't find face model at {modelPath}");
         }
         else
         {
@@ -424,7 +424,7 @@ public class ModelTable
         }
         else
         {
-            Debug.Log($"Successfully loaded armor model at {modelPath}");
+            // Debug.Log($"Successfully loaded armor model at {modelPath}");
         }
 
         return armorPiece;

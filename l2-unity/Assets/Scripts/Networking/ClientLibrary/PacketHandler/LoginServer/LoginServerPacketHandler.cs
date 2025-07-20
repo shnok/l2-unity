@@ -114,6 +114,29 @@ public class LoginServerPacketHandler : ServerPacketHandler
 
         LoginServerFailPacket.LoginFailedReason failedReason = packet.FailedReason;
 
+        EventProcessor.Instance.QueueEvent(() =>
+        {
+            int systemMessageId = 449;
+            switch (packet.FailedReason)
+            {
+                case LoginServerFailPacket.LoginFailedReason.REASON_USER_OR_PASS_WRONG:
+                    systemMessageId = 449;
+                    break;
+                case LoginServerFailPacket.LoginFailedReason.REASON_ACCOUNT_IN_USE:
+                    systemMessageId = 455;
+                    break;
+                case LoginServerFailPacket.LoginFailedReason.REASON_ACCESS_FAILED:
+                    systemMessageId = 461;
+                    break;
+                case LoginServerFailPacket.LoginFailedReason.REASON_INACTIVE:
+                    systemMessageId = 1920;
+                    break;
+            }
+            L2ConfirmWindow.Instance.ShowWindow(systemMessageId, () =>
+            {
+            }, null);
+        });
+
         Debug.LogWarning($"Login failed reason: {Enum.GetName(typeof(LoginServerFailPacket.LoginFailedReason), failedReason)}");
 
         _client.Disconnect();
