@@ -26,7 +26,7 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         go.transform.eulerAngles = new Vector3(go.transform.eulerAngles.x, rotation, go.transform.eulerAngles.z);
         go.transform.position = identity.Position;
         go.transform.name = "_Player";
-        go.layer = LayerMask.NameToLayer("Invisible");
+        // go.layer = LayerMask.NameToLayer("Invisible");
 
         PlayerEntity player = go.GetComponent<PlayerEntity>();
         player.AnimationController.Initialize();
@@ -40,7 +40,7 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
 
         player.Gear.Initialize(player.Identity.Id);
 
-        UpdateEntity(identity, status, stats, appearance, actionInfo);
+        UpdateEntityAsync(identity, status, stats, appearance, actionInfo);
 
         player.Initialize();
 
@@ -57,12 +57,12 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
     #endregion
 
     #region Update
-    protected override void UpdateEntity(NetworkIdentity identity, PlayerStatus status, PlayerStats stats,
+    protected override void UpdateEntityAsync(NetworkIdentity identity, PlayerStatus status, PlayerStats stats,
     PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
         // PlayerEntity.Instance.gameObject.layer = LayerMask.NameToLayer("Player"); //TODO: TO REMOVE?
 
-        PlayerEntity.Instance.Identity.UpdateEntity(identity);
+        PlayerEntity.Instance.Identity.UpdateIdentity(identity);
         PlayerEntity.Instance.Status.UpdateStatus(status);
 
         UpdateStatsAndAppearance(PlayerEntity.Instance, stats, appearance, actionInfo);
@@ -75,9 +75,9 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         NetworkTransformShare.Instance.SharePosition();
     }
 
-    protected override void UpdateEntity(Entity entity, NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
+    protected override void UpdateEntitySync(Entity entity, NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
-        throw new System.NotImplementedException();
+
     }
 
     private void UpdateStatsAndAppearance(PlayerEntity entity, PlayerStats stats,

@@ -20,11 +20,11 @@ public abstract class EntitySpawnStrategy<TAppearance, TStats, TStatus> where TA
         }
         else
         {
-            _eventProcessor.QueueEvent(() => UpdateEntity(identity, status, stats, appearance, actionInfo));
+            _eventProcessor.QueueEvent(() => UpdateEntityAsync(identity, status, stats, appearance, actionInfo));
         }
     }
 
-    protected virtual void UpdateEntity(NetworkIdentity identity, TStatus status, TStats stats,
+    protected virtual void UpdateEntityAsync(NetworkIdentity identity, TStatus status, TStats stats,
         TAppearance appearance, EntityActionInfo actionInfo)
     {
         // Don't need to block thread
@@ -33,7 +33,7 @@ public abstract class EntitySpawnStrategy<TAppearance, TStats, TStatus> where TA
             var entity = await WorldSpawner.Instance.GetEntityAsync(identity.Id);
             if (entity != null)
             {
-                _eventProcessor.QueueEvent(() => UpdateEntity(entity, identity, status, stats, appearance, actionInfo));
+                _eventProcessor.QueueEvent(() => UpdateEntitySync(entity, identity, status, stats, appearance, actionInfo));
             }
         });
         task.Start();
@@ -42,7 +42,7 @@ public abstract class EntitySpawnStrategy<TAppearance, TStats, TStatus> where TA
     protected abstract void SpawnEntity(NetworkIdentity identity, TStatus status,
         TStats stats, TAppearance appearance, EntityActionInfo actionInfo);
 
-    protected abstract void UpdateEntity(Entity entity, NetworkIdentity identity,
+    protected abstract void UpdateEntitySync(Entity entity, NetworkIdentity identity,
         TStatus status, TStats stats, TAppearance appearance, EntityActionInfo actionInfo);
 
     protected void UpdateAction(Entity entity, EntityActionInfo actionInfo)

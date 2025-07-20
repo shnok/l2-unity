@@ -77,7 +77,7 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         npc.UpdateAppearance(appearance);
         npc.Initialize();
 
-        UpdateStatsAndAppearance(npc, identity, status, stats, appearance, actionInfo);
+        UpdateEntitySync(npc, identity, status, stats, appearance, actionInfo);
 
         WorldSpawner.Instance.AddNpc(identity.Id, npc);
         WorldSpawner.Instance.AddObject(identity.Id, npc);
@@ -106,13 +106,7 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
     #endregion
 
     #region Update
-    protected override void UpdateEntity(Entity entity, NetworkIdentity identity,
-        NpcStatus status, Stats stats, Appearance appearance, EntityActionInfo actionInfo)
-    {
-        UpdateStatsAndAppearance(entity, identity, status, stats, appearance, actionInfo);
-    }
-
-    private void UpdateStatsAndAppearance(
+    protected override void UpdateEntitySync(
         Entity entity,
         NetworkIdentity identity,
         NpcStatus status,

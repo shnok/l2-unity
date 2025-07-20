@@ -42,7 +42,7 @@ public class NetworkIdentity
 
     public NetworkIdentity() { }
 
-    public void UpdateEntity(NetworkIdentity identity)
+    public void UpdateIdentity(NetworkIdentity identity)
     {
         _entityType = identity.EntityType;
         _id = identity.Id;
