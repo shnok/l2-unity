@@ -234,7 +234,7 @@ public class NpcHtmlWindow : L2PopupWindow
     {
         base.HideWindow(silent);
 
-        if (!silent)
+        if (!silent && !_isWindowHidden)
             AudioManager.Instance.PlayUISound("window_close");
 
         L2GameUI.Instance.WindowClosed(this);

@@ -25,7 +25,7 @@ public class SetupGaugePacket : ServerPacket
         Time = ReadI();
         MaxTime = ReadI();
 
-        Debug.LogWarning(ToString());
+        Debug.Log(ToString());
     }
 
     public override string ToString()

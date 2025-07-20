@@ -137,4 +137,22 @@ public class ProjectileManager : MonoBehaviour
 
         ActiveProjectiles.Add(effect);
     }
+
+    public void DestroyAllProjectiles()
+    {
+        if (_activeProjectiles == null || _activeProjectiles.Count == 0)
+        {
+            return;
+        }
+
+        foreach (PooledEffect pooledEffect in _activeProjectiles)
+        {
+            if (pooledEffect != null && pooledEffect.GameObject != null)
+            {
+                Destroy(pooledEffect.GameObject);
+            }
+        }
+
+        _activeProjectiles.Clear();
+    }
 }

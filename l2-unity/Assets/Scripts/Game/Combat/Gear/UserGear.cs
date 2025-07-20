@@ -35,9 +35,9 @@ public class UserGear : HumanoidGear
     [Header("Trail")]
     [SerializeField] private ParticleSystem _weaponTrail;
 
-    public override void Initialize(int ownderId, CharacterModelType raceId)
+    public override void Initialize(int ownderId)
     {
-        base.Initialize(ownderId, raceId);
+        base.Initialize(ownderId);
 
         if (_bodypartsContainer == null)
         {
@@ -239,10 +239,10 @@ public class UserGear : HumanoidGear
             return;
         }
 
-        ModelTable.L2ArmorPiece armorPiece = ModelTable.Instance.GetArmorPiece(armor, _raceId);
+        ModelTable.L2ArmorPiece armorPiece = ModelTable.Instance.GetArmorPiece(armor, _referenceHolder.Entity.RaceId);
         if (armorPiece == null)
         {
-            Debug.LogWarning($"Can't find armor {itemId} for race {_raceId} in slot {slot} in ModelTable");
+            Debug.LogWarning($"Can't find armor {itemId} for race {_referenceHolder.Entity.RaceId} in slot {slot} in ModelTable");
             return;
         }
 
@@ -328,30 +328,31 @@ public class UserGear : HumanoidGear
         _skinnedMeshSync.SyncMesh();
     }
 
-    public override void UpdateAppearance(Appearance oldAppearance, Appearance newAppearance)
+    public override void UpdateAppearance(Appearance baseOldAppearance, Appearance baseNewAppearance)
     {
-        base.UpdateAppearance(oldAppearance, newAppearance);
+        base.UpdateAppearance(baseOldAppearance, baseNewAppearance);
 
+        PlayerAppearance newAppearance = (PlayerAppearance)baseNewAppearance;
+        PlayerAppearance oldAppearance = new PlayerAppearance();
 
-        PlayerAppearance pnewAppearance = (PlayerAppearance)newAppearance;
-        PlayerAppearance poldAppearance = pnewAppearance;
-        if (_bodyReady)
-        {
-            poldAppearance = (PlayerAppearance)oldAppearance;
-        }
-        else
+        if (!_bodyReady)
         {
             _hairs = new GameObject[3];
         }
+        else
+        {
+            oldAppearance = (PlayerAppearance)baseOldAppearance;
+        }
+
         // Debug.LogWarning($"UpdateAppearance: OldFace:{poldAppearance.Face} NewFace:{pnewAppearance.Face}");
 
         CharacterModelType raceId = _referenceHolder.Entity.RaceId;
 
-        if (poldAppearance.HairColor != pnewAppearance.HairColor || poldAppearance.HairStyle != pnewAppearance.HairStyle || !_bodyReady)
+        if (oldAppearance.ShouldUpdateHair(newAppearance) || !_bodyReady)
         {
             // Update hairstyle
-            GameObject hair1 = ModelTable.Instance.GetHair(raceId, pnewAppearance.HairStyle, pnewAppearance.HairColor, false);
-            GameObject hair2 = ModelTable.Instance.GetHair(raceId, pnewAppearance.HairStyle, pnewAppearance.HairColor, true);
+            GameObject hair1 = ModelTable.Instance.GetHair(raceId, newAppearance.HairStyle, newAppearance.HairColor, false);
+            GameObject hair2 = ModelTable.Instance.GetHair(raceId, newAppearance.HairStyle, newAppearance.HairColor, true);
 
             if (_hairs[(int)HairType.AH] != null)
             {
@@ -387,7 +388,7 @@ public class UserGear : HumanoidGear
             }
         }
 
-        if (poldAppearance.Face != pnewAppearance.Face || !_bodyReady)
+        if (oldAppearance.ShouldUpdateFace(newAppearance) || !_bodyReady)
         {
             if (_face != null)
             {
@@ -395,7 +396,7 @@ public class UserGear : HumanoidGear
             }
 
             // Update face
-            GameObject face = ModelTable.Instance.GetFace(raceId, pnewAppearance.Face);
+            GameObject face = ModelTable.Instance.GetFace(raceId, newAppearance.Face);
             if (face != null)
             {
                 _face = face;
@@ -405,6 +406,10 @@ public class UserGear : HumanoidGear
             }
         }
 
+        if (oldAppearance.ShouldUpdateArmors(newAppearance) || !_bodyReady)
+        {
+            EquipAllArmors(newAppearance);
+        }
         _bodyReady = true;
 
         _skinnedMeshSync.SyncMesh();

@@ -18,14 +18,14 @@ public class SkillEffectTest : MonoBehaviour
             caster = GameObject.Find("Caster").GetComponent<Entity>();
             //caster.Initialize();
             caster.GetComponent<NewHumanoidAnimationController>().Initialize();
-            caster.GetComponent<Gear>().Initialize(0, CharacterModelType.FDarkElf);
+            caster.GetComponent<Gear>().Initialize(0);
         }
         if (target == null)
         {
             target = GameObject.Find("Target").GetComponent<Entity>();
             //caster.Initialize();
             target.GetComponent<NewHumanoidAnimationController>().Initialize();
-            target.GetComponent<Gear>().Initialize(0, CharacterModelType.FDarkElf);
+            target.GetComponent<Gear>().Initialize(0);
         }
     }
 

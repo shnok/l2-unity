@@ -39,10 +39,10 @@ public class Stats
         _attackRange = stats.AttackRange;
         _runSpeed = stats.RunSpeed;
         _walkSpeed = stats.WalkSpeed;
-        _scaledRunSpeed = stats.ScaledRunSpeed;
-        _scaledWalkSpeed = stats._scaledWalkSpeed;
-        _moveSpeedMultiplier = stats.MoveSpeedMultiplier;
-        _attackSpeedMultiplier = stats.AttackSpeedMultiplier;
+        // _scaledRunSpeed = stats.ScaledRunSpeed;
+        // _scaledWalkSpeed = stats._scaledWalkSpeed;
+        // _moveSpeedMultiplier = stats.MoveSpeedMultiplier;
+        // _attackSpeedMultiplier = stats.AttackSpeedMultiplier;
         _pAtkSpd = stats.PAtkSpd;
         _mAtkSpd = stats.MAtkSpd;
         _karma = stats.Karma;

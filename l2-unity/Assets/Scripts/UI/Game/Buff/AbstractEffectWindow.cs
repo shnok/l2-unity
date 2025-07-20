@@ -36,7 +36,7 @@ public abstract class AbstractEffectWindow : L2Window
         _effectCoroutine = StartCoroutine(UpdateBuffTimers());
     }
 
-    public void RemoveEffect(BuffSlot slot)
+    protected void HideWindowIfNeeded()
     {
         if (_effectSlots.Count == 0 && _specialEffectSlots.Count == 0)
         {
@@ -81,11 +81,8 @@ public abstract class AbstractEffectWindow : L2Window
                 AddEffect(buffEffect.SkillId, buffEffect.SkillLvl, buffEffect.Duration, _effectType == EffectType.Buff ? BuffType.Normal : BuffType.Debuff);
             }
         }
-    }
 
-    public void SetEtcEffects()
-    {
-
+        HideWindowIfNeeded();
     }
 
     public void AddEffect(int effectId, int effectLevel, int duration, BuffType type)

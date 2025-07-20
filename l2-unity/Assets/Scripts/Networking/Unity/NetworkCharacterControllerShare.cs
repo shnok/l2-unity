@@ -8,7 +8,6 @@ public class NetworkCharacterControllerShare : MonoBehaviour
     [SerializeField] private int _sharingLoopDelayMs = 100;
 
     [SerializeField] private Vector3 _lastDirection;
-    [SerializeField] private Vector3 _lastForcedDirection;
     [SerializeField] private float _lastDirectionAngle;
 
     [SerializeField] private long _lastSharingTimestamp = 0;
@@ -54,7 +53,6 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             return;
         }
 
-        _lastForcedDirection = new Vector3(-1, -1, -1);
         _lastDirection = new Vector3(-1, -1, -1);
     }
 
@@ -66,6 +64,7 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             newDirection = PlayerController.Instance.MoveDirection.normalized;
         }
         long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
         if (ShouldShareMoveDirection(newDirection, now))
         {
             _lastSharingTimestamp = now;
@@ -73,11 +72,6 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             if (VectorUtils.IsVectorZero2D(newDirection))
             {
                 NetworkTransformShare.Instance.SharePosition();
-                NetworkTransformShare.Instance.ShouldShareRotation = false;
-            }
-            else
-            {
-                NetworkTransformShare.Instance.ShouldShareRotation = true;
             }
 
             float verticalVelocity = 0.0f;
@@ -91,18 +85,9 @@ public class NetworkCharacterControllerShare : MonoBehaviour
 
 
             ShareMoveDirection(newDirection, verticalVelocity, transform.position);
-            _lastDirection = newDirection;
         }
     }
-    private bool ShouldSharePosition(long timestamp)
-    {
-        if (timestamp - _lastSharingPosition >= _sharingPositionDelayMs)
-        {
-            Debug.LogWarning("Sharing move direction: Should share position: passed time" + timestamp);
-            return true;
-        }
-        return false;
-    }
+
     private bool ShouldShareJumping()
     {
         if (!PlayerController.Instance.IsJumping() && _isSharedJumping)
@@ -117,14 +102,18 @@ public class NetworkCharacterControllerShare : MonoBehaviour
         }
         return false;
     }
+
     private bool ShouldShareMoveDirection(Vector3 newDirection, long timestamp)
     {
         if (ShouldShareJumping())
         {
             return true;
         }
+
+        // Debug.LogWarning($"Check: Last: {_lastDirection} New: {newDirection}");
         if (!VectorUtils.IsVectorZero2D(_lastDirection) && VectorUtils.IsVectorZero2D(newDirection))
         {
+            // Debug.LogWarning("Player just stopped");
             // player just stopped
             return true;
         }
@@ -133,25 +122,13 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             // player just stopped and is not moving
             return false;
         }
-        /*    if (ShouldSharePosition(timestamp))
-           {
-               return true;
-           } */
-        /*
-        Removed these validations because they are not needed anymore
-        if (_lastDirection == newDirection)
-        {
-            return false;
-        }
-
-        if (VectorUtils.IsVectorZero2D(_lastDirection) && !VectorUtils.IsVectorZero2D(newDirection))
+        if (!VectorUtils.IsVectorZero2D(newDirection) && VectorUtils.IsVectorZero2D(_lastDirection))
         {
             // player just moved
+            // Debug.LogWarning("Player just moved");
             return true;
         }
 
-        
-        */
         // Basic loop delay
         if (timestamp - _lastSharingTimestamp >= _sharingLoopDelayMs)
         {
@@ -177,23 +154,9 @@ public class NetworkCharacterControllerShare : MonoBehaviour
         {
             position = transform.position;
         }
-        Vector3 previousDirection = isForced ? _lastForcedDirection : _lastDirection;
-        /* if (previousDirection.x == moveDirection.x && previousDirection.z == moveDirection.z)
-        {
-            // The direction hasnt changed
-            return;
-        } */
+
 
         float directionAngle = VectorUtils.CalculateMoveDirectionAngle(moveDirection.x, moveDirection.z);
-        /* if (!isForced)
-        {
-            if (Math.Abs(Math.Abs(directionAngle) - Math.Abs(_lastDirectionAngle)) < 2f)
-            {
-                // Debug.Log("The direction change is too small to share");
-                // The direction change is too small to share
-                return;
-            }
-        } */
 
         _lastDirectionAngle = directionAngle;
 
@@ -202,17 +165,10 @@ public class NetworkCharacterControllerShare : MonoBehaviour
             Heading = CalculateHeading(directionAngle);
         }
 
-        if (!isForced)
-        {
-            _lastForcedDirection = Vector3.one;
-            _lastDirection = moveDirection;
-        }
-        else
-        {
-            _lastForcedDirection = moveDirection;
-        }
+        _lastDirection = moveDirection;
 
-        GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(moveDirection, Heading, verticalVelocity, position);
+        // Debug.LogWarning("Sharing: " + moveDirection);
+        GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(moveDirection, Heading, verticalVelocity, position, isForced);
     }
 
     private int CalculateHeading(float directionAngle)

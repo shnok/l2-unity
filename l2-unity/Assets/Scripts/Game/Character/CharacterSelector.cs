@@ -62,18 +62,18 @@ public class CharacterSelector : MonoBehaviour
 
         for (int i = 0; i < _characters.Count; i++)
         {
-            SpawnCharacter(i);
+            SpawnCharacterList(i);
         }
     }
 
-    public void SpawnCharacter(int id)
+    public void SpawnCharacterList(int id)
     {
-        GameObject pawnObject = CharacterCreator.Instance.CreatePawn(_characters[id].CharacterRaceAnimation, _characters[id].PlayerAppearance);
+        GameObject pawnObject = CharacterBuilder.Instance.BuildCharacterBase(_characters[id].CharacterRaceAnimation, _characters[id].PlayerAppearance, EntityType.Pawn);
 
         EntityReferenceHolder referenceHolder = pawnObject.GetComponent<EntityReferenceHolder>();
         NewHumanoidAnimationController animController = (NewHumanoidAnimationController)referenceHolder.NewAnimationController;
 
-        referenceHolder.Entity.Appearance = _characters[id].PlayerAppearance;
+        // referenceHolder.Entity.Appearance = _characters[id].PlayerAppearance;
         referenceHolder.Entity.Stats = _characters[id].PlayerStats;
         referenceHolder.Entity.Status = _characters[id].PlayerStatus;
         referenceHolder.Entity.Identity.Name = _characters[id].Name;
@@ -92,10 +92,9 @@ public class CharacterSelector : MonoBehaviour
             Debug.LogError("Pawn object UserGear is null");
         }
 
-        gear.Initialize(-1, _characters[id].CharacterRaceAnimation);
+        gear.Initialize(-1);
 
-        referenceHolder.Entity.EquipAllArmors();
-        referenceHolder.Entity.EquipAllWeapons();
+        referenceHolder.Entity.UpdateAppearance(_characters[id].PlayerAppearance);
 
         pawnObject.GetComponent<SelectableCharacterEntity>().CharacterInfo = _characters[id];
 

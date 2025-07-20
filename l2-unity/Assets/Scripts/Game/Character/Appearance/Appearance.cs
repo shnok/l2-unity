@@ -26,4 +26,14 @@ public class Appearance
         _lhand = appearance.LHand;
         _rhand = appearance.RHand;
     }
+
+    public bool ShouldUpdateWeapons(Appearance newAppearance)
+    {
+        return LHand != newAppearance.LHand || RHand != newAppearance.RHand;
+    }
+
+    public bool ShouldUpdateColSize(Appearance newAppearance)
+    {
+        return CollisionHeight == 0 || CollisionRadius == 0;
+    }
 }

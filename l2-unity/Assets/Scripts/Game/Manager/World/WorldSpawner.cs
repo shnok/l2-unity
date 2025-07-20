@@ -52,11 +52,23 @@ public class WorldSpawner : MonoBehaviour
         _instance = null;
     }
 
+    public void DestroyEntities()
+    {
+        foreach (Entity entity in _objects.Values)
+        {
+            if (entity != null && entity.gameObject != null)
+            {
+                Destroy(entity.gameObject);
+            }
+        }
+    }
+
     public void ClearEntities()
     {
         _objects.Clear();
         _players.Clear();
         _npcs.Clear();
+        _idBag.Clear();
     }
 
     public bool AddObject(int id, Entity entity)

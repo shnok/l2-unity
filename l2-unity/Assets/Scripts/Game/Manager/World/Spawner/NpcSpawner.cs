@@ -1,4 +1,3 @@
-using System.Threading;
 using UnityEngine;
 
 public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
@@ -24,8 +23,8 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
     protected override void SpawnEntity(NetworkIdentity identity, NpcStatus status,
         Stats stats, Appearance appearance, EntityActionInfo actionInfo)
     {
-        var npcgrp = NpcgrpTable.Instance.GetNpcgrp(identity.NpcId);
-        var npcName = NpcNameTable.Instance.GetNpcName(identity.NpcId);
+        Npcgrp npcgrp = NpcgrpTable.Instance.GetNpcgrp(identity.NpcId);
+        NpcName npcName = NpcNameTable.Instance.GetNpcName(identity.NpcId);
 
         if (npcName == null || npcgrp == null)
         {
@@ -34,40 +33,9 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         }
 
         identity.EntityType = npcgrp.Type;
-        var npcGo = CreateNpcGameObject(npcgrp, identity);
+        GameObject npcGo = CreateNpcGameObject(npcgrp, identity);
         if (npcGo == null) return;
 
-        var npc = InitializeNpcEntity(npcGo, identity);
-        if (npc == null) return;
-
-        ConfigureNpcComponents(npc, identity, status, stats, appearance, npcgrp, npcName, actionInfo);
-
-        AddEntity(identity, npc);
-    }
-
-    private GameObject CreateNpcGameObject(Npcgrp npcgrp, NetworkIdentity identity)
-    {
-        var prefab = ModelTable.Instance.GetNpc(npcgrp.Mesh);
-        if (prefab == null)
-        {
-            prefab = identity.EntityType == EntityType.Monster ? _monsterPlaceholder : _npcPlaceHolder;
-            Debug.LogError($"Npc {identity.NpcId} could not be loaded correctly, loaded placeholder instead.");
-        }
-
-        identity.SetPosY(World.Instance.GetGroundHeight(identity.Position));
-        var npcGo = GameObject.Instantiate(prefab, identity.Position, Quaternion.identity);
-
-        npcGo.transform.eulerAngles = new Vector3(
-            npcGo.transform.eulerAngles.x,
-            VectorUtils.ConvertRotToUnity(identity.Heading),
-            npcGo.transform.eulerAngles.z
-        );
-
-        return npcGo;
-    }
-
-    private Entity InitializeNpcEntity(GameObject npcGo, NetworkIdentity identity)
-    {
         Entity npc;
         if (identity.EntityType == EntityType.NPC)
         {
@@ -79,50 +47,8 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
             npcGo.transform.SetParent(_monstersContainer);
             npc = npcGo.GetComponent<NetworkMonsterEntity>();
         }
-        return npc;
-    }
+        if (npc == null) return;
 
-    private void ConfigureNpcComponents(
-        Entity npc,
-        NetworkIdentity identity,
-        Status status,
-        Stats stats,
-        Appearance appearance,
-        Npcgrp npcgrp,
-        NpcName npcName,
-        EntityActionInfo actionInfo)
-    {
-        ConfigureAppearance(appearance, npcgrp);
-        ConfigureIdentity(npc, identity, npcgrp, npcName);
-        ConfigureStats(npc, status, stats, npcgrp);
-
-        npc.Appearance = appearance;
-        npc.Running = actionInfo.Running;
-
-        var npcGo = npc.gameObject;
-        npcGo.transform.name = identity.Name;
-        npcGo.SetActive(true);
-
-        InitializeNpcComponents(npc);
-    }
-
-    private void ConfigureAppearance(Appearance appearance, Npcgrp npcgrp)
-    {
-        if (appearance.RHand == 0)
-            appearance.RHand = npcgrp.Rhand;
-
-        if (appearance.LHand == 0)
-            appearance.LHand = npcgrp.Lhand;
-
-        if (appearance.CollisionRadius == 0)
-            appearance.CollisionRadius = npcgrp.CollisionRadius;
-
-        if (appearance.CollisionHeight == 0)
-            appearance.CollisionHeight = npcgrp.CollisionHeight;
-    }
-
-    private void ConfigureIdentity(Entity npc, NetworkIdentity identity, Npcgrp npcgrp, NpcName npcName)
-    {
         npc.Identity = identity;
         npc.Identity.NpcClass = npcgrp.ClassName;
         npc.Identity.IsHpShowable = npcgrp.HpVisible;
@@ -138,39 +64,48 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         }
 
         npc.Appearance.ServerTitleColor = npcName.TitleColor;
-    }
+        npcGo.transform.name = identity.Name;
+        npcGo.SetActive(true);
 
-    private void ConfigureStats(Entity npc, Status status, Stats stats, Npcgrp npcgrp)
-    {
         npc.Status = status;
-        npc.Stats = stats;
-        // npc.Stats.MaxHp = (int)npcgrp.MaxHp; //Now shared by server
-        // npc.Status.Hp = (int)npcgrp.MaxHp;
-        npc.Status.Hp = npc.Stats.MaxHp;
-    }
+        // npc.Status.Hp = npc.Stats.MaxHp; // TODO: Error?
+        // npc.Running = actionInfo.Running;
 
-    private void InitializeNpcComponents(Entity npc)
-    {
         npc.ReferenceHolder.NewAnimationController.Initialize();
-        npc.ReferenceHolder.Gear.Initialize(npc.Identity.Id, npc.RaceId);
+        npc.ReferenceHolder.Gear.Initialize(npc.Identity.Id);
+        npc.UpdateAppearance(appearance);
         npc.Initialize();
-    }
 
-    protected override void AddEntity(NetworkIdentity identity, Entity npc)
-    {
+        UpdateEntitySync(npc, identity, status, stats, appearance, actionInfo);
+
         WorldSpawner.Instance.AddNpc(identity.Id, npc);
         WorldSpawner.Instance.AddObject(identity.Id, npc);
+    }
+
+    private GameObject CreateNpcGameObject(Npcgrp npcgrp, NetworkIdentity identity)
+    {
+        GameObject prefab = ModelTable.Instance.GetNpc(npcgrp.Mesh);
+        if (prefab == null)
+        {
+            prefab = identity.EntityType == EntityType.Monster ? _monsterPlaceholder : _npcPlaceHolder;
+            Debug.LogError($"Npc {identity.NpcId} could not be loaded correctly, loaded placeholder instead.");
+        }
+
+        identity.SetPosY(World.Instance.GetGroundHeight(identity.Position));
+        GameObject npcGo = GameObject.Instantiate(prefab, identity.Position, Quaternion.identity);
+
+        npcGo.transform.eulerAngles = new Vector3(
+            npcGo.transform.eulerAngles.x,
+            VectorUtils.ConvertRotToUnity(identity.Heading),
+            npcGo.transform.eulerAngles.z
+        );
+
+        return npcGo;
     }
     #endregion
 
     #region Update
-    protected override void UpdateEntity(Entity entity, NetworkIdentity identity,
-        NpcStatus status, Stats stats, Appearance appearance, EntityActionInfo actionInfo)
-    {
-        UpdateNpcComponents(entity, identity, status, stats, appearance, actionInfo);
-    }
-
-    private void UpdateNpcComponents(
+    protected override void UpdateEntitySync(
         Entity entity,
         NetworkIdentity identity,
         NpcStatus status,
@@ -182,15 +117,15 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
 
         var networkTransform = ((NetworkEntityReferenceHolder)entity.ReferenceHolder).NetworkTransformReceive;
         networkTransform.SetNewPosition(identity.Position);
-
-        entity.Stats.UpdateStats(stats);
+        entity.UpdateAppearance(appearance);
         entity.Running = actionInfo.Running;
 
         entity.UpdatePAtkSpeed(stats.PAtkSpd);
         entity.UpdateMAtkSpeed(stats.MAtkSpd);
         entity.UpdateWalkSpeed(stats.WalkSpeed);
         entity.UpdateRunSpeed(stats.RunSpeed);
-        entity.EquipAllWeapons();
+
+        // entity.Stats.UpdateStats(stats); //TODO: Needed?
 
         UpdateAction(entity, actionInfo);
     }

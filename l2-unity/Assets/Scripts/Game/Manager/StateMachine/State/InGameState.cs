@@ -6,7 +6,14 @@ public class InGameState : GameStateBase
 
     public override void Enter(object arg0)
     {
-        GameClient.Instance.ClientPacketHandler.SendLoadWorld();
+        if (arg0 != null && (bool)arg0 == true)
+        {
+            GameClient.Instance.ClientPacketHandler.NotifyAppearing();
+        }
+        else
+        {
+            GameClient.Instance.ClientPacketHandler.SendLoadWorld();
+        }
     }
 
     public override void Update()
@@ -26,6 +33,9 @@ public class InGameState : GameStateBase
                 break;
             case GameEvent.GAME_DISCONNECTED:
                 _stateMachine.ChangeState(GameState.DISONNECTING);
+                break;
+            case GameEvent.TELEPORTING:
+                _stateMachine.ChangeState(GameState.TELEPORTING);
                 break;
             default:
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");

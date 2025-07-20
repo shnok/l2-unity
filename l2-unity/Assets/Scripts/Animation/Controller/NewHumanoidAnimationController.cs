@@ -347,6 +347,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
             _animancerState.EffectiveSpeed = _defaultIdleAnimationSpeed;
         }
     }
+
     public override void Jump()
     {
         _lastAnimationType = HumanoidWeaponAnimType.other;
@@ -359,7 +360,7 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
             if (!_animancerState.HasEvents)
             {
                 // We need to change to Jump Sound
-                _animancerState.Events.Add(0.1f, () => AudioHandler.PlaySound(EntitySoundEvent.Jump_1));
+                _animancerState.Events.Add(0.25f, () => AudioHandler.PlaySound(EntitySoundEvent.Jump_1));
             }
         }
     }

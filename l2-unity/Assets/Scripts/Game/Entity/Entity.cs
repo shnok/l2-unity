@@ -19,7 +19,7 @@ public abstract class Entity : MonoBehaviour
 
     public Status Status { get => _status; set => _status = value; }
     public Stats Stats { get => _stats; set => _stats = value; }
-    public Appearance Appearance { get => _appearance; set { _appearance = value; } }
+    public Appearance Appearance { get => _appearance; private set { _appearance = value; } }
     public NetworkIdentity Identity { get => _identity; set => _identity = value; }
 
     public CharacterRace Race { get { return _race; } set { _race = value; } }
@@ -57,13 +57,13 @@ public abstract class Entity : MonoBehaviour
             _referenceHolder = GetComponent<EntityReferenceHolder>();
         }
 
-        UpdatePAtkSpeed(_stats.PAtkSpd);
-        UpdateMAtkSpeed(_stats.MAtkSpd);
-        UpdateRunSpeed(_stats.RunSpeed);
-        UpdateWalkSpeed(_stats.WalkSpeed);
+        // UpdatePAtkSpeed(_stats.PAtkSpd);
+        // UpdateMAtkSpeed(_stats.MAtkSpd);
+        // UpdateRunSpeed(_stats.RunSpeed);
+        // UpdateWalkSpeed(_stats.WalkSpeed);
 
-        EquipAllWeapons();
-        EquipAllArmors();
+        // EquipAllWeapons();
+        // EquipAllArmors();
     }
 
     public void EquipAllWeapons() { Gear.EquipAllWeapons(Appearance); }
@@ -82,6 +82,11 @@ public abstract class Entity : MonoBehaviour
 
     public virtual float UpdatePAtkSpeed(int pAtkSpd)
     {
+        if (_stats.PAtkSpd == pAtkSpd)
+        {
+            return 0;
+        }
+
         _stats.PAtkSpd = pAtkSpd;
 
         float stat = StatsConverter.Instance.ConvertStat(Stat.PHYS_ATTACK_SPEED, pAtkSpd);
@@ -93,6 +98,11 @@ public abstract class Entity : MonoBehaviour
 
     public virtual float UpdateMAtkSpeed(int mAtkSpd)
     {
+        if (_stats.MAtkSpd == mAtkSpd)
+        {
+            return 0;
+        }
+
         _stats.MAtkSpd = mAtkSpd;
 
         float stat = StatsConverter.Instance.ConvertStat(Stat.MAGIC_ATTACK_SPEED, mAtkSpd);
@@ -103,6 +113,11 @@ public abstract class Entity : MonoBehaviour
 
     public virtual float UpdateRunSpeed(int speed)
     {
+        if (speed == _stats.RunSpeed)
+        {
+            return _stats.ScaledRunSpeed;
+        }
+
         float scaled = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
         _stats.RunSpeed = speed;
         _stats.ScaledRunSpeed = scaled;
@@ -114,6 +129,11 @@ public abstract class Entity : MonoBehaviour
 
     public virtual float UpdateWalkSpeed(int speed)
     {
+        if (speed == _stats.WalkSpeed)
+        {
+            return _stats.ScaledWalkSpeed;
+        }
+
         float scaled = StatsConverter.Instance.ConvertStat(Stat.SPEED, speed);
         _stats.WalkSpeed = speed;
         _stats.ScaledWalkSpeed = scaled;
@@ -150,10 +170,9 @@ public abstract class Entity : MonoBehaviour
         Combat.ThrowSkill();
     }
 
-
-    public virtual void UpdateAppearance(Appearance appearance)
+    public virtual void UpdateAppearance(Appearance newAppearance)
     {
-        Gear.UpdateAppearance(Appearance, appearance);
-        Appearance = appearance;
+        Gear.UpdateAppearance(Appearance, newAppearance);
+        Appearance = newAppearance;
     }
 }

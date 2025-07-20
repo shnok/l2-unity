@@ -22,7 +22,7 @@ public class SkillbarWindow : L2PopupWindow
     private List<AbstractSkillbar> _skillbars;
     private static SkillbarWindow _instance;
     private List<SkillbarSlot> _toggledSlots;
-    private List<SkillbarSlot> _skillsOnCooldown;
+    [SerializeField] private List<SkillbarSlot> _skillsSlotsOnCooldown;
 
     public bool Locked { get { return _locked; } set { _locked = value; } }
     public bool Vertical { get { return _vertical; } set { _vertical = value; } }
@@ -43,7 +43,7 @@ public class SkillbarWindow : L2PopupWindow
         _expandCoroutines = new List<Coroutine>();
         _minimizeCoroutines = new List<Coroutine>();
         _toggledSlots = new List<SkillbarSlot>();
-        _skillsOnCooldown = new List<SkillbarSlot>();
+        _skillsSlotsOnCooldown = new List<SkillbarSlot>();
     }
 
     private void OnDestroy()
@@ -244,7 +244,7 @@ public class SkillbarWindow : L2PopupWindow
         }
 
         _toggledSlots.Clear();
-        _skillsOnCooldown.Clear();
+        _skillsSlotsOnCooldown.Clear();
 
         _skillbars.ForEach((skillbar) => skillbar.ResetShortcuts());
 
@@ -366,7 +366,7 @@ public class SkillbarWindow : L2PopupWindow
         List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
         foreach (SkillbarSlot skillbarSlot in skillbarSlots)
         {
-            // Debug.LogWarning($"Skillbarslot match skillondooldown: Page:{page} Slot:{slot} SkillbarSlot-Position:{skillbarSlot.Position} SkillbarSlot-Slot:{skillbarSlot.Slot}");
+            Debug.LogWarning($"Skillbarslot match skillondooldown: Page:{page} Slot:{slot} SkillbarSlot-Position:{skillbarSlot.Position} SkillbarSlot-Slot:{skillbarSlot.Slot}");
             AddSkillOnCooldown(skillbarSlot);
         }
     }
@@ -382,18 +382,18 @@ public class SkillbarWindow : L2PopupWindow
 
     public void AddSkillOnCooldown(SkillbarSlot slot)
     {
-        if (!_skillsOnCooldown.Contains(slot))
+        if (!_skillsSlotsOnCooldown.Contains(slot))
         {
-            _skillsOnCooldown.Add(slot);
+            _skillsSlotsOnCooldown.Add(slot);
         }
     }
 
     public void RemoveOnCooldownSkill(SkillbarSlot slot)
     {
-        if (_skillsOnCooldown.Contains(slot))
+        if (_skillsSlotsOnCooldown.Contains(slot))
         {
             slot.SlotEffect.style.backgroundImage = new StyleBackground();
-            _skillsOnCooldown.Remove(slot);
+            _skillsSlotsOnCooldown.Remove(slot);
         }
     }
 
@@ -403,25 +403,25 @@ public class SkillbarWindow : L2PopupWindow
         {
             float now = Time.time;
 
-            for (int i = _skillsOnCooldown.Count - 1; i >= 0; i--)
+            for (int i = _skillsSlotsOnCooldown.Count - 1; i >= 0; i--)
             {
-                if (i < 0 || i >= _skillsOnCooldown.Count)
+                if (i < 0 || i >= _skillsSlotsOnCooldown.Count)
                 {
                     continue;
                 }
 
-                if (_skillsOnCooldown[i].SlotAnimationManipulator != null)
+                if (_skillsSlotsOnCooldown[i].SlotAnimationManipulator != null)
                 {
-                    if (_skillsOnCooldown[i].SlotAnimationManipulator.AnimateCoolTime(now))
+                    if (_skillsSlotsOnCooldown[i].SlotAnimationManipulator.AnimateCoolTime(now))
                     {
-                        AudioManager.Instance.PlayUISound("cooltime_end");
-                        RemoveOnCooldownSkill(_skillsOnCooldown[i]);
+                        // AudioManager.Instance.PlayUISound("cooltime_end");
+                        RemoveOnCooldownSkill(_skillsSlotsOnCooldown[i]);
                     }
                 }
                 else
                 {
                     Debug.LogWarning("Skill is on cooldown but slot doesn't have any animation manipulator.");
-                    RemoveOnCooldownSkill(_skillsOnCooldown[i]);
+                    RemoveOnCooldownSkill(_skillsSlotsOnCooldown[i]);
                 }
             }
 

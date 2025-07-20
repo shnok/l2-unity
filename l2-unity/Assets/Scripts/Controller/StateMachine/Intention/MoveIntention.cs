@@ -43,7 +43,7 @@ public class MoveIntention : IntentionBase
         {
             PlayerController.Instance.StopMoving();
         }
-        else
+        else if (!_stateMachine.IsInMovableState())
         {
             if (InputManager.Instance.Move)
             {

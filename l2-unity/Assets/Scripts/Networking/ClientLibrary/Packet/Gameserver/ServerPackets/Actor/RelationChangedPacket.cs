@@ -31,7 +31,7 @@ public class RelationChangedPacket : ServerPacket
         Karma = ReadI();
         PvpFlag = ReadI();
 
-        Debug.LogWarning(ToString());
+        // Debug.LogWarning(ToString());
     }
 
     public override string ToString()

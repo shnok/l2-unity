@@ -674,4 +674,45 @@ public class ParticleManager : MonoBehaviour
         return null;
     }
     #endregion
+
+    public void DestroyAllParticles()
+    {
+        DestroyQueue(_activeEffects);
+        DestroyQueue(_activeHitEffects);
+        DestroyPool(_effectPool);
+        DestroyPool(_hitEffectPool);
+    }
+
+    private void DestroyPool<T>(Dictionary<T, Queue<PooledEffect>> pool)
+    {
+        if (pool == null)
+        {
+            return;
+        }
+
+        foreach (Queue<PooledEffect> queue in pool.Values)
+        {
+            DestroyQueue(queue);
+        }
+
+        // pool.Clear();
+    }
+
+    private void DestroyQueue(Queue<PooledEffect> queue)
+    {
+        if (queue != null && queue.Count != 0)
+        {
+            for (int i = 0; i < queue.Count; i++)
+            {
+                if (queue.Count > 0)
+                {
+                    PooledEffect e = queue.Dequeue();
+                    if (e != null && e.GameObject != null)
+                    {
+                        Destroy(e.GameObject);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -463,7 +463,7 @@ public class GameServerPacketHandler : ServerPacketHandler
         {
             if (hits[i] != null)
             {
-                WorldCombat.Instance.EntityAttacks(packet.AttackerPosition, packet.SenderId, hits[i]);
+                WorldCombat.Instance.EntityAttacks(packet.AttackerPosition, packet.SenderId, hits[i], i);
             }
         }
     }
@@ -611,6 +611,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnTeleportToLocation(byte[] data)
     {
         TeleportToLocationPacket packet = new TeleportToLocationPacket(data);
+        Debug.LogWarning("Teleport screen!");
         World.Instance.EntityTeleported(packet.EntityId, packet.TeleportTo, packet.LoadingScreen);
     }
 

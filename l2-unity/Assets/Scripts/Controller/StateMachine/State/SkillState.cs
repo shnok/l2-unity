@@ -50,6 +50,7 @@ public class SkillState : StateBase
         switch (evt)
         {
             case Event.CANCEL:
+                Debug.LogWarning("Cast canceled.");
                 if (_intentionToRun)
                 {
                     _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, _intentionToRunDestination);
@@ -65,6 +66,7 @@ public class SkillState : StateBase
                 TryCancelCast();
                 break;
             case Event.ACTION_ALLOWED:
+                Debug.LogWarning("Move allowed.");
                 NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
                 if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
                 {
@@ -81,7 +83,7 @@ public class SkillState : StateBase
                 }
                 break;
             case Event.ACTION_DENIED:
-                Debug.Log("Failed to cancel cast.");
+                Debug.LogWarning("Failed to cancel cast.");
                 break;
             case Event.DEAD:
                 _stateMachine.ChangeState(PlayerState.DEAD);
