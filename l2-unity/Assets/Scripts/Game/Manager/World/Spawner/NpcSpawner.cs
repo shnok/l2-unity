@@ -1,4 +1,3 @@
-using System.Threading;
 using UnityEngine;
 
 public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>

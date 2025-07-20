@@ -1,6 +1,3 @@
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, PlayerStatus>
@@ -26,7 +23,6 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         go.transform.eulerAngles = new Vector3(go.transform.eulerAngles.x, rotation, go.transform.eulerAngles.z);
         go.transform.position = identity.Position;
         go.transform.name = "_Player";
-        // go.layer = LayerMask.NameToLayer("Invisible");
 
         PlayerEntity player = go.GetComponent<PlayerEntity>();
         player.AnimationController.Initialize();
@@ -60,10 +56,8 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
     protected override void UpdateEntityAsync(NetworkIdentity identity, PlayerStatus status, PlayerStats stats,
     PlayerAppearance appearance, EntityActionInfo actionInfo)
     {
-        // PlayerEntity.Instance.gameObject.layer = LayerMask.NameToLayer("Player"); //TODO: TO REMOVE?
-
         PlayerEntity.Instance.Identity.UpdateIdentity(identity);
-        PlayerEntity.Instance.Status.UpdateStatus(status);
+        ((PlayerStatus)PlayerEntity.Instance.Status).UpdateStatus(status);
 
         UpdateStatsAndAppearance(PlayerEntity.Instance, stats, appearance, actionInfo);
 
