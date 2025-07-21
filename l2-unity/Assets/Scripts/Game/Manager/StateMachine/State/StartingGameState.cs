@@ -37,7 +37,7 @@ public class StartingGameState : GameStateBase
                 _stateMachine.ChangeState(GameState.LOGIN_CONNECTED);
                 break;
             default:
-                Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");
+                // Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");
                 break;
         }
     }

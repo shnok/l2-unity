@@ -98,6 +98,12 @@ public class Gear : MonoBehaviour
                 return;
             }
 
+            if (weapon.Weapongrp.WeaponType == WeaponType.dual || weapon.Weapongrp.WeaponType == WeaponType.fist)
+            {
+                UnequipWeapon(true);
+                EquipWeapon(appearance.RHand, weapon, false);
+            }
+
             if (weapon.Weapongrp.WeaponType == WeaponType.bow)
             {
                 appearance.LHand = appearance.RHand;
@@ -127,8 +133,9 @@ public class Gear : MonoBehaviour
 
             EquipWeapon(appearance.LHand, weapon, true);
         }
-        else
+        else if (!(appearance.RHand != 0 && _rightHandWeaponData.Weapongrp.BodyPart == ItemSlot.SLOT_LR_HAND))
         {
+            // Unequip the weapon in left hand if it's not duals or fists
             UnequipWeapon(true);
         }
     }
@@ -225,11 +232,20 @@ public class Gear : MonoBehaviour
 
         UnequipWeapon(leftSlot);
 
-        GameObject weaponPrefab = ModelTable.Instance.GetWeaponById(weaponId);
-        if (weaponPrefab == null)
+        GameObject[] weaponPrefabs = ModelTable.Instance.GetWeaponsById(weaponId); //TODO: For duals and fists
+        if (weaponPrefabs == null)
         {
-            Debug.LogWarning($"Could load prefab for {weaponId} in DB for entity {_ownerId}.");
+            Debug.LogWarning($"Could not load weapon prefab array for weaponId: {weaponId} (entity: {_ownerId}).");
             return;
+        }
+
+        for (int i = 0; i < weaponPrefabs.Length; i++)
+        {
+            if (weaponPrefabs[i] == null)
+            {
+                Debug.LogWarning($"Missing prefab at index {i} for weaponId: {weaponId} (entity: {_ownerId}).");
+                return;
+            }
         }
 
         // Updating weapon type
@@ -250,33 +266,49 @@ public class Gear : MonoBehaviour
         }
 
         // Instantiating weapon
-        GameObject go = GameObject.Instantiate(weaponPrefab);
-        go.SetActive(false);
-        go.transform.name = "weapon";
-
-        if (weapon.Weapongrp.WeaponType == WeaponType.none)
+        for (int i = 0; i < weaponPrefabs.Length; i++)
         {
-            _leftHandWeapon = go.transform;
-            go.transform.SetParent(GetShieldBone(), false);
-        }
-        else if (weapon.Weapongrp.WeaponType == WeaponType.bow || leftSlot)
-        {
-            _leftHandWeapon = go.transform;
-            go.transform.SetParent(GetLeftHandBone(), false);
-        }
-        else
-        {
-            _rightHandWeapon = go.transform;
-            go.transform.SetParent(GetRightHandBone(), false);
-        }
+            GameObject go = GameObject.Instantiate(weaponPrefabs[i]);
+            go.SetActive(false);
+            go.transform.name = "weapon";
 
-        go.SetActive(true);
+            if (weapon.Weapongrp.WeaponType == WeaponType.none)
+            {
+                _leftHandWeapon = go.transform;
+                go.transform.SetParent(GetShieldBone(), false);
+            }
+            else if (weapon.Weapongrp.WeaponType == WeaponType.bow || leftSlot)
+            {
+                _leftHandWeapon = go.transform;
+                go.transform.SetParent(GetLeftHandBone(), false);
+            }
+            else if (weapon.Weapongrp.WeaponType == WeaponType.dual || weapon.Weapongrp.WeaponType == WeaponType.fist)
+            {
+                if (i == 0)
+                {
+                    _rightHandWeapon = go.transform;
+                    go.transform.SetParent(GetRightHandBone(), false);
+                }
+                else
+                {
+                    _leftHandWeapon = go.transform;
+                    go.transform.SetParent(GetLeftHandBone(), false);
+                }
+            }
+            else
+            {
+                _rightHandWeapon = go.transform;
+                go.transform.SetParent(GetRightHandBone(), false);
+            }
 
-        go.transform.localScale *= GetWeaponSizeRatio();
+            go.SetActive(true);
 
-        if (weaponType == WeaponType.bow)
-        {
-            EquipArrow();
+            go.transform.localScale *= GetWeaponSizeRatio();
+
+            if (weaponType == WeaponType.bow)
+            {
+                EquipArrow();
+            }
         }
     }
 

@@ -125,10 +125,10 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
             case WeaponAnimType._2HS:
             case WeaponAnimType.pole:
             case WeaponAnimType._1HS:
-                maxAttackAnimIndex = 2;
+                maxAttackAnimIndex = 3;
                 break;
             case WeaponAnimType.dual:
-                maxAttackAnimIndex = 1;
+                maxAttackAnimIndex = 2;
                 break;
             case WeaponAnimType.bow:
             case WeaponAnimType.shield:
@@ -137,10 +137,12 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 break;
         }
 
-        if (++_atkAnimIndex > maxAttackAnimIndex)
-        {
-            _atkAnimIndex = 0;
-        }
+        // if (++_atkAnimIndex > maxAttackAnimIndex)
+        // {
+        //     _atkAnimIndex = 0;
+        // }
+
+        _atkAnimIndex = Random.Range(0, maxAttackAnimIndex);
 
         PlayAttackAnimation(retry);
     }

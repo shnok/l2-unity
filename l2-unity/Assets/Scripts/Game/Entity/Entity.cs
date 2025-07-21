@@ -66,8 +66,8 @@ public abstract class Entity : MonoBehaviour
         // EquipAllArmors();
     }
 
-    public void EquipAllWeapons() { Gear.EquipAllWeapons(Appearance); }
-    public void EquipAllArmors() { Gear.EquipAllArmors(Appearance); }
+    // public void EquipAllWeapons() { Gear.EquipAllWeapons(Appearance); }
+    // public void EquipAllArmors() { Gear.EquipAllArmors(Appearance); }
 
     public virtual void OnStopMoving()
     {

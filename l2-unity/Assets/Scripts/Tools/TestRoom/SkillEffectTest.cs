@@ -54,7 +54,7 @@ public class SkillEffectTest : MonoBehaviour
         // Skill sps = SkillTable.Instance.GetSkill(2047);
 
 
-        caster.EquipAllWeapons();
+        // caster.EquipAllWeapons();
 
 
         caster.ReferenceHolder.NewAnimationController.Initialize();

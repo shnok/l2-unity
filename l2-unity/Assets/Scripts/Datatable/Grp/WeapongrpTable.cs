@@ -88,14 +88,13 @@ public class WeapongrpTable
                             weaponGrp.Spiritshot = byte.Parse(value);
                             break;
                         case "wp_mesh": //{{[LineageWeapons.hell_knife_m00_wp]};{1}}
-                            //TODO for dualswords, store 2 models and textures
+
                             modTex = DatUtils.ParseArray(value);
-                            weaponGrp.Model = modTex[0];
+                            weaponGrp.Models = modTex;
                             break;
                         case "texture": //{[LineageWeaponsTex.hell_knife_t00_wp]}	
-                            //TODO for dualswords, store 2 models and textures
                             modTex = DatUtils.ParseArray(value);
-                            weaponGrp.Texture = modTex[0];
+                            weaponGrp.Textures = modTex;
                             break;
                         case "item_sound": // {[ItemSound.sword_small_2];[ItemSound.public_sword_shing_9];[ItemSound.sword_small_7];[ItemSound.dagger_4]}
                             string[] itemsounds = DatUtils.ParseArray(value);
