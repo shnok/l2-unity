@@ -559,7 +559,6 @@ public class ModelTable
 
         for (int i = 0; i < models.Length; i++)
         {
-            Debug.LogWarning(itemId + " " + weapon.Weapongrp.Models[i]);
             models[i] = GetWeapon(weapon.Weapongrp.Models[i]);
         }
 
