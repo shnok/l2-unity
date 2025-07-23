@@ -248,35 +248,60 @@ public class ParticleManager : MonoBehaviour
             EffectEmitter action = castingActions[i];
             AttachMethod attachOn = action.AttachOn;
             string effectClass = action.EffectClass;
+            byte repeatCount = 1;
 
             if (action.EtcEffect == EtcEffect.EET_SOULSHOT)
             {
+                if (caster.Gear?.WeaponType == WeaponType.bow)
+                {
+                    attachOn = AttachMethod.AM_LH;
+                }
+
                 if (caster.Gear?.WeaponType == WeaponType.bow || caster.Gear?.WeaponType == WeaponType.fist)
                 {
                     effectClass = action.SecondaryEffectClass;
-                    attachOn = AttachMethod.AM_LH;
+                }
+
+                if (caster.Gear?.WeaponType == WeaponType.fist || caster.Gear?.WeaponType == WeaponType.dual)
+                {
+                    repeatCount = 2;
                 }
             }
 
-            PooledEffect effect = SpawnEffect(effectClass);
-            if (effect == null || effect.GameObject == null)
+            for (int r = 0; r < repeatCount; r++)
             {
-                Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
-                return null;
+                if (repeatCount > 1)
+                {
+                    if (r == 0)
+                    {
+                        attachOn = AttachMethod.AM_LH;
+                    }
+                    else
+                    {
+                        attachOn = AttachMethod.AM_RH;
+                    }
+                }
+
+                PooledEffect effect = SpawnEffect(effectClass);
+                if (effect == null || effect.GameObject == null)
+                {
+                    Debug.LogError($"Can't spawn skill effect {effectClass} for skill {skill.SkillId}.");
+                    return null;
+                }
+
+                effect.HitTime = hitTime / 1000f; //in seconds
+
+                effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
+
+                UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
+
+                float effectRatio = CalculateCastParticleSizeRatio(caster);
+                effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * effectRatio;
+
+                ActiveEffects.Enqueue(effect);
+
+                castEffects[i] = effect;
             }
-
-            effect.HitTime = hitTime / 1000f; //in seconds
-
-            effect.GameObject.transform.parent = GetAttachTransform(caster, attachOn);
-
-            UpdateSkillEffectTransform(caster, action, effect.GameObject.transform, effect, attachOn);
-
-            float effectRatio = CalculateCastParticleSizeRatio(caster);
-            effect.GameObject.transform.localScale = effect.GameObject.transform.localScale * effectRatio;
-
-            ActiveEffects.Enqueue(effect);
-
-            castEffects[i] = effect;
         }
 
         return castEffects;

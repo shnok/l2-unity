@@ -52,9 +52,9 @@ public abstract class ServerPacketHandler
         return true;
     }
 
-    public void HandlePacketAsync(byte[] data)
+    public async Task HandlePacketAsync(byte[] data)
     {
-        HandlePacket(data);
+        await Task.Run(() => HandlePacket(data));
     }
 
     public void CancelTokens()

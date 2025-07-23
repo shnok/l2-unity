@@ -27,7 +27,7 @@ public class Gear : MonoBehaviour
     [SerializeField] protected Transform _leftHandWeapon;
 
     protected NewBaseAnimationController AnimationController { get { return _referenceHolder.NewAnimationController; } }
-    public WeaponType WeaponType { get { return _leftHandType != WeaponType.none ? _leftHandType : _rightHandType; } }
+    public WeaponType WeaponType { get { return (_leftHandType != WeaponType.none && _leftHandType != WeaponType.hand) ? _leftHandType : _rightHandType; } }
     public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
 
     public Transform RightHandBone { get { return _rightHandBone; } }
