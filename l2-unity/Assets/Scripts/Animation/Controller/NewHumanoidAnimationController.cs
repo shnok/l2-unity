@@ -357,12 +357,13 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         HumanoidAnimationDefaultEvent animEvent = HumanoidAnimationDefaultEvent.jump_run;
         if (PlayAnimation((int)animEvent))
         {
+            _animancerState.Time = 0;
             _animancerState.EffectiveSpeed = _defaultJumpAnimationSpeed;
 
             if (!_animancerState.HasEvents)
             {
                 // We need to change to Jump Sound
-                _animancerState.Events.Add(0.25f, () => AudioHandler.PlaySound(EntitySoundEvent.Jump_1));
+                _animancerState.Events.Add(0f, () => AudioHandler.PlaySound(EntitySoundEvent.Jump_1));
             }
         }
     }

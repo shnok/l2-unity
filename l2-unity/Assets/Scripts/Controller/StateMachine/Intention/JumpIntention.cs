@@ -13,6 +13,5 @@ public class JumpIntention : IntentionBase
     public override void Exit() { }
     public override void Update()
     {
-        // _stateMachine.ChangeState(PlayerState.JUMPING);
     }
 }
