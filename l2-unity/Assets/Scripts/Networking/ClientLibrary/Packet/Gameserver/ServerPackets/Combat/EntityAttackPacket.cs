@@ -30,7 +30,7 @@ public class InflictDamagePacket : ServerPacket
         _hits = new Hit[hitCount + 1];
         _hits[0] = new Hit(targetId, damage, flags);
 
-        for (int i = 1; i < hitCount; i++)
+        for (int i = 1; i < hitCount + 1; i++)
         {
             targetId = ReadI();
             damage = ReadI();

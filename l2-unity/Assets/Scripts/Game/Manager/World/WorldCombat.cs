@@ -50,7 +50,7 @@ public class WorldCombat : MonoBehaviour
             {
                 _hits.RemoveAt(i);
                 InflictAttack(hit.Attacker, hit.Target, hit);
-                Debug.LogWarning($"Hit: Apply hit! Attacker: {hit.Attacker.gameObject.name}");
+                // Debug.LogWarning($"Hit: Apply hit! Attacker: {hit.Attacker.gameObject.name}");
             }
         }
     }
@@ -67,7 +67,7 @@ public class WorldCombat : MonoBehaviour
 
         if (hit.isMiss())
         {
-            Debug.LogWarning("Hit: Hit is miss.");
+            // Debug.LogWarning("Hit: Hit is miss.");
             attacker.ReferenceHolder.AudioHandler.PlaySwishSound();
             return;
         }
@@ -143,7 +143,7 @@ public class WorldCombat : MonoBehaviour
 
     public void EntityCastSkill(Entity entity, Entity target, int skillId, int hitTime, int reuseDelay)
     {
-        Debug.LogWarning($"EntityCastSkill: {entity.transform.name} Skill: {skillId}");
+        // Debug.LogWarning($"EntityCastSkill: {entity.transform.name} Skill: {skillId}");
         Skill skill = SkillTable.Instance.GetSkill(skillId);
         CastSkill(entity, target, skill, hitTime, reuseDelay);
     }
@@ -316,7 +316,7 @@ public class WorldCombat : MonoBehaviour
             }
             else
             {
-                hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / 2f / 1000f;
+                hit.HitTime = Time.time + senderEntity.AnimationController.PAtkSpd / (2f * (hitIndex + 1)) / 1000f;
             }
 
             _hits.Add(hit);

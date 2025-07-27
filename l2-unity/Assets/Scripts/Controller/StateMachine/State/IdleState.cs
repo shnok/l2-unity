@@ -24,7 +24,7 @@ public class IdleState : StateBase
 
     public override void Update()
     {
-        if (PlayerController.Instance != null && PlayerController.Instance.IsJumping())
+        if (InputManager.Instance.Jump)
         {
             _stateMachine.ChangeIntention(Intention.INTENTION_JUMP);
             return;

@@ -239,6 +239,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnLoginFail(byte[] data)
     {
         LoginFailPacket packet = new LoginFailPacket(data);
+
         EventProcessor.Instance.QueueEvent(() => GameClient.Instance.Disconnect());
         EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
 

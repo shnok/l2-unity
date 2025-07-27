@@ -13,6 +13,7 @@ public class GearSlot : InventorySlot
 
     protected override void HandleLeftClick()
     {
-        InventoryWindow.Instance.GearTab.SelectSlot(_position);
+        if (!Empty)
+            InventoryWindow.Instance.GearTab.SelectSlot(_position);
     }
 }

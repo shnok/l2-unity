@@ -158,7 +158,7 @@ public class LoginCameraManager : MonoBehaviour
 
         if (Camera.main != null)
         {
-            Debug.Log("Disabling camera " + Camera.main.transform);
+            // Debug.Log("Disabling camera " + Camera.main.transform);
             Camera.main.enabled = false;
         }
         else if (_activeCamera != null)

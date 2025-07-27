@@ -150,7 +150,7 @@ public class ParticleEffectTable
             return null;
         }
 
-        Debug.Log($"Successfully loaded particle effect {name}.");
+        // Debug.Log($"Successfully loaded particle effect {name}.");
 
         return prefab;
     }

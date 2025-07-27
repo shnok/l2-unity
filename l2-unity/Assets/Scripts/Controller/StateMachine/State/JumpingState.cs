@@ -10,8 +10,11 @@ public class JumpingState : StateBase
     {
         _stateBeforeJump = (PlayerState)arg0;
 
-        PlayerController.Instance.Jump();
-        NewPlayerAnimationController.Instance.Jump();
+        if (!PlayerController.Instance.IsJumping())
+        {
+            PlayerController.Instance.Jump();
+            NewPlayerAnimationController.Instance.Jump();
+        }
     }
 
     public override void Exit()
@@ -23,14 +26,6 @@ public class JumpingState : StateBase
     {
         if (!PlayerController.Instance.IsJumping())
         {
-            // if (InputManager.Instance.Move)
-            // {
-            //     _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
-            // }
-            // else
-            // {
-            //     _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
-            // }
             _stateMachine.ChangeState(_stateBeforeJump);
         }
     }

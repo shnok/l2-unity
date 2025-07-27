@@ -77,18 +77,19 @@ public class InventoryGearTab : L2Tab
         {
             if (item.Equipped)
             {
-                //Debug.Log("Equip item: " + item);
-                if ((item.Slot == (int)Paperdoll.LHAND || item.Slot == (int)Paperdoll.RHAND) && item.BodyPart == ItemSlot.SLOT_LR_HAND && item.Type2 != ItemType2.TYPE2_SHIELD_ARMOR) //Todo verify
+                if (item.BodyPart == ItemSlot.SLOT_LR_HAND && item.Type1 == ItemType1.TYPE1_ITEM_QUESTITEM_ADENA)
                 {
-                    if (item.Type1 == ItemType1.TYPE1_ITEM_QUESTITEM_ADENA)
-                    {
-                        _gearSlots[(Paperdoll)item.Slot].AssignItem(item);
-                    }
-                    else
-                    {
-                        _gearSlots[Paperdoll.LHAND].AssignItem(item);
-                        _gearSlots[Paperdoll.RHAND].AssignItem(item);
-                    }
+                    _gearSlots[(Paperdoll)item.Slot].AssignItem(item); // Arrows
+                }
+                else
+                if (item.Type2 == ItemType2.TYPE2_WEAPON && (((Weapongrp)item.ItemData.Itemgrp).WeaponType == WeaponType.bigblunt
+                || ((Weapongrp)item.ItemData.Itemgrp).WeaponType == WeaponType.bigword
+                || ((Weapongrp)item.ItemData.Itemgrp).WeaponType == WeaponType.dual
+                || ((Weapongrp)item.ItemData.Itemgrp).WeaponType == WeaponType.pole
+                || ((Weapongrp)item.ItemData.Itemgrp).WeaponType == WeaponType.fist))
+                {
+                    _gearSlots[Paperdoll.RHAND].AssignItem(item);
+                    _gearSlots[Paperdoll.LHAND].AssignItem(item);
                 }
                 else
                 if (item.Slot == (int)Paperdoll.CHEST && item.BodyPart == ItemSlot.SLOT_FULL_ARMOR)

@@ -18,7 +18,7 @@
 
     public static string[] SplitJSON(string value)
     {
-        return value.Replace("{", string.Empty).Replace("}", string.Empty).Replace("[", string.Empty).Replace("]", string.Empty).Split(";");
+        return value.Replace(";{1;1}", string.Empty).Replace(";{1}", string.Empty).Replace("{", string.Empty).Replace("}", string.Empty).Replace("[", string.Empty).Replace("]", string.Empty).Split(";");
     }
 
     public static string ReorderColorBytes(string colorString)

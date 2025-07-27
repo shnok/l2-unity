@@ -23,7 +23,7 @@ public class ParticleGroup : MonoBehaviour
     [Header("Loop")]
     [SerializeField] private bool _hasCastDuration; // does it it need a lifetime equal to the cast time
     [SerializeField] private bool _castDurationAffectsLifetime; // does it it need a lifetime equal to the cast time
-    private bool _hasFixedDuration;
+    [SerializeField] private bool _hasFixedDuration;
     [SerializeField] private float _duration = 5f;
     [SerializeField] private bool _instantKillAtCastEnd;
     private bool _stopped;
@@ -82,7 +82,7 @@ public class ParticleGroup : MonoBehaviour
         _lastEnable = Now();
         // if (!_hasFixedDuration)
         // {
-        if (duration != 0)
+        if (duration > 0.1f)
         {
             _duration = duration;
         }

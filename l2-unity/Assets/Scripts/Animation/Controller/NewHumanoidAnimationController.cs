@@ -125,10 +125,10 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
             case WeaponAnimType._2HS:
             case WeaponAnimType.pole:
             case WeaponAnimType._1HS:
-                maxAttackAnimIndex = 2;
+                maxAttackAnimIndex = 3;
                 break;
             case WeaponAnimType.dual:
-                maxAttackAnimIndex = 1;
+                maxAttackAnimIndex = 2;
                 break;
             case WeaponAnimType.bow:
             case WeaponAnimType.shield:
@@ -137,10 +137,12 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
                 break;
         }
 
-        if (++_atkAnimIndex > maxAttackAnimIndex)
-        {
-            _atkAnimIndex = 0;
-        }
+        // if (++_atkAnimIndex > maxAttackAnimIndex)
+        // {
+        //     _atkAnimIndex = 0;
+        // }
+
+        _atkAnimIndex = Random.Range(0, maxAttackAnimIndex);
 
         PlayAttackAnimation(retry);
     }
@@ -355,12 +357,13 @@ public class NewHumanoidAnimationController : NewBaseAnimationController
         HumanoidAnimationDefaultEvent animEvent = HumanoidAnimationDefaultEvent.jump_run;
         if (PlayAnimation((int)animEvent))
         {
+            _animancerState.Time = 0;
             _animancerState.EffectiveSpeed = _defaultJumpAnimationSpeed;
 
             if (!_animancerState.HasEvents)
             {
                 // We need to change to Jump Sound
-                _animancerState.Events.Add(0.25f, () => AudioHandler.PlaySound(EntitySoundEvent.Jump_1));
+                _animancerState.Events.Add(0f, () => AudioHandler.PlaySound(EntitySoundEvent.Jump_1));
             }
         }
     }

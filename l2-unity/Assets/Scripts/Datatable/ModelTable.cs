@@ -156,7 +156,7 @@ public class ModelTable
         GameObject face = (GameObject)Resources.Load(modelPath);
         if (face == null)
         {
-            Debug.LogWarning($"Can't find face model at {modelPath}");
+            // Debug.LogWarning($"Can't find face model at {modelPath}");
         }
         else
         {
@@ -283,16 +283,19 @@ public class ModelTable
         int success = 0;
         foreach (KeyValuePair<int, Weapon> kvp in ItemTable.Instance.Weapons)
         {
-            if (_weapons.ContainsKey(kvp.Value.Weapongrp.Model))
+            foreach (string model in kvp.Value.Weapongrp.Models)
             {
-                continue;
-            }
+                if (_weapons.ContainsKey(model))
+                {
+                    continue;
+                }
 
-            GameObject weapon = LoadWeaponModel(kvp.Value.Weapongrp.Model);
-            if (weapon != null)
-            {
-                success++;
-                _weapons[kvp.Value.Weapongrp.Model] = weapon;
+                GameObject weapon = LoadWeaponModel(model);
+                if (weapon != null)
+                {
+                    success++;
+                    _weapons[model] = weapon;
+                }
             }
         }
 
@@ -424,7 +427,7 @@ public class ModelTable
         }
         else
         {
-            Debug.Log($"Successfully loaded armor model at {modelPath}");
+            // Debug.Log($"Successfully loaded armor model at {modelPath}");
         }
 
         return armorPiece;
@@ -544,7 +547,7 @@ public class ModelTable
         return GetArmorPiece(armor, raceId);
     }
 
-    public GameObject GetWeaponById(int itemId)
+    public GameObject[] GetWeaponsById(int itemId)
     {
         Weapon weapon = ItemTable.Instance.GetWeapon(itemId);
         if (weapon == null)
@@ -552,7 +555,14 @@ public class ModelTable
             Debug.LogWarning($"Can't find weapon {itemId} in ItemTable");
         }
 
-        return GetWeapon(weapon.Weapongrp.Model);
+        GameObject[] models = new GameObject[weapon.Weapongrp.Models.Length];
+
+        for (int i = 0; i < models.Length; i++)
+        {
+            models[i] = GetWeapon(weapon.Weapongrp.Models[i]);
+        }
+
+        return models;
     }
 
     public GameObject GetWeapon(string model)

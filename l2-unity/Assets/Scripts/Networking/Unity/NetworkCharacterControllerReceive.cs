@@ -19,8 +19,8 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
 
 
     public long lastUpdateTimestamp = 0;
-    private float _verticalVelocity = 0;
-    public bool _isJumping = false;
+    [SerializeField] private float _verticalVelocity = 0;
+    [SerializeField] public bool _isJumping = false;
     public Vector3 MoveDirection { get { return _direction; } set { _direction = value; } }
 
     void Start()
@@ -52,6 +52,8 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
         Vector3 ajustedDirection = _direction * _speed * _moveSpeedMultiplier + Vector3.down;
         ajustedDirection = ApplyGravity(ajustedDirection);
 
+        ManageJump();
+
         _characterController.Move(ajustedDirection * Time.fixedDeltaTime);
     }
     private Vector3 ApplyGravity(Vector3 dir)
@@ -64,13 +66,13 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
                 _verticalVelocity = -1.25f;
 
             }
-            _isJumping = false;
+            // _isJumping = false;
 
         }
         else
         {
             _verticalVelocity -= _gravity * Time.deltaTime;
-            _isJumping = true;
+            // _isJumping = true;
         }
         dir.y = _verticalVelocity;
 
@@ -93,31 +95,40 @@ public class NetworkCharacterControllerReceive : MonoBehaviour
 
         if (direction.x != 0 || direction.z != 0)
         {
-            _entity.AnimationController.Move();
-
-            //_networkTransformReceive.PausePositionSync();
             _networkTransformReceive.SetFinalRotation(VectorUtils.CalculateMoveDirectionAngle(direction.x, direction.z));
         }
-        else
-        {
-            _entity.AnimationController.Wait();
-        }
 
-        _networkTransformReceive.ResumePositionSync();
-
-        if (verticalVelocity >= 8.0f)
+        if (_characterController.isGrounded)
         {
-            Jump(verticalVelocity);
+            if (direction.x != 0 || direction.z != 0)
+                _entity.AnimationController.Move();
+            else
+                _entity.AnimationController.Wait();
+
+            _networkTransformReceive.ResumePositionSync();
+
+            if (verticalVelocity >= 4.0f)
+            {
+                _isJumping = true;
+                _entity.AnimationController.Jump();
+                _verticalVelocity = verticalVelocity;
+            }
         }
     }
 
-    public void Jump(float _jumpForce)
+    private void ManageJump()
     {
-        if (_characterController.isGrounded)
+        if (_isJumping && _verticalVelocity <= 0 && _characterController.isGrounded) // jump is done
         {
-            _entity.AnimationController.Jump();
-
-            _verticalVelocity = _jumpForce;
+            _isJumping = false;
+            if (_direction.x != 0 || _direction.z != 0)
+            {
+                _entity.AnimationController.Move();
+            }
+            else
+            {
+                _entity.AnimationController.Wait();
+            }
         }
     }
 
