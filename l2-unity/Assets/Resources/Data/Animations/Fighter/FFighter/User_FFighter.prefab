@@ -62,6 +62,7 @@ Transform:
   m_Children:
   - {fileID: 6649821293284002837}
   - {fileID: 638562205250795071}
+  - {fileID: 9008309759517128494}
   m_Father: {fileID: 9024110424102777156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4069260844254695456
@@ -92,11 +93,11 @@ Transform:
   m_GameObject: {fileID: 4069260844254695456}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.35, z: 0}
+  m_LocalPosition: {x: 0, y: 0.34999847, z: 0}
   m_LocalScale: {x: 0.3, y: 0.7, z: 0.24}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 9024110424102777156}
+  m_Father: {fileID: 498856963278442508}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8497523761277435483
 MeshFilter:
@@ -215,7 +216,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 498856963278442508}
-  - {fileID: 9008309759517128494}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &636509049481544805
@@ -688,6 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serverPosition: {x: 0, y: 0, z: 0}
+  _model: {fileID: 0}
   _static: 0
   _positionSyncProtection: 1
   _positionSynced: 0
@@ -717,6 +718,7 @@ MonoBehaviour:
   _stopAtRange: 0
   _stopAtRangeDefault: 0.05
   lastUpdateTimestamp: 0
+  _verticalVelocity: 0
   _isJumping: 0
 --- !u!114 &9099067251534615813
 MonoBehaviour:

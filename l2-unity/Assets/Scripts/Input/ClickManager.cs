@@ -68,7 +68,7 @@ public class ClickManager : MonoBehaviour
             int hitLayer = hit.collider.gameObject.layer;
             if (_entityMask == (_entityMask | (1 << hitLayer)))
             {
-                _hoverObjectData = new ObjectData(hit.transform.parent.gameObject);
+                _hoverObjectData = new ObjectData(hit.transform.parent.parent.gameObject); // click area -> model -> entity
             }
             else
             {
