@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NetworkTransformReceive : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class NetworkTransformReceive : MonoBehaviour
     private Vector3 _lastPos;
     private float _newRotation;
     private float _posLerpValue;
+    [SerializeField] private Transform _model;
     [SerializeField] private bool _static = false;
     [SerializeField] private bool _positionSyncProtection = true;
     [SerializeField] private bool _positionSynced = false;
@@ -18,6 +20,14 @@ public class NetworkTransformReceive : MonoBehaviour
     [SerializeField] private long _lastDesyncDuration = 0;
     private long _maximumAllowedDesyncTimeMs = 0;
     private float _lastRotationUpdateTime = 0;
+
+    void Awake()
+    {
+        if (_model == null)
+        {
+            _model = transform.GetChild(0);
+        }
+    }
 
     protected virtual void Start()
     {
@@ -128,7 +138,7 @@ public class NetworkTransformReceive : MonoBehaviour
             return;
         }
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _newRotation), Time.deltaTime * 7.5f);
+        _model.rotation = Quaternion.Lerp(_model.rotation, Quaternion.Euler(Vector3.up * _newRotation), Time.deltaTime * 7.5f);
     }
 
     public virtual void SetFinalRotation(float finalRotation)

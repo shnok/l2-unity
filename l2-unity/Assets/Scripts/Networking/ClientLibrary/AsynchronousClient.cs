@@ -233,7 +233,7 @@ public class AsynchronousClient
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogError($"Error processing packet: {ex.Message}");
+                        Debug.LogError($"Error processing packet: {ex}");
                         // Continue processing other packets even if one fails
                     }
 

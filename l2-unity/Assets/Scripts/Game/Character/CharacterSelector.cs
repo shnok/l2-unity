@@ -198,7 +198,7 @@ public class CharacterSelector : MonoBehaviour
                 int hitLayer = hit.collider.gameObject.layer;
                 if (_characterMask == (_characterMask | (1 << hitLayer)))
                 {
-                    CharSelectionInfoPackage hitInfo = hit.transform.parent.GetComponent<SelectableCharacterEntity>().CharacterInfo;
+                    CharSelectionInfoPackage hitInfo = hit.transform.parent.parent.GetComponent<SelectableCharacterEntity>().CharacterInfo;
                     SelectCharacter(hitInfo.Slot);
                 }
             }

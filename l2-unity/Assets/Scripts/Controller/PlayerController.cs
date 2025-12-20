@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool _runningToDestination = false;
     [SerializeField] private bool _intentionToRun = false;
     [SerializeField] private Transform _lookAtTarget;
+    [SerializeField] private Transform _model;
     private float _stopAtRange;
     private Vector3 _flatTransformPos;
     private Camera _mainCamera;
@@ -64,6 +65,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        if (_model == null)
+        {
+            _model = transform.GetChild(0);
+        }
+
         _controller = GetComponent<CharacterController>();
         _mainCamera = CameraController.Instance.GetComponent<Camera>();
     }
@@ -95,7 +101,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if (PlayerStateMachine.Instance.CanMove() || PlayerStateMachine.Instance.State == PlayerState.ATTACKING || PlayerStateMachine.Instance.State == PlayerState.SKILL)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
+            _model.rotation = Quaternion.Lerp(_model.rotation, Quaternion.Euler(Vector3.up * _finalAngle), Time.deltaTime * 7.5f);
 
 
         if (PlayerStateMachine.Instance.CanMove())
@@ -318,7 +324,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        transform.rotation = Quaternion.Euler(Vector3.up * _finalAngle);
+        _model.rotation = Quaternion.Euler(Vector3.up * _finalAngle);
     }
 
     public void StartLookAt(Transform target)
