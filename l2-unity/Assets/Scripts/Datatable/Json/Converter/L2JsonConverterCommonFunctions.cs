@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 
 public class L2JsonConverterCommonFunctions
@@ -16,7 +17,7 @@ public class L2JsonConverterCommonFunctions
             string[] keyValue = component.Split('=');
             if (keyValue.Length == 2)
             {
-                float value = float.Parse(keyValue[1]);
+                float value = float.Parse(keyValue[1], System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture);
                 switch (keyValue[0].Trim().ToUpper())
                 {
                     case "X": result.z = value; break;

@@ -1,6 +1,7 @@
 #if (UNITY_EDITOR) 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using UnityEngine;
 
@@ -74,9 +75,9 @@ public class L2TerrainInfoParser
         int equalsIndex = line.IndexOf('=');
         string valueString = line.Substring(equalsIndex + 1, line.Length - equalsIndex - 2);
         string[] valueParts = valueString.Split(',');
-        float x = float.Parse(valueParts[0].Substring(valueParts[0].IndexOf('=') + 1));
-        float y = float.Parse(valueParts[1].Substring(valueParts[1].IndexOf('=') + 1));
-        float z = float.Parse(valueParts[2].Substring(valueParts[2].IndexOf('=') + 1));
+        float x = float.Parse(valueParts[0].Substring(valueParts[0].IndexOf('=') + 1), CultureInfo.InvariantCulture);
+        float y = float.Parse(valueParts[1].Substring(valueParts[1].IndexOf('=') + 1), CultureInfo.InvariantCulture);
+        float z = float.Parse(valueParts[2].Substring(valueParts[2].IndexOf('=') + 1), CultureInfo.InvariantCulture);
         return new Vector3(x, y, z);
     }
 
@@ -202,10 +203,10 @@ public class L2TerrainInfoParser
 
         string[] parts = valueString.Split(",");
 
-        layer.minWidth = float.Parse(parts[0]);
-        layer.maxWidth = float.Parse(parts[1]);
-        layer.minHeight = float.Parse(parts[2]);
-        layer.maxHeight = float.Parse(parts[3]);
+        layer.minWidth = float.Parse(parts[0], CultureInfo.InvariantCulture);
+        layer.maxWidth = float.Parse(parts[1], CultureInfo.InvariantCulture);
+        layer.minHeight = float.Parse(parts[2], CultureInfo.InvariantCulture);
+        layer.maxHeight = float.Parse(parts[3], CultureInfo.InvariantCulture);
 
         return layer;
     }

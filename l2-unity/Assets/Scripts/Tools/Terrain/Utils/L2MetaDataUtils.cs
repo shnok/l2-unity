@@ -1,6 +1,7 @@
 #if (UNITY_EDITOR) 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 
@@ -63,15 +64,15 @@ public class L2MetaDataUtils
 
             if (part.Contains("X"))
             {
-                x = float.Parse(part.Substring(part.IndexOf('=') + 1));
+                x = float.Parse(part.Substring(part.IndexOf('=') + 1), CultureInfo.InvariantCulture);
             }
             if (part.Contains("Y"))
             {
-                y = float.Parse(part.Substring(part.IndexOf('=') + 1));
+                y = float.Parse(part.Substring(part.IndexOf('=') + 1), CultureInfo.InvariantCulture);
             }
             if (part.Contains("Z"))
             {
-                z = float.Parse(part.Substring(part.IndexOf('=') + 1));
+                z = float.Parse(part.Substring(part.IndexOf('=') + 1), CultureInfo.InvariantCulture);
             }
         }
 
@@ -227,11 +228,11 @@ public class L2MetaDataUtils
             string[] keyVal = timeSize[i].Split("=");
             if (keyVal[0] == "RelativeTime")
             {
-                sizeScale.relativeTime = float.Parse(keyVal[1]);
+                sizeScale.relativeTime = float.Parse(keyVal[1], CultureInfo.InvariantCulture);
             }
             else
             {
-                sizeScale.relativeSize = float.Parse(keyVal[1]);
+                sizeScale.relativeSize = float.Parse(keyVal[1], CultureInfo.InvariantCulture);
             }
         }
 
@@ -281,12 +282,12 @@ public class L2MetaDataUtils
             if (minMax[q].Contains("Min="))
             {
                 minMax[q] = minMax[q].Replace("Min=", "");
-                min = float.Parse(minMax[q]);
+                min = float.Parse(minMax[q], CultureInfo.InvariantCulture);
             }
             else
             {
                 minMax[q] = minMax[q].Replace("Max=", "");
-                max = float.Parse(minMax[q]);
+                max = float.Parse(minMax[q], CultureInfo.InvariantCulture);
             }
         }
 
@@ -301,9 +302,9 @@ public class L2MetaDataUtils
         string[] valueParts = line.Split(',');
 
         float x = 0, y = 0, z = 0;
-        x = float.Parse(valueParts[0]);
-        y = float.Parse(valueParts[1]);
-        z = float.Parse(valueParts[2]);
+        x = float.Parse(valueParts[0], CultureInfo.InvariantCulture);
+        y = float.Parse(valueParts[1], CultureInfo.InvariantCulture);
+        z = float.Parse(valueParts[2], CultureInfo.InvariantCulture);
 
         return new Vector3(x, y, z);
     }
