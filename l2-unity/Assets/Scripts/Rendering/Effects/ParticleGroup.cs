@@ -18,7 +18,7 @@ public class ParticleGroup : MonoBehaviour
     [SerializeField] private int _warmupTimeTickPerSec;
     [SerializeField] private int _countPerSecond;
     [SerializeField] private int _maxCount;
-    private int _particleIndex = 0;
+    [SerializeField] private int _particleIndex = 0;
 
     [Header("Loop")]
     [SerializeField] private bool _hasCastDuration; // does it it need a lifetime equal to the cast time
@@ -26,19 +26,21 @@ public class ParticleGroup : MonoBehaviour
     [SerializeField] private bool _hasFixedDuration;
     [SerializeField] private float _duration = 5f;
     [SerializeField] private bool _instantKillAtCastEnd;
-    private bool _stopped;
+    [SerializeField] private bool _stopped;
+    [SerializeField] private bool _dontLoop;
     private float _lastEnable;
-    private float _lastLoop;
+    [SerializeField] private float _lastLoop;
 
     public void FixedUpdate()
     {
-        if (_stopped)
+        if (_stopped || _dontLoop || _particles == null || _particles.Length == 0)
         {
             return;
         }
 
+
         float now = Now();
-        if ((_hasCastDuration || _hasFixedDuration) && now - _lastEnable > _duration)
+        if ((_hasCastDuration || _hasFixedDuration) && now - _lastEnable > _duration) // stop any looping once duration expired
         {
             _stopped = true;
 
@@ -53,7 +55,14 @@ public class ParticleGroup : MonoBehaviour
             return;
         }
 
-        if (_countPerSecond > _maxCount || _particles == null || _particles.Length == 0)
+
+        if (_maxCount == 1) // if particle group has only one particle no need to loop
+        {
+            _dontLoop = true;
+            return;
+        }
+
+        if (_countPerSecond == 0) //dont loop if count per second is 0
         {
             return;
         }
@@ -80,9 +89,8 @@ public class ParticleGroup : MonoBehaviour
     public void ResetTimer(float duration)
     {
         _lastEnable = Now();
-        // if (!_hasFixedDuration)
-        // {
-        if (duration > 0.1f)
+
+        if (duration > 0.1f) // duration is skill hit time?
         {
             _duration = duration;
         }
@@ -90,7 +98,6 @@ public class ParticleGroup : MonoBehaviour
         {
             _hasFixedDuration = true;
         }
-        // }
 
         if (_particles == null || _particles.Length == 0)
         {
@@ -109,29 +116,28 @@ public class ParticleGroup : MonoBehaviour
 
         _stopped = false;
 
-        //Some effects have their particles fully spawned at startup
-        if (_countPerSecond > _maxCount)
-        {
-            for (int i = 0; i < _maxCount; i++)
-            {
-                if (_hasCastDuration && _castDurationAffectsLifetime)
-                {
-                    foreach (Material m in _particles[i].materials)
-                    {
-                        float initialDelay = m.GetVector("_InitialDelayRange").y;
-                        m.SetVector("_LifetimeRange", Vector2.one * _duration + Vector2.one * initialDelay);
-                        m.SetFloat("_FadeoutStartTime", (_duration + initialDelay) * 0.90f);
-                    }
-                }
 
-                ActivateParticle(_lastEnable);
+        for (int i = 0; i < _particles.Length; i++)
+        {
+            //adjust lifetime based on cast duration
+            if (_hasCastDuration && _castDurationAffectsLifetime)
+            {
+                foreach (Material m in _particles[i].materials)
+                {
+                    float initialDelay = m.GetVector("_InitialDelayRange").y;
+                    m.SetVector("_LifetimeRange", Vector2.one * _duration + Vector2.one * initialDelay);
+                    m.SetFloat("_FadeoutStartTime", (_duration + initialDelay) * 0.90f);
+                }
             }
+
+            if (_dontLoop || _maxCount == 1) // enable all particles if loop is disabled or only has one particle
+                ActivateParticle(_lastEnable);
         }
     }
 
     private void ActivateParticle(float now)
     {
-        if (_particleIndex >= _maxCount)
+        if (_particleIndex >= _particles.Length)
         {
             _particleIndex = 0;
         }
