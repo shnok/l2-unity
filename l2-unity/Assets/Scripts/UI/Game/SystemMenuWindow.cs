@@ -34,7 +34,7 @@ public class SystemMenuWindow : L2PopupWindow
         {
             if (!MouseOverThisWindow() && !MenuWindow.Instance.MouseOverThisWindow())
             {
-                HideWindow();
+                HideWindow(false);
             }
         }
     }
@@ -46,14 +46,14 @@ public class SystemMenuWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/SystemMenuWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/SystemMenuWindow/SystemMenuWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
     {
         InitWindow(root);
 
-       // root.Add(_windowEle);
+        // root.Add(_windowEle);
 
         yield return new WaitForEndOfFrame();
 
@@ -67,18 +67,20 @@ public class SystemMenuWindow : L2PopupWindow
         _windowHeight = _windowEle.worldBound.height;
         RegisterClickWindowEvent(_windowEle, null);
 
-        HideWindow();
+        HideWindow(true);
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     private void HandleExitButtonClick()
     {
-        HideWindow();
+        HideWindow(false);
         ExitWindow.Instance.OpenWindow(true);
     }
 
     private void HandleRestartButtonClick()
     {
-        HideWindow();
+        HideWindow(false);
         ExitWindow.Instance.OpenWindow(false);
     }
 
@@ -92,14 +94,17 @@ public class SystemMenuWindow : L2PopupWindow
     public override void ShowWindow()
     {
         base.ShowWindow();
-        AudioManager.Instance.PlayUISound("window_open");
+        AudioManager.Instance.PlayUISound("system_open_01");
         L2GameUI.Instance.WindowOpened(this);
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
-        AudioManager.Instance.PlayUISound("window_close");
+        base.HideWindow(silent);
+
+        if (!silent)
+            AudioManager.Instance.PlayUISound("system_close_01");
+
         L2GameUI.Instance.WindowClosed(this);
     }
 }

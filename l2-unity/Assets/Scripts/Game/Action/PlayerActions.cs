@@ -50,6 +50,12 @@ public class PlayerActions : MonoBehaviour
         {
             UseAction(ActionType.NextTarget);
         }
+
+        if (InputManager.Instance.TargetSelf)
+        {
+            ObjectData data = new ObjectData(PlayerEntity.Instance.transform.gameObject);
+            TargetManager.Instance.SetTarget(data);
+        }
     }
 
     public void UseAction(ActionType actionType)

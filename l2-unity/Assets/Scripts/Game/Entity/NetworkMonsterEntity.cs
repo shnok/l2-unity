@@ -1,0 +1,31 @@
+
+// Used by MONSTERS
+using UnityEngine;
+
+public class NetworkMonsterEntity : NetworkEntity
+{
+    public NewMonsterAnimationController MonsterAnimationController { get { return (NewMonsterAnimationController)_referenceHolder.NewAnimationController; } }
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        EntityLoaded = true;
+    }
+
+    public override void OnStopMoving()
+    {
+        base.OnStopMoving();
+        // if (MonsterAnimationController.GetBool(MonsterAnimationEvent.atk01) == false)
+        // {
+        //     Debug.LogWarning("On stop moving valid monster");
+        //     MonsterAnimationController.SetBool(MonsterAnimationEvent.wait, true);
+        // }
+    }
+
+    public override void OnStartMoving(bool walking)
+    {
+        base.OnStartMoving(walking);
+        // MonsterAnimationController.SetBool(walking ? MonsterAnimationEvent.walk : MonsterAnimationEvent.run, true);
+    }
+}

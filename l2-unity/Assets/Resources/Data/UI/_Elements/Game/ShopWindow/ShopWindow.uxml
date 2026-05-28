@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Template name="WindowTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Components/WindowTemplate.uxml?fileID=9197481963319205126&amp;guid=5ca840f56ef6f1044b4dc077c7d3e6e6&amp;type=3#WindowTemplate" />
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <ui:Template name="L2TabView" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2TabView/L2TabView.uxml?fileID=9197481963319205126&amp;guid=df1c3d52e66191742a30ae9bd4520b5a&amp;type=3#L2TabView" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/ShopWindow/ShopStyle.uss?fileID=7433441132597879392&amp;guid=9e85dc28fcf6a6f4fa0432707a81e0fd&amp;type=3#ShopStyle" />
+    <ui:Instance template="WindowTemplate" name="WindowTemplate" class="shop-window">
+        <ui:VisualElement name="Content" class="shop-window-content-container">
+            <ui:VisualElement name="InventoryContent" class="shop-item-container" style="flex-grow: 1;">
+                <ui:Instance template="L2TabView" name="ShopTabView" style="flex-grow: 1;" />
+                <ui:VisualElement name="ButtonBar" class="shop-button-bar">
+                    <ui:Instance template="L2Button" name="BuyButton" class="shop-button">
+                        <AttributeOverrides element-name="ButtonLabel" text="Buy" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="CancelButton" class="shop-button">
+                        <AttributeOverrides element-name="ButtonLabel" text="Cancel" />
+                    </ui:Instance>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:Instance>
+</ui:UXML>

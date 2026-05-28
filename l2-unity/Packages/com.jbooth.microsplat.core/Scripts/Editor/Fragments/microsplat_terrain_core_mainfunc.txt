@@ -1,0 +1,103 @@
+﻿
+
+    
+    void SurfaceFunction(inout Surface o, inout ShaderData d)
+    {
+       
+        float3 worldNormalVertex = d.worldSpaceNormal;
+        #if _MICROVERSEPREVIEW
+            float2 sampleCoords = d.texcoord0.xy;
+            #if _TOONHARDEDGENORMAL
+               sampleCoords = ToonEdgeUV(d.texcoord0.xy);
+            #endif
+
+            float3 geomNormal = normalize(SAMPLE_TEXTURE2D(_TerrainNormalmapTexture, shared_linear_clamp_sampler, sampleCoords).xyz * 2 - 1);
+            float3 geomTangent = normalize(cross(geomNormal, float3(0, 0, 1)));
+            float3 geomBitangent = normalize(cross(geomNormal, geomTangent)) * -1;
+            worldNormalVertex = geomNormal;
+            d.worldSpaceNormal = geomNormal;
+            d.worldSpaceTangent = geomTangent;
+            
+            d.TBNMatrix = float3x3(geomTangent, geomBitangent, geomNormal);
+            d.tangentSpaceViewDir = mul(d.worldSpaceViewDir, d.TBNMatrix);
+
+        #elif (defined(UNITY_INSTANCING_ENABLED) && _MICROTERRAIN && !_TERRAINBLENDABLESHADER)
+            float2 sampleCoords = (d.texcoord0.xy / _TerrainHeightmapRecipSize.zw + 0.5f) * _TerrainHeightmapRecipSize.xy;
+            #if _TOONHARDEDGENORMAL
+               sampleCoords = ToonEdgeUV(d.texcoord0.xy);
+            #endif
+
+            float3 geomNormal = normalize(SAMPLE_TEXTURE2D(_TerrainNormalmapTexture, shared_linear_clamp_sampler, sampleCoords).xyz * 2 - 1);
+            float3 geomTangent = normalize(cross(geomNormal, float3(0, 0, 1)));
+            float3 geomBitangent = normalize(cross(geomNormal, geomTangent)) * -1;
+            worldNormalVertex = geomNormal;
+            d.worldSpaceNormal = geomNormal;
+            d.worldSpaceTangent = geomTangent;
+            
+            d.TBNMatrix = float3x3(geomTangent, geomBitangent, geomNormal);
+            d.tangentSpaceViewDir = mul(d.worldSpaceViewDir, d.TBNMatrix);
+
+         #elif _PERPIXNORMAL &&  (_MICROTERRAIN || _MICROMESHTERRAIN) && !_TERRAINBLENDABLESHADER
+            float2 sampleCoords = (d.texcoord0.xy * _PerPixelNormal_TexelSize.zw + 0.5f) * _PerPixelNormal_TexelSize.xy;
+            #if _TOONHARDEDGENORMAL
+               sampleCoords = ToonEdgeUV(d.texcoord0.xy);
+            #endif
+
+            float3 geomNormal = normalize(SAMPLE_TEXTURE2D(_PerPixelNormal, shared_linear_clamp_sampler, sampleCoords).xyz * 2 - 1);
+            
+            float3 geomTangent = normalize(cross(geomNormal, float3(0, 0, 1)));
+            
+            float3 geomBitangent = normalize(cross(geomTangent, geomNormal)) * -1;
+            #if _MICROMESHTERRAIN
+                geomBitangent *= -1;
+            #endif
+
+            worldNormalVertex = geomNormal;
+            d.worldSpaceNormal = geomNormal;
+            d.worldSpaceTangent = geomTangent;
+            d.TBNMatrix = float3x3(geomTangent, geomBitangent, geomNormal);
+            d.tangentSpaceViewDir = mul(d.worldSpaceViewDir, d.TBNMatrix);
+
+        #endif
+
+        #if _TOONPOLYEDGE
+           FlatShade(d);
+        #endif
+
+         Input i = DescToInput(d);
+
+         
+         
+         #if _SRPTERRAINBLEND
+            MicroSplatLayer l = BlendWithTerrain(d);
+
+               #if _DEBUG_WORLDNORMAL
+                  ClearAllButAlbedo(l, normalize(TangentToWorldSpace(d, l.Normal)) * saturate(l.Albedo.z+1));
+               #endif
+         #else
+            MicroSplatLayer l = SurfImpl(i, worldNormalVertex);
+         #endif
+
+        DoDebugOutput(l);
+
+
+
+
+        o.Albedo = l.Albedo;
+        o.Normal = l.Normal;
+        o.Smoothness = l.Smoothness;
+        o.Occlusion = l.Occlusion;
+        o.Metallic = l.Metallic;
+        o.Emission = l.Emission;
+        #if _USESPECULARWORKFLOW
+        o.Specular = l.Specular;
+        #endif
+        o.Height = l.Height;
+        o.Alpha = l.Alpha;
+
+
+    }
+
+
+
+        

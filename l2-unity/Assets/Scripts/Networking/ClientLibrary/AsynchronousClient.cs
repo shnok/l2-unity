@@ -4,6 +4,8 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Collections.Concurrent;
 
 public class AsynchronousClient
 {
@@ -17,6 +19,10 @@ public class AsynchronousClient
     private bool _cryptEnabled = false;
     private bool _initPacket = true;
     private bool _initPacketEnabled;
+    private readonly ConcurrentQueue<byte[]> _packetQueue = new ConcurrentQueue<byte[]>();
+    private readonly SemaphoreSlim _packetSemaphore = new SemaphoreSlim(0);
+    private CancellationTokenSource _processingCancellation;
+    private Task _processingTask;
 
     public bool InitPacket { get { return _initPacket; } set { _initPacket = value; } }
     public bool CryptEnabled
@@ -30,14 +36,14 @@ public class AsynchronousClient
     }
 
     public AsynchronousClient(string ip, int port, DefaultClient client, ClientPacketHandler clientPacketHandler,
-        ServerPacketHandler serverPacketHandler, bool enableInitPacket)
+        ServerPacketHandler serverPacketHandler, bool enableInitPacket, bool enableChecksum)
     {
         _ipAddress = ip;
         _port = port;
         _clientPacketHandler = clientPacketHandler;
         _serverPacketHandler = serverPacketHandler;
         _clientPacketHandler.SetClient(this);
-        _serverPacketHandler.SetClient(this, _clientPacketHandler);
+        _serverPacketHandler.SetClient(this, _clientPacketHandler, enableChecksum);
         _client = client;
         _initPacketEnabled = enableInitPacket;
         _initPacket = enableInitPacket;
@@ -85,11 +91,26 @@ public class AsynchronousClient
             return;
         }
 
-        Debug.Log("Disconnect");
+        // Cancel packet processing
+        _processingCancellation?.Cancel();
 
         ClientCleanup();
 
+        Debug.Log("Disconnect");
+
         EventProcessor.Instance.QueueEvent(() => _client.OnDisconnect());
+    }
+
+    public bool IsConnected()
+    {
+        if (_socket == null || !_socket.Connected)
+        {
+            return false;
+        }
+
+        // Poll the socket to check for connectivity
+        bool isDisconnected = _socket.Poll(1000, SelectMode.SelectRead) && _socket.Available == 0;
+        return !isDisconnected;
     }
 
     private void ClientCleanup()
@@ -118,11 +139,11 @@ public class AsynchronousClient
         {
             using (NetworkStream stream = new NetworkStream(_socket))
             {
-                stream.WriteByte((byte)(packet.GetData().Length & 0xff));
+                int len = packet.GetData().Length + 2;
+                stream.WriteByte((byte)(len & 0xff));
 
                 // Write the higher 8 bits
-                stream.WriteByte((byte)((packet.GetData().Length >> 8) & 0xff));
-
+                stream.WriteByte((byte)((len >> 8) & 0xff));
 
                 stream.Write(packet.GetData(), 0, (int)packet.GetData().Length);
                 stream.Flush();
@@ -137,6 +158,10 @@ public class AsynchronousClient
     public void StartReceiving()
     {
         Debug.Log("Start receiving");
+
+        // Start the packet processing task
+        _processingCancellation = new CancellationTokenSource();
+        _processingTask = Task.Run(() => ProcessPacketsAsync(_processingCancellation.Token));
 
         using (NetworkStream stream = new NetworkStream(_socket))
         {
@@ -165,6 +190,7 @@ public class AsynchronousClient
 
                 //Debug.Log("Packet length: " + length);
 
+                length = length - 2;
                 byte[] data = new byte[length];
 
                 int receivedBytes = 0;
@@ -175,11 +201,60 @@ public class AsynchronousClient
                     receivedBytes += newBytes;
                 }
 
+                // Queue the packet for processing instead of processing immediately
                 if (_serverPacketHandler.HandlePacketCrypto(data, _initPacket))
                 {
-                    Task.Run(() => _serverPacketHandler.HandlePacketAsync(data));
+                    _packetQueue.Enqueue(data);
+                    _packetSemaphore.Release(); // Signal that a packet is available
                 }
             }
         }
+
+        // Clean shutdown of processing task
+        _processingCancellation?.Cancel();
+        _processingTask?.Wait(TimeSpan.FromSeconds(2)); // Wait max 5 seconds for graceful shutdown
+    }
+
+    private async Task ProcessPacketsAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                // Wait for a packet to be available
+                await _packetSemaphore.WaitAsync(cancellationToken);
+
+                // Process all available packets in order
+                while (_packetQueue.TryDequeue(out byte[] data))
+                {
+                    try
+                    {
+                        await _serverPacketHandler.HandlePacketAsync(data);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"Error processing packet: {ex}");
+                        // Continue processing other packets even if one fails
+                    }
+
+                    // Check cancellation between packets
+                    if (cancellationToken.IsCancellationRequested)
+                        break;
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            Debug.Log("Packet processing cancelled");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Packet processing task error: {ex.Message}");
+        }
+    }
+
+    public int GetQueuedPacketCount()
+    {
+        return _packetQueue.Count;
     }
 }

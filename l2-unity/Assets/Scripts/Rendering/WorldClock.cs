@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 
 [System.Serializable]
-public struct WorldTimer {
+public struct WorldTimer
+{
     public float dayStartTime; //0.25f
     public float dayEndTime; //0.75f
     public float sunriseStartTime; //0f
@@ -12,7 +13,8 @@ public struct WorldTimer {
 }
 
 [System.Serializable]
-public struct Clock {
+public struct Clock
+{
     public float totalRatio;
     [Header("Day/Night cycle")]
     public float dayRatio;
@@ -25,8 +27,9 @@ public struct Clock {
 }
 
 [ExecuteInEditMode]
-public class WorldClock : MonoBehaviour {
-    [SerializeField] private float _dayDurationMinutes = 30;
+public class WorldClock : MonoBehaviour
+{
+    [SerializeField] private float _dayDurationMinutes = 240;
     [SerializeField] private string _timeHour;
     [SerializeField] private float _timeElapsed = 0;
     [SerializeField] private bool _startClock;
@@ -38,20 +41,27 @@ public class WorldClock : MonoBehaviour {
     private static WorldClock _instance;
     public static WorldClock Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    void OnDestroy() {
+    void OnDestroy()
+    {
         _instance = null;
     }
 
-    void Update() {
-        if(_startClock) {
+    void Update()
+    {
+        if (_startClock)
+        {
             UpdateClock();
         }
 
@@ -59,10 +69,12 @@ public class WorldClock : MonoBehaviour {
         CalculateSunPhaseRatio();
     }
 
-    private void UpdateClock() {
+    private void UpdateClock()
+    {
         _timeElapsed += Time.deltaTime;
 
-        if(_timeElapsed >= (_dayDurationMinutes * 60f)) {
+        if (_timeElapsed >= (_dayDurationMinutes * 60f))
+        {
             _timeElapsed = 0;
         }
 
@@ -83,66 +95,89 @@ public class WorldClock : MonoBehaviour {
         _timeHour = time.ToString(@"hh\:mm\:ss");
     }
 
-    public void SynchronizeClock(long gameTicks, int tickDurationMs, int dayDurationMinutes) {
-        float ticksPerDay = (float)dayDurationMinutes * 60 * 1000 / tickDurationMs;
-        float currentHours = gameTicks / ticksPerDay * 24 % 24;
-        this._dayDurationMinutes = dayDurationMinutes;
-        float serverDayRatio = currentHours / 24f;
-        _timeElapsed = serverDayRatio * dayDurationMinutes * 60f;
+    public void SynchronizeClock(int currentGameTime)
+    {
+        //Gametime goes from 0 to 1439
+        float serverDayRatio = currentGameTime / 1439f;
+        _timeElapsed = serverDayRatio * _dayDurationMinutes * 60f;
     }
 
-    public bool IsNightTime() {
+    public bool IsNightTime()
+    {
         return _clock.nightRatio > 0 && _clock.nightRatio <= 1 || _clock.dayRatio < 0.25f;
     }
 
-    private void CalculateDayNightRatio() {
-        if(_clock.totalRatio >= _worldTimer.dayStartTime && _clock.totalRatio < _worldTimer.dayEndTime) {
+    private void CalculateDayNightRatio()
+    {
+        if (_clock.totalRatio >= _worldTimer.dayStartTime && _clock.totalRatio < _worldTimer.dayEndTime)
+        {
             _clock.nightRatio = 0;
             _clock.dayRatio = (_clock.totalRatio - _worldTimer.dayStartTime) / (_worldTimer.dayEndTime - _worldTimer.dayStartTime);
-        } else {
+        }
+        else
+        {
             _clock.dayRatio = 0;
-            if(_clock.totalRatio >= _worldTimer.dayEndTime) {
+            if (_clock.totalRatio >= _worldTimer.dayEndTime)
+            {
                 _clock.nightRatio = (_clock.totalRatio - _worldTimer.dayEndTime) / (1.0f - _worldTimer.dayEndTime + _worldTimer.dayStartTime);
-            } else {
+            }
+            else
+            {
                 _clock.nightRatio = (_clock.totalRatio + (1.0f - _worldTimer.dayEndTime)) / (1.0f - _worldTimer.dayEndTime + _worldTimer.dayStartTime);
             }
         }
     }
 
-    private void CalculateSunPhaseRatio() {
+    private void CalculateSunPhaseRatio()
+    {
         _clock.dawnRatio = CalculatePeriodRatio(_worldTimer.sunriseStartTime, _worldTimer.sunriseEndTime);
         _clock.brightRatio = CalculatePeriodRatio(_worldTimer.sunriseEndTime, _worldTimer.sunsetStartTime);
         _clock.duskRatio = CalculatePeriodRatio(_worldTimer.sunsetStartTime, _worldTimer.sunsetEndTime);
         _clock.darkRatio = CalculatePeriodRatio(-.99f, _worldTimer.sunriseStartTime);
     }
 
-    private float CalculatePeriodRatio(float startRatio, float endRatio) {
+    private float CalculatePeriodRatio(float startRatio, float endRatio)
+    {
         float periodDuration = (startRatio < 0) ? (Mathf.Abs(startRatio) + endRatio) : (endRatio - startRatio);
 
         float ratio = 0;
-        if(_clock.dayRatio >= 0 && _clock.nightRatio == 0) {
+        if (_clock.dayRatio >= 0 && _clock.nightRatio == 0)
+        {
             // Day
-            if(_clock.dayRatio <= endRatio) {
+            if (_clock.dayRatio <= endRatio)
+            {
                 // In Range        
-                if(startRatio < 0) {
+                if (startRatio < 0)
+                {
                     ratio += Mathf.Abs(startRatio);
                     ratio += _clock.dayRatio;
-                } else if(_clock.dayRatio >= startRatio) {
+                }
+                else if (_clock.dayRatio >= startRatio)
+                {
                     ratio -= startRatio;
                     ratio += _clock.dayRatio;
-                } else {
+                }
+                else
+                {
                     ratio = 0;
                 }
 
                 ratio = Mathf.Clamp(ratio / periodDuration, 0, 1);
-            } else {
+            }
+            else
+            {
                 ratio = 1;
             }
-        } else {
+        }
+        else
+        {
             // Night
-            if(startRatio < 0 && _clock.nightRatio > (1 + startRatio)) {
+            if (startRatio < 0 && _clock.nightRatio > (1 + startRatio))
+            {
                 ratio += Mathf.Clamp((_clock.nightRatio - (1 + startRatio)) / periodDuration, 0, 1);
-            } else {
+            }
+            else
+            {
                 ratio = 0;
             }
         }

@@ -40,8 +40,8 @@ namespace FMODUnity
             Settings.AddPlatformTemplate<PlatformWindows>("2c5177b11d81d824dbb064f9ac8527da");
         }
 
-        internal override string DisplayName { get { return "Windows"; } }
-        internal override void DeclareRuntimePlatforms(Settings settings)
+        public override string DisplayName { get { return "Windows"; } }
+        public override void DeclareRuntimePlatforms(Settings settings)
         {
             settings.DeclareRuntimePlatform(RuntimePlatform.WindowsPlayer, this);
             settings.DeclareRuntimePlatform(RuntimePlatform.WSAPlayerX86, this);
@@ -50,18 +50,18 @@ namespace FMODUnity
         }
 
 #if UNITY_EDITOR
-        internal override IEnumerable<BuildTarget> GetBuildTargets()
+        public override IEnumerable<BuildTarget> GetBuildTargets()
         {
             yield return BuildTarget.StandaloneWindows;
             yield return BuildTarget.StandaloneWindows64;
             yield return BuildTarget.WSAPlayer;
         }
 
-        internal override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.Windows; } }
+        public override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.Windows; } }
 #endif
 
 #if UNITY_WINRT_8_1 || UNITY_WSA_10_0
-        internal override string GetBankFolder()
+        public override string GetBankFolder()
         {
             return "ms-appx:///Data/StreamingAssets";
         }
@@ -125,13 +125,13 @@ namespace FMODUnity
             }
         }
 
-        internal override bool SupportsAdditionalCPP(BuildTarget target)
+        public override bool SupportsAdditionalCPP(BuildTarget target)
         {
             return target != BuildTarget.WSAPlayer;
         }
 #endif
 
-        internal override string GetPluginPath(string pluginName)
+        public override string GetPluginPath(string pluginName)
         {
 #if UNITY_STANDALONE_WIN
         #if UNITY_64
@@ -144,7 +144,7 @@ namespace FMODUnity
 #endif
         }
 #if UNITY_EDITOR
-        internal override OutputType[] ValidOutputTypes
+        public override OutputType[] ValidOutputTypes
         {
             get
             {
@@ -157,10 +157,10 @@ namespace FMODUnity
            new OutputType() { displayName = "Windows Sonic", outputType = FMOD.OUTPUTTYPE.WINSONIC },
         };
 
-        internal override int CoreCount { get { return MaximumCoreCount; } }
+        public override int CoreCount { get { return MaximumCoreCount; } }
 #endif
 
-        internal override List<CodecChannelCount> DefaultCodecChannels { get { return staticCodecChannels; } }
+        public override List<CodecChannelCount> DefaultCodecChannels { get { return staticCodecChannels; } }
 
         private static List<CodecChannelCount> staticCodecChannels = new List<CodecChannelCount>()
         {

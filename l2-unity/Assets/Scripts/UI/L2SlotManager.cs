@@ -8,6 +8,16 @@ public class L2SlotManager : L2PopupWindow
     [SerializeField] private L2Slot _draggedSlot;
     [SerializeField] private L2Slot _hoverSlot;
     private L2Slot _dragSlotData;
+    private VisualTreeAsset _actionSlotTemplate;
+    private VisualTreeAsset _inventorySlotTemplate;
+    private VisualTreeAsset _shopSlotTemplate;
+    private VisualTreeAsset _skillSlotTemplate;
+    private VisualTreeAsset _skillBarSlotTemplate;
+    public VisualTreeAsset ActionSlotTemplate { get { return _actionSlotTemplate; } }
+    public VisualTreeAsset InventorySlotTemplate { get { return _inventorySlotTemplate; } }
+    public VisualTreeAsset ShopSlotTemplate { get { return _shopSlotTemplate; } }
+    public VisualTreeAsset SkillSlotTemplate { get { return _skillSlotTemplate; } }
+    public VisualTreeAsset SkillBarSlotTemplate { get { return _skillBarSlotTemplate; } }
 
     private static L2SlotManager _instance;
     public static L2SlotManager Instance { get { return _instance; } }
@@ -31,7 +41,12 @@ public class L2SlotManager : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Template/DraggedSlot");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/DraggedSlot");
+        _inventorySlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
+        _actionSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/ActionSlot");
+        _shopSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/InventorySlot");
+        _skillSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/SkillSlot");
+        _skillBarSlotTemplate = LoadAsset("Data/UI/_Elements/Components/L2Slot/SkillbarSlot");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -70,7 +85,7 @@ public class L2SlotManager : L2PopupWindow
 
     public void ReleaseDrag()
     {
-        HideWindow();
+        HideWindow(false);
 
         if (!IsValidDrag() || IsSameSlot())
         {
@@ -98,6 +113,15 @@ public class L2SlotManager : L2PopupWindow
                 break;
             case L2Slot.SlotType.Action:
                 HandleActionDrag();
+                break;
+            case L2Slot.SlotType.Skill:
+                HandleSkillDrag();
+                break;
+            case L2Slot.SlotType.Product:
+                HandleProductDrag();
+                break;
+            case L2Slot.SlotType.Basket:
+                HandleBasketDrag();
                 break;
             default:
                 break;
@@ -146,7 +170,7 @@ public class L2SlotManager : L2PopupWindow
 
         switch (_hoverSlot.Type)
         {
-            case L2Slot.SlotType.Gear when IsItemGear(inventorySlot.ItemCategory):
+            case L2Slot.SlotType.Gear when IsItemGear(inventorySlot.Type1):
                 Equip();
                 break;
             case L2Slot.SlotType.Inventory:
@@ -198,6 +222,61 @@ public class L2SlotManager : L2PopupWindow
         }
     }
 
+    private void HandleSkillDrag()
+    {
+        if (SkillbarWindow.Instance.Locked)
+        {
+            return;
+        }
+
+        if (_hoverSlot == null)
+        {
+            return;
+        }
+
+        switch (_hoverSlot.Type)
+        {
+            case L2Slot.SlotType.SkillBar:
+                AddSkillToSkillbar();
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    private void HandleProductDrag()
+    {
+        ProductSlot productSlot = (ProductSlot)_draggedSlot;
+
+        if (_hoverSlot == null)
+        {
+            return;
+        }
+
+
+        switch (_hoverSlot.Type)
+        {
+            case L2Slot.SlotType.Basket:
+                // ((ShopSlotContainer)((BasketSlot)_hoverSlot).SlotContainer).AddToBasket(productSlot.Product, 1);
+                productSlot.SwapBasket();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void HandleBasketDrag()
+    {
+        BasketSlot productSlot = (BasketSlot)_draggedSlot;
+
+        if (_hoverSlot == null || _hoverSlot.Type != L2Slot.SlotType.Basket)
+        {
+            // ((ShopSlotContainer)productSlot.SlotContainer).RemoveFromBasket(productSlot.Product, productSlot.Position);
+            productSlot.SwapBasket();
+        }
+    }
+
     #endregion
 
     #region SlotVerification
@@ -205,11 +284,10 @@ public class L2SlotManager : L2PopupWindow
 
     private bool IsSameSlot() => _draggedSlot != null && _hoverSlot != null && _draggedSlot.Position == _hoverSlot.Position && _draggedSlot.Type == _hoverSlot.Type;
 
-    private bool IsItemGear(ItemCategory category)
+    private bool IsItemGear(ItemType1 category)
     {
-        return category == ItemCategory.Weapon
-            || category == ItemCategory.ShieldArmor
-            || category == ItemCategory.Jewel;
+        return category == ItemType1.TYPE1_SHIELD_ARMOR
+            || category == ItemType1.TYPE1_WEAPON_RING_EARRING_NECKLACE;
     }
 
     #endregion
@@ -234,8 +312,31 @@ public class L2SlotManager : L2PopupWindow
 
     private void DropItem()
     {
+        Debug.LogWarning("TODO: Item drops. For now dropping an item destroys it.");
+
         // Drop item logic
         InventorySlot slot = (InventorySlot)_draggedSlot;
+        SMParam[] smParams = new SMParam[1];
+        smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, slot.Id);
+
+        if (slot.Count <= 1)
+        {
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[400]);
+            L2ConfirmWindow.Instance.ShowWindow(systemMessage, () =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, 1);
+            }, () => { });
+        }
+        else
+        {
+            //Discard amount systemMessageId => 71
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[71]);
+            L2InputAmountWindow.Instance.ShowWindow(systemMessage, slot.Count, (amount) =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, amount);
+            }, () => { });
+        }
+
         Debug.Log($"Drop {slot.Id}.");
     }
 
@@ -243,8 +344,26 @@ public class L2SlotManager : L2PopupWindow
     {
         // Destroy item logic
         InventorySlot slot = (InventorySlot)_draggedSlot;
+        SMParam[] smParams = new SMParam[1];
+        smParams[0] = new SMParam(SMParam.SMParamType.TYPE_ITEM_NAME, slot.Id);
+        if (slot.Count <= 1)
+        {
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[74]);
+            L2ConfirmWindow.Instance.ShowWindow(systemMessage, () =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, 1);
+            }, () => { });
+        }
+        else
+        {
+            SystemMessage systemMessage = new SystemMessage(smParams, SystemMessageTable.Instance.SystemMessages[73]);
+            L2InputAmountWindow.Instance.ShowWindow(systemMessage, slot.Count, (amount) =>
+            {
+                PlayerInventory.Instance.DestroyItem(slot.ObjectId, amount);
+            }, () => { });
+        }
+
         Debug.Log($"Destroy {slot.Id}.");
-        PlayerInventory.Instance.DestroyItem(slot.ObjectId, 1);
     }
 
     private void AddActionToSkillbar()
@@ -286,7 +405,23 @@ public class L2SlotManager : L2PopupWindow
     private void RemoveSkillbarSlot()
     {
         int oldSlot = _draggedSlot.Position;
-        Debug.LogWarning($"Renoving skillbar shortcut from slot {oldSlot}.");
+        Debug.LogWarning($"Removing skillbar shortcut from slot {oldSlot}.");
+        PlayerShortcuts.Instance.DeleteShortcut(oldSlot);
+    }
+
+    private void AddSkillToSkillbar()
+    {
+        int skillId = ((SkillSlot)_draggedSlot).Skill.SkillId;
+        int slot = _hoverSlot.Position;
+        Debug.LogWarning($"Add skill {skillId} to skillbar slot {slot}.");
+
+        PlayerShortcuts.Instance.AddShortcut(slot, skillId, Shortcut.TYPE_SKILL);
+    }
+
+    private void RemoveSkillSlot()
+    {
+        int oldSlot = _draggedSlot.Position;
+        Debug.LogWarning($"Removing skillbar shortcut from slot {oldSlot}.");
         PlayerShortcuts.Instance.DeleteShortcut(oldSlot);
     }
 
@@ -303,7 +438,7 @@ public class L2SlotManager : L2PopupWindow
         _windowEle.style.opacity = 1;
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
         _windowEle.style.opacity = 0;
     }

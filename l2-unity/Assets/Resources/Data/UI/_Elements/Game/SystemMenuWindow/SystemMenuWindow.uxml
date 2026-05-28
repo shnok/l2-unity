@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SystemMenuWindow/SystemMenuWindow.uss?fileID=7433441132597879392&amp;guid=cd7c9bdc31b4eb747bceb5a353bf4383&amp;type=3#SystemMenuWindow" />
+    <ui:GroupBox name="SystemMenuWindow" class="system-menu-window" style="height: 46px;">
+        <ui:GroupBox name="Container" class="system-menu-window-container">
+            <ui:GroupBox name="Rows" class="system-menu">
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="RestartRow" class="restart-btn system-menu-row">
+                    <ui:VisualElement name="Bg" class="system-menu-button-bg" />
+                    <ui:GroupBox name="Content" class="system-menu-button-content">
+                        <ui:VisualElement name="icon" class="system-menu-row-icon" />
+                        <ui:Label tabindex="-1" text="Restart" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" class="system-menu-row-text" />
+                    </ui:GroupBox>
+                </ui:Button>
+                <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ExitRow" class="system-menu-row exit-btn">
+                    <ui:VisualElement name="Bg" class="system-menu-button-bg" />
+                    <ui:GroupBox name="Content" class="system-menu-button-content">
+                        <ui:VisualElement name="icon" class="system-menu-row-icon" style="background-image: resource(&apos;Data/UI/Assets/Menu/icon_power_menu&apos;);" />
+                        <ui:Label tabindex="-1" text="Exit Game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text" class="system-menu-row-text" />
+                    </ui:GroupBox>
+                </ui:Button>
+            </ui:GroupBox>
+        </ui:GroupBox>
+    </ui:GroupBox>
+</ui:UXML>

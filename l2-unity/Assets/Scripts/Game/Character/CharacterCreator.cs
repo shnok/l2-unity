@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,57 +58,131 @@ public class CharacterCreator : MonoBehaviour
 
         for (var i = 8; i < pawnData.Count; i++)
         {
-            GameObject pawnObject = CreatePawn(CharacterRaceAnimation.FDarkElf, new PlayerAppearance());
-
-            pawns[i] = pawnObject;
-
-            PlacePawn(pawnObject, pawnData[i], "Pawn" + i, _pawnContainer);
+            SpawnCharacterCreationPawn(i);
         }
     }
 
-    public void SpawnPawnWithId(int id)
+    public void SpawnCharacterCreationPawn(int id)
     {
+        PlayerAppearance appearance = new PlayerAppearance();
+
         List<Logongrp> pawnData = LogongrpTable.Instance.Logongrps;
 
-        GameObject pawnObject = CreatePawn(CharacterRaceAnimation.FDarkElf, new PlayerAppearance());
+        CharacterModelType raceId = GetCharacterTypeFromPawnId(id);
 
-        PlacePawn(pawnObject, pawnData[id], "Pawn" + id, _pawnContainer);
+        if (raceId == CharacterModelType.MOrc || raceId == CharacterModelType.FOrc || raceId == CharacterModelType.MShaman || raceId == CharacterModelType.FShaman)
+        {
+            Debug.LogWarning($"Race {raceId} is not yet added to the game.");
+            return;
+        }
+
+        GameObject pawnObject = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, EntityType.Pawn);
+        pawns[id] = pawnObject;
+
+        EntityReferenceHolder referenceHolder = pawnObject.GetComponent<EntityReferenceHolder>();
+        NewHumanoidAnimationController animController = (NewHumanoidAnimationController)referenceHolder.NewAnimationController;
+
+        if (animController == null)
+        {
+            Debug.LogError("Pawn object animation controller is null");
+        }
+
+        UserGear gear = (UserGear)referenceHolder.Gear;
+        if (gear == null)
+        {
+            Debug.LogError("Pawn object UserGear is null");
+        }
+
+        gear.Initialize(-1);
+        referenceHolder.Entity.UpdateAppearance(appearance);
+        // referenceHolder.Entity.EquipAllArmors();
+        // referenceHolder.Entity.EquipAllWeapons();
+        // GearUpPawn(appearance, gear);
+
+        PlacePawn(pawnObject, pawnData[id], "Pawn" + id, _pawnContainer, animController, gear);
     }
 
-    public void SelectPawn(string race, string pawnClass, string gender)
+    public void SelectPawn(int raceIndex, int classIndex, int genderIndex)
+    {
+        int index = GetPawnIndex(raceIndex, classIndex, genderIndex);
+        currentPawnIndex = index;
+        currentPawn = pawns[index];
+    }
+
+    public int GetPawnIndex(int raceIndex, int classIndex, int genderIndex)
     {
         int index = 0;
-        switch (race)
+        switch (raceIndex)
         {
-            case "Human":
+            case 0: //"Human":
                 index = 8;
                 break;
-            case "Elf":
+            case 1: //"Elf":
                 index = 12;
                 break;
-            case "Dark Elf":
+            case 2: //"Dark Elf":
                 index = 16;
                 break;
-            case "Orc":
+            case 3:// "Orc":
                 index = 20;
                 break;
-            case "Dwarf":
+            case 4: //"Dwarf":
                 index = 24;
                 break;
         }
 
-        if (pawnClass == "Mystic")
+        if (classIndex == 1)
         {
             index += 2;
         }
 
-        if (gender == "Female")
+        if (genderIndex == 1)
         {
             index += 1;
         }
 
-        currentPawnIndex = index;
-        currentPawn = pawns[index];
+        return index;
+    }
+
+    private CharacterModelType GetCharacterTypeFromPawnId(int id)
+    {
+        if (id >= 24)
+        {
+            // Dwarf
+            return (id % 2 == 0) ? CharacterModelType.MDwarf : CharacterModelType.FDwarf;
+        }
+
+        if (id >= 20 && id < 24)
+        {
+            // Orc
+            if (id % 4 == 0) return CharacterModelType.MOrc;
+            if (id % 4 == 1) return CharacterModelType.FOrc;
+            if (id % 4 == 2) return CharacterModelType.MShaman;
+            return CharacterModelType.FShaman;
+        }
+
+        if (id >= 16 && id < 20)
+        {
+            // Dark Elf
+            return (id % 2 == 0) ? CharacterModelType.MDarkElf : CharacterModelType.FDarkElf;
+        }
+
+        if (id >= 12 && id < 16)
+        {
+            // Elf
+            return (id % 2 == 0) ? CharacterModelType.MElf : CharacterModelType.FElf;
+        }
+
+        if (id >= 8 && id < 12)
+        {
+            // Human
+            if (id % 4 == 0) return CharacterModelType.MFighter;
+            if (id % 4 == 1) return CharacterModelType.FFighter;
+            if (id % 4 == 2) return CharacterModelType.MMagic;
+            return CharacterModelType.FMagic;
+        }
+
+        return CharacterModelType.FDwarf;
     }
 
     public void ResetPawnSelection()
@@ -117,73 +192,15 @@ public class CharacterCreator : MonoBehaviour
             // Restore pawn appearance and rotation
             Destroy(currentPawn);
 
-            SpawnPawnWithId(currentPawnIndex);
+            SpawnCharacterCreationPawn(currentPawnIndex);
         }
 
         currentPawn = null;
         currentPawnIndex = -1;
     }
 
-
-    public GameObject CreatePawn(CharacterRaceAnimation raceId, PlayerAppearance appearance)
+    public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container, NewHumanoidAnimationController animController, UserGear gear)
     {
-        GameObject pawnObject = CharacterBuilder.Instance.BuildCharacterBase(raceId, appearance, EntityType.Pawn);
-
-        UserGear gear = pawnObject.GetComponent<UserGear>();
-
-        gear.Initialize(-1, raceId);
-
-        if (appearance.Chest != 0)
-        {
-            gear.EquipArmor(appearance.Chest, ItemSlot.chest);
-        }
-        else
-        {
-            gear.EquipArmor(ItemTable.NAKED_CHEST, ItemSlot.chest);
-        }
-
-        if (appearance.Legs != 0)
-        {
-            gear.EquipArmor(appearance.Legs, ItemSlot.legs);
-        }
-        else
-        {
-            gear.EquipArmor(ItemTable.NAKED_LEGS, ItemSlot.legs);
-        }
-
-        if (appearance.Gloves != 0)
-        {
-            gear.EquipArmor(appearance.Gloves, ItemSlot.gloves);
-        }
-        else
-        {
-            gear.EquipArmor(ItemTable.NAKED_GLOVES, ItemSlot.gloves);
-        }
-
-        if (appearance.Feet != 0)
-        {
-            gear.EquipArmor(appearance.Feet, ItemSlot.feet);
-        }
-        else
-        {
-            gear.EquipArmor(ItemTable.NAKED_BOOTS, ItemSlot.feet);
-        }
-
-        if (appearance.LHand != 0)
-        {
-            gear.EquipWeapon(appearance.LHand, true);
-        }
-        if (appearance.RHand != 0)
-        {
-            gear.EquipWeapon(appearance.RHand, false);
-        }
-
-        return pawnObject;
-    }
-
-    public void PlacePawn(GameObject pawnObject, Logongrp pawnData, string name, GameObject container)
-    {
-
         UpdatePawnPosAndRot(pawnObject, pawnData);
         pawnObject.transform.name = name;
 
@@ -191,11 +208,9 @@ public class CharacterCreator : MonoBehaviour
 
         pawnObject.SetActive(true);
 
-        UserGear gear = pawnObject.GetComponent<UserGear>();
-        BaseAnimationController animController = pawnObject.GetComponent<BaseAnimationController>();
         animController.Initialize();
-        animController.SetBool("wait_" + gear.WeaponAnim, true);
-        animController.SetWalkSpeed(2.5f);
+        animController.Wait();
+        animController.SetWalkSpeed(1.9f);
     }
 
     public void UpdatePawnPosAndRot(GameObject pawnObject, Logongrp pawnData)
@@ -215,5 +230,76 @@ public class CharacterCreator : MonoBehaviour
     public void StopRotatingPawn()
     {
         _pawnRotating = false;
+    }
+
+    public void ChangeCharacterFace(int faceIndex)
+    {
+        PlayerAppearance newAppearance = CopyAppearance();
+        newAppearance.Face = (byte)faceIndex;
+
+        if (newAppearance != null)
+        {
+            currentPawn.GetComponent<Entity>().UpdateAppearance(newAppearance);
+        }
+    }
+
+    public void ChangeCharacterHairStyle(int hairStyleIndex)
+    {
+        PlayerAppearance newAppearance = CopyAppearance();
+        newAppearance.HairStyle = (byte)hairStyleIndex;
+
+        if (newAppearance != null)
+        {
+            currentPawn.GetComponent<Entity>().UpdateAppearance(newAppearance);
+        }
+    }
+
+    public void ChangeCharacterHairColor(int hairColorIndex)
+    {
+        PlayerAppearance newAppearance = CopyAppearance();
+        newAppearance.HairColor = (byte)hairColorIndex;
+
+        if (newAppearance != null)
+        {
+            currentPawn.GetComponent<Entity>().UpdateAppearance(newAppearance);
+        }
+    }
+
+    private PlayerAppearance CopyAppearance()
+    {
+        if (currentPawnIndex == -1 || currentPawn == null)
+        {
+            Debug.LogWarning("Current pawn is null.");
+            return null;
+        }
+
+        Entity entity = currentPawn.GetComponent<Entity>();
+
+        PlayerAppearance oldAppearance = (PlayerAppearance)entity.Appearance;
+
+        PlayerAppearance newAppearance = new PlayerAppearance();
+        newAppearance.UpdateAppearance(oldAppearance);
+
+        return newAppearance;
+    }
+
+    public void ValidateCharacterCreation(string characterName, bool isMage)
+    {
+        if (currentPawnIndex == -1 || currentPawn == null)
+        {
+            Debug.LogWarning("Current pawn is null.");
+            return;
+        }
+
+        Entity entity = currentPawn.GetComponent<Entity>();
+
+        GameClient.Instance.ClientPacketHandler.SendRequestCreateCharacter(
+            characterName,
+            CharacterRaceParser.ParseRaceBase(entity.RaceId),
+            CharacterSexParser.ParseSex(entity.RaceId),
+            CharacterClassParser.ParseClass(entity.RaceId, isMage),
+            ((PlayerAppearance)entity.Appearance).HairStyle,
+            ((PlayerAppearance)entity.Appearance).HairColor,
+            ((PlayerAppearance)entity.Appearance).Face);
     }
 }

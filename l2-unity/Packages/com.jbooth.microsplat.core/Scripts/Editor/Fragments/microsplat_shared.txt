@@ -1,0 +1,1250 @@
+﻿// In Unity 2020.3LTS, Unity will spew tons of errors about missing this sampler in
+// URP, even though it shouldn't be required.
+TEXTURE2D(_MainTex);
+
+      // globals, outside of CBuffer, but used by more than one module
+      float3 _gGlitterLightDir;
+      float3 _gGlitterLightWorldPos;
+      half3 _gGlitterLightColor;
+
+      #if (_MICROTERRAIN || _MICROMESHTERRAIN)
+         float4    _TerrainHeightmapRecipSize;   // float4(1.0f/width, 1.0f/height, 1.0f/(width-1), 1.0f/(height-1))
+         float4    _TerrainHeightmapScale;       // float4(hmScale.x, hmScale.y / (float)(kMaxHeight), hmScale.z, 0.0f)
+         float4    _TerrainNormalmapTexture_TexelSize;
+      #endif
+
+      #if (_MICROTERRAIN || _MICROMESHTERRAIN)
+          TEXTURE2D(_TerrainHeightmapTexture);
+          float4 _TerrainHeightmapTexture_TexelSize;
+          TEXTURE2D(_TerrainNormalmapTexture);
+      #endif
+
+      UNITY_INSTANCING_BUFFER_START(Terrain)
+          UNITY_DEFINE_INSTANCED_PROP(float4, _TerrainPatchInstanceData)  // float4(xBase, yBase, skipScale, ~)
+      UNITY_INSTANCING_BUFFER_END(Terrain)          
+
+
+      
+
+      // dynamic branching helpers, for regular and aggressive branching
+      // debug mode shows how many samples using branching will save us. 
+      //
+      // These macros are always used instead of the UNITY_BRANCH macro
+      // to maintain debug displays and allow branching to be disabled
+      // on as granular level as we want. 
+      
+      #if _BRANCHSAMPLES
+         #if _DEBUG_BRANCHCOUNT_WEIGHT || _DEBUG_BRANCHCOUNT_TOTAL
+            float _branchWeightCount;
+            #define MSBRANCH(w) if (w > 0) _branchWeightCount++; if (w > 0)
+         #else
+            #define MSBRANCH(w) UNITY_BRANCH if (w > 0)
+         #endif
+      #else
+         #if _DEBUG_BRANCHCOUNT_WEIGHT || _DEBUG_BRANCHCOUNT_TOTAL
+            float _branchWeightCount;
+            #define MSBRANCH(w) if (w > 0) _branchWeightCount++;
+         #else
+            #define MSBRANCH(w) 
+         #endif
+      #endif
+      
+      #if _BRANCHSAMPLESAGR
+         #if _DEBUG_BRANCHCOUNT_TRIPLANAR || _DEBUG_BRANCHCOUNT_CLUSTER || _DEBUG_BRANCHCOUNT_OTHER ||_DEBUG_BRANCHCOUNT_TOTAL
+            float _branchTriplanarCount;
+            float _branchClusterCount;
+            float _branchOtherCount;
+            #define MSBRANCHTRIPLANAR(w) if (w > 0.001) _branchTriplanarCount++; if (w > 0.001)
+            #define MSBRANCHCLUSTER(w) if (w > 0.001) _branchClusterCount++; if (w > 0.001)
+            #define MSBRANCHOTHER(w) if (w > 0.001) _branchOtherCount++; if (w > 0.001)
+         #else
+            #define MSBRANCHTRIPLANAR(w) UNITY_BRANCH if (w > 0.001)
+            #define MSBRANCHCLUSTER(w) UNITY_BRANCH if (w > 0.001)
+            #define MSBRANCHOTHER(w) UNITY_BRANCH if (w > 0.001)
+         #endif
+      #else
+         #if _DEBUG_BRANCHCOUNT_TRIPLANAR || _DEBUG_BRANCHCOUNT_CLUSTER || _DEBUG_BRANCHCOUNT_OTHER || _DEBUG_BRANCHCOUNT_TOTAL
+            float _branchTriplanarCount;
+            float _branchClusterCount;
+            float _branchOtherCount;
+            #define MSBRANCHTRIPLANAR(w) if (w > 0.001) _branchTriplanarCount++;
+            #define MSBRANCHCLUSTER(w) if (w > 0.001) _branchClusterCount++;
+            #define MSBRANCHOTHER(w) if (w > 0.001) _branchOtherCount++;
+         #else
+            #define MSBRANCHTRIPLANAR(w)
+            #define MSBRANCHCLUSTER(w)
+            #define MSBRANCHOTHER(w)
+         #endif
+      #endif
+
+      #if _DEBUG_SAMPLECOUNT
+         int _sampleCount;
+         #define COUNTSAMPLE { _sampleCount++; }
+      #else
+         #define COUNTSAMPLE
+      #endif
+
+      #if _DEBUG_PROCLAYERS
+         int _procLayerCount;
+         #define COUNTPROCLAYER { _procLayerCount++; }
+      #else
+         #define COUNTPROCLAYER
+      #endif
+
+
+      #if _DEBUG_USE_TOPOLOGY
+         TEXTURE2D(_DebugWorldPos);
+         TEXTURE2D(_DebugWorldNormal);
+      #endif
+      
+
+      // splat
+      UNITY_DECLARE_TEX2DARRAY(_Diffuse);
+      UNITY_DECLARE_TEX2DARRAY(_NormalSAO);
+
+      #if _CONTROLNOISEUV || _GLOBALNOISEUV
+         TEXTURE2D(_NoiseUV);
+      #endif
+
+      #if _PACKINGHQ
+         UNITY_DECLARE_TEX2DARRAY(_SmoothAO);
+      #endif
+
+      #if _USESPECULARWORKFLOW
+         UNITY_DECLARE_TEX2DARRAY(_Specular);
+      #endif
+
+      #if _USEEMISSIVEMETAL
+         UNITY_DECLARE_TEX2DARRAY(_EmissiveMetal);
+      #endif
+
+      TEXTURE2D(_PerPixelNormal);
+
+      SamplerState shared_linear_clamp_sampler;
+      SamplerState shared_point_clamp_sampler;
+      
+      TEXTURE2D(_Control0);
+      #if _CUSTOMSPLATTEXTURES
+         TEXTURE2D(_CustomControl0);
+         #if !_MAX4TEXTURES
+         TEXTURE2D(_CustomControl1);
+         #endif
+         #if !_MAX4TEXTURES && !_MAX8TEXTURES
+         TEXTURE2D(_CustomControl2);
+         #endif
+         #if !_MAX4TEXTURES && !_MAX8TEXTURES && !_MAX12TEXTURES
+         TEXTURE2D(_CustomControl3);
+         #endif
+         #if _MAX20TEXTURES || _MAX24TEXTURES || _MAX28TEXTURES || _MAX32TEXTURES
+         TEXTURE2D(_CustomControl4);
+         #endif
+         #if _MAX24TEXTURES || _MAX28TEXTURES || _MAX32TEXTURES
+         TEXTURE2D(_CustomControl5);
+         #endif
+         #if _MAX28TEXTURES || _MAX32TEXTURES
+         TEXTURE2D(_CustomControl6);
+         #endif
+         #if _MAX32TEXTURES
+         TEXTURE2D(_CustomControl7);
+         #endif
+      #else
+         #if !_MAX4TEXTURES
+         TEXTURE2D(_Control1);
+         #endif
+         #if !_MAX4TEXTURES && !_MAX8TEXTURES
+         TEXTURE2D(_Control2);
+         #endif
+         #if !_MAX4TEXTURES && !_MAX8TEXTURES && !_MAX12TEXTURES
+         TEXTURE2D(_Control3);
+         #endif
+         #if _MAX20TEXTURES || _MAX24TEXTURES || _MAX28TEXTURES || _MAX32TEXTURES
+         TEXTURE2D(_Control4);
+         #endif
+         #if _MAX24TEXTURES || _MAX28TEXTURES || _MAX32TEXTURES
+         TEXTURE2D(_Control5);
+         #endif
+         #if _MAX28TEXTURES || _MAX32TEXTURES
+         TEXTURE2D(_Control6);
+         #endif
+         #if _MAX32TEXTURES
+         TEXTURE2D(_Control7);
+         #endif
+      #endif
+
+      TEXTURE2D_FLOAT(_PerTexProps);
+   
+      struct DecalLayer
+      {
+         float3 uv;
+         float2 dx;
+         float2 dy;
+         int decalIndex;
+         bool dynamic; 
+      };
+
+      struct DecalOutput
+      {
+         DecalLayer l0;
+         DecalLayer l1;
+         DecalLayer l2;
+         DecalLayer l3;
+         
+         half4 Weights;
+         half4 Indexes;
+         half4 fxLevels;
+         
+      };
+      
+
+      struct TriGradMipFormat
+      {
+         float4 d0;
+         float4 d1;
+         float4 d2;
+      };
+
+      float InverseLerp(float x, float y, float v) { return (v-x)/max(y-x, 0.001); }
+      float2 InverseLerp(float2 x, float2 y, float2 v) { return (v-x)/max(y-x, float2(0.001, 0.001)); }
+      float3 InverseLerp(float3 x, float3 y, float3 v) { return (v-x)/max(y-x, float3(0.001, 0.001, 0.001)); }
+      float4 InverseLerp(float4 x, float4 y, float4 v) { return (v-x)/max(y-x, float4(0.001, 0.001, 0.001, 0.001)); }
+      
+
+      // 2019.3 holes
+      #ifdef _ALPHATEST_ON
+          TEXTURE2D(_TerrainHolesTexture);
+          
+          void ClipHoles(float2 uv)
+          {
+              float hole = SAMPLE_TEXTURE2D(_TerrainHolesTexture, shared_linear_clamp_sampler, uv).r;
+              COUNTSAMPLE
+              clip(hole < 0.5f ? -1 : 1);
+          }
+      #endif
+
+      
+      #if _TRIPLANAR
+         #if _USEGRADMIP
+            #define MIPFORMAT TriGradMipFormat
+            #define INITMIPFORMAT (TriGradMipFormat)0;
+            #define MIPFROMATRAW float4
+         #else
+            #define MIPFORMAT float3
+            #define INITMIPFORMAT 0;
+            #define MIPFROMATRAW float3
+         #endif
+      #else
+         #if _USEGRADMIP
+            #define MIPFORMAT float4
+            #define INITMIPFORMAT 0;
+            #define MIPFROMATRAW float4
+         #else
+            #define MIPFORMAT float
+            #define INITMIPFORMAT 0;
+            #define MIPFROMATRAW float
+         #endif
+      #endif
+
+      float2 TotalOne(float2 v) { return v * (1.0 / max(v.x + v.y, 0.001)); }
+      float3 TotalOne(float3 v) { return v * (1.0 / max(v.x + v.y + v.z, 0.001)); }
+      float4 TotalOne(float4 v) { return v * (1.0 / max(v.x + v.y + v.z + v.w, 0.001)); }
+
+      float2 RotateUV(float2 uv, float amt)
+      {
+         uv -=0.5;
+         float s = sin ( amt);
+         float c = cos ( amt );
+         float2x2 mtx = float2x2( c, -s, s, c);
+         mtx *= 0.5;
+         mtx += 0.5;
+         mtx = mtx * 2-1;
+         uv = mul ( uv, mtx );
+         uv += 0.5;
+         return uv;
+      }
+
+      float4 DecodeToFloat4(float v)
+      {
+         uint vi = (uint)(v * (256.0f * 256.0f * 256.0f * 256.0f));
+         int ex = (int)(vi / (256 * 256 * 256) % 256);
+         int ey = (int)((vi / (256 * 256)) % 256);
+         int ez = (int)((vi / (256)) % 256);
+         int ew = (int)(vi % 256);
+         float4 e = float4(ex / 255.0, ey / 255.0, ez / 255.0, ew / 255.0);
+         return e;
+      }
+
+      
+
+      struct Input 
+      {
+         ShaderData shaderData;
+         float2 uv_Control0;
+         float2 uv2_Diffuse;
+
+         float worldHeight;
+         float3 worldUpVector;
+
+         float3 viewDir;
+         float3 worldPos;
+         float3 worldNormal;
+         float4 color;
+         float3x3 TBN;
+
+         // vertex/digger workflow data
+         fixed4 w0;
+         fixed4 w1;
+         fixed4 w2;
+         fixed4 w3;
+         fixed4 w4;
+         fixed4 w5;
+         fixed4 w6;
+         
+         // megasplat data
+         half4 layer0;
+         half4 layer1;
+         half3 baryWeights;
+         half4 scatter0;
+         half4 scatter1;
+
+         // wetness, puddles, streams, lava from vertex or megasplat
+         fixed4 fx;
+         // snow min, snow max
+         fixed4 fx2;
+
+
+      };
+      
+      struct TriplanarConfig
+      {
+         float3x3 uv0;
+         float3x3 uv1;
+         float3x3 uv2;
+         float3x3 uv3;
+         half3 pN;
+         half3 pN0;
+         half3 pN1;
+         half3 pN2;
+         half3 pN3;
+         half3 axisSign;
+         Input IN;
+      };
+
+
+      struct Config
+      {
+         float2 uv;
+         float3 uv0;
+         float3 uv1;
+         float3 uv2;
+         float3 uv3;
+
+         half4 cluster0;
+         half4 cluster1;
+         half4 cluster2;
+         half4 cluster3;
+
+      };
+
+
+      struct MicroSplatLayer
+      {
+         half3 Albedo;
+         half3 Normal;
+         half Smoothness;
+         half Occlusion;
+         half Metallic;
+         half Height;
+         half3 Emission;
+         #if _USESPECULARWORKFLOW
+         half3 Specular;
+         #endif
+         half Alpha;
+         
+      };
+
+
+      
+
+      // raw, unblended samples from arrays
+      struct RawSamples
+      {
+         half4 albedo0;
+         half4 albedo1;
+         half4 albedo2;
+         half4 albedo3;
+         #if _SURFACENORMALS
+            half3 surf0;
+            half3 surf1;
+            half3 surf2;
+            half3 surf3;
+         #endif
+
+         half4 normSAO0;
+         half4 normSAO1;
+         half4 normSAO2;
+         half4 normSAO3;
+         
+
+         #if _USEEMISSIVEMETAL || _GLOBALEMIS || _GLOBALSMOOTHAOMETAL || _PERTEXSSS || _PERTEXRIMLIGHT
+            half4 emisMetal0;
+            half4 emisMetal1;
+            half4 emisMetal2;
+            half4 emisMetal3;
+         #endif
+
+         #if _USESPECULARWORKFLOW
+            half3 specular0;
+            half3 specular1;
+            half3 specular2;
+            half3 specular3;
+         #endif
+      };
+
+      void InitRawSamples(inout RawSamples s)
+      {
+         s.normSAO0 = half4(0,0,0,1);
+         s.normSAO1 = half4(0,0,0,1);
+         s.normSAO2 = half4(0,0,0,1);
+         s.normSAO3 = half4(0,0,0,1);
+         #if _SURFACENORMALS
+            s.surf0 = half3(0,0,1);
+            s.surf1 = half3(0,0,1);
+            s.surf2 = half3(0,0,1);
+            s.surf3 = half3(0,0,1);
+         #endif
+      }
+
+       float3 GetGlobalLightDir(Input i)
+      {
+         float3 lightDir = float3(1,0,0);
+
+         #if _HDRP || PASS_DEFERRED
+            lightDir = normalize(_gGlitterLightDir.xyz);
+         #elif _URP
+            lightDir = GetMainLight().direction;
+         #else
+            #ifndef USING_DIRECTIONAL_LIGHT
+               lightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
+            #else
+               lightDir = normalize(_WorldSpaceLightPos0.xyz);
+            #endif
+         #endif
+         return lightDir;
+      }
+
+      float3x3 GetTBN(Input i)
+      {
+         return i.TBN;
+      }
+      
+      float3 GetGlobalLightDirTS(Input i)
+      {
+         float3 lightDirWS = GetGlobalLightDir(i);
+         return mul(GetTBN(i), lightDirWS);
+      }
+      
+      half3 GetGlobalLightColor()
+      {
+         #if _HDRP || PASS_DEFERRED
+            return _gGlitterLightColor;
+         #elif _URP
+            return (GetMainLight().color);
+         #else
+            return _LightColor0.rgb;
+         #endif
+      }
+
+      
+
+      half3 FuzzyShade(half3 color, half3 normal, half coreMult, half edgeMult, half power, float3 viewDir)
+      {
+         half dt = saturate(dot(viewDir, normal));
+         half dark = 1.0 - (coreMult * dt);
+         half edge = pow(1-dt, power) * edgeMult;
+         return color * (dark + edge);
+      }
+
+      half3 ComputeSSS(Input i, float3 V, float3 N, half3 tint, half thickness, half distortion, half scale, half power)
+      {
+         float3 L = GetGlobalLightDir(i);
+         half3 lightColor = GetGlobalLightColor();
+         float3 H = normalize(L + N * distortion);
+         float VdotH = pow(saturate(dot(V, -H)), power) * scale;
+         float3 I =  (VdotH) * thickness;
+         return lightColor * I * tint;
+      }
+
+
+      #if _MAX2LAYER
+         inline half BlendWeights(half s1, half s2, half s3, half s4, half4 w)      { return s1 * w.x + s2 * w.y; }
+         inline half2 BlendWeights(half2 s1, half2 s2, half2 s3, half2 s4, half4 w) { return s1 * w.x + s2 * w.y; }
+         inline half3 BlendWeights(half3 s1, half3 s2, half3 s3, half3 s4, half4 w) { return s1 * w.x + s2 * w.y; }
+         inline half4 BlendWeights(half4 s1, half4 s2, half4 s3, half4 s4, half4 w) { return s1 * w.x + s2 * w.y; }
+      #elif _MAX3LAYER
+         inline half BlendWeights(half s1, half s2, half s3, half s4, half4 w)      { return s1 * w.x + s2 * w.y + s3 * w.z; }
+         inline half2 BlendWeights(half2 s1, half2 s2, half2 s3, half2 s4, half4 w) { return s1 * w.x + s2 * w.y + s3 * w.z; }
+         inline half3 BlendWeights(half3 s1, half3 s2, half3 s3, half3 s4, half4 w) { return s1 * w.x + s2 * w.y + s3 * w.z; }
+         inline half4 BlendWeights(half4 s1, half4 s2, half4 s3, half4 s4, half4 w) { return s1 * w.x + s2 * w.y + s3 * w.z; }
+      #else
+         inline half BlendWeights(half s1, half s2, half s3, half s4, half4 w)      { return s1 * w.x + s2 * w.y + s3 * w.z + s4 * w.w; }
+         inline half2 BlendWeights(half2 s1, half2 s2, half2 s3, half2 s4, half4 w) { return s1 * w.x + s2 * w.y + s3 * w.z + s4 * w.w; }
+         inline half3 BlendWeights(half3 s1, half3 s2, half3 s3, half3 s4, half4 w) { return s1 * w.x + s2 * w.y + s3 * w.z + s4 * w.w; }
+         inline half4 BlendWeights(half4 s1, half4 s2, half4 s3, half4 s4, half4 w) { return s1 * w.x + s2 * w.y + s3 * w.z + s4 * w.w; }
+      #endif
+      
+
+      #if _MAX3LAYER
+         #define SAMPLE_PER_TEX(varName, pixel, config, defVal) \
+            half4 varName##0 = defVal; \
+            half4 varName##1 = defVal; \
+            half4 varName##2 = defVal; \
+            half4 varName##3 = defVal; \
+            varName##0 = SAMPLE_TEXTURE2D_LOD(_PerTexProps, shared_point_clamp_sampler, float2(config.uv0.z*_PerTexProps_TexelSize.x, pixel*_PerTexProps_TexelSize.y), 0); \
+            varName##1 = SAMPLE_TEXTURE2D_LOD(_PerTexProps, shared_point_clamp_sampler, float2(config.uv1.z*_PerTexProps_TexelSize.x, pixel*_PerTexProps_TexelSize.y), 0); \
+            varName##2 = SAMPLE_TEXTURE2D_LOD(_PerTexProps, shared_point_clamp_sampler, float2(config.uv2.z*_PerTexProps_TexelSize.x, pixel*_PerTexProps_TexelSize.y), 0); \
+
+      #elif _MAX2LAYER
+         #define SAMPLE_PER_TEX(varName, pixel, config, defVal) \
+            half4 varName##0 = defVal; \
+            half4 varName##1 = defVal; \
+            half4 varName##2 = defVal; \
+            half4 varName##3 = defVal; \
+            varName##0 = SAMPLE_TEXTURE2D_LOD(_PerTexProps, shared_point_clamp_sampler, float2(config.uv0.z*_PerTexProps_TexelSize.x, pixel*_PerTexProps_TexelSize.y), 0); \
+            varName##1 = SAMPLE_TEXTURE2D_LOD(_PerTexProps, shared_point_clamp_sampler, float2(config.uv1.z*_PerTexProps_TexelSize.x, pixel*_PerTexProps_TexelSize.y), 0); \
+
+      #else
+         #define SAMPLE_PER_TEX(varName, pixel, config, defVal) \
+            half4 varName##0 = SAMPLE_TEXTURE2D_LOD(_PerTexProps, shared_point_clamp_sampler, float2(config.uv0.z*_PerTexProps_TexelSize.x, pixel*_PerTexProps_TexelSize.y), 0); \
+            half4 varName##1 = SAMPLE_TEXTURE2D_LOD(_PerTexProps, shared_point_clamp_sampler, float2(config.uv1.z*_PerTexProps_TexelSize.x, pixel*_PerTexProps_TexelSize.y), 0); \
+            half4 varName##2 = SAMPLE_TEXTURE2D_LOD(_PerTexProps, shared_point_clamp_sampler, float2(config.uv2.z*_PerTexProps_TexelSize.x, pixel*_PerTexProps_TexelSize.y), 0); \
+            half4 varName##3 = SAMPLE_TEXTURE2D_LOD(_PerTexProps, shared_point_clamp_sampler, float2(config.uv3.z*_PerTexProps_TexelSize.x, pixel*_PerTexProps_TexelSize.y), 0); \
+
+      #endif
+
+      half2 BlendNormal2(half2 base, half2 blend) { return normalize(half3(base.xy + blend.xy, 1)).xy; } 
+      half3 BlendOverlay(half3 base, half3 blend) { return (base < 0.5 ? (2.0 * base * blend) : (1.0 - 2.0 * (1.0 - base) * (1.0 - blend))); }
+      half3 BlendMult2X(half3  base, half3 blend) { return (base * (blend * 2)); }
+      half3 BlendLighterColor(half3 s, half3 d) { return (s.x + s.y + s.z > d.x + d.y + d.z) ? s : d; } 
+      
+      
+      #if _SURFACENORMALS  
+
+      #define HALF_EPS 4.8828125e-4    // 2^-11, machine epsilon: 1 + EPS = 1 (half of the ULP for 1.0f)
+
+      
+
+      void ConstructSurfaceGradientTBN(Input i)
+      {
+         float3x3 tbn = GetTBN(i);
+         float3 t = tbn[0];
+         float3 b = tbn[1];
+         float3 n = tbn[2];
+
+         surfNormal = n;//mul(unity_WorldToObject, float4(n, 1)).xyz;
+         surfTangent = t;//mul(unity_WorldToObject, float4(t, 1)).xyz;
+         surfBitangent = b;//cross(surfNormal, surfTangent);
+         
+         float renormFactor = 1.0 / length(surfNormal);
+         surfNormal    *= renormFactor;
+         surfTangent   *= renormFactor;
+         surfBitangent *= renormFactor;
+      }
+      
+      half3 SurfaceGradientFromTBN(half2 deriv)
+      {
+          return deriv.x * surfTangent + deriv.y * surfBitangent;
+      }
+
+      // Input: vM is tangent space normal in [-1;1].
+      // Output: convert vM to a derivative.
+      half2 TspaceNormalToDerivative(half3 vM)
+      {
+         const half scale = 1.0/128.0;
+         
+         // Ensure vM delivers a positive third component using abs() and
+         // constrain vM.z so the range of the derivative is [-128; 128].
+         const half3 vMa = abs(vM);
+         const half z_ma = max(vMa.z, scale*max(vMa.x, vMa.y));
+
+         return -half2(vM.x, vM.y)/z_ma;
+      }
+
+      // Used to produce a surface gradient from the gradient of a volume
+      // bump function such as 3D Perlin noise. Equation 2 in [Mik10].
+      half3 SurfgradFromVolumeGradient(half3 grad)
+      {
+         return grad - dot(surfNormal, grad) * surfNormal;
+      }
+
+      half3 SurfgradFromTriplanarProjection(half3 pN, half2 xPlaneTN, half2 yPlaneTN, half2 zPlaneTN)
+      {
+         const half w0 = pN.x;
+         const half w1 = pN.y;
+         const half w2 = pN.z;
+         
+         // X-plane tangent normal to gradient derivative
+         xPlaneTN = xPlaneTN * 2.0 - 1.0;
+         half xPlaneRcpZ = rsqrt(max(1 - dot(xPlaneTN.x, xPlaneTN.x) - dot(xPlaneTN.y, xPlaneTN.y), dot(HALF_EPS, HALF_EPS))); // Clamp to avoid INF
+      
+         half2 d_xplane = xPlaneTN * -xPlaneRcpZ;
+
+         // Y-plane tangent normal to gradient derivative
+         yPlaneTN = yPlaneTN * 2.0 - 1.0;
+         half yPlaneRcpZ = rsqrt(max(1 - dot(yPlaneTN.x, yPlaneTN.x) - dot(yPlaneTN.y, yPlaneTN.y), dot(HALF_EPS, HALF_EPS))); // Clamp to avoid INF
+      
+         half2 d_yplane = yPlaneTN * -yPlaneRcpZ;
+
+         // Z-plane tangent normal to gradient derivative
+         zPlaneTN = zPlaneTN * 2.0 - 1.0;
+         half zPlaneRcpZ = rsqrt(max(1 - dot(zPlaneTN.x, zPlaneTN.x) - dot(zPlaneTN.y, zPlaneTN.y), dot(HALF_EPS, HALF_EPS))); // Clamp to avoid INF
+      
+         half2 d_zplane = zPlaneTN * -zPlaneRcpZ;
+
+         // Assume deriv xplane, deriv yplane, and deriv zplane are
+         // sampled using (z,y), (x,z), and (x,y), respectively.
+         // Positive scales of the lookup coordinate will work
+         // as well, but for negative scales the derivative components
+         // will need to be negated accordingly.
+         float3 grad = float3(w2*d_zplane.x + w1*d_yplane.x,
+                              w2*d_zplane.y + w0*d_xplane.y,
+                              w0*d_xplane.x + w1*d_yplane.y);
+
+         return SurfgradFromVolumeGradient(grad);
+      }
+
+      half3 ConvertNormalToGradient(half3 normal)
+      {
+         half2 deriv = TspaceNormalToDerivative(normal);
+
+         return SurfaceGradientFromTBN(deriv);
+      }
+
+      half3 ConvertNormal2ToGradient(half2 packedNormal)
+      {
+         half2 tNormal = packedNormal;
+         half rcpZ = rsqrt(max(1 - dot(tNormal.x, tNormal.x) - dot(tNormal.y, tNormal.y), dot(HALF_EPS, HALF_EPS))); // Clamp to avoid INF
+         half2 deriv = tNormal * -rcpZ;
+         return SurfaceGradientFromTBN(deriv);
+      }
+
+
+      half3 ResolveNormalFromSurfaceGradient(half3 gradient)
+      {
+         return normalize(surfNormal - gradient);
+      }
+      
+
+      #endif // _SURFACENORMALS
+
+      void BlendNormalPerTex(inout RawSamples o, half2 noise, float4 fades)
+      {
+         #if _SURFACENORMALS
+            float3 grad = ConvertNormal2ToGradient(noise.xy);
+            o.surf0 += grad * fades.x;
+            o.surf1 += grad * fades.y;
+            #if !_MAX2LAYER
+               o.surf2 += grad * fades.z;
+            #endif
+            #if !_MAX2LAYER && !_MAX3LAYER
+               o.surf3 += grad * fades.w;
+            #endif
+         #else
+            o.normSAO0.xy = lerp(o.normSAO0.xy, BlendNormal2(o.normSAO0.xy, noise.xy), fades.x);
+            o.normSAO1.xy = lerp(o.normSAO1.xy, BlendNormal2(o.normSAO1.xy, noise.xy), fades.y);
+            #if !_MAX2LAYER
+               o.normSAO2.xy = lerp(o.normSAO1.xy, BlendNormal2(o.normSAO2.xy, noise.xy), fades.y);
+            #endif
+            #if !_MAX2LAYER && !_MAX3LAYER
+               o.normSAO3.xy = lerp(o.normSAO1.xy, BlendNormal2(o.normSAO1.xy, noise.xy), fades.y);
+            #endif
+         #endif
+      }
+      
+     
+      
+      half3 BlendNormal3(half3 n1, half3 n2)
+      {
+         n1 += float3( 0,  0, 1);
+         n2 *= float3(-1, -1, 1);
+         return n1*dot(n1, n2) / n1.z - n2;
+      }
+      
+      half2 TransformTriplanarNormal(Input IN, float3x3 t2w, half3 axisSign, half3 absVertNormal,
+               half3 pN, half2 a0, half2 a1, half2 a2)
+      {
+         
+         a0 = a0 * 2 - 1;
+         a1 = a1 * 2 - 1;
+         a2 = a2 * 2 - 1;
+
+         a0.x *= axisSign.x;
+         a1.x *= axisSign.y;
+         a2.x *= axisSign.z;
+         
+         half3 n0 = half3(a0.xy, 1);
+         half3 n1 = half3(a1.xy, 1);
+         half3 n2 = half3(a2.xy, 1);
+
+         float3 wn = IN.worldNormal;
+
+         n0 = BlendNormal3(half3(wn.zy, absVertNormal.x), n0);
+         n1 = BlendNormal3(half3(wn.xz, absVertNormal.y), n1 * float3(-1, 1, 1)); 
+         n2 = BlendNormal3(half3(wn.xy, absVertNormal.z), n2);
+  
+         n0.z *= axisSign.x;
+         n1.z *= axisSign.y;
+         n2.z *= -axisSign.z;
+
+         half3 worldNormal = (n0.zyx * pN.x + n1.xzy * pN.y + n2.xyz * pN.z);
+         return mul(t2w, worldNormal).xy;
+
+      }
+      
+      // funcs
+      
+      inline half MSLuminance(half3 rgb)
+      {
+         #ifdef UNITY_COLORSPACE_GAMMA
+            return dot(rgb, half3(0.22, 0.707, 0.071));
+         #else
+            return dot(rgb, half3(0.0396819152, 0.458021790, 0.00609653955));
+         #endif
+      }
+      
+      
+      float2 Hash2D( float2 x )
+      {
+          float2 k = float2( 0.3183099, 0.3678794 );
+          x = x*k + k.yx;
+          return -1.0 + 2.0*frac( 16.0 * k*frac( x.x*x.y*(x.x+x.y)) );
+      }
+
+      float Noise2D(float2 p )
+      {
+         float2 i = floor( p );
+         float2 f = frac( p );
+         
+         float2 u = f*f*(3.0-2.0*f);
+
+         return lerp( lerp( dot( Hash2D( i + float2(0.0,0.0) ), f - float2(0.0,0.0) ), 
+                           dot( Hash2D( i + float2(1.0,0.0) ), f - float2(1.0,0.0) ), u.x),
+                      lerp( dot( Hash2D( i + float2(0.0,1.0) ), f - float2(0.0,1.0) ), 
+                           dot( Hash2D( i + float2(1.0,1.0) ), f - float2(1.0,1.0) ), u.x), u.y);
+      }
+      
+      float FBM2D(float2 uv)
+      {
+         float f = 0.5000*Noise2D( uv ); uv *= 2.01;
+         f += 0.2500*Noise2D( uv ); uv *= 1.96;
+         f += 0.1250*Noise2D( uv ); 
+         return f;
+      }
+      
+      float3 Hash3D( float3 p )
+      {
+         p = float3( dot(p,float3(127.1,311.7, 74.7)),
+                 dot(p,float3(269.5,183.3,246.1)),
+                 dot(p,float3(113.5,271.9,124.6)));
+
+         return -1.0 + 2.0*frac(sin(p)*437.5453123);
+      }
+
+      float Noise3D( float3 p )
+      {
+         float3 i = floor( p );
+         float3 f = frac( p );
+         
+         float3 u = f*f*(3.0-2.0*f);
+
+         return lerp( lerp( lerp( dot( Hash3D( i + float3(0.0,0.0,0.0) ), f - float3(0.0,0.0,0.0) ), 
+                                dot( Hash3D( i + float3(1.0,0.0,0.0) ), f - float3(1.0,0.0,0.0) ), u.x),
+                           lerp( dot( Hash3D( i + float3(0.0,1.0,0.0) ), f - float3(0.0,1.0,0.0) ), 
+                                dot( Hash3D( i + float3(1.0,1.0,0.0) ), f - float3(1.0,1.0,0.0) ), u.x), u.y),
+                      lerp( lerp( dot( Hash3D( i + float3(0.0,0.0,1.0) ), f - float3(0.0,0.0,1.0) ), 
+                                dot( Hash3D( i + float3(1.0,0.0,1.0) ), f - float3(1.0,0.0,1.0) ), u.x),
+                           lerp( dot( Hash3D( i + float3(0.0,1.0,1.0) ), f - float3(0.0,1.0,1.0) ), 
+                                dot( Hash3D( i + float3(1.0,1.0,1.0) ), f - float3(1.0,1.0,1.0) ), u.x), u.y), u.z );
+      }
+      
+      float FBM3D(float3 uv)
+      {
+         float f = 0.5000*Noise3D( uv ); uv *= 2.01;
+         f += 0.2500*Noise3D( uv ); uv *= 1.96;
+         f += 0.1250*Noise3D( uv ); 
+         return f;
+      }
+      
+     
+      
+      float GetSaturation(float3 c)
+      {
+         float mi = min(min(c.x, c.y), c.z);
+         float ma = max(max(c.x, c.y), c.z);
+         return (ma - mi)/(ma + 1e-7);
+      }
+
+      // Better Color Lerp, does not have darkening issue
+      float3 BetterColorLerp(float3 a, float3 b, float x)
+      {
+         float3 ic = lerp(a, b, x) + float3(1e-6,0.0,0.0);
+         float sd = abs(GetSaturation(ic) - lerp(GetSaturation(a), GetSaturation(b), x));
+    
+         float3 dir = normalize(float3(2.0 * ic.x - ic.y - ic.z, 2.0 * ic.y - ic.x - ic.z, 2.0 * ic.z - ic.y - ic.x));
+         float lgt = dot(float3(1.0, 1.0, 1.0), ic);
+    
+         float ff = dot(dir, normalize(ic));
+    
+         const float dsp_str = 1.5;
+         ic += dsp_str * dir * sd * ff * lgt;
+         return saturate(ic);
+      }
+      
+      
+      half4 ComputeWeights(half4 iWeights, half h0, half h1, half h2, half h3, half contrast)
+      {
+          #if _DISABLEHEIGHTBLENDING
+             return iWeights;
+          #else
+             // compute weight with height map
+             //half4 weights = half4(iWeights.x * h0, iWeights.y * h1, iWeights.z * h2, iWeights.w * h3);
+             half4 weights = half4(iWeights.x * max(h0,0.001), iWeights.y * max(h1,0.001), iWeights.z * max(h2,0.001), iWeights.w * max(h3,0.001));
+             
+             // Contrast weights
+             half maxWeight = max(max(weights.x, max(weights.y, weights.z)), weights.w);
+             half transition = max(contrast * maxWeight, 0.0001);
+             half threshold = maxWeight - transition;
+             half scale = 1.0 / transition;
+             weights = saturate((weights - threshold) * scale);
+
+             weights = TotalOne(weights);
+             return weights;
+          #endif
+      }
+
+      half HeightBlend(half h1, half h2, half slope, half contrast)
+      {
+         #if _DISABLEHEIGHTBLENDING
+            return slope;
+         #else
+            h2 = 1 - h2;
+            half tween = saturate((slope - min(h1, h2)) / max(abs(h1 - h2), 0.001)); 
+            half blend = saturate( ( tween - (1-contrast) ) / max(contrast, 0.001));
+            return blend;
+         #endif
+      }
+
+      #if _MAX4TEXTURES
+         #define TEXCOUNT 4
+      #elif _MAX8TEXTURES
+         #define TEXCOUNT 8
+      #elif _MAX12TEXTURES
+         #define TEXCOUNT 12
+      #elif _MAX20TEXTURES
+         #define TEXCOUNT 20
+      #elif _MAX24TEXTURES
+         #define TEXCOUNT 24
+      #elif _MAX28TEXTURES
+         #define TEXCOUNT 28
+      #elif _MAX32TEXTURES
+         #define TEXCOUNT 32
+      #else
+         #define TEXCOUNT 16
+      #endif
+
+      #if _DECAL_SPLAT
+      
+      void DoMergeDecalSplats(half4 iWeights, half4 iIndexes, inout half4 indexes, inout half4 weights)
+      {
+         for (int i = 0; i < 4; ++i)
+         {
+            half w = iWeights[i];
+            half index = iIndexes[i];
+            if (w > weights[0])
+            {
+               weights[3] = weights[2];
+               indexes[3] = indexes[2];
+               weights[2] = weights[1];
+               indexes[2] = indexes[1];
+               weights[1] = weights[0];
+               indexes[1] = indexes[0];
+               weights[0] = w;
+               indexes[0] = index;
+            }
+            else if (w > weights[1])
+            {
+               weights[3] = weights[2];
+               indexes[3] = indexes[2];
+               weights[2] = weights[1];
+               indexes[2] = indexes[1];
+               weights[1] = w;
+               indexes[1] = index;
+            }
+            else if (w > weights[2])
+            {
+               weights[3] = weights[2];
+               indexes[3] = indexes[2];
+               weights[2] = w;
+               indexes[2] = index;
+            }
+            else if (w > weights[3])
+            {
+               weights[3] = w;
+               indexes[3] = index;
+            }
+         }
+
+      }
+      #endif
+
+
+      void Setup(out half4 weights, float2 uv, out Config config, fixed4 w0, fixed4 w1, fixed4 w2, fixed4 w3, fixed4 w4, fixed4 w5, fixed4 w6, fixed4 w7, float3 worldPos, DecalOutput decalOutput)
+      {
+         config = (Config)0;
+         half4 indexes = 0;
+
+         config.uv = uv;
+
+         #if _WORLDUV
+         uv = worldPos.xz;
+         #endif
+
+         #if _DISABLESPLATMAPS
+            float2 scaledUV = uv;
+         #else
+            float2 scaledUV = uv * _UVScale.xy + _UVScale.zw;
+         #endif
+
+         // if only 4 textures, and blending 4 textures, skip this whole thing..
+         // this saves about 25% of the ALU of the base shader on low end. However if
+         // we rely on sorted texture weights (distance resampling) we have to sort..
+         float4 defaultIndexes = float4(0,1,2,3);
+         #if _MESHSUBARRAY
+            defaultIndexes = _MeshSubArrayIndexes;
+         #endif
+
+         #if _MESHSUBARRAY && !_DECAL_SPLAT || (_MAX4TEXTURES && !_MAX3LAYER && !_MAX2LAYER && !_DISTANCERESAMPLE && !_POM && !_DECAL_SPLAT)
+            weights = w0;
+            config.uv0 = float3(scaledUV, defaultIndexes.x);
+            config.uv1 = float3(scaledUV, defaultIndexes.y);
+            config.uv2 = float3(scaledUV, defaultIndexes.z);
+            config.uv3 = float3(scaledUV, defaultIndexes.w);
+            return;
+         #endif
+
+         #if _DISABLESPLATMAPS
+            weights = float4(1,0,0,0);
+            return;
+         #else
+            fixed splats[TEXCOUNT];
+
+            splats[0] = w0.x;
+            splats[1] = w0.y;
+            splats[2] = w0.z;
+            splats[3] = w0.w;
+            #if !_MAX4TEXTURES
+               splats[4] = w1.x;
+               splats[5] = w1.y;
+               splats[6] = w1.z;
+               splats[7] = w1.w;
+            #endif
+            #if !_MAX4TEXTURES && !_MAX8TEXTURES
+               splats[8] = w2.x;
+               splats[9] = w2.y;
+               splats[10] = w2.z;
+               splats[11] = w2.w;
+            #endif
+            #if !_MAX4TEXTURES && !_MAX8TEXTURES && !_MAX12TEXTURES
+               splats[12] = w3.x;
+               splats[13] = w3.y;
+               splats[14] = w3.z;
+               splats[15] = w3.w;
+            #endif
+            #if _MAX20TEXTURES || _MAX24TEXTURES || _MAX28TEXTURES || _MAX32TEXTURES
+               splats[16] = w4.x;
+               splats[17] = w4.y;
+               splats[18] = w4.z;
+               splats[19] = w4.w;
+            #endif
+            #if _MAX24TEXTURES || _MAX28TEXTURES || _MAX32TEXTURES
+               splats[20] = w5.x;
+               splats[21] = w5.y;
+               splats[22] = w5.z;
+               splats[23] = w5.w;
+            #endif
+            #if _MAX28TEXTURES || _MAX32TEXTURES
+               splats[24] = w6.x;
+               splats[25] = w6.y;
+               splats[26] = w6.z;
+               splats[27] = w6.w;
+            #endif
+            #if _MAX32TEXTURES
+               splats[28] = w7.x;
+               splats[29] = w7.y;
+               splats[30] = w7.z;
+               splats[31] = w7.w;
+            #endif
+
+
+
+            weights[0] = 0;
+            weights[1] = 0;
+            weights[2] = 0;
+            weights[3] = 0;
+            indexes[0] = 0;
+            indexes[1] = 0;
+            indexes[2] = 0;
+            indexes[3] = 0;
+
+            int i = 0;
+            for (i = 0; i < TEXCOUNT; ++i)
+            {
+               fixed w = splats[i];
+               if (w >= weights[0])
+               {
+                  weights[3] = weights[2];
+                  indexes[3] = indexes[2];
+                  weights[2] = weights[1];
+                  indexes[2] = indexes[1];
+                  weights[1] = weights[0];
+                  indexes[1] = indexes[0];
+                  weights[0] = w;
+                  indexes[0] = i;
+               }
+               else if (w >= weights[1])
+               {
+                  weights[3] = weights[2];
+                  indexes[3] = indexes[2];
+                  weights[2] = weights[1];
+                  indexes[2] = indexes[1];
+                  weights[1] = w;
+                  indexes[1] = i;
+               }
+               else if (w >= weights[2])
+               {
+                  weights[3] = weights[2];
+                  indexes[3] = indexes[2];
+                  weights[2] = w;
+                  indexes[2] = i;
+               }
+               else if (w >= weights[3])
+               {
+                  weights[3] = w;
+                  indexes[3] = i;
+               }
+            }
+
+            // NaN Prevention
+            if (weights.x <= 0)
+                weights = float4(1, 0, 0, 0);
+
+            #if _DECAL_SPLAT
+               DoMergeDecalSplats(decalOutput.Weights, decalOutput.Indexes, weights, indexes); 
+            #endif
+
+            
+            
+            // clamp and renormalize
+            #if _MAX2LAYER
+               weights.zw = 0;
+               weights.xy = TotalOne(weights.xy);
+            #elif _MAX3LAYER
+               weights.w = 0;
+               weights.xyz = TotalOne(weights.xyz);
+            #elif !_DISABLEHEIGHTBLENDING || _NORMALIZEWEIGHTS // prevents black when painting, which the unity shader does not prevent.
+               weights = normalize(weights);
+            #endif
+            
+
+            config.uv0 = float3(scaledUV, indexes.x);
+            config.uv1 = float3(scaledUV, indexes.y);
+            config.uv2 = float3(scaledUV, indexes.z);
+            config.uv3 = float3(scaledUV, indexes.w);
+
+
+         #endif //_DISABLESPLATMAPS
+
+
+      }
+
+      float3 HeightToNormal(float height, float3 worldPos)
+      {
+         float3 dx = ddx(worldPos);
+         float3 dy = ddy(worldPos);
+         float3 crossX = cross(float3(0,1,0), dx);
+         float3 crossY = cross(float3(0,1,0), dy);
+         float3 d = abs(dot(crossY, dx));
+         float3 n = ((((height + ddx(height)) - height) * crossY) + (((height + ddy(height)) - height) * crossX)) * sign(d);
+         n.z *= -1;
+         return normalize((d * float3(0,1,0)) - n).xzy;
+      }
+      
+      float ComputeMipLevel(float2 uv, float2 textureSize)
+      {
+         uv *= textureSize;
+         float2  dx_vtc        = ddx(uv);
+         float2  dy_vtc        = ddy(uv);
+         float delta_max_sqr   = max(dot(dx_vtc, dx_vtc), dot(dy_vtc, dy_vtc));
+         return 0.5 * log2(delta_max_sqr);
+      }
+
+      inline fixed2 UnpackNormal2(fixed4 packednormal)
+      {
+          return packednormal.wy * 2 - 1;
+         
+      }
+
+      half3 TriplanarHBlend(half h0, half h1, half h2, half3 pN, half contrast)
+      {
+         half3 blend = pN / dot(pN, half3(1,1,1));
+         float3 heights = float3(h0, h1, h2) + (blend * 3.0);
+         half height_start = max(max(heights.x, heights.y), heights.z) - contrast;
+         half3 h = max(heights - height_start.xxx, half3(0,0,0));
+         blend = h / dot(h, half3(1,1,1));
+         return blend;
+      }
+      
+
+      void ClearAllButAlbedo(inout MicroSplatLayer o, half3 display)
+      {
+         o.Albedo = display.rgb;
+         o.Normal = half3(0, 0, 1);
+         o.Smoothness = 0;
+         o.Occlusion = 1;
+         o.Emission = 0;
+         o.Metallic = 0;
+         o.Height = 0;
+         #if _USESPECULARWORKFLOW
+         o.Specular = 0;
+         #endif
+
+      }
+
+      void ClearAllButAlbedo(inout MicroSplatLayer o, half display)
+      {
+         o.Albedo = half3(display, display, display);
+         o.Normal = half3(0, 0, 1);
+         o.Smoothness = 0;
+         o.Occlusion = 1;
+         o.Emission = 0;
+         o.Metallic = 0;
+         o.Height = 0;
+         #if _USESPECULARWORKFLOW
+         o.Specular = 0;
+         #endif
+
+      }
+
+     
+
+      half MicroShadow(float3 lightDir, half3 normal, half ao, half strength)
+      {
+         half shadow = saturate(abs(dot(normal, lightDir)) + (ao * ao * 2.0) - 1.0);
+         return 1 - ((1-shadow) * strength);
+      }
+      
+
+      void DoDebugOutput(inout MicroSplatLayer l)
+      {
+         #if _DEBUG_OUTPUT_ALBEDO
+            ClearAllButAlbedo(l, l.Albedo);
+         #elif _DEBUG_OUTPUT_NORMAL
+            // oh unit shader compiler normal stripping, how I hate you so..
+            // must multiply by albedo to stop the normal from being white. Why, fuck knows?
+            ClearAllButAlbedo(l, float3(l.Normal.xy * 0.5 + 0.5, l.Normal.z * saturate(l.Albedo.z+1)));
+         #elif _DEBUG_OUTPUT_SMOOTHNESS
+            ClearAllButAlbedo(l, l.Smoothness.xxx * saturate(l.Albedo.z+1));
+         #elif _DEBUG_OUTPUT_METAL
+            ClearAllButAlbedo(l, l.Metallic.xxx * saturate(l.Albedo.z+1));
+         #elif _DEBUG_OUTPUT_AO
+            ClearAllButAlbedo(l, l.Occlusion.xxx * saturate(l.Albedo.z+1));
+         #elif _DEBUG_OUTPUT_EMISSION
+            ClearAllButAlbedo(l, l.Emission * saturate(l.Albedo.z+1));
+         #elif _DEBUG_OUTPUT_HEIGHT
+            ClearAllButAlbedo(l, l.Height.xxx * saturate(l.Albedo.z+1));
+         #elif _DEBUG_OUTPUT_SPECULAR && _USESPECULARWORKFLOW
+            ClearAllButAlbedo(l, l.Specular * saturate(l.Albedo.z+1));
+         #elif _DEBUG_BRANCHCOUNT_WEIGHT
+            ClearAllButAlbedo(l, _branchWeightCount / 12 * saturate(l.Albedo.z + 1));
+         #elif _DEBUG_BRANCHCOUNT_TRIPLANAR
+            ClearAllButAlbedo(l, _branchTriplanarCount / 24 * saturate(l.Albedo.z + 1));
+         #elif _DEBUG_BRANCHCOUNT_CLUSTER
+            ClearAllButAlbedo(l, _branchClusterCount / 12 * saturate(l.Albedo.z + 1));
+         #elif _DEBUG_BRANCHCOUNT_OTHER
+            ClearAllButAlbedo(l, _branchOtherCount / 8 * saturate(l.Albedo.z + 1));
+         #elif _DEBUG_BRANCHCOUNT_TOTAL
+            l.Albedo.r = _branchWeightCount / 12;
+            l.Albedo.g = _branchTriplanarCount / 24;
+            l.Albedo.b = _branchClusterCount / 12;
+            ClearAllButAlbedo(l, (l.Albedo.r + l.Albedo.g + l.Albedo.b + (_branchOtherCount / 8)) / 4); 
+         #elif _DEBUG_OUTPUT_MICROSHADOWS
+            ClearAllButAlbedo(l,l.Albedo); 
+         #elif _DEBUG_SAMPLECOUNT
+            float sdisp = (float)_sampleCount / max(_SampleCountDiv, 1);
+            half3 sdcolor = float3(sdisp, sdisp > 1 ? 1 : 0, 0);
+            ClearAllButAlbedo(l, sdcolor * saturate(l.Albedo.z + 1));
+         #elif _DEBUG_PROCLAYERS
+            ClearAllButAlbedo(l, (float)_procLayerCount / (float)_PCLayerCount * saturate(l.Albedo.z + 1));
+         #endif
+      }
+
+
+      // abstraction around sampler mode
+      #if _USELODMIP
+         #define MICROSPLAT_SAMPLE(tex, u, l) SAMPLE_TEXTURE2D_LOD(tex, sampler##tex, u, l.x)
+         #define MICROSPLAT_SAMPLE_SAMPLER(tex, ss, u, l) SAMPLE_TEXTURE2D_ARRAY(tex, ss, u, l.x)
+      #elif _USEGRADMIP
+         #define MICROSPLAT_SAMPLE(tex, u, l) SAMPLE_TEXTURE2D_GRAD(tex, sampler##tex, u, l.xy, l.zw)
+         #define MICROSPLAT_SAMPLE_SAMPLER(tex, ss, u, l) SAMPLE_TEXTURE2D_ARRAY_GRAD(tex, ss, u.xy, u.z, l.xy, l.zw)
+      #else
+         #define MICROSPLAT_SAMPLE(tex, u, l) SAMPLE_TEXTURE2D_ARRAY(tex, sampler##tex, u.xy, u.z)
+         #define MICROSPLAT_SAMPLE_SAMPLER(tex, ss, u, l) SAMPLE_TEXTURE2D_ARRAY(tex, ss, u.xy, y.z)
+      #endif
+
+
+      #define MICROSPLAT_SAMPLE_DIFFUSE(u, cl, l) MICROSPLAT_SAMPLE(_Diffuse, u, l)
+      #define MICROSPLAT_SAMPLE_EMIS(u, cl, l) MICROSPLAT_SAMPLE(_EmissiveMetal, u, l)
+      #define MICROSPLAT_SAMPLE_DIFFUSE_LOD(u, cl, l) UNITY_SAMPLE_TEX2DARRAY_LOD(_Diffuse, u, l)
+      
+
+      #if _PACKINGHQ
+         #define MICROSPLAT_SAMPLE_NORMAL(u, cl, l) half4(MICROSPLAT_SAMPLE(_NormalSAO, u, l).ga, MICROSPLAT_SAMPLE(_SmoothAO, u, l).ga).brag
+      #else
+         #define MICROSPLAT_SAMPLE_NORMAL(u, cl, l) MICROSPLAT_SAMPLE(_NormalSAO, u, l)
+      #endif
+
+      #if _USESPECULARWORKFLOW
+         #define MICROSPLAT_SAMPLE_SPECULAR(u, cl, l) MICROSPLAT_SAMPLE(_Specular, u, l)
+      #endif
+      
+      struct SimpleTriplanarConfig
+      {
+         float3 pn;
+         float2 uv0;
+         float2 uv1;
+         float2 uv2;
+      };
+         
+      void PrepSimpleTriplanarConfig(inout SimpleTriplanarConfig tc, float3 worldPos, float3 normal, float contrast)
+      {
+         tc.pn = pow(abs(normal), contrast);
+         tc.pn = tc.pn / (tc.pn.x + tc.pn.y + tc.pn.z);
+         
+         half3 axisSign = sign(normal);
+
+         tc.uv0 = worldPos.zy * axisSign.x;
+         tc.uv1 = worldPos.xz * axisSign.y;
+         tc.uv2 = worldPos.xy * axisSign.z;
+      }
+      
+      #define SimpleTriplanarSample(tex, tc, scale) (SAMPLE_TEXTURE2D(tex, sampler_Diffuse, tc.uv0 * scale) * tc.pn.x + SAMPLE_TEXTURE2D(tex, sampler_Diffuse, tc.uv1 * scale) * tc.pn.y + SAMPLE_TEXTURE2D(tex, sampler_Diffuse, tc.uv2 * scale) * tc.pn.z)
+      #define SimpleTriplanarSampleLOD(tex, tc, scale, lod) (SAMPLE_TEXTURE2D_LOD(tex, sampler_Diffuse, tc.uv0 * scale, lod) * tc.pn.x + SAMPLE_TEXTURE2D_LOD(tex, sampler_Diffuse, tc.uv1 * scale, lod) * tc.pn.y + SAMPLE_TEXTURE2D_LOD(tex, sampler_Diffuse, tc.uv2 * scale, lod) * tc.pn.z)
+      #define SimpleTriplanarSampleGrad(tex, tc, scale) (SAMPLE_TEXTURE2D_GRAD(tex, sampler_Diffuse, tc.uv0 * scale, ddx(tc.uv0) * scale, ddy(tc.uv0) * scale) * tc.pn.x + SAMPLE_TEXTURE2D_GRAD(tex, sampler_Diffuse, tc.uv1 * scale, ddx(tc.uv1) * scale, ddy(tc.uv1) * scale) * tc.pn.y + SAMPLE_TEXTURE2D_GRAD(tex, sampler_Diffuse, tc.uv2 * scale, ddx(tc.uv2) * scale, ddy(tc.uv2) * scale) * tc.pn.z)
+   
+      
+      inline half3 MicroSplatDiffuseAndSpecularFromMetallic (half3 albedo, half metallic, out half3 specColor, out half oneMinusReflectivity)
+      {
+          specColor = lerp (half3(0,0,0), albedo, metallic);
+          oneMinusReflectivity = (1-metallic);
+          return albedo * oneMinusReflectivity;
+      }
+

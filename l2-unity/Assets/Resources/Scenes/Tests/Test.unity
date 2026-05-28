@@ -404,8 +404,6 @@ MonoBehaviour:
     _filteredCategories: 
   _usedSlots: 0
   _slotCount: 0
-  _currentWeight: 0
-  _maximumWeight: 0
   _adenaCount: 0
 --- !u!1001 &445805727
 PrefabInstance:
@@ -515,6 +513,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ac95a8338583c458ec03479c2641dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _x: 0
+  _y: 0
   _target: {fileID: 0}
   _smoothCamera: 1
   _camOffset: {x: 0, y: 0.8, z: 0}
@@ -615,6 +615,7 @@ GameObject:
   - component: {fileID: 742913640}
   - component: {fileID: 742913643}
   - component: {fileID: 742913642}
+  - component: {fileID: 742913644}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -661,6 +662,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14bf3f2dcfcbba64aade5b0f3ee646a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &742913644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742913639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 823aa333124faf2469aa8b94ec983187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entityMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _clickThroughMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &813744334
 GameObject:
   m_ObjectHideFlags: 0

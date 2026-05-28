@@ -1,5 +1,27 @@
 {
   "dependencies": {
+    "com.jbooth.microsplat.core": {
+      "version": "file:com.jbooth.microsplat.core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.jbooth.microsplat.triplanar": {
+      "version": "file:com.jbooth.microsplat.triplanar",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.jbooth.microsplat.core": "3.9.0"
+      }
+    },
+    "com.jbooth.microsplat.urp2022": {
+      "version": "file:com.jbooth.microsplat.urp2022",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.jbooth.microsplat.core": "3.9.0"
+      }
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -7,7 +29,7 @@
       "dependencies": {}
     },
     "com.unity.burst": {
-      "version": "1.8.17",
+      "version": "1.8.18",
       "depth": 2,
       "source": "registry",
       "dependencies": {
@@ -17,20 +39,20 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
-      "version": "2.4.4",
+      "version": "2.5.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.collections": {
-      "version": "2.4.1",
+      "version": "2.5.1",
       "depth": 2,
       "source": "registry",
       "dependencies": {
-        "com.unity.burst": "1.8.13",
+        "com.unity.burst": "1.8.17",
+        "com.unity.test-framework": "1.4.5",
         "com.unity.nuget.mono-cecil": "1.11.4",
-        "com.unity.test-framework": "1.4.3",
         "com.unity.test-framework.performance": "3.0.3"
       },
       "url": "https://packages.unity.com"
@@ -81,7 +103,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.inputsystem": {
-      "version": "1.9.0",
+      "version": "1.11.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -97,13 +119,21 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.memoryprofiler": {
-      "version": "1.1.0",
+      "version": "1.1.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.editorcoroutines": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.unity.multiplayer.center": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.modules.uielements": "1.0.0"
+      }
     },
     "com.unity.nuget.mono-cecil": {
       "version": "1.11.4",
@@ -120,14 +150,14 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.probuilder": {
-      "version": "6.0.1",
+      "version": "6.0.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.shadergraph": "17.0.2",
-        "com.unity.settings-manager": "1.0.3",
+        "com.unity.modules.imgui": "1.0.0",
         "com.unity.modules.physics": "1.0.0",
-        "com.unity.modules.imgui": "1.0.0"
+        "com.unity.settings-manager": "1.0.3"
       },
       "url": "https://packages.unity.com"
     },
@@ -139,7 +169,7 @@
         "com.unity.burst": "1.8.14",
         "com.unity.mathematics": "1.3.2",
         "com.unity.ugui": "2.0.0",
-        "com.unity.collections": "2.4.1",
+        "com.unity.collections": "2.4.3",
         "com.unity.modules.physics": "1.0.0",
         "com.unity.modules.terrain": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0",
@@ -233,9 +263,9 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {
+        "com.unity.modules.audio": "1.0.0",
         "com.unity.modules.director": "1.0.0",
         "com.unity.modules.animation": "1.0.0",
-        "com.unity.modules.audio": "1.0.0",
         "com.unity.modules.particlesystem": "1.0.0"
       },
       "url": "https://packages.unity.com"
@@ -248,13 +278,6 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
-    },
-    "com.whinarn.unitymeshsimplifier": {
-      "version": "https://github.com/Whinarn/UnityMeshSimplifier.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "d741912bfeaad8da4fe0f258f4f3eefe1fe7b3f3"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",

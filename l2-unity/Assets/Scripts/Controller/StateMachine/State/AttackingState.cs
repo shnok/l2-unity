@@ -1,38 +1,88 @@
+
+using UnityEngine;
+
 public class AttackingState : StateBase
 {
     public AttackingState(PlayerStateMachine stateMachine) : base(stateMachine) { }
 
-    public override void Enter()
+    public override void Enter(object obj0)
     {
-        if (PlayerEntity.Instance.StartAutoAttacking())
-        {
-            PlayerController.Instance.StartLookAt(TargetManager.Instance.AttackTarget.Data.ObjectTransform);
-        }
+        NewPlayerAnimationController.Instance.Attack();
     }
 
     public override void Update()
     {
-        if (InputManager.Instance.Move || PlayerController.Instance.RunningToDestination && !TargetManager.Instance.HasAttackTarget())
+        if (InputManager.Instance.Move)
         {
-            _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO);
+            _stateMachine.ChangeIntention(Intention.INTENTION_MOVE);
+        }
+        else if (TargetManager.Instance.HasAttackTarget() && TargetManager.Instance.AttackTarget.Status.IsDead)
+        {
+            _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+        }
+        else
+        {
+            // Automatically follow target if it moved
+            Entity target = PlayerCombat.Instance.AttackTarget;
+            Entity player = PlayerEntity.Instance;
+
+            if (target == null || target.IsDead)
+            {
+                return;
+            }
+
+            float attackRange = WorldCombat.Instance.GetRealAttackRange(player, target);
+            float distance = Vector3.Distance(player.transform.position, target.transform.position);
+
+            if (distance > attackRange * 0.95f && !_stateMachine.WaitingForServerReply)
+            {
+                // Move to target with a 5% error margin
+                PathFinderController.Instance.MoveTo(target.transform.position, attackRange * 0.95f, () =>
+                {
+                    _stateMachine.ChangeIntention(Intention.INTENTION_FOLLOW, MoveReason.ATTACK);
+                });
+            }
         }
     }
 
-    public override void HandleEvent(Event evt)
+    public override void HandleEvent(Event evt, object arg0)
     {
         switch (evt)
         {
+            case Event.ATTACK_ALLOWED:
+                NewPlayerAnimationController.Instance.Attack();
+                break;
+            case Event.CLICK_TO_MOVE:
+                _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO, (Vector3)arg0);
+                break;
             case Event.ACTION_ALLOWED:
+                NetworkCharacterControllerShare.Instance.ForceShareMoveDirection();
+                if (_stateMachine.Intention == Intention.INTENTION_MOVE)
+                {
+                    if (!InputManager.Instance.Move)
+                    {
+                        _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+                        return;
+                    }
+
+                    _stateMachine.ChangeState(PlayerState.MOVING);
+                }
                 if (_stateMachine.Intention == Intention.INTENTION_MOVE_TO)
                 {
-                    if (PlayerEntity.Instance.Running)
+                    if (!PlayerController.Instance.IntentionToRun)
                     {
-                        _stateMachine.ChangeState(PlayerState.RUNNING);
+                        _stateMachine.ChangeIntention(Intention.INTENTION_IDLE);
+                        return;
                     }
-                    else
-                    {
-                        _stateMachine.ChangeState(PlayerState.WALKING);
-                    }
+
+                    //Set state as running first to change to movable state
+                    _stateMachine.ChangeState(PlayerState.MOVING);
+
+                    _stateMachine.ChangeIntention(Intention.INTENTION_MOVE_TO); //not giving an argument will use last position as destination
+                }
+                if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
+                {
+                    _stateMachine.ChangeState(PlayerState.MOVING, FollowIntention.MoveReason);
                 }
                 if (_stateMachine.Intention == Intention.INTENTION_IDLE)
                 {
@@ -49,23 +99,18 @@ public class AttackingState : StateBase
 
                 if (_stateMachine.Intention == Intention.INTENTION_FOLLOW)
                 {
-                    _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK, AttackIntentionType.ChangeTarget);
+                    _stateMachine.ChangeIntention(Intention.INTENTION_ATTACK);
                 }
+                break;
+            case Event.DEAD:
+                _stateMachine.ChangeState(PlayerState.DEAD);
                 break;
         }
     }
 
-    public enum AttackIntentionType
-    {
-        ChangeTarget,
-        AttackInput,
-        TargetReached
-    }
-
-
     public override void Exit()
     {
-        PlayerEntity.Instance.StopAutoAttacking();
+        // PlayerCombat.Instance.StopAttackStance();
         PlayerController.Instance.StopLookAt();
     }
 }

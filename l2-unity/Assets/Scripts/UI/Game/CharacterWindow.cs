@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -26,6 +27,7 @@ public class CharacterInfoWindow : L2PopupWindow
     private VisualElement _weightBarBg;
     private VisualElement _expBar;
     private VisualElement _expBarBg;
+    private VisualElement _weightBarContainer;
 
     //combat
     private Label _patkLabel;
@@ -81,7 +83,7 @@ public class CharacterInfoWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/CharacterInfoWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/CharacterInfoWindow/CharacterInfoWindow");
     }
 
     protected override void InitWindow(VisualElement root)
@@ -89,7 +91,7 @@ public class CharacterInfoWindow : L2PopupWindow
         base.InitWindow(root);
 
         var dragArea = GetElementByClass("drag-area");
-        DragManipulator drag = new DragManipulator(dragArea, _windowEle);
+        DragManipulator drag = new DragManipulator(dragArea, _windowEle, this);
         dragArea.AddManipulator(drag);
 
         RegisterCloseWindowEvent("btn-close-frame");
@@ -114,22 +116,28 @@ public class CharacterInfoWindow : L2PopupWindow
         _classLabel = GetLabelById("ClassLabelName");
 
         //bars
-        _hpLabel = GetLabelById("HpLabel");
-        _mpLabel = GetLabelById("MpLabel");
+        VisualElement HPBarContainer = GetElementById("HPBar");
+        VisualElement MPBarContainer = GetElementById("MPBar");
+        VisualElement CPBarContainer = GetElementById("CPBar");
+        VisualElement EXPBarContainer = GetElementById("EXPBar");
+        _weightBarContainer = GetElementById("WeightBar");
+
+        _hpLabel = HPBarContainer.Q<Label>("Text");
+        _mpLabel = MPBarContainer.Q<Label>("Text");
         _spLabel = GetLabelById("SpLabel");
-        _expLabel = GetLabelById("ExpLabel");
-        _weightLabel = GetLabelById("WeightLabel");
-        _cpLabel = GetLabelById("CpLabelB");
-        _hpBar = GetElementById("HpGauge");
-        _hpBarBg = GetElementById("HpBg");
-        _mpBar = GetElementById("MpGauge");
-        _mpBarBg = GetElementById("MpBg");
-        _cpBar = GetElementById("CpGaugeB");
-        _cpBarBg = GetElementById("CpBgB");
-        _weightBar = GetElementById("WeightGauge");
-        _weightBarBg = GetElementById("WeightBg");
-        _expBar = GetElementById("ExpGauge");
-        _expBarBg = GetElementById("ExpBg");
+        _expLabel = EXPBarContainer.Q<Label>("Text");
+        _weightLabel = _weightBarContainer.Q<Label>("Text");
+        _cpLabel = CPBarContainer.Q<Label>("Text");
+        _hpBar = HPBarContainer.Q<VisualElement>("Bar");
+        _hpBarBg = HPBarContainer.Q<VisualElement>("BarBg");
+        _mpBar = MPBarContainer.Q<VisualElement>("Bar");
+        _mpBarBg = MPBarContainer.Q<VisualElement>("BarBg");
+        _cpBar = CPBarContainer.Q<VisualElement>("Bar");
+        _cpBarBg = CPBarContainer.Q<VisualElement>("BarBg");
+        _weightBar = _weightBarContainer.Q<VisualElement>("Bar");
+        _weightBarBg = _weightBarContainer.Q<VisualElement>("BarBg");
+        _expBar = EXPBarContainer.Q<VisualElement>("Bar");
+        _expBarBg = EXPBarContainer.Q<VisualElement>("BarBg");
 
         //combat
         _patkLabel = GetLabelById("PAtkLabel");
@@ -159,6 +167,8 @@ public class CharacterInfoWindow : L2PopupWindow
         _pvpLabel = GetLabelById("PvpLabel");
         _recLabel = GetLabelById("RecLabel");
         _raidLabel = GetLabelById("RaidLabel");
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     public void UpdateValues()
@@ -226,8 +236,8 @@ public class CharacterInfoWindow : L2PopupWindow
 
     private void UpdateSocial(PlayerStats stats)
     {
-        _repLabel.text = "0";
-        _pvpLabel.text = "0 / 0";
+        _repLabel.text = stats.Karma.ToString();
+        _pvpLabel.text = $"{stats.PvpKills} / {stats.PkKills}";
         _recLabel.text = "0 / 0";
         _raidLabel.text = "0";
     }
@@ -239,18 +249,18 @@ public class CharacterInfoWindow : L2PopupWindow
         _cpLabel.text = $"{status.Cp}/{stats.MaxCp}";
         _spLabel.text = stats.Sp.ToString();
 
-        if (stats.MaxExp > 0)
+        if (stats.ExpPercent > 0)
         {
-            _expLabel.text = $"{((float)stats.Exp / stats.MaxExp).ToString("00.00")}%";
+            _expLabel.text = $"{(stats.ExpPercent * 100f).ToString("0.00")}%";
         }
         else
         {
             _expLabel.text = $"00.00%";
         }
 
-        if (stats.MaxWeight > 0)
+        if (stats.CurrWeight > 0)
         {
-            _weightLabel.text = $"{((float)stats.CurrWeight / stats.MaxWeight).ToString("00.00")}%";
+            _weightLabel.text = $"{((float)stats.CurrWeight / stats.MaxWeight * 100f).ToString("0.00")}%";
         }
         else
         {
@@ -259,7 +269,7 @@ public class CharacterInfoWindow : L2PopupWindow
 
         if (_hpBarBg != null && _hpBar != null)
         {
-            float hpRatio = (float)status.Hp / stats.MaxHp;
+            float hpRatio = Math.Min(1, (float)status.Hp / stats.MaxHp);
             float bgWidth = _hpBarBg.resolvedStyle.width;
             float barWidth = bgWidth * hpRatio;
             if (stats.MaxHp == 0)
@@ -271,7 +281,7 @@ public class CharacterInfoWindow : L2PopupWindow
 
         if (_mpBarBg != null && _mpBar != null)
         {
-            float mpRatio = (float)status.Mp / stats.MaxMp;
+            float mpRatio = Math.Min(1, (float)status.Mp / stats.MaxMp);
             float bgWidth = _mpBarBg.resolvedStyle.width;
             float barWidth = bgWidth * mpRatio;
             if (stats.MaxMp == 0)
@@ -284,7 +294,7 @@ public class CharacterInfoWindow : L2PopupWindow
         if (_cpBarBg != null && _cpBar != null)
         {
             float bgWidth = _cpBarBg.resolvedStyle.width;
-            float cpRatio = (float)status.Cp / stats.MaxCp;
+            float cpRatio = Math.Min(1, (float)status.Cp / stats.MaxCp);
             float barWidth = bgWidth * cpRatio;
             if (stats.MaxCp == 0)
             {
@@ -296,9 +306,9 @@ public class CharacterInfoWindow : L2PopupWindow
         if (_expBarBg != null && _expBar != null)
         {
             float bgWidth = _expBarBg.resolvedStyle.width;
-            float expRatio = (float)stats.Exp / stats.MaxExp;
+            float expRatio = stats.ExpPercent;
             float barWidth = bgWidth * expRatio;
-            if (stats.MaxExp == 0)
+            if (expRatio == 0)
             {
                 barWidth = 0;
             }
@@ -307,29 +317,41 @@ public class CharacterInfoWindow : L2PopupWindow
 
         if (_weightBarBg != null && _weightBar != null)
         {
-            float bgWidth = _expBarBg.resolvedStyle.width;
-            float expRatio = (float)stats.CurrWeight / stats.MaxWeight;
-            float barWidth = bgWidth * expRatio;
+            float bgWidth = _weightBarBg.resolvedStyle.width;
+            float weightRatio = Math.Min(1, (float)stats.CurrWeight / stats.MaxWeight);
+
+            for (int i = 1; i <= 5; i++)
+            {
+                _weightBarContainer.RemoveFromClassList("weight-" + i);
+            }
+
+            _weightBarContainer.AddToClassList("weight-" + ((int)Mathf.Floor(weightRatio / 0.25f) + 1));
+
+            float barWidth = bgWidth * weightRatio;
             if (stats.MaxWeight == 0)
             {
                 barWidth = 0;
             }
             _weightBar.style.width = barWidth;
         }
+
     }
 
     public override void ShowWindow()
     {
         base.ShowWindow();
-        AudioManager.Instance.PlayUISound("window_open");
+        AudioManager.Instance.PlayUISound("charstat_open_01");
         L2GameUI.Instance.WindowOpened(this);
         UpdateValues();
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
-        AudioManager.Instance.PlayUISound("window_close");
+        base.HideWindow(silent);
+
+        if (!silent)
+            AudioManager.Instance.PlayUISound("charstat_close_01");
+
         L2GameUI.Instance.WindowClosed(this);
     }
 }

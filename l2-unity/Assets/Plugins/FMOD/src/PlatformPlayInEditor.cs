@@ -33,20 +33,20 @@ namespace FMODUnity
             Identifier = "playInEditor";
         }
 
-        internal override string DisplayName { get { return "Editor"; } }
-        internal override void DeclareRuntimePlatforms(Settings settings)
+        public override string DisplayName { get { return "Editor"; } }
+        public override void DeclareRuntimePlatforms(Settings settings)
         {
             settings.DeclareRuntimePlatform(RuntimePlatform.OSXEditor, this);
             settings.DeclareRuntimePlatform(RuntimePlatform.WindowsEditor, this);
             settings.DeclareRuntimePlatform(RuntimePlatform.LinuxEditor, this);
         }
 #if UNITY_EDITOR
-        internal override IEnumerable<BuildTarget> GetBuildTargets()
+        public override IEnumerable<BuildTarget> GetBuildTargets()
         {
             yield break;
         }
 
-        internal override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.PlayInEditor; } }
+        public override Legacy.Platform LegacyIdentifier { get { return Legacy.Platform.PlayInEditor; } }
 
         protected override BinaryAssetFolderInfo GetBinaryAssetFolder(BuildTarget buildTarget)
         {
@@ -59,9 +59,9 @@ namespace FMODUnity
         }
 #endif
 
-        internal override bool IsIntrinsic { get { return true; } }
+        public override bool IsIntrinsic { get { return true; } }
 
-        internal override string GetBankFolder()
+        public override string GetBankFolder()
         {
             // Use original asset location because streaming asset folder will contain platform specific banks
             Settings globalSettings = Settings.Instance;
@@ -70,32 +70,22 @@ namespace FMODUnity
             if (globalSettings.HasPlatforms)
             {
                 bankFolder = RuntimeUtils.GetCommonPlatformPath(Path.Combine(bankFolder, BuildDirectory));
-            }
+            } 
 
             return bankFolder;
         }
 
 #if UNITY_EDITOR
-        internal override string GetPluginPath(string pluginName)
+        public override string GetPluginPath(string pluginName)
         {
-            // UNITY_EDITOR Application.dataPath always ends in "/Assets"
-            // Remove from end of dataPath using Path.GetDirectoryName() as PluginBasePath already contains it
-            string platformsFolder = $"{Path.GetDirectoryName(Application.dataPath)}/{RuntimeUtils.PluginBasePath}/platforms";
+            string platformsFolder = $"{Application.dataPath}/{RuntimeUtils.PluginBasePath}/platforms";
 
 #if UNITY_EDITOR_WIN && UNITY_EDITOR_64
             return string.Format("{0}/win/lib/x86_64/{1}.dll", platformsFolder, pluginName);
 #elif UNITY_EDITOR_WIN
             return string.Format("{0}/win/lib/x86/{1}.dll", platformsFolder, pluginName);
 #elif UNITY_EDITOR_OSX
-            string pluginPath = string.Format("{0}/mac/lib/{1}.bundle", platformsFolder, pluginName);
-            if (System.IO.Directory.Exists(pluginPath))
-            {
-                return pluginPath;
-            }
-            else
-            {
-                return string.Format("{0}/mac/lib/{1}.dylib", platformsFolder, pluginName);
-            }
+            return string.Format("{0}/mac/lib/{1}.bundle", platformsFolder, pluginName);
 #elif UNITY_EDITOR_LINUX && UNITY_EDITOR_64
             return string.Format("{0}/linux/lib/x86_64/lib{1}.so", platformsFolder, pluginName);
 #elif UNITY_EDITOR_LINUX
@@ -104,12 +94,12 @@ namespace FMODUnity
         }
 #endif
 
-        internal override void LoadStaticPlugins(FMOD.System coreSystem, Action<FMOD.RESULT, string> reportResult)
+        public override void LoadStaticPlugins(FMOD.System coreSystem, Action<FMOD.RESULT, string> reportResult)
         {
             // Ignore static plugins when playing in the editor
         }
 
-        internal override void InitializeProperties()
+        public override void InitializeProperties()
         {
             base.InitializeProperties();
 
@@ -120,10 +110,10 @@ namespace FMODUnity
             PropertyAccessors.VirtualChannelCount.Set(this, 1024);
         }
 #if UNITY_EDITOR
-        internal override OutputType[] ValidOutputTypes { get { return null; } }
+        public override OutputType[] ValidOutputTypes { get { return null; } }
 #endif
 
-        internal override List<CodecChannelCount> DefaultCodecChannels { get { return staticCodecChannels; } }
+        public override List<CodecChannelCount> DefaultCodecChannels { get { return staticCodecChannels; } }
 
         private static List<CodecChannelCount> staticCodecChannels = new List<CodecChannelCount>()
         {

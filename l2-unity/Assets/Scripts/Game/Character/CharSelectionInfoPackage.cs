@@ -9,11 +9,12 @@ public struct CharSelectionInfoPackage
     [SerializeField] private int _id;
     [SerializeField] private Vector3 _position;
     [SerializeField] private PlayerAppearance _playerAppearance;
-    [SerializeField] private CharacterRaceAnimation _characterRaceAnimation;
+    [SerializeField] private CharacterModelType _characterRaceAnimation;
     [SerializeField] private PlayerStatus _playerStatus;
     [SerializeField] private PlayerStats _playerStats;
     [SerializeField] private bool _isMage;
     [SerializeField] private byte _classId;
+    [SerializeField] private byte _baseClassId;
     [SerializeField] private int _exp;
     [SerializeField] private int _sp;
     [SerializeField] private float _expPercent;
@@ -25,7 +26,7 @@ public struct CharSelectionInfoPackage
     [SerializeField] private bool _selected;
 
     public PlayerAppearance PlayerAppearance { get => _playerAppearance; set => _playerAppearance = value; }
-    public CharacterRaceAnimation CharacterRaceAnimation { get => _characterRaceAnimation; set => _characterRaceAnimation = value; }
+    public CharacterModelType CharacterRaceAnimation { get => _characterRaceAnimation; set => _characterRaceAnimation = value; }
     public Vector3 Position { get => _position; set => _position = value; }
     public string Name { get => _name; set => _name = value; }
     public string Account { get => _account; set => _account = value; }
@@ -44,5 +45,6 @@ public struct CharSelectionInfoPackage
     public int DeleteTimer { get => _deleteTimer; set => _deleteTimer = value; }
     public int ClanId { get => _clanId; set => _clanId = value; }
     public bool Selected { get => _selected; set => _selected = value; }
+    public byte BaseClassId { get => _baseClassId; set => _baseClassId = value; }
 
 }

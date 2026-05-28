@@ -1,0 +1,211 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Template name="WindowTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Components/WindowTemplate.uxml?fileID=9197481963319205126&amp;guid=5ca840f56ef6f1044b4dc077c7d3e6e6&amp;type=3#WindowTemplate" />
+    <ui:Template name="L2Bar" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Bar/L2Bar.uxml?fileID=9197481963319205126&amp;guid=e7da9ee05d38b14459d91eca9fc49926&amp;type=3#L2Bar" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/CharacterInfoWindow/CharacterInfoWindow.uss?fileID=7433441132597879392&amp;guid=83dd09427ff9d154f987a15749d48dbc&amp;type=3#CharacterInfoWindow" />
+    <ui:Instance template="WindowTemplate" name="WindowTemplate" class="character-info-window" style="width: 400px; height: 510px; position: absolute;">
+        <ui:GroupBox name="Content" class="char-info-window-content">
+            <ui:GroupBox name="BoxTop" class="char-info-row char-info-row-1">
+                <ui:GroupBox name="ImageTop" class="char-info-class-icon">
+                    <ui:GroupBox name="ClassImageBorder" class="char-info-class-icon-border">
+                        <ui:GroupBox name="ClassImageOverlay" class="char-info-class-icon-overlay">
+                            <ui:VisualElement name="ClassImage" class="char-info-class-icon-image" />
+                        </ui:GroupBox>
+                    </ui:GroupBox>
+                </ui:GroupBox>
+                <ui:GroupBox name="Text" class="char-info-name-box">
+                    <ui:GroupBox name="CharacterText" class="char-info-name-box-inner">
+                        <ui:VisualElement class="char-info-inner-row">
+                            <ui:Label tabindex="-1" text="Gawric" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CharacterNameLabel" class="l2-color-4" />
+                        </ui:VisualElement>
+                        <ui:GroupBox name="TextGroupClan" class="char-info-inner-row">
+                            <ui:Label tabindex="-1" text="Clan" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Clan" class="char-info-stat-label l2-color-3" />
+                            <ui:Label tabindex="-1" text="No Clan&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ClanLabelName" class="l2-color-4" />
+                        </ui:GroupBox>
+                        <ui:GroupBox name="TextGroupLevel" class="char-info-inner-row">
+                            <ui:Label tabindex="-1" text="Lv." parse-escape-sequences="true" display-tooltip-when-elided="true" name="Lvl" class="char-info-stat-label l2-color-3" />
+                            <ui:Label tabindex="-1" text="5" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LvlLabelName" class="l2-color-1 char-info-stat-label" />
+                            <ui:Label tabindex="-1" text="Status" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Status" class="char-info-stat-label l2-color-3" />
+                            <ui:Label tabindex="-1" text="Vagabond" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatusLabelName" class="l2-color-1" />
+                        </ui:GroupBox>
+                    </ui:GroupBox>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="BoxTopCLass" class="char-info-row char-info-row-2">
+                <ui:GroupBox name="ClassText" class="char-info-inner-row">
+                    <ui:Label tabindex="-1" text="Class" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Class" class="char-info-stat-label l2-color-3" />
+                    <ui:Label tabindex="-1" text="Human Mystic" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ClassLabelName" class="l2-color-1" />
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="BoxTopSurvivability" class="char-info-row char-info-row-3">
+                <ui:GroupBox name="BarRow" class="char-info-inner-row">
+                    <ui:VisualElement class="char-info-inner-col">
+                        <ui:Instance template="L2Bar" name="HPBar" class="l2-bar label l2-color-3">
+                            <AttributeOverrides element-name="Label" text="HP" />
+                        </ui:Instance>
+                        <ui:Instance template="L2Bar" name="MPBar" class="l2-bar mp label l2-color-3">
+                            <AttributeOverrides element-name="Label" text="MP" />
+                        </ui:Instance>
+                        <ui:GroupBox name="SPContainer" class="char-info-sp-container">
+                            <ui:Label text="SP" class="l2-color-3 l2-bar-name char-info-sp-label" />
+                            <ui:GroupBox class="char-info-sp-box">
+                                <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SpLabel" class="char-info-sp-value" />
+                            </ui:GroupBox>
+                        </ui:GroupBox>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="char-info-inner-col">
+                        <ui:Instance template="L2Bar" name="CPBar" class="l2-bar label l2-color-3 cp">
+                            <AttributeOverrides element-name="Label" text="CP" />
+                        </ui:Instance>
+                        <ui:VisualElement style="flex-direction: row;">
+                            <ui:VisualElement name="BagIcon" class="l2-bar-name">
+                                <ui:VisualElement name="BagIconBg" class="char-icon-bag" />
+                            </ui:VisualElement>
+                            <ui:Instance template="L2Bar" name="WeightBar" class="l2-bar l2-color-3">
+                                <AttributeOverrides element-name="Label" text="HP" />
+                                <AttributeOverrides element-name="Text" text="100.00%" />
+                            </ui:Instance>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:GroupBox>
+                <ui:GroupBox name="ExpRow" class="char-info-inner-row exp-row">
+                    <ui:Instance template="L2Bar" name="EXPBar" class="l2-bar label l2-color-3 exp">
+                        <AttributeOverrides element-name="Label" text="EXP" />
+                        <AttributeOverrides element-name="Text" text="00.00%" />
+                    </ui:Instance>
+                </ui:GroupBox>
+            </ui:GroupBox>
+            <ui:GroupBox name="BoxCenterName" class="char-info-cat-name char-info-row-4 l2-color-4">
+                <ui:Label tabindex="-1" text="Combat" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CombatName" />
+            </ui:GroupBox>
+            <ui:GroupBox name="BoxCenter" class="char-info-row-5 char-info-row">
+                <ui:VisualElement name="VisualElement" class="char-info-inner-row char-info-inner-row-box">
+                    <ui:VisualElement class="char-info-inner-col">
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="P.Atk." class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="PAtkLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="P.Def." class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="PDefLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="P.Accuracy&#10;" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="PAccuracyLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="P.Evasion&#10;" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="PEvasionLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="P.Critical" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="PCriticalLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="Atk. Spd." class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="PAtkSpdLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="Speed" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="PSpeedLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:GroupBox name="Divider" class="char-info-divider" />
+                    <ui:VisualElement class="char-info-inner-col">
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="M.Atk." class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="MAtkLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="M.Def." class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="MDefLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="M.Accuracy" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="MAccuracyLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="M.Evasion" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="MEvasionLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="M.Critical" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="MCriticalLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="Casting Spd." class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="MCastingLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:GroupBox>
+            <ui:GroupBox name="BoxFooterName" class="char-info-row-6 char-info-cat-name l2-color-4">
+                <ui:Label tabindex="-1" text="Stats" parse-escape-sequences="true" display-tooltip-when-elided="true" name="StatsName" />
+            </ui:GroupBox>
+            <ui:GroupBox name="BoxFooterStats" class="char-info-row char-info-row-7">
+                <ui:VisualElement name="VisualElement" class="char-info-inner-row char-info-inner-row-box">
+                    <ui:VisualElement class="char-info-inner-col">
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="STR" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="StrLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="INT" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="IntLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:GroupBox name="Divider" class="char-info-divider" />
+                    <ui:VisualElement class="char-info-inner-col">
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="DEX" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="DEXLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="WIT" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="WITLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:GroupBox name="Divider" class="char-info-divider" />
+                    <ui:VisualElement class="char-info-inner-col">
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="CON" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="CONLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="MEN" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="MENLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:GroupBox>
+            <ui:GroupBox name="BoxFooterNameSocial" class="char-info-row-8 char-info-cat-name l2-color-4">
+                <ui:Label tabindex="-1" text="Social" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SocialName" />
+            </ui:GroupBox>
+            <ui:GroupBox name="BoxFooterSocial" class="char-info-row char-info-row-9">
+                <ui:VisualElement name="VisualElement" class="char-info-inner-row char-info-inner-row-box">
+                    <ui:VisualElement class="char-info-inner-col">
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="Rep." class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="RepLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="PVP/PK" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="PvpLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:GroupBox name="Divider" class="char-info-divider" />
+                    <ui:VisualElement class="char-info-inner-col">
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="Raid Points" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="RaidLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="char-stats-row">
+                            <ui:Label text="Recommended" class="l2-color-3 char-stats-label" />
+                            <ui:Label text="1000" name="RecLabel" class="l2-color-1 char-stats-value" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:GroupBox>
+        </ui:GroupBox>
+    </ui:Instance>
+</ui:UXML>

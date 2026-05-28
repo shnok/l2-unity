@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ServerListPacket : ServerPacket {
+public class ServerListPacket : LoginServerPacket
+{
     private byte _serverCount;
     private byte _lastServer;
     private List<ServerData> _serverData;
@@ -11,7 +12,8 @@ public class ServerListPacket : ServerPacket {
     public List<ServerData> ServersData { get { return _serverData; } }
     public Dictionary<int, int> CharsOnServers { get { return _charsOnServers; } }
 
-    public class ServerData {
+    public class ServerData
+    {
         public byte[] ip;
         public int port;
         public int currentPlayers;
@@ -19,23 +21,27 @@ public class ServerListPacket : ServerPacket {
         public int status;
         public int serverId;
 
-        public ServerData() {
+        public ServerData()
+        {
             ip = new byte[4];
         }
     }
 
-    public ServerListPacket(byte[] d) : base(d) {
+    public ServerListPacket(byte[] d) : base(d)
+    {
         _serverData = new List<ServerData>();
         _charsOnServers = new Dictionary<int, int>();
 
         Parse();
     }
 
-    public override void Parse() {
+    public override void Parse()
+    {
         _serverCount = ReadB();
         _lastServer = ReadB();
 
-        for (int i = 0; i < _serverCount; i++) {
+        for (int i = 0; i < _serverCount; i++)
+        {
             ServerData serverData = new ServerData();
             serverData.serverId = ReadB();
             serverData.ip[0] = ReadB();
@@ -48,12 +54,15 @@ public class ServerListPacket : ServerPacket {
             serverData.maxPlayers = ReadI();
             serverData.status = ReadB();
 
+            Debug.Log($"Server data received: Id:{serverData.serverId} Ip:{StringUtils.ByteArrayToString(serverData.ip)} Port:{serverData.port} OnlineCount:{serverData.currentPlayers} MaxPlayers:{serverData.maxPlayers} Status:{serverData.status}");
             _serverData.Add(serverData);
         }
 
         byte charsOnServerCount = ReadB();
-        if (charsOnServerCount > 0) {
-            for (int i = 0; i < charsOnServerCount; i++) {
+        if (charsOnServerCount > 0)
+        {
+            for (int i = 0; i < charsOnServerCount; i++)
+            {
                 byte serverId = ReadB();
                 byte charCount = ReadB();
 

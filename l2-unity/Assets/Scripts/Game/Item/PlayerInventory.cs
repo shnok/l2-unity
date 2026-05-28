@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
+    public int InventorySize { get; private set; }
+
     enum InventoryChange
     {
         UNCHANGED = 0, ADDED = 1, REMOVED = 3, MODIFIED = 2
@@ -12,9 +16,21 @@ public class PlayerInventory : MonoBehaviour
     private List<ItemInstance> _playerInventory;
 
     public List<ItemInstance> Items { get { return _playerInventory; } }
+    public List<ItemInstance> TradeableItems //Usually shared directly by server
+    {
+        get
+        {
+            return _playerInventory.Where(x =>
+            x.Location == ItemLocation.Inventory &&
+            x.LastChange != (int)InventoryChange.REMOVED &&
+            x.LastChange != (int)InventoryChange.MODIFIED &&
+            x.ItemData.ItemName.Tradeable).ToList();
+        }
+    }
 
-    public static PlayerInventory _instance;
+    private static PlayerInventory _instance;
     public static PlayerInventory Instance { get { return _instance; } }
+    public bool Initialized { get; private set; }
 
     private void Awake()
     {
@@ -28,6 +44,8 @@ public class PlayerInventory : MonoBehaviour
         }
 
         _playerInventory = new List<ItemInstance>();
+        InventorySize = 80;
+        Initialized = false;
     }
 
     private void Start()
@@ -50,13 +68,15 @@ public class PlayerInventory : MonoBehaviour
         {
             InventoryWindow.Instance.ShowWindow();
         }
+
+        Initialized = true;
     }
 
     public void UpdateInventory(ItemInstance[] items)
     {
         for (int i = 0; i < items.Length; i++)
         {
-            Debug.Log(items[i]);
+            // Debug.Log(items[i]);
             ItemInstance item = items[i];
             if (item.LastChange == (int)InventoryChange.ADDED)
             {
@@ -156,5 +176,10 @@ public class PlayerInventory : MonoBehaviour
     {
         AudioManager.Instance.PlayEquipSound("trash_basket");
         GameClient.Instance.ClientPacketHandler.DestroyItem(objectId, quantity);
+    }
+
+    public void SetInventorySize(int inventorySpace)
+    {
+        InventorySize = inventorySpace;
     }
 }

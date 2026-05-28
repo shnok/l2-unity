@@ -15,45 +15,57 @@ public class ServerSelectWindow : L2Window
     private static ServerSelectWindow _instance;
     public static ServerSelectWindow Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _instance = null;
     }
 
-    private void Update() {
-        if (!_isWindowHidden) {
-            if (Input.GetKeyDown(KeyCode.Escape)) {
+    private void Update()
+    {
+        if (!_isWindowHidden)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
                 AudioManager.Instance.PlayUISound("click_01");
                 CancelButtonPressed();
-            } else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) {
+            }
+            else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+            {
                 AudioManager.Instance.PlayUISound("click_01");
                 ConfirmButtonPressed();
             }
         }
     }
 
-    protected override void LoadAssets() {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/ServerList/ServerListWindow");
-        _serverElementTemplate = LoadAsset("Data/UI/_Elements/Login/ServerList/ServerElement");
+    protected override void LoadAssets()
+    {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/ServerListWindow/ServerListWindow");
+        _serverElementTemplate = LoadAsset("Data/UI/_Elements/Login/ServerListWindow/ServerElement");
     }
 
-    protected override IEnumerator BuildWindow(VisualElement root) {
+    protected override IEnumerator BuildWindow(VisualElement root)
+    {
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
 
-        Button confirmButton = _windowEle.Q<Button>("ConfirmButton");
+        Button confirmButton = _windowEle.Q<VisualElement>("ConfirmButton").Q<Button>("L2Button");
         confirmButton.AddManipulator(new ButtonClickSoundManipulator(confirmButton));
         confirmButton.RegisterCallback<ClickEvent>(evt => ConfirmButtonPressed());
 
-        Button cancelButton = _windowEle.Q<Button>("CancelButton");
+        Button cancelButton = _windowEle.Q<VisualElement>("CancelButton").Q<Button>("L2Button");
         cancelButton.AddManipulator(new ButtonClickSoundManipulator(cancelButton));
         cancelButton.RegisterCallback<ClickEvent>(evt => CancelButtonPressed());
 
@@ -70,46 +82,59 @@ public class ServerSelectWindow : L2Window
 
         root.Add(_windowEle);
 
-        yield return new WaitForEndOfFrame();
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
-    public void UpdateServerList(int lastServer, List<ServerData> serverData, Dictionary<int, int> charsOnServers) {
+    public void UpdateServerList(ServerListPacket packet)
+    {
+        int lastServer = packet.LastServer;
+        List<ServerData> serverData = packet.ServersData;
+        Dictionary<int, int> charsOnServers = packet.CharsOnServers;
+
         ResetWindow();
 
         _serverData = serverData;
 
-        for (int i = 0; i < serverData.Count; i++) {
+        for (int i = 0; i < serverData.Count; i++)
+        {
             charsOnServers.TryGetValue(serverData[i].serverId, out int charCount);
 
             AddServerRow(i, ParseServerName(serverData[i].serverId), ParseServerStatus(serverData[i].status), charCount);
 
-            if (serverData[i].serverId == lastServer) {
+            if (serverData[i].serverId == lastServer)
+            {
                 SelectServer(i);
             }
         }
 
-        for(int i = serverData.Count; i < 20; i++) {
+        for (int i = serverData.Count; i < 20; i++)
+        {
             AddServerRow(i, "", "", -1);
         }
 
-        if(lastServer == 0 && _serverData != null && _serverData.Count > 0) {
+        if (lastServer == 0 && _serverData != null && _serverData.Count > 0)
+        {
             SelectServer(0);
         }
     }
 
-    public void SelectServer(int rowId) {
-        for (int i = 0; i < _serverElements.Count; i++) {
+    public void SelectServer(int rowId)
+    {
+        for (int i = 0; i < _serverElements.Count; i++)
+        {
             _serverElements[i].RemoveFromClassList("selected");
         }
 
-        if(_serverElements.Count - 1 < rowId) {
+        if (_serverElements.Count - 1 < rowId)
+        {
             return;
         }
 
         _serverElements[rowId].AddToClassList("selected");
 
-        if(_serverData == null || _serverData.Count == 0 
-            || _serverData.Count - 1 < rowId || _serverData[rowId].ip == null) {
+        if (_serverData == null || _serverData.Count == 0
+            || _serverData.Count - 1 < rowId || _serverData[rowId].ip == null)
+        {
             return;
         }
 
@@ -120,17 +145,21 @@ public class ServerSelectWindow : L2Window
         GameClient.Instance.ServerIp = StringUtils.ByteArrayToIpAddress(_serverData[rowId].ip);
         GameClient.Instance.ServerPort = _serverData[rowId].port;
 
-        if(GameManager.Instance.AutoLogin) {
+        if (GameManager.Instance.AutoLogin)
+        {
             ConfirmButtonPressed();
         }
     }
 
-    private string ParseServerName(int serverId) {
+    private string ParseServerName(int serverId)
+    {
         return ServerNameDAO.GetServer(serverId);
     }
 
-    private string ParseServerStatus(int status) {
-        switch (status) {
+    private string ParseServerStatus(int status)
+    {
+        switch (status)
+        {
             case 0: return "Light";
             case 1: return "Normal";
             case 2: return "Heavy";
@@ -141,8 +170,10 @@ public class ServerSelectWindow : L2Window
         }
     }
 
-    private string GetStatusClass(string status) {
-        switch (status) {
+    private string GetStatusClass(string status)
+    {
+        switch (status)
+        {
             case "Light": return "light";
             case "Normal": return "normal";
             case "Heavy": return "heavy";
@@ -153,7 +184,8 @@ public class ServerSelectWindow : L2Window
         }
     }
 
-    private void AddServerRow(int id, string serverName, string status, int charCount) {
+    private void AddServerRow(int id, string serverName, string status, int charCount)
+    {
         VisualElement row = _serverElementTemplate.Instantiate()[0];
         Label serverNameLabel = row.Q<Label>("ServerName");
         Label serverStatusLabel = row.Q<Label>("ServerStatus");
@@ -163,19 +195,25 @@ public class ServerSelectWindow : L2Window
 
         serverNameLabel.text = serverName;
         serverStatusLabel.text = status;
-        if(charCount >= 0) {
+        if (charCount >= 0)
+        {
             charCountLabel.text = charCount.ToString();
-        } else {
+        }
+        else
+        {
             charCountLabel.text = "";
         }
 
-        if (id % 2 == 1) {
+        if (id % 2 == 1)
+        {
             row.AddToClassList("odd");
         }
 
-        if(charCount >= 0) {
+        if (charCount >= 0)
+        {
             int rowId = id;
-            row.RegisterCallback<ClickEvent>((evt) => {
+            row.RegisterCallback<ClickEvent>((evt) =>
+            {
                 SelectServer(rowId);
             });
             row.AddManipulator(new SlotClickSoundManipulator(row));
@@ -186,12 +224,15 @@ public class ServerSelectWindow : L2Window
         _serverElements.Add(row);
     }
 
-    private void ResetWindow() {
-        _serverElements.ForEach((x) => {
+    private void ResetWindow()
+    {
+        _serverElements.ForEach((x) =>
+        {
             x.RemoveFromHierarchy();
         });
         _serverElements.Clear();
-        if(_serverData != null) {
+        if (_serverData != null)
+        {
             _serverData.Clear();
             _serverData = null;
         }
@@ -199,16 +240,19 @@ public class ServerSelectWindow : L2Window
         SetServerId(-1);
     }
 
-    private void SetServerId(int id) {
+    private void SetServerId(int id)
+    {
         _selectedServerId = id;
         GameClient.Instance.ServerId = id;
     }
 
-    private void ConfirmButtonPressed() {
+    private void ConfirmButtonPressed()
+    {
         LoginClient.Instance.OnServerSelected(_selectedServerId);
     }
 
-    private void CancelButtonPressed() {
+    private void CancelButtonPressed()
+    {
         LoginClient.Instance.Disconnect();
     }
 }

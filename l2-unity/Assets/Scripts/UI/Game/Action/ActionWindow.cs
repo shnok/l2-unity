@@ -6,12 +6,10 @@ using UnityEngine.UIElements;
 public class ActionWindow : L2PopupWindow
 {
     private const int SLOTS_PER_ROW = 8;
-    private VisualTreeAsset _slotTemplate;
     private VisualElement _basicContainer;
     private VisualElement _partyContainer;
     private VisualElement _tokenContainer;
     private VisualElement _socialContainer;
-    private List<ActionSlot> _slots;
 
     private static ActionWindow _instance;
     public static ActionWindow Instance { get { return _instance; } }
@@ -35,8 +33,7 @@ public class ActionWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ActionWindow");
-        _slotTemplate = LoadAsset("Data/UI/_Elements/Template/ActionSlot");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/ActionWindow/ActionWindow");
     }
 
     protected override void InitWindow(VisualElement root)
@@ -44,7 +41,7 @@ public class ActionWindow : L2PopupWindow
         base.InitWindow(root);
 
         VisualElement dragArea = GetElementByClass("drag-area");
-        DragManipulator drag = new DragManipulator(dragArea, _windowEle);
+        DragManipulator drag = new DragManipulator(dragArea, _windowEle, this);
         dragArea.AddManipulator(drag);
 
         RegisterCloseWindowEvent("btn-close-frame");
@@ -70,44 +67,30 @@ public class ActionWindow : L2PopupWindow
         _windowEle.style.top = new Length(50, LengthUnit.Percent);
         _windowEle.style.translate = new StyleTranslate(new Translate(new Length(-50, LengthUnit.Percent), new Length(-50, LengthUnit.Percent)));
 
-        _slots = new List<ActionSlot>();
+        L2SlotContainer basicSlotContainer = new L2SlotContainer();
+        basicSlotContainer.Initialize(_basicContainer, SLOTS_PER_ROW, 32);
+        basicSlotContainer.CreateSlots(32, L2Slot.SlotType.Action);
 
-        int position = 0;
-        for (int i = 0; i < SLOTS_PER_ROW * 4; i++)
-        {
-            AddSlot(position++, _basicContainer);
-        }
+        basicSlotContainer.AssignAction(0, ActionType.Sit);
+        basicSlotContainer.AssignAction(1, ActionType.WalkRun);
+        basicSlotContainer.AssignAction(2, ActionType.Attack);
+        basicSlotContainer.AssignAction(3, ActionType.NextTarget);
+        basicSlotContainer.AssignAction(4, ActionType.Pickup);
+        basicSlotContainer.AssignAction(5, ActionType.Assist);
 
-        for (int i = 0; i < SLOTS_PER_ROW * 2; i++)
-        {
-            AddSlot(position++, _partyContainer);
-        }
+        L2SlotContainer partySlotContainer = new L2SlotContainer();
+        partySlotContainer.Initialize(_partyContainer, SLOTS_PER_ROW, 16);
+        partySlotContainer.CreateSlots(16, L2Slot.SlotType.Action);
 
-        for (int i = 0; i < SLOTS_PER_ROW * 2; i++)
-        {
-            AddSlot(position++, _tokenContainer);
-        }
+        L2SlotContainer tokenSlotContainer = new L2SlotContainer();
+        tokenSlotContainer.Initialize(_tokenContainer, SLOTS_PER_ROW, 16);
+        tokenSlotContainer.CreateSlots(16, L2Slot.SlotType.Action);
 
-        for (int i = 0; i < SLOTS_PER_ROW * 3; i++)
-        {
-            AddSlot(position++, _socialContainer);
-        }
+        L2SlotContainer socialSlotContainer = new L2SlotContainer();
+        socialSlotContainer.Initialize(_socialContainer, SLOTS_PER_ROW, 16);
+        socialSlotContainer.CreateSlots(17, L2Slot.SlotType.Action); //-> Will add a padding
 
-        _slots[0].AssignAction(ActionType.Sit);
-        _slots[1].AssignAction(ActionType.WalkRun);
-        _slots[2].AssignAction(ActionType.Attack);
-        _slots[3].AssignAction(ActionType.NextTarget);
-        _slots[4].AssignAction(ActionType.Pickup);
-        _slots[5].AssignAction(ActionType.Assist);
-    }
-
-    private void AddSlot(int position, VisualElement container)
-    {
-        VisualElement slotElement = _slotTemplate.Instantiate()[0];
-        container.Add(slotElement);
-
-        ActionSlot slot = new ActionSlot(slotElement, position, L2Slot.SlotType.Action);
-        _slots.Add(slot);
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     public override void ShowWindow()
@@ -117,10 +100,13 @@ public class ActionWindow : L2PopupWindow
         L2GameUI.Instance.WindowOpened(this);
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
-        AudioManager.Instance.PlayUISound("window_close");
+        base.HideWindow(silent);
+
+        if (!silent)
+            AudioManager.Instance.PlayUISound("window_close");
+
         L2GameUI.Instance.WindowClosed(this);
     }
 

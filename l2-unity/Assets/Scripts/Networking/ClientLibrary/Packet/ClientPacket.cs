@@ -2,46 +2,81 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public abstract class ClientPacket : Packet {
-    private List<byte> _buffer = new List<byte>();
+public abstract class ClientPacket : Packet
+{
+    protected List<byte> _buffer = new List<byte>();
 
-    public ClientPacket(byte type) : base(type) {}
-    public ClientPacket(byte[] data) : base(data) {
+    public ClientPacket(byte type) : base(type) { }
+    public ClientPacket(byte[] data) : base(data)
+    {
         BuildPacket();
     }
 
-    public void WriteB(byte b) {
+    public void WriteB(byte b)
+    {
         _buffer.Add(b);
     }
 
-    public void WriteB(byte[] b) {
-        foreach (byte b2 in b) {
+    public void WriteB(bool b)
+    {
+        _buffer.Add(b ? (byte)1 : (byte)0);
+    }
+
+    public void WriteB(byte[] b)
+    {
+        foreach (byte b2 in b)
+        {
             _buffer.Add(b2);
         }
     }
 
-    public void WriteS(String s) {
-        Write(Encoding.GetEncoding("UTF-8").GetBytes(s)); 
+    // public void WriteS(String s) {
+    //     Write(Encoding.GetEncoding("UTF-8LE").GetBytes(s)); 
+    // }
+
+    protected void WriteS(String s)
+    {
+        if (s != null)
+        {
+            byte[] d = Encoding.GetEncoding("UTF-16LE").GetBytes(s);
+            _buffer.AddRange(d);
+            WriteB((byte)0);
+            WriteB((byte)0);
+        }
     }
 
-    public void WriteI(int i) {
+    public void WriteI(int i)
+    {
         byte[] data = BitConverter.GetBytes(i);
-        Array.Reverse(data);
+        // Array.Reverse(data);
         _buffer.AddRange(data);
     }
 
-    public void WriteF(float i) {
+    public void WriteF(float i)
+    {
         byte[] data = BitConverter.GetBytes(i);
-        Array.Reverse(data);
+        // Array.Reverse(data);
         _buffer.AddRange(data);
     }
-
-    private void Write(byte[] data) {
+    public void WriteL(long i)
+    {
+        byte[] data = BitConverter.GetBytes(i);
+        _buffer.AddRange(data);
+    }
+    private void Write(byte[] data)
+    {
         _buffer.Add((byte)data.Length);
         _buffer.AddRange(data);
     }
 
-    protected void BuildPacket() {
+    public void WriteD(double d)
+    {
+        byte[] data = BitConverter.GetBytes(d);
+        _buffer.AddRange(data);
+    }
+
+    protected virtual void BuildPacket()
+    {
         _buffer.Insert(0, _packetType);
 
         // Padding for checksum
@@ -54,17 +89,8 @@ public abstract class ClientPacket : Packet {
         SetData(array);
     }
 
-    private void PadBuffer() {
-        byte paddingLength = (byte)(_buffer.Count % 8);
-        if (paddingLength > 0) {
+    protected virtual void PadBuffer()
+    {
 
-            paddingLength = (byte)(8 - paddingLength);
-
-            //Debug.Log($"Packet needs a padding of {paddingLength} bytes.");
-
-            for (int i = 0; i < paddingLength; i++) {
-                _buffer.Add((byte)0);
-            }
-        }
     }
 }

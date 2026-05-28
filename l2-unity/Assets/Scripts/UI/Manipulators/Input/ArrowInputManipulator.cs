@@ -48,9 +48,9 @@ public class ArrowInputManipulator : PointerManipulator
     {
         if (_labelValue != null && _labelValue.Length > 0)
         {
-            _label = target.Q<Label>("Label");
+            _label = target.Q<Label>(null, "unity-label");
         }
-        _textField = target.Q<TextField>("DataField");
+        _textField = target.Q<TextField>("L2Input");
         _leftArrow = target.Q<Button>("LeftArrow");
         _rightArrow = target.Q<Button>("RightArrow");
     }

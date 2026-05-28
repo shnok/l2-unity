@@ -1,0 +1,229 @@
+﻿// TEMPLATE_SHARED
+            
+            // data describing the user output of a pixel
+            struct Surface
+            {
+               half3 Albedo;
+               half Height;
+               half3 Normal;
+               half Smoothness;
+               half3 Emission;
+               half Metallic;
+               half3 Specular;
+               half Occlusion;
+               half Alpha;
+               // HDRP Only
+               half SpecularOcclusion;
+               half SubsurfaceMask;
+               half Thickness;
+               half CoatMask;
+               half Anisotropy;
+               half IridescenceMask;
+               half IridescenceThickness;
+            };
+
+            // data the user might need, this will grow to be big. But easy to strip
+            struct ShaderData
+            {
+               float3 localSpacePosition;
+               float3 localSpaceNormal;
+               float3 localSpaceTangent;
+        
+               float3 worldSpacePosition;
+               float3 worldSpaceNormal;
+               float3 worldSpaceTangent;
+
+               float3 worldSpaceViewDir;
+               float3 tangentSpaceViewDir;
+
+               float4 texcoord0;
+               float4 texcoord1;
+               float4 texcoord2;
+               float4 texcoord3;
+
+               float2 screenUV;
+               float4 screenPos;
+
+               float4 vertexColor;
+
+               float4 extraV2F0;
+               float4 extraV2F1;
+               float4 extraV2F2;
+               float4 extraV2F3;
+               float4 extraV2F4;
+               float4 extraV2F5;
+               float4 extraV2F6;
+               float4 extraV2F7;
+
+               float3x3 TBNMatrix;
+            };
+
+            struct VertexData
+            {
+               #if SHADER_TARGET > 30 && _PLANETCOMPUTE
+ //              %VERTEXID% uint vertexID : SV_VertexID;
+               #endif
+               float4 vertex : POSITION;
+               float3 normal : NORMAL;
+               float4 texcoord0 : TEXCOORD0;
+               #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+                  float4 tangent : TANGENT;
+                  float4 texcoord1 : TEXCOORD1;
+                  float4 texcoord2 : TEXCOORD2;
+               #endif
+               %UV3% float4 texcoord3 : TEXCOORD3;
+               %VERTEXCOLOR% float4 vertexColor : COLOR;
+
+               
+               #if _HDRP && (_PASSMOTIONVECTOR || (_PASSFORWARD && defined(_WRITE_TRANSPARENT_MOTION_VECTOR)))
+                  float3 previousPositionOS : TEXCOORD4; // Contain previous transform position (in case of skinning for example)
+                  #if defined (_ADD_PRECOMPUTED_VELOCITY)
+                     float3 precomputedVelocity    : TEXCOORD5; // Add Precomputed Velocity (Alembic computes velocities on runtime side).
+                  #endif
+               #endif
+
+               UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct TessVertex 
+            {
+               float4 vertex : INTERNALTESSPOS;
+               float3 normal : NORMAL;
+               float4 texcoord0 : TEXCOORD0;
+               #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+               float4 tangent : TANGENT;
+               float4 texcoord1 : TEXCOORD1;
+               float4 texcoord2 : TEXCOORD2;
+               #endif
+               %UV3% float4 texcoord3 : TEXCOORD3;
+               %VERTEXCOLOR% float4 vertexColor : COLOR;
+
+               
+               %EXTRAV2F0% float4 extraV2F0 : TEXCOORD4;
+               %EXTRAV2F1% float4 extraV2F1 : TEXCOORD5;
+               %EXTRAV2F2% float4 extraV2F2 : TEXCOORD6;
+               %EXTRAV2F3% float4 extraV2F3 : TEXCOORD7;
+               %EXTRAV2F4% float4 extraV2F4 : TEXCOORD8;
+               %EXTRAV2F5% float4 extraV2F5 : TEXCOORD9;
+               %EXTRAV2F6% float4 extraV2F6 : TEXCOORD10;
+               %EXTRAV2F7% float4 extraV2F7 : TEXCOORD11;
+
+               #if _HDRP && (_PASSMOTIONVECTOR || (_PASSFORWARD && defined(_WRITE_TRANSPARENT_MOTION_VECTOR)))
+                  float3 previousPositionOS : TEXCOORD12; // Contain previous transform position (in case of skinning for example)
+                  #if defined (_ADD_PRECOMPUTED_VELOCITY)
+                     float3 precomputedVelocity : TEXCOORD13;
+                  #endif
+               #endif
+
+               UNITY_VERTEX_INPUT_INSTANCE_ID
+               UNITY_VERTEX_OUTPUT_STEREO
+            };
+
+            struct ExtraV2F
+            {
+               float4 extraV2F0;
+               float4 extraV2F1;
+               float4 extraV2F2;
+               float4 extraV2F3;
+               float4 extraV2F4;
+               float4 extraV2F5;
+               float4 extraV2F6;
+               float4 extraV2F7;
+            };
+
+
+            float3 WorldToTangentSpace(ShaderData d, float3 normal)
+            {
+               return mul(d.TBNMatrix, normal);
+            }
+
+            float3 TangentToWorldSpace(ShaderData d, float3 normal)
+            {
+               return mul(normal, d.TBNMatrix);
+            }
+
+            // in this case, make standard more like SRPs, because we can't fix
+            // unity_WorldToObject in HDRP, since it already does macro-fu there
+
+            #if _STANDARD
+               float3 TransformWorldToObject(float3 p) { return mul(unity_WorldToObject, float4(p, 1)); };
+               float3 TransformObjectToWorld(float3 p) { return mul(unity_ObjectToWorld, float4(p, 1)); };
+               float4 TransformWorldToObject(float4 p) { return mul(unity_WorldToObject, p); };
+               float4 TransformObjectToWorld(float4 p) { return mul(unity_ObjectToWorld, p); };
+               float4x4 GetWorldToObjectMatrix() { return unity_WorldToObject; }
+               float4x4 GetObjectToWorldMatrix() { return unity_ObjectToWorld; }
+            #endif
+
+            float3 GetCameraWorldPosition()
+            {
+               #if _HDRP
+                  return GetCameraRelativePositionWS(_WorldSpaceCameraPos);
+               #else
+                  return _WorldSpaceCameraPos;
+               #endif
+            }
+
+            
+             #if _HDRP
+
+               half3 UnpackNormalmapRGorAG(half4 packednormal)
+               {
+                     // This do the trick
+                  packednormal.x *= packednormal.w;
+
+                  half3 normal;
+                  normal.xy = packednormal.xy * 2 - 1;
+                  normal.z = sqrt(1 - saturate(dot(normal.xy, normal.xy)));
+                  return normal;
+               }
+               half3 UnpackNormal(half4 packednormal)
+               {
+                  #if defined(UNITY_NO_DXT5nm)
+                     return packednormal.xyz * 2 - 1;
+                  #else
+                     return UnpackNormalmapRGorAG(packednormal);
+                  #endif
+               }
+               #endif
+               #if _HDRP || _URP
+
+               half3 UnpackScaleNormal(half4 packednormal, half scale)
+               {
+                 #ifndef UNITY_NO_DXT5nm
+                   // Unpack normal as DXT5nm (1, y, 1, x) or BC5 (x, y, 0, 1)
+                   // Note neutral texture like "bump" is (0, 0, 1, 1) to work with both plain RGB normal and DXT5nm/BC5
+                   packednormal.x *= packednormal.w;
+                 #endif
+                   half3 normal;
+                   normal.xy = (packednormal.xy * 2 - 1) * scale;
+                   normal.z = sqrt(1 - saturate(dot(normal.xy, normal.xy)));
+                   return normal;
+               }  
+
+             #endif
+
+
+            void GetSun(out float3 lightDir, out float3 color)
+            {
+               lightDir = float3(0.5, 0.5, 0);
+               color = 1;
+               #if _HDRP
+                  if (_DirectionalLightCount > 0)
+                  {
+                     DirectionalLightData light = _DirectionalLightDatas[0];
+                     lightDir = -light.forward.xyz;
+                     color = light.color;
+                  }
+               #elif _STANDARD
+                  lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                  color = _LightColor0.rgb;
+               #elif _URP
+                  Light light = GetMainLight();
+                  lightDir = light.direction;
+                  color = light.color;
+               #endif
+            }
+
+     
+
+

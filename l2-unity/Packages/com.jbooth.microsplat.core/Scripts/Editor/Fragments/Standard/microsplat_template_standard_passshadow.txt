@@ -1,0 +1,155 @@
+﻿
+	   Pass {
+		   Name "ShadowCaster"
+		   Tags { "LightMode" = "ShadowCaster" }
+		   ZWrite On ZTest LEqual
+
+         CGPROGRAM
+
+         %PRAGMAS%
+         // compile directives
+         #pragma target %SHADERTARGET%
+         #pragma multi_compile_instancing
+         #pragma skip_variants FOG_LINEAR FOG_EXP FOG_EXP2
+         #pragma multi_compile_shadowcaster
+         #pragma multi_compile_local __ _ALPHATEST_ON
+         #include "HLSLSupport.cginc"
+         #include "UnityShaderVariables.cginc"
+         #include "UnityShaderUtilities.cginc"
+
+         #include "UnityCG.cginc"
+         #include "Lighting.cginc"
+         #include "UnityPBSLighting.cginc"
+
+         #define _PASSSHADOW 1
+
+         %DEFINES%
+
+         #if _MICROTERRAIN && !_TERRAINBLENDABLESHADER
+            #define UNITY_ASSUME_UNIFORM_SCALING
+            #define UNITY_DONT_INSTANCE_OBJECT_MATRICES
+            #define UNITY_INSTANCED_LOD_FADE
+         #else
+            #define UNITY_INSTANCED_LOD_FADE
+            #define UNITY_INSTANCED_SH
+            #define UNITY_INSTANCED_LIGHTMAPSTS
+         #endif
+
+
+         // data across stages, stripped like the above.
+         struct VertexToPixel
+         {
+            V2F_SHADOW_CASTER;
+            float3 worldPos : TEXCOORD0;
+            float3 worldNormal : TEXCOORD1;
+            float4 worldTangent : TEXCOORD2;
+            %UV0% float4 texcoord0 : TEXCCOORD3;
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+            %UV1% float4 texcoord1 : TEXCCOORD4;
+            %UV2% float4 texcoord2 : TEXCCOORD5;
+            #endif
+            %UV3% float4 texcoord3 : TEXCCOORD6;
+            %SCREENPOS% float4 screenPos : TEXCOORD7;
+            %VERTEXCOLOR% float4 vertexColor : COLOR;
+
+            %EXTRAV2F0% float4 extraV2F0 : TEXCOORD8;
+            %EXTRAV2F1% float4 extraV2F1 : TEXCOORD9;
+            %EXTRAV2F2% float4 extraV2F2 : TEXCOORD10;
+            %EXTRAV2F3% float4 extraV2F3 : TEXCOORD11;
+            %EXTRAV2F4% float4 extraV2F4 : TEXCOORD12;
+            %EXTRAV2F5% float4 extraV2F5 : TEXCOORD13;
+            %EXTRAV2F6% float4 extraV2F6 : TEXCOORD14;
+            %EXTRAV2F7% float4 extraV2F7 : TEXCOORD15;
+
+            UNITY_VERTEX_INPUT_INSTANCE_ID
+            UNITY_VERTEX_OUTPUT_STEREO
+         };
+
+         %TEMPLATE_SHARED%
+            
+         %CBUFFER%
+
+         %CODE%
+
+         %SHADERDESC%
+
+
+         // vertex shader
+         VertexToPixel Vert (VertexData v)
+         {
+            UNITY_SETUP_INSTANCE_ID(v);
+            VertexToPixel o;
+            UNITY_INITIALIZE_OUTPUT(VertexToPixel,o);
+            UNITY_TRANSFER_INSTANCE_ID(v,o);
+            UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+#if !_TESSELLATION_ON
+           ChainModifyVertex(v, o);
+#endif
+            
+            %UV0% o.texcoord0 = v.texcoord0;
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+            %UV1% o.texcoord1 = v.texcoord1;
+            %UV2% o.texcoord2 = v.texcoord2;
+            #endif
+            %UV3% o.texcoord3 = v.texcoord3;
+            %VERTEXCOLOR% o.vertexColor = v.vertexColor;
+            
+            o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+            o.worldNormal = UnityObjectToWorldNormal(v.normal);
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+               o.worldTangent.xyz = UnityObjectToWorldDir(v.tangent.xyz);
+               fixed tangentSign = v.tangent.w * unity_WorldTransformParams.w;
+               o.worldTangent.w = tangentSign;
+            #endif
+
+            // MS Only
+            ApplyTerrainTangent(o);
+
+            TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+
+            %SCREENPOS% o.screenPos = ComputeScreenPos(o.pos);
+
+            return o;
+         }
+
+         %TESSELLATION%
+
+         // fragment shader
+         fixed4 Frag (VertexToPixel IN) : SV_Target
+         {
+           UNITY_SETUP_INSTANCE_ID(IN);
+           // prepare and unpack data
+
+           #ifdef FOG_COMBINED_WITH_TSPACE
+             UNITY_EXTRACT_FOG_FROM_TSPACE(IN);
+           #elif defined (FOG_COMBINED_WITH_WORLD_POS)
+             UNITY_EXTRACT_FOG_FROM_WORLD_POS(IN);
+           #else
+             UNITY_EXTRACT_FOG(IN);
+           #endif
+
+           #ifndef USING_DIRECTIONAL_LIGHT
+             fixed3 lightDir = normalize(UnityWorldSpaceLightDir(IN.worldPos));
+           #else
+             fixed3 lightDir = _WorldSpaceLightPos0.xyz;
+           #endif
+
+           ShaderData d = CreateShaderData(IN);
+
+           Surface l = (Surface)0;
+
+           l.Albedo = half3(0.5, 0.5, 0.5);
+           l.Normal = float3(0,0,1);
+           l.Occlusion = 1;
+           l.Alpha = 1;
+
+           ChainSurfaceFunction(l, d);
+
+           SHADOW_CASTER_FRAGMENT(IN)
+         }
+
+
+         ENDCG
+
+      }

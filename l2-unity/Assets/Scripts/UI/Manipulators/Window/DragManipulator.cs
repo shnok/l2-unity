@@ -7,14 +7,17 @@ public class DragManipulator : PointerManipulator
     private Vector2 _startMousePosition;
     private Vector2 _startPosition;
 
+    private L2Window _window;
+
     private bool _rightAnchor = true;
     private bool _bottomAnchor = true;
     public bool dragged = false;
 
-    public DragManipulator(VisualElement target, VisualElement root)
+    public DragManipulator(VisualElement target, VisualElement root, L2Window window)
     {
         this.target = target;
         this._root = root;
+        _window = window;
         UpdateAnchorType();
     }
 
@@ -59,6 +62,10 @@ public class DragManipulator : PointerManipulator
         if (target.HasPointerCapture(evt.pointerId))
         {
             target.ReleasePointer(evt.pointerId);
+            if (!dragged && _window != null)
+            {
+                _window.OnClick();
+            }
         }
 
         UpdateAnchorType();

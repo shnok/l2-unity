@@ -8,40 +8,46 @@ using UnityEngine;
 public class L2AmbientSoundBuilder : MonoBehaviour
 {
 
-    [MenuItem("Shnok/[AmbientSound] (JSON) Build ambient sounds")]
-    static void BuildSoundsMenu() {
+    [MenuItem("Shnok/[Debug][AmbientSound] (JSON) Build ambient sounds")]
+    static void BuildSoundsMenu()
+    {
         string title = "Select ambient sound list";
         string directory = Path.Combine(Application.dataPath, "Data/Maps");
         string extension = "json";
 
         string fileToProcess = EditorUtility.OpenFilePanel(title, directory, extension);
 
-        if (!string.IsNullOrEmpty(fileToProcess)) {
+        if (!string.IsNullOrEmpty(fileToProcess))
+        {
             Debug.Log("Selected file: " + fileToProcess);
             AmbientSound[] sounds = L2TerrainInfoParser.ParseAmbientSoundFile(fileToProcess);
             BuildAmbientSounds(sounds);
         }
     }
 
-    [MenuItem("Shnok/9.1. [AmbientSound] (T3D) Build ambient sounds")]
-    static void BuildSoundsMenuT3D() {
+    [MenuItem("Shnok/10. [AmbientSound] (T3D) Build ambient sounds")]
+    static void BuildSoundsMenuT3D()
+    {
         string title = "Select ambient sound list";
         string directory = Path.Combine(Application.dataPath, "Data/Maps");
         string extension = "t3d";
 
         string fileToProcess = EditorUtility.OpenFilePanel(title, directory, extension);
 
-        if (!string.IsNullOrEmpty(fileToProcess)) {
+        if (!string.IsNullOrEmpty(fileToProcess))
+        {
             Debug.Log("Selected file: " + fileToProcess);
             AmbientSound[] sounds = L2T3DInfoParser.ParseAmbientSounds(fileToProcess).ToArray();
             BuildAmbientSounds(sounds);
         }
     }
 
-    private static void BuildAmbientSounds(AmbientSound[] sounds) {
+    private static void BuildAmbientSounds(AmbientSound[] sounds)
+    {
         GameObject container = new GameObject("AmbientSounds");
 
-        foreach (AmbientSound ambientSound in sounds) {
+        foreach (AmbientSound ambientSound in sounds)
+        {
             Debug.Log(ambientSound);
 
             GameObject soundObject = BuildAmbientSoundGameObject(ambientSound);
@@ -51,7 +57,8 @@ public class L2AmbientSoundBuilder : MonoBehaviour
         Debug.Log($"Need to {sounds.Length} load ambient sounds.");
     }
 
-    private static GameObject BuildAmbientSoundGameObject(AmbientSound ambientSound) {
+    private static GameObject BuildAmbientSoundGameObject(AmbientSound ambientSound)
+    {
 
         GameObject go = new GameObject(ambientSound.name);
 
@@ -79,10 +86,13 @@ public class L2AmbientSoundBuilder : MonoBehaviour
         emitter.StopEvent = EmitterGameEvent.TriggerExit;
         emitter.CollisionTag = "Player";
         emitter.AllowFadeout = true;
-        if (ambientSound.ambientRandom == 0) {
+        if (ambientSound.ambientRandom == 0)
+        {
             emitter.PlayChancePercent = 100;
             emitter.LoopDelaySeconds = 0;
-        } else {
+        }
+        else
+        {
             emitter.PlayChancePercent = ambientSound.ambientRandom;
             emitter.LoopDelaySeconds = 3;
         }

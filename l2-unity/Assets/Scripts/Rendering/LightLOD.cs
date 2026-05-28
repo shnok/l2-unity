@@ -17,6 +17,7 @@ public class LightLOD : MonoBehaviour
     private float _updateDelay = 1f;
     [SerializeField] private float _squareDistanceFromCamera;
     [SerializeField] private float _lastUpdate;
+    private Camera _mainCamera;
 
     [SerializeField]
     private List<LODAdjustment> LODLevels = new();
@@ -32,6 +33,7 @@ public class LightLOD : MonoBehaviour
     {
         _ready = false;
         _lastUpdate = 0;
+        _mainCamera = CameraController.Instance.GetComponent<Camera>();
     }
 
 
@@ -53,12 +55,15 @@ public class LightLOD : MonoBehaviour
         }
 #endif
 
-        if(!_ready) {
-            if(CameraController.Instance == null || CameraController.Instance.Target == null) {
+        if (!_ready)
+        {
+            if (CameraController.Instance == null || CameraController.Instance.Target == null)
+            {
                 return;
             }
 
-            if(CameraController.Instance.CurrentDistance > CameraController.Instance.MaxDistance) {
+            if (CameraController.Instance.CurrentDistance > CameraController.Instance.MaxDistance)
+            {
                 return;
             }
 
@@ -71,7 +76,7 @@ public class LightLOD : MonoBehaviour
 #if (UNITY_EDITOR)
             if (EditorApplication.isPlaying)
             {
-                AdjustLODQuality(Camera.main);
+                AdjustLODQuality(_mainCamera);
             }
             else
             {
@@ -81,7 +86,7 @@ public class LightLOD : MonoBehaviour
                 }
             }
 #else
-            AdjustLODQuality(Camera.main);
+            AdjustLODQuality(_mainCamera);
 #endif
         }
     }

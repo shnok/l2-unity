@@ -1,0 +1,23 @@
+﻿Shader "%SHADERNAME%"
+{
+   Properties
+   {
+      %PROPERTIES%
+   }
+   SubShader
+   {
+      %TAGS%
+
+      %PASSFORWARD%
+      %PASSFORWARDADD%
+      %PASSGBUFFER%
+      %PASSSHADOW%
+      %PASSMETA%
+      UsePass "Hidden/Nature/Terrain/Utilities/PICKING"
+      UsePass "Hidden/Nature/Terrain/Utilities/SELECTION"
+
+   }
+   %DEPENDENCY%
+   %FALLBACK%
+   %CUSTOMEDITOR%
+}

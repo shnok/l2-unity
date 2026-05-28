@@ -1,0 +1,16 @@
+﻿      
+
+      // Splats
+      [NoScaleOffset]_Diffuse ("Diffuse Array", 2DArray) = "white" {}
+      [NoScaleOffset]_NormalSAO ("Normal Array", 2DArray) = "bump" {}
+      [NoScaleOffset]_PerTexProps("Per Texture Properties", 2D) = "black" {}
+      [HideInInspector] _TerrainHolesTexture("Holes Map (RGB)", 2D) = "white" {}
+      [HideInInspector] _PerPixelNormal("Per Pixel Normal", 2D) = "bump" {}
+      _Contrast("Blend Contrast", Range(0.01, 0.99)) = 0.4
+      _UVScale("UV Scales", Vector) = (45, 45, 0, 0)
+
+      // for Unity 2020.3 bug
+      _MainTex("Unity Bug", 2D) = "white" {}
+
+      _TerrainHeightmapTexture("", 2D) = "black" {}
+      _TerrainNormalmapTexture("", 2D) = "bump" {}

@@ -7,7 +7,7 @@ namespace FMODUnity
     public class StudioListener : MonoBehaviour
     {
         [SerializeField]
-        private GameObject attenuationObject = null;
+        private GameObject attenuationObject;
 
 #if UNITY_PHYSICS_EXIST
         private Rigidbody rigidBody;
@@ -15,6 +15,7 @@ namespace FMODUnity
 #if UNITY_PHYSICS2D_EXIST
         private Rigidbody2D rigidBody2D;
 #endif
+
         private static List<StudioListener> listeners = new List<StudioListener>();
 
         public static int ListenerCount
@@ -39,16 +40,6 @@ namespace FMODUnity
             for (int i = 0; i < listeners.Count; i++)
             {
                 result = Mathf.Min(result, Vector3.Distance(position, listeners[i].transform.position));
-            }
-            return result;
-        }
-
-        public static float DistanceSquaredToNearestListener(Vector3 position)
-        {
-            float result = float.MaxValue;
-            for (int i = 0; i < listeners.Count; i++)
-            {
-                result = Mathf.Min(result, (position - listeners[i].transform.position).sqrMagnitude);
             }
             return result;
         }

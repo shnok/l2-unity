@@ -14,6 +14,7 @@ public abstract class DefaultClient : MonoBehaviour
     [SerializeField] protected int _sessionKey1;
     [SerializeField] protected int _sessionKey2;
     [SerializeField] protected int _ping;
+    [SerializeField] protected float _lastSocketPoll;
 
     private bool _connecting = false;
     public bool LogReceivedPackets { get { return _logReceivedPackets; } }
@@ -56,6 +57,19 @@ public abstract class DefaultClient : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (_connected && Time.time - _lastSocketPoll >= 5f)
+        {
+            _lastSocketPoll = Time.time;
+
+            if (!_client.IsConnected())
+            {
+                Disconnect();
+            }
+        }
+    }
+
     protected virtual void WhileConnecting()
     {
         _connecting = true;
@@ -66,6 +80,7 @@ public abstract class DefaultClient : MonoBehaviour
     protected virtual void OnConnectionSuccess()
     {
         _connected = true;
+        _lastSocketPoll = Time.time;
     }
 
     public virtual void OnConnectionFailed()
@@ -78,6 +93,7 @@ public abstract class DefaultClient : MonoBehaviour
 
     public void Disconnect()
     {
+        Debug.LogWarning("Disconnect");
         _connected = false;
 
         if (_client != null)
@@ -89,7 +105,6 @@ public abstract class DefaultClient : MonoBehaviour
     public virtual void OnDisconnect()
     {
         _connected = false;
-        GameManager.Instance.OnDisconnect();
     }
 
 #if UNITY_EDITOR

@@ -49,6 +49,7 @@ PlayerSettings:
   m_StereoRenderingPath: 0
   m_ActiveColorSpace: 1
   unsupportedMSAAFallback: 0
+  m_SpriteBatchMaxVertexCount: 65535
   m_SpriteBatchVertexThreshold: 300
   m_MTRendering: 1
   mipStripping: 0
@@ -290,7 +291,7 @@ PlayerSettings:
   m_BuildTargetPlatformIcons: []
   m_BuildTargetBatching:
   - m_BuildTarget: Standalone
-    m_StaticBatching: 1
+    m_StaticBatching: 0
     m_DynamicBatching: 0
   - m_BuildTarget: tvOS
     m_StaticBatching: 1
@@ -398,6 +399,7 @@ PlayerSettings:
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
+  editorGfxJobOverride: 1
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
@@ -660,7 +662,7 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   scriptingDefineSymbols:
-    Standalone: UNITY_PIPELINE_URP
+    Standalone: UNITY_PIPELINE_URP;__MICROSPLAT__;__MICROSPLAT_TRIPLANAR__
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

@@ -1,0 +1,81 @@
+﻿      #undef WorldNormalVector
+      #define WorldNormalVector(data, normal) mul(normal, float3x3(d.worldSpaceTangent, cross(d.worldSpaceTangent, d.worldSpaceNormal), d.worldSpaceNormal))
+
+      
+      #define UnityObjectToWorldNormal(normal) mul(GetObjectToWorldMatrix(), normal)
+
+      #define _WorldSpaceLightPos0 _MainLightPosition
+      
+      #define UNITY_DECLARE_TEX2D(name) TEXTURE2D(name); SAMPLER(sampler##name);
+      #define UNITY_DECLARE_TEX2D_NOSAMPLER(name) TEXTURE2D(name);
+      #define UNITY_DECLARE_TEX2DARRAY(name) TEXTURE2D_ARRAY(name); SAMPLER(sampler##name);
+      #define UNITY_DECLARE_TEX2DARRAY_NOSAMPLER(name) TEXTURE2D_ARRAY(name);
+
+      #define UNITY_SAMPLE_TEX2DARRAY(tex,coord)            SAMPLE_TEXTURE2D_ARRAY(tex, sampler##tex, coord.xy, coord.z)
+      #define UNITY_SAMPLE_TEX2DARRAY_LOD(tex,coord,lod)    SAMPLE_TEXTURE2D_ARRAY_LOD(tex, sampler##tex, coord.xy, coord.z, lod)
+      #define UNITY_SAMPLE_TEX2D(tex, coord)                SAMPLE_TEXTURE2D(tex, sampler##tex, coord)
+      #define UNITY_SAMPLE_TEX2D_SAMPLER(tex, samp, coord)  SAMPLE_TEXTURE2D(tex, sampler##samp, coord)
+
+      #if defined(UNITY_COMPILER_HLSL)
+         #define UNITY_INITIALIZE_OUTPUT(type,name) name = (type)0;
+      #else
+         #define UNITY_INITIALIZE_OUTPUT(type,name)
+      #endif
+
+      #define sampler2D_float sampler2D
+      #define sampler2D_half sampler2D
+
+      
+
+      // data across stages, stripped like the above.
+      struct VertexToPixel
+      {
+         float4 pos : SV_POSITION;
+         float3 worldPos : TEXCOORD0;
+         float3 worldNormal : TEXCOORD1;
+         float4 worldTangent : TEXCOORD2;
+         %V2FUV0% float4 texcoord0 : TEXCCOORD3;
+         #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+            %V2FUV1% float4 texcoord1 : TEXCCOORD4;
+            %V2FUV2% float4 texcoord2 : TEXCCOORD5;
+         #endif
+         %V2FUV3% float4 texcoord3 : TEXCCOORD6;
+         %SCREENPOS% float4 screenPos : TEXCOORD7;
+         %V2FVERTEXCOLOR% float4 vertexColor : COLOR;
+
+         %EXTRAV2F0% float4 extraV2F0 : TEXCOORD13;
+         %EXTRAV2F1% float4 extraV2F1 : TEXCOORD14;
+         %EXTRAV2F2% float4 extraV2F2 : TEXCOORD15;
+         %EXTRAV2F3% float4 extraV2F3 : TEXCOORD16;
+         %EXTRAV2F4% float4 extraV2F4 : TEXCOORD17;
+         %EXTRAV2F5% float4 extraV2F5 : TEXCOORD18;
+         %EXTRAV2F6% float4 extraV2F6 : TEXCOORD19;
+         %EXTRAV2F7% float4 extraV2F7 : TEXCOORD20;
+
+         
+         #if defined(LIGHTMAP_ON)
+            float2 lightmapUV : TEXCOORD8;
+         #endif
+         #if defined(DYNAMICLIGHTMAP_ON)
+            float2 dynamicLightmapUV : TEXCOORD9;
+         #endif
+         #if !defined(LIGHTMAP_ON)
+            float3 sh : TEXCOORD10;
+         #endif
+
+         float4 fogFactorAndVertexLight : TEXCOORD11;
+         float4 shadowCoord : TEXCOORD12;
+
+         #if UNITY_ANY_INSTANCING_ENABLED
+         uint instanceID : CUSTOM_INSTANCE_ID;
+         #endif
+         #if (defined(UNITY_STEREO_MULTIVIEW_ENABLED)) || (defined(UNITY_STEREO_INSTANCING_ENABLED) && (defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE)))
+         uint stereoTargetEyeIndexAsBlendIdx0 : BLENDINDICES0;
+         #endif
+         #if (defined(UNITY_STEREO_INSTANCING_ENABLED))
+         uint stereoTargetEyeIndexAsRTArrayIdx : SV_RenderTargetArrayIndex;
+         #endif
+         #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
+         FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
+         #endif
+      };

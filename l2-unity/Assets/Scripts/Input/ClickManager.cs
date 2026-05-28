@@ -1,8 +1,12 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ClickManager : MonoBehaviour
 {
     [SerializeField] private GameObject _locator;
+    [SerializeField] private L2Particle _locatorBaseEffect;
+    [SerializeField] private L2Particle _locatorReachedEffect;
     [SerializeField] private ObjectData _targetObjectData;
     [SerializeField] private ObjectData _hoverObjectData;
 
@@ -11,6 +15,7 @@ public class ClickManager : MonoBehaviour
     private Vector3 _lastClickPosition = Vector3.zero;
     [SerializeField] private LayerMask _entityMask;
     [SerializeField] private LayerMask _clickThroughMask;
+    private Camera _mainCamera;
 
     private static ClickManager _instance;
     public static ClickManager Instance { get { return _instance; } }
@@ -35,7 +40,11 @@ public class ClickManager : MonoBehaviour
     void Start()
     {
         _locator = GameObject.Find("Locator");
-        HideLocator();
+        _locatorBaseEffect = _locator.transform.GetChild(0).gameObject.GetComponent<L2Particle>();
+        _locatorReachedEffect = _locator.transform.GetChild(1).gameObject.GetComponent<L2Particle>();
+        _mainCamera = CameraController.Instance.GetComponent<Camera>();
+
+        HideLocator(false);
     }
 
     public void SetMasks(LayerMask entityMask, LayerMask clickThroughMask)
@@ -46,12 +55,12 @@ public class ClickManager : MonoBehaviour
 
     void Update()
     {
-        if (L2GameUI.Instance.MouseOverUI)
+        if (L2GameUI.Instance.MouseOverUI || PlayerStateMachine.Instance != null && PlayerStateMachine.Instance.State == PlayerState.DEAD)
         {
             return;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 1000f, ~_clickThroughMask))
@@ -59,7 +68,7 @@ public class ClickManager : MonoBehaviour
             int hitLayer = hit.collider.gameObject.layer;
             if (_entityMask == (_entityMask | (1 << hitLayer)))
             {
-                _hoverObjectData = new ObjectData(hit.transform.parent.gameObject);
+                _hoverObjectData = new ObjectData(hit.transform.parent.parent.gameObject); // click area -> model -> entity
             }
             else
             {
@@ -80,6 +89,39 @@ public class ClickManager : MonoBehaviour
                     OnClickToMove(hit);
                 }
             }
+
+            if (_hoverObjectData.ObjectTransform != null && _hoverObjectData.ObjectTag == "Pickup")
+            {
+                CursorManager.Instance.ChangeCursor(CursorManager.CursorType.Pickup);
+            }
+            else if (_hoverObjectData.ObjectTransform != null && _targetObjectData.ObjectTransform != null && _targetObjectData.ObjectTransform == _hoverObjectData.ObjectTransform)
+            {
+                if (_hoverObjectData.ObjectTag == "Monster" && !_hoverObjectData.Entity.Status.IsDead)
+                {
+                    CursorManager.Instance.ChangeCursor(CursorManager.CursorType.Attack);
+                }
+                else if (_hoverObjectData.ObjectTag == "Npc")
+                {
+                    CursorManager.Instance.ChangeCursor(CursorManager.CursorType.Talk);
+                }
+                else
+                {
+                    CursorManager.Instance.ChangeCursor(CursorManager.CursorType.Default);
+                }
+            }
+            else
+            {
+                CursorManager.Instance.ChangeCursor(CursorManager.CursorType.Default);
+            }
+        }
+        else
+        {
+            CursorManager.Instance.ChangeCursor(CursorManager.CursorType.Default);
+        }
+
+        if (InputManager.Instance.Move || InputManager.Instance.MoveForward)
+        {
+            HideLocator(false);
         }
     }
 
@@ -88,35 +130,75 @@ public class ClickManager : MonoBehaviour
         _lastClickPosition = hit.point;
         //  PlayerCombatController.Instance.RunningToTarget = false;
 
-        PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_MOVE_TO, _lastClickPosition);
+        if (PlayerStateMachine.Instance != null)
+        {
+            PlayerStateMachine.Instance.NotifyEvent(Event.CLICK_TO_MOVE, _lastClickPosition);
+            // PlayerStateMachine.Instance.ChangeIntention(Intention.INTENTION_MOVE_TO, _lastClickPosition);
+        }
 
-        TargetManager.Instance.ClearAttackTarget();
+        if (TargetManager.Instance != null)
+        {
+            //TODO: Do it in attackstate exit
+            TargetManager.Instance.ClearAttackTarget();
+        }
+
         //  PathFinderController.Instance.MoveTo(_lastClickPosition);
         float angle = Vector3.Angle(hit.normal, Vector3.up);
         if (angle < 85f)
         {
-            PlaceLocator(_lastClickPosition);
+            StartCoroutine(PlaceLocator(_lastClickPosition, hit.normal));
         }
         else
         {
-            HideLocator();
+            HideLocator(false);
         }
     }
 
     public void OnClickOnEntity()
     {
-        Debug.Log("Hit entity");
-        TargetManager.Instance.SetTarget(_targetObjectData);
+        // Debug.Log("Click on entity");
+        if (TargetManager.Instance.HasTarget() && TargetManager.Instance.Target.transform == _targetObjectData.ObjectTransform)
+        {
+            PlayerActions.Instance.UseAction(ActionType.Attack);
+        }
+        else
+        {
+            TargetManager.Instance.SetTarget(_targetObjectData);
+        }
     }
 
-    public void PlaceLocator(Vector3 position)
+    private IEnumerator PlaceLocator(Vector3 position, Vector3 normal)
     {
         _locator.SetActive(true);
+
         _locator.gameObject.transform.position = position;
+
+        _locatorReachedEffect.gameObject.SetActive(false);
+        _locatorBaseEffect.gameObject.SetActive(false);
+
+        yield return new WaitForFixedUpdate();
+        _locatorBaseEffect.gameObject.SetActive(true);
+
+        _locatorBaseEffect.SurfaceNormal = normal;
+        _locatorBaseEffect.ResetTimer();
     }
 
-    public void HideLocator()
+    public void HideLocator(bool targetReached)
     {
-        _locator.SetActive(false);
+        if (targetReached)
+        {
+            Vector3 normal = _locatorBaseEffect.GetComponent<L2Particle>().SurfaceNormal;
+            _locatorReachedEffect.gameObject.SetActive(true);
+
+            _locatorReachedEffect.SurfaceNormal = normal;
+            _locatorReachedEffect.ResetTimer();
+        }
+        else
+        {
+            _locator.SetActive(false);
+            _locatorReachedEffect.gameObject.SetActive(false);
+        }
+
+        _locatorBaseEffect.gameObject.SetActive(false);
     }
 }

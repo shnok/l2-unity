@@ -7,8 +7,8 @@ public abstract class StateBase
         _stateMachine = stateMachine;
     }
 
-    public virtual void Enter() { }
+    public virtual void Enter(object arg0) { }
     public virtual void Exit() { }
     public virtual void Update() { }
-    public virtual void HandleEvent(Event evt) { }
+    public virtual void HandleEvent(Event evt, object arg0) { }
 }

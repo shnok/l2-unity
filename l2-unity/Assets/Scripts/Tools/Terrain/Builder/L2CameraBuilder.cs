@@ -4,23 +4,27 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class L2CameraBuilder {
+public class L2CameraBuilder
+{
 
-    [MenuItem("Shnok/8. [Camera] (T3D) Build cameras")]
-    static void ImportBrushTexturesT3D() {
+    [MenuItem("Shnok/08. [Camera] (T3D) Build cameras")]
+    static void ImportBrushTexturesT3D()
+    {
         string title = "Select T3D file";
         string directory = Path.Combine(Application.dataPath, "Data/Maps");
         string extension = "t3d";
 
         string fileToProcess = EditorUtility.OpenFilePanel(title, directory, extension);
 
-        if (!string.IsNullOrEmpty(fileToProcess)) {
+        if (!string.IsNullOrEmpty(fileToProcess))
+        {
             Debug.Log("Selected file: " + fileToProcess);
             List<L2InterpolationPoint> interpolationPoints = L2T3DInfoParser.ParseCameraInfo(fileToProcess);
 
             GameObject container = new GameObject("Cameras");
 
-            foreach (L2InterpolationPoint point in interpolationPoints) {
+            foreach (L2InterpolationPoint point in interpolationPoints)
+            {
                 GameObject go = new GameObject(point.name);
                 go.transform.position = VectorUtils.ConvertPosToUnity(point.position);
                 go.transform.eulerAngles = VectorUtils.ConvertRotToUnity(point.eulerAngles);
@@ -37,9 +41,11 @@ public class L2CameraBuilder {
         }
     }
 
-    public static void SortChildrenByNameTag(GameObject obj) {
+    public static void SortChildrenByNameTag(GameObject obj)
+    {
         List<Transform> children = new List<Transform>();
-        for (int i = obj.transform.childCount - 1; i >= 0; i--) {
+        for (int i = obj.transform.childCount - 1; i >= 0; i--)
+        {
             Transform child = obj.transform.GetChild(i);
 
             children.Add(child);
@@ -48,7 +54,8 @@ public class L2CameraBuilder {
 
         children.Sort((Transform t1, Transform t2) => { return t1.name.CompareTo(t2.name); });
 
-        foreach (Transform child in children) {
+        foreach (Transform child in children)
+        {
             child.transform.SetParent(obj.transform, false);
         }
     }

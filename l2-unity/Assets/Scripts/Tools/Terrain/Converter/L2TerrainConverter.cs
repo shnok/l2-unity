@@ -4,7 +4,8 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-public class TerrainConverter : MonoBehaviour {
+public class TerrainConverter : MonoBehaviour
+{
     public static string mapToConvert;
     public static int meshSubdivisions = 128;
     public static float uvScale = 150;
@@ -19,15 +20,17 @@ public class TerrainConverter : MonoBehaviour {
     private static Terrain terrainToConvert;
 
 
-    [MenuItem("Shnok/6. [Terrain] Convert terrain to mesh")]
-    static void ConvertTerrainMenu() {
+    [MenuItem("Shnok/[Debug][Terrain] Convert terrain to mesh")]
+    static void ConvertTerrainMenu()
+    {
         string title = "Select terrain t3d";
         string directory = Path.Combine(Application.dataPath, "Data/Maps");
         string extension = "t3d";
 
         string fileToProcess = EditorUtility.OpenFilePanel(title, directory, extension);
 
-        if (!string.IsNullOrEmpty(fileToProcess)) {
+        if (!string.IsNullOrEmpty(fileToProcess))
+        {
             Debug.Log("Selected file: " + fileToProcess);
             string mapName = Path.GetFileNameWithoutExtension(fileToProcess);
             L2TerrainInfo terrainInfo = L2T3DInfoParser.LoadMetadata(mapName);
@@ -38,15 +41,17 @@ public class TerrainConverter : MonoBehaviour {
         }
     }
 
-    [MenuItem("Shnok/7. [Terrain] Generate deco layer mesh")]
-    static void DecoLayers() {
+    [MenuItem("Shnok/[Debug][Terrain] Generate deco layer mesh")]
+    static void DecoLayers()
+    {
         string title = "Select terrain t3d";
         string directory = Path.Combine(Application.dataPath, "Data/Maps");
         string extension = "t3d";
 
         string fileToProcess = EditorUtility.OpenFilePanel(title, directory, extension);
 
-        if (!string.IsNullOrEmpty(fileToProcess)) {
+        if (!string.IsNullOrEmpty(fileToProcess))
+        {
             Debug.Log("Selected file: " + fileToProcess);
             string mapName = Path.GetFileNameWithoutExtension(fileToProcess);
             L2TerrainInfo terrainInfo = L2T3DInfoParser.LoadMetadata(mapName);
@@ -63,50 +68,61 @@ public class TerrainConverter : MonoBehaviour {
         }
     }
 
-    static void ConvertTerrainToMesh(L2TerrainInfo terrainInfo) {
+    static void ConvertTerrainToMesh(L2TerrainInfo terrainInfo)
+    {
         terrainToMesh = new TerrainToMesh();
         texture2DArrayGenerator = new Texture2DArrayGenerator();
 
         string saveFolder = Path.Combine("Assets", "Resources", "Data", "Maps", mapToConvert);
-        if(saveAssets) {
-            if(!Directory.Exists(saveFolder)) {
+        if (saveAssets)
+        {
+            if (!Directory.Exists(saveFolder))
+            {
                 Directory.CreateDirectory(saveFolder);
             }
         }
 
         string mapFolder = Path.Combine("Assets", "Resources", "Data", "Maps", mapToConvert, "TerrainData");
         GameObject map = AssetDatabase.LoadAssetAtPath<GameObject>(Path.Combine(mapFolder, mapToConvert + ".prefab"));
-        if(map != null) {
+        if (map != null)
+        {
             map = Instantiate(map);
             terrainToConvert = map.GetComponent<Terrain>();
-        } else {
+        }
+        else
+        {
             Debug.LogWarning("Could not find map " + mapToConvert + " prefab.");
             return;
         }
 
-        if(convertTerrain) {
+        if (convertTerrain)
+        {
             Material terrainMat = GenerateMaterial(saveFolder, terrainInfo);
 
             GameObject destObject = GenerateMesh(terrainToConvert, terrainMat, true);
 
-            if(saveAssets) {
+            if (saveAssets)
+            {
                 //SaveMesh(saveFolder, destObject, false);
                 SaveMaterial(saveFolder, terrainMat);
                 SaveTerrain(saveFolder, destObject);
             }
         }
 
-        if(createMapSafenet) {
+        if (createMapSafenet)
+        {
             GameObject destObject = GenerateMesh(terrainToConvert, null, false);
             SaveMesh(saveFolder, destObject, true);
         }
 
         // Generate decolayer
-        if (convertDecoLayer) {
+        if (convertDecoLayer)
+        {
             List<L2DecoLayer> decoLayers = terrainInfo.decoLayers;
             GameObject decoLayer = DecoToMesh.ConvertDecoLayers(decoLayers, terrainToConvert);
 
-            if (saveAssets) {
+            if (saveAssets)
+            {
                 string decoLayerPrefabPath = Path.Combine(saveFolder, mapToConvert + "_DecoLayer.prefab");
                 PrefabUtility.SaveAsPrefabAsset(decoLayer, decoLayerPrefabPath);
             }
@@ -116,7 +132,8 @@ public class TerrainConverter : MonoBehaviour {
         terrainToConvert.gameObject.SetActive(false);
     }
 
-    private static GameObject GenerateMesh(Terrain map, Material terrainMat, bool generateHeightmap) {
+    private static GameObject GenerateMesh(Terrain map, Material terrainMat, bool generateHeightmap)
+    {
         // Generate mesh
         GameObject destObject = new GameObject(terrainToConvert.gameObject.name);
         Vector3 initialPosition = map.transform.position;
@@ -125,7 +142,8 @@ public class TerrainConverter : MonoBehaviour {
         terrainToMesh.terrain = terrainToConvert;
         terrainToMesh.dest = destObject;
         terrainToMesh.BuildMeshBase();
-        if(generateHeightmap) {
+        if (generateHeightmap)
+        {
             terrainToMesh.ConvertTerrain(optimizeMesh);
         }
         map.transform.position = initialPosition;
@@ -136,24 +154,28 @@ public class TerrainConverter : MonoBehaviour {
 
 
         // Apply material to terrain
-        if(terrainMat != null) {
+        if (terrainMat != null)
+        {
             destObject.GetComponent<Renderer>().material = terrainMat;
         }
 
         return destObject;
     }
 
-    private static void SaveMesh(string saveFolder, GameObject destObject, bool safenet) {
+    private static void SaveMesh(string saveFolder, GameObject destObject, bool safenet)
+    {
         Mesh convertedTerrainMesh = destObject.GetComponent<MeshFilter>().mesh;
         string filename = mapToConvert + "_Mesh.asset";
-        if(safenet) {
+        if (safenet)
+        {
             filename = "Safenet_Mesh.asset";
         }
         string saveMeshPath = Path.Combine(filename);
         MeshSaverEditor.SaveMeshToPath(convertedTerrainMesh, saveMeshPath, false, true);
     }
 
-    private static Material GenerateMaterial(string saveFolder, L2TerrainInfo terrainInfo) {
+    private static Material GenerateMaterial(string saveFolder, L2TerrainInfo terrainInfo)
+    {
         // Create material
         Material terrainMat = new Material(Shader.Find("Shader Graphs/TerrainAlphamapDouble"));
 
@@ -161,16 +183,20 @@ public class TerrainConverter : MonoBehaviour {
         Texture2D[] alphaMaps = new Texture2D[terrainInfo.uvLayers.Count - 1];
         Texture2D[] layers = new Texture2D[terrainInfo.uvLayers.Count - 1];
 
-        for (int i = 0; i < terrainInfo.uvLayers.Count; i++) {
+        for (int i = 0; i < terrainInfo.uvLayers.Count; i++)
+        {
             //if(i > 10) {
             //    Debug.LogWarning("Too many layers (" + terrainInfo.uvLayers.Count + ") for the material.");
             //}
 
-            if (i > 0) {
+            if (i > 0)
+            {
                 alphaMaps[i - 1] = terrainInfo.uvLayers[i].alphaMap;
                 layers[i - 1] = terrainInfo.uvLayers[i].texture;
                 terrainMat.SetFloat("_Layer_" + i + "_Enabled", 1.0f);
-            } else {
+            }
+            else
+            {
                 terrainMat.SetTexture("_Layer_" + i, terrainInfo.uvLayers[i].texture);
             }
 
@@ -180,7 +206,8 @@ public class TerrainConverter : MonoBehaviour {
         }
 
         // Build Texture2D array for textures
-        if (terrainInfo.uvLayers.Count - 1 > 0) {
+        if (terrainInfo.uvLayers.Count - 1 > 0)
+        {
             texture2DArrayGenerator.sourceTextures = layers;
             string saveAlphamapPath = Path.Combine(saveFolder, mapToConvert + "_Layer.asset");
             Texture2DArray alphamaps = texture2DArrayGenerator.GenerateTexture2DArray(saveAlphamapPath);
@@ -188,7 +215,8 @@ public class TerrainConverter : MonoBehaviour {
         }
 
         // Build Texture2D array for alphamaps
-        if (alphaMaps.Length > 0) {
+        if (alphaMaps.Length > 0)
+        {
             texture2DArrayGenerator.sourceTextures = alphaMaps;
             string saveAlphamapPath = Path.Combine(saveFolder, mapToConvert + "_Alphamap.asset");
             Texture2DArray alphamaps = texture2DArrayGenerator.GenerateTexture2DArray(saveAlphamapPath);
@@ -200,7 +228,8 @@ public class TerrainConverter : MonoBehaviour {
         return terrainMat;
     }
 
-    private static void SaveMaterial(string saveFolder, Material terrainMat) {
+    private static void SaveMaterial(string saveFolder, Material terrainMat)
+    {
         // Save material
         string materialPath = Path.Combine(saveFolder, mapToConvert + "_Mat.mat");
 
@@ -210,7 +239,8 @@ public class TerrainConverter : MonoBehaviour {
         AssetDatabase.Refresh();
     }
 
-    private static void SaveTerrain(string saveFolder, GameObject destObject) {
+    private static void SaveTerrain(string saveFolder, GameObject destObject)
+    {
         // Save terrain Prefab
         string prefabPath = Path.Combine(saveFolder, mapToConvert + ".prefab");
         PrefabUtility.SaveAsPrefabAsset(destObject, prefabPath);

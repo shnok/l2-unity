@@ -66,6 +66,7 @@ public class MouseOverDetectionManipulator : PointerManipulator
     {
         if (_enabled)
         {
+            // Debug.LogWarning(target);
             _ui.MouseOverUI = true;
             _overThisManipulator = true;
         }

@@ -1,18 +1,21 @@
 using UnityEngine.UIElements;
 
-public class HighlightedInputFieldManipulator : PointerManipulator {
+public class HighlightedInputFieldManipulator : PointerManipulator
+{
     private IVisualElementScheduledItem _scheduler;
     private int _animationFrameCount = 20;
     private int _currentFrame = 0;
     private VisualElement _backgroundElement;
 
-    public HighlightedInputFieldManipulator(VisualElement target, VisualElement backgroundElement, int frames) {
+    public HighlightedInputFieldManipulator(VisualElement target, int frames)
+    {
         this.target = target;
         _animationFrameCount = frames;
-        _backgroundElement = backgroundElement;
+        _backgroundElement = target.Q<VisualElement>("unity-text-input");
     }
 
-    protected override void RegisterCallbacksOnTarget() {
+    protected override void RegisterCallbacksOnTarget()
+    {
         _scheduler = target.schedule.Execute(() => NextBackgroundFrame()).Every(70);
         _scheduler.Pause();
 
@@ -20,34 +23,43 @@ public class HighlightedInputFieldManipulator : PointerManipulator {
         target.RegisterCallback<FocusEvent>(OnFocusEvent);
     }
 
-    protected override void UnregisterCallbacksFromTarget() {
+    protected override void UnregisterCallbacksFromTarget()
+    {
         target.UnregisterCallback<BlurEvent>(OnBlurEvent);
         target.UnregisterCallback<FocusEvent>(OnFocusEvent);
     }
 
-    private void OnFocusEvent(FocusEvent evt) {
+    private void OnFocusEvent(FocusEvent evt)
+    {
         _currentFrame = 0;
 
         _scheduler.Resume();
     }
 
-    private void OnBlurEvent(BlurEvent evt) {
-        if (_backgroundElement.ClassListContains("bg-highlight-" + _currentFrame)) {
+    private void OnBlurEvent(BlurEvent evt)
+    {
+        if (_backgroundElement.ClassListContains("bg-highlight-" + _currentFrame))
+        {
             _backgroundElement.RemoveFromClassList("bg-highlight-" + _currentFrame);
         }
-        
+
         _scheduler.Pause();
     }
 
-    private void NextBackgroundFrame() {
+    private void NextBackgroundFrame()
+    {
         int lastFrame = _currentFrame;
-        if (_currentFrame == _animationFrameCount - 1) {
+        if (_currentFrame == _animationFrameCount - 1)
+        {
             _currentFrame = 0;
-        } else {
+        }
+        else
+        {
             _currentFrame++;
         }
 
-        if (_backgroundElement.ClassListContains("bg-highlight-" + lastFrame)) {
+        if (_backgroundElement.ClassListContains("bg-highlight-" + lastFrame))
+        {
             _backgroundElement.RemoveFromClassList("bg-highlight-" + lastFrame);
         }
 

@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/RestartLocationWindow/RestartLocationWindow.uss?fileID=7433441132597879392&amp;guid=7ac8492aa54dcab45a1454085d96beb6&amp;type=3#RestartLocationWindow" />
+    <ui:VisualElement name="RestartLocationWindow" class="restart-location-window drag-area" style="position: absolute;">
+        <ui:VisualElement name="Buttons" picking-mode="Ignore" class="restart-location-window-buttons">
+            <ui:Instance template="L2Button" name="ToVillageButton">
+                <AttributeOverrides element-name="ButtonLabel" text="To Village" />
+            </ui:Instance>
+            <ui:Instance template="L2Button" name="ToClanHallButton">
+                <AttributeOverrides element-name="ButtonLabel" text="To Clan Hall" />
+            </ui:Instance>
+            <ui:Instance template="L2Button" name="ToCastleButton">
+                <AttributeOverrides element-name="ButtonLabel" text="To Castle" />
+            </ui:Instance>
+            <ui:Instance template="L2Button" name="ToSiegeButton">
+                <AttributeOverrides element-name="ButtonLabel" text="To Siege" />
+            </ui:Instance>
+            <ui:Instance template="L2Button" name="FixedResButton">
+                <AttributeOverrides element-name="ButtonLabel" text="Auto Resurect" />
+            </ui:Instance>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

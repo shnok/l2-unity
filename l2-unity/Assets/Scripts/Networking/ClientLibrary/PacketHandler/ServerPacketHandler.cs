@@ -10,13 +10,15 @@ public abstract class ServerPacketHandler
     protected CancellationTokenSource _tokenSource;
     protected EventProcessor _eventProcessor;
     protected ClientPacketHandler _clientPacketHandler;
+    protected bool _checksumEnabled = false;
 
-    public void SetClient(AsynchronousClient client, ClientPacketHandler clientPacketHandler)
+    public void SetClient(AsynchronousClient client, ClientPacketHandler clientPacketHandler, bool enableChecksum)
     {
         _client = client;
         _tokenSource = new CancellationTokenSource();
         _eventProcessor = EventProcessor.Instance;
         _clientPacketHandler = clientPacketHandler;
+        _checksumEnabled = enableChecksum;
     }
 
     public bool HandlePacketCrypto(byte[] data, bool init)
@@ -33,19 +35,26 @@ public abstract class ServerPacketHandler
                     return false;
                 }
             }
-            else if (!NewCrypt.verifyChecksum(data))
+            else if (_checksumEnabled && !NewCrypt.verifyChecksum(data)) // checksum verification is only enabled in loginserver
             {
                 Debug.LogError("Packet checksum is wrong. Ignoring packet...");
                 return false;
+            }
+        }
+        else
+        {
+            if (GameClient.Instance.LogCryptography)
+            {
+                Debug.Log("<---- [GAME] CLEAR: " + StringUtils.ByteArrayToString(data));
             }
         }
 
         return true;
     }
 
-    public void HandlePacketAsync(byte[] data)
+    public async Task HandlePacketAsync(byte[] data)
     {
-        HandlePacket(data);
+        await Task.Run(() => HandlePacket(data));
     }
 
     public void CancelTokens()

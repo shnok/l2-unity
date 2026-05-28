@@ -1,0 +1,51 @@
+﻿// CHAINS
+
+            void ChainModifyVertex(inout VertexData v, inout VertexToPixel v2p)
+            {
+               ExtraV2F d = (ExtraV2F)0;
+               ModifyVertex(v, d);
+
+               %EXTRAV2F0% v2p.extraV2F0 = d.extraV2F0;
+               %EXTRAV2F1% v2p.extraV2F1 = d.extraV2F1;
+               %EXTRAV2F2% v2p.extraV2F2 = d.extraV2F2;
+               %EXTRAV2F3% v2p.extraV2F3 = d.extraV2F3;
+               %EXTRAV2F4% v2p.extraV2F4 = d.extraV2F4;
+               %EXTRAV2F5% v2p.extraV2F5 = d.extraV2F5;
+               %EXTRAV2F6% v2p.extraV2F6 = d.extraV2F6;
+               %EXTRAV2F7% v2p.extraV2F7 = d.extraV2F7;
+            }
+
+            void ChainModifyTessellatedVertex(inout VertexData v, inout VertexToPixel v2p)
+            {
+               ExtraV2F d = (ExtraV2F)0;
+               %EXTRAV2F0% d.extraV2F0 = v2p.extraV2F0;
+               %EXTRAV2F1% d.extraV2F1 = v2p.extraV2F1;
+               %EXTRAV2F2% d.extraV2F2 = v2p.extraV2F2;
+               %EXTRAV2F3% d.extraV2F3 = v2p.extraV2F3;
+               %EXTRAV2F4% d.extraV2F4 = v2p.extraV2F4;
+               %EXTRAV2F5% d.extraV2F5 = v2p.extraV2F5;
+               %EXTRAV2F6% d.extraV2F6 = v2p.extraV2F6;
+               %EXTRAV2F7% d.extraV2F7 = v2p.extraV2F7;
+
+               ModifyTessellatedVertex(v, d);
+
+               %EXTRAV2F0% v2p.extraV2F0 = d.extraV2F0;
+               %EXTRAV2F1% v2p.extraV2F1 = d.extraV2F1;
+               %EXTRAV2F2% v2p.extraV2F2 = d.extraV2F2;
+               %EXTRAV2F3% v2p.extraV2F3 = d.extraV2F3;
+               %EXTRAV2F4% v2p.extraV2F4 = d.extraV2F4;
+               %EXTRAV2F5% v2p.extraV2F5 = d.extraV2F5;
+               %EXTRAV2F6% v2p.extraV2F6 = d.extraV2F6;
+               %EXTRAV2F7% v2p.extraV2F7 = d.extraV2F7;
+            }
+
+
+            void ChainFinalColorForward(inout Surface l, inout ShaderData d, inout half4 color)
+            {
+               
+            }
+
+            void ChainFinalGBufferStandard(inout Surface s, inout ShaderData d, inout half4 GBuffer0, inout half4 GBuffer1, inout half4 GBuffer2, inout half4 outEmission, inout half4 outShadowMask)
+            {
+               
+            }

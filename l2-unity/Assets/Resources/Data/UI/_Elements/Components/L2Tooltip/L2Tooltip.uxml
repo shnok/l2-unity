@@ -1,0 +1,62 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Tooltip/L2Tooltip.uss?fileID=7433441132597879392&amp;guid=988ae1650f5f438f8eef665ee178196e&amp;type=3#L2Tooltip" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Slot/L2Slot.uss?fileID=7433441132597879392&amp;guid=5cebba6f4b1058048870da7302ad5971&amp;type=3#L2Slot" />
+    <ui:VisualElement name="Tooltip" tabindex="-1" picking-mode="Ignore" style="position: absolute;">
+        <ui:VisualElement name="LabelTooltip" style="flex-grow: 1;">
+            <ui:Label tabindex="-1" text="Adena (0)" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Content" class="tooltip-background" style="font-size: 12px; color: rgb(248, 247, 247); -unity-text-outline-width: 0.1px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-left: 4px; padding-right: 4px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="SkillTooltip" style="max-width: 250px; width: 250px;">
+            <ui:VisualElement name="Content" class="tooltip-background" style="align-items: stretch; max-width: 250px; width: 250px;">
+                <ui:VisualElement name="SkillTooltipFirst" class="skill-tooltip-first">
+                    <ui:VisualElement name="SkillTooltipIcon" class="l2-slot" style="border-radius: 2px;" />
+                    <ui:VisualElement style="margin-left: 6px;">
+                        <ui:VisualElement class="toolitp-skill-label-container">
+                            <ui:Label text="Triple sonic slash triple ultimate" name="SkillTooltipName" class="l2-color-4 tooltip-skill-name" />
+                            <ui:Label text="Lv" name="SkillTooltipLevel" class="l2-color-3 tooltip-skill-level" />
+                            <ui:Label text="1" name="SkillTooltipLevelValue" class="l2-color-2 tooltip-skill-level-value" />
+                        </ui:VisualElement>
+                        <ui:Label text="Passive Skill" name="SkillTooltipType" class="l2-color-2 tooltip-skill-type" style="font-size: 12px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="SkillTooltipSecond" class="skill-tooltip-second">
+                    <ui:VisualElement name="SkillTooltipMpCost" class="skill-tooltip-group" style="font-size: 14px;">
+                        <ui:Label text="MP Cost :" name="Label" class="l2-color-4 tooltip-group-label" />
+                        <ui:Label text="1" name="SkillTooltipMpCostValue" class="l2-color-5 tooltip-group-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SkillTooltipRange" class="skill-tooltip-group">
+                        <ui:Label text="Range :" class="l2-color-3 tooltip-group-label" />
+                        <ui:Label text="300" name="SkillTooltipRangeValue" class="l2-color-2 tooltip-group-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SkillTooltipCastingTime" class="skill-tooltip-group">
+                        <ui:Label text="Casting Time :" name="Label" class="l2-color-3 tooltip-group-label" />
+                        <ui:Label text="3 Sec." name="SkillTooltipCastingTimeValue" class="l2-color-2 tooltip-group-value" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SkillTooltipReuseTime" class="skill-tooltip-group">
+                        <ui:Label text="Reuse Time :" class="l2-color-3 tooltip-group-label" />
+                        <ui:Label text="4 Sec." name="SkillTooltipReuseTimeValue" class="l2-color-2 tooltip-group-value" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement style="max-height: 3px; border-bottom-width: 1px; border-radius: 0.3px; border-color: rgba(55, 51, 43, 0.6);" />
+                <ui:VisualElement name="SkillTooltipDescriptionContainer" class="skill-tooltip-description-container">
+                    <ui:Label name="SkillTooltipDescription" text="Attacks the enemy with $s1 Power added to P. Atk., and inflicts Bleed causing loss of $s3 HP per second for $s2. Requires a sword, dagger, or dual sword. Over-hit." double-click-selects-word="false" triple-click-selects-line="false" enable-rich-text="false" emoji-fallback-support="false" class="skill-tooltip-group l2-color-6" style="white-space: normal;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="EffectTooltip" style="flex-grow: 1;">
+            <ui:VisualElement name="Content" class="tooltip-background" style="max-width: 170px; align-items: stretch; font-size: 12px;">
+                <ui:VisualElement class="effect-tooltip-section">
+                    <ui:Label text="Sprint" name="EffectTooltipName" class="l2-color-4" style="margin-right: 3px;" />
+                    <ui:Label name="EffectTooltipEnchant" class="l2-color-5" style="display: none; margin-right: 3px;" />
+                    <ui:Label text="Lv" name="EffectTooltipLevel" class="l2-color-3" style="margin-right: 3px;" />
+                    <ui:Label text="1" name="EffectTooltipLevelValue" class="l2-color-2" />
+                </ui:VisualElement>
+                <ui:VisualElement name="EffectTooltipDurationContainer" class="effect-tooltip-section">
+                    <ui:Label text="Remaining Time :" class="l2-color-3" style="margin-right: 3px;" />
+                    <ui:Label text="1h 2m 3s" name="EffectTooltipDurationValue" class="l2-color-2" />
+                </ui:VisualElement>
+                <ui:Label text="Increases Movement Speed by 33 for 20 minutes." name="EffectTooltipDescription" class="l2-color-6" style="margin: 4px 3px 2px 3px; padding: 0; white-space: normal;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

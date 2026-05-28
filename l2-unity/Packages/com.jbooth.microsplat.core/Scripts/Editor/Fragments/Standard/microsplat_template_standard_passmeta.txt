@@ -1,0 +1,197 @@
+﻿
+	   // ---- meta information extraction pass:
+	   Pass
+      {
+		   Name "Meta"
+		   Tags { "LightMode" = "Meta" }
+		   Cull Off
+
+         CGPROGRAM
+
+         %PRAGMAS%
+
+         // compile directives
+         #pragma target %SHADERTARGET%
+         #pragma multi_compile_instancing
+         #pragma multi_compile_local __ _ALPHATEST_ON
+         #pragma skip_variants FOG_LINEAR FOG_EXP FOG_EXP2
+         #pragma shader_feature EDITOR_VISUALIZATION
+
+         #include "HLSLSupport.cginc"
+         #include "UnityShaderVariables.cginc"
+         #include "UnityShaderUtilities.cginc"
+
+         #include "UnityCG.cginc"
+
+         #define _PASSMETA 1
+
+         %DEFINES%
+
+         #if _NOMINDIELETRIC
+            // for Standard
+            #ifdef unity_ColorSpaceDielectricSpec
+               #undef unity_ColorSpaceDielectricSpec
+            #endif
+            #define unity_ColorSpaceDielectricSpec half4(0,0,0,1)
+         #endif
+
+         #include "Lighting.cginc"
+         #include "UnityPBSLighting.cginc"
+         #include "UnityMetaPass.cginc"
+
+
+         #if _MICROTERRAIN && !_TERRAINBLENDABLESHADER
+            #define UNITY_ASSUME_UNIFORM_SCALING
+            #define UNITY_DONT_INSTANCE_OBJECT_MATRICES
+            #define UNITY_INSTANCED_LOD_FADE
+         #else
+            #define UNITY_INSTANCED_LOD_FADE
+            #define UNITY_INSTANCED_SH
+            #define UNITY_INSTANCED_LIGHTMAPSTS
+         #endif
+
+         // data across stages, stripped like the above.
+         struct VertexToPixel
+         {
+            UNITY_POSITION(pos);
+            float3 worldPos : TEXCOORD0;
+            float3 worldNormal : TEXCOORD1;
+            float4 worldTangent : TEXCOORD2;
+            %UV0% float4 texcoord0 : TEXCCOORD3;
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+            %UV1% float4 texcoord1 : TEXCCOORD4;
+            %UV2% float4 texcoord2 : TEXCCOORD5;
+            #endif
+            %UV3% float4 texcoord3 : TEXCCOORD6;
+            %SCREENPOS% float4 screenPos : TEXCOORD7;
+            %VERTEXCOLOR% float4 vertexColor : COLOR;
+            #ifdef EDITOR_VISUALIZATION
+              float2 vizUV : TEXCOORD8;
+              float4 lightCoord : TEXCOORD9;
+            #endif
+
+            %EXTRAV2F0% float4 extraV2F0 : TEXCOORD10;
+            %EXTRAV2F1% float4 extraV2F1 : TEXCOORD11;
+            %EXTRAV2F2% float4 extraV2F2 : TEXCOORD12;
+            %EXTRAV2F3% float4 extraV2F3 : TEXCOORD13;
+            %EXTRAV2F4% float4 extraV2F4 : TEXCOORD14;
+            %EXTRAV2F5% float4 extraV2F5 : TEXCOORD15;
+            %EXTRAV2F6% float4 extraV2F6 : TEXCOORD16;
+            %EXTRAV2F7% float4 extraV2F7 : TEXCOORD17;
+
+
+            UNITY_VERTEX_INPUT_INSTANCE_ID
+            UNITY_VERTEX_OUTPUT_STEREO
+         };
+
+         %TEMPLATE_SHARED%
+            
+         %CBUFFER%
+
+         %CODE%
+
+         %SHADERDESC%
+
+         // vertex shader
+         VertexToPixel Vert (VertexData v)
+         {
+            UNITY_SETUP_INSTANCE_ID(v);
+            VertexToPixel o;
+            UNITY_INITIALIZE_OUTPUT(VertexToPixel,o);
+            UNITY_TRANSFER_INSTANCE_ID(v,o);
+            UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+#if !_TESSELLATION_ON
+           ChainModifyVertex(v, o);
+#endif
+
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+               float2 uv1 = v.texcoord1.xy;
+               float2 uv2 = v.texcoord2.xy;
+            #else
+               float2 uv1 = v.texcoord0.xy;
+               float2 uv2 = uv1;
+            #endif
+
+            o.pos = UnityMetaVertexPosition(v.vertex, uv1, uv2, unity_LightmapST, unity_DynamicLightmapST);
+
+            #ifdef EDITOR_VISUALIZATION
+               o.vizUV = 0;
+               o.lightCoord = 0;
+               if (unity_VisualizationMode == EDITORVIZ_TEXTURE)
+                  o.vizUV = UnityMetaVizUV(unity_EditorViz_UVIndex, v.texcoord0.xy, uv1, uv2, unity_EditorViz_Texture_ST);
+               else if (unity_VisualizationMode == EDITORVIZ_SHOWLIGHTMASK)
+               {
+                  o.vizUV = uv1 * unity_LightmapST.xy + unity_LightmapST.zw;
+                  o.lightCoord = mul(unity_EditorViz_WorldToLight, mul(unity_ObjectToWorld, float4(v.vertex.xyz, 1)));
+               }
+            #endif
+
+
+            %UV0% o.texcoord0 = v.texcoord0;
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+            %UV1% o.texcoord1 = v.texcoord1;
+            %UV2% o.texcoord2 = v.texcoord2;
+            #endif
+            %UV3% o.texcoord3 = v.texcoord3;
+            %VERTEXCOLOR% o.vertexColor = v.vertexColor;
+            %SCREENPOS% o.screenPos = ComputeScreenPos(o.pos);
+            o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+            o.worldNormal = UnityObjectToWorldNormal(v.normal);
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+               o.worldTangent.xyz = UnityObjectToWorldDir(v.tangent.xyz);
+               fixed tangentSign = v.tangent.w * unity_WorldTransformParams.w;
+               o.worldTangent.w = tangentSign;
+            #endif
+
+            // MS Only
+            ApplyTerrainTangent(o);
+
+            return o;
+         }
+
+         %TESSELLATION%
+
+         // fragment shader
+         fixed4 Frag (VertexToPixel IN) : SV_Target
+         {
+            UNITY_SETUP_INSTANCE_ID(IN);
+
+            #ifdef FOG_COMBINED_WITH_TSPACE
+               UNITY_EXTRACT_FOG_FROM_TSPACE(IN);
+            #elif defined (FOG_COMBINED_WITH_WORLD_POS)
+               UNITY_EXTRACT_FOG_FROM_WORLD_POS(IN);
+            #else
+               UNITY_EXTRACT_FOG(IN);
+            #endif
+
+            ShaderData d = CreateShaderData(IN);
+
+            Surface l = (Surface)0;
+
+            l.Albedo = half3(0.5, 0.5, 0.5);
+            l.Normal = float3(0,0,1);
+            l.Occlusion = 1;
+            l.Alpha = 1;
+
+            
+            ChainSurfaceFunction(l, d);
+
+            UnityMetaInput metaIN;
+            UNITY_INITIALIZE_OUTPUT(UnityMetaInput, metaIN);
+            metaIN.Albedo = l.Albedo;
+            metaIN.Emission = l.Emission;
+          
+            #if _USESPECULAR
+               metaIN.SpecularColor = l.Specular;
+            #endif
+
+            #ifdef EDITOR_VISUALIZATION
+              metaIN.VizUV = IN.vizUV;
+              metaIN.LightCoord = IN.lightCoord;
+            #endif
+            return UnityMetaFragment(metaIN);
+         }
+         ENDCG
+
+      }

@@ -6,24 +6,20 @@ public class IdleIntention : IntentionBase
 
     public override void Enter(object arg0)
     {
-        if (_stateMachine.IsInMovableState())
-        {
-            _stateMachine.ChangeState(PlayerState.IDLE);
-        }
-        else if (!_stateMachine.WaitingForServerReply)
-        {
-            _stateMachine.SetWaitingForServerReply(true);
-            GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(Vector3.zero);
-        }
-        else
-        {
-            PlayerController.Instance.StopMoving();
-        }
+        // if (_stateMachine.State != PlayerState.ATTACKING)
+        // {
+        // IdleIntention is not triggerable by player, no need to ask server for permission
+        _stateMachine.ChangeState(PlayerState.IDLE, arg0);
+        // }
     }
 
     public override void Exit() { }
     public override void Update()
     {
-
+        // if (_stateMachine.State == PlayerState.ATTACKING)
+        // {
+        //     if (Time.time >= PlayerCombat.Instance.AttackEndTime)
+        //         _stateMachine.ChangeState(PlayerState.IDLE);
+        // }
     }
 }

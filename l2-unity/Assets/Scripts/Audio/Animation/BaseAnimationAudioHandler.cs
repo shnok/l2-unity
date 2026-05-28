@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 public class BaseAnimationAudioHandler : MonoBehaviour
 {
-    [SerializeField] protected Animator _animator;
+    [SerializeField] protected EntityReferenceHolder _entityReferenceHolder;
     [SerializeField] protected float[] _walkStepRatios = new float[] { 0.25f, 0.75f };
     [SerializeField] protected float[] _runStepRatios = new float[] { 0.25f, 0.75f };
     [SerializeField] protected float _swishRatio = 0.25f;
@@ -22,17 +25,32 @@ public class BaseAnimationAudioHandler : MonoBehaviour
     public float AtkRatio { get { return _atkRatio; } }
     public float DeathRatio { get { return _deathRatio; } }
     public float FallRatio { get { return _fallRatio; } }
+    public Animator Animator { get { return _entityReferenceHolder.Animator; } }
 
-    private void Start() {
+    private void Start()
+    {
         Initialize();
     }
 
-    public void PlaySound(ItemSoundEvent soundEvent) {
-        AudioManager.Instance.PlayItemSound(soundEvent, transform.position);
+    protected virtual void Initialize()
+    {
+        if (_entityReferenceHolder == null)
+        {
+            Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
+            _entityReferenceHolder = GetComponent<EntityReferenceHolder>();
+        }
     }
 
-    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio) {
-        if (ratio == 0) {
+    // Entity sounds
+    public virtual void PlaySound(EntitySoundEvent soundEvent)
+    {
+    }
+
+
+    public void PlaySoundAtRatio(EntitySoundEvent soundEvent, float ratio)
+    {
+        if (ratio == 0)
+        {
             PlaySound(soundEvent);
             return;
         }
@@ -40,17 +58,124 @@ public class BaseAnimationAudioHandler : MonoBehaviour
         StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
     }
 
-    public IEnumerator PlaySoundAtRatioCoroutine(ItemSoundEvent soundEvent, float ratio) {
-        while ((_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio) {
+    public IEnumerator PlaySoundAtRatioCoroutine(EntitySoundEvent soundEvent, float ratio)
+    {
+        while ((Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
+        {
             yield return null;
         }
 
         PlaySound(soundEvent);
     }
 
-    protected virtual void Initialize() {
-        if (_animator == null) {
-            _animator = GetComponent<Animator>();
+    public void PlaySoundAtRatio(EventReference soundEvent, float ratio)
+    {
+        if (ratio == 0)
+        {
+            PlaySound(soundEvent);
+            return;
         }
+
+        StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
+    }
+
+    public IEnumerator PlaySoundAtRatioCoroutine(EventReference soundEvent, float ratio)
+    {
+        while ((Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
+        {
+            yield return null;
+        }
+
+        PlaySound(soundEvent);
+    }
+
+    public virtual void PlaySound(EventReference soundEvent)
+    {
+        AudioManager.Instance.PlaySound(soundEvent, transform.position);
+    }
+
+    // Item sounds
+    public virtual void PlaySound(ItemSoundEvent soundEvent)
+    {
+        AudioManager.Instance.PlayItemSound(soundEvent, transform.position);
+    }
+
+    public void PlaySoundAtRatio(ItemSoundEvent soundEvent, float ratio)
+    {
+        if (ratio == 0)
+        {
+            PlaySound(soundEvent);
+            return;
+        }
+
+        StartCoroutine(PlaySoundAtRatioCoroutine(soundEvent, ratio));
+    }
+
+
+    public IEnumerator PlaySoundAtRatioCoroutine(ItemSoundEvent soundEvent, float ratio)
+    {
+        while ((Animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1) < ratio)
+        {
+            yield return null;
+        }
+
+        PlaySound(soundEvent);
+    }
+
+
+    public virtual void PlayCritSound()
+    {
+        AudioManager.Instance.Play3DSoundByReferenceName("SkillSound/critical_hit", transform.position);
+    }
+
+    public virtual void PlaySoulshotSound()
+    {
+        AudioManager.Instance.Play3DSoundByReferenceName("SkillSound/soul_shot_shot", transform.position);
+    }
+
+    public virtual void PlayDefenseSound()
+    {
+    }
+
+    public virtual void PlayDamageSound()
+    {
+    }
+
+    public virtual void PlaySwishSound()
+    {
+    }
+
+    public virtual void PlaySkillVoice(string voice)
+    {
+    }
+
+    public virtual void PlayBowBendSound()
+    {
+        AudioManager.Instance.Play3DSoundByReferenceName("ChrSound/Bow_Draw", transform.position);
+    }
+
+    public virtual void PlayArrowShootSound()
+    {
+        AudioManager.Instance.PlayItemSound(ItemSoundEvent.bow_small, transform.position);
+    }
+
+    protected EventReference GetRandomEvent(List<EventReference> events)
+    {
+        if (events == null)
+        {
+            return new EventReference();
+        }
+
+        return events[UnityEngine.Random.Range(0, events.Count)];
+    }
+
+    public virtual void PlayBreatheSound()
+    {
+        if (!RandomUtils.ShouldEventHappen(_runBreathChance))
+        {
+            return;
+        }
+
+        PlaySound(EntitySoundEvent.Breath);
     }
 }

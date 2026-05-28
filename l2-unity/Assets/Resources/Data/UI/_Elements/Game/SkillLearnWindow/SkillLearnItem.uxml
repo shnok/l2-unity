@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnWindow.uss?fileID=7433441132597879392&amp;guid=d5d3f5a8db6d7b90d98496e68b124270&amp;type=3#SkillLearnWindow" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Slot/L2Slot.uss?fileID=7433441132597879392&amp;guid=5cebba6f4b1058048870da7302ad5971&amp;type=3#L2Slot" />
+    <ui:VisualElement name="Skill" class="skill-learn-row">
+        <ui:Button name="SkillIcon" class="l2-slot skillbar-slot">
+            <ui:VisualElement name="BgContainer" picking-mode="Ignore" class="slot-bg-container">
+                <ui:VisualElement name="SlotBg" picking-mode="Ignore" class="slot-bg" />
+                <ui:VisualElement name="Effect" picking-mode="Ignore" class="toggle-effect" />
+                <ui:VisualElement name="Key" picking-mode="Ignore" class="shortcut-key" />
+            </ui:VisualElement>
+        </ui:Button>
+        <ui:VisualElement name="SkillDetails" class="skill-learn-row-details">
+            <ui:Label text="Mortal Blow" name="SkillName" class="l2-color-4 skill-learn-label" style="margin-top: 3px;" />
+            <ui:VisualElement name="SkillLabelGroup" class="skill-learn-cost" style="margin-top: 0;">
+                <ui:Label text="Lv" name="Level" class="skill-group l2-color-3 skill-learn-label" />
+                <ui:Label text="1" name="LevelValue" class="skill-group l2-color-2 skill-learn-label" style="margin-right: 35px;" />
+                <ui:Label text="SP Cost : " name="SPCost" class="skill-group l2-color-3 skill-learn-label" />
+                <ui:Label text="1000" name="SPCostValue" class="skill-group l2-color-2 skill-learn-label" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

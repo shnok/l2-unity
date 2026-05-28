@@ -1,5 +1,7 @@
-public class SMParam {
-    public enum SMParamType {
+public class SMParam
+{
+    public enum SMParamType
+    {
         TYPE_SYSTEM_STRING = 13,
         TYPE_PLAYER_NAME = 12,
         TYPE_DOOR_NAME = 11,
@@ -7,7 +9,7 @@ public class SMParam {
         TYPE_ELEMENT_NAME = 9,
         // id 8 - same as 3
         TYPE_ZONE_NAME = 7,
-        TYPE_LONG_NUMBER = 6,
+        TYPE_ITEM_NUMBER = 6,
         TYPE_CASTLE_NAME = 5,
         TYPE_SKILL_NAME = 4,
         TYPE_ITEM_NAME = 3,
@@ -19,38 +21,46 @@ public class SMParam {
     private SMParamType _type;
     private object _value;
 
-    public SMParamType Type { get { return _type; } set { _type = value;} }
+    public SMParamType Type { get { return _type; } set { _type = value; } }
 
-    public SMParam(SMParamType type, object value) {
+    public SMParam(SMParamType type, object value)
+    {
         _type = type;
         _value = value;
     }
 
-    public SMParam(SMParamType type) {
+    public SMParam(SMParamType type)
+    {
         _type = type;
     }
 
-    public void SetValue(object value) {
+    public void SetValue(object value)
+    {
         this._value = value;
     }
 
-    public string GetStringValue() {
+    public string GetStringValue()
+    {
         return (string)_value;
     }
 
-    public int GetIntValue() {
+    public int GetIntValue()
+    {
         return (int)_value;
     }
 
-    public long GetLongValue() {
+    public long GetLongValue()
+    {
         return (long)_value;
     }
 
-    public int[] GetIntArrayValue() {
+    public int[] GetIntArrayValue()
+    {
         return (int[])_value;
     }
 
-    public float[] GetFloatArrayValue() {
+    public float[] GetFloatArrayValue()
+    {
         return (float[])_value;
     }
 

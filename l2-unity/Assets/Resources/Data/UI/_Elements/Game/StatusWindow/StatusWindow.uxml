@@ -1,0 +1,34 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="Frame_DF_Ver" src="project://database/Assets/Resources/Data/UI/_Elements/Components/Frame_DF_Ver.uxml?fileID=9197481963319205126&amp;guid=af155183079e5194eb28f9cf0305ecbb&amp;type=3#Frame_DF_Ver" />
+    <ui:Template name="L2Bar" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Bar/L2Bar.uxml?fileID=9197481963319205126&amp;guid=e7da9ee05d38b14459d91eca9fc49926&amp;type=3#L2Bar" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/StatusWindow/StatusWindow.uss?fileID=7433441132597879392&amp;guid=c3937ba47fc202d49921ef21838f11c8&amp;type=3#StatusWindow" />
+    <ui:GroupBox name="StatusWindow" class="status-window">
+        <ui:VisualElement name="Frame_DF_Ver" template="Frame_DF_Ver" class="drag-area status-window-drag">
+            <ui:Instance template="Frame_DF_Ver" name="Frame_DF_Ver" class="frame_df_ver drag-area" />
+        </ui:VisualElement>
+        <ui:GroupBox name="CenterContainer" class="status-window-bg">
+            <ui:VisualElement name="LevelContainer" class="status-window-row-1">
+                <ui:GroupBox name="LevelContainer" class="level-container" style="margin-top: 0; margin-right: 0; margin-bottom: 3px; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-image: url(&quot;project://database/Assets/Resources/Data/UI/Assets/Status/ps_levelback.png?fileID=2800000&amp;guid=a6577a69848b54348847defd32813d5e&amp;type=3#ps_levelback&quot;); flex-basis: auto; flex-grow: 0; flex-shrink: 0; -unity-font-definition: url(&quot;project://database/Assets/Resources/Data/UI/Assets/Font/tahoma.ttf?fileID=12800000&amp;guid=96fb7a735e76e0742bf125e2d4734bf3&amp;type=3#tahoma&quot;); color: rgb(171, 138, 85); -unity-text-align: upper-center; font-size: 11px; flex-direction: column; -unity-slice-right: 10; -unity-slice-bottom: 12; -unity-slice-scale: 0; -unity-text-outline-width: 0; -unity-text-outline-color: rgb(0, 0, 0); text-shadow: 1px 1px 0.5px rgba(0, 0, 0, 0.65); letter-spacing: 0;">
+                    <ui:Label text="1" name="LevelText" class="l2-color-2" style="font-size: 12px; -unity-text-outline-width: 0.1px; padding-bottom: 2px; -unity-font-style: normal; text-shadow: 0.8px 0.8px 3px rgb(0, 0, 0);" />
+                </ui:GroupBox>
+                <ui:Label text="Shnok" name="PlayerNameText" class="l2-color-4" style="align-items: auto; margin-top: 2px; margin-right: 0; margin-bottom: 0; margin-left: 5px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-center; -unity-font-definition: url(&quot;project://database/Assets/Resources/Data/UI/Assets/Font/tahoma.ttf?fileID=12800000&amp;guid=96fb7a735e76e0742bf125e2d4734bf3&amp;type=3#tahoma&quot;); -unity-text-outline-width: 0.3px; text-shadow: 0.5px 0.5px 0 rgb(0, 0, 0); letter-spacing: 3px; font-size: 11px; width: auto; scale: 1 1;" />
+            </ui:VisualElement>
+            <ui:GroupBox name="BarGroup" class="status-window-row-2">
+                <ui:Instance template="L2Bar" name="CPBar" class="l2-bar cp status">
+                    <AttributeOverrides element-name="StatusLabel" text="CP" />
+                </ui:Instance>
+                <ui:Instance template="L2Bar" name="HPBar" class="l2-bar status" />
+                <ui:Instance template="L2Bar" name="MPBar" class="l2-bar mp status">
+                    <AttributeOverrides element-name="StatusLabel" text="MP" />
+                </ui:Instance>
+                <ui:Instance template="L2Bar" name="EXPBar" class="l2-bar exp">
+                    <AttributeOverrides element-name="Text" text="00.00%" />
+                </ui:Instance>
+            </ui:GroupBox>
+        </ui:GroupBox>
+        <ui:VisualElement name="SizeControl" class="status-window-size-control">
+            <ui:VisualElement name="SizeControl" class="status-window-resize-handle resize-hor" />
+        </ui:VisualElement>
+    </ui:GroupBox>
+</ui:UXML>

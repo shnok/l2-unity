@@ -12,6 +12,7 @@ public class L2GameUI : L2UI
 
     private static L2GameUI _instance;
     public static L2GameUI Instance { get { return _instance; } }
+    public bool IsTyping { get; set; }
 
     private void Awake()
     {
@@ -25,6 +26,12 @@ public class L2GameUI : L2UI
         }
 
         _openedWindows = new List<L2PopupWindow>();
+    }
+
+    private void Start()
+    {
+        MouseOverUI = false;
+        _windowsLoaded = 0;
     }
 
     private void OnDestroy()
@@ -80,17 +87,30 @@ public class L2GameUI : L2UI
         if (InventoryWindow.Instance != null)
         {
             InventoryWindow.Instance.AddWindow(_rootVisualContainer);
-            InventoryWindow.Instance.HideWindow();
+            InventoryWindow.Instance.HideWindow(true);
         }
         if (CharacterInfoWindow.Instance != null)
         {
             CharacterInfoWindow.Instance.AddWindow(_rootVisualContainer);
-            CharacterInfoWindow.Instance.HideWindow();
+            CharacterInfoWindow.Instance.HideWindow(true);
         }
         if (ActionWindow.Instance != null)
         {
             ActionWindow.Instance.AddWindow(_rootVisualContainer);
-            ActionWindow.Instance.HideWindow();
+            ActionWindow.Instance.HideWindow(true);
+        }
+        if (NpcHtmlWindow.Instance != null)
+        {
+            NpcHtmlWindow.Instance.AddWindow(_rootVisualContainer);
+        }
+        if (ShopWindow.Instance != null)
+        {
+            ShopWindow.Instance.AddWindow(_rootVisualContainer);
+            ShopWindow.Instance.HideWindow(true);
+        }
+        if (RestartLocationWindow.Instance != null)
+        {
+            RestartLocationWindow.Instance.AddWindow(_rootVisualContainer);
         }
         if (TargetWindow.Instance != null)
         {
@@ -103,12 +123,42 @@ public class L2GameUI : L2UI
         if (L2ToolTip.Instance != null)
         {
             L2ToolTip.Instance.AddWindow(_tooltipVisualContainer);
-            L2ToolTip.Instance.HideWindow();
+            L2ToolTip.Instance.HideWindow(true);
         }
         if (L2SlotManager.Instance != null)
         {
             L2SlotManager.Instance.AddWindow(_slotVisualContainer);
-            L2SlotManager.Instance.HideWindow();
+            L2SlotManager.Instance.HideWindow(true);
+        }
+        if (SkillWindow.Instance != null)
+        {
+            SkillWindow.Instance.AddWindow(_rootVisualContainer);
+            SkillWindow.Instance.HideWindow(true);
+        }
+        if (SkillLearnWindow.Instance != null)
+        {
+            SkillLearnWindow.Instance.AddWindow(_rootVisualContainer);
+            SkillLearnWindow.Instance.HideWindow(true);
+        }
+        if (BuffWindow.Instance != null)
+        {
+            BuffWindow.Instance.AddWindow(_rootVisualContainer);
+            BuffWindow.Instance.HideWindow(true);
+        }
+        if (DebuffWindow.Instance != null)
+        {
+            DebuffWindow.Instance.AddWindow(_rootVisualContainer);
+            DebuffWindow.Instance.HideWindow(true);
+        }
+        if (L2ConfirmWindow.Instance != null)
+        {
+            L2ConfirmWindow.Instance.AddWindow(_popupVisualContainer);
+            L2ConfirmWindow.Instance.HideWindow(true);
+        }
+        if (L2InputAmountWindow.Instance != null)
+        {
+            L2InputAmountWindow.Instance.AddWindow(_popupVisualContainer);
+            L2InputAmountWindow.Instance.HideWindow(true);
         }
     }
 
@@ -127,6 +177,10 @@ public class L2GameUI : L2UI
         {
             NativeFunctions.GetCursorPos(out _lastMousePosition);
             _mouseEnabled = false;
+        }
+        else
+        {
+            NativeFunctions.SetCursorPos(_lastMousePosition.X, _lastMousePosition.Y);
         }
     }
 
@@ -166,6 +220,11 @@ public class L2GameUI : L2UI
 
         if (InputManager.Instance.CloseWindow)
         {
+            if (PlayerStateMachine.Instance?.State == PlayerState.SKILL) // Prioritize skill cast cancel
+            {
+                return;
+            }
+
             if (ChatWindow.Instance != null && ChatWindow.Instance.ChatOpened)
             {
                 ChatWindow.Instance.CloseChat(false);
@@ -174,11 +233,27 @@ public class L2GameUI : L2UI
 
             if (_openedWindows != null && _openedWindows.Count > 0)
             {
-                _openedWindows[_openedWindows.Count - 1].HideWindow();
+                _openedWindows[_openedWindows.Count - 1].HideWindow(false);
             }
             else
             {
                 SystemMenuWindow.Instance.ToggleHideWindow();
+            }
+        }
+
+        if (InputManager.Instance.OpenCharacerStatus)
+        {
+            if (CharacterInfoWindow.Instance != null)
+            {
+                CharacterInfoWindow.Instance.ToggleHideWindow();
+            }
+        }
+
+        if (InputManager.Instance.OpenSkills)
+        {
+            if (SkillWindow.Instance != null)
+            {
+                SkillWindow.Instance.ToggleHideWindow();
             }
         }
     }

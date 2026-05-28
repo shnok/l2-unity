@@ -1,0 +1,126 @@
+.l2-button-template {
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.l2-flex-button {
+    flex-grow: 0;
+    width: auto;
+    -unity-slice-left: 6;
+    -unity-slice-top: 6;
+    -unity-slice-right: 6;
+    -unity-slice-bottom: 6;
+    font-size: 12px;
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma Light');
+    letter-spacing: 2px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    overflow: visible;
+    background-color: transparent;
+    background-image: resource('Data/UI/Assets/Button/Button_DF_L2Unity');
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    margin: 0;
+}
+
+.l2-flex-button:active {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_L2Unity_Down');
+}
+
+.l2-flex-button:active:hover {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_L2Unity_Down');
+}
+
+.l2-flex-button:hover {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_L2Unity_Over');
+}
+
+.l2-flex-button-label {
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma Light');
+    color: rgba(255, 249, 227, 0.96);
+    -unity-text-align: middle-center;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.l2-flex-button .l2-flex-button-icon {
+    display: none;
+}
+
+.l2-flex-button.icon .l2-flex-button-icon {
+    display: flex;
+}
+
+.l2-flex-button-icon {
+    width: 16px;
+    height: 15px;
+    max-width: 16px;
+    max-height: 16px;
+    background-image: resource('Data/UI/Assets/Menu/Icon_df_SystemMenuWnd_ReStart_clear');
+    position: absolute;
+    top: 8;
+    left: 15px;
+}
+
+.l2-window-button {
+    width: 92px;
+}
+
+.l2-plus-minus-button {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_ListBtn_Minus');
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-slice-bottom: 3;
+    -unity-slice-left: 2;
+    -unity-slice-right: 2;
+    -unity-slice-top: 2;
+    -unity-slice-scale: 0.1;
+}
+
+.l2-plus-minus-button:hover {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_ListBtn_Minus_Over');
+}
+
+.l2-plus-minus-button:active {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_ListBtn_Minus_Down');
+}
+
+.l2-plus-minus-button:active:hover {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_ListBtn_Minus_Down');
+}
+
+.l2-plus-minus-button.max {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_ListBtn_Plus');
+}
+
+.l2-plus-minus-button:hover.max {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_ListBtn_Plus_Over');
+}
+
+.l2-plus-minus-button:active.max {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_ListBtn_Plus_Down');
+}
+
+.l2-plus-minus-button:active:hover.max {
+    background-image: resource('Data/UI/Assets/Button/Button_DF_ListBtn_Plus_Down');
+}
