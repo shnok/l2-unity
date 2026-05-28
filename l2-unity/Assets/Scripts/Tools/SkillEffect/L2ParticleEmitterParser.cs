@@ -34,11 +34,19 @@ public class L2ParticleEmitterParser
                     emitterObject.transform.SetParent(emitterGroup.transform);
                 }
 
-                for (int i = 0; i < emitter.maxParticles - 1; i++)
+                int particlesCount = emitter.maxParticles;
+                if (emitter.maxParticles == 0)
                 {
-                    GameObject copies = GameObject.Instantiate(emitterObject);
+                    particlesCount = Mathf.Min(25, emitter.initialParticlesPerSecond);
+                    // particlesCount = 25;
+                    emitter.maxParticles = -1;
+                }
+
+                for (int i = 0; i < (emitter.maxParticles == -1 ? 25 : particlesCount) - 1; i++)
+                {
                     if (emitterObject != null)
                     {
+                        GameObject copies = GameObject.Instantiate(emitterObject);
                         copies.transform.SetParent(emitterGroup.transform);
                     }
                 }
