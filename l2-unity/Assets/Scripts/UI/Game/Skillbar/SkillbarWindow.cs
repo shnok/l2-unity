@@ -366,7 +366,7 @@ public class SkillbarWindow : L2PopupWindow
         List<SkillbarSlot> skillbarSlots = GetAllSlotsAt(page, slot);
         foreach (SkillbarSlot skillbarSlot in skillbarSlots)
         {
-            Debug.LogWarning($"Skillbarslot match skillondooldown: Page:{page} Slot:{slot} SkillbarSlot-Position:{skillbarSlot.Position} SkillbarSlot-Slot:{skillbarSlot.Slot}");
+            Debug.Log($"Skillbarslot match skillondooldown: Page:{page} Slot:{slot} SkillbarSlot-Position:{skillbarSlot.Position} SkillbarSlot-Slot:{skillbarSlot.Slot}");
             AddSkillOnCooldown(skillbarSlot);
         }
     }

@@ -105,6 +105,10 @@ public class World : MonoBehaviour
     public Task NpcHtmlReceived(int objectId, string html, int itemId)
     {
         _eventProcessor.QueueEvent(() => NpcHtmlWindow.Instance.RefreshContent(objectId, html, itemId));
+        if (objectId == 0)
+        {
+            return Task.CompletedTask;
+        }
         return _worldSpawner.ExecuteWithEntityAsync(objectId, e =>
         {
             ((NetworkEntityReferenceHolder)e.ReferenceHolder).NetworkTransformReceive.LookAt(PlayerEntity.Instance.transform);

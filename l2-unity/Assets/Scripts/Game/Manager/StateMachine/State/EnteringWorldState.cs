@@ -43,6 +43,9 @@ public class EnteringWorldState : GameStateBase
             case GameEvent.GAME_DISCONNECTED:
                 _stateMachine.ChangeState(GameState.DISONNECTING);
                 break;
+            case GameEvent.LOADING_STARTED:
+                // Expected: scene loading fires this during world transition
+                break;
             default:
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");
                 break;

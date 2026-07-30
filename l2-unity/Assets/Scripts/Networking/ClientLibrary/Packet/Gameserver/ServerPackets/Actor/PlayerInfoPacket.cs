@@ -194,7 +194,7 @@ public class PlayerInfoPacket : ServerPacket
             // Stats.PAtkSpd = (int)(Stats.AttackSpeedMultiplier > 0 ? Stats.PAtkSpd * Stats.AttackSpeedMultiplier : Stats.PAtkSpd);
             Stats.AttackRange = ReadI() / 52.5f;
 
-            Debug.LogWarning(ToString());
+            Debug.Log(ToString());
         }
         catch (Exception e)
         {

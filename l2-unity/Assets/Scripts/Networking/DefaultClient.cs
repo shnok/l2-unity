@@ -93,7 +93,7 @@ public abstract class DefaultClient : MonoBehaviour
 
     public void Disconnect()
     {
-        Debug.LogWarning("Disconnect");
+        Debug.Log("Disconnect");
         _connected = false;
 
         if (_client != null)

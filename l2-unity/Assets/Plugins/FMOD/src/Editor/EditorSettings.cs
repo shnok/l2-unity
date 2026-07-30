@@ -71,7 +71,7 @@ namespace FMODUnity
             {
                 if (buildTarget != BuildTarget.NoTarget)
                 {
-                    PlatformForBuildTarget.Add(buildTarget, platform);
+                    PlatformForBuildTarget[buildTarget] = platform;
                 }
             }
         }

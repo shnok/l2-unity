@@ -16,8 +16,10 @@ public class NetworkCharacterControllerShare : MonoBehaviour
     public int Heading { get { return _heading; } set { _heading = value; } }
 
 
+#pragma warning disable CS0414
     [SerializeField] private int _sharingPositionDelayMs = 500;
     [SerializeField] private long _lastSharingPosition = 0;
+#pragma warning restore CS0414
 
     public bool _isSharedJumping = false;
 
@@ -97,7 +99,6 @@ public class NetworkCharacterControllerShare : MonoBehaviour
 
         if (PlayerController.Instance.IsJumping() && !_isSharedJumping)
         {
-            Debug.LogWarning("Sharing move direction: Should share jump");
             return true;
         }
         return false;

@@ -87,7 +87,7 @@ public class SystemMenuWindow : L2PopupWindow
     public override void ToggleHideWindow()
     {
         Vector2 basePosition = MenuWindow.Instance.GetWindowPosition();
-        _windowEle.transform.position = new Vector2(basePosition.x, basePosition.y - _windowHeight);
+        _windowEle.style.translate = new StyleTranslate(new Translate(basePosition.x, basePosition.y - _windowHeight, 0));
         base.ToggleHideWindow();
     }
 

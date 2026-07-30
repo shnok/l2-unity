@@ -39,7 +39,7 @@ public class PlayerSkill : MonoBehaviour
 
     public void SetSkills(SkillInfo[] skills)
     {
-        Debug.LogWarning($"Received {skills.Length} skill(s) from the server.");
+        Debug.Log($"Received {skills.Length} skill(s) from the server.");
 
         _skills = new Dictionary<int, SkillInfo>();
 

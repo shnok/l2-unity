@@ -807,6 +807,10 @@ namespace Beautify.Universal {
                     } else
 #endif
                     {
+#if UNITY_6000_0_OR_NEWER
+                        // GetCameraColorFrontBuffer removed in URP 17.x
+                        FullScreenBlit(cmd, source, destination, material, passIndex);
+#else
 #pragma warning disable 0618
                         RenderTargetIdentifier dest = renderer.GetCameraColorFrontBuffer(cmd);
 #pragma warning restore 0618
@@ -815,6 +819,7 @@ namespace Beautify.Universal {
                         cmd.SetGlobalTexture(ShaderParams.mainTex, source);
                         cmd.DrawMesh(fullscreenMesh, matrix4x4identity, material, 0, passIndex);
                         renderer.SwapColorBuffer(cmd);
+#endif
                     }
                     return;
                 }
@@ -2502,7 +2507,7 @@ namespace Beautify.Universal {
                 } else {
                     cmd.SetGlobalTexture(outlineDepthRT, outlineDepthId);
                 }
-#if UNITY_2023_2_OR_NEWER && !UNITY_6000_0_OR_NEWER
+#if UNITY_2023_2_OR_NEWER
                 RTHandle outlineDepthHandle = RTHandles.Alloc(outlineDepthId);
                 ConfigureTarget(outlineDepthHandle);
 #else

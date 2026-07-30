@@ -131,7 +131,7 @@ public class SkillbarSlot : SkillSlot
     {
         if (_shortcut != null)
         {
-            Debug.LogWarning($"Use bar slot {_position}.");
+            Debug.Log($"Use bar slot {_position}.");
             PlayerShortcuts.Instance.UseShortcut(_shortcut);
         }
     }

@@ -267,7 +267,7 @@ public class PlayerShortcuts : MonoBehaviour
         {
             if (shortcut.Type == Shortcut.TYPE_SKILL && shortcut.Id == skillInfo.Id)
             {
-                Debug.LogWarning($"Set shortcut on cooldown: Skill={skillInfo.Id} Page={shortcut.Page} Slot={shortcut.Slot}");
+                Debug.Log($"Set shortcut on cooldown: Skill={skillInfo.Id} Page={shortcut.Page} Slot={shortcut.Slot}");
                 SkillbarWindow.Instance.AddSkillOnCooldown(shortcut.Page, shortcut.Slot, skillInfo);
             }
         }

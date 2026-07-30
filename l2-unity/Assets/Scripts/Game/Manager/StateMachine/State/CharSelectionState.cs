@@ -28,6 +28,9 @@ public class CharSelectionState : GameStateBase
             case GameEvent.CHAR_LOADED:
                 RefreshCharSelection();
                 break;
+            case GameEvent.LOGIN_DISCONNECTED:
+                // Expected: loginserver disconnects after gameserver sends char selection info
+                break;
             default:
                 Debug.LogWarning($"[GameStateMachine] Unhandled event {evt} for state {_stateMachine.State}");
                 break;

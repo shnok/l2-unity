@@ -4369,7 +4369,7 @@ float3 GetTessFactors ()
          void Frag (VertexToPixel IN
               , out half4 outColor : SV_Target0
             #ifdef _WRITE_RENDERING_LAYERS
-              , out float4 outRenderingLayers : SV_Target1
+              , out uint outRenderingLayers : SV_Target1
             #endif
             #ifdef _DEPTHOFFSET_ON
               , out float outputDepth : SV_Depth
@@ -4506,7 +4506,7 @@ float3 GetTessFactors ()
 
             #ifdef _WRITE_RENDERING_LAYERS
                 uint renderingLayers = GetMeshRenderingLayer();
-                outRenderingLayers = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
+                outRenderingLayers = EncodeMeshRenderingLayer();
             #endif
 
          }
@@ -26106,7 +26106,7 @@ float3 GetTessFactors ()
          void Frag (VertexToPixel IN
             , out half4 outNormalWS : SV_Target0
          #ifdef _WRITE_RENDERING_LAYERS
-            , out float4 outRenderingLayers : SV_Target1
+            , out uint outRenderingLayers : SV_Target1
          #endif
             #ifdef _DEPTHOFFSET_ON
               , out float outputDepth : SV_Depth
@@ -26153,7 +26153,7 @@ float3 GetTessFactors ()
 
            #ifdef _WRITE_RENDERING_LAYERS
             uint renderingLayers = GetMeshRenderingLayer();
-            outRenderingLayers = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
+            outRenderingLayers = EncodeMeshRenderingLayer();
           #endif
 
          }

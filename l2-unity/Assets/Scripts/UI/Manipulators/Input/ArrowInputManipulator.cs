@@ -72,6 +72,8 @@ public class ArrowInputManipulator : PointerManipulator
 
     private void OnLeftArrowClick(ClickEvent e)
     {
+        if (_values == null || _values.Length == 0) return;
+
         if (--_index < 0)
         {
             _index = _values.Length - 1;
@@ -84,6 +86,8 @@ public class ArrowInputManipulator : PointerManipulator
 
     private void OnRightArrowClick(ClickEvent e)
     {
+        if (_values == null || _values.Length == 0) return;
+
         if (++_index > _values.Length - 1)
         {
             _index = 0;

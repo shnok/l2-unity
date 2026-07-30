@@ -630,7 +630,12 @@ public class GameServerPacketHandler : ServerPacketHandler
 
     private void OnExAutoSoulshot(byte[] data)
     {
-        // TODO: manage different 0xfe packets if we use them
+        // 0xFE packets are extended packets with a 2-byte sub-ID at bytes 1-2.
+        // The server sends many different 0xFE sub-packets; only handle ExAutoSoulshot (sub-ID 0x12).
+        if (data.Length < 3) return;
+        int subId = data[1] | (data[2] << 8);
+        if (subId != 0x12) return;
+
         ExAutoSoulshotPacket packet = new ExAutoSoulshotPacket(data);
         WorldCombat.Instance.ExAutoSoulshotReceived(packet.ItemId, packet.Enable);
     }

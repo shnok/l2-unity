@@ -106,14 +106,7 @@ public class LightLOD : MonoBehaviour
             {
                 _light.enabled = true;
                 _light.shadows = LODLevels[i].LightShadows;
-                if (QualitySettings.shadowResolution <= LODLevels[i].ShadowResolution)
-                {
-                    _light.shadowResolution = (LightShadowResolution)QualitySettings.shadowResolution;
-                }
-                else
-                {
-                    _light.shadowResolution = (LightShadowResolution)LODLevels[i].ShadowResolution;
-                }
+                // shadowResolution is Built-In RP only; not applicable in URP/HDRP
 
                 return;
             }

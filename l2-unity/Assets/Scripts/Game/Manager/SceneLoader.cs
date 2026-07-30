@@ -144,7 +144,7 @@ public class SceneLoader : MonoBehaviour
     {
         yield return new WaitForSeconds(.3f); //TODO: wait for everything to be loaded instead of waitforseconds
 
-        Debug.LogWarning("All scenes loaded, sending LoadWorld packet.");
+        Debug.Log("All scenes loaded, sending LoadWorld packet.");
 
         if (World.Instance != null && !World.Instance.OfflineMode)
         {

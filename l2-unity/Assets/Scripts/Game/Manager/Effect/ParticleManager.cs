@@ -441,7 +441,7 @@ public class ParticleManager : MonoBehaviour
         {
             //X*=CollisionRadius, Y*=CollisionHeight, Z*=1
             effectTransform.localPosition += new Vector3(emitter.Offset.x, emitter.Offset.y * caster.Appearance.CollisionHeight, emitter.Offset.z * caster.Appearance.CollisionRadius);
-            Debug.LogWarning("UpdateSkillEffectTransform: " + emitter.Offset + " " + effectTransform.localPosition);
+            Debug.Log("UpdateSkillEffectTransform: " + emitter.Offset + " " + effectTransform.localPosition);
         }
         else if (attachMethod == AttachMethod.AM_TRAIL || attachMethod == AttachMethod.AM_NONE)
         {

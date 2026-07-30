@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour
 
         InitializeState();
 
+#if UNITY_EDITOR
+        Animancer.Validate.Disable(Animancer.OptionalWarning.CreateGraphDuringGuiEvent);
+        Animancer.Validate.Disable(Animancer.OptionalWarning.CreateGraphWhileDisabled);
+#endif
+
         InitializeLoading();
 
         ChangeState(GameState.STARTING_GAME);

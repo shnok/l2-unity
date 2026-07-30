@@ -144,6 +144,11 @@ public class L2SlotManager : L2PopupWindow
 
     private void HandleGearDrag()
     {
+        if (_hoverSlot == null)
+        {
+            return;
+        }
+
         if (_hoverSlot.Type == L2Slot.SlotType.Inventory || _hoverSlot.Type == L2Slot.SlotType.InventoryBis)
         {
             Unequip();
