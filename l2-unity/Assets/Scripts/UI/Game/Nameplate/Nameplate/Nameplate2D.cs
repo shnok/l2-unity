@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Nameplate
+public class Nameplate2D
 {
     public static Color FINAL_KARMA_COLOR = new Color(1f, 0, 0, 1f);
     public static Color DEFAULT_NAME_COLOR = new Color(1f, 1f, 1f, 1f);
@@ -34,7 +34,7 @@ public class Nameplate
     public Entity Entity { get { return _entity; } }
 
     // Default
-    public Nameplate(VisualElement visualElement, Label entityName, Label entityTitle, Entity entity)
+    public Nameplate2D(VisualElement visualElement, Label entityName, Label entityTitle, Entity entity)
     {
         _nameplateEle = visualElement;
         _nameplateEntityName = entityName;

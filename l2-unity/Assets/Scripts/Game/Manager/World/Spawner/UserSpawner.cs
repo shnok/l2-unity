@@ -74,6 +74,8 @@ public class UserSpawner : EntitySpawnStrategy<PlayerAppearance, Stats, PlayerSt
         ((NetworkEntityReferenceHolder)entity.ReferenceHolder)
             .NetworkTransformReceive
             .SetNewPosition(identity.Position);
+
+        entity.ReferenceHolder.Nameplate = NameplatesManager3D.Instance.CreateOrUpdateNameplate(entity);
     }
     #endregion
 }

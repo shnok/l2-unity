@@ -20,7 +20,7 @@ public class TeleportingState : GameStateBase
 
         World.Instance.DestroyWorld();
 
-        NameplatesManagerGame.Instance.ClearNameplates();
+        NameplatesManager2DGame.Instance.ClearNameplates();
 
         CameraController.Instance.enabled = false;
         PlayerStateMachine.Instance.enabled = false;

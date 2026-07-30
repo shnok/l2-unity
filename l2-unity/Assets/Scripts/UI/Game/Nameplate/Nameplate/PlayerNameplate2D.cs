@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PlayerNameplate : Nameplate
+public class PlayerNameplate2D : Nameplate2D
 {
     private bool _isGaugeVisible = false;
     public float GaugeStartTime { get; private set; }
@@ -10,7 +10,7 @@ public class PlayerNameplate : Nameplate
 
     private VisualElement _gauge;
 
-    public PlayerNameplate(VisualElement visualElement, Label entityName, Label entityTitle, Entity entity) : base(visualElement, entityName, entityTitle, entity)
+    public PlayerNameplate2D(VisualElement visualElement, Label entityName, Label entityTitle, Entity entity) : base(visualElement, entityName, entityTitle, entity)
     {
         _gauge = visualElement.Q<VisualElement>("Gauge");
     }

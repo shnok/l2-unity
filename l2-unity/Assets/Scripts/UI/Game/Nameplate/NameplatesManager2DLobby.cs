@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class NameplatesManagerLobby : NameplatesManagerBase
+public class NameplatesManager2DLobby : NameplatesManager2DBase
 {
-    private static NameplatesManagerLobby instance;
-    public static NameplatesManagerLobby Instance => instance;
+    private static NameplatesManager2DLobby instance;
+    public static NameplatesManager2DLobby Instance => instance;
 
     private void Awake()
     {
@@ -60,7 +60,7 @@ public class NameplatesManagerLobby : NameplatesManagerBase
         base.ScanForEntities();
     }
 
-    protected override void UpdateNameplateStyle(Nameplate nameplate)
+    protected override void UpdateNameplateStyle(Nameplate2D nameplate)
     {
         base.UpdateNameplateStyle(nameplate);
 
@@ -69,19 +69,19 @@ public class NameplatesManagerLobby : NameplatesManagerBase
         int deleteTimer = e.CharacterInfo.DeleteTimer;
         if (deleteTimer > 0)
         {
-            ((LobbyNameplate)nameplate).ShowDeleteTimer();
-            ((LobbyNameplate)nameplate).UpdateTimer(deleteTimer);
+            ((LobbyNameplate2D)nameplate).ShowDeleteTimer();
+            ((LobbyNameplate2D)nameplate).UpdateTimer(deleteTimer);
         }
         else
         {
-            ((LobbyNameplate)nameplate).HideDeleteTimer();
+            ((LobbyNameplate2D)nameplate).HideDeleteTimer();
         }
     }
 
-    protected override Nameplate CreateNameplate(Entity entity)
+    protected override Nameplate2D CreateNameplate(Entity entity)
     {
         VisualElement element = nameplateTemplate.Instantiate()[0];
-        Nameplate nameplate = new LobbyNameplate(
+        Nameplate2D nameplate = new LobbyNameplate2D(
             element,
             element.Q<Label>("EntityName"),
             element.Q<Label>("EntityTitle"),

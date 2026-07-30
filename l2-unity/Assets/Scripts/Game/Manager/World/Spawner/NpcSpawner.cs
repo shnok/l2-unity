@@ -64,6 +64,9 @@ public class NpcSpawner : EntitySpawnStrategy<Appearance, Stats, NpcStatus>
         }
 
         npc.Appearance.ServerTitleColor = npcName.TitleColor;
+
+        npc.ReferenceHolder.Nameplate = NameplatesManager3D.Instance.CreateOrUpdateNameplate(npc);
+
         npcGo.transform.name = identity.Name;
         npcGo.SetActive(true);
 

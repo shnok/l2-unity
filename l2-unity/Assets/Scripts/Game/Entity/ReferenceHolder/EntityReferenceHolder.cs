@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EntityReferenceHolder : MonoBehaviour
 {
+    [SerializeField] private Nameplate3D _nameplate;
     [SerializeField] protected Entity _entity;
     [SerializeField] protected Gear _gear;
     [SerializeField] protected Combat _combat;
@@ -12,6 +13,7 @@ public class EntityReferenceHolder : MonoBehaviour
     [SerializeField] protected Animator _animator;
     [SerializeField] protected Transform _clickArea;
 
+    public Nameplate3D Nameplate { get => _nameplate; set => _nameplate = value; }
     public NewBaseAnimationController NewAnimationController { get { return _newAnimationController; } }
     public AnimancerComponent Animancer { get { return _animancer; } }
     public Gear Gear { get { return _gear; } }

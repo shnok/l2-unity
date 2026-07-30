@@ -103,7 +103,7 @@ public class WorldCombat : MonoBehaviour
                    if (packet.ObjectId == PlayerEntity.Instance.Identity.Id)
                    {
                        PlayerStateMachine.Instance.OnMagicSkillCanceled();
-                       NameplatesManagerGame.Instance.StopCasting();
+                       NameplatesManager2DGame.Instance.StopCasting();
                    }
                    else
                    {
@@ -527,7 +527,7 @@ public class WorldCombat : MonoBehaviour
     {
         _eventProcessor.QueueEvent(() =>
         {
-            NameplatesManagerGame.Instance.StartCasting(color, maxTime != time ? maxTime - time : time);
+            NameplatesManager2DGame.Instance.StartCasting(color, maxTime != time ? maxTime - time : time);
         });
     }
 

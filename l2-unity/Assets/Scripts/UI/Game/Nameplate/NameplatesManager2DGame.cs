@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class NameplatesManagerGame : NameplatesManagerBase
+public class NameplatesManager2DGame : NameplatesManager2DBase
 {
-    private PlayerNameplate playerNameplate;
+    private PlayerNameplate2D playerNameplate;
 
-    private static NameplatesManagerGame instance;
-    public static NameplatesManagerGame Instance => instance;
+    private static NameplatesManager2DGame instance;
+    public static NameplatesManager2DGame Instance => instance;
 
     private void Awake()
     {
@@ -102,10 +102,10 @@ public class NameplatesManagerGame : NameplatesManagerBase
         return entity.Identity.Id != GameClient.Instance.CurrentPlayerId;
     }
 
-    private PlayerNameplate CreatePlayerNameplate(Entity entity)
+    private PlayerNameplate2D CreatePlayerNameplate(Entity entity)
     {
         var element = nameplateTemplate.Instantiate()[0];
-        var nameplate = new PlayerNameplate(
+        var nameplate = new PlayerNameplate2D(
             element,
             element.Q<Label>("EntityName"),
             element.Q<Label>("EntityTitle"),
@@ -150,7 +150,7 @@ public class NameplatesManagerGame : NameplatesManagerBase
         return (!isTooFar || isTarget) && CameraController.Instance.IsObjectVisible(target);
     }
 
-    protected override void UpdateNameplateStyle(Nameplate nameplate)
+    protected override void UpdateNameplateStyle(Nameplate2D nameplate)
     {
         base.UpdateNameplateStyle(nameplate);
 
@@ -170,7 +170,7 @@ public class NameplatesManagerGame : NameplatesManagerBase
         UpdateHoveredNameplateStyle(nameplate);
     }
 
-    protected void UpdateTargetedNameplateStyle(Nameplate nameplate, TargetManager target)
+    protected void UpdateTargetedNameplateStyle(Nameplate2D nameplate, TargetManager target)
     {
         var isAttackTarget = target.AttackTarget == target.Target &&
                             !target.AttackTarget.Status.IsDead;
@@ -186,7 +186,7 @@ public class NameplatesManagerGame : NameplatesManagerBase
         }
     }
 
-    protected void UpdateHoveredNameplateStyle(Nameplate nameplate)
+    protected void UpdateHoveredNameplateStyle(Nameplate2D nameplate)
     {
         var isHovered = ClickManager.Instance.HoverObjectData?.ObjectTransform == nameplate.Target;
         if (isHovered)

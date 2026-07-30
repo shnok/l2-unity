@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class LobbyNameplate : Nameplate
+public class LobbyNameplate2D : Nameplate2D
 {
     private bool _isDeleteTimerVisible = false;
 
     private Label _deleteTimerLabel;
 
-    public LobbyNameplate(VisualElement visualElement, Label entityName, Label entityTitle, Entity entity) : base(visualElement, entityName, entityTitle, entity)
+    public LobbyNameplate2D(VisualElement visualElement, Label entityName, Label entityTitle, Entity entity) : base(visualElement, entityName, entityTitle, entity)
     {
         _deleteTimerLabel = visualElement.Q<Label>("DeleteTimer");
     }

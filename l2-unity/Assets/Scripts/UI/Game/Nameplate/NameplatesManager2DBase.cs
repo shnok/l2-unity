@@ -4,14 +4,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class NameplatesManagerBase : MonoBehaviour
+public class NameplatesManager2DBase : MonoBehaviour
 {
     [SerializeField] protected float nameplateViewDistance = 50f;
     [SerializeField] private LayerMask entityMask;
     [SerializeField] private int updatesPerSecond = 200;
     [SerializeField] protected float nameplateHeightMultiplier = 1.95f;
 
-    protected readonly ConcurrentDictionary<int, Nameplate> nameplates = new();
+    protected readonly ConcurrentDictionary<int, Nameplate2D> nameplates = new();
     [SerializeField] protected Transform playerTransform;
     [SerializeField] protected Camera mainCamera;
     protected VisualElement rootElement;
@@ -120,7 +120,7 @@ public class NameplatesManagerBase : MonoBehaviour
 
     protected void UpdateNameplateSystem()
     {
-        foreach (Nameplate nameplate in nameplates.Values)
+        foreach (Nameplate2D nameplate in nameplates.Values)
         {
             if (nameplate.Target == null) continue;
 
@@ -129,7 +129,7 @@ public class NameplatesManagerBase : MonoBehaviour
         }
     }
 
-    protected virtual void UpdateNameplateStyle(Nameplate nameplate)
+    protected virtual void UpdateNameplateStyle(Nameplate2D nameplate)
     {
         nameplate.NameplateOffsetHeight = nameplate.Entity.IsDead ?
             nameplate.Entity.Appearance.CollisionHeight * 0.85f :
@@ -138,7 +138,7 @@ public class NameplatesManagerBase : MonoBehaviour
         nameplate.ManageColors();
     }
 
-    protected void UpdateNameplatePosition(Nameplate nameplate)
+    protected void UpdateNameplatePosition(Nameplate2D nameplate)
     {
         try
         {
@@ -164,10 +164,10 @@ public class NameplatesManagerBase : MonoBehaviour
     }
 
     // Factory methods for creating nameplates
-    protected virtual Nameplate CreateNameplate(Entity entity)
+    protected virtual Nameplate2D CreateNameplate(Entity entity)
     {
         VisualElement element = nameplateTemplate.Instantiate()[0];
-        Nameplate nameplate = new Nameplate(
+        Nameplate2D nameplate = new Nameplate2D(
             element,
             element.Q<Label>("EntityName"),
             element.Q<Label>("EntityTitle"),
@@ -179,7 +179,7 @@ public class NameplatesManagerBase : MonoBehaviour
 
     public void RemoveNameplate(int id)
     {
-        if (nameplates.TryRemove(id, out Nameplate removed))
+        if (nameplates.TryRemove(id, out Nameplate2D removed))
         {
             rootElement.Remove(removed.NameplateEle);
         }

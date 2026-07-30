@@ -67,6 +67,9 @@ public class PlayerSpawner : EntitySpawnStrategy<PlayerAppearance, PlayerStats, 
         GameManager.Instance.NotifyEvent(GameEvent.CHAR_LOADED);
 
         NetworkTransformShare.Instance.SharePosition();
+
+        PlayerEntity.Instance.ReferenceHolder.Nameplate = NameplatesManager3D.Instance.CreateOrUpdateNameplate(PlayerEntity.Instance);
+
     }
 
     protected override void UpdateEntitySync(Entity entity, NetworkIdentity identity, PlayerStatus status, PlayerStats stats, PlayerAppearance appearance, EntityActionInfo actionInfo)
