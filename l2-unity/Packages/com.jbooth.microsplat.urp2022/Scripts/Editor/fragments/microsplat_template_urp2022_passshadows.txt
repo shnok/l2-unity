@@ -1,0 +1,102 @@
+﻿
+        Pass
+        {
+            Name "ShadowCaster"
+            Tags 
+            { 
+                "LightMode" = "ShadowCaster"
+            }
+           
+            // Render State
+            Blend One Zero, One Zero
+            Cull Back
+            ZTest LEqual
+            ZWrite On
+            // ColorMask: <None>
+
+            %PASSSHADOW%
+
+            HLSLPROGRAM
+
+            %PRAGMAS%
+
+            #pragma target %SHADERTARGET%
+
+            #pragma prefer_hlslcc gles
+            #pragma exclude_renderers d3d11_9x
+            #pragma multi_compile_instancing
+            #pragma multi_compile_local _ _ALPHATEST_ON
+        
+            #define _NORMAL_DROPOFF_TS 1
+            #define ATTRIBUTES_NEED_NORMAL
+            #define ATTRIBUTES_NEED_TANGENT
+            #define SHADERPASS_SHADOWCASTER
+
+            #define _PASSSHADOW 1
+
+            %DEFINES%
+                 
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+            #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/ShaderVariablesFunctions.hlsl"
+
+            %URPINCLUDE%
+         
+            %TEMPLATE_SHARED%
+            
+            CBUFFER_START(UnityPerMaterial)
+
+               %CBUFFER%
+
+            CBUFFER_END
+
+            %CUSTOMCBUFFER%
+
+            %CUSTOMINSTANCEPROPS%
+
+            %CODE%
+
+            %SHADERDESC%
+
+            %VERT%
+
+            %TESSELLATION%
+
+            // fragment shader
+            fixed4 Frag (VertexToPixel IN
+            #ifdef _DEPTHOFFSET_ON
+              , out float outputDepth : SV_Depth
+            #endif
+            ) : SV_Target
+            {
+               UNITY_SETUP_INSTANCE_ID(IN);
+
+               ShaderData d = CreateShaderData(IN);
+               Surface l = (Surface)0;
+
+               #ifdef _DEPTHOFFSET_ON
+                  l.outputDepth = outputDepth;
+               #endif
+
+               l.Albedo = half3(0.5, 0.5, 0.5);
+               l.Normal = float3(0,0,1);
+               l.Occlusion = 1;
+               l.Alpha = 1;
+
+               ChainSurfaceFunction(l, d);
+
+               #ifdef _DEPTHOFFSET_ON
+                  outputDepth = l.outputDepth;
+               #endif
+
+             return 0;
+
+            }
+
+         ENDHLSL
+
+      }
+

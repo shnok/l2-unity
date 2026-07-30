@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Template name="WindowTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Components/WindowTemplate.uxml?fileID=9197481963319205126&amp;guid=5ca840f56ef6f1044b4dc077c7d3e6e6&amp;type=3#WindowTemplate" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <ui:Instance template="WindowTemplate" name="WindowTemplate" class="npc-html-window" style="width: 336px; height: 428px;">
+        <ui:VisualElement name="Content" class="html-window-content-container" style="width: 324px; left: 6px; height: 380px;">
+            <ui:ScrollView name="HtmlContent" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="AlwaysVisible" class="l2-scroll-view html-window-content" style="flex-grow: 1;">
+                <ui:VisualElement name="ContentWrapper" class="html-window-content-wrapper" style="display: flex;" />
+            </ui:ScrollView>
+        </ui:VisualElement>
+    </ui:Instance>
+</ui:UXML>

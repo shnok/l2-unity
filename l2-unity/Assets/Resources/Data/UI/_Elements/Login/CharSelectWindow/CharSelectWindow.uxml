@@ -1,0 +1,79 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="L2Bar" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Bar/L2Bar.uxml?fileID=9197481963319205126&amp;guid=e7da9ee05d38b14459d91eca9fc49926&amp;type=3#L2Bar" />
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uss?fileID=7433441132597879392&amp;guid=b1d2114f9ed155f45a3eb16e5ef02441&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Login/CharSelectWindow/CharSelectWindow.uss?fileID=7433441132597879392&amp;guid=4d5750aba8227744bab7289de968de39&amp;type=3#CharSelectWindow" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Bar/L2Bar.uss?fileID=7433441132597879392&amp;guid=a56090906dc32294994ed8860c7b159e&amp;type=3#L2Bar" />
+    <ui:VisualElement name="CharSelectWindow" picking-mode="Ignore" class="char-select-window">
+        <ui:VisualElement picking-mode="Ignore" class="charselect-col-1">
+            <ui:VisualElement name="CharSelectDetailWindow" tabindex="-1" class="char-select-detail-window">
+                <ui:VisualElement name="row" class="char-select-row" style="flex-grow: 0; height: 28px; width: 80%;">
+                    <ui:VisualElement name="UserSelectContainer" class="char-select-col char-select-user-select-container" />
+                </ui:VisualElement>
+                <ui:VisualElement name="row" class="char-select-row" style="flex-grow: 0; height: 30px; align-items: center;">
+                    <ui:VisualElement name="col" class="char-select-col l2-color-2">
+                        <ui:Label tabindex="-1" text="Lv." parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelLabelL" class="char-select-label char-select-level-l" />
+                        <ui:Label tabindex="-1" text="1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="LevelLabel" class="char-select-label char-select-level" />
+                        <ui:Label tabindex="-1" text="Dark Fighter" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ClassLabel" class="char-select-label char-select-class" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="col" class="char-select-col" />
+                </ui:VisualElement>
+                <ui:VisualElement name="row" class="char-select-row" style="flex-grow: 0; align-items: flex-start; -unity-text-align: upper-left;">
+                    <ui:VisualElement name="col" class="char-select-col">
+                        <ui:Label tabindex="-1" text="HP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label l2-color-4" />
+                        <ui:Instance template="L2Bar" name="HPBar" class="l2-bar" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="col" class="char-select-col char-select-col-right">
+                        <ui:Label tabindex="-1" text="SP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label l2-color-4" />
+                        <ui:VisualElement name="SPContainer" template="HpBar" class="char-select-detail-numbers">
+                            <ui:VisualElement name="UserInputBg" tabindex="-1" class="login-input-bg char-select-detail-numbers-bg" />
+                            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SPLabel" class="char-select-detail-numbers-label l2-color-2" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="row" class="char-select-row" style="margin-top: 4px;">
+                    <ui:VisualElement name="col" class="char-select-col">
+                        <ui:Label tabindex="-1" text="MP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label l2-color-4" />
+                        <ui:Instance template="L2Bar" name="MPBar" class="l2-bar mp" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="col" class="char-select-col char-select-col-right">
+                        <ui:Label tabindex="-1" text="Kar." parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label l2-color-4" />
+                        <ui:VisualElement name="KarmaContainer" template="HpBar" class="char-select-detail-numbers">
+                            <ui:VisualElement name="UserInputBg" tabindex="-1" class="login-input-bg char-select-detail-numbers-bg" />
+                            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="KarmaLabel" class="char-select-detail-numbers-label l2-color-2" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="row" class="char-select-row" style="margin-top: 4px;">
+                    <ui:VisualElement name="col" class="char-select-col" style="padding-right: 16px;">
+                        <ui:Label tabindex="-1" text="Exp" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="char-select-label l2-color-4" />
+                        <ui:Instance template="L2Bar" name="EXPBar" class="l2-bar exp">
+                            <AttributeOverrides element-name="Text" text="100.00%" />
+                        </ui:Instance>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="charselect-col-2">
+            <ui:VisualElement name="StartButtonWindow" tabindex="-1" class="char-select-middle-box">
+                <ui:Instance template="L2Button" name="StartButton" class="l2-button-template">
+                    <AttributeOverrides element-name="ButtonLabel" text="Start" />
+                </ui:Instance>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="charselect-col-3">
+            <ui:VisualElement name="MenuWindow" tabindex="-1" class="char-select-side-menu">
+                <ui:Instance template="L2Button" name="CreateButton" class="l2-button-template">
+                    <AttributeOverrides element-name="ButtonLabel" text="Create" />
+                </ui:Instance>
+                <ui:Instance template="L2Button" name="DeleteButton" class="l2-button-template">
+                    <AttributeOverrides element-name="ButtonLabel" text="Delete" />
+                </ui:Instance>
+                <ui:Instance template="L2Button" name="ReloginButton" class="l2-button-template">
+                    <AttributeOverrides element-name="ButtonLabel" text="Re-Login" />
+                </ui:Instance>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

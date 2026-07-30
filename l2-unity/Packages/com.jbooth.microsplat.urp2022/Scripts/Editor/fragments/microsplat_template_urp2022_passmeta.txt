@@ -1,0 +1,91 @@
+﻿
+        Pass
+        {
+            Name "Meta"
+            Tags 
+            { 
+                "LightMode" = "Meta"
+            }
+
+             // Render State
+            Cull Off
+
+            %PASSMETA%
+
+            HLSLPROGRAM
+
+            %PRAGMAS%
+
+            #pragma target %SHADERTARGET%
+
+            #pragma prefer_hlslcc gles
+            #pragma exclude_renderers d3d11_9x
+            #pragma multi_compile_local _ _ALPHATEST_ON
+        
+            #define SHADERPASS SHADERPASS_META
+            #define _PASSMETA 1
+
+            %DEFINES%
+
+
+            // Includes
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Version.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MetaInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+            #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/ShaderVariablesFunctions.hlsl"
+        
+
+            %URPINCLUDE%
+
+            %TEMPLATE_SHARED%
+            
+            CBUFFER_START(UnityPerMaterial)
+
+               %CBUFFER%
+
+            CBUFFER_END
+
+            %CUSTOMCBUFFER%
+
+            %CUSTOMINSTANCEPROPS%
+
+            %CODE%
+
+            %SHADERDESC%
+
+            %VERT%
+
+            %TESSELLATION%
+
+            // fragment shader
+            fixed4 Frag (VertexToPixel IN) : SV_Target
+            {
+               UNITY_SETUP_INSTANCE_ID(IN);
+
+               ShaderData d = CreateShaderData(IN);
+
+               Surface l = (Surface)0;
+
+               l.Albedo = half3(0.5, 0.5, 0.5);
+               l.Normal = float3(0,0,1);
+               l.Occlusion = 1;
+               l.Alpha = 1;
+
+               ChainSurfaceFunction(l, d);
+
+               MetaInput metaInput = (MetaInput)0;
+               metaInput.Albedo = l.Albedo;
+               metaInput.Emission = l.Emission;
+
+               return MetaFragment(metaInput);
+
+            }
+
+         ENDHLSL
+
+      }
+

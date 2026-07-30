@@ -191,14 +191,10 @@ namespace FMODUnity
         CollisionExit2D,
         ObjectEnable,
         ObjectDisable,
-        ObjectMouseEnter,
-        ObjectMouseExit,
-        ObjectMouseDown,
-        ObjectMouseUp,
-        UIMouseEnter,
-        UIMouseExit,
-        UIMouseDown,
-        UIMouseUp,
+        MouseEnter,
+        MouseExit,
+        MouseDown,
+        MouseUp,
     }
 
     public enum LoaderGameEvent : int
@@ -309,7 +305,7 @@ namespace FMODUnity
         private static string pluginBasePath;
 
         public const string BaseFolderGUID = "06ae579381df01a4a87bb149dec89954";
-        public const string PluginBasePathDefault = "Assets/Plugins/FMOD";
+        public const string PluginBasePathDefault = "Plugins/FMOD";
 
         public static string PluginBasePath
         {
@@ -319,7 +315,16 @@ namespace FMODUnity
                 {
                     pluginBasePath = AssetDatabase.GUIDToAssetPath(BaseFolderGUID);
 
-                    if (string.IsNullOrEmpty(pluginBasePath))
+                    if (!string.IsNullOrEmpty(pluginBasePath))
+                    {
+                        const string AssetsFolder = "Assets/";
+
+                        if (pluginBasePath.StartsWith(AssetsFolder))
+                        {
+                            pluginBasePath = pluginBasePath.Substring(AssetsFolder.Length);
+                        }
+                    }
+                    else
                     {
                         pluginBasePath = PluginBasePathDefault;
 
@@ -369,17 +374,6 @@ namespace FMODUnity
             attributes.forward = transform.forward.ToFMODVector();
             attributes.up = transform.up.ToFMODVector();
             attributes.position = transform.position.ToFMODVector();
-
-            return attributes;
-        }
-
-        public static FMOD.ATTRIBUTES_3D To3DAttributes(this Transform transform, Vector3 velocity)
-        {
-            FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D();
-            attributes.forward = transform.forward.ToFMODVector();
-            attributes.up = transform.up.ToFMODVector();
-            attributes.position = transform.position.ToFMODVector();
-            attributes.velocity = velocity.ToFMODVector();
 
             return attributes;
         }

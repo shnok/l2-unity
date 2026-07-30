@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +9,7 @@ public class PlayerShortcuts : MonoBehaviour
     public const int MAXIMUM_SKILLBAR_COUNT = 5;
     private int[] _pageMap;
 
+    private List<int> _toggledIds;
     private Dictionary<int, Shortcut> _shortcuts;
     public List<Shortcut> Shortcuts { get { return _shortcuts.Values.ToList(); } }
 
@@ -33,6 +32,7 @@ public class PlayerShortcuts : MonoBehaviour
 
         _shortcuts = new Dictionary<int, Shortcut>();
         _pageMap = new int[5] { 0, 1, 2, 3, 4 };
+        _toggledIds = new List<int>();
     }
 
     private void OnDestroy()
@@ -50,8 +50,13 @@ public class PlayerShortcuts : MonoBehaviour
         VerifySkillbarInputs();
     }
 
-    private void VerifySkillbarInputs() 
+    private void VerifySkillbarInputs()
     {
+        if (InputManager.Instance == null || InputManager.Instance.SkillbarInputs.Length == 0)
+        {
+            return;
+        }
+
         foreach (Shortcut shortcut in _shortcuts.Values)
         {
             for (int i = 0; i < _pageMap.Length; i++)
@@ -68,14 +73,15 @@ public class PlayerShortcuts : MonoBehaviour
         }
     }
 
-    public string GetKeybindForShortcut(int skillbarId, int slot) {
+    public string GetKeybindForShortcut(int skillbarId, int slot)
+    {
         InputAction action = InputManager.Instance.SkillbarActions[skillbarId, slot];
         return action.GetBindingDisplayString(0).ToUpper();
     }
 
     public void UseShortcut(Shortcut shortcut)
     {
-        Debug.LogWarning($"Use shortcut {shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR + shortcut.Slot}.");
+        Debug.Log($"Use shortcut {shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR + shortcut.Slot}.");
         switch (shortcut.Type)
         {
             case Shortcut.TYPE_ITEM:
@@ -84,7 +90,11 @@ public class PlayerShortcuts : MonoBehaviour
             case Shortcut.TYPE_ACTION:
                 PlayerActions.Instance.UseAction((ActionType)shortcut.Id);
                 break;
+            case Shortcut.TYPE_SKILL:
+                PlayerSkill.Instance.UseSkill(shortcut.Id);
+                break;
             default:
+                Debug.LogWarning("Unkown shortcut type.");
                 break;
         }
     }
@@ -106,7 +116,12 @@ public class PlayerShortcuts : MonoBehaviour
             _shortcuts.Add(shortcut.Slot + shortcut.Page * MAXIMUM_SHORTCUTS_PER_BAR, shortcut);
         }
 
-        SkillbarWindow.Instance.UpdateAllShortcuts(shortcuts);
+        if (SkillbarWindow.Instance == null)
+        {
+            Debug.LogError("Skillbar window is not ready but already trying to update shortcuts.");
+            return;
+        }
+        StartCoroutine(SkillbarWindow.Instance.UpdateAllShortcuts(shortcuts));
     }
 
     public void RegisterShortcut(Shortcut shortcut)
@@ -140,12 +155,11 @@ public class PlayerShortcuts : MonoBehaviour
         return null;
     }
 
-    private void RemoveShotcutLocally(int slot)
+    public void RemoveShotcutLocally(int slot)
     {
         SkillbarWindow.Instance.RemoveShortcut(slot);
         _shortcuts.Remove(slot);
     }
-
 
     public void UpdatePageMapping(int skillbarIndex, int page)
     {
@@ -190,4 +204,72 @@ public class PlayerShortcuts : MonoBehaviour
     }
 
     #endregion
+
+    public void RequestToggleShortcutItem(int id, bool enable)
+    {
+        GameClient.Instance.ClientPacketHandler.RequestAutoSoulshot(id, enable);
+    }
+
+    public void ToggleShortcutItem(int itemId, bool enable)
+    {
+        if (enable)
+        {
+            if (!_toggledIds.Contains(itemId))
+            {
+                Debug.LogWarning($"Adding toggled item with id: {itemId}");
+                _toggledIds.Add(itemId);
+            }
+        }
+        else
+        {
+            if (_toggledIds.Contains(itemId))
+            {
+                Debug.LogWarning($"Removing toggled item with id: {itemId}");
+                _toggledIds.Remove(itemId);
+            }
+        }
+
+        //Refresh skillbar
+        // StartCoroutine(SkillbarWindow.Instance.UpdateAllShortcuts(_shortcuts.Values.ToList())); // TODO: Change this to only update the correct slot -> SkillbarWindow.Instance.AddToggledSlot
+
+        ItemInstance item = PlayerInventory.Instance.GetItemById(itemId);
+        if (item == null)
+        {
+            Debug.LogWarning($"Can't find item with itemId={itemId} in Inventory.");
+            return;
+        }
+
+        foreach (Shortcut shortcut in Shortcuts)
+        {
+            if (shortcut.Type == Shortcut.TYPE_ITEM && shortcut.Id == item.ObjectId)
+            {
+                if (enable)
+                {
+                    SkillbarWindow.Instance.AddToggledSlot(shortcut.Page, shortcut.Slot);
+                }
+                else
+                {
+                    SkillbarWindow.Instance.RemoveToggledSlot(shortcut.Page, shortcut.Slot);
+                }
+            }
+        }
+    }
+
+    public bool IsItemToggled(int itemId)
+    {
+        return _toggledIds.Contains(itemId);
+    }
+
+    public void OnSkillUsed(SkillInfo skillInfo)
+    {
+        // StartCoroutine(SkillbarWindow.Instance.UpdateAllShortcuts(_shortcuts.Values.ToList())); // TODO: Change this to only update the correct slot -> SkillbarWindow.Instance.AddSkillOnCooldown
+        foreach (Shortcut shortcut in Shortcuts)
+        {
+            if (shortcut.Type == Shortcut.TYPE_SKILL && shortcut.Id == skillInfo.Id)
+            {
+                Debug.Log($"Set shortcut on cooldown: Skill={skillInfo.Id} Page={shortcut.Page} Slot={shortcut.Slot}");
+                SkillbarWindow.Instance.AddSkillOnCooldown(shortcut.Page, shortcut.Slot, skillInfo);
+            }
+        }
+    }
 }

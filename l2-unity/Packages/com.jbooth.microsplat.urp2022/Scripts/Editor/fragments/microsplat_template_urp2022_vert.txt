@@ -1,0 +1,108 @@
+﻿
+         #if _PASSSHADOW
+            float3 _LightDirection;
+            float3 _LightPosition;
+         #endif
+
+         // vertex shader
+         VertexToPixel Vert (VertexData v)
+         {
+           
+           VertexToPixel o = (VertexToPixel)0;
+
+           UNITY_SETUP_INSTANCE_ID(v);
+           UNITY_TRANSFER_INSTANCE_ID(v, o);
+           UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+
+#if !_TESSELLATION_ON
+           ChainModifyVertex(v, o);
+#endif
+
+           %V2FUV0% o.texcoord0 = v.texcoord0;
+
+           #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+              %V2FUV1% o.texcoord1 = v.texcoord1;
+              %V2FUV2% o.texcoord2 = v.texcoord2;
+           #endif
+
+           %V2FUV3% o.texcoord3 = v.texcoord3;
+           %V2FVERTEXCOLOR% o.vertexColor = v.vertexColor;
+           
+           VertexPositionInputs vertexInput = GetVertexPositionInputs(v.vertex.xyz);
+           o.worldPos = TransformObjectToWorld(v.vertex.xyz);
+           o.worldNormal = TransformObjectToWorldNormal(v.normal);
+
+           
+           #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+               float2 uv1 = v.texcoord1.xy;
+               float2 uv2 = v.texcoord2.xy;
+               o.worldTangent = float4(TransformObjectToWorldDir(v.tangent.xyz), v.tangent.w);
+           #else
+               float2 uv1 = v.texcoord0.xy;
+               float2 uv2 = uv1;
+           #endif
+
+           // MS Only
+           ApplyTerrainTangent(o);
+           
+
+          #if _PASSSHADOW
+              #if _CASTING_PUNCTUAL_LIGHT_SHADOW
+                 float3 lightDirectionWS = normalize(_LightPosition - o.worldPos);
+              #else
+                 float3 lightDirectionWS = _LightDirection;
+              #endif
+              // Define shadow pass specific clip position for Universal
+              o.pos = TransformWorldToHClip(ApplyShadowBias(o.worldPos, o.worldNormal, lightDirectionWS));
+              #if UNITY_REVERSED_Z
+                  o.pos.z = min(o.pos.z, o.pos.w * UNITY_NEAR_CLIP_VALUE);
+              #else
+                  o.pos.z = max(o.pos.z, o.pos.w * UNITY_NEAR_CLIP_VALUE);
+              #endif
+          #elif _PASSMETA
+              #if _MICROTERRAIN
+               o.pos = MetaVertexPosition(float4(v.vertex.xyz, 0), v.texcoord0.xy, v.texcoord0.xy, unity_LightmapST, unity_DynamicLightmapST);
+              #else
+               o.pos = MetaVertexPosition(float4(v.vertex.xyz, 0), uv1, uv2, unity_LightmapST, unity_DynamicLightmapST);
+              #endif
+          #else
+              o.pos = TransformWorldToHClip(o.worldPos);
+          #endif
+
+
+
+          %SCREENPOS% o.screenPos = ComputeScreenPos(o.pos, _ProjectionParams.x);
+          
+
+          #if _PASSFORWARD || _PASSGBUFFER
+              #if _MICROTERRAIN
+                 OUTPUT_LIGHTMAP_UV(v.texcoord0.xy, unity_LightmapST, o.lightmapUV);
+              #else
+                 OUTPUT_LIGHTMAP_UV(uv1, unity_LightmapST, o.lightmapUV);
+              #endif
+              OUTPUT_SH(o.worldNormal, o.sh);
+              #if defined(DYNAMICLIGHTMAP_ON)
+                   o.dynamicLightmapUV.xy = uv2 * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
+              #endif
+          #endif
+
+          #ifdef VARYINGS_NEED_FOG_AND_VERTEX_LIGHT
+              half fogFactor = 0;
+              #if defined(_FOG_FRAGMENT)
+                fogFactor = ComputeFogFactor(o.pos.z);
+              #endif
+              #if _BAKEDLIT
+                  half3 vertexLight = VertexLighting(o.worldPos, o.worldNormal);
+                  o.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+              #else
+                  o.fogFactorAndVertexLight = half4(fogFactor, 0,0,0);
+              #endif
+          #endif
+
+          #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+             o.shadowCoord = GetShadowCoord(vertexInput);
+          #endif
+
+           return o;
+         }

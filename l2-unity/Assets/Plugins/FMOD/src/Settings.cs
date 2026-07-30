@@ -4,15 +4,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using UnityEngine.Serialization;
-using System.Runtime.CompilerServices;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 #endif
 
-[assembly: InternalsVisibleTo("FMODUnityEditor")]
 namespace FMODUnity
 {
     [Serializable]
@@ -55,9 +52,8 @@ namespace FMODUnity
     {
 #if UNITY_EDITOR
         Settings RuntimeSettings { get; set; }
-        bool ForceLoggingBinaries { get; set; }
+        bool ForceLoggingBinaries { get; }
         Platform CurrentEditorPlatform { get; }
-        void Clear();
         void ResetPlatformSettings();
         void ReimportLegacyPlatforms();
         void CreateSettingsAsset(string assetName);
@@ -72,7 +68,6 @@ namespace FMODUnity
         void CleanTemporaryFiles();
         void DeleteTemporaryFile(string assetPath);
         bool CanBuildTarget(BuildTarget target, Platform.BinaryType binaryType, out string error);
-        void CheckActiveBuildTarget();
 #endif
     }
 
@@ -82,12 +77,11 @@ namespace FMODUnity
     public class Settings : ScriptableObject
     {
 #if UNITY_EDITOR
-        [FormerlySerializedAs("SwitchSettingsMigration")]
         [SerializeField]
-        private bool switchSettingsMigration = false;
+        private bool SwitchSettingsMigration = false;
 #endif
 
-        internal const string SettingsAssetName = "FMODStudioSettings";
+        public const string SettingsAssetName = "FMODStudioSettings";
 
         private static Settings instance = null;
         private static IEditorSettings editorSettings = null;
@@ -105,9 +99,8 @@ namespace FMODUnity
         [SerializeField]
         private string sourceBankPath;
 
-        [FormerlySerializedAs("SourceBankPathUnformatted")]
         [SerializeField]
-        private string sourceBankPathUnformatted; // Kept as to not break existing projects
+        public string SourceBankPathUnformatted; // Kept as to not break existing projects
 
         [SerializeField]
         public int BankRefreshCooldown = 5;
@@ -115,8 +108,8 @@ namespace FMODUnity
         [SerializeField]
         public bool ShowBankRefreshWindow = true;
 
-        internal const int BankRefreshPrompt = -1;
-        internal const int BankRefreshManual = -2;
+        public const int BankRefreshPrompt = -1;
+        public const int BankRefreshManual = -2;
 
         [SerializeField]
         public bool AutomaticEventLoading;
@@ -146,28 +139,31 @@ namespace FMODUnity
         public FMOD.DEBUG_FLAGS LoggingLevel = FMOD.DEBUG_FLAGS.WARNING;
 
         [SerializeField]
-        internal List<Legacy.PlatformIntSetting> SpeakerModeSettings;
+        public List<Legacy.PlatformIntSetting> SpeakerModeSettings;
 
         [SerializeField]
-        internal List<Legacy.PlatformIntSetting> SampleRateSettings;
+        public List<Legacy.PlatformIntSetting> SampleRateSettings;
 
         [SerializeField]
-        internal List<Legacy.PlatformBoolSetting> LiveUpdateSettings;
+        public List<Legacy.PlatformBoolSetting> LiveUpdateSettings;
 
         [SerializeField]
-        internal List<Legacy.PlatformBoolSetting> OverlaySettings;
+        public List<Legacy.PlatformBoolSetting> OverlaySettings;
 
         [SerializeField]
-        internal List<Legacy.PlatformStringSetting> BankDirectorySettings;
+        public List<Legacy.PlatformBoolSetting> LoggingSettings;
 
         [SerializeField]
-        internal List<Legacy.PlatformIntSetting> VirtualChannelSettings;
+        public List<Legacy.PlatformStringSetting> BankDirectorySettings;
 
         [SerializeField]
-        internal List<Legacy.PlatformIntSetting> RealChannelSettings;
+        public List<Legacy.PlatformIntSetting> VirtualChannelSettings;
 
         [SerializeField]
-        internal List<string> Plugins = new List<string>();
+        public List<Legacy.PlatformIntSetting> RealChannelSettings;
+
+        [SerializeField]
+        public List<string> Plugins = new List<string>();
 
         [SerializeField]
         public List<string> MasterBanks;
@@ -188,34 +184,31 @@ namespace FMODUnity
         public bool AndroidUseOBB = false;
 
         [SerializeField]
-        public bool AndroidPatchBuild = false;
-
-        [SerializeField]
         public MeterChannelOrderingType MeterChannelOrdering;
 
         [SerializeField]
         public bool StopEventsOutsideMaxDistance = false;
 
         [SerializeField]
-        internal bool BoltUnitOptionsBuildPending = false;
+        public bool BoltUnitOptionsBuildPending = false;
 
         [SerializeField]
         public bool EnableErrorCallback = false;
 
         [SerializeField]
-        internal SharedLibraryUpdateStages SharedLibraryUpdateStage = SharedLibraryUpdateStages.Start;
+        public SharedLibraryUpdateStages SharedLibraryUpdateStage = SharedLibraryUpdateStages.Start;
 
         [SerializeField]
-        internal double SharedLibraryTimeSinceStart = 0.0;
+        public double SharedLibraryTimeSinceStart = 0.0;
 
         [SerializeField]
-        internal int CurrentVersion;
+        public int CurrentVersion;
 
         [SerializeField]
         public bool HideSetupWizard;
 
         [SerializeField]
-        internal int LastEventReferenceScanVersion;
+        public int LastEventReferenceScanVersion;
 
         // This holds all known platforms, but only those that have settings are shown in the UI.
         // It is populated at load time from the Platform objects in the settings asset.
@@ -224,7 +217,7 @@ namespace FMODUnity
         public List<Platform> Platforms = new List<Platform>();
 
         // This is used to find the platform that matches the current Unity runtime platform.
-        internal Dictionary<RuntimePlatform, List<Platform>> PlatformForRuntimePlatform = new Dictionary<RuntimePlatform, List<Platform>>();
+        public Dictionary<RuntimePlatform, List<Platform>> PlatformForRuntimePlatform = new Dictionary<RuntimePlatform, List<Platform>>();
 
         // Default platform settings.
         [NonSerialized]
@@ -237,11 +230,11 @@ namespace FMODUnity
 #if UNITY_EDITOR
         // We store a persistent list so we don't try to re-migrate platforms if the user deletes them.
         [SerializeField]
-        internal List<Legacy.Platform> MigratedPlatforms = new List<Legacy.Platform>();
+        public List<Legacy.Platform> MigratedPlatforms = new List<Legacy.Platform>();
 #endif
 
         // A collection of templates for constructing known platforms.
-        internal static List<PlatformTemplate> PlatformTemplates = new List<PlatformTemplate>();
+        public static List<PlatformTemplate> PlatformTemplates = new List<PlatformTemplate>();
 
         [NonSerialized]
         private bool hasLoaded = false;
@@ -261,7 +254,7 @@ namespace FMODUnity
             }
         }
 
-        internal static void Initialize()
+        public static void Initialize()
         {
             if (instance == null)
             {
@@ -295,7 +288,7 @@ namespace FMODUnity
             }
         }
 
-        internal static IEditorSettings EditorSettings
+        public static IEditorSettings EditorSettings
         {
             get
             {
@@ -331,7 +324,7 @@ namespace FMODUnity
             }
         }
 
-        internal string TargetPath
+        public string TargetPath
         {
             get
             {
@@ -347,7 +340,7 @@ namespace FMODUnity
                     }
                 }
                 else
-                {
+                { 
                     if (string.IsNullOrEmpty(TargetBankFolder))
                     {
                         return Application.streamingAssetsPath;
@@ -377,16 +370,16 @@ namespace FMODUnity
             {
                 if (ImportType == ImportType.AssetBundle)
                 {
-                    TargetAssetPath = value;
+                    TargetAssetPath = value; ;
                 }
                 else
-                {
+                { 
                     TargetBankFolder = value;
                 }
             }
         }
 
-        internal enum SharedLibraryUpdateStages
+        public enum SharedLibraryUpdateStages
         {
             Start = 0,
             DisableExistingLibraries,
@@ -394,7 +387,7 @@ namespace FMODUnity
             CopyNewLibraries,
         };
 
-        internal Platform FindPlatform(string identifier)
+        public Platform FindPlatform(string identifier)
         {
             foreach (Platform platform in Platforms)
             {
@@ -407,12 +400,25 @@ namespace FMODUnity
             return null;
         }
 
-        internal bool PlatformExists(string identifier)
+        public bool PlatformExists(string identifier)
         {
             return FindPlatform(identifier) != null;
         }
 
-        internal void AddPlatform(Platform platform)
+        public void ForEachPlatform(Action<Platform> action)
+        {
+            foreach (Platform platform in Platforms)
+            {
+                action(platform);
+            }
+        }
+
+        public IEnumerable<Platform> EnumeratePlatforms()
+        {
+            return Platforms;
+        }
+
+        public void AddPlatform(Platform platform)
         {
             if (PlatformExists(platform.Identifier))
             {
@@ -422,13 +428,13 @@ namespace FMODUnity
             Platforms.Add(platform);
         }
 
-        internal void RemovePlatform(string identifier)
+        public void RemovePlatform(string identifier)
         {
             Platforms.RemoveAll(p => p.Identifier == identifier);
         }
 
         // Links the platform to its parent, and to the BuildTargets and RuntimePlatforms it implements.
-        internal void LinkPlatform(Platform platform)
+        public void LinkPlatform(Platform platform)
         {
             LinkPlatformToParent(platform);
 
@@ -442,7 +448,7 @@ namespace FMODUnity
 #endif
         }
 
-        internal void DeclareRuntimePlatform(RuntimePlatform runtimePlatform, Platform platform)
+        public void DeclareRuntimePlatform(RuntimePlatform runtimePlatform, Platform platform)
         {
             List<Platform> platforms;
 
@@ -468,7 +474,7 @@ namespace FMODUnity
         }
 
         // The highest-priority platform that matches the current environment.
-        internal Platform FindCurrentPlatform()
+        public Platform FindCurrentPlatform()
         {
             List<Platform> platforms;
 
@@ -486,6 +492,11 @@ namespace FMODUnity
             return DefaultPlatform;
         }
 
+        public FMOD.SPEAKERMODE GetEditorSpeakerMode()
+        {
+            return PlayInEditorPlatform.SpeakerMode;
+        }
+
         private Settings()
         {
             MasterBanks = new List<string>();
@@ -493,6 +504,7 @@ namespace FMODUnity
             BanksToLoad = new List<string>();
             RealChannelSettings = new List<Legacy.PlatformIntSetting>();
             VirtualChannelSettings = new List<Legacy.PlatformIntSetting>();
+            LoggingSettings = new List<Legacy.PlatformBoolSetting>();
             LiveUpdateSettings = new List<Legacy.PlatformBoolSetting>();
             OverlaySettings = new List<Legacy.PlatformBoolSetting>();
             SampleRateSettings = new List<Legacy.PlatformIntSetting>();
@@ -506,14 +518,14 @@ namespace FMODUnity
         }
 
         // Adds properties to a platform, thus revealing it in the UI.
-        internal void AddPlatformProperties(Platform platform)
+        public void AddPlatformProperties(Platform platform)
         {
             platform.AffirmProperties();
             LinkPlatformToParent(platform);
         }
 
 #if UNITY_EDITOR
-        internal void SetPlatformParent(Platform platform, Platform newParent)
+        public void SetPlatformParent(Platform platform, Platform newParent)
         {
             if (editorSettings != null)
             {
@@ -528,7 +540,7 @@ namespace FMODUnity
 #endif
 
         // A template for constructing a platform from an identifier.
-        internal struct PlatformTemplate
+        public struct PlatformTemplate
         {
             public string Identifier;
             public Func<Platform> CreateInstance;
@@ -536,7 +548,7 @@ namespace FMODUnity
 
         // Adds a platform to the collection of templates. Platforms register themselves by using
         // [InitializeOnLoad] and calling this function from a static constructor.
-        internal static void AddPlatformTemplate<T>(string identifier) where T : Platform
+        public static void AddPlatformTemplate<T>(string identifier) where T : Platform
         {
             PlatformTemplates.Add(new PlatformTemplate() {
                     Identifier = identifier,
@@ -553,7 +565,7 @@ namespace FMODUnity
             return platform;
         }
 
-        internal void OnEnable()
+        public void OnEnable()
         {
             if (hasLoaded)
             {
@@ -566,10 +578,6 @@ namespace FMODUnity
 #if UNITY_EDITOR
             if (editorSettings != null)
             {
-                // Clear the EditorSettings object in case it has not been reloaded (this can happen
-                // if the settings asset is modified on disk).
-                editorSettings.Clear();
-
                 editorSettings.RuntimeSettings = this;
             }
 #endif
@@ -582,9 +590,10 @@ namespace FMODUnity
 #if UNITY_EDITOR
             if (editorSettings != null)
             {
-                if (switchSettingsMigration == false)
+                if (SwitchSettingsMigration == false)
                 {
                     // Create Switch settings from the legacy Mobile settings, if they exist
+                    Legacy.CopySetting(LoggingSettings, Legacy.Platform.Mobile, Legacy.Platform.Switch);
                     Legacy.CopySetting(LiveUpdateSettings, Legacy.Platform.Mobile, Legacy.Platform.Switch);
                     Legacy.CopySetting(OverlaySettings, Legacy.Platform.Mobile, Legacy.Platform.Switch);
 
@@ -592,12 +601,12 @@ namespace FMODUnity
                     Legacy.CopySetting(VirtualChannelSettings, Legacy.Platform.Mobile, Legacy.Platform.Switch);
                     Legacy.CopySetting(SampleRateSettings, Legacy.Platform.Mobile, Legacy.Platform.Switch);
                     Legacy.CopySetting(SpeakerModeSettings, Legacy.Platform.Mobile, Legacy.Platform.Switch);
-                    switchSettingsMigration = true;
+                    SwitchSettingsMigration = true;
                 }
 
                 // Fix up slashes for old settings meta data.
                 SourceProjectPath = RuntimeUtils.GetCommonPlatformPath(SourceProjectPath);
-                sourceBankPathUnformatted = RuntimeUtils.GetCommonPlatformPath(sourceBankPathUnformatted);
+                SourceBankPathUnformatted = RuntimeUtils.GetCommonPlatformPath(SourceBankPathUnformatted);
 
                 // Remove the FMODStudioCache if in the old location
                 string oldCache = "Assets/Plugins/FMOD/Resources/FMODStudioCache.asset";
@@ -619,7 +628,7 @@ namespace FMODUnity
 #endif
 
             // Link all known platforms
-            Platforms.ForEach(LinkPlatform);
+            ForEachPlatform(LinkPlatform);
         }
 
         private void PopulatePlatformsFromAsset()
@@ -669,25 +678,16 @@ namespace FMODUnity
             }
 
 #if UNITY_EDITOR
-            // Remove any invalid child platforms (ie. deprecated platforms).
-            foreach (Platform newPlatform in assetPlatforms)
-            {
-                if (newPlatform.ChildIdentifiers.RemoveAll(x => FindPlatform(x) == null) > 0)
-                {
-                    EditorUtility.SetDirty(newPlatform);
-                }
-            }
-
             if (editorSettings != null)
             {
-                Platforms.ForEach(editorSettings.UpdateMigratedPlatform);
+                ForEachPlatform(editorSettings.UpdateMigratedPlatform);
             }
 #endif
         }
     }
 
     // This class stores data types and code used for migrating old settings.
-    internal static class Legacy
+    public static class Legacy
     {
 #if UNITY_EDITOR
         private const string RegisterStaticPluginsAssetPathRelative =
@@ -801,7 +801,7 @@ namespace FMODUnity
             UWP,
             Switch,
             WebGL,
-            Deprecated_4,
+            Stadia,
             Reserved_1,
             Reserved_2,
             Reserved_3,
@@ -899,6 +899,8 @@ namespace FMODUnity
                     return "High-End Mobile";
                 case Platform.MobileLow:
                     return "Low-End Mobile";
+                case Platform.Stadia:
+                    return "Stadia";
                 case Platform.Switch:
                     return "Switch";
                 case Platform.WebGL:
@@ -936,6 +938,8 @@ namespace FMODUnity
                     return 3.2f;
                 case Platform.Switch:
                     return 3.3f;
+                case Platform.Stadia:
+                    return 3.4f;
                 default:
                     return 0;
             }
@@ -961,6 +965,7 @@ namespace FMODUnity
                 case Platform.Switch:
                 case Platform.XboxOne:
                 case Platform.PS4:
+                case Platform.Stadia:
                 case Platform.Reserved_1:
                 case Platform.Reserved_2:
                 case Platform.Reserved_3:

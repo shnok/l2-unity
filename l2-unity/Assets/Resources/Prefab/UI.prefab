@@ -24,6 +24,15 @@ GameObject:
   - component: {fileID: 7937294998922791359}
   - component: {fileID: 4997734960397706092}
   - component: {fileID: 5356274184999564455}
+  - component: {fileID: 4401504940725960882}
+  - component: {fileID: 2474239185684289479}
+  - component: {fileID: 2105183322732982611}
+  - component: {fileID: 4489370494819162024}
+  - component: {fileID: 6293304731996122001}
+  - component: {fileID: 3360194193126534992}
+  - component: {fileID: 1811256597443578308}
+  - component: {fileID: 5396724109866029305}
+  - component: {fileID: 1258522509192723278}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -62,6 +71,9 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 3c501b5938465814c90bcbbb17860421, type: 3}
   m_SortingOrder: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
 --- !u!114 &9166659596877626494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,6 +88,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiLoaded: 0
   _mouseOverUI: 0
+  _windowsLoaded: 0
+  _totalWindowsToLoad: 20
   _mouseEnabled: 1
 --- !u!114 &1625420868165748363
 MonoBehaviour:
@@ -110,10 +124,12 @@ MonoBehaviour:
   _tabs:
   - _tabName: All
     _autoscroll: 1
+    _filteredMessages: 00000000010000000200000003000000040000000500000008000000090000000a0000001200000013000000
   - _tabName: System
     _autoscroll: 1
+    _filteredMessages: 13000000
   _chatOpened: 0
-  _chatInputCharacterLimit: 64
+  _chatInputCharacterLimit: 120
 --- !u!114 &5054604499374613714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,10 +142,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b924f2ee5faed49b55c17e32d096a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nameplateViewDistance: 50
-  _entityMask:
+  nameplateViewDistance: 22
+  entityMask:
     serializedVersion: 2
     m_Bits: 0
+  updatesPerSecond: 200
+  nameplateHeightMultiplier: 1.95
+  playerTransform: {fileID: 0}
+  mainCamera: {fileID: 0}
 --- !u!114 &8375159366462154550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,24 +208,22 @@ MonoBehaviour:
   _tabs:
   - _tabName: All
     _autoscroll: 1
-    _selectedSlot: -1
     _filteredCategories: 
+    _mainTab: 1
   - _tabName: Equip
     _autoscroll: 1
-    _selectedSlot: -1
     _filteredCategories: 000102
+    _mainTab: 0
   - _tabName: Supplies
     _autoscroll: 1
-    _selectedSlot: -1
     _filteredCategories: 0504
+    _mainTab: 0
   - _tabName: Quest
     _autoscroll: 1
-    _selectedSlot: -1
     _filteredCategories: 03
+    _mainTab: 0
   _usedSlots: 0
   _slotCount: 0
-  _currentWeight: 0
-  _maximumWeight: 0
   _adenaCount: 0
 --- !u!114 &2541905227659803299
 MonoBehaviour:
@@ -287,5 +305,147 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b9275d71bba04749bfde79eeea369f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4401504940725960882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 906ff614239007847852a4e8ae4b334d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2474239185684289479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023749991fbeee64a92355e95a385afb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lastCursorType: 0
+  _defaultCursorTexture: {fileID: 0}
+  _attackCursorTexture: {fileID: 0}
+  _talkCursorTexture: {fileID: 0}
+  _pickupCursorTexture: {fileID: 0}
+--- !u!114 &2105183322732982611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 471c2b26de5d5484f88ff103c093f17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nodes: []
+--- !u!114 &4489370494819162024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d1da41feb14e428de5c9749e08000f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tabs:
+  - _tabName: Active
+    _autoscroll: 0
+    _tabType: 0
+  - _tabName: Passive
+    _autoscroll: 0
+    _tabType: 1
+--- !u!114 &6293304731996122001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04cdb2ba5771b3449921a157899dbe6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tabs:
+  - _tabName: Buy
+    _autoscroll: 0
+    _shopTabType: 0
+    _slotContainers: []
+  - _tabName: Sell
+    _autoscroll: 0
+    _shopTabType: 1
+    _slotContainers: []
+  _usedSlots: 0
+  _slotCount: 0
+  _adenaCount: 0
+  _sellListId: 0
+  _buyListId: 0
+--- !u!114 &3360194193126534992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9ee405561676d4cae55bb803f9c5bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillType: 0
+  playerSp: 0
+--- !u!114 &1811256597443578308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44881a1e3be34265957be789bbeef805, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalBuffsCount: 24
+  specialBuffsCount: 12
+  toggleBuffsCount: 10
+  debuffBuffsCount: 10
+  maxRowNormalBuffs: 12
+--- !u!114 &5396724109866029305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1177ba05ca36d984cbb3a06a41092902, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1258522509192723278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8310766140472177322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1dfd555a127904cbf71b45ade09bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

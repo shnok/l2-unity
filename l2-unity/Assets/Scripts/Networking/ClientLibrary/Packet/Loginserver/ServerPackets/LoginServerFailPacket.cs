@@ -1,4 +1,4 @@
-public class LoginServerFailPacket : ServerPacket
+public class LoginServerFailPacket : LoginServerPacket
 {
     public enum LoginFailedReason : byte
     {

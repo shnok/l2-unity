@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace FMODUnity
 {
-    public abstract class EventHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+    public abstract class EventHandler : MonoBehaviour
     {
         public string CollisionTag = "";
 
@@ -85,41 +84,22 @@ namespace FMODUnity
 
         private void OnMouseEnter()
         {
-            HandleGameEvent(EmitterGameEvent.ObjectMouseEnter);
+            HandleGameEvent(EmitterGameEvent.MouseEnter);
         }
 
         private void OnMouseExit()
         {
-            HandleGameEvent(EmitterGameEvent.ObjectMouseExit);
+            HandleGameEvent(EmitterGameEvent.MouseExit);
         }
 
         private void OnMouseDown()
         {
-            HandleGameEvent(EmitterGameEvent.ObjectMouseDown);
+            HandleGameEvent(EmitterGameEvent.MouseDown);
         }
 
         private void OnMouseUp()
         {
-            HandleGameEvent(EmitterGameEvent.ObjectMouseUp);
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            HandleGameEvent(EmitterGameEvent.UIMouseEnter);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            HandleGameEvent(EmitterGameEvent.UIMouseExit);
-        }
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            HandleGameEvent(EmitterGameEvent.UIMouseDown);
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            HandleGameEvent(EmitterGameEvent.UIMouseUp);
+            HandleGameEvent(EmitterGameEvent.MouseUp);
         }
 
         protected abstract void HandleGameEvent(EmitterGameEvent gameEvent);

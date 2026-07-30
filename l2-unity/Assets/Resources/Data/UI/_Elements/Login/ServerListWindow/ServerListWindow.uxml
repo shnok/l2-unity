@@ -1,0 +1,33 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uss?fileID=7433441132597879392&amp;guid=b1d2114f9ed155f45a3eb16e5ef02441&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Login/ServerListWindow/ServerListWindow.uss?fileID=7433441132597879392&amp;guid=f34de1f6d64cd8340abe125d042baf40&amp;type=3#ServerListWindow" />
+    <ui:VisualElement name="ServerListWindow" class="serverlist-window">
+        <ui:VisualElement name="Window" tabindex="-1" class="server-list-inner">
+            <ui:VisualElement name="ListHeader" class="serverlist-header">
+                <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Name" tabindex="-1" focusable="false" class="l2-button serverlist-header-cat-name serverlist-header-cat">
+                    <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg serverlist-header-cat-name-bg serverlist-header-cat-bg" />
+                    <ui:Label tabindex="-1" text="Name" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" class="button-label serverlist-header-label" />
+                </ui:Button>
+                <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Traffic" tabindex="-1" focusable="false" class="l2-button serverlist-header-cat-traffic serverlist-header-cat">
+                    <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg serverlist-header-cat-traffic-bg serverlist-header-cat-bg" />
+                    <ui:Label tabindex="-1" text="Traffic" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" class="button-label serverlist-header-label" />
+                </ui:Button>
+                <ui:Button text="Log In" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Character" tabindex="-1" focusable="false" class="l2-button serverlist-header-cat-character serverlist-header-cat">
+                    <ui:VisualElement name="ButtonBg" tabindex="-1" class="l2-button-bg serverlist-header-cat-character-bg serverlist-header-cat-bg" />
+                    <ui:Label tabindex="-1" text="Character" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ButtonLabel" class="button-label serverlist-header-label" />
+                </ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement name="ServerContainer" class="serverlist-list-container" />
+            <ui:VisualElement name="BottomBar" class="serverlist-button-container">
+                <ui:Instance template="L2Button" name="ConfirmButton" class="l2-button-template">
+                    <AttributeOverrides element-name="ButtonLabel" text="Confirm" />
+                </ui:Instance>
+                <ui:Instance template="L2Button" name="CancelButton" class="l2-button-template">
+                    <AttributeOverrides element-name="ButtonLabel" text="Cancel" />
+                </ui:Instance>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

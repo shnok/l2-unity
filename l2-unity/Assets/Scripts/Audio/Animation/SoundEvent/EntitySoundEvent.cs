@@ -1,0 +1,23 @@
+public enum EntitySoundEvent : int
+{
+    Step,
+    Jump_1,
+    Death,
+    Swish,
+    Atk,
+    AtkWait,
+    Breath,
+    Dmg,
+    Sitdown,
+    Standup,
+    Atk_1H,
+    Atk_1H_S,
+    Atk_2H,
+    Atk_2H_S,
+    Atk_pole,
+    Atk_pole_S,
+    Fall,
+    Breathe,
+    PreAtk_1,
+    PreAtk_2,
+}

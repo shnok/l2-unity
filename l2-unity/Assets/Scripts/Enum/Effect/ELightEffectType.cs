@@ -1,0 +1,26 @@
+public enum ELightEffect
+{
+    LE_NONE = 0,
+    LE_TORCH_WAVER = 1,
+    LE_FIRE_WAVER = 2,
+    LE_WATERY_SHIMMER = 3,
+    LE_SEARCHLIGHT = 4,
+    LE_SLOW_WAVE = 5,
+    LE_FAST_WAVE = 6,
+    LE_CLOUD_CAST = 7,
+    LE_STATIC_SPOT = 8,
+    LE_SHOCK = 9,
+    LE_DISCO = 10,
+    LE_WARP = 11,
+    LE_SPOTLIGHT = 12,
+    LE_NON_INCIDENCE = 13,
+    LE_SHELL = 14,
+    LE_OMNIBUMP_MAP = 15,
+    LE_INTERFERENCE = 16,
+    LE_CYLINDER = 17,
+    LE_ROTOR = 18,
+    LE_NEGATIVE = 19,
+    LE_SUNLIGHT = 20,
+    LE_QUADRATIC_NON_INCIDENCE = 21,
+    LE_MAX = 22
+}

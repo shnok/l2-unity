@@ -8,7 +8,8 @@ public class ItemInstance
     [SerializeField] private ItemLocation _location;
     [SerializeField] private int _slot;
     [SerializeField] private int _count;
-    [SerializeField] private ItemCategory _category;
+    [SerializeField] private ItemType1 _type1;
+    [SerializeField] private ItemType2 _type2;
     [SerializeField] private bool _equipped;
     [SerializeField] private ItemSlot _bodyPart;
     [SerializeField] private int _enchantLevel;
@@ -22,38 +23,40 @@ public class ItemInstance
     public bool Equipped { get { return _equipped; } }
     public int Slot { get { return _slot; } }
     public int Count { get { return _count; } }
-    public ItemCategory Category { get { return _category; } }
+    public ItemType1 Type1 { get { return _type1; } }
+    public ItemType2 Type2 { get { return _type2; } }
     public ItemSlot BodyPart { get { return _bodyPart; } }
     public int EnchantLevel { get { return _enchantLevel; } }
     public long RemainingTime { get { return _remainingTime; } }
     public int LastChange { get { return _lastChange; } set { _lastChange = value; } }
 
-    public ItemInstance(int objectId, int itemId, ItemLocation location, int slot, int count, ItemCategory category, bool equipped, ItemSlot bodyPart, int enchantLevel, long remainingTime)
+    public ItemInstance(int objectId, int itemId, ItemLocation location, int slot, int count, ItemType1 type1, ItemType2 type2, bool equipped, ItemSlot bodyPart, int enchantLevel, long remainingTime)
     {
         _objectId = objectId;
         _itemId = itemId;
         _location = location;
         _slot = slot;
         _count = count;
-        _category = category;
+        _type1 = type1;
+        _type2 = type2;
         _equipped = equipped;
         _bodyPart = bodyPart;
         _remainingTime = remainingTime;
         _enchantLevel = enchantLevel;
 
-        if (_category == ItemCategory.Weapon)
+        if (_type2 == ItemType2.TYPE2_WEAPON)
         {
             _itemData = ItemTable.Instance.GetWeapon(_itemId);
         }
-        else if (_category == ItemCategory.ShieldArmor || _category == ItemCategory.Jewel)
+        else if (_type2 == ItemType2.TYPE2_SHIELD_ARMOR || _type2 == ItemType2.TYPE2_ACCESSORY)
         {
-            if (bodyPart != ItemSlot.lhand)
+            if (bodyPart == ItemSlot.SLOT_LR_HAND)
             {
-                _itemData = ItemTable.Instance.GetArmor(_itemId);
+                _itemData = ItemTable.Instance.GetWeapon(_itemId);
             }
             else
             {
-                _itemData = ItemTable.Instance.GetWeapon(_itemId);
+                _itemData = ItemTable.Instance.GetArmor(_itemId);
             }
         }
         else
@@ -86,7 +89,7 @@ public class ItemInstance
     public override string ToString()
     {
         return $"New item: ServerId:{_objectId} ItemId:{_itemId} Location:{_location} Slot:{_slot} Count:{_count} " +
-        $"Cat:{_category} Equipped:{_equipped} Bodypart:{_bodyPart} Change:{_lastChange}";
+        $"Type1:{_type1} Type2:{_type2} Equipped:{_equipped} Bodypart:{_bodyPart} Change:{_lastChange}";
     }
 
     // Packet data

@@ -1,17 +1,24 @@
-public class NetworkEntity : Entity
+using UnityEngine;
+
+public abstract class NetworkEntity : Entity
 {
+
+    public override void Initialize()
+    {
+        base.Initialize();
+    }
+
     public override float UpdateMAtkSpeed(int mAtkSpd)
     {
         float converted = base.UpdateMAtkSpeed(mAtkSpd);
-        _networkAnimationReceive.SetMAtkSpd(converted);
-
+        // AnimationController.SetMAtkSpd(converted, 1000);
         return converted;
     }
 
     public override float UpdatePAtkSpeed(int pAtkSpd)
     {
         float converted = base.UpdatePAtkSpeed(pAtkSpd);
-        _networkAnimationReceive.SetPAtkSpd(converted);
+        // AnimationController.SetPAtkSpd(converted);
 
         return converted;
     }
@@ -19,13 +26,20 @@ public class NetworkEntity : Entity
     public override float UpdateRunSpeed(int speed)
     {
         float converted = base.UpdateRunSpeed(speed);
-        _networkAnimationReceive.SetRunSpeed(converted);
+        // AnimationController.SetRunSpeed(converted);
         return converted;
     }
+
     public override float UpdateWalkSpeed(int speed)
     {
         float converted = base.UpdateWalkSpeed(speed);
-        _networkAnimationReceive.SetWalkSpeed(converted);
+        // AnimationController.SetWalkSpeed(converted);
         return converted;
+    }
+
+    public override void OnStopMoving()
+    {
+        base.OnStopMoving();
+        Combat.OnStopMoving();
     }
 }

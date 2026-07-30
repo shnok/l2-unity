@@ -1,0 +1,107 @@
+class el_wind_strike_ta extends Emitter;
+
+defaultproperties
+{
+     Begin Object Class=SpriteEmitter Name=SpriteEmitter8
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=0.235714,Color=(B=128,G=128,R=128,A=255))
+         ColorScale(2)=(RelativeTime=1.000000,Color=(A=255))
+         FadeOutStartTime=0.300000
+         MaxParticles=1
+         ResetAfterChange=True
+         RespawnDeadParticles=False
+         Name="Core"
+         SpinParticles=True
+         StartSpinRange=(X=(Max=360.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         UniformSize=True
+         SizeScale(0)=(RelativeTime=1.000000,RelativeSize=1.500000)
+         StartSizeRange=(X=(Min=14.000000,Max=14.000000))
+         InitialParticlesPerSecond=2000.000000
+         AutomaticInitialSpawning=False
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0002'
+         UseRandomSubdivision=True
+         LifetimeRange=(Min=0.300000,Max=0.300000)
+         RelativeWarmupTime=0.200000
+     End Object
+     Emitters(0)=SpriteEmitter'SpriteEmitter8'
+     Begin Object Class=MeshEmitter Name=MeshEmitter5
+         StaticMesh=StaticMesh'LineageEffectsStaticmeshes.Wind.windblowin01'
+         UseMeshBlendMode=False
+         RenderTwoSided=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         ColorMultiplierRange=(X=(Min=0.900000,Max=0.900000),Y=(Min=0.950000,Max=0.950000))
+         Opacity=0.630000
+         FadeOutFactor=(X=0.300000,Y=0.300000,Z=0.300000)
+         FadeOutStartTime=0.236500
+         FadeOut=True
+         FadeInFactor=(X=0.300000,Y=0.300000,Z=0.300000)
+         FadeInEndTime=0.159500
+         FadeIn=True
+         MaxParticles=2
+         ResetAfterChange=True
+         RespawnDeadParticles=False
+         Name="WindMesh"
+         StartLocationRange=(Z=(Min=-3.200000))
+         UseRotationFrom=PTRS_Actor
+         SpinParticles=True
+         SpinCCWorCW=(X=0.000000,Y=0.000000,Z=0.000000)
+         SpinsPerSecondRange=(Z=(Min=2.000000,Max=2.000000))
+         StartSpinRange=(Z=(Max=1.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         SizeScale(0)=(RelativeSize=0.200000)
+         SizeScale(1)=(RelativeTime=0.280000,RelativeSize=0.700000)
+         SizeScale(2)=(RelativeTime=1.000000,RelativeSize=1.500000)
+         StartSizeRange=(X=(Min=0.288000,Max=0.352000),Y=(Min=0.256000,Max=0.256000),Z=(Min=0.256000,Max=0.256000))
+         InitialParticlesPerSecond=2000.000000
+         AutomaticInitialSpawning=False
+         DrawStyle=PTDS_AlphaBlend
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0000'
+         InitialTimeRange=(Min=0.100000,Max=0.100000)
+         LifetimeRange=(Min=1.000000,Max=1.000000)
+         StartVelocityRange=(X=(Min=38.400002,Max=38.400002))
+         WarmupTicksPerSecond=3.000000
+         RelativeWarmupTime=0.550000
+     End Object
+     Emitters(1)=MeshEmitter'MeshEmitter5'
+     Begin Object Class=SpriteEmitter Name=SpriteEmitter9
+         UseDirectionAs=PTDU_Normal
+         ProjectionNormal=(X=1.000000,Z=0.000000)
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=0.303571,Color=(B=128,G=128,R=128,A=255))
+         ColorScale(2)=(RelativeTime=0.714286,Color=(A=255))
+         ColorScale(3)=(RelativeTime=1.000000,Color=(A=255))
+         FadeOutStartTime=0.250000
+         MaxParticles=1
+         RespawnDeadParticles=False
+         Name="Ring"
+         UseRotationFrom=PTRS_Actor
+         SpinParticles=True
+         StartSpinRange=(Y=(Max=360.000000),Z=(Max=360.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         UniformSize=True
+         SizeScale(0)=(RelativeSize=0.300000)
+         SizeScale(1)=(RelativeTime=0.200000,RelativeSize=1.200000)
+         SizeScale(2)=(RelativeTime=0.410000,RelativeSize=1.600000)
+         SizeScale(3)=(RelativeTime=1.000000,RelativeSize=2.000000)
+         StartSizeRange=(X=(Min=18.000000,Max=18.000000),Y=(Min=80.000000,Max=80.000000),Z=(Min=80.000000,Max=80.000000))
+         InitialParticlesPerSecond=10000.000000
+         AutomaticInitialSpawning=False
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0006'
+         TextureUSubdivisions=2
+         TextureVSubdivisions=2
+         SubdivisionEnd=1
+         LifetimeRange=(Min=0.250000,Max=0.250000)
+         StartVelocityRange=(X=(Max=0.000800),Y=(Max=0.000800),Z=(Max=0.000800))
+     End Object
+     Emitters(2)=SpriteEmitter'SpriteEmitter9'
+     bNoDelete=False
+     DrawScale=0.100000
+     bDirectional=True
+}

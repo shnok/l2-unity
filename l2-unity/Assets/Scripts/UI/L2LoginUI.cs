@@ -31,19 +31,26 @@ public class L2LoginUI : L2UI
         _instance = null;
     }
 
+    private void Start()
+    {
+        _windowsLoaded = 0;
+    }
+
     protected override void LoadUI()
     {
         base.LoadUI();
 
         LoginWindow.Instance.AddWindow(_rootVisualContainer);
         CharSelectWindow.Instance.AddWindow(_rootVisualContainer);
-        CharSelectWindow.Instance.HideWindow();
+        CharSelectWindow.Instance.HideWindow(true);
         CharCreationWindow.Instance.AddWindow(_rootVisualContainer);
-        CharCreationWindow.Instance.HideWindow();
+        CharCreationWindow.Instance.HideWindow(true);
         LicenseWindow.Instance.AddWindow(_rootVisualContainer);
-        LicenseWindow.Instance.HideWindow();
+        LicenseWindow.Instance.HideWindow(true);
         ServerSelectWindow.Instance.AddWindow(_rootVisualContainer);
-        ServerSelectWindow.Instance.HideWindow();
+        ServerSelectWindow.Instance.HideWindow(true);
+        L2ConfirmWindow.Instance.AddWindow(_rootVisualContainer);
+        L2ConfirmWindow.Instance.HideWindow(true);
 
         if (GameManager.Instance.AutoLogin)
         {
@@ -59,39 +66,39 @@ public class L2LoginUI : L2UI
 
     public void ShowServerSelectWindow()
     {
-        LoginWindow.Instance.HideWindow();
-        LicenseWindow.Instance.HideWindow();
+        LoginWindow.Instance.HideWindow(false);
+        LicenseWindow.Instance.HideWindow(false);
         ServerSelectWindow.Instance.ShowWindow();
     }
 
     public void ShowLicenseWindow()
     {
-        LoginWindow.Instance.HideWindow();
+        LoginWindow.Instance.HideWindow(false);
         LicenseWindow.Instance.ShowWindow();
-        ServerSelectWindow.Instance.HideWindow();
+        ServerSelectWindow.Instance.HideWindow(false);
     }
 
     public void ShowCharSelectWindow()
     {
-        LoginWindow.Instance.HideWindow();
-        CharCreationWindow.Instance.HideWindow();
+        LoginWindow.Instance.HideWindow(false);
+        CharCreationWindow.Instance.HideWindow(false);
         CharSelectWindow.Instance.ShowWindow();
-        ServerSelectWindow.Instance.HideWindow();
+        ServerSelectWindow.Instance.HideWindow(false);
     }
 
     public void ShowLoginWindow()
     {
-        CharSelectWindow.Instance.HideWindow();
+        CharSelectWindow.Instance.HideWindow(false);
         LoginWindow.Instance.ShowWindow();
-        CharCreationWindow.Instance.HideWindow();
-        CharSelectWindow.Instance.HideWindow();
-        LicenseWindow.Instance.HideWindow();
-        ServerSelectWindow.Instance.HideWindow();
+        CharCreationWindow.Instance.HideWindow(false);
+        CharSelectWindow.Instance.HideWindow(false);
+        LicenseWindow.Instance.HideWindow(false);
+        ServerSelectWindow.Instance.HideWindow(false);
     }
 
     public void ShowCharCreationWindow()
     {
-        CharSelectWindow.Instance.HideWindow();
+        CharSelectWindow.Instance.HideWindow(false);
         CharCreationWindow.Instance.ShowWindow();
     }
 }

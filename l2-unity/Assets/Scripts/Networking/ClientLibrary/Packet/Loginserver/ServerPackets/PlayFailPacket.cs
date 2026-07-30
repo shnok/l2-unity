@@ -1,5 +1,7 @@
-public class PlayFailPacket : ServerPacket {
-    public enum PlayFailReason : byte {
+public class PlayFailPacket : LoginServerPacket
+{
+    public enum PlayFailReason : byte
+    {
         REASON_NO_MESSAGE = 0x00,
         REASON_SYSTEM_ERROR_LOGIN_LATER = 0x01,
         REASON_USER_OR_PASS_WRONG = 0x02,
@@ -46,11 +48,13 @@ public class PlayFailPacket : ServerPacket {
     public PlayFailReason FailedReason { get { return _playFailReason; } }
 
 
-    public PlayFailPacket(byte[] d) : base(d) {
+    public PlayFailPacket(byte[] d) : base(d)
+    {
         Parse();
     }
 
-    public override void Parse() {
+    public override void Parse()
+    {
         _playFailReason = (PlayFailReason)ReadB();
     }
 }

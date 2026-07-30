@@ -1,0 +1,55 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="ShopTabSmall" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2SlotContainer/L2SlotContainer.uxml?fileID=9197481963319205126&amp;guid=67f2ae460501d60439fd529481631728&amp;type=3#L2SlotContainer" />
+    <ui:Template name="L2Bar" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Bar/L2Bar.uxml?fileID=9197481963319205126&amp;guid=e7da9ee05d38b14459d91eca9fc49926&amp;type=3#L2Bar" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/ShopWindow/ShopStyle.uss?fileID=7433441132597879392&amp;guid=9e85dc28fcf6a6f4fa0432707a81e0fd&amp;type=3#ShopStyle" />
+    <ui:VisualElement label="General" name="ShopTab" class="shop-tab">
+        <ui:VisualElement name="SmallTabContainer" class="shop-small-tab-container">
+            <ui:VisualElement class="shop-window-arrow" />
+            <ui:VisualElement name="ContainerInnerLeft" class="small-tab-container-inner">
+                <ui:Instance template="ShopTabSmall" style="flex-grow: 1;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ContainerInnerRight" class="small-tab-container-inner" style="margin-right: 0;">
+                <ui:Instance template="ShopTabSmall" style="flex-grow: 1;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:GroupBox name="Footer" class="shop-item-footer">
+            <ui:GroupBox name="StatisticBox" class="item-statistics-container">
+                <ui:VisualElement name="Row" class="shop-statistic-row">
+                    <ui:Label text="Adena" class="l2-color-4 shop-statistic-label" />
+                    <ui:VisualElement class="shop-statistic-icon">
+                        <ui:VisualElement class="item-statistic-icon icon-adena" />
+                    </ui:VisualElement>
+                    <ui:GroupBox name="TextBox" class="inventory-adena-box shop-statistic-gauge">
+                        <ui:GroupBox class="inventory-adena-box-inner">
+                            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AdenaCount" class="inventory-adena-count" />
+                        </ui:GroupBox>
+                    </ui:GroupBox>
+                </ui:VisualElement>
+                <ui:VisualElement name="Row" class="shop-statistic-row" style="margin-top: 1px;">
+                    <ui:Label text="Weight" class="l2-color-4 shop-statistic-label" />
+                    <ui:VisualElement class="shop-statistic-icon">
+                        <ui:VisualElement class="item-statistic-icon icon-bag" />
+                    </ui:VisualElement>
+                    <ui:Instance template="L2Bar" name="WeightBar" class="l2-bar weight-3 shop-statistic-gauge">
+                        <AttributeOverrides element-name="Text" text="100.00%" />
+                    </ui:Instance>
+                </ui:VisualElement>
+            </ui:GroupBox>
+            <ui:GroupBox name="Divider" class="shop-divider" />
+            <ui:GroupBox name="StatisticBox" class="item-statistics-container" style="justify-content: flex-start;">
+                <ui:VisualElement name="Row" class="shop-statistic-row">
+                    <ui:Label text="Price" class="l2-color-4 shop-statistic-label" />
+                    <ui:VisualElement class="shop-statistic-icon">
+                        <ui:VisualElement class="item-statistic-icon icon-adena" />
+                    </ui:VisualElement>
+                    <ui:GroupBox name="TextBox" class="inventory-adena-box shop-statistic-gauge">
+                        <ui:GroupBox class="inventory-adena-box-inner">
+                            <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Price" class="inventory-adena-count" />
+                        </ui:GroupBox>
+                    </ui:GroupBox>
+                </ui:VisualElement>
+            </ui:GroupBox>
+        </ui:GroupBox>
+    </ui:VisualElement>
+</ui:UXML>

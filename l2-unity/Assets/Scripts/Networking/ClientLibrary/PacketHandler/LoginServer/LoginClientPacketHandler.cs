@@ -3,43 +3,46 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-public class LoginClientPacketHandler : ClientPacketHandler {
-    protected override void EncryptPacket(ClientPacket packet) {
+public class LoginClientPacketHandler : ClientPacketHandler
+{
+    protected override void EncryptPacket(ClientPacket packet)
+    {
         base.EncryptPacket(packet);
 
         byte[] data = packet.GetData();
 
-        if(LoginClient.Instance.LogCryptography) {
-            Debug.Log("----> [LOGIN] CLEAR: " + StringUtils.ByteArrayToString(data));
-        }
-
         LoginClient.Instance.EncryptBlowFish.processBigBlock(data, 0, data, 0, data.Length);
 
-        if (LoginClient.Instance.LogCryptography) {
+        if (LoginClient.Instance.LogCryptography)
+        {
             Debug.Log("----> [LOGIN] ENCRYPTED: " + StringUtils.ByteArrayToString(data));
         }
 
         packet.SetData(data);
     }
 
-    public void SendPing() {
+    public void SendPing()
+    {
         PingPacket packet = new PingPacket();
         SendPacket(packet);
     }
 
-    public void SendAuth() {
+    public void SendAuth()
+    {
         string account = LoginClient.Instance.Account;
         string password = LoginClient.Instance.Password;
 
         byte[] accountBytes = Encoding.UTF8.GetBytes(account);
 
-        if (LoginClient.Instance.LogCryptography) {
+        if (LoginClient.Instance.LogCryptography)
+        {
             Debug.Log($"Account bytes hex [{accountBytes.Length}]: {StringUtils.ByteArrayToString(accountBytes)}");
         }
 
         byte[] shaPass = SHACrypt.ComputeSha256HashToBytes(password);
 
-        if (LoginClient.Instance.LogCryptography) {
+        if (LoginClient.Instance.LogCryptography)
+        {
             Debug.Log($"SHA-256 hash hex [{shaPass.Length}]: {StringUtils.ByteArrayToString(shaPass)}");
         }
 
@@ -58,14 +61,16 @@ public class LoginClientPacketHandler : ClientPacketHandler {
         // Copy shaPass into combined starting after the length indicator and accountBytes
         Array.Copy(shaPass, 0, rsaBlock, accountBytes.Length + 2, shaPass.Length);
 
-        if (LoginClient.Instance.LogCryptography) {
+        if (LoginClient.Instance.LogCryptography)
+        {
             // Debug output for combined byte array
             Debug.Log($"Clear RSA block [{rsaBlock.Length}]: {StringUtils.ByteArrayToString(rsaBlock)}");
         }
 
-        rsaBlock = LoginClient.Instance.RSACrypt.EncryptRSANoPadding(rsaBlock);
+        rsaBlock = LoginClient.Instance.RSACrypt.EncryptRSAPskc1(rsaBlock);
 
-        if (LoginClient.Instance.LogCryptography) {
+        if (LoginClient.Instance.LogCryptography)
+        {
             Debug.Log($"Encrypted RSA block: {StringUtils.ByteArrayToString(rsaBlock)}");
         }
 
@@ -74,24 +79,31 @@ public class LoginClientPacketHandler : ClientPacketHandler {
         SendPacket(packet);
     }
 
-    public void SendRequestServerList() {
+    public void SendRequestServerList()
+    {
         RequestServerListPacket packet = new RequestServerListPacket(LoginClient.Instance.SessionKey1, LoginClient.Instance.SessionKey2);
 
         SendPacket(packet);
     }
 
-    public void SendRequestServerLogin(int serverId) {
+    public void SendRequestServerLogin(int serverId)
+    {
         RequestServerLoginPacket packet = new RequestServerLoginPacket(serverId, LoginClient.Instance.SessionKey1, LoginClient.Instance.SessionKey2);
 
         SendPacket(packet);
     }
 
-    public override void SendPacket(ClientPacket packet) {
-        if (LoginClient.Instance.LogSentPackets) {
+    public override void SendPacket(ClientPacket packet)
+    {
+        if (LoginClient.Instance.LogSentPackets)
+        {
             LoginClientPacketType packetType = (LoginClientPacketType)packet.GetPacketType();
-            if(packetType != LoginClientPacketType.Ping) {
-                Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [LoginServer] Sending packet:" + packetType);
-            }
+            Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [LoginServer] Sending packet:" + packetType);
+        }
+
+        if (LoginClient.Instance.LogCryptography)
+        {
+            Debug.Log("----> [LOGIN] CLEAR: " + StringUtils.ByteArrayToString(packet.GetData()));
         }
 
         EncryptPacket(packet);

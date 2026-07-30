@@ -31,7 +31,7 @@ public class LoginWindow : L2Window
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/LoginWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/LoginWindow/LoginWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -39,42 +39,41 @@ public class LoginWindow : L2Window
         InitWindow(root);
         _logo = root.Q<VisualElement>("L2Logo");
 
-        GameManager.Instance.OnLoginUILoaded();
 
         yield return new WaitForEndOfFrame();
 
-        Button loginButton = (Button)GetElementById("LoginButton");
+        Button loginButton = GetElementById("LoginButton").Q<Button>("L2Button");
         loginButton.AddManipulator(new ButtonClickSoundManipulator(loginButton));
         loginButton.RegisterCallback<ClickEvent>(evt => LoginButtonPressed());
 
-        Button exitButton = (Button)GetElementById("ExitButton");
+        Button exitButton = GetElementById("ExitButton").Q<Button>("L2Button");
         exitButton.AddManipulator(new ButtonClickSoundManipulator(exitButton));
         exitButton.RegisterCallback<ClickEvent>(evt => ExitButtonPressed());
 
-        VisualElement userInputBg = GetElementById("UserInputBg");
-        _userInput = (TextField)GetElementById("UserInputField");
+        // VisualElement userInputBg = GetElementById("UserInputBg");
+        _userInput = GetElementById("UserInputField").Q<TextField>("L2Input");
         _userInput.RegisterCallback<FocusEvent>((evt) => OnInputFocus(evt, _userInput));
         _userInput.RegisterCallback<BlurEvent>((evt) => OnInputBlur(evt, _userInput));
         _userInput.maxLength = 16;
         _userInput.RegisterValueChangedCallback(OnLoginInputChanged);
 
-        _userInput.AddManipulator(new HighlightedInputFieldManipulator(_userInput, userInputBg, 20));
+        _userInput.AddManipulator(new HighlightedInputFieldManipulator(_userInput, 20));
         _userInput.AddManipulator(new BlinkingCursorManipulator(_userInput));
         _userInput.RegisterCallback<KeyDownEvent>((evt) => OnKeyPressed(evt, _userInput));
 
-        VisualElement passwordInputBg = GetElementById("PasswordInputBg");
-        _passwordInput = (TextField)GetElementById("PasswordInputField");
+        // VisualElement passwordInputBg = GetElementById("PasswordInputBg");
+        _passwordInput = GetElementById("PasswordInputField").Q<TextField>("L2Input");
         _passwordInput.RegisterCallback<FocusEvent>((evt) => OnInputFocus(evt, _passwordInput));
         _passwordInput.RegisterCallback<BlurEvent>((evt) => OnInputBlur(evt, _passwordInput));
         _passwordInput.maxLength = 16;
 
-        _passwordInput.AddManipulator(new HighlightedInputFieldManipulator(_passwordInput, passwordInputBg, 20));
+        _passwordInput.AddManipulator(new HighlightedInputFieldManipulator(_passwordInput, 20));
         _passwordInput.AddManipulator(new BlinkingCursorManipulator(_passwordInput));
         _passwordInput.RegisterCallback<KeyDownEvent>((evt) => OnKeyPressed(evt, _passwordInput));
 
-
-
         _userInput.Focus();
+
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
     private void OnKeyPressed(KeyDownEvent evt, TextField input)
@@ -91,14 +90,14 @@ public class LoginWindow : L2Window
                 _passwordInput.Focus();
             }
 
-            evt.PreventDefault();
+            evt.StopPropagation();
 
         }
         else if (keyCode == KeyCode.Return || keyCode == KeyCode.KeypadEnter)
         {
             AudioManager.Instance.PlayUISound("click_01");
             LoginButtonPressed();
-            evt.PreventDefault();
+            evt.StopPropagation();
         }
     }
 
@@ -171,9 +170,9 @@ public class LoginWindow : L2Window
         }
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
+        base.HideWindow(silent);
 
         HideLogo();
     }
@@ -188,7 +187,16 @@ public class LoginWindow : L2Window
 
         if (GameManager.Instance.AutoLogin)
         {
-            LoginButtonPressed();
+            {
+                StartCoroutine(AutoLogin());
+            }
         }
+    }
+
+    private IEnumerator AutoLogin()
+    {
+        yield return new WaitForSeconds(1f);
+        LoginButtonPressed();
+
     }
 }

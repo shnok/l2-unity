@@ -96,14 +96,14 @@ namespace FMODUnity
 # Don't ignore images and gizmos used by FMOD in the Unity Editor.
 !/[Aa]ssets/Gizmos/FMOD/*
 !/[Aa]ssets/Editor Default Resources/FMOD/*
-
+                    
 # Ignore the Cache folder since it is updated locally.
 /[Aa]ssets/Plugins/FMOD/Cache/*
-
+                    
 # Ignore bank files in the StreamingAssets folder.
 /[Aa]ssets/StreamingAssets/**/*.bank
 /[Aa]ssets/StreamingAssets/**/*.bank.meta
-
+                    
 # If the source bank files are kept outside of the StreamingAssets folder then these can be ignored.
 # Log files can be ignored.
 fmod_editor.log";
@@ -515,7 +515,7 @@ fmod_editor.log";
 
             EditorGUILayout.LabelField("Choose how to access your FMOD Studio content:", titleLeftStyle);
 
-            EditorGUILayout.Space();
+            EditorGUILayout.Space(); 
             using (new GUILayout.HorizontalScope())
             {
                 using (new GUILayout.VerticalScope("box"))
@@ -805,26 +805,8 @@ fmod_editor.log";
                 GUILayout.FlexibleSpace();
             }
 
-            string msg = "";
-            if (completed)
-            {
-                // All complete
-                msg = "FMOD for Unity has been set up successfully!";
-            }
-            // Essential
-            else if (pageComplete[(int)PAGES.Linking])
-            {
-                // Partial complete (linking done)
-                msg = "FMOD for Unity has been partially set up.";
-            }
-            else
-            {
-                // Linking not done
-                msg = "FMOD for Unity has not finished being set up.\nLinking to a project or banks is required.";
-            }
-
             GUILayout.FlexibleSpace();
-            EditorGUILayout.LabelField(msg, titleStyle);
+            EditorGUILayout.LabelField(completed ? "FMOD for Unity has been set up successfully!" : "FMOD for Unity has not finished being set up.", titleStyle);
             GUILayout.FlexibleSpace();
 
             using (new EditorGUILayout.HorizontalScope())

@@ -1,11 +1,13 @@
 #if (UNITY_EDITOR) 
-public enum GenerationMode {
+public enum GenerationMode
+{
     Load,
     Generate
 }
 
 [System.Serializable]
-public class MapGenerationData {
+public class MapGenerationData
+{
     public string mapName;
     public bool enabled = true;
     public GenerationMode generationMode = GenerationMode.Generate;
@@ -14,5 +16,7 @@ public class MapGenerationData {
     public bool generateDecoLayers = true;
     public bool generateStaticMeshes = true;
     public bool generateBrushes = true;
+    public bool convertToMicrosplat = false;
 }
 #endif
+

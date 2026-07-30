@@ -1,0 +1,392 @@
+.character-info-window .bar-label {
+    position: absolute;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.character-info-window .bar-label-numbers {
+    padding-left: 0;
+}
+
+.char-info-row {
+    flex-direction: row;
+    align-self: stretch;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    background-image: none;
+    border-left-width: 1px;
+    border-left-color: rgba(55, 51, 43, 0.6);
+    border-right-color: rgba(55, 51, 43, 0.6);
+    border-top-color: rgba(55, 51, 43, 0.6);
+    border-bottom-color: rgba(55, 51, 43, 0.6);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 0.3px;
+    border-top-right-radius: 0.3px;
+    border-bottom-right-radius: 0.3px;
+    border-bottom-left-radius: 0.3px;
+    background-color: rgba(0, 0, 0, 0.35);
+    margin: 0;
+    padding: 0;
+    width: 370px;
+    left: 15px;
+}
+
+.char-info-row-1 {
+    height: 70px;
+}
+
+.char-info-row-2 {
+    margin-top: 4px;
+    height: 21px;
+    padding-top: 2px;
+}
+
+.char-info-row-3 {
+    margin-top: 4px;
+    padding-top: 1px;
+    padding-bottom: 2px;
+}
+
+.char-info-row-4 {
+    height: auto;
+}
+
+.char-info-row-5 {
+    height: 124px;
+}
+
+.char-info-row-6 {
+    height: auto;
+}
+
+.char-info-row-7 {
+    height: 38px;
+}
+
+.char-info-row-8 {
+    height: auto;
+}
+
+.char-info-row-9 {
+    height: 38px;
+}
+
+.char-info-cat-name {
+    font-size: 12px;
+    left: 15px;
+    margin: 0;
+    padding: 0;
+    height: 24px;
+    justify-content: flex-end;
+    padding-left: 5px;
+    padding-bottom: 2px;
+}
+
+.char-info-cat-name > .unity-label {
+    padding: 0;
+    margin: 0;
+}
+
+.char-info-class-icon {
+    align-self: flex-start;
+    width: 45px;
+    height: 60px;
+    margin-top: 5px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 5px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    justify-content: center;
+}
+
+.char-info-name-box {
+    margin-top: 5px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 8px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: stretch;
+}
+
+.char-info-name-box-inner {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.character-info-window .unity-label {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+.char-info-player-name {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    top: 0;
+    bottom: 0;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.character-info-window .char-info-stat-label {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    margin-right: 4px;
+}
+
+.char-info-class-icon-border {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    justify-content: center;
+    height: 60px;
+}
+
+.char-info-class-icon-overlay {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0.5px;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: center;
+    justify-content: center;
+    background-image: resource('Data/UI/Assets/CharInfo/ItemWindow_DF_Frame_Over');
+    width: 41px;
+    height: 57px;
+    align-items: stretch;
+    flex-wrap: wrap;
+    overflow: visible;
+    padding-right: 0;
+}
+
+.char-info-class-icon-image {
+    flex-grow: 1;
+    background-image: resource('Data/UI/Assets/CharInfo/CharacterInfo_Top_Img');
+    margin-top: 1px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    margin-left: 1px;
+    opacity: 0.88;
+}
+
+.char-info-window-content {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: stretch;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 40px;
+    display: flex;
+    left: 0;
+}
+
+.character-info-window #BoxTopSurvivability {
+    flex-direction: column;
+}
+
+.char-info-col {
+    flex-direction: row;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 50%;
+}
+
+.char-info-inner-row {
+    flex-direction: row;
+    margin-top: 3px;
+    margin-left: 0;
+    margin-bottom: 0;
+    padding: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-right: 0;
+    flex-grow: 1;
+    align-items: flex-start;
+}
+
+.char-info-inner-row-box {
+    margin-top: 0;
+}
+
+.char-info-inner-col {
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+    width: 50%;
+}
+
+.character-info-window #BagIcon {
+    display: flex;
+}
+
+.character-info-window #BagIconBg {
+    width: 16px;
+    height: 13px;
+}
+
+.character-info-window .l2-bar-name {
+    width: 24px;
+    margin: 0;
+}
+
+.char-icon-bag {
+    background-image: resource('Data/UI/Assets/CharInfo/Icon_DF_Common_Weight');
+}
+
+.character-info-window .exp-row {
+    margin-top: 2px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.character-info-window #ClassText {
+    margin-top: 0;
+}
+
+.char-info-stats-divider {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 4px;
+    background-image: resource('Data/UI/Assets/CharInfo/Divider_DF_Ver');
+}
+
+.char-info-stats-divider {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 4px;
+    background-image: resource('Data/UI/Assets/CharInfo/Divider_DF_Ver');
+}
+
+.char-info-divider {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 4px;
+    height: 100%;
+    background-image: resource('Data/UI/Assets/CharInfo/Divider_DF_Ver');
+}
+
+.char-stats-row {
+    flex-grow: 0;
+    flex-direction: row;
+    margin-top: 2px;
+}
+
+.char-stats-label {
+    width: 30px;
+}
+
+.char-stats-value {
+    flex-grow: 1;
+    -unity-text-align: upper-right;
+}
+
+.char-info-sp-container {
+    flex-direction: row;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 1px;
+    height: 14px;
+    width: auto;
+    font-size: 12px;
+    align-self: stretch;
+    justify-content: flex-start;
+    align-items: auto;
+    padding-right: 1px;
+}
+
+.char-info-sp-label {
+    display: flex;
+}
+
+.char-info-sp-box {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: stretch;
+    align-items: stretch;
+    justify-content: flex-start;
+    background-color: rgb(0, 0, 0);
+    flex-grow: 1;
+}
+
+.char-info-sp-value {
+    color: rgb(165, 143, 113);
+    border-left-width: 0;
+    border-right-width: 0;
+    margin-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.6);
+    -unity-text-outline-width: 0;
+    flex-grow: 1;
+    width: auto;
+    -unity-text-align: lower-center;
+    -unity-font-definition: initial;
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
+}

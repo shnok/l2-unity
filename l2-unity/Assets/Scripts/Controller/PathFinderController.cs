@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -105,22 +107,35 @@ public class PathFinderController : MonoBehaviour
         {
             if (Vector3.Distance(flatDestPos, flatTransformPos) < _currentDestinationThreshold)
             {
+                if (PlayerController.Instance.RunningToDestination)
+                {
+                    PlayerController.Instance.ResetDestination(true);
+                }
                 //   if(PlayerController.Instance.RunningToDestination && PlayerCombatController.Instance.RunningToTarget) {
                 //      PlayerCombatController.Instance.OnReachingTarget();
                 //   }
 
-                PlayerController.Instance.ResetDestination();
             }
         }
     }
 
     public void MoveTo(Vector3 destination)
     {
+        MoveTo(destination, _defaultDestinationThreshold, null);
+    }
+
+    public void MoveTo(Vector3 destination, Action callback)
+    {
         _currentDestinationThreshold = _defaultDestinationThreshold;
-        MoveTo(destination, _defaultDestinationThreshold);
+        MoveTo(destination, _defaultDestinationThreshold, callback);
     }
 
     public void MoveTo(Vector3 destination, float stopAtRange)
+    {
+        MoveTo(destination, stopAtRange, null);
+    }
+
+    public void MoveTo(Vector3 destination, float stopAtRange, Action moveCallback)
     {
         _currentDestinationThreshold = stopAtRange;
         _targetDestination = destination;
@@ -154,6 +169,8 @@ public class PathFinderController : MonoBehaviour
                         _path = callback;
                     }
                 }
+
+                StartCoroutine(WaitForFixedUpdate(moveCallback));
             });
 
         }
@@ -161,6 +178,17 @@ public class PathFinderController : MonoBehaviour
         {
             _targetNode = null;
             PlayerController.Instance.SetDestination(_targetDestination, _currentDestinationThreshold);
+
+            StartCoroutine(WaitForFixedUpdate(moveCallback));
+        }
+    }
+
+    private IEnumerator WaitForFixedUpdate(Action moveCallback)
+    {
+        yield return new WaitForFixedUpdate();
+        if (moveCallback != null)
+        {
+            moveCallback();
         }
     }
 

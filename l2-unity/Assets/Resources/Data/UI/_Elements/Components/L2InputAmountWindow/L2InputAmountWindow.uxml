@@ -1,0 +1,77 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Template name="L2Input" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Input/L2Input.uxml?fileID=9197481963319205126&amp;guid=dce83b8dcd7f5614280886eaaa82f0f7&amp;type=3#L2Input" />
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uss?fileID=7433441132597879392&amp;guid=b1d2114f9ed155f45a3eb16e5ef02441&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2InputAmountWindow/L2InputAmountWindow.uss?fileID=7433441132597879392&amp;guid=853ec4dc18665d642a9b3e8b25993589&amp;type=3#L2InputAmountWindow" />
+    <ui:VisualElement name="L2InputAmountWindow" class="input-amount-window" style="position: absolute;">
+        <ui:VisualElement name="Main" class="drag-area input-amount-window-main">
+            <ui:VisualElement name="InfoBox" picking-mode="Ignore" class="input-amount-window-content-container" style="border-left-color: rgba(92, 92, 92, 0.31); border-right-color: rgba(92, 92, 92, 0.31); border-top-color: rgba(92, 92, 92, 0.31); border-bottom-color: rgba(92, 92, 92, 0.31);">
+                <ui:VisualElement name="IconContainer" picking-mode="Ignore" class="input-amount-window-icon-container">
+                    <ui:VisualElement name="VisualElement" picking-mode="Ignore" class="input-amount-window-icon" />
+                </ui:VisualElement>
+                <ui:VisualElement class="input-amount-window-content" style="flex-grow: 1;">
+                    <ui:Label text="Warning message! Warning message! Warning message! Warning message!" name="Content" picking-mode="Ignore" class="l2-color-4 input-amount-window-content-label" />
+                    <ui:Instance template="L2Input" name="AmountInput" class="input-amount-window-amount">
+                        <AttributeOverrides element-name="L2Input" max-length="15" />
+                    </ui:Instance>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="ButtonBox" picking-mode="Ignore" class="input-amount-window-button-box">
+                <ui:Instance template="L2Button" name="OkButton" class="input-amount-window-button">
+                    <AttributeOverrides element-name="ButtonLabel" text="OK" enable-rich-text="true" />
+                </ui:Instance>
+                <ui:Instance template="L2Button" name="CancelButton" class="input-amount-window-button">
+                    <AttributeOverrides element-name="ButtonLabel" text="Cancel" />
+                </ui:Instance>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Side" class="input-amount-window-side" style="flex-grow: 1;">
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-items: center;">
+                <ui:VisualElement style="flex-grow: 1; flex-wrap: wrap; flex-direction: row;">
+                    <ui:Instance template="L2Button" name="Number1" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="1" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="Number2" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="2" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="Number3" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="3" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="Number4" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="4" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="Number5" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="5" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="Number6" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="6" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="Number7" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="7" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="Number8" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="8" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="Number9" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="9" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="Number0" class="input-amount-window-number">
+                        <AttributeOverrides element-name="ButtonLabel" text="0" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="NumberAll" class="input-amount-window-number input-amount-window-number-all">
+                        <AttributeOverrides element-name="ButtonLabel" text="All" />
+                    </ui:Instance>
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 1; flex-shrink: 0;">
+                    <ui:Instance template="L2Button" name="NumberBS" class="input-amount-window-number-vertical" style="flex-grow: 0; flex-shrink: 0;">
+                        <AttributeOverrides element-name="ButtonLabel" text="B/S" />
+                    </ui:Instance>
+                    <ui:Instance template="L2Button" name="NumberC" class="input-amount-window-number-vertical" style="flex-grow: 0; flex-shrink: 0;">
+                        <AttributeOverrides element-name="ButtonLabel" text="C" />
+                    </ui:Instance>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

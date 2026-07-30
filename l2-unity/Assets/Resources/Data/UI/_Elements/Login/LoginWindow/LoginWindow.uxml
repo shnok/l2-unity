@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="L2Input" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Input/L2Input.uxml?fileID=9197481963319205126&amp;guid=dce83b8dcd7f5614280886eaaa82f0f7&amp;type=3#L2Input" />
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Login/LoginWindow/LoginWindow.uss?fileID=7433441132597879392&amp;guid=05ea6159cebbe30449524b6449484bfc&amp;type=3#LoginWindow" />
+    <ui:VisualElement name="LoginWindow" picking-mode="Ignore" class="login-window">
+        <ui:Instance template="L2Input" name="UserInputField" class="l2-input-field-template l2-color-4">
+            <AttributeOverrides element-name="L2Input" label="ID" />
+        </ui:Instance>
+        <ui:Instance template="L2Input" name="PasswordInputField" class="l2-input-field-template l2-color-4">
+            <AttributeOverrides element-name="L2Input" label="Password" password="true" />
+        </ui:Instance>
+        <ui:VisualElement name="Buttons" picking-mode="Ignore" class="login-buttons">
+            <ui:Instance template="L2Button" name="LoginButton" class="l2-button-template">
+                <AttributeOverrides element-name="ButtonLabel" text="Log In" />
+            </ui:Instance>
+            <ui:Instance template="L2Button" name="ExitButton" class="l2-button-template">
+                <AttributeOverrides element-name="ButtonLabel" text="Exit" />
+            </ui:Instance>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

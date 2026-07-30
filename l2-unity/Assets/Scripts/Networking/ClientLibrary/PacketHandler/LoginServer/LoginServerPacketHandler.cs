@@ -8,7 +8,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
     public override void HandlePacket(byte[] data)
     {
         LoginServerPacketType packetType = (LoginServerPacketType)data[0];
-        if (LoginClient.Instance.LogReceivedPackets && packetType != LoginServerPacketType.Ping)
+        if (LoginClient.Instance.LogReceivedPackets)
         {
             Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [LoginServer] Received packet:" + packetType);
         }
@@ -103,7 +103,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
 
         _client.InitPacket = false;
 
-        EventProcessor.Instance.QueueEvent(() => ((LoginClientPacketHandler)_clientPacketHandler).SendPing());
+        // EventProcessor.Instance.QueueEvent(() => ((LoginClientPacketHandler)_clientPacketHandler).SendPing());
 
         EventProcessor.Instance.QueueEvent(() => ((LoginClientPacketHandler)_clientPacketHandler).SendAuth());
     }
@@ -113,6 +113,29 @@ public class LoginServerPacketHandler : ServerPacketHandler
         LoginServerFailPacket packet = new LoginServerFailPacket(data);
 
         LoginServerFailPacket.LoginFailedReason failedReason = packet.FailedReason;
+
+        EventProcessor.Instance.QueueEvent(() =>
+        {
+            int systemMessageId = 449;
+            switch (packet.FailedReason)
+            {
+                case LoginServerFailPacket.LoginFailedReason.REASON_USER_OR_PASS_WRONG:
+                    systemMessageId = 449;
+                    break;
+                case LoginServerFailPacket.LoginFailedReason.REASON_ACCOUNT_IN_USE:
+                    systemMessageId = 455;
+                    break;
+                case LoginServerFailPacket.LoginFailedReason.REASON_ACCESS_FAILED:
+                    systemMessageId = 461;
+                    break;
+                case LoginServerFailPacket.LoginFailedReason.REASON_INACTIVE:
+                    systemMessageId = 1920;
+                    break;
+            }
+            L2ConfirmWindow.Instance.ShowWindow(systemMessageId, () =>
+            {
+            }, null);
+        });
 
         Debug.LogWarning($"Login failed reason: {Enum.GetName(typeof(LoginServerFailPacket.LoginFailedReason), failedReason)}");
 
@@ -148,7 +171,7 @@ public class LoginServerPacketHandler : ServerPacketHandler
         ServerListPacket packet = new ServerListPacket(data);
 
         EventProcessor.Instance.QueueEvent(
-            () => LoginClient.Instance.OnServerListReceived(packet.LastServer, packet.ServersData, packet.CharsOnServers));
+            () => LoginClient.Instance.OnServerListReceived(packet));
     }
 
     private void OnPlayFail(byte[] data)

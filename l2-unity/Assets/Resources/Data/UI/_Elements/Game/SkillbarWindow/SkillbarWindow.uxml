@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="SkillBarHorizontal" src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillbarWindow/SkillBarHorizontal.uxml?fileID=9197481963319205126&amp;guid=933075a6dcfe0eb42bc0b43e3089a023&amp;type=3#SkillBarHorizontal" />
+    <ui:Template name="SkillBarVertical" src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillbarWindow/SkillBarVertical.uxml?fileID=9197481963319205126&amp;guid=222b16b0c61dfe349b21a6f4cb167c83&amp;type=3#SkillBarVertical" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillbarWindow/SkillbarWindow.uss?fileID=7433441132597879392&amp;guid=85e555579f5424d4a9ae3b12d87518a2&amp;type=3#SkillbarWindow" />
+    <ui:VisualElement name="SkillbarWindow" class="skillbar-window">
+        <ui:VisualElement name="SkillbarContainerHorizontal" class="skillbar-container skillbar-container-horizontal">
+            <ui:Instance template="SkillBarHorizontal" name="SkillBarHorizontal" style="display: none;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="SkillbarContainerVertical" class="skillbar-container skillbar-container-vertical">
+            <ui:Instance template="SkillBarVertical" name="SkillBarVertical" style="display: none;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

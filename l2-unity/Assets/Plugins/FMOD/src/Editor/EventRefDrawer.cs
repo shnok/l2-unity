@@ -52,7 +52,14 @@ namespace FMODUnity
                 headerRect.width = EditorGUIUtility.labelWidth;
                 headerRect.height = baseHeight;
 
-                property.isExpanded = EditorGUI.Foldout(headerRect, property.isExpanded, label, true);
+                if (editorEventRef != null)
+                {
+                    property.isExpanded = EditorGUI.Foldout(headerRect, property.isExpanded, label, true);
+                }
+                else
+                {
+                    EditorGUI.LabelField(headerRect, label);
+                }
 
                 Rect addRect = new Rect(position.xMax - addIcon.width - 7, position.y, addIcon.width + 7, baseHeight);
                 Rect openRect = new Rect(addRect.x - openIcon.width - 7, position.y, openIcon.width + 6, baseHeight);
@@ -83,7 +90,6 @@ namespace FMODUnity
                     windowRect.xMin = pathRect.xMin;
                     windowRect.position = GUIUtility.GUIToScreenPoint(windowRect.position);
                     windowRect.height = openRect.height + 1;
-                    windowRect.width = Mathf.Max(windowRect.width, 300f);
                     eventBrowser.ShowAsDropDown(windowRect, new Vector2(windowRect.width, 400));
 
                 }
@@ -96,11 +102,13 @@ namespace FMODUnity
                     windowRect.xMin = pathRect.xMin;
                     windowRect.position = GUIUtility.GUIToScreenPoint(windowRect.position);
                     windowRect.height = openRect.height + 1;
-                    windowRect.width = Mathf.Max(windowRect.width, 300f);
                     addDropdown.ShowAsDropDown(windowRect, new Vector2(windowRect.width, 500));
 
                 }
-                if (GUI.Button(openRect, new GUIContent(openIcon, "Open In Browser"), buttonStyle))
+                if (GUI.Button(openRect, new GUIContent(openIcon, "Open In Browser"), buttonStyle) &&
+                    !string.IsNullOrEmpty(pathProperty.stringValue) &&
+                    EventManager.EventFromPath(pathProperty.stringValue) != null
+                    )
                 {
                     EventBrowser.ShowWindow();
                     EventBrowser eventBrowser = EditorWindow.GetWindow<EventBrowser>();
@@ -466,7 +474,7 @@ namespace FMODUnity
 #pragma warning disable 0618 // Suppress the warning about using the obsolete EventRefAttribute class
             string migrationTarget = (attribute as EventRefAttribute).MigrateTo;
 #pragma warning restore 0618
-
+        
             if (string.IsNullOrEmpty(migrationTarget))
             {
                 return new GUIContent("<b>[EventRef]</b> is obsolete - use the <b>EventReference</b> type instead.",
@@ -475,13 +483,6 @@ namespace FMODUnity
             }
             else
             {
-                int parentPathLength = property.propertyPath.LastIndexOf('.');
-
-                if (parentPathLength >= 0)
-                {
-                    migrationTarget = string.Format("{0}.{1}", property.propertyPath.Remove(parentPathLength), migrationTarget);
-                }
-
                 SerializedProperty targetProperty = property.serializedObject.FindProperty(migrationTarget);
 
                 if (targetProperty != null)

@@ -1,0 +1,407 @@
+.inventory-window {
+    width: 574px;
+    height: 416px;
+}
+
+.inventory-window.expanded {
+    width: 682px;
+}
+
+.inventory-window .l2-scroll-view .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-direction: row;
+}
+
+.inventory-window .unity-scroll-view {
+    font-size: 12px;
+}
+
+.inventory-window .unity-base-slider__dragger-border {
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.inventory-window .unity-disabled {
+    opacity: 1;
+}
+
+.inventory-window .l2-scroll-view #unity-content-viewport {
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.inventory-window #AdenaDistribBtn #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/adenacalculate_recipe');
+}
+
+.inventory-window #AdenaDistribBtn:active #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/adenacalculate_recipe');
+}
+
+.inventory-window #AdenaDistribBtn:active:hover #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/adenacalculate_recipe');
+}
+
+.inventory-window #AdenaDistribBtn:hover #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/adenacalculate_recipe_over');
+}
+
+.inventory-window #CompoundBtn #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/inventory_compound');
+}
+
+.inventory-window #CompoundBtn:active #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/inventory_compound');
+}
+
+.inventory-window #CompoundBtn:active:hover #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/inventory_compound');
+}
+
+.inventory-window #CompoundBtn:hover #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/inventory_compound_drag');
+}
+
+.inventory-window #TrashBtn #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/inventory_trash');
+}
+
+.inventory-window #TrashBtn:active #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/inventory_trash');
+}
+
+.inventory-window #TrashBtn:active:hover #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/inventory_trash');
+}
+
+.inventory-window #TrashBtn:hover #ButtonBg {
+    background-image: resource('Data/UI/Assets/Inventory/inventory_trash_over');
+}
+
+.inventory-window .l2-scroll-view .unity-scroller {
+    width: 14px;
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.inventory-content {
+    flex-grow: 0;
+    min-width: auto;
+    min-height: auto;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: absolute;
+    background-image: none;
+    top: 0;
+    left: 0;
+    display: flex;
+    visibility: visible;
+    overflow: visible;
+    flex-shrink: 0;
+    width: 100%;
+    padding-top: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-top: 38px;
+    height: 372px;
+}
+
+.inventory-content-container {
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.inventory-content-container-inner {
+    position: relative;
+    left: 0;
+    top: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-direction: row;
+    align-self: stretch;
+    flex-grow: 1;
+    padding-right: 0;
+}
+
+.inventory-gear-container {
+    flex-grow: 0;
+    background-image: resource('Data/UI/Assets/Inventory/Inventory_DF_EquipBg_classic');
+    padding-top: 28px;
+    padding-right: 24px;
+    padding-bottom: 28px;
+    padding-left: 24px;
+    width: 203px;
+}
+
+.inventory-gear {
+    flex-grow: 1;
+    background-image: resource('Data/UI/Assets/Inventory/Inventory_DF_EquipSlot_Classic _clear_empty_test2');
+}
+
+.inventory-gear-row-1 {
+    flex-grow: 0;
+    height: 34px;
+    flex-direction: row;
+}
+
+.inventory-gear-row-2 {
+    flex-grow: 0;
+    height: 34px;
+    flex-direction: row;
+    margin-top: 6px;
+}
+
+.inventory-gear-row-3 {
+    flex-grow: 0;
+    height: 34px;
+    flex-direction: row;
+    margin-top: 6px;
+}
+
+.inventory-gear-row-4 {
+    flex-grow: 0;
+    height: 34px;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.inventory-gear-row-5 {
+    flex-grow: 0;
+    height: 34px;
+    flex-direction: row;
+    margin-top: 35px;
+}
+
+.inventory-gear-row-6 {
+    flex-grow: 0;
+    height: 34px;
+    flex-direction: row;
+    margin-top: 10px;
+}
+
+.inventory-item-container {
+    flex-grow: 1;
+    padding-left: 2px;
+}
+
+
+.inventory-minimized.minimized {
+    display: flex;
+}
+
+.inventory-item-footer {
+    margin-top: 4px;
+    margin-right: 0;
+    margin-bottom: 4px;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+    height: 38px;
+    flex-direction: row;
+    flex-grow: 0;
+    padding-right: 3px;
+}
+
+.inventory-button {
+    width: 36px;
+    height: 36px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 4px;
+}
+
+.inventory-button-bg {
+    flex-grow: 1;
+    width: 64px;
+    height: 64px;
+    top: -2px;
+}
+
+#AdenaDistribBtn {
+    margin-left: 0;
+}
+
+.inventory-window .item-statistics-container {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-direction: row;
+    align-self: stretch;
+    justify-content: flex-end;
+    align-items: stretch;
+    width: 165px;
+}
+
+.inventory-window .item-statistic-icons {
+    flex-direction: column;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    left: 10px;
+}
+
+.inventory-window .item-statistic-icon {
+    flex-grow: 1;
+    width: 32px;
+    height: 16px;
+    max-width: 32px;
+    max-height: 16px;
+    margin-top: 2px;
+}
+
+.icon-adena {
+    background-image: resource('Data/UI/Assets/Inventory/icon_df_common_adena');
+}
+
+.icon-bag {
+    background-image: resource('Data/UI/Assets/Inventory/icon_df_common_weight');
+}
+
+.item-statistic-gauges {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-grow: 1;
+}
+
+.expand-btn {
+    margin-top: -2px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 16px;
+    height: 16px;
+    border-left-color: rgba(149, 149, 149, 0);
+    border-right-color: rgba(149, 149, 149, 0);
+    border-top-color: rgba(149, 149, 149, 0);
+    border-bottom-color: rgba(149, 149, 149, 0);
+}
+
+.expand-btn-bg {
+    flex-grow: 0;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.minimize-btn {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 16px;
+    height: 16px;
+    background-color: rgba(188, 188, 188, 0);
+    border-left-color: rgba(149, 149, 149, 0);
+    border-right-color: rgba(149, 149, 149, 0);
+    border-top-color: rgba(149, 149, 149, 0);
+    border-bottom-color: rgba(149, 149, 149, 0);
+}
+
+.inventory-count {
+    justify-content: flex-end;
+    align-self: flex-end;
+    margin-top: 0;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.6);
+    -unity-text-outline-width: 0.1px;
+    flex-grow: 1;
+    -unity-text-align: middle-left;
+    font-size: 12px;
+}
+
+.inventory-extra-buttons {
+    flex-grow: 1;
+    flex-direction: row;
+    position: absolute;
+    top: 17px;
+    left: auto;
+    right: 30px;
+}
+
+.inventory-window .l2-tab-view {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-direction: column;
+    padding-left: 0;
+    padding-top: 5px;
+    padding-right: 0;
+    padding-bottom: 0;
+}
+
+.inventory-window .l2-tab-view .tab-header-container {
+    flex-direction: row-reverse;
+    margin-left: 8px;
+    margin-bottom: -4px;
+}
+
+.inventory-window .l2-tab-view .tab-content-container {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-direction: column-reverse;
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_bg');
+    -unity-slice-left: 10;
+    -unity-slice-top: 10;
+    -unity-slice-right: 10;
+    -unity-slice-bottom: 10;
+    padding-bottom: 5px;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-bottom: 0;
+}
+
+.inventory-window .l2-tab-view .tab-line {
+    flex-grow: 1;
+    margin-right: 5px;
+    background-image: resource('Data/UI/Assets/Tab/Tab_DF_Bg_line');
+    margin-bottom: -7px;
+}

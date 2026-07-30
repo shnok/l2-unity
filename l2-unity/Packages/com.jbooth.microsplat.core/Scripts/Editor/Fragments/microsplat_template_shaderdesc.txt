@@ -1,0 +1,47 @@
+﻿// SHADERDESC
+
+         ShaderData CreateShaderData(VertexToPixel i)
+         {
+            ShaderData d = (ShaderData)0;
+            d.worldSpacePosition = i.worldPos;
+
+            d.worldSpaceNormal = i.worldNormal;
+            d.worldSpaceTangent = i.worldTangent.xyz;
+            float3 bitangent = cross(i.worldTangent.xyz, i.worldNormal) * i.worldTangent.w * -1;
+            
+
+            d.TBNMatrix = float3x3(d.worldSpaceTangent, bitangent, d.worldSpaceNormal);
+            d.worldSpaceViewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
+            d.tangentSpaceViewDir = mul(d.worldSpaceViewDir, d.TBNMatrix);
+            %UV0% d.texcoord0 = i.texcoord0;
+            #if !_MICROTERRAIN || _TERRAINBLENDABLESHADER
+               %UV1% d.texcoord1 = i.texcoord1;
+               %UV2% d.texcoord2 = i.texcoord2;
+            #endif
+            %UV3% d.texcoord3 = i.texcoord3;
+            %VERTEXCOLOR% d.vertexColor = i.vertexColor;
+
+            // these rarely get used, so we back transform them. Usually will be stripped.
+            #if _HDRP
+                %LOCALSPACEPOSITION% d.localSpacePosition = mul(unity_WorldToObject, float4(GetCameraRelativePositionWS(i.worldPos), 1));
+            #else
+                %LOCALSPACEPOSITION% d.localSpacePosition = mul(unity_WorldToObject, float4(i.worldPos, 1));
+            #endif
+            %LOCALSPACENORMAL% d.localSpaceNormal = normalize(mul((float3x3)unity_WorldToObject, i.worldNormal));
+            %LOCALSPACETANGENT% d.localSpaceTangent = normalize(mul((float3x3)unity_WorldToObject, i.worldTangent.xyz));
+
+            %SCREENPOS% d.screenPos = i.screenPos;
+            %SCREENPOS% d.screenUV = i.screenPos.xy / i.screenPos.w;
+
+            %EXTRAV2F0% d.extraV2F0 = i.extraV2F0;
+            %EXTRAV2F1% d.extraV2F1 = i.extraV2F1;
+            %EXTRAV2F2% d.extraV2F2 = i.extraV2F2;
+            %EXTRAV2F3% d.extraV2F3 = i.extraV2F3;
+            %EXTRAV2F4% d.extraV2F4 = i.extraV2F4;
+            %EXTRAV2F5% d.extraV2F5 = i.extraV2F5;
+            %EXTRAV2F6% d.extraV2F6 = i.extraV2F6;
+            %EXTRAV2F7% d.extraV2F7 = i.extraV2F7;
+
+            return d;
+         }
+         

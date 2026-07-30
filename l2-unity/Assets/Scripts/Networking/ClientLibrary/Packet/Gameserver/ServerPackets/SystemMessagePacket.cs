@@ -21,14 +21,14 @@ public class SystemMessagePacket : ServerPacket
         {
             _smId = ReadI();
 
-            byte paramCount = ReadB();
+            int paramCount = ReadI();
 
             _params = new SMParam[paramCount];
 
             for (int i = 0; i < paramCount; i++)
             {
 
-                byte paramType = ReadB();
+                byte paramType = (byte)ReadI();
 
                 SMParam param = new SMParam((SMParamType)paramType);
 
@@ -38,9 +38,7 @@ public class SystemMessagePacket : ServerPacket
                     case SMParamType.TYPE_PLAYER_NAME:
                         param.SetValue(ReadS());
                         break;
-                    case SMParamType.TYPE_LONG_NUMBER:
-                        param.SetValue(ReadL());
-                        break;
+                    case SMParamType.TYPE_ITEM_NUMBER:
                     case SMParamType.TYPE_ITEM_NAME:
                     case SMParamType.TYPE_CASTLE_NAME:
                     case SMParamType.TYPE_INT_NUMBER:
@@ -54,14 +52,14 @@ public class SystemMessagePacket : ServerPacket
                     case SMParamType.TYPE_SKILL_NAME:
                         int[] array = new int[2];
                         array[0] = ReadI(); // SkillId
-                        array[1] = ReadI(); ; // SkillLevel
+                        array[1] = ReadI(); // SkillLevel
                         param.SetValue(array);
                         break;
                     case SMParamType.TYPE_ZONE_NAME:
                         float[] array2 = new float[3];
-                        array2[0] = ReadF(); // x
-                        array2[1] = ReadF(); // y
-                        array2[2] = ReadF(); // z
+                        array2[0] = ReadI(); // x
+                        array2[1] = ReadI(); // y
+                        array2[2] = ReadI(); // z
                         param.SetValue(array2);
                         break;
                 }

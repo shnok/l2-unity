@@ -19,6 +19,16 @@ public abstract class L2UI : MonoBehaviour
     public bool UILoaded { get { return _uiLoaded; } set { _uiLoaded = value; } }
     public VisualElement RootElement { get { return _rootElement; } }
 
+    [SerializeField] protected int _windowsLoaded = 0;
+    [SerializeField] protected int _totalWindowsToLoad = 0;
+
+    public void WindowLoadComplete()
+    {
+        if (++_windowsLoaded >= _totalWindowsToLoad)
+        {
+            GameManager.Instance?.NotifyEvent(GameEvent.UI_LOADED);
+        }
+    }
 
     protected virtual void Update()
     {

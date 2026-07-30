@@ -14,10 +14,15 @@ public class InputManager : MonoBehaviour
     private InputAction _zoomAxisAction;
     // Movements
     private InputAction _moveAction;
+    private InputAction _arrowUpAction;
+    private InputAction _arrowDownAction;
     private InputAction _jumpAction;
     private InputAction _attackAction;
     private InputAction _nextTargetAction;
+    private InputAction _targetSelfAction;
     private InputAction _sitAction;
+    private InputAction _ctrlAction;
+    private InputAction _shiftAction;
     // UI
     private InputAction _inventoryAction;
     private InputAction _characterStatusAction;
@@ -25,6 +30,8 @@ public class InputManager : MonoBehaviour
     private InputAction _closeWindowAction;
     private InputAction _systemMenuAction;
     private InputAction _validateAction;
+    // Test
+    private InputAction _testAction;
 
     #endregion
 
@@ -47,12 +54,17 @@ public class InputManager : MonoBehaviour
     // Movements
     [field: Header("Movements")]
     [field: SerializeField] public Vector2 MoveInput { get; private set; }
+    [field: SerializeField] public bool ArrowUp { get; private set; }
+    [field: SerializeField] public bool ArrowDown { get; private set; }
     [field: SerializeField] public bool Move { get; private set; }
     [field: SerializeField] public bool MoveForward { get; private set; }
     [field: SerializeField] public bool Jump { get; private set; }
     [field: SerializeField] public bool Attack { get; private set; }
     [field: SerializeField] public bool NextTarget { get; private set; }
+    [field: SerializeField] public bool TargetSelf { get; private set; }
     [field: SerializeField] public bool Sit { get; private set; }
+    [field: SerializeField] public bool Ctrl { get; private set; }
+    [field: SerializeField] public bool Shift { get; private set; }
 
     // UI
     [field: Header("UI")]
@@ -60,8 +72,13 @@ public class InputManager : MonoBehaviour
     [field: SerializeField] public bool OpenCharacerStatus { get; private set; }
     [field: SerializeField] public bool OpenSystemMenu { get; private set; }
     [field: SerializeField] public bool OpenActions { get; private set; }
+    [field: SerializeField] public bool OpenSkills { get; private set; }
     [field: SerializeField] public bool CloseWindow { get; private set; }
     [field: SerializeField] public bool Validate { get; private set; }
+
+    // UI
+    [field: Header("Test")]
+    [field: SerializeField] public bool Test { get; private set; }
 
     public InputAction[,] SkillbarActions { get; private set; }
     public bool[,] SkillbarInputs { get; private set; }
@@ -98,10 +115,15 @@ public class InputManager : MonoBehaviour
         _zoomAxisAction = _playerInput.actions["ZoomAxis"];
 
         _moveAction = _playerInput.actions["Move"];
+        _arrowUpAction = _playerInput.actions["ArrowUp"];
+        _arrowDownAction = _playerInput.actions["ArrowDown"];
         _jumpAction = _playerInput.actions["Jump"];
         _nextTargetAction = _playerInput.actions["NextTarget"];
+        _targetSelfAction = _playerInput.actions["TargetSelf"];
         _attackAction = _playerInput.actions["Attack"];
         _sitAction = _playerInput.actions["Sit"];
+        _ctrlAction = _playerInput.actions["Ctrl"];
+        _shiftAction = _playerInput.actions["Shift"];
 
         _inventoryAction = _playerInput.actions["Inventory"];
         _characterStatusAction = _playerInput.actions["CharacterStatus"];
@@ -109,6 +131,8 @@ public class InputManager : MonoBehaviour
         _closeWindowAction = _playerInput.actions["CloseWindow"];
         _systemMenuAction = _playerInput.actions["SystemMenu"];
         _validateAction = _playerInput.actions["Validate"];
+
+        _testAction = _playerInput.actions["Test"];
 
         SkillbarActions = new InputAction[5, 12];
 
@@ -141,6 +165,8 @@ public class InputManager : MonoBehaviour
 
         CloseWindow = _closeWindowAction.WasPerformedThisFrame();
         Validate = _validateAction.WasPerformedThisFrame();
+        Ctrl = _ctrlAction.IsPressed();
+        Shift = _shiftAction.IsPressed();
 
         if (!L2GameUI.Instance.MouseOverUI)
         {
@@ -159,100 +185,41 @@ public class InputManager : MonoBehaviour
             L2GameUI.Instance.EnableMouse();
         }
 
-        if (!ChatWindow.Instance.ChatOpened)
+        if (ChatWindow.Instance != null && !ChatWindow.Instance.ChatOpened && !L2GameUI.Instance.IsTyping)
         {
             MoveInput = _moveAction.ReadValue<Vector2>();
             Jump = _jumpAction.WasPerformedThisFrame();
             Attack = _attackAction.WasPerformedThisFrame();
             NextTarget = _nextTargetAction.WasPerformedThisFrame();
+            TargetSelf = _targetSelfAction.WasPerformedThisFrame();
             Sit = _sitAction.WasPerformedThisFrame();
 
             OpenCharacerStatus = _characterStatusAction.WasPerformedThisFrame();
             OpenInventory = _inventoryAction.WasPerformedThisFrame();
             OpenSystemMenu = _systemMenuAction.WasPerformedThisFrame();
             OpenActions = _actionsAction.WasPerformedThisFrame();
+
+            for (int skillbar = 0; skillbar < 5; skillbar++)
+            {
+                for (int i = 0; i < 12; i++)
+                {
+                    SkillbarInputs[skillbar, i] = SkillbarActions[skillbar, i].WasPerformedThisFrame();
+                }
+            }
         }
         else
         {
             MoveInput = Vector2.zero;
         }
 
+        ArrowUp = _arrowUpAction.WasPerformedThisFrame();
+        ArrowDown = _arrowDownAction.WasPerformedThisFrame();
+
         MoveForward = LeftClickHeld && RightClickHeld;
         Move = MoveInput.y != 0 || MoveInput.x != 0 || MoveForward;
 
-        for (int skillbar = 0; skillbar < 5; skillbar++)
-        {
-            for (int i = 0; i < 12; i++)
-            {
-                SkillbarInputs[skillbar, i] = SkillbarActions[skillbar, i].WasPerformedThisFrame();
-            }
-        }
+        Test = _testAction.WasPerformedThisFrame();
     }
-
-    // private void UpdateInputsOld()
-    // {
-    //     if (!L2GameUI.Instance.MouseOverUI)
-    //     {
-    //         if (IsInputPressed(InputType.RightMouseButton) && IsInputPressed(InputType.MouseMoving))
-    //         {
-    //             UpdateInput(InputType.TurnCamera, true);
-    //             L2GameUI.Instance.DisableMouse();
-    //         }
-
-    //         scrollAxis = Input.GetAxis("Mouse ScrollWheel");
-    //         UpdateInput(InputType.Zoom, scrollAxis != 0);
-
-    //         UpdateInput(InputType.LeftMouseButtonDown, Input.GetMouseButtonDown(0));
-    //         UpdateInput(InputType.LeftMouseButton, Input.GetMouseButton(0));
-    //         UpdateInput(InputType.RightMouseButton, Input.GetMouseButton(1));
-    //     }
-
-    //     if (Input.GetMouseButtonUp(1))
-    //     {
-    //         UpdateInput(InputType.TurnCamera, false);
-    //         L2GameUI.Instance.EnableMouse();
-    //     }
-
-    //     mouseAxis = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-    //     UpdateInput(InputType.MouseMoving, mouseAxis.x != 0 || mouseAxis.y != 0);
-
-    //     UpdateInput(InputType.SendMessage, Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter));
-    //     UpdateInput(InputType.Escape, Input.GetKeyDown(KeyCode.Escape));
-
-    //     if (!ChatWindow.Instance.ChatOpened)
-    //     {
-    //         inputAxis = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-    //         UpdateInput(InputType.Jump, Input.GetKeyDown(KeyCode.Space));
-    //         UpdateInput(InputType.Sit, Input.GetKeyDown(KeyCode.E));
-    //     }
-    //     else
-    //     {
-    //         inputAxis = Vector2.zero;
-    //     }
-
-    //     UpdateInput(InputType.InputAxis, inputAxis.x != 0 || inputAxis.y != 0);
-    //     UpdateInput(InputType.Move, IsInputPressed(InputType.InputAxis) || IsInputPressed(InputType.MoveForward));
-    //     UpdateInput(InputType.MoveForward, IsInputPressed(InputType.LeftMouseButton) && IsInputPressed(InputType.RightMouseButton));
-    //     UpdateInput(InputType.Attack, Input.GetKeyDown(KeyCode.F));
-    //     UpdateInput(InputType.DebugAttack, Input.GetKeyDown(KeyCode.C));
-    // }
-
-    // public bool IsInputPressed(InputType type)
-    // {
-    //     return inputsPressed.ContainsKey(type) && inputsPressed[type] != false;
-    // }
-
-    // public void UpdateInput(InputType type, bool pressed)
-    // {
-    //     if (!inputsPressed.ContainsKey(type))
-    //     {
-    //         inputsPressed.Add(type, pressed);
-    //     }
-    //     else
-    //     {
-    //         inputsPressed[type] = pressed;
-    //     }
-    // }
 
     void OnDestroy()
     {

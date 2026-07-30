@@ -7,44 +7,56 @@ public class LicenseWindow : L2Window
     private static LicenseWindow _instance;
     public static LicenseWindow Instance { get { return _instance; } }
 
-    private void Awake() {
-        if (_instance == null) {
+    private void Awake()
+    {
+        if (_instance == null)
+        {
             _instance = this;
-        } else {
+        }
+        else
+        {
             Destroy(this);
         }
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         _instance = null;
     }
 
-    private void Update() {
-        if (!_isWindowHidden) {
-            if (Input.GetKeyDown(KeyCode.Escape)) {
+    private void Update()
+    {
+        if (!_isWindowHidden)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
                 AudioManager.Instance.PlayUISound("click_01");
                 DisagreeButtonPressed();
-            } else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) {
+            }
+            else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+            {
                 AudioManager.Instance.PlayUISound("click_01");
                 AgreeButtonPressed();
             }
         }
     }
 
-    protected override void LoadAssets() {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/LicenseWindow");
+    protected override void LoadAssets()
+    {
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Login/LicenseWindow/LicenseWindow");
     }
 
-    protected override IEnumerator BuildWindow(VisualElement root) {
+    protected override IEnumerator BuildWindow(VisualElement root)
+    {
         InitWindow(root);
 
         yield return new WaitForEndOfFrame();
 
-        Button agreeButton = (Button)GetElementById("AgreeButton");
+        Button agreeButton = (Button)GetElementById("AgreeButton").Q<Button>("L2Button");
         agreeButton.AddManipulator(new ButtonClickSoundManipulator(agreeButton));
         agreeButton.RegisterCallback<ClickEvent>(evt => AgreeButtonPressed());
 
-        Button disagreeButton = (Button)GetElementById("DisagreeButton");
+        Button disagreeButton = (Button)GetElementById("DisagreeButton").Q<Button>("L2Button");
         disagreeButton.AddManipulator(new ButtonClickSoundManipulator(disagreeButton));
         disagreeButton.RegisterCallback<ClickEvent>(evt => DisagreeButtonPressed());
 
@@ -52,21 +64,34 @@ public class LicenseWindow : L2Window
         var lowBtn = (RepeatButton)GetElementById("unity-low-button");
         highBtn.AddManipulator(new ButtonClickSoundManipulator(highBtn));
         lowBtn.AddManipulator(new ButtonClickSoundManipulator(lowBtn));
+
+        L2LoginUI.Instance.WindowLoadComplete();
     }
 
-    private void AgreeButtonPressed() {
+    private void AgreeButtonPressed()
+    {
         LoginClient.Instance.ClientPacketHandler.SendRequestServerList();
     }
 
-    private void DisagreeButtonPressed() {
+    private void DisagreeButtonPressed()
+    {
         LoginClient.Instance.Disconnect();
     }
 
-    public override void ShowWindow() {
+    public override void ShowWindow()
+    {
         base.ShowWindow();
 
-        if(GameManager.Instance.AutoLogin) {
-            AgreeButtonPressed();
+        if (GameManager.Instance.AutoLogin)
+        {
+            StartCoroutine(AutoLogin());
         }
+    }
+
+    private IEnumerator AutoLogin()
+    {
+        yield return new WaitForSeconds(1f);
+        AgreeButtonPressed();
+
     }
 }

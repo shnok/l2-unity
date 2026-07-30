@@ -14,7 +14,10 @@ public class L2Slot
         Skill,
         SkillBar,
         Action,
-        Trash
+        Trash,
+        Product,
+        Basket,
+        Effect
     }
 
     [SerializeField] protected int _id;
@@ -23,8 +26,10 @@ public class L2Slot
     protected string _name;
     protected string _description;
     protected string _icon;
+    protected bool _empty = true;
     protected VisualElement _slotElement;
     protected VisualElement _slotBg;
+    protected VisualElement _slotEffect;
     protected TooltipManipulator _tooltipManipulator;
     protected SlotHoverDetectManipulator _hoverManipulator;
 
@@ -36,12 +41,15 @@ public class L2Slot
     public string Icon { get { return _icon; } set { _icon = value; } }
     public VisualElement SlotBg { get { return _slotBg; } }
     public VisualElement SlotElement { get { return _slotElement; } }
+    public VisualElement SlotEffect { get { return _slotEffect; } }
+    public bool Empty { get { return _empty; } }
 
     public L2Slot(VisualElement slotElement)
     {
         _slotElement = slotElement;
         _slotElement.AddToClassList("dragged");
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
+        _slotEffect = _slotElement.Q<VisualElement>(null, "toggle-effect");
 
         _position = -1;
         _id = -1;
@@ -63,10 +71,11 @@ public class L2Slot
         }
 
         _slotBg = _slotElement.Q<VisualElement>(null, "slot-bg");
+        _slotEffect = _slotElement.Q<VisualElement>(null, "toggle-effect");
 
         if (_tooltipManipulator == null)
         {
-            _tooltipManipulator = new TooltipManipulator(_slotElement, "");
+            _tooltipManipulator = new TooltipManipulator(_slotElement, _slotType, type == SlotType.Trash ? SysStringTable.Instance.GetSysString(890).Name : "");
             _slotElement.AddManipulator(_tooltipManipulator);
         }
 
@@ -97,4 +106,7 @@ public class L2Slot
             _slotElement.RemoveManipulator(_hoverManipulator);
         }
     }
+
+    public virtual void SetSelected() { }
+    public virtual void UnSelect() { }
 }

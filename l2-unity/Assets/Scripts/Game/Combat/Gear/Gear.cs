@@ -1,0 +1,416 @@
+using System;
+using UnityEngine;
+
+public class Gear : MonoBehaviour
+{
+    [SerializeField] protected EntityReferenceHolder _referenceHolder;
+
+    protected int _ownerId;
+
+    [Header("Bones")]
+    [SerializeField] protected Transform _rightHandBone;
+    [SerializeField] protected Transform _leftHandBone;
+    [SerializeField] protected Transform _shieldBone;
+
+    [Header("Weapons")]
+    [Header("Meta")]
+    [SerializeField] private Weapon _rightHandWeaponData;
+    [SerializeField] private Weapon _leftHandWeaponData;
+    [SerializeField] protected float _weaponSizeRatio;
+    [Header("Models")]
+    [Header("Right hand")]
+    [SerializeField] private WeaponType _rightHandType;
+    [SerializeField] protected Transform _rightHandWeapon;
+    [SerializeField] protected Transform _arrow;
+    [Header("LeftHand")]
+    [SerializeField] private WeaponType _leftHandType;
+    [SerializeField] protected Transform _leftHandWeapon;
+
+    protected NewBaseAnimationController AnimationController { get { return _referenceHolder.NewAnimationController; } }
+    public WeaponType WeaponType { get { return (_leftHandType != WeaponType.none && _leftHandType != WeaponType.hand) ? _leftHandType : _rightHandType; } }
+    public int OwnerId { get { return _ownerId; } set { _ownerId = value; } }
+
+    public Transform RightHandBone { get { return _rightHandBone; } }
+    public Transform LeftHandBone { get { return _leftHandBone; } }
+    public Transform Arrow { get { return _arrow; } }
+
+    public virtual void Initialize(int ownderId)
+    {
+        if (_referenceHolder == null)
+        {
+            TryGetComponent(out _referenceHolder);
+            Debug.LogWarning($"[{transform.name}] EntityReferenceHolder was not assigned, please pre-assign it to avoid unecessary load.");
+        }
+
+        _ownerId = ownderId;
+
+        GetLeftHandBone();
+        GetRightHandBone();
+    }
+
+    // TODO: PRE-ASSIGN BONES IN PREFAB TO AVOID CPU LOAD
+
+    public bool IsWeaponAlreadyEquipped(int itemId, bool leftSlot)
+    {
+        if (leftSlot)
+        {
+            if (_leftHandWeaponData == null)
+            {
+                Debug.Log("Left hand metadata is null, weapon not equiped.");
+                return false;
+            }
+
+            bool idMatch = itemId == _leftHandWeaponData.Id;
+            if (!idMatch)
+            {
+                Debug.Log("Left hand weapon id did not match, weapon not equiped.");
+            }
+
+            return idMatch;
+        }
+        else
+        {
+            if (_rightHandWeaponData == null)
+            {
+                Debug.Log("Right hand metadata is null, weapon not equiped.");
+                return false;
+            }
+
+            bool idMatch = itemId == _rightHandWeaponData.Id;
+            if (!idMatch)
+            {
+                Debug.Log("Right hand weapon id did not match, weapon not equiped.");
+            }
+
+            return idMatch;
+        }
+    }
+
+    public virtual void EquipAllWeapons(Appearance appearance)
+    {
+        if (appearance.RHand != 0)
+        {
+            // Loading from table
+            Weapon weapon = ItemTable.Instance.GetWeapon(appearance.RHand);
+            if (weapon == null)
+            {
+                Debug.LogWarning($"Could find weapon {appearance.RHand} in DB for entity {_ownerId}.");
+                return;
+            }
+
+            if (weapon.Weapongrp.WeaponType == WeaponType.dual || weapon.Weapongrp.WeaponType == WeaponType.fist)
+            {
+                UnequipWeapon(true);
+                EquipWeapon(appearance.RHand, weapon, false);
+            }
+
+            if (weapon.Weapongrp.WeaponType == WeaponType.bow)
+            {
+                appearance.LHand = appearance.RHand;
+                appearance.RHand = 0;
+                UnequipWeapon(false);
+            }
+            else
+            {
+                EquipWeapon(appearance.RHand, weapon, false);
+            }
+        }
+        else
+        {
+            UnequipWeapon(false);
+        }
+
+
+        if (appearance.LHand != 0)
+        {
+            // Loading from table
+            Weapon weapon = ItemTable.Instance.GetWeapon(appearance.LHand);
+            if (weapon == null)
+            {
+                Debug.LogWarning($"Could find weapon {appearance.LHand} in DB for entity {_ownerId}.");
+                return;
+            }
+
+            EquipWeapon(appearance.LHand, weapon, true);
+        }
+        else if (!(appearance.RHand != 0 && _rightHandWeaponData.Weapongrp.BodyPart == ItemSlot.SLOT_LR_HAND))
+        {
+            // Unequip the weapon in left hand if it's not duals or fists
+            UnequipWeapon(true);
+        }
+    }
+
+    public virtual void EquipArrow()
+    {
+        Debug.Log($"[{transform.name}] Equip arrow");
+        GameObject arrowPrefab = ModelTable.Instance.GetItemModelById(17);
+        if (arrowPrefab == null)
+        {
+            Debug.LogWarning($"Could not load arrow prefab in DB for entity {_ownerId}.");
+            return;
+        }
+
+        GameObject go = GameObject.Instantiate(arrowPrefab);
+        go.SetActive(false);
+        go.transform.name = "arrow";
+
+        _arrow = go.transform;
+        _arrow.parent = RightHandBone;
+        _arrow.localPosition = new Vector3(-0.0005f, 0, 0);
+        _arrow.localRotation = new Quaternion(0, 0, 0, 0);
+        _arrow.localScale = Vector3.one * GetWeaponSizeRatio();
+    }
+
+    private float GetWeaponSizeRatio()
+    {
+        if (_weaponSizeRatio == 0)
+        {
+            float collisionHeight = _referenceHolder.Entity.Appearance.CollisionHeight;
+            float ratio = 1 + (collisionHeight - 0.45f) / 0.45f;
+
+            // Debug.Log("WeaponSizeRatio: " + ratio);
+
+            _weaponSizeRatio = ratio;
+        }
+
+        return _weaponSizeRatio;
+    }
+
+    public virtual void UnEquipArrow()
+    {
+        if (_arrow == null)
+        {
+            return;
+        }
+
+        Debug.Log($"[{transform.name}] Unequip arrow");
+        GameObject.DestroyImmediate(_arrow.gameObject);
+    }
+
+    public virtual void ShowArrow()
+    {
+        if (_arrow == null)
+        {
+            EquipArrow();
+        }
+
+        // Debug.Log($"[{transform.name}] Show arrow");
+        if (_arrow != null)
+        {
+            _arrow.gameObject.SetActive(true);
+        }
+    }
+
+    public virtual void HideArrow()
+    {
+        // Debug.Log($"[{transform.name}] Hide arrow");
+        if (_arrow != null)
+        {
+            _arrow.gameObject.SetActive(false);
+        }
+    }
+
+    public virtual void EquipAllArmors(Appearance appearance) { }
+
+    public virtual void EquipWeapon(int weaponId, Weapon weapon, bool leftSlot)
+    {
+        if (weaponId == 0)
+        {
+            return;
+        }
+
+        WeaponType weaponType = weapon.Weapongrp.WeaponType;
+        if (IsWeaponAlreadyEquipped(weaponId, leftSlot))
+        {
+            Debug.Log($"Weapon {weaponId} of type {weaponType} is already equipped in {(leftSlot ? "left" : "right")} slot.");
+            return;
+        }
+        else
+        {
+            Debug.Log($"Weapon {weaponId} of type {weaponType} was not equipped in {(leftSlot ? "left" : "right")} slot.");
+        }
+
+        UnequipWeapon(leftSlot);
+
+        GameObject[] weaponPrefabs = ModelTable.Instance.GetWeaponsById(weaponId); //TODO: For duals and fists
+        if (weaponPrefabs == null)
+        {
+            Debug.LogWarning($"Could not load weapon prefab array for weaponId: {weaponId} (entity: {_ownerId}).");
+            return;
+        }
+
+        for (int i = 0; i < weaponPrefabs.Length; i++)
+        {
+            if (weaponPrefabs[i] == null)
+            {
+                Debug.LogWarning($"Missing prefab at index {i} for weaponId: {weaponId} (entity: {_ownerId}).");
+                return;
+            }
+        }
+
+        // Updating weapon type
+        if (leftSlot)
+        {
+            _leftHandWeaponData = weapon;
+            _leftHandType = weapon.Weapongrp.WeaponType;
+        }
+        else
+        {
+            _rightHandWeaponData = weapon;
+            _rightHandType = weapon.Weapongrp.WeaponType;
+        }
+
+        if (weapon.Weapongrp.WeaponType != WeaponType.none)
+        { // Do not update for shields
+            UpdateWeaponType(weapon.Weapongrp.WeaponType);
+        }
+
+        // Instantiating weapon
+        for (int i = 0; i < weaponPrefabs.Length; i++)
+        {
+            GameObject go = GameObject.Instantiate(weaponPrefabs[i]);
+            go.SetActive(false);
+            go.transform.name = "weapon";
+
+            if (weapon.Weapongrp.WeaponType == WeaponType.none)
+            {
+                _leftHandWeapon = go.transform;
+                go.transform.SetParent(GetShieldBone(), false);
+            }
+            else if (weapon.Weapongrp.WeaponType == WeaponType.bow || leftSlot)
+            {
+                _leftHandWeapon = go.transform;
+                go.transform.SetParent(GetLeftHandBone(), false);
+            }
+            else if (weapon.Weapongrp.WeaponType == WeaponType.dual || weapon.Weapongrp.WeaponType == WeaponType.fist)
+            {
+                if (i == 0)
+                {
+                    _rightHandWeapon = go.transform;
+                    go.transform.SetParent(GetRightHandBone(), false);
+                }
+                else
+                {
+                    _leftHandWeapon = go.transform;
+                    go.transform.SetParent(GetLeftHandBone(), false);
+                }
+            }
+            else
+            {
+                _rightHandWeapon = go.transform;
+                go.transform.SetParent(GetRightHandBone(), false);
+            }
+
+            go.SetActive(true);
+
+            go.transform.localScale *= GetWeaponSizeRatio();
+
+            if (weaponType == WeaponType.bow)
+            {
+                EquipArrow();
+            }
+        }
+    }
+
+    protected virtual void UpdateWeaponType(WeaponType weaponType) { }
+
+    public virtual void UpdateWeaponAnim(WeaponAnimType value) { }
+
+    protected virtual Transform GetLeftHandBone()
+    {
+        if (_leftHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _leftHandBone = transform.FindRecursive("Bow Bone");
+        }
+
+        if (_leftHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _leftHandBone = transform.FindRecursive("bow_bone");
+        }
+
+        if (_leftHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _leftHandBone = transform.FindRecursive("Sword Bone01");
+        }
+        return _leftHandBone;
+    }
+
+    protected virtual Transform GetRightHandBone()
+    {
+        if (_rightHandBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _rightHandBone = transform.FindRecursive("Sword Bone");
+        }
+        return _rightHandBone;
+    }
+
+    protected virtual Transform GetShieldBone()
+    {
+        if (_shieldBone == null)
+        {
+            Debug.LogWarning($"[{transform.name}] Shield bone was not assigned, please pre-assign bones to avoid unecessary load.");
+            _shieldBone = transform.FindRecursive("Shield Bone");
+        }
+        return _shieldBone;
+    }
+
+    public virtual void UnequipWeapon(bool leftSlot)
+    {
+        Transform weaponBone = leftSlot ? GetLeftHandBone() : GetRightHandBone();
+        if (weaponBone == null)
+        {
+            return;
+        }
+
+        Transform weapon = weaponBone.Find("weapon") ?? (leftSlot ? GetShieldBone().Find("weapon") : null);
+
+        if (weapon != null)
+        {
+            Destroy(weapon.gameObject);
+
+            if (WeaponType == WeaponType.bow)
+            {
+                UnEquipArrow();
+            }
+
+            if (leftSlot)
+            {
+                _leftHandWeaponData = null;
+                _leftHandType = WeaponType.hand;
+                UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_rightHandType == WeaponType.none ? WeaponType.hand : _rightHandType));
+            }
+            else
+            {
+                _rightHandWeaponData = null;
+                _rightHandType = WeaponType.hand;
+                UpdateWeaponAnim(WeaponAnimParser.GetWeaponAnim(_leftHandType == WeaponType.none ? WeaponType.hand : _leftHandType));
+            }
+        }
+    }
+
+    public virtual void StartTrail()
+    {
+    }
+
+    public virtual void StopTrail()
+    {
+    }
+
+    public virtual void UpdateAppearance(Appearance oldAppearance, Appearance newAppearance)
+    {
+        if (oldAppearance.ShouldUpdateWeapons(newAppearance))
+        {
+            if (oldAppearance.ShouldUpdateColSize(newAppearance))
+            {
+                oldAppearance.CollisionHeight = newAppearance.CollisionHeight;
+                oldAppearance.CollisionRadius = newAppearance.CollisionRadius;
+            }
+
+            EquipAllWeapons(newAppearance);
+        }
+    }
+}

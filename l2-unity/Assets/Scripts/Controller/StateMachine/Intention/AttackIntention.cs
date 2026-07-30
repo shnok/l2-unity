@@ -1,5 +1,4 @@
 using UnityEngine;
-using static AttackingState;
 
 public class AttackIntention : IntentionBase
 {
@@ -7,61 +6,64 @@ public class AttackIntention : IntentionBase
 
     public override void Enter(object arg0)
     {
-        Transform target = TargetManager.Instance.Target.Data.ObjectTransform;
+        Transform target = TargetManager.Instance.Target.transform;
 
         if (target == null)
         {
-            Debug.Log("Target is null, CANCEL event sent");
-            // _stateMachine.NotifyEvent(Event.CANCEL);
             return;
         }
 
-        if (_stateMachine.State == PlayerState.ATTACKING)
-        {
-            if (TargetManager.Instance.IsAttackTargetSet())
-            {
-                // Already attacking target
-                return;
-            }
-            else
-            {
-                // if (!_stateMachine.WaitingForServerReply)
-                // {
-                //     _stateMachine.SetWaitingForServerReply(true);
-                //     GameClient.Instance.ClientPacketHandler.UpdateMoveDirection(Vector3.zero);
-                // }
+        // if (_stateMachine.State == PlayerState.ATTACKING && TargetManager.Instance.IsAttackTargetSet())
+        // {
+        //     Debug.LogWarning("Attacking target is target");
+        //     return;
+        // }
 
-                _stateMachine.ChangeIntention(Intention.INTENTION_FOLLOW);
+        Entity targetEntity = TargetManager.Instance.Target;
 
-                return;
-            }
-        }
+        // TargetManager.Instance.SetAttackTarget();
+        float attackRange = WorldCombat.Instance.GetRealAttackRange(PlayerEntity.Instance, targetEntity);
 
-        AttackIntentionType type = (AttackIntentionType)arg0;
-
-        Debug.LogWarning((AttackIntentionType)arg0);
-
-        if (type != AttackIntentionType.TargetReached)
-        {
-            TargetManager.Instance.SetAttackTarget();
-        }
-
-        Vector3 targetPos = TargetManager.Instance.AttackTarget.Data.ObjectTransform.position;
-
-        float attackRange = ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange;
+        Vector3 targetPos = targetEntity.transform.position;
         float distance = Vector3.Distance(PlayerEntity.Instance.transform.position, targetPos);
-        Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
+
+        // Debug.Log($"target: {target} distance: {distance} range: {attackRange}");
 
         // Is close enough? Is player already waiting for server reply?
-        if (distance <= attackRange * 0.9f && !_stateMachine.WaitingForServerReply)
+        if (targetEntity.IsDead)
         {
+            attackRange = WorldCombat.Instance.GetInteractRange(PlayerEntity.Instance, targetEntity);
+        }
+
+        //TODO: Maybe avoid sending too many attack requests if already attacking and in range?
+
+        if (distance <= attackRange * 0.95f && !_stateMachine.WaitingForServerReply)
+        {
+            // PlayerController.Instance.UpdateFinalAngleToLookAt(targetEntity.transform); -> Update angle once attack is allowed instead
+            Debug.Log("Attacking a new target");
+
             _stateMachine.ChangeState(PlayerState.IDLE);
-            _stateMachine.NotifyEvent(Event.READY_TO_ACT);
+
+            if (!targetEntity.IsDead)
+            {
+                _stateMachine.NotifyEvent(Event.READY_TO_ATTACK);
+            }
         }
         else
         {
-            // Move to target with a 10% error margin
-            PathFinderController.Instance.MoveTo(targetPos, ((PlayerStats)PlayerEntity.Instance.Stats).AttackRange * 0.9f);
+            // Move to target with a 5% error margin
+
+            MoveReason reason = MoveReason.ATTACK;
+
+            if (targetEntity.IsDead)
+            {
+                reason = MoveReason.DEFAULT;
+            }
+
+            PathFinderController.Instance.MoveTo(targetPos, attackRange * 0.95f, () =>
+            {
+                _stateMachine.ChangeIntention(Intention.INTENTION_FOLLOW, reason);
+            });
         }
     }
 

@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="L2Input" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Input/L2Input.uxml?fileID=9197481963319205126&amp;guid=dce83b8dcd7f5614280886eaaa82f0f7&amp;type=3#L2Input" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uss?fileID=7433441132597879392&amp;guid=b1d2114f9ed155f45a3eb16e5ef02441&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2ArrowInput/L2ArrowInput.uss?fileID=7433441132597879392&amp;guid=4413dbfe44a18c944a866665509dca2a&amp;type=3#L2ArrowInput" />
+    <ui:VisualElement name="ArrowInput" tabindex="-1" class="arrow-input">
+        <ui:Instance template="L2Input" name="DataField" class="l2-input-field-template">
+            <AttributeOverrides element-name="L2Input" label="Hair Color" readonly="true" />
+        </ui:Instance>
+        <ui:VisualElement name="Arrows" tabindex="-1" class="arrows-container" style="margin-left: 8px;">
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="LeftArrow" class="arrow-left arrow" style="margin-right: 2px;">
+                <ui:VisualElement name="BG" class="arrow-bg" style="width: 20px; height: 20px;" />
+            </ui:Button>
+            <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="RightArrow" class="arrow arrow-right" style="margin-right: 2px;">
+                <ui:VisualElement name="BG" class="arrow-bg" />
+            </ui:Button>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

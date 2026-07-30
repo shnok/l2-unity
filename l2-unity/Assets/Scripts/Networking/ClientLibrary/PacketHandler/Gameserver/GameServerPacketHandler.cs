@@ -1,24 +1,20 @@
 ﻿using UnityEngine;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 public class GameServerPacketHandler : ServerPacketHandler
 {
     public override void HandlePacket(byte[] data)
     {
         GameServerPacketType packetType = (GameServerPacketType)data[0];
-        if (GameClient.Instance.LogReceivedPackets && packetType != GameServerPacketType.Ping)
+        if (GameClient.Instance.LogReceivedPackets)
         {
             Debug.Log("[" + Thread.CurrentThread.ManagedThreadId + "] [GameServer] Received packet:" + packetType);
         }
 
         switch (packetType)
         {
-            case GameServerPacketType.Ping:
-                OnPingReceive();
-                break;
-            case GameServerPacketType.Key:
+            case GameServerPacketType.VersionCheck:
                 OnKeyReceive(data);
                 break;
             case GameServerPacketType.LoginFail:
@@ -27,14 +23,14 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.CharSelectionInfo:
                 OnCharSelectionInfoReceive(data);
                 break;
-            case GameServerPacketType.MessagePacket:
+            case GameServerPacketType.CreatureSay:
                 OnMessageReceive(data);
                 break;
             case GameServerPacketType.SystemMessage:
                 OnSystemMessageReceive(data);
                 break;
-            case GameServerPacketType.PlayerInfo:
-                OnPlayerInfoReceive(data);
+            case GameServerPacketType.CharSelected:
+                OnCharSelected(data);
                 break;
             case GameServerPacketType.ObjectPosition:
                 OnUpdatePosition(data);
@@ -42,14 +38,8 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.RemoveObject:
                 OnRemoveObject(data);
                 break;
-            case GameServerPacketType.ObjectRotation:
-                OnUpdateRotation(data);
-                break;
-            case GameServerPacketType.ObjectAnimation:
-                OnUpdateAnimation(data);
-                break;
-            case GameServerPacketType.ApplyDamage:
-                OnInflictDamage(data);
+            case GameServerPacketType.Attack:
+                OnEntityAttack(data);
                 break;
             case GameServerPacketType.NpcInfo:
                 OnNpcInfoReceive(data);
@@ -57,23 +47,20 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.ObjectMoveTo:
                 OnObjectMoveTo(data);
                 break;
-            case GameServerPacketType.UserInfo:
-                OnUserInfoReceive(data);
+            case GameServerPacketType.PlayerInfo:
+                OnPlayerInfoReceive(data);
                 break;
             case GameServerPacketType.ObjectMoveDirection:
                 OnUpdateMoveDirection(data);
                 break;
-            case GameServerPacketType.GameTime:
-                OnUpdateGameTime(data);
+            case GameServerPacketType.EntityTargetSet:
+                OnEntityTargetSet(data);
                 break;
-            case GameServerPacketType.EntitySetTarget:
-                OnEntitySetTarget(data);
+            case GameServerPacketType.TargetUnselected:
+                OnEntityTargetUnset(data);
                 break;
-            case GameServerPacketType.AutoAttackStart:
-                OnEntityAutoAttackStart(data);
-                break;
-            case GameServerPacketType.AutoAttackStop:
-                OnEntityAutoAttackStop(data);
+            case GameServerPacketType.MyTargetSet:
+                OnMyTargetSet(data);
                 break;
             case GameServerPacketType.ActionFailed:
                 OnActionFailed(data);
@@ -105,11 +92,110 @@ public class GameServerPacketHandler : ServerPacketHandler
             case GameServerPacketType.ShortcutRegister:
                 OnShortcutRegister(data);
                 break;
+            case GameServerPacketType.ShortcutDelete:
+                OnShortcutDelete(data);
+                break;
             case GameServerPacketType.ChangeWaitType:
                 OnChangeWaitType(data);
                 break;
             case GameServerPacketType.ChangeMoveType:
                 OnChangeMoveType(data);
+                break;
+            case GameServerPacketType.CharCreateOk:
+                OnCharCreateOk(data);
+                break;
+            case GameServerPacketType.CharCreateFail:
+                OnCharCreateFail(data);
+                break;
+            case GameServerPacketType.ValidateLocation:
+                OnValidateLocation(data);
+                break;
+            case GameServerPacketType.DoDie:
+                OnEntityDie(data);
+                break;
+            case GameServerPacketType.Revive:
+                OnEntityRevive(data);
+                break;
+            case GameServerPacketType.TeleportToLocation:
+                OnTeleportToLocation(data);
+                break;
+            case GameServerPacketType.StopMove:
+                OnEntityStopMove(data);
+                break;
+            case GameServerPacketType.NpcHtml:
+                OnNpcHtmlReceive(data);
+                break;
+            case GameServerPacketType.ExAutoSoulshot:
+                OnExAutoSoulshot(data);
+                break;
+            case GameServerPacketType.MagicSkillUse:
+                OnMagicSkillUse(data);
+                break;
+            case GameServerPacketType.UserInfo:
+                OnUserInfoReceived(data);
+                break;
+            case GameServerPacketType.SocialAction:
+                OnSocialActionReceived(data);
+                break;
+            case GameServerPacketType.SetupGauge:
+                OnSetupGauge(data);
+                break;
+            case GameServerPacketType.RelationChanged:
+                OnRelationChanged(data);
+                break;
+            case GameServerPacketType.CharDeleteOk:
+                OnCharDeleteOk(data);
+                break;
+            case GameServerPacketType.CharDeleteFail:
+                OnCharDeleteFail(data);
+                break;
+            case GameServerPacketType.SkillList:
+                OnSkillList(data);
+                break;
+            case GameServerPacketType.SkillCoolTime:
+                OnSkillCoolTime(data);
+                break;
+            case GameServerPacketType.AcquireSkillLearnList:
+                OnAcquireSkillLearnList(data);
+                break;
+            case GameServerPacketType.AcquireSkillLearnInfo:
+                OnAcquireSkillLearnInfo(data);
+                break;
+            case GameServerPacketType.AcquireSkillLearnDone:
+                OnAcquireSkillDone(data);
+                break;
+            case GameServerPacketType.BuyList:
+                OnBuyListReceived(data);
+                break;
+            case GameServerPacketType.SellList:
+                OnSellListReceived(data);
+                break;
+            case GameServerPacketType.MagicSkillLaunched:
+                OnSkillLaunched(data);
+                break;
+            case GameServerPacketType.ShortBuffStatusUpdate:
+                OnShortBuffStatusUpdate(data);
+                break;
+            case GameServerPacketType.AbnormalStatusUpdate:
+                OnAbnormalStatusUpdate(data);
+                break;
+            case GameServerPacketType.PartyEffect:
+                OnPartyEffect(data);
+                break;
+            case GameServerPacketType.EtcStatusUpdate:
+                OnEtcStatusUpdate(data);
+                break;
+            case GameServerPacketType.FightStanceStart:
+                OnFightStanceStart(data);
+                break;
+            case GameServerPacketType.FightStanceStop:
+                OnFightStanceStop(data);
+                break;
+            case GameServerPacketType.MagicSkillCanceled:
+                OnMagicSkillCanceled(data);
+                break;
+            default:
+                Debug.LogWarning($"Received unhandled packet with OPCode [{packetType}].");
                 break;
         }
     }
@@ -125,44 +211,15 @@ public class GameServerPacketHandler : ServerPacketHandler
 
         if (GameClient.Instance.LogCryptography)
         {
-            Debug.Log("<---- [GAME] DECRYPTED: " + StringUtils.ByteArrayToString(data));
+            Debug.Log("<---- [GAME] CLEAR: " + StringUtils.ByteArrayToString(data));
         }
 
         return data;
     }
 
-    private void OnPingReceive()
-    {
-        long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        int ping = _timestamp != 0 ? (int)(now - _timestamp) : 0;
-        GameClient.Instance.Ping = ping;
-
-        Task.Delay(1000).ContinueWith(t =>
-        {
-            if (!_tokenSource.IsCancellationRequested)
-            {
-                ((GameClientPacketHandler)_clientPacketHandler).SendPing();
-                _timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            }
-
-            Task.Delay(GameClient.Instance.ConnectionTimeoutMs + 100).ContinueWith(t =>
-            {
-                if (!_tokenSource.IsCancellationRequested)
-                {
-                    long now2 = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    if (now2 - _timestamp >= GameClient.Instance.ConnectionTimeoutMs)
-                    {
-                        Debug.LogWarning("Connection timed out");
-                        _client.Disconnect();
-                    }
-                }
-            }, _tokenSource.Token);
-        }, _tokenSource.Token);
-    }
-
     private void OnKeyReceive(byte[] data)
     {
-        KeyPacket packet = new KeyPacket(data);
+        VersionCheckPacket packet = new VersionCheckPacket(data);
 
         if (!packet.AuthAllowed)
         {
@@ -176,12 +233,13 @@ public class GameServerPacketHandler : ServerPacketHandler
 
         _eventProcessor.QueueEvent(() => ((GameClientPacketHandler)_clientPacketHandler).SendAuth());
 
-        _eventProcessor.QueueEvent(() => ((GameClientPacketHandler)_clientPacketHandler).SendPing());
+        //_eventProcessor.QueueEvent(() => ((GameClientPacketHandler)_clientPacketHandler).SendPing());
     }
 
     private void OnLoginFail(byte[] data)
     {
         LoginFailPacket packet = new LoginFailPacket(data);
+
         EventProcessor.Instance.QueueEvent(() => GameClient.Instance.Disconnect());
         EventProcessor.Instance.QueueEvent(() => LoginClient.Instance.Disconnect());
 
@@ -196,28 +254,120 @@ public class GameServerPacketHandler : ServerPacketHandler
         CharacterSelector.Instance.Characters = packet.Characters;
         CharacterSelector.Instance.DefaultSelectedSlot = packet.SelectedSlotId;
 
-        if (GameManager.Instance.GameState != GameState.RESTARTING)
-        {
-            Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
+        Debug.Log($"Received {packet.Characters.Count} character(s) from server.");
 
+        if (GameManager.Instance.State == GameState.LOGIN_AUTHED)
+        {
             EventProcessor.Instance.QueueEvent(() =>
             {
                 LoginClient.Instance.Disconnect();
-                GameClient.Instance.OnAuthAllowed();
+                GameManager.Instance.NotifyEvent(GameEvent.AUTH_ALLOWED);
+            });
+        }
+        else if (GameManager.Instance.State == GameState.CHAR_SELECT || GameManager.Instance.State == GameState.CHAR_CREATION)
+        {
+            EventProcessor.Instance.QueueEvent(() =>
+            {
+                GameManager.Instance.NotifyEvent(GameEvent.CHAR_LOADED);
             });
         }
         else
         {
-            EventProcessor.Instance.QueueEvent(() => GameClient.Instance.OnCharSelectAllowed());
+            EventProcessor.Instance.QueueEvent(() =>
+            {
+                Debug.Log("Return to character selection.");
+                GameManager.Instance.NotifyEvent(GameEvent.RESTART_ALLOWED);
+            });
         }
+    }
+
+    private void OnCharCreateFail(byte[] data)
+    {
+        CharCreateFailPacket packet = new CharCreateFailPacket(data);
+        CharCreateFailPacket.CreateFailReason reason = (CharCreateFailPacket.CreateFailReason)packet.Reason;
+        Debug.LogWarning($"Character creation failed: {reason}.");
+        int systemMessageId = 128;
+        _eventProcessor.QueueEvent(() =>
+        {
+            switch (reason)
+            {
+                case CharCreateFailPacket.CreateFailReason.REASON_CREATION_FAILED:
+                    systemMessageId = 128;
+                    break;
+                case CharCreateFailPacket.CreateFailReason.REASON_NAME_ALREADY_EXISTS:
+                    systemMessageId = 79;
+                    break;
+                case CharCreateFailPacket.CreateFailReason.REASON_TOO_MANY_CHARACTERS:
+                    systemMessageId = 77;
+                    break;
+                case CharCreateFailPacket.CreateFailReason.REASON_INCORRECT_NAME:
+                    systemMessageId = 205;
+                    break;
+            }
+            L2ConfirmWindow.Instance.ShowWindow(systemMessageId, () =>
+            {
+            }, null);
+        });
+    }
+
+    private void OnCharCreateOk(byte[] data)
+    {
+        CharCreateOkPacket packet = new CharCreateOkPacket(data);
+        Debug.Log($"Character creation succeeded.");
+        // EventProcessor.Instance.QueueEvent(() => GameClient.Instance.OnCharCreateOk());
     }
 
     private void OnMessageReceive(byte[] data)
     {
-        ReceiveMessagePacket packet = new ReceiveMessagePacket(data);
+        CreatureSayPacket packet = new CreatureSayPacket(data);
+        if (packet.MessageType == L2MessageType.BOAT)
+        {
+            SystemMessageDat messageData = SystemMessageTable.Instance.GetSystemMessage(packet.SystemMessageId);
+            SystemMessage systemMessage = new SystemMessage(null, messageData);
+            _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(systemMessage));
+            //TODO: Handle packet SysStringId
+            return;
+        }
+
         String sender = packet.Sender;
         String text = packet.Text;
-        ChatMessage message = new ChatMessage(sender, text);
+
+        //TODO: Handle message channel colors
+        ChatMessage message;
+        switch (packet.MessageType)
+        {
+            case L2MessageType.TRADE:
+                message = new TradeMessage(sender, text);
+                break;
+            case L2MessageType.SHOUT:
+                message = new ShoutMessage(sender, text);
+                break;
+            case L2MessageType.PARTY:
+                message = new PartyMessage(sender, text);
+                break;
+            case L2MessageType.CLAN:
+                message = new ClanMessage(sender, text);
+                break;
+            case L2MessageType.ALLIANCE:
+                message = new AllianceMessage(sender, text);
+                break;
+            case L2MessageType.HERO_VOICE:
+                message = new HeroMessage(sender, text);
+                break;
+            case L2MessageType.TELL:
+                message = new TellMessage(sender, text);
+                break;
+            case L2MessageType.CRITICAL_ANNOUNCE:
+                message = new CriticalAnnounceMesasge(sender, text);
+                break;
+            case L2MessageType.ANNOUNCEMENT:
+                message = new AnnounceMesasge(sender, text);
+                break;
+            default:
+                message = new NormalMessage(sender, text);
+                break;
+        }
+
         _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveChatMessage(message));
     }
 
@@ -231,45 +381,55 @@ public class GameServerPacketHandler : ServerPacketHandler
         if (messageData != null)
         {
             SystemMessage systemMessage = new SystemMessage(smParams, messageData);
-            _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(systemMessage));
+            _eventProcessor.QueueEvent(() =>
+            {
+                if (messageData.Id == 113)
+                { // unsuitable terms
+                    WorldCombat.Instance.OnSkillNotAllowed(smParams[0].GetIntArrayValue()[0]);
+                }
+
+                if (messageData.Id == 109)
+                {
+                    PlayerStateMachine.Instance.OnActionDenied();
+                }
+
+                if (messageData.Sound != null)
+                {
+                    AudioManager.Instance.PlayUISound(messageData.Sound);
+                }
+
+                ChatWindow.Instance.ReceiveSystemMessage(systemMessage);
+            });
         }
         else
         {
             _eventProcessor.QueueEvent(() => ChatWindow.Instance.ReceiveSystemMessage(new UnhandledMessage()));
         }
+    }
 
+    private void OnCharSelected(byte[] data)
+    {
+        CharSelectedPacket packet = new CharSelectedPacket(data);
+        _eventProcessor.QueueEvent(() =>
+        {
+            GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
+            GameManager.Instance.NotifyEvent(GameEvent.CHAR_SELECTED);
+        });
     }
 
     private void OnPlayerInfoReceive(byte[] data)
     {
         PlayerInfoPacket packet = new PlayerInfoPacket(data);
-        if (GameManager.Instance.GameState != GameState.IN_GAME)
-        {
-            _eventProcessor.QueueEvent(() =>
-            {
-                GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
-                GameManager.Instance.OnCharacterSelect();
-            });
-        }
-        else
-        {
-            _eventProcessor.QueueEvent(() =>
-            {
-                GameClient.Instance.PlayerInfo = packet.PacketPlayerInfo;
-            });
-            World.Instance.OnReceivePlayerInfo(
-                packet.PacketPlayerInfo.Identity,
-                packet.PacketPlayerInfo.Status,
-                packet.PacketPlayerInfo.Stats,
-                packet.PacketPlayerInfo.Appearance,
-                packet.PacketPlayerInfo.Running);
-        }
+        WorldSpawner.Instance.OnReceivePlayerInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo);
+
+        PlayerInventory.Instance.SetInventorySize(packet.InventorySpace);
     }
 
-    private void OnUserInfoReceive(byte[] data)
+    private void OnUserInfoReceived(byte[] data)
     {
         UserInfoPacket packet = new UserInfoPacket(data);
-        World.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.Running);
+
+        WorldSpawner.Instance.OnReceiveUserInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo);
     }
 
     private void OnUpdatePosition(byte[] data)
@@ -280,42 +440,31 @@ public class GameServerPacketHandler : ServerPacketHandler
         World.Instance.UpdateObjectPosition(id, position);
     }
 
+    private void OnValidateLocation(byte[] data)
+    {
+        ValidateLocationPacket packet = new ValidateLocationPacket(data);
+        int id = packet.Id;
+        Vector3 position = packet.Location;
+        int heading = packet.Heading;
+        World.Instance.AdjustObjectPositionAndRotation(id, position, heading);
+    }
+
     private void OnRemoveObject(byte[] data)
     {
         RemoveObjectPacket packet = new RemoveObjectPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.RemoveObject(packet.Id));
+        WorldSpawner.Instance.RemoveObject(packet.Id);
     }
 
-    private void OnUpdateRotation(byte[] data)
-    {
-        UpdateRotationPacket packet = new UpdateRotationPacket(data);
-        int id = packet.Id;
-        float angle = packet.Angle;
-        World.Instance.UpdateObjectRotation(id, angle);
-    }
-
-    private void OnUpdateAnimation(byte[] data)
-    {
-        UpdateAnimationPacket packet = new UpdateAnimationPacket(data);
-        int id = packet.Id;
-        int animId = packet.AnimId;
-        float value = packet.Value;
-
-        Debug.Log($"ID: {id} AnimId: {(PlayerAnimationEvent)animId} Value: {value}");
-
-        World.Instance.UpdateObjectAnimation(id, animId, value);
-    }
-
-    private void OnInflictDamage(byte[] data)
+    private void OnEntityAttack(byte[] data)
     {
         InflictDamagePacket packet = new InflictDamagePacket(data);
         Hit[] hits = packet.Hits;
 
         for (int i = 0; i < hits.Length; i++)
         {
-            if (hits[i] != null && !hits[i].isMiss())
+            if (hits[i] != null)
             {
-                World.Instance.InflictDamageTo(packet.SenderId, hits[i].TargetId, hits[i].Damage, hits[i].isCrit());
+                WorldCombat.Instance.EntityAttacks(packet.AttackerPosition, packet.SenderId, hits[i], i);
             }
         }
     }
@@ -323,58 +472,50 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnNpcInfoReceive(byte[] data)
     {
         NpcInfoPacket packet = new NpcInfoPacket(data);
-        _eventProcessor.QueueEvent(() => World.Instance.SpawnNpc(packet.Identity, packet.Status, packet.Stats));
+        _eventProcessor.QueueEvent(() => WorldSpawner.Instance.OnReceiveNpcInfo(packet.Identity, packet.Status, packet.Stats, packet.Appearance, packet.EntityActionInfo));
     }
 
     private void OnObjectMoveTo(byte[] data)
     {
         ObjectMoveToPacket packet = new ObjectMoveToPacket(data);
-        World.Instance.UpdateObjectDestination(packet.Id, packet.Pos, packet.Speed, packet.Walking);
-
+        World.Instance.UpdateObjectDestination(packet.Id, packet.CurrentPosition, packet.Destination);
     }
 
     private void OnUpdateMoveDirection(byte[] data)
     {
         UpdateMoveDirectionPacket packet = new UpdateMoveDirectionPacket(data);
-        World.Instance.UpdateObjectMoveDirection(packet.Id, packet.Speed, packet.Direction);
+        World.Instance.UpdateObjectMoveDirection(packet.Id, packet.Position, packet.Direction, packet.VerticalVelocity, packet.Timestamp);
     }
 
-    private void OnUpdateGameTime(byte[] data)
+    private void OnEntityTargetSet(byte[] data)
     {
-        GameTimePacket packet = new GameTimePacket(data);
-        WorldClock.Instance.SynchronizeClock(packet.GameTicks, packet.TickDurationMs, packet.DayDurationMins);
+        EntityTargetSetPacket packet = new EntityTargetSetPacket(data);
+        WorldCombat.Instance.UpdateEntityTarget(packet.EntityId, packet.TargetId, packet.EntityPosition);
     }
 
-    private void OnEntitySetTarget(byte[] data)
+    private void OnEntityTargetUnset(byte[] data)
     {
-        EntitySetTargetPacket packet = new EntitySetTargetPacket(data);
-        World.Instance.UpdateEntityTarget(packet.EntityId, packet.TargetId);
+        EntityTargetUnsetPacket packet = new EntityTargetUnsetPacket(data);
+        WorldCombat.Instance.UnsetEntityTarget(packet.EntityId);
     }
 
-    private void OnEntityAutoAttackStart(byte[] data)
+    private void OnMyTargetSet(byte[] data)
     {
-        Debug.Log("OnEntityAutoAttackStart");
-        AutoAttackStartPacket packet = new AutoAttackStartPacket(data);
-        World.Instance.EntityStartAutoAttacking(packet.EntityId);
-    }
-
-    private void OnEntityAutoAttackStop(byte[] data)
-    {
-        AutoAttackStopPacket packet = new AutoAttackStopPacket(data);
-        World.Instance.EntityStopAutoAttacking(packet.EntityId);
+        MyTargetSetPacket packet = new MyTargetSetPacket(data);
+        WorldCombat.Instance.UpdateMyTarget(GameClient.Instance.CurrentPlayerId, packet.TargetId);
     }
 
     private void OnActionFailed(byte[] data)
     {
         ActionFailedPacket packet = new ActionFailedPacket(data);
-        Debug.Log($"Action failed: " + packet.PlayerAction);
-        _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed(packet.PlayerAction));
+        Debug.Log($"Action failed");
+        _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionFailed());
     }
 
     private void OnActionAllowed(byte[] data)
     {
         ActionAllowedPacket packet = new ActionAllowedPacket(data);
-        _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionAllowed(packet.PlayerAction));
+        _eventProcessor.QueueEvent(() => PlayerEntity.Instance.OnActionAllowed());
     }
 
     private void OnServerClose()
@@ -386,7 +527,7 @@ public class GameServerPacketHandler : ServerPacketHandler
     private void OnStatusUpdate(byte[] data)
     {
         StatusUpdatePacket packet = new StatusUpdatePacket(data);
-        World.Instance.StatusUpdate(packet.ObjectId, packet.Attributes);
+        WorldCombat.Instance.StatusUpdate(packet.ObjectId, packet.Attributes);
     }
 
     private void OnInventoryItemList(byte[] data)
@@ -407,18 +548,22 @@ public class GameServerPacketHandler : ServerPacketHandler
 #if UNITY_EDITOR
         _client.Disconnect();
 #else
-        _eventProcessor.QueueEvent(() => {
+        _eventProcessor.QueueEvent(() =>
+        {
             Application.Quit();
-        }); 
+        });
 #endif
     }
 
     private void OnRestartResponse(byte[] data)
     {
-        // Do nothing, handle upcoming charselect packet instead
-        GameManager.Instance.GameState = GameState.RESTARTING;
+        // RestartResponsePacket packet = new RestartResponsePacket(data);
+        // if (packet.Allowed)
+        // {
+        //     // Do nothing, handle upcoming charselect packet instead
+        //     GameManager.Instance.GameState = GameState.RESTARTING;
+        // }
     }
-
 
     private void OnShortcutInit(byte[] data)
     {
@@ -432,17 +577,226 @@ public class GameServerPacketHandler : ServerPacketHandler
         _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.RegisterShortcut(packet.NewShortcut));
     }
 
+    private void OnShortcutDelete(byte[] data)
+    {
+        ShortcutDeletePacket packet = new ShortcutDeletePacket(data);
+        _eventProcessor.QueueEvent(() => PlayerShortcuts.Instance.RemoveShotcutLocally(packet.Slot));
+    }
+
     private void OnChangeWaitType(byte[] data)
     {
         ChangeWaitTypePacket packet = new ChangeWaitTypePacket(data);
-        Debug.Log("ChangeWaitType: " + packet.Owner + " " + packet.MoveType);
-        World.Instance.ChangeWaitType(packet.Owner, packet.MoveType, packet.PosX, packet.PosY, packet.PosZ);
+        // Debug.Log("ChangeWaitType: " + packet.Owner + " " + packet.MoveType);
+        World.Instance.ChangeWaitType(packet.Owner, packet.MoveType, packet.EntityPosition);
     }
 
     private void OnChangeMoveType(byte[] data)
     {
         ChangeMoveTypePacket packet = new ChangeMoveTypePacket(data);
-        Debug.Log("ChangeMoveType: " + packet.Owner + " running? " + packet.Running);
+        // Debug.Log("ChangeMoveType: " + packet.Owner + " running? " + packet.Running);
         World.Instance.ChangeMoveType(packet.Owner, packet.Running);
+    }
+
+    private void OnEntityDie(byte[] data)
+    {
+        DoDiePacket packet = new DoDiePacket(data);
+        WorldCombat.Instance.EntityDied(packet.EntityId, packet.ToVillageAllowed, packet.ToClanHallAllowed, packet.ToCastleAllowed, packet.ToSiegeHQAllowed, packet.Sweepable, packet.FixedResAllowed);
+    }
+
+    private void OnEntityRevive(byte[] data)
+    {
+        RevivePacket packet = new RevivePacket(data);
+        WorldCombat.Instance.EntityRevived(packet.EntityId);
+    }
+
+    private void OnTeleportToLocation(byte[] data)
+    {
+        TeleportToLocationPacket packet = new TeleportToLocationPacket(data);
+        Debug.LogWarning("Teleport screen!");
+        World.Instance.EntityTeleported(packet.EntityId, packet.TeleportTo, packet.LoadingScreen);
+    }
+
+    private void OnEntityStopMove(byte[] data)
+    {
+        ObjectStopMovePacket packet = new ObjectStopMovePacket(data);
+        World.Instance.ObjectStoppedMove(packet.Id, packet.CurrentPosition, packet.Heading);
+    }
+
+    private void OnNpcHtmlReceive(byte[] data)
+    {
+        NpcHtmlPacket packet = new NpcHtmlPacket(data);
+        World.Instance.NpcHtmlReceived(packet.ObjectId, packet.Html, packet.ItemId);
+    }
+
+    private void OnExAutoSoulshot(byte[] data)
+    {
+        // 0xFE packets are extended packets with a 2-byte sub-ID at bytes 1-2.
+        // The server sends many different 0xFE sub-packets; only handle ExAutoSoulshot (sub-ID 0x12).
+        if (data.Length < 3) return;
+        int subId = data[1] | (data[2] << 8);
+        if (subId != 0x12) return;
+
+        ExAutoSoulshotPacket packet = new ExAutoSoulshotPacket(data);
+        WorldCombat.Instance.ExAutoSoulshotReceived(packet.ItemId, packet.Enable);
+    }
+
+    private void OnSocialActionReceived(byte[] data)
+    {
+        SocialActionPacket packet = new SocialActionPacket(data);
+        World.Instance.SocialActionReceived(packet.ObjectId, packet.Action);
+    }
+
+    private void OnSetupGauge(byte[] data)
+    {
+        SetupGaugePacket packet = new SetupGaugePacket(data);
+        WorldCombat.Instance.SetupGauge(packet.Color, packet.Time, packet.MaxTime);
+    }
+
+    private void OnRelationChanged(byte[] data)
+    {
+        RelationChangedPacket packet = new RelationChangedPacket(data);
+        WorldCombat.Instance.RelationChanged(packet.Owner, packet.Karma, packet.PvpFlag);
+    }
+
+    private void OnCharDeleteOk(byte[] data)
+    {
+    }
+
+    private void OnCharDeleteFail(byte[] data)
+    {
+        CharDeleteFailPacket packet = new CharDeleteFailPacket(data);
+        Debug.LogWarning("Char Delete Failed: " + packet.Reason);
+        int systemMessageId = 128;
+        _eventProcessor.QueueEvent(() =>
+        {
+            switch ((CharDeleteFailPacket.CharDeleteFailReason)packet.Reason)
+            {
+                case CharDeleteFailPacket.CharDeleteFailReason.REASON_DELETION_FAILED:
+                    systemMessageId = 306;
+                    break;
+                case CharDeleteFailPacket.CharDeleteFailReason.REASON_YOU_MAY_NOT_DELETE_CLAN_MEMBER:
+                    systemMessageId = 541;
+                    break;
+                case CharDeleteFailPacket.CharDeleteFailReason.REASON_CLAN_LEADERS_MAY_NOT_BE_DELETED:
+                    systemMessageId = 540;
+                    break;
+            }
+            L2ConfirmWindow.Instance.ShowWindow(systemMessageId, () =>
+            {
+            }, null);
+        });
+    }
+
+    private void OnSkillList(byte[] data)
+    {
+        SkillListPacket packet = new SkillListPacket(data);
+        _eventProcessor.QueueEvent(() => PlayerSkill.Instance.SetSkills(packet.Skills));
+    }
+
+    private void OnSkillCoolTime(byte[] data)
+    {
+        SkillCoolTimePacket packet = new SkillCoolTimePacket(data);
+        _eventProcessor.QueueEvent(() => PlayerSkill.Instance.UpdateSkillCoolTimes(packet.Cooltimes));
+    }
+
+    private void OnAcquireSkillLearnList(byte[] data)
+    {
+        AcquireSkillLearnListPacket packet = new AcquireSkillLearnListPacket(data);
+        _eventProcessor.QueueEvent(() => SkillLearnWindow.Instance.InitSkillsList(packet.Skills));
+    }
+
+    private void OnAcquireSkillLearnInfo(byte[] data)
+    {
+        AcquireSkillLearnInfoPacket packet = new AcquireSkillLearnInfoPacket(data);
+        _eventProcessor.QueueEvent(() => SkillLearnWindow.Instance.ShowSkillDetail(packet.Requirements));
+    }
+
+    private void OnAcquireSkillDone(byte[] data)
+    {
+        // AcquireSkillDonePacket _ = new AcquireSkillDonePacket(data);
+        // do nothing
+    }
+
+    private void OnBuyListReceived(byte[] data)
+    {
+        BuyListPacket packet = new BuyListPacket(data);
+        _eventProcessor.QueueEvent(() =>
+        {
+            NpcHtmlWindow.Instance.HideWindow(false);
+            ShopWindow.Instance.ShowWindow();
+            ShopWindow.Instance.RefreshProductList(packet.ListId, packet.Adena, packet.Products, ShopTab.ShopTabType.BUY, packet.OpenTab);
+        });
+    }
+
+    private void OnSellListReceived(byte[] data)
+    {
+        SellListPacket packet = new SellListPacket(data);
+        _eventProcessor.QueueEvent(() =>
+        {
+            NpcHtmlWindow.Instance.HideWindow(false);
+            ShopWindow.Instance.ShowWindow();
+            ShopWindow.Instance.RefreshProductList(-1, packet.Adena, packet.Products, ShopTab.ShopTabType.SELL, packet.OpenTab);
+        });
+    }
+
+    private void OnMagicSkillUse(byte[] data)
+    {
+        MagicSkillUsePacket packet = new MagicSkillUsePacket(data);
+        WorldCombat.Instance.OnMagicSkillUse(packet);
+    }
+
+    private void OnMagicSkillCanceled(byte[] data)
+    {
+        MagicSkillCanceledPacket packet = new MagicSkillCanceledPacket(data);
+        WorldCombat.Instance.OnMagicSkillCanceled(packet);
+    }
+
+    private void OnSkillLaunched(byte[] data)
+    {
+        MagicSkillLaunchedPacked packet = new MagicSkillLaunchedPacked(data);
+        WorldCombat.Instance.OnMagicSkillLaunched(packet);
+    }
+
+    private void OnFightStanceStart(byte[] data)
+    {
+        FightStanceStartPacket packet = new FightStanceStartPacket(data);
+        WorldCombat.Instance.OnFightStanceStart(packet.EntityId);
+    }
+
+    private void OnFightStanceStop(byte[] data)
+    {
+        FightStanceStopPacket packet = new FightStanceStopPacket(data);
+        WorldCombat.Instance.OnFightStanceStop(packet.EntityId);
+    }
+
+    private void OnShortBuffStatusUpdate(byte[] data)
+    {
+        ShortBuffStatusUpdatePacket packet = new ShortBuffStatusUpdatePacket(data);
+        BuffWindow.Instance.AddEffect(packet.SkillId, packet.SkillLvl, packet.Duration, BuffType.Special);
+    }
+
+    private void OnAbnormalStatusUpdate(byte[] data)
+    {
+        AbnormalStatusUpdatePacket packet = new AbnormalStatusUpdatePacket(data);
+        _eventProcessor.QueueEvent(() => BuffWindow.Instance.SetEffects(packet.Effects));
+        _eventProcessor.QueueEvent(() => DebuffWindow.Instance.SetEffects(packet.Effects));
+    }
+
+    private void OnPartyEffect(byte[] data)
+    {
+        PartyEffectPacket packet = new PartyEffectPacket(data);
+        Debug.LogWarning("Part effects not yet handled!");
+        // _eventProcessor.QueueEvent(() => BuffWindow.Instance.UpsertBuffs(packet.ObjectId, packet.Type, packet.Effects));
+    }
+
+    private void OnEtcStatusUpdate(byte[] data)
+    {
+        EtcStatusUpdatePacket packet = new EtcStatusUpdatePacket(data);
+        _eventProcessor.QueueEvent(() => BuffWindow.Instance.SetEtcEffects(
+            new PlayerBuffStatus(packet.Charges, packet.WeightPenalty, packet.IsBlockingAllPlayers,
+                packet.IsInsideDangerZone, packet.HasPenalty, packet.HasCharmOfCourage, packet.DeathPenaltyLvl)));
+        _eventProcessor.QueueEvent(() => DebuffWindow.Instance.SetEtcEffects(
+            new PlayerBuffStatus(packet.Charges, packet.WeightPenalty, packet.IsBlockingAllPlayers,
+                packet.IsInsideDangerZone, packet.HasPenalty, packet.HasCharmOfCourage, packet.DeathPenaltyLvl)));
     }
 }

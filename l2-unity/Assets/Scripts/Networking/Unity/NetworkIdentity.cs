@@ -7,7 +7,10 @@ public class NetworkIdentity
     [SerializeField] private int _id;
     [SerializeField] private string _name;
     [SerializeField] private string _title;
-    [SerializeField] private string _titleColor = "9CE8A9FF"; // default color
+
+    [Header("Relation")]
+    [SerializeField] private bool _isHpShowable;
+    [SerializeField] private int _pvpFlag;
 
     [Header("Npc")]
     [SerializeField] private int _npcId;
@@ -29,39 +32,50 @@ public class NetworkIdentity
     public string NpcClass { get => _npcClass; set => _npcClass = value; }
     public string Name { get => _name; set => _name = value; }
     public string Title { get => _title; set => _title = value; }
-    public string TitleColor { get => _titleColor; set => _titleColor = value; }
     public Vector3 Position { get => _position; set => _position = value; }
     public float Heading { get => _heading; set => _heading = value; }
     public bool Owned { get => _owned; set => _owned = value; }
     public byte PlayerClass { get => _playerClass; set => _playerClass = value; }
     public bool IsMage { get => _isMage; set => _isMage = value; }
+    public bool IsHpShowable { get => _isHpShowable; set => _isHpShowable = value; }
+    public int PvpFlag { get => _pvpFlag; set => _pvpFlag = value; }
 
-    public NetworkIdentity() {}
+    public NetworkIdentity() { }
 
-    public void UpdateEntity(NetworkIdentity identity) {
+    public void UpdateIdentity(NetworkIdentity identity)
+    {
         _entityType = identity.EntityType;
         _id = identity.Id;
         _npcId = identity.NpcId;
         _npcClass = identity.NpcClass;
         _name = identity.Name;
         _title = identity.Title;
-        _titleColor = identity.TitleColor;
         _position = identity.Position;
         _heading = identity.Heading;
         _owned = identity.Owned;
         _playerClass = identity.PlayerClass;
         _isMage = identity.IsMage;
+        _pvpFlag = identity.PvpFlag;
     }
-    
-    public void SetPosX(float x) {
+
+    public void UpdateForNpcs(NetworkIdentity identity)
+    {
+        _position = identity.Position;
+        _heading = identity.Heading;
+    }
+
+    public void SetPosX(float x)
+    {
         _position.x = x;
     }
 
-    public void SetPosY(float y) {
+    public void SetPosY(float y)
+    {
         _position.y = y;
     }
 
-    public void SetPosZ(float z) {
+    public void SetPosZ(float z)
+    {
         _position.z = z;
     }
 }

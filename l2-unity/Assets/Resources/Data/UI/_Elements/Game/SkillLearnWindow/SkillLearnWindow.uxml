@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Template name="WindowTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Components/WindowTemplate.uxml?fileID=9197481963319205126&amp;guid=5ca840f56ef6f1044b4dc077c7d3e6e6&amp;type=3#WindowTemplate" />
+    <ui:Template name="ListViewTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2ListView/L2ListView.uxml?fileID=9197481963319205126&amp;guid=c8d8f965fc1b4b8fb6bc57fdd196596b&amp;type=3#L2ListView" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnWindow.uss?fileID=7433441132597879392&amp;guid=d5d3f5a8db6d7b90d98496e68b124270&amp;type=3#SkillLearnWindow" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2ListView/L2ListView.uss?fileID=7433441132597879392&amp;guid=9f6efa6914ca4c7d8af1306d8322d813&amp;type=3#L2ListView" />
+    <ui:Instance template="WindowTemplate" name="WindowTemplate" class="skill-learn-window">
+        <AttributeOverrides element-name="windows-name-label" text="Skills" />
+        <ui:VisualElement name="Content" picking-mode="Ignore" class="skill-learn-detail-content window-content-margin">
+            <ui:Instance template="ListViewTemplate" name="ListView" class="skill-learn-list-view skill-active-background" />
+            <ui:VisualElement name="UserSPGroup" class="user-sp-group skill-active-background">
+                <ui:Label text="SP" name="SP" class="skill-group l2-color-4 user-sp-label" style="margin-right: 60px;" />
+                <ui:Label text="0" name="UserSPValue" class="skill-group l2-color-4" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:Instance>
+</ui:UXML>

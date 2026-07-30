@@ -1,0 +1,46 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="WindowTemplate" src="project://database/Assets/Resources/Data/UI/_Elements/Components/WindowTemplate.uxml?fileID=9197481963319205126&amp;guid=5ca840f56ef6f1044b4dc077c7d3e6e6&amp;type=3#WindowTemplate" />
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/ExitWindow/ExitWindow.uss?fileID=7433441132597879392&amp;guid=41fc118377fcae544b8bce5a99b79d7f&amp;type=3#ExitWindow" />
+    <ui:Instance template="WindowTemplate" name="WindowTemplate" class="exit-window">
+        <ui:VisualElement name="ContentContainer" class="exit-window-content">
+            <ui:GroupBox name="InfoContainer" class="exit-window-info-container">
+                <ui:VisualElement name="Wrapper" class="exit-window-container-wrapper">
+                    <ui:GroupBox name="Bg" class="exit-window-info-bg" />
+                    <ui:GroupBox name="ContentInside" class="exit-window-info-inner">
+                        <ui:Label tabindex="-1" text="Play Report" parse-escape-sequences="true" display-tooltip-when-elided="true" class="exit-window-label l2-color-4" />
+                        <ui:GroupBox name="BoxMenu" class="exit-window-info-text-container">
+                            <ui:GroupBox name="FirstRow" class="exit-window-info-row">
+                                <ui:Label tabindex="-1" text="EXP Acquired" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Acquired" class="exit-window-info-row-title l2-color-3" />
+                                <ui:Label tabindex="-1" text="0 Exp" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CountExp" class="exit-window-info-row-value l2-color-1" />
+                            </ui:GroupBox>
+                            <ui:GroupBox name="TwoRow" class="exit-window-info-row">
+                                <ui:Label tabindex="-1" text="Adena Acquired" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Adena" class="exit-window-info-row-title l2-color-3" />
+                                <ui:Label tabindex="-1" text="0 Adena" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CountAdena" class="exit-window-info-row-value l2-color-1" />
+                            </ui:GroupBox>
+                            <ui:GroupBox name="TreRow" class="exit-window-info-row">
+                                <ui:Label tabindex="-1" text="Item Acquired" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Adena" class="exit-window-info-row-title l2-color-3" />
+                                <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="CountItem" class="exit-window-info-row-value l2-color-1" />
+                            </ui:GroupBox>
+                        </ui:GroupBox>
+                        <ui:Instance template="L2Button" name="InitializeButton" class="initialize-button" style="display: flex;">
+                            <AttributeOverrides element-name="ButtonLabel" text="Initialize" />
+                        </ui:Instance>
+                    </ui:GroupBox>
+                </ui:VisualElement>
+            </ui:GroupBox>
+            <ui:GroupBox name="Buttons" class="exit-window-buttons">
+                <ui:Instance template="L2Button" name="ExitButton" class="l2-flex-button icon">
+                    <AttributeOverrides element-name="ButtonLabel" text="Exit Game" />
+                </ui:Instance>
+                <ui:Instance template="L2Button" name="RestartButton" class="l2-flex-button icon">
+                    <AttributeOverrides element-name="ButtonLabel" text="Restart Game" />
+                </ui:Instance>
+                <ui:Instance template="L2Button" name="CancelButton" class="l2-flex-button">
+                    <AttributeOverrides element-name="ButtonLabel" text="Cancel" />
+                </ui:Instance>
+            </ui:GroupBox>
+        </ui:VisualElement>
+    </ui:Instance>
+</ui:UXML>

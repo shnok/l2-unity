@@ -1,0 +1,59 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="L2Button" src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uxml?fileID=9197481963319205126&amp;guid=47796068f89476143b10b5d383be52fc&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/SkillLearnWindow/SkillLearnWindow.uss?fileID=7433441132597879392&amp;guid=d5d3f5a8db6d7b90d98496e68b124270&amp;type=3#SkillLearnWindow" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Button/L2Button.uss?fileID=7433441132597879392&amp;guid=b1d2114f9ed155f45a3eb16e5ef02441&amp;type=3#L2Button" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2Slot/L2Slot.uss?fileID=7433441132597879392&amp;guid=5cebba6f4b1058048870da7302ad5971&amp;type=3#L2Slot" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Components/L2ListView/L2ListView.uss?fileID=7433441132597879392&amp;guid=9f6efa6914ca4c7d8af1306d8322d813&amp;type=3#L2ListView" />
+    <ui:VisualElement picking-mode="Ignore" class="skill-learn-detail-content">
+        <ui:GroupBox class="skill-learn-description-first skill-active-background">
+            <ui:VisualElement name="SkillHeaderDetail" class="skill-learn-header-detail">
+                <ui:Button name="SkillDetailcon" class="l2-slot skillbar-slot">
+                    <ui:VisualElement name="BgContainer" picking-mode="Ignore" class="slot-bg-container">
+                        <ui:VisualElement name="SlotBg" picking-mode="Ignore" class="slot-bg" />
+                        <ui:VisualElement name="Effect" picking-mode="Ignore" class="toggle-effect" />
+                        <ui:VisualElement name="Key" picking-mode="Ignore" class="shortcut-key" />
+                    </ui:VisualElement>
+                </ui:Button>
+                <ui:VisualElement name="SkillDescriptionDetails" class="skill-learn-row-details">
+                    <ui:Label text="Mortal Blow" name="SkillDetailName" class="l2-color-4 skill-learn-label" style="margin-top: 1px;" />
+                    <ui:VisualElement name="SkillLabelGroup" class="skill-learn-cost" style="margin-top: 0;">
+                        <ui:Label text="Lv" name="DetailLevel" class="skill-group l2-color-3 skill-learn-label" />
+                        <ui:Label text="1" name="DetailLevelValue" class="skill-group l2-color-2 skill-learn-label" style="margin-right: 35px;" />
+                        <ui:Label text="Passive Skill" name="DetailType" class="skill-group l2-color-2 skill-learn-label" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="SkillHeaderDescription" class="skill-learn-header-description">
+                <ui:VisualElement name="DetailMpStats" style="flex-direction: row;">
+                    <ui:Label text="MP Cost : " name="DetailMPCost" class="skill-group l2-color-3 skill-learn-label" />
+                    <ui:Label text="130" name="DetailMPCostValue" class="skill-group l2-color-2 skill-learn-label" />
+                </ui:VisualElement>
+                <ui:VisualElement name="DetailRangeStats" style="flex-direction: row;">
+                    <ui:Label text="Range : " name="DetailRange" class="skill-group l2-color-3 skill-learn-label" />
+                    <ui:Label text="500" name="DetailRangeValue" class="skill-group l2-color-2 skill-learn-label" />
+                </ui:VisualElement>
+                <ui:Label name="DetailDescription" text="Unleashes a weak bolt of magical energy. MP Consumption rate is low and Casting Speed is short. Power 12" class="skill-group l2-color-3 skill-learn-label" style="margin-top: 4px; max-width: 100%; white-space: normal;" />
+            </ui:VisualElement>
+        </ui:GroupBox>
+        <ui:Label text="Learning Conditions" class="skill-group l2-color-4" style="margin-top: 8px; margin-left: 4px; font-size: 12px; margin-bottom: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+        <ui:GroupBox name="SkillLearnConditions" class="skill-learn-description-second skill-active-background">
+            <ui:VisualElement style="flex-direction: row; margin: 0;">
+                <ui:Label text="Required SP : " name="DetailSP" class="skill-group l2-color-3 skill-learn-label" />
+                <ui:Label text="500" name="DetailSPValue" class="skill-group l2-color-2 skill-learn-label" />
+            </ui:VisualElement>
+        </ui:GroupBox>
+        <ui:GroupBox name="SkillLearnSPConditions" class="user-sp-group skill-active-background">
+            <ui:Label text="SP" name="SP" class="skill-group l2-color-4 user-sp-label" style="margin-right: 60px;" />
+            <ui:Label text="2134" name="UserSPValue" class="skill-group l2-color-4" />
+        </ui:GroupBox>
+        <ui:VisualElement name="BottomBar" style="flex-direction: row; margin-top: 4px; justify-content: center;">
+            <ui:Instance template="L2Button" name="LearnButton">
+                <AttributeOverrides element-name="ButtonLabel" text="Learn" />
+            </ui:Instance>
+            <ui:Instance template="L2Button" name="CancelButton">
+                <AttributeOverrides element-name="ButtonLabel" text="List" />
+            </ui:Instance>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -5,9 +6,9 @@ using UnityEngine.UIElements;
 public class TargetWindow : L2PopupWindow
 {
     private Label _nameLabel;
+    private VisualElement _HPBarContainer;
     private VisualElement _HPBar;
     private VisualElement _HPBarBG;
-
     [SerializeField] private float _targetWindowMinWidth = 175.0f;
     [SerializeField] private float _targetWindowMaxWidth = 300.0f;
 
@@ -33,7 +34,7 @@ public class TargetWindow : L2PopupWindow
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/TargetWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/TargetWindow/TargetWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -43,10 +44,10 @@ public class TargetWindow : L2PopupWindow
         yield return new WaitForEndOfFrame();
 
         var statusWindowDragArea = GetElementByClass("drag-area");
-        DragManipulator drag = new DragManipulator(statusWindowDragArea, _windowEle);
+        DragManipulator drag = new DragManipulator(statusWindowDragArea, _windowEle, this);
         statusWindowDragArea.AddManipulator(drag);
 
-        var horizontalResizeHandle = GetElementByClass("hor-resize-handle");
+        var horizontalResizeHandle = GetElementById("SizeControl");
         HorizontalResizeManipulator horizontalResize = new HorizontalResizeManipulator(
             horizontalResizeHandle, _windowEle, _targetWindowMinWidth, _targetWindowMaxWidth);
         horizontalResizeHandle.AddManipulator(horizontalResize);
@@ -66,21 +67,30 @@ public class TargetWindow : L2PopupWindow
             Debug.LogError("Target window target name label is null.");
         }
 
-        _HPBar = GetElementById("HPBar");
+        _HPBarContainer = GetElementById("HPBar");
+
+        if (_HPBarContainer == null)
+        {
+            Debug.LogError("Target window _HPBarContainer is null");
+        }
+
+        _HPBar = _HPBarContainer.Q<VisualElement>("Bar");
         if (_HPBar == null)
         {
             Debug.LogError("Target window HPBar is null");
         }
 
-        _HPBarBG = GetElementById("HPBarBG");
+        _HPBarBG = _HPBarContainer.Q<VisualElement>("BarBg");
         if (_HPBarBG == null)
         {
-            Debug.LogError("Target window HPBarBG is null");
+            Debug.LogError("Target window _HPBarBG is null");
         }
 
         _windowEle.style.position = Position.Absolute;
         _windowEle.style.left = Screen.width / 2f - _windowEle.resolvedStyle.width / 2f;
         _windowEle.style.top = 0;
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     private void FixedUpdate()
@@ -97,22 +107,37 @@ public class TargetWindow : L2PopupWindow
                 ShowWindow();
             }
 
-            TargetData targetData = TargetManager.Instance.Target;
-            if (_nameLabel != null)
+            Entity targetData = TargetManager.Instance.Target;
+            _nameLabel.text = targetData.Identity.Name;
+            if (targetData.Identity.IsHpShowable)
             {
-                _nameLabel.text = targetData.Identity.Name;
+                SetTargetColor(targetData.Stats.Level - PlayerEntity.Instance.Stats.Level);
+
+                if (!_HPBarContainer.ClassListContains("visible"))
+                {
+                    _HPBarContainer.AddToClassList("visible");
+                }
+
+                if (_HPBarBG != null && _HPBar != null)
+                {
+                    float hpRatio = (float)targetData.Status.Hp / targetData.Stats.MaxHp;
+                    float bgWidth = _HPBarBG.resolvedStyle.width;
+                    float barWidth = bgWidth * hpRatio;
+                    _HPBar.style.width = barWidth;
+                }
             }
-            if (_HPBarBG != null && _HPBar != null)
+            else
             {
-                float hpRatio = (float)targetData.Status.Hp / targetData.Stats.MaxHp;
-                float bgWidth = _HPBarBG.resolvedStyle.width;
-                float barWidth = bgWidth * hpRatio;
-                _HPBar.style.width = barWidth;
+                SetTargetColor(0);
+                if (_HPBarContainer.ClassListContains("visible"))
+                {
+                    _HPBarContainer.RemoveFromClassList("visible");
+                }
             }
         }
         else if (!_isWindowHidden)
         {
-            HideWindow();
+            HideWindow(false);
         }
     }
 
@@ -122,13 +147,47 @@ public class TargetWindow : L2PopupWindow
         L2GameUI.Instance.WindowOpened(this);
     }
 
-    public override void HideWindow()
+    public override void HideWindow(bool silent)
     {
-        base.HideWindow();
+        base.HideWindow(silent);
 
         TargetManager.Instance.ClearTarget();
 
-        AudioManager.Instance.PlayUISound("window_close");
+        if (!silent)
+            AudioManager.Instance.PlayUISound("window_close");
+
         L2GameUI.Instance.WindowClosed(this);
+    }
+
+    public void SetTargetColor(int color)
+    {
+        if (color > -3 && color < 3)
+        {
+            _nameLabel.style.color = Color.white;
+        }
+        else if (color <= -3 && color > -6)
+        {
+            _nameLabel.style.color = new Color(0.6039f, 0.9490f, 0.6392f);
+        }
+        else if (color <= -6 && color > -9)
+        {
+            _nameLabel.style.color = new Color(0.4901f, 0.466f, 1f);
+        }
+        else if (color < -9)
+        {
+            _nameLabel.style.color = new Color(0, 0, 0.945f);
+        }
+        else if (color >= 3 && color < 6)
+        {
+            _nameLabel.style.color = new Color(0.9294f, 0.9412f, 0.5412f);
+        }
+        else if (color >= 6 && color < 9)
+        {
+            _nameLabel.style.color = new Color(0.8588f, 0.4980f, 0.4980f);
+        }
+        else if (color > 9)
+        {
+            _nameLabel.style.color = new Color(0.945f, 0, 0);
+        }
     }
 }

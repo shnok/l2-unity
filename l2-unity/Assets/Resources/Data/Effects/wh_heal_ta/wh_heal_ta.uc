@@ -1,0 +1,77 @@
+class wh_heal_ta extends Emitter;
+
+defaultproperties
+{
+     Begin Object Class=SpriteEmitter Name=SpriteEmitter1
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=0.539286,Color=(B=128,G=128,R=128,A=255))
+         ColorScale(2)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         ColorScaleRepeats=20.000000
+         ColorMultiplierRange=(X=(Min=0.850000),Y=(Min=0.850000),Z=(Min=0.731000,Max=0.859000))
+         Opacity=0.600000
+         FadeOutStartTime=1.500000
+         FadeOut=True
+         FadeInEndTime=0.630000
+         FadeIn=True
+         MaxParticles=25
+         RespawnDeadParticles=False
+         Name="BlueDust"
+         StartLocationOffset=(Z=60.000000)
+         StartLocationRange=(X=(Min=-5.000000,Max=5.000000),Y=(Min=-5.000000,Max=5.000000),Z=(Min=-20.000000,Max=20.000000))
+         SphereRadiusRange=(Min=8.000000,Max=8.000000)
+         SpinParticles=True
+         SpinsPerSecondRange=(X=(Min=-0.200000,Max=0.200000))
+         UseRegularSizeScale=False
+         UniformSize=True
+         SizeScale(0)=(RelativeTime=0.070000,RelativeSize=3.000000)
+         SizeScale(1)=(RelativeTime=0.240000,RelativeSize=6.000000)
+         SizeScale(2)=(RelativeTime=0.520000,RelativeSize=8.500000)
+         SizeScale(3)=(RelativeTime=1.000000,RelativeSize=10.000000)
+         StartSizeRange=(X=(Min=3.000000,Max=5.000000),Y=(Min=3.000000,Max=5.000000),Z=(Min=3.000000,Max=5.000000))
+         InitialParticlesPerSecond=8.000000
+         AutomaticInitialSpawning=False
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0005'
+         TextureUSubdivisions=4
+         TextureVSubdivisions=4
+         UseRandomSubdivision=True
+         SubdivisionStart=6
+         SubdivisionEnd=8
+         LifetimeRange=(Min=2.000000,Max=2.500000)
+         InitialDelayRange=(Min=0.650000,Max=0.650000)
+         StartVelocityRange=(X=(Min=-6.000000,Max=6.000000),Y=(Min=-6.000000,Max=6.000000),Z=(Min=-12.199000,Max=-5.048000))
+         VelocityLossRange=(X=(Max=1.368000),Y=(Max=1.368000))
+     End Object
+     Emitters(0)=SpriteEmitter'SpriteEmitter1'
+     Begin Object Class=BeamEmitter Name=BeamEmitter0
+         BeamEndPoints(0)=(offset=(Z=(Min=-190.000000,Max=-190.000000)))
+         DetermineEndPointBy=PTEP_Offset
+         LowFrequencyPoints=2
+         HighFrequencyPoints=2
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=0.521429,Color=(B=231,G=231,R=231,A=255))
+         ColorScale(2)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         ColorScaleRepeats=10.000000
+         ColorMultiplierRange=(X=(Min=0.500000,Max=0.704000),Y=(Min=0.500000,Max=0.704000),Z=(Min=0.500000,Max=0.704000))
+         Opacity=0.330000
+         FadeOutStartTime=1.000000
+         FadeOut=True
+         FadeInEndTime=0.500000
+         FadeIn=True
+         MaxParticles=20
+         RespawnDeadParticles=False
+         Name="BeamEmitter0"
+         StartLocationOffset=(Z=150.000000)
+         StartLocationRange=(X=(Min=-11.000000,Max=11.000000),Y=(Min=-11.000000,Max=11.000000),Z=(Min=-30.000000,Max=30.000000))
+         StartLocationPolarRange=(X=(Max=360.000000),Y=(Min=70.000000,Max=110.000000),Z=(Min=13.000000,Max=13.000000))
+         StartSizeRange=(X=(Min=6.000000,Max=10.000000))
+         InitialParticlesPerSecond=5.000000
+         AutomaticInitialSpawning=False
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0004'
+         LifetimeRange=(Min=2.000000,Max=3.000000)
+     End Object
+     Emitters(1)=BeamEmitter'BeamEmitter0'
+     bNoDelete=False
+     DrawScale=0.250000
+}

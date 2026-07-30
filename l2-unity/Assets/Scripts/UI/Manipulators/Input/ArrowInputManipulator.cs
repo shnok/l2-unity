@@ -48,9 +48,9 @@ public class ArrowInputManipulator : PointerManipulator
     {
         if (_labelValue != null && _labelValue.Length > 0)
         {
-            _label = target.Q<Label>("Label");
+            _label = target.Q<Label>(null, "unity-label");
         }
-        _textField = target.Q<TextField>("DataField");
+        _textField = target.Q<TextField>("L2Input");
         _leftArrow = target.Q<Button>("LeftArrow");
         _rightArrow = target.Q<Button>("RightArrow");
     }
@@ -72,6 +72,8 @@ public class ArrowInputManipulator : PointerManipulator
 
     private void OnLeftArrowClick(ClickEvent e)
     {
+        if (_values == null || _values.Length == 0) return;
+
         if (--_index < 0)
         {
             _index = _values.Length - 1;
@@ -84,6 +86,8 @@ public class ArrowInputManipulator : PointerManipulator
 
     private void OnRightArrowClick(ClickEvent e)
     {
+        if (_values == null || _values.Length == 0) return;
+
         if (++_index > _values.Length - 1)
         {
             _index = 0;

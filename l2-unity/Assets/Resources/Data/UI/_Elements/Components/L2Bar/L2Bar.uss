@@ -1,0 +1,345 @@
+.l2-bar {
+    height: 12px;
+    max-height: 12px;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.l2-bar.label .l2-bar-name {
+    display: flex;
+}
+
+.l2-bar-name {
+    display: none;
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
+    -unity-text-outline-color: black;
+    -unity-text-align: lower-left;
+    margin: 0;
+    margin-right: 5px;
+    padding: 0;
+    font-size: 12px;
+}
+
+.l2-bar-label {
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
+    -unity-text-outline-color: black;
+    -unity-text-align: middle-center;
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    color: rgb(220, 220, 220);
+    height: 11px;
+    letter-spacing: 7px;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 0.8px;
+    text-shadow: 0.9px 0.9px 3px rgb(0, 0, 0);
+}
+
+.l2-bar-side-ele {
+    max-width: 4px;
+    min-width: 4px;
+}
+
+.l2-bar-center-ele {
+    flex-grow: 1;
+}
+
+.l2-bar-container {
+    min-height: 16px;
+    max-height: 16px;
+    flex-direction: row;
+    flex: 0;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+}
+
+.l2-bar-container-wrap {
+    flex-grow: 1;
+    min-height: 12px;
+    max-height: 12px;
+}
+
+.l2-bar .l2-bar-bg .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_bg_Left');
+}
+.l2-bar .l2-bar-bg .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_bg_Center');
+}
+.l2-bar .l2-bar-bg .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_bg_Right');
+}
+
+.l2-bar .l2-bar-front .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_Left');
+}
+.l2-bar .l2-bar-front .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_Center');
+}
+.l2-bar .l2-bar-front .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_HP/Gauge_DF_Large_HP_Right');
+}
+
+.l2-bar.mp .l2-bar-bg .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_bg_Left');
+}
+.l2-bar.mp .l2-bar-bg .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_bg_Center');
+}
+.l2-bar.mp .l2-bar-bg .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_bg_Right');
+}
+
+.l2-bar.mp .l2-bar-front .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_Left');
+}
+.l2-bar.mp .l2-bar-front .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_Center');
+}
+.l2-bar.mp .l2-bar-front .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_MP/Gauge_DF_Large_MP_Right');
+}
+
+.l2-bar.cp .l2-bar-bg .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_CP/Gauge_DF_Large_CP_bg_Left');
+}
+.l2-bar.cp .l2-bar-bg .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_CP/Gauge_DF_Large_CP_bg_Center');
+}
+.l2-bar.cp .l2-bar-bg  .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_CP/Gauge_DF_Large_CP_bg_Right');
+}
+
+.l2-bar.cp .l2-bar-front .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_CP/Gauge_DF_Large_CP_Left');
+}
+.l2-bar.cp .l2-bar-front .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_CP/Gauge_DF_Large_CP_Center');
+}
+.l2-bar.cp .l2-bar-front .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_CP/Gauge_DF_Large_CP_Right');
+}
+
+.l2-bar.exp .l2-bar-bg .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_bg_Left');
+}
+.l2-bar.exp .l2-bar-bg .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_bg_Center');
+}
+.l2-bar.exp .l2-bar-bg  .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_bg_Right');
+}
+
+.l2-bar.exp .l2-bar-front .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Left');
+}
+.l2-bar.exp .l2-bar-front .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Center');
+}
+.l2-bar.exp .l2-bar-front .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_EXP/Gauge_DF_Large_EXP_Right');
+}
+
+.l2-bar.weight-1 .l2-bar-bg .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Left1');
+}
+
+.l2-bar.weight-1 .l2-bar-bg .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Center1');
+}
+
+.l2-bar.weight-1 .l2-bar-bg .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Right1');
+}
+
+.l2-bar.weight-1 .l2-bar-front .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Left1');
+}
+
+.l2-bar.weight-1 .l2-bar-front .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Center1');
+}
+
+.l2-bar.weight-1 .l2-bar-front .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Right1');
+}
+
+.l2-bar.weight-2 .l2-bar-bg .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Left2');
+}
+
+.l2-bar.weight-2 .l2-bar-bg .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Center2');
+}
+
+.l2-bar.weight-2 .l2-bar-bg .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Right2');
+}
+
+.l2-bar.weight-2 .l2-bar-front .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Left2');
+}
+
+.l2-bar.weight-2 .l2-bar-front .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Center2');
+}
+
+.l2-bar.weight-2 .l2-bar-front .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Right2');
+}
+
+.l2-bar.weight-3 .l2-bar-bg .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Left3');
+}
+
+.l2-bar.weight-3 .l2-bar-bg .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Center3');
+}
+
+.l2-bar.weight-3 .l2-bar-bg .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Right3');
+}
+
+.l2-bar.weight-3 .l2-bar-front .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Left3');
+}
+
+.l2-bar.weight-3 .l2-bar-front .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Center3');
+}
+
+.l2-bar.weight-3 .l2-bar-front .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Right3');
+}
+
+.l2-bar.weight-4 .l2-bar-bg .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Left4');
+}
+
+.l2-bar.weight-4 .l2-bar-bg .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Center4');
+}
+
+.l2-bar.weight-4 .l2-bar-bg .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Right4');
+}
+
+.l2-bar.weight-4 .l2-bar-front .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Left4');
+}
+
+.l2-bar.weight-4 .l2-bar-front .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Center4');
+}
+
+.l2-bar.weight-4 .l2-bar-front .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Right4');
+}
+
+.l2-bar.weight-5 .l2-bar-bg .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Left5');
+}
+
+.l2-bar.weight-5 .l2-bar-bg .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Center5');
+}
+
+.l2-bar.weight-5 .l2-bar-bg .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_bg_Right5');
+}
+
+.l2-bar.weight-5 .l2-bar-front .l2-bar-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Left5');
+}
+
+.l2-bar.weight-5 .l2-bar-front .l2-bar-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Center5');
+}
+
+.l2-bar.weight-5 .l2-bar-front .l2-bar-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Large_Weight/Gauge_DF_Large_Weight_Right5');
+}
+
+.inventory-window #WeightBar {
+    margin-top: 2px;
+}
+
+.inventory-window #WeightBar #Text {
+    font-size: 11px;
+    text-shadow: 0.5px 0.5px 3px rgb(0, 0, 0);
+}
+
+.inventory-adena-box {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 2px;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    height: 16px;
+}
+
+.inventory-adena-box-inner {
+    background-color: rgb(22, 22, 22);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    height: 18px;
+    border-left-color: rgb(59, 59, 59);
+    border-right-color: rgb(59, 59, 59);
+    border-top-color: rgb(59, 59, 59);
+    border-bottom-color: rgb(59, 59, 59);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    flex-direction: row-reverse;
+}
+
+.inventory-adena-count {
+    margin-top: 0;
+    margin-right: 1px;
+    margin-left: 0;
+    padding-top: 1;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    align-self: flex-end;
+    font-size: 11px;
+    color: rgb(223, 222, 222);
+    -unity-text-outline-color: rgba(0, 0, 0, 0.6);
+}
+
+.l2-bar.status .l2-bar-status-label {
+    display: flex;
+}
+
+.l2-bar-status-label {
+    position: absolute;
+    display: none;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 8px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-font-definition: resource('Data/UI/Assets/Font/asiahm-medium');
+    text-shadow: 0.9px 0.9px 3px rgb(0, 0, 0);
+    -unity-text-outline-width: 0.7px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+    letter-spacing: -18px;
+    font-size: 12px;
+}

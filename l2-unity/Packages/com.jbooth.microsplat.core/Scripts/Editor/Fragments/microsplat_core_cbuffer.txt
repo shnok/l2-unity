@@ -1,0 +1,72 @@
+﻿
+
+      #if _MESHSUBARRAY
+         half4 _MeshSubArrayIndexes;
+      #endif
+
+      float4 _Diffuse_TexelSize;
+      float4 _NormalSAO_TexelSize;
+
+      #if _HYBRIDHEIGHTBLEND
+         float _HybridHeightBlendDistance;
+      #endif
+
+      #if _PACKINGHQ
+         float4 _SmoothAO_TexelSize;
+      #endif
+
+      #ifdef _ALPHATEST_ON
+      float4 _TerrainHolesTexture_TexelSize;
+      #endif
+
+      #if _USESPECULARWORKFLOW
+         float4 _Specular_TexelSize;
+      #endif
+
+      #if _USEEMISSIVEMETAL
+         float4 _EmissiveMetal_TexelSize;
+      #endif
+
+      #if _USEEMISSIVEMETAL
+         half _EmissiveMult;
+      #endif
+
+      #if _AUTONORMAL
+         half _AutoNormalHeightScale;
+      #endif
+
+      float4 _UVScale; // scale and offset
+
+      half _Contrast;
+      
+      
+
+       #if _VSSHADOWMAP
+         float4 gVSSunDirection;
+      #endif
+
+      #if _FORCELOCALSPACE && _PLANETVECTORS
+         float4x4 _PQSToLocal;
+      #endif
+
+      #if _ORIGINSHIFT
+         float4x4 _GlobalOriginMTX;
+      #endif
+
+      float4 _Control0_TexelSize;
+      #if _CUSTOMSPLATTEXTURES
+         float4 _CustomControl0_TexelSize;
+      #endif
+      float4 _PerPixelNormal_TexelSize;
+
+      #if _CONTROLNOISEUV || _GLOBALNOISEUV
+         float2 _NoiseUVParams;
+      #endif
+
+      float4 _PerTexProps_TexelSize;
+
+      #if _SURFACENORMALS  
+         float3 surfTangent;
+         float3 surfBitangent;
+         float3 surfNormal;
+      #endif

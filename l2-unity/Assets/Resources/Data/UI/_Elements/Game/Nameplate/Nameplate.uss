@@ -1,0 +1,162 @@
+.nameplate.hidden {
+    opacity: 0;
+}
+
+.nameplate .target-bubble {
+    width: 16px;
+    height: 16px;
+    -unity-slice-left: 0;
+    -unity-slice-scale: 0;
+    -unity-slice-right: 15;
+    -unity-slice-bottom: 15;
+}
+
+.nameplate .target-bubble-hover {
+    background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Normal');
+}
+
+.nameplate .target-bubble-target {
+    background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Target');
+}
+
+.nameplate .target-bubble-attack {
+    background-image: resource('Data/UI/Assets/Target/HeadDisplay_DF_Target_Attack');
+}
+
+.nameplate .target-title {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-align: upper-center;
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
+    color: rgb(156, 218, 144);
+    -unity-font-style: bold;
+    font-size: 12px;
+    -unity-text-outline-width: 0.7px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0.3px 0.3px 1px rgb(0, 0, 0);
+}
+
+.nameplate-left {
+    min-height: 100%;
+    max-height: 100%;
+    width: 2px;
+}
+
+.nameplate-center {
+    min-height: 100%;
+    max-height: 100%;
+    flex-grow: 1;
+}
+
+.nameplate-right {
+    min-height: 100%;
+    max-height: 100%;
+    width: 2px;
+}
+
+.nameplate #GaugeBG .nameplate-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_bg_Left');
+}
+
+.nameplate #GaugeBG .nameplate-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_bg_Center');
+}
+
+.nameplate #GaugeBG .nameplate-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_bg_Right');
+}
+
+.nameplate #Gauge .nameplate-left {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Left');
+}
+
+.nameplate #Gauge .nameplate-center {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Center');
+}
+
+.nameplate #Gauge .nameplate-right {
+    background-image: resource('Data/UI/Assets/Status/Gauge/Gauge_DF_Small_CP/Gauge_DF_Small_cp_Right');
+}
+
+.nameplate.gauge .nameplate-gauge {
+    opacity: 100%;
+}
+
+.nameplate-gauge {
+    margin-bottom: 0;
+    height: 4px;
+    width: 80px;
+    align-self: center;
+    display: flex;
+    margin-top: 2px;
+    opacity: 0;
+}
+
+.nameplace-gauge-inner {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    flex-direction: row;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.nameplate-name-container {
+    position: relative;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.nameplate.delete-timer .delete-timer-label {
+    display: flex;
+}
+
+.nameplate .target-name {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 2px;
+    padding-bottom: 0;
+    padding-left: 2px;
+    -unity-font-definition: resource('Data/UI/Assets/Font/tahoma');
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    font-size: 12px;
+    
+    -unity-text-outline-width: 1px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0.5px 0px 1px rgb(0, 0, 0);
+}
+
+.nameplate .delete-timer-label {
+    position: absolute;
+    top: -35px;
+    display: none;
+
+    font-size: 10px;
+    -unity-text-outline-width: 0.6px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    text-shadow: 0.3px 0px 0.7px rgb(0, 0, 0);
+}

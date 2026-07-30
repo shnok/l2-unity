@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Shortcut
 {
     public const int TYPE_ITEM = 1;

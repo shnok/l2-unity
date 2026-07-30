@@ -1,0 +1,28 @@
+﻿Shader "%SHADERNAME%"
+{
+   Properties
+   {
+      [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
+      [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
+      [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
+      %PROPERTIES%
+   }
+   SubShader
+   {
+      %TAGS%
+      %SUBSHADERTAGS%
+
+      %PASSFORWARD%
+      %PASSGBUFFER%
+      %PASSSHADOW%
+      %PASSDEPTHONLY%
+      %PASSMETA%
+      %PASSDEPTHNORMALS%
+      %CUSTOMPREPASS%
+      
+      %CUSTOMTERRAINPASS%
+   }
+   %DEPENDENCY%
+   %FALLBACK%
+   %CUSTOMEDITOR%
+}

@@ -13,8 +13,12 @@ public class PlayerStateMachine : MonoBehaviour
     public Intention Intention { get { return _currentIntention; } }
     public PlayerState State { get { return _currentState; } }
     [SerializeField] private bool _waitingForServerReply;
+    private float _waitingForServerReplyTimestamp;
+    private const float STATE_TIMEOUT_SEC = 1f;
 
     public bool WaitingForServerReply { get { return _waitingForServerReply; } }
+    public bool LogsEnabled { get { return _enableLogs; } }
+
     private StateBase _stateInstance;
     private IntentionBase _intentionInstance;
 
@@ -38,12 +42,16 @@ public class PlayerStateMachine : MonoBehaviour
     private void Start()
     {
         _waitingForServerReply = false;
-        ChangeState(PlayerState.IDLE);
     }
 
     public void SetWaitingForServerReply(bool value)
     {
-        Debug.LogWarning($"[StateMachine] Waiting for server reply: {value}");
+        if (_enableLogs) Debug.Log($"[StateMachine] Waiting for server reply: {value}");
+        if (value == true)
+        {
+            _waitingForServerReplyTimestamp = Time.time;
+        }
+
         _waitingForServerReply = value;
     }
 
@@ -51,15 +59,33 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _stateInstance?.Update();
         _intentionInstance?.Update();
+        WatchDog();
+    }
+
+    private void WatchDog()
+    {
+        if (_waitingForServerReply)
+        {
+            if (Time.time - _waitingForServerReplyTimestamp > STATE_TIMEOUT_SEC)
+            {
+                Debug.LogError($"[StateMachine] Waiting for server response timeout. State:{_currentState} Intention:{_currentIntention}");
+                _waitingForServerReply = false;
+            }
+        }
     }
 
     public void ChangeState(PlayerState newState)
+    {
+        ChangeState(newState, null);
+    }
+
+    public void ChangeState(PlayerState newState, object arg0)
     {
         if (_enableLogs) Debug.Log("[StateMachine][STATE] " + newState);
         _stateInstance?.Exit();
         _currentState = newState;
         InitializeState();
-        _stateInstance?.Enter();
+        _stateInstance?.Enter(arg0);
     }
 
     public void ChangeIntention(Intention intention)
@@ -71,6 +97,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (_waitingForServerReply)
         {
+            Debug.LogWarning("Was waiting for another reply!");
             //TODO: Set this new intention in a "NextIntention" in temporary variable
             return;
         }
@@ -87,13 +114,14 @@ public class PlayerStateMachine : MonoBehaviour
         _stateInstance = _currentState switch
         {
             PlayerState.IDLE => new IdleState(this),
-            PlayerState.RUNNING => new RunningState(this),
+            PlayerState.MOVING => new MovingState(this),
             PlayerState.ATTACKING => new AttackingState(this),
             PlayerState.DEAD => new DeadState(this),
             PlayerState.SITTING => new SittingState(this),
             PlayerState.SIT_WAIT => new SitWaitState(this),
             PlayerState.STANDING => new StandingState(this),
-            PlayerState.WALKING => new WalkingState(this),
+            PlayerState.SKILL => new SkillState(this),
+            PlayerState.JUMPING => new JumpingState(this),
             _ => throw new ArgumentException("Invalid state")
         };
     }
@@ -105,9 +133,13 @@ public class PlayerStateMachine : MonoBehaviour
             Intention.INTENTION_IDLE => new IdleIntention(this),
             Intention.INTENTION_MOVE_TO => new MoveToIntention(this),
             Intention.INTENTION_ATTACK => new AttackIntention(this),
+            Intention.INTENTION_INTERACT => new InteractIntention(this),
             Intention.INTENTION_FOLLOW => new FollowIntention(this),
             Intention.INTENTION_SIT => new SitIntention(this),
             Intention.INTENTION_STAND => new StandIntention(this),
+            Intention.INTENTION_MOVE => new MoveIntention(this),
+            Intention.INTENTION_SKILL => new SkillIntention(this),
+            Intention.INTENTION_JUMP => new JumpIntention(this),
             _ => throw new ArgumentException("Invalid intention")
         };
     }
@@ -119,13 +151,18 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool IsInMovableState()
     {
-        return _currentState == PlayerState.IDLE || _currentState == PlayerState.RUNNING || _currentState == PlayerState.WALKING;
+        return _currentState == PlayerState.IDLE || _currentState == PlayerState.MOVING || _currentState == PlayerState.JUMPING;
     }
 
     public void NotifyEvent(Event evt)
     {
+        NotifyEvent(evt, null);
+    }
+
+    public void NotifyEvent(Event evt, object arg0)
+    {
         if (_enableLogs) Debug.Log("[StateMachine][EVENT] " + evt);
-        _stateInstance?.HandleEvent(evt);
+        _stateInstance?.HandleEvent(evt, arg0);
     }
 
     public void OnActionAllowed()
@@ -133,6 +170,27 @@ public class PlayerStateMachine : MonoBehaviour
         if (_enableLogs) Debug.Log("[StateMachine] Action allowed");
         SetWaitingForServerReply(false);
         NotifyEvent(Event.ACTION_ALLOWED);
+    }
+
+    public void OnAttackAllowed()
+    {
+        if (_enableLogs) Debug.Log("[StateMachine] Attack allowed");
+        SetWaitingForServerReply(false);
+        NotifyEvent(Event.ATTACK_ALLOWED);
+    }
+
+    public void OnSkillAllowed(int hitTime)
+    {
+        if (_enableLogs) Debug.Log("[StateMachine] Skill allowed");
+        SetWaitingForServerReply(false);
+        NotifyEvent(Event.SKILL_ALLOWED, hitTime);
+    }
+
+    public void OnMagicSkillCanceled()
+    {
+        if (_enableLogs) Debug.Log("[StateMachine] Skill allowed");
+        SetWaitingForServerReply(false);
+        NotifyEvent(Event.CANCEL);
     }
 
     public void OnActionDenied()
@@ -146,6 +204,13 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (_enableLogs) Debug.Log("[StateMachine] Stop autoattack");
         NotifyEvent(Event.CANCEL);
+    }
+
+    public void OnSkillNotAllowed(int skillId)
+    {
+        if (_enableLogs) Debug.Log("[StateMachine] Skill denied");
+        SetWaitingForServerReply(false);
+        NotifyEvent(Event.SKILL_DENIED);
     }
 }
 

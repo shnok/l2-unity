@@ -1,0 +1,217 @@
+.serverlist-window {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.server-element {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 100%;
+    height: 18px;
+    position: relative;
+    flex-direction: row;
+    background-color: rgba(0, 0, 0, 0.48);
+    font-size: 12px;
+    -unity-font: resource('Data/UI/Assets/Font/tahoma');
+    position: relative;
+}
+
+.server-element .server-name {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 8px;
+    flex-grow: 1;
+    width: 60%;
+    -unity-text-align: middle-left;
+}
+
+.server-element .server-status {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 8px;
+    flex-grow: 1;
+    width: 18%;
+    -unity-text-align: middle-left;
+}
+
+.server-element .character-count {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 8px;
+    flex-grow: 1;
+    width: 22%;
+    -unity-text-align: middle-left;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.server-element.odd {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.server-element.selected {
+    background-color: rgba(138, 120, 88, 0.18);
+}
+
+.server-element.odd.selected {
+    background-color: rgba(138, 120, 88, 0.18);
+}
+
+.server-element .unity-label {
+    color: rgb(255, 255, 255);
+}
+
+.server-element .unity-label.light {
+    color: rgb(71, 138, 200);
+}
+
+.server-element .unity-label.normal {
+    color: rgb(219, 207, 110);
+}
+
+.server-element .unity-label.heavy {
+    color: rgb(210, 106, 98);
+}
+
+.server-element .unity-label.down {
+    color: rgb(255, 0, 0);
+}
+
+.server-element .unity-label.full {
+    color: rgb(255, 0, 0);
+}
+
+.server-element .unity-label.gm-only {
+    color: rgb(255, 0, 0);
+}
+
+.server-list-inner {
+    flex-grow: 0;
+    width: 320px;
+    height: 350px;
+    flex-shrink: 0;
+    background-image: resource('Data/UI/Assets/Windows/MISC_DF_SERVERSELECT_BACK');
+    -unity-slice-bottom: 0;
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+    -unity-slice-right: 0;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 10px;
+    -unity-slice-scale: 0;
+}
+
+.serverlist-header {
+    flex-grow: 0;
+    flex-direction: row;
+    flex-shrink: 0;
+}
+
+.serverlist-header-cat {
+    height: 18px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    overflow: hidden;
+    flex-grow: 1;
+    border-width: 0px;
+    background-color: transparent;
+}
+
+.serverlist-header-cat-name {
+    width: 60%;
+    border-right-width: 1px;
+    border-right-color: rgb(105, 98, 86);
+}
+
+.serverlist-header-cat-traffic {
+    height: 18px;
+    width: 18%;
+}
+
+.serverlist-header-cat-character {
+    height: 18px;
+    width: 22%;
+    border-left-width: 1px;
+    border-left-color: rgb(105, 98, 86);
+}
+
+.serverlist-header-cat-bg {
+    height: 31px;
+    min-height: 0;
+}
+
+.serverlist-header-cat-name-bg {
+    width: 188%;
+    margin-left: -1px;
+}
+
+.serverlist-header-cat-traffic-bg {
+    width: 140%;
+    margin-left: -7px;
+}
+
+.serverlist-header-cat-character-bg {
+    padding-left: 0;
+    margin-left: -6px;
+    width: 123%;
+}
+
+.serverlist-header-label {
+    letter-spacing: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 1px;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.serverlist-list-container {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.serverlist-button-container {
+    flex-grow: 0;
+    height: 35px;
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.serverlist-window .l2-flex-button {
+    padding: 0;
+    width: 80px;
+}
+
+.serverlist-window .l2-flex-button .l2-flex-button-label {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}

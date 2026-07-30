@@ -1,23 +1,79 @@
 TODO (priority from top to bottom)
 
-wait for monster attack animation end before following player
-check if AI isnt dead before applying damage to AI's target
+HTML input fixes:
+	- handle <font color> tag
+	- disable inputs when textfield is focused
+	- handle textfields content
+handle appearing/disappearing packets properly 
+fix player speed when overweight (sometimes not applied)
+fix flooding of packets while moving
+fix skillbar error at login (happens sometimes)
+abort attack when entity dies (client side)
+loading screen
+FIX: equip fists in both hands
 
-reduce amount data sent by players:
+handle AOE hits
 
-	- share action instead of animationid, store current action in entity
-	- get col_r, col_r from system/chargrp.dat instead
+FIX: Mouse over UI wrongly set to true at login
 
-
-monster should follow even if not on geodata/path cant be found
-
+BACKLOG
+sound spatialization fix
+acceptable jump
+fix in some cases when the ambientsoud/music area will replay at each frame
 global variable to scale all ambientsounds
-Update terrain textures with Microsplat
-Nature renderer for deco layer ?
-
+Nature renderer for deco layer
 
 DONE
 
+Restore characters
+Confirm window
+Delete characters 
+game manager refacto into proper state machine
+further fixes in NPC html parsing (//buy command)
+UI xml/css cleanup into separate CSS files + more reusable components
+FIX: do not handle mouse inputs in UI when turning camera
+target name colors
+update inventory limit based on playerinfo packet
+Update terrain textures with Microsplat
+fix light leaking
+add all no grade weapons models and icons
+slightly brighter nights
+adjust daylight color
+FIX: arrow stick to player bones
+automatically follow a target if it moved while attacking
+FIX: removed extra delay before switching to atkwait
+FIX: wait for atk animation to fully play before idling
+FIX: wrong play of run animation when attacking a dead entity
+FIX: can't attack another target if current attack was not canceled or entity still alive
+when attacking a dead entity, run to interact range
+FIX: hide nameplates when leaving char select
+chat window message limit, scroll limit, message filtering, message history
+FIX: Bug in anim when no weapon equiped
+FIX: if click to move during the FIRST attack animation after log-in or teleport, cant move
+title and name colors + pvp/karma in player name color
+FIX: cant pvp ?
+show karma and pvp/pk kills in stats
+show hp based on npcgrp HPShowable
+sync monstergrp (HP amount) with interlude (send max hp in npc info)
+show player weapons/exp/karma in character select
+dont use skillbar shortcuts when chat is opened
+make arrows stick to entity when hit
+make other entities shoot arrows too
+actually shoot arrows
+play bow sounds
+scale weapons based on collisionheight
+lookAt locked when shooting arrows or casting
+fix rotation when a-d strife during double mouse button pressed
+fix player nameplate glitch when switching from invisible to visible
+fix click to move animation when path cant be found
+fix entity lookat direction while attacking
+bow/fist soulshots animation
+wait for monster attack animation end before following player
+check if AI isnt dead before applying damage to AI's target
+reduce amount data sent by players:
+share action instead of animationid, store current action in entity
+get col_r, col_r from system/chargrp.dat instead
+monster should follow even if not on geodata/path cant be found
 replace curent input system with unity input system
 shadows are too dark
 update npc animator as player animator to adapt to different weapon types

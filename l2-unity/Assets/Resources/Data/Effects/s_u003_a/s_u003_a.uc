@@ -1,0 +1,73 @@
+class s_u003_a extends Emitter;//ÆÄ¿ö ¼¦
+
+defaultproperties
+{
+     Begin Object Class=MeshEmitter Name=MeshEmitter2
+         StaticMesh=StaticMesh'LineageEffectsStaticmeshes.Skill_Power.skill_power01'
+         UseMeshBlendMode=False
+         RenderTwoSided=True
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=191))
+         ColorScale(1)=(RelativeTime=0.485714,Color=(B=128,G=128,R=128,A=255))
+         ColorScale(2)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=191))
+         ColorScaleRepeats=15.000000
+         Opacity=0.720000
+         FadeOutStartTime=0.600000
+         FadeInEndTime=0.228000
+         FadeIn=True
+         MaxParticles=16
+         RespawnDeadParticles=False
+         Name="MeshEmitter2"
+         SpinParticles=True
+         StartSpinRange=(X=(Max=1.000000),Y=(Max=1.000000),Z=(Max=1.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         SizeScale(0)=(RelativeSize=1.000000)
+         SizeScale(1)=(RelativeTime=0.700000,RelativeSize=0.500000)
+         SizeScale(2)=(RelativeTime=1.000000,RelativeSize=0.010000)
+         StartSizeRange=(X=(Min=0.100000,Max=0.200000),Y=(Min=0.100000,Max=0.200000),Z=(Min=0.100000,Max=0.200000))
+         InitialParticlesPerSecond=8.000000
+         AutomaticInitialSpawning=False
+         LifetimeRange=(Min=0.450000,Max=0.450000)
+     End Object
+     Emitters(0)=MeshEmitter'MeshEmitter2'
+     Begin Object Class=SpriteEmitter Name=SpriteEmitter2
+         UseColorScale=True
+         ColorScale(0)=(Color=(B=255,G=255,R=255,A=255))
+         ColorScale(1)=(RelativeTime=0.303571,Color=(B=255,G=255,R=255,A=255))
+         ColorScale(2)=(RelativeTime=0.867857,Color=(B=93,G=93,R=93,A=255))
+         ColorScale(3)=(RelativeTime=1.000000,Color=(B=255,G=255,R=255,A=255))
+         ColorScaleRepeats=50.000000
+         Opacity=0.800000
+         FadeOutStartTime=2.550000
+         FadeOut=True
+         FadeInEndTime=0.450000
+         FadeIn=True
+         MaxParticles=1
+         RespawnDeadParticles=False
+         Name="SpriteEmitter2"
+         SpinParticles=True
+         StartSpinRange=(X=(Max=1.000000))
+         UseSizeScale=True
+         UseRegularSizeScale=False
+         UniformSize=True
+         SizeScale(0)=(RelativeTime=0.250000,RelativeSize=1.400000)
+         SizeScale(1)=(RelativeTime=0.370000,RelativeSize=1.700000)
+         SizeScale(2)=(RelativeTime=0.510000,RelativeSize=1.900000)
+         SizeScale(3)=(RelativeTime=1.000000,RelativeSize=1.900000)
+         StartSizeRange=(X=(Min=3.800000,Max=3.800000),Y=(Min=3.800000,Max=3.800000),Z=(Min=3.800000,Max=3.800000))
+         InitialParticlesPerSecond=1000.000000
+         AutomaticInitialSpawning=False
+         Texture=Texture'LineageEffectsTextures.Particles.fx_m_t0002'
+     End Object
+     Emitters(1)=SpriteEmitter'SpriteEmitter2'
+     AutoReplay=True
+     bUseDynamicLights=False
+     bLightChanged=True
+     bNoDelete=False
+     bAcceptsProjectors=False
+     Tag="Emitter"
+     Location=(X=-7.315338,Y=-1.946243,Z=-487.961548)
+     DrawScale=0.050000
+     bSelected=True
+}

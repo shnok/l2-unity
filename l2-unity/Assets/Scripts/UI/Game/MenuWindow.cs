@@ -27,7 +27,7 @@ public class MenuWindow : L2Window
 
     protected override void LoadAssets()
     {
-        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/MenuWindow");
+        _windowTemplate = LoadAsset("Data/UI/_Elements/Game/MenuWindow/MenuWindow");
     }
 
     protected override IEnumerator BuildWindow(VisualElement root)
@@ -50,7 +50,7 @@ public class MenuWindow : L2Window
 
         var skillBtn = _windowEle.Q<Button>("SkillButton");
         skillBtn.AddManipulator(new ButtonClickSoundManipulator(skillBtn));
-        //skillBtn.RegisterCallback<ClickEvent>((evt) => SkillLearn.Instance.ToggleHideWindow());
+        skillBtn.RegisterCallback<ClickEvent>((evt) => SkillWindow.Instance.ToggleHideWindow());
 
         var questBtn = _windowEle.Q<Button>("QuestButton");
         questBtn.AddManipulator(new ButtonClickSoundManipulator(questBtn));
@@ -71,8 +71,10 @@ public class MenuWindow : L2Window
         yield return new WaitForEndOfFrame();
 
         var dragAreaEle = _windowEle.Q<VisualElement>(null, "drag-area");
-        DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle);
+        DragManipulator drag = new DragManipulator(dragAreaEle, _windowEle, this);
         dragAreaEle.AddManipulator(drag);
+
+        L2GameUI.Instance.WindowLoadComplete();
     }
 
     public Vector2 GetWindowPosition()

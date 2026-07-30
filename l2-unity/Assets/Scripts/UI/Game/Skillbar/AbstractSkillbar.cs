@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UIElements;
 
 public abstract class AbstractSkillbar
@@ -14,6 +15,8 @@ public abstract class AbstractSkillbar
     protected List<VisualElement> _slotAnchors;
     protected List<SkillbarSlot> _barSlots;
     protected ArrowInputManipulator _arrowInputManipulator;
+
+    public List<SkillbarSlot> BarSlots { get => _barSlots; }
 
     public int Page { get { return _page; } }
     public int SkillbarIndex { get { return _skillbarIndex; } }
@@ -35,7 +38,7 @@ public abstract class AbstractSkillbar
         yield return new WaitForEndOfFrame();
 
         VisualElement dragArea = _windowEle.Q<VisualElement>("DragArea");
-        dragArea.AddManipulator(new DragManipulator(dragArea, _skillbarWindow));
+        dragArea.AddManipulator(new DragManipulator(dragArea, _skillbarWindow, null));
 
         for (int i = 1; i <= 12; i++)
         {
@@ -91,13 +94,13 @@ public abstract class AbstractSkillbar
 
         VisualElement anchor = _slotAnchors[position];
 
-        //Debug.Log($"Create slot at {position} with anchor {anchor.name}.");
+        // Debug.Log($"Create slot at {position} with anchor {anchor.name}.");
 
         // Clear childs
         anchor.Clear();
 
         // Create slots
-        VisualElement slotElement = SkillbarWindow.Instance.BarSlotTemplate.Instantiate()[0];
+        VisualElement slotElement = L2SlotManager.Instance.SkillBarSlotTemplate.Instantiate()[0];
         anchor.Add(slotElement);
 
         SkillbarSlot slot = new SkillbarSlot(slotElement, _page * PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR + position, _skillbarIndex, position);
@@ -110,11 +113,24 @@ public abstract class AbstractSkillbar
         {
             if (_barSlots[i].Position == _page * PlayerShortcuts.MAXIMUM_SHORTCUTS_PER_BAR + slot)
             {
-                Debug.Log($"Found slot at index {i} with slot {slot}.");
+                // Debug.Log($"Found slot at index {i} with slot {slot}.");
                 _barSlots[i].AssignShortcut(shortcut);
                 break;
             }
         }
+    }
+
+    public SkillbarSlot GetSlotAt(int slot)
+    {
+        foreach (SkillbarSlot barSlot in _barSlots)
+        {
+            if (slot == barSlot.Slot)
+            {
+                return barSlot;
+            }
+        }
+
+        return null;
     }
 
     protected abstract void UpdateVisuals();

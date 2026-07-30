@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/L2StyleSheet.uss?fileID=7433441132597879392&amp;guid=72e99cc94b130bf4ba100dceaa830b13&amp;type=3#L2StyleSheet" />
+    <Style src="project://database/Assets/Resources/Data/UI/_Elements/Game/Nameplate/Nameplate.uss?fileID=7433441132597879392&amp;guid=610f407baa5809b45bfd81a28ca613f9&amp;type=3#Nameplate" />
+    <ui:VisualElement name="Nameplate" class="nameplate" style="flex-grow: 1; position: absolute;">
+        <ui:Label text="Lvl: 1fdfdsfdsfdsfdsfdsf" name="EntityTitle" class="target-title" style="-unity-font-style: bold; -unity-text-outline-width: 1px; text-shadow: 0 0 1px rgb(0, 0, 0); font-size: 12px;" />
+        <ui:GroupBox name="NameContainer" class="nameplate-name-container">
+            <ui:VisualElement name="TargetBubbleLeft" class="target-bubble" />
+            <ui:Label text="Shnok" name="EntityName" class="target-name" style="-unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/Resources/Data/UI/Assets/Font/tahoma.ttf?fileID=12800000&amp;guid=96fb7a735e76e0742bf125e2d4734bf3&amp;type=3#tahoma&quot;); font-size: 12px;" />
+            <ui:Label text="Shnok" name="DeleteTimer" class="target-name delete-timer-label" />
+            <ui:VisualElement name="TargetBubbleRight" class="target-bubble" style="flex-grow: 0;" />
+        </ui:GroupBox>
+        <ui:VisualElement name="GaugeContainer" template="HpBar" class="bar-container nameplate-gauge" style="margin-top: 5px;">
+            <ui:GroupBox name="GaugeBG" class="nameplace-gauge-inner">
+                <ui:VisualElement name="BGLeft" class="left bar-height nameplate-left" />
+                <ui:VisualElement name="BGCenter" class="center bar-height nameplate-center" style="flex-grow: 1;" />
+                <ui:VisualElement name="BGRight" class="right bar-height nameplate-right" />
+            </ui:GroupBox>
+            <ui:GroupBox name="Gauge" class="nameplace-gauge-inner">
+                <ui:VisualElement name="BGLeft" class="left bar-height nameplate-left" />
+                <ui:VisualElement name="BGCenter" class="center bar-height nameplate-center" style="flex-grow: 1;" />
+                <ui:VisualElement name="BGRight" class="right bar-height nameplate-right" />
+            </ui:GroupBox>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

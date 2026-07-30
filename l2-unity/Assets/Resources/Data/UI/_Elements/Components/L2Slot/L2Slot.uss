@@ -1,0 +1,215 @@
+.l2-slot {
+    min-width: 36px;
+    min-height: 34px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    background-color: rgba(188, 188, 188, 0);
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    width: 36px;
+    height: 36px;
+    max-width: 36px;
+    max-height: 36px;
+    padding-bottom: 0;
+    position: relative;
+}
+
+.slot-bg-container {
+    border-left-color: rgba(0, 0, 0, 0.65);
+    border-right-color: rgba(0, 0, 0, 0.65);
+    border-top-color: rgba(0, 0, 0, 0.65);
+    border-bottom-color: rgba(0, 0, 0, 0.65);
+    flex-grow: 1;
+    width: 34px;
+    height: 34px;
+    max-height: 34px;
+    max-width: 34px;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 235, 182);
+}
+
+.slot-bg {
+    flex-shrink: 0;
+    flex-grow: 1;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-color: rgba(0, 0, 0, 0.16);
+}
+
+.slot-frame {
+    background-image: resource('Data/UI/Assets/Inventory/blue_tab_v5');
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    min-height: 34px;
+    -unity-slice-left: 18;
+    -unity-slice-top: 18;
+    -unity-slice-right: 18;
+    -unity-slice-bottom: 18;
+    -unity-slice-scale: 1.4px;
+    -unity-background-scale-mode: stretch-to-fill;
+    flex-shrink: 0;
+}
+
+.l2-slot .slot-bg {
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_SlotBox_Default');
+}
+
+.l2-slot.empty .slot-bg-container {
+    border-width: 0;
+}
+
+.l2-slot.empty .slot-bg {
+    border-width: 0;
+}
+
+.l2-slot .slot-frame {
+    display: none;
+}
+
+.dragged-slot .slot-bg-container {
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.l2-slot.disabled .slot-bg {
+    border-width: 0;
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_SlotBox_Disable');
+}
+
+.inventory-slot .slot-bg-container {
+    border-width: 1px;
+}
+
+.inventory-slot .slot-bg {
+    display: flex;
+}
+
+.inventory-slot.selected .slot-frame {
+    display: flex;
+}
+
+.toggle-effect {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+}
+
+.shortcut-key {
+    flex-grow: 1;
+    position: absolute;
+    height: 16px;
+    width: 32px;
+    top: 2px;
+    left: 2px;
+    flex-direction: row;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.skill-slot.empty .slot-bg-container {
+    border-width: 0;
+    padding: 0;
+    background-image: none;
+}
+
+.skill-slot .slot-bg-container {
+    border-width: 0;
+    padding: 1px;
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame');
+}
+
+.skill-slot .slot-bg {
+    border-width: 1px;
+    border-left-color: rgba(0, 0, 0, 0.65);
+    border-right-color: rgba(0, 0, 0, 0.65);
+    border-top-color: rgba(0, 0, 0, 0.65);
+    border-bottom-color: rgba(0, 0, 0, 0.65);
+}
+
+.skill-slot.active .slot-bg-container {
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame_Down');
+}
+
+.action-slot.empty .slot-bg-container {
+    border-width: 0;
+    padding: 0;
+    background-image: none;
+}
+
+.action-slot.empty.active .slot-bg-container {
+    background-image: none;
+}
+
+.action-slot .slot-bg-container {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    border-width: 0;
+    padding: 1px;
+}
+
+.action-slot .slot-bg-container {
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame');
+}
+
+.action-slot.active .slot-bg-container {
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame_Down');
+}
+
+.action-slot .slot-bg {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-left-color: rgba(0, 0, 0, 0.65);
+    border-right-color: rgba(0, 0, 0, 0.65);
+    border-top-color: rgba(0, 0, 0, 0.65);
+    border-bottom-color: rgba(0, 0, 0, 0.65);
+}
+
+.skillbar-slot.empty .slot-bg-container {
+    border-width: 0;
+    padding: 0;
+    background-image: none;
+}
+
+.skillbar-slot.empty .shortcut-key {
+    display: none;
+}
+
+.skillbar-slot .slot-bg-container {
+    border-width: 0;
+    padding: 1px;
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame');
+}
+
+.skillbar-slot.empty.active .slot-bg-container {
+    background-image: none;
+}
+
+.skillbar-slot.active .slot-bg-container {
+    background-image: resource('Data/UI/Assets/Inventory/ItemWindow_DF_Frame_Down');
+}
+
+.skillbar-slot .slot-bg {
+    border-width: 1px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-left-color: rgba(0, 0, 0, 0.65);
+    border-right-color: rgba(0, 0, 0, 0.65);
+    border-top-color: rgba(0, 0, 0, 0.65);
+    border-bottom-color: rgba(0, 0, 0, 0.65);
+}
+
+.skill-slot.empty .slot-bg-container {
+    background-image: none;
+}
+
+.skill-slot.empty.active .slot-bg-container {
+    background-image: none;
+}
